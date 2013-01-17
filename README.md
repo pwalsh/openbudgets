@@ -1,4 +1,4 @@
-open-budget
+open-municipalities
 ===========
 
-Open Budget Platform for Local Authorities
+Open Municipalities
