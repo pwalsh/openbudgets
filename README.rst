@@ -27,30 +27,43 @@ Build a local environment
 
 Make sure you have the latest version of virtualenv installed, and set it up so you have a directory for your envs, and a directory for your projects. 
 
-eg:
+For example, I do it like so:
+
+*On Ubuntu*
 
 /srv/environments/
+
 /srv/projects/
+
+
+*On Mac OS X*
+
+/Users/me/Sites/environments/
+
+/Users/me/Sites/projects/
+
 
 With virtualenv setup properly on your machine, do the following::
 
-mkvirtualenv open-muni
+    mkvirtualenv open-muni
 
-mkdir /srv/projects/open-muni
+    mkdir /srv/projects/open-muni
 
-setvirtualenvproject /srv/environments/opem-muni /srv/projects/opem-muni
+    setvirtualenvproject /srv/environments/open-muni /srv/projects/open-muni
 
-cdproject
+    cdproject
 
-git clone git@github.com:hasadna/open-muni.git .
+    git clone git@github.com:hasadna/open-muni.git .
 
 Important: Note the "." at the end of the git clone directive.
 
-pip install -r requirements.txt
+And continuing::
 
-python manage.py syncdb --migrate
+    pip install -r requirements.txt
 
-python manage.py runserver
+    python manage.py syncdb --migrate
+
+    python manage.py runserver
 
 
 Open Muni repository practices
