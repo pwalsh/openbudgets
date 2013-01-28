@@ -1,0 +1,37 @@
+[
+
+{
+    "model": "auth.User",
+    "pk": 1,
+    "fields": {
+        "username": "pwalsh",
+        "first_name": "Paul",
+        "last_name": "Walsh",
+        "email": "paulywalsh@gmail.com",
+        "password": "sha1$d0ac3$d37cb4b152d98c9727f7d696795f2d6ad9438ee4",
+        "is_staff": 1,
+        "is_active": 1,
+        "is_superuser": 1,
+        "last_login": "2013-01-01T09:00:00+02:00",
+        "date_joined": "2013-01-01T09:00:00+02:00"
+    }
+},
+
+{
+    "model": "auth.User",
+    "pk": 1,
+    "fields": {
+        "username": "ydaniv",
+        "first_name": "Yehonatan",
+        "last_name": "Daniv",
+        "email": "maggotfish@gmail.com",
+        "password": "sha1$d0ac3$d37cb4b152d98c9727f7d696795f2d6ad9438ee4",
+        "is_staff": 1,
+        "is_active": 1,
+        "is_superuser": 1,
+        "last_login": "2013-01-01T09:00:00+02:00",
+        "date_joined": "2013-01-01T09:00:00+02:00"
+    }
+}
+
+]
