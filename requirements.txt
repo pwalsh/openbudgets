@@ -2,3 +2,4 @@ yolk
 sphinx
 django
 fabric
+south

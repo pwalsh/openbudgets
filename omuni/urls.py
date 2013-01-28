@@ -1,17 +1,31 @@
 from django.conf.urls import patterns, include, url
+from django.views.generic import TemplateView
+from django.contrib import admin
+from omuni.apps.commons.views import OmuniSitemap
+admin.autodiscover()
 
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
+
+sitemaps = {
+    'site': OmuniSitemap,
+}
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'omuni.views.home', name='home'),
-    # url(r'^omuni/', include('omuni.foo.urls')),
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^admin/',
+        include(admin.site.urls)
+    ),
 
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+    url(r'^robots\.txt',
+        TemplateView.as_view(template_name='robots.txt')
+    ),
+
+    url(r'^sitemap\.xml$',
+        'django.contrib.sitemaps.views.sitemap',
+        {'sitemaps': sitemaps}
+    ),
+
+    url(r'^',
+        include('omuni.apps.pages.urls')
+    ),
+
 )

@@ -1,0 +1,15 @@
+[
+
+{
+    "model": "pages.Page",
+    "pk": 1,
+    "fields": {
+        "title": "About",
+        "slug": "about",
+        "content": "About Open Muni",
+        "created_on": "2013-01-01T09:00:00+02:00",
+        "last_modified": "2013-01-01T09:00:00+02:00"
+    }
+}
+
+]

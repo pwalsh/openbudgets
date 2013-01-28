@@ -1,0 +1,67 @@
+{% load i18n %}
+{% load url from future %}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}">
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+
+        {% block meta %}
+
+        {% endblock meta %}
+
+        <title>{% block title %}{{ page.title }} | {{ site.name }}{% endblock %}</title>
+
+        <base href="{{ site.url }}" />
+
+        {% block stylesheets %}
+
+        {% endblock stylesheets %}
+
+        <!--link rel="apple-touch-icon-precomposed" media="screen and (resolution: 163dpi)" href="{{ STATIC_URL }}skin/img/icon-57.png" />
+        <link rel="apple-touch-icon-precomposed" media="screen and (resolution: 132dpi)" href="{{ STATIC_URL }}skin/img/icon-72.png" />
+        <link rel="apple-touch-icon-precomposed" media="screen and (resolution: 326dpi)" href="{{ STATIC_URL }}skin/img/icon-114.png" />
+        <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico" /-->
+
+        {% block javascript %}
+
+        {% endblock javascript %}
+    </head>
+
+    <body class="{{ LANGUAGE_CODE }}">
+        <div id="sticky">
+            <header>
+                <div class="wrapper">
+                {% block header %}
+
+                {% endblock header %}
+                </div>
+            </header>
+
+            <section id="main">
+                <div class="wrapper">
+                {% block main %}
+
+                {% endblock main %}
+                </div>
+            </section>
+        </div><!--end sticky-->
+
+        <footer>
+            <div class="wrapper">
+            {% block footer %}
+
+            {% endblock footer %}
+            </div>
+        </footer>
+
+        {% block bodyscripts %}
+
+        {% endblock bodyscripts %}
+    </body>
+</html>

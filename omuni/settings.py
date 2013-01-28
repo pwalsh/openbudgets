@@ -61,6 +61,8 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.locale.LocaleMiddleware',
+    'omuni.apps.commons.middleware.InterfaceLanguage',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -87,10 +89,13 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'django.contrib.sitemaps',
+    'south',
     'omuni.apps.govts',
     'omuni.apps.budgets',
     'omuni.apps.accounts',
     'omuni.apps.commons',
+    'omuni.apps.pages',
 
 )
 
@@ -117,6 +122,21 @@ LOGGING = {
         },
     }
 }
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+        # loading the django defaults...
+        'django.contrib.auth.context_processors.auth',
+        'django.core.context_processors.debug',
+        'django.core.context_processors.i18n',
+        'django.core.context_processors.media',
+        'django.core.context_processors.static',
+        'django.core.context_processors.tz',
+        'django.contrib.messages.context_processors.messages',
+
+        # Add our own context processors
+        'django.core.context_processors.request',
+        'omuni.apps.commons.context_processors.get_site',
+)
 
 FIXTURE_DIRS = (
     os.path.abspath(os.path.join(PROJECT_ROOT, 'fixtures')),

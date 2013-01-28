@@ -1,0 +1,16 @@
+<div class="field {{ custom_class }}">
+    {{ field.label_tag }}
+    {% if field.help_text %}
+    <i class="field-help icon-info-sign" title="{{ field.help_text }}"></i>
+    {% endif %}
+    {% if field.errors %}
+    <span class="field-errors">
+        {% for error in field.errors %}
+        <p class="error">
+        <i class="icon-warning-sign"></i>{{ error|escape }}
+        </p>
+        {% endfor %}
+    </span>
+    {% endif %}
+    {{ field }}
+</div>
