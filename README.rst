@@ -1,9 +1,9 @@
 Open Muni
 =========
 
-Open Muni is...
+The Open Muni project is a web app and web API for municipality budgets, and related contextual data.
 
-Get Involved
+Get involved
 ============
 
 Code: https://github.com/hasadna/open-muni
@@ -17,38 +17,74 @@ Product requirements: https://docs.google.com/document/d/1cDOELgc4VQ8iPSr6795g0i
 More about HaSadna (Public Knowledge Workshop): http://hasadna.org.il/
 
 
-Quick Start
+Quickstart
 ===========
+
+A simple guide to get started coding.
 
 Build a local environment
 -------------------------
-mkvirtualenv
 
-setvirtualenvproject
+Make sure you have the latest version of virtualenv installed, and set it up so you have a directory for your envs, and a directory for your projects. 
 
-go.
+eg:
 
-Git repository practices
-------------------------
+/srv/environments/
+/srv/projects/
 
-We are following the Git Flow paradigm for managing branches, deployment code, etc.
+With virtualenv setup properly on your machine, do the following::
 
-Read here for the background: http://nvie.com/posts/a-successful-git-branching-model/
+mkvirtualenv open-muni
 
-The essentials:
+mkdir /srv/projects/open-muni
 
-We always have at least two branches: "master" and "development".
+setvirtualenvproject /srv/environments/opem-muni /srv/projects/opem-muni
 
-You should not ever be working on master, we just merge there for deployment.
+cdproject
 
-We always work off "development". If you are coding a specific feature, branch development as such:
+git clone git@github.com:hasadna/open-muni.git .
 
-"feature/what-you-call-it"
+Important: Note the "." at the end of the git clone directive.
 
-examples:
+pip install -r requirements.txt
 
-"feature/user-accounts"
+python manage.py syncdb --migrate
 
-"feature/bootstrap-integration"
+python manage.py runserver
 
-When you finish, submit a pull request for the branch, and we'll merge back into development.
+
+Open Muni repository practices
+------------------------------
+
+We are following the Git Flow paradigm for managing branches, deployment code, etc. This keeps things ordered and logical and makes it easy to see at a glance what is being worked on, what a pull request is addressing, and so on.
+
+Read more about Git Flow: 
+
+http://nvie.com/posts/a-successful-git-branching-model/
+
+Git Flow (and Open Muni) essentials:
+
+Open Muni always have at least two branches available in the public repo: "master" and "development".
+
+Master is for *production* - you should not ever be working off master. Master is the domain of the repository maintainers only.
+
+Work off development
+~~~~~~~~~~~~~~~~~~~~
+
+If you read the post on Git Flow above, you can see the reasoning in the approach. If you want to make small bug fixes, enhancements, do them on your "develop" branch, and then submit a pull request when your code is finished.
+
+Or, create a feature/ branch
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+If you are tackling a specific feature, or a larger issue, it is good practice to branch off "develop" into your own dedicated "feature/" branch. Then, when you code is ready, submit a pull request for this branch.
+
+For example, if you want to add a new feature to allow bookmarking of any page. First, make sure you are on the "develop" branch. Then, create a feature branch like so:
+
+git checkout -b feature/bookmarks
+
+Now, write all your code for bookmarks, and when ready, you can submit a pull request for "feature/bookmarks".
+
+Again, see the original post about Git Flow for more:
+
+http://nvie.com/posts/a-successful-git-branching-model/
+
+Some GUI version control apps, such as Source Tree for OS X, integrate Git Flow into the app, making it even easier to follow the principles.
