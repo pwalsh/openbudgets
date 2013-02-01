@@ -141,3 +141,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 FIXTURE_DIRS = (
     os.path.abspath(os.path.join(PROJECT_ROOT, 'fixtures')),
 )
+
+# We use Mozilla's unicode-slugify function so we can slugify
+# Hebrew and Arabic correctly, NOT transliterate
+AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'

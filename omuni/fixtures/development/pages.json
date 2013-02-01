@@ -1,0 +1,51 @@
+[
+
+{
+    "model": "pages.Page",
+    "pk": 1,
+    "fields": {
+        "title": "About",
+        "slug": "about",
+        "content": "About Open Muni",
+        "created_on": "2013-01-01T09:00:00+02:00",
+        "last_modified": "2013-01-01T09:00:00+02:00"
+    }
+},
+
+{
+    "model": "pages.Page",
+    "pk": 2,
+    "fields": {
+        "title": "Privacy",
+        "slug": "privacy",
+        "content": "Your privacy as your visit this site",
+        "created_on": "2013-01-01T09:00:00+02:00",
+        "last_modified": "2013-01-01T09:00:00+02:00"
+    }
+},
+
+{
+    "model": "pages.Page",
+    "pk": 3,
+    "fields": {
+        "title": "מה עושים פה",
+        "slug": "מה-עושים-פה",
+        "content": "what do we do here",
+        "created_on": "2013-01-01T09:00:00+02:00",
+        "last_modified": "2013-01-01T09:00:00+02:00"
+    }
+},
+
+{
+    "model": "pages.Page",
+    "pk": 4,
+    "fields": {
+        "title": "איך זה עובד",
+        "slug": "איך-זה-עובד",
+        "content": "how does all this stuff work",
+        "created_on": "2013-01-01T09:00:00+02:00",
+        "last_modified": "2013-01-01T09:00:00+02:00"
+    }
+}
+
+]

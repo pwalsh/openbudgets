@@ -1,4 +1,5 @@
 from django.db import models
+from autoslug import AutoSlugField
 from django.utils.translation import ugettext_lazy as _
 from omuni.apps.commons.data import OBJECT_STATES
 
@@ -16,10 +17,9 @@ class Page(models.Model):
         max_length=70,
         help_text=_('The main heading for your page.')
     )
-    slug = models.CharField(
-        _('Page URI'),
-        max_length=70,
-        help_text=_('The URI that this page is accessible on.')
+    slug = AutoSlugField(
+        populate_from='title',
+        unique=True
     )
     content = models.TextField(
         _('Content'),
@@ -45,13 +45,13 @@ class Page(models.Model):
         _('Crated on'),
         auto_now_add=True,
         editable=False,
-        help_text=_('The timestamp for when this page was created.'),
+        help_text=_('The timestamp for when this instance was created.'),
     )
     last_modified = models.DateTimeField(
         _('Last modified'),
         auto_now=True,
         editable=False,
-        help_text=_('The timestamp for when this page was last modified.'),
+        help_text=_('The timestamp for when this instance was last modified.'),
     )
 
     @models.permalink

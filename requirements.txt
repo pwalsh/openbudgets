@@ -3,3 +3,5 @@ sphinx
 django
 fabric
 south
+django-autoslug
+git+https://github.com/mozilla/unicode-slugify

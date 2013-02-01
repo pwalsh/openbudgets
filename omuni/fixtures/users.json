@@ -19,7 +19,7 @@
 
 {
     "model": "auth.User",
-    "pk": 1,
+    "pk": 2,
     "fields": {
         "username": "ydaniv",
         "first_name": "Yehonatan",
