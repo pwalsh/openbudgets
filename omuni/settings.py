@@ -77,7 +77,7 @@ ROOT_URLCONF = 'omuni.urls'
 WSGI_APPLICATION = 'omuni.wsgi.application'
 
 TEMPLATE_DIRS = (
-    os.path.abspath(os.path.join(PROJECT_ROOT, 'commons', 'templates')),
+
 )
 
 INSTALLED_APPS = (
@@ -90,9 +90,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.sitemaps',
     'south',
-    'userena',
-    'guardian',
-    'easy_thumbnails',
+    'registration',
     'debug_toolbar',  # For development only
     'omuni.accounts',
     'omuni.budgets',
@@ -158,30 +156,28 @@ LANGUAGES = (
 # Hebrew and Arabic correctly, NOT transliterate
 AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
 
-# We use django-userena for user account management.
-AUTHENTICATION_BACKENDS = (
-    'userena.backends.UserenaAuthenticationBackend',
-    'guardian.backends.ObjectPermissionBackend',
-    'django.contrib.auth.backends.ModelBackend',
-)
+ACCOUNT_ACTIVATION_DAYS = 7
 
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
-LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
-LOGIN_URL = '/accounts/signin/'
-LOGOUT_URL = '/accounts/signout/'
-ANONYMOUS_USER_ID = -1  # django-guardian requires it
-USERENA_WITHOUT_USERNAMES = True
-USERENA_DISABLE_PROFILE_LIST = True
-USERENA_DEFAULT_PRIVACY = 'closed'
-USERENA_PROFILE_DETAIL_TEMPLATE = 'accounts/profile_detail.html'
-USERENA_MUGSHOT_GRAVATAR = True
-USERENA_MUGSHOT_DEFAULT = 'monsterid'
 
+LOGIN_URL = '/accounts/login/'
+
+LOGIN_REDIRECT_URL = '/'
+
+LOGOUT_URL = '/accounts/logout/'
+
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda u: "/accounts/%s/" % u.get_profile.uuid,
+}
 
 EMAIL_USE_TLS = True
+
 EMAIL_HOST = 'smtp.gmail.com'
+
 EMAIL_PORT = 587
+
 EMAIL_HOST_USER = ''
+
 EMAIL_HOST_PASSWORD = ''
 
 # MOVE ANYTHING BELOW to settings_local.py later

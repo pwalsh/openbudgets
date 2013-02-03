@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     ),
 
     url(r'^accounts/',
-        include('userena.urls')
+        include('registration.backends.default.urls')
     ),
 
     url(r'^robots\.txt',

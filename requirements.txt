@@ -6,6 +6,6 @@ south
 PIL
 django-autoslug
 git+https://github.com/mozilla/unicode-slugify
-django-userena
+hg+http://bitbucket.org/ubernostrum/django-registration/
 django-uuidfield
 django-debug-toolbar
