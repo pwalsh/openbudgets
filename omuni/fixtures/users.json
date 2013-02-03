@@ -18,6 +18,15 @@
 },
 
 {
+    "model": "accounts.UserProfile",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "uuid": "26c18844d278476eb405b760b6efc613"
+    }
+},
+
+{
     "model": "auth.User",
     "pk": 2,
     "fields": {
@@ -31,6 +40,15 @@
         "is_superuser": 1,
         "last_login": "2013-01-01T09:00:00+02:00",
         "date_joined": "2013-01-01T09:00:00+02:00"
+    }
+},
+
+{
+    "model": "accounts.UserProfile",
+    "pk": 2,
+    "fields": {
+        "user": 2,
+        "uuid": "37a3058eaa1d40a8af63ae6c841906be"
     }
 }
 

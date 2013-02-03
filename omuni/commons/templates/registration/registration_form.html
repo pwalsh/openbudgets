@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<h1>
+    {% trans 'Create an account today.' %}
+</h1>
+<div>
+    <div class="box-3 float-left">
+        <form action="" method="POST">
+            {{form}}
+        </form>
+    </div>
+</div>
+{% endblock %}

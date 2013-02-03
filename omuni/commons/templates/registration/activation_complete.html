@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+{% trans 'Activation complete' %}
+{% endblock title %}
+
+{% block main %}
+<section id="signup">
+    <p>
+        {% trans 'You may now' %} <a href="{% url 'auth_login' %}">{% trans 'login' %}</a> {% trans 'using the username and password you set at registration' %}.
+    </p>
+</section>
+{% endblock main %}

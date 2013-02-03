@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+{% if account %}{% trans 'Activation complete' %}{% else %}{% trans 'Activation problem' %}{% endif %}
+{% endblock title %}
+
+{% block content %}
+<section id="signup">
+    {% trans 'An activation email has been sent tot he account address you entered' %}.
+    <article>
+        <p>
+            {% if account %}
+            {% trans 'Thanks' %} {{ account }}, {% trans 'activation complete!  You may now' %} <a href="{% url 'auth_login' %}">{% trans 'login' %}</a> {% trans 'using the username and password you set at registration' %}.
+            {% else %}
+            {% trans 'Oops &ndash; it seems that your activation key is invalid.  Please check the url again.' %}
+            {% endif %}
+        </p>
+    </article>
+</section>
+{% endblock content %}

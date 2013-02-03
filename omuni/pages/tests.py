@@ -4,7 +4,7 @@ from django.test import TestCase
 
 
 class PageTestCase(TestCase):
-    """Tests for pages.Page objects and whatever touches them"""
+    """Tests for pages.Page objects and their related views. urls, etc."""
 
     fixtures = ['test_pages.json']
 

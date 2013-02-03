@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+{% trans 'Thanks for using Reach' %}
+{% endblock title %}
+
+{% block content %}
+<section id="login">
+    <p>
+        {% trans 'If you logged out by mistake, you can log back in again below' %}.
+    </p>
+    <p>
+        <a href="{% url 'auth_login' %}" title="Log into your account">{% trans 'Log in' %}</a>
+    </p>
+</section>
+{% endblock content %}

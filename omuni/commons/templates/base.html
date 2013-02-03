@@ -15,7 +15,7 @@
 
         {% endblock meta %}
 
-        <title>{% block title %}{{ page.title }} | {{ site.name }}{% endblock %}</title>
+        <title>{% block metatitle %}{{ page.title }} | {{ site.name }}{% endblock metatitle %}</title>
 
         <base href="{{ site.url }}" />
 
@@ -46,6 +46,17 @@
             <section id="main">
                 <div class="wrapper">
                 {% block main %}
+
+                    <h1>
+                        {%block title %}
+
+                        {% endblock title %}
+                    </h1>
+                    <div>
+                        {%block content %}
+
+                        {% endblock content %}
+                    </div>
 
                 {% endblock main %}
                 </div>

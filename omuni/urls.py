@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     ),
 
     url(r'^accounts/',
-        include('registration.backends.default.urls')
+        include('omuni.accounts.urls')
     ),
 
     url(r'^robots\.txt',

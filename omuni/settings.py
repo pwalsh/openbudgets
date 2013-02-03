@@ -77,7 +77,8 @@ ROOT_URLCONF = 'omuni.urls'
 WSGI_APPLICATION = 'omuni.wsgi.application'
 
 TEMPLATE_DIRS = (
-
+    # Make sure that our project templates are called before anything that might override them in our 3rd party libraries
+    os.path.abspath(os.path.join(PROJECT_ROOT, 'commons', 'templates')),
 )
 
 INSTALLED_APPS = (

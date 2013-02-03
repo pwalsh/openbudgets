@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+{% trans 'Your profile' %}
+{% endblock title %}
+
+{% block content %}
+{{ user.username }}
+<br />
+{{ user.email }}
+<br />
+{{ user.get_profile.uuid }}
+{% endblock content %}
