@@ -6,17 +6,20 @@
 Welcome to Open Muni's documentation!
 =====================================
 
+Go to the right place below.
+
 Contents:
 
 .. toctree::
    :maxdepth: 2
 
+   installation/index
+   guide/index
 
 
 Indices and tables
 ==================
 
-* :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
 
