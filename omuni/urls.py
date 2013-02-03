@@ -15,6 +15,10 @@ urlpatterns = patterns('',
         include(admin.site.urls)
     ),
 
+    url(r'^accounts/',
+        include('userena.urls')
+    ),
+
     url(r'^robots\.txt',
         TemplateView.as_view(template_name='robots.txt')
     ),
