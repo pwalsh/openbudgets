@@ -1,6 +1,6 @@
 from itertools import chain
 from django.contrib.sitemaps import Sitemap
-from omuni.apps.pages.models import Page
+from omuni.pages.models import Page
 
 
 class OmuniSitemap(Sitemap):

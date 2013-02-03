@@ -1,7 +1,7 @@
 from django.db import models
 from autoslug import AutoSlugField
 from django.utils.translation import ugettext_lazy as _
-from omuni.apps.commons.data import OBJECT_STATES
+from omuni.commons.data import OBJECT_STATES
 
 
 class Page(models.Model):

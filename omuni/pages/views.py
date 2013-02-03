@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView, DetailView, FormView
-from omuni.apps.pages.models import Page
-from omuni.apps.pages.forms import ContactForm
+from omuni.pages.models import Page
+from omuni.pages.forms import ContactForm
 
 
 class HomeView(TemplateView):

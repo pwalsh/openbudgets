@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 from django.contrib import admin
-from omuni.apps.commons.views import OmuniSitemap
+from omuni.commons.views import OmuniSitemap
 admin.autodiscover()
 
 
@@ -29,7 +29,7 @@ urlpatterns = patterns('',
     ),
 
     url(r'^',
-        include('omuni.apps.pages.urls')
+        include('omuni.pages.urls')
     ),
 
 )

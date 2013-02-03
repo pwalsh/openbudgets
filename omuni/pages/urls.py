@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from omuni.apps.pages.views import HomeView, ContactView, PageView
+from omuni.pages.views import HomeView, ContactView, PageView
 
 
 urlpatterns = patterns('',

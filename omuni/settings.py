@@ -62,13 +62,14 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
-    'omuni.apps.commons.middleware.InterfaceLanguage',
+    'omuni.commons.middleware.InterfaceLanguage',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',  # For development only
 )
 
 ROOT_URLCONF = 'omuni.urls'
@@ -76,9 +77,7 @@ ROOT_URLCONF = 'omuni.urls'
 WSGI_APPLICATION = 'omuni.wsgi.application'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+    os.path.abspath(os.path.join(PROJECT_ROOT, 'commons', 'templates')),
 )
 
 INSTALLED_APPS = (
@@ -94,11 +93,12 @@ INSTALLED_APPS = (
     'userena',
     'guardian',
     'easy_thumbnails',
-    'omuni.apps.accounts',
-    'omuni.apps.budgets',
-    'omuni.apps.commons',
-    'omuni.apps.govts',
-    'omuni.apps.pages',
+    'debug_toolbar',  # For development only
+    'omuni.accounts',
+    'omuni.budgets',
+    'omuni.commons',
+    'omuni.govts',
+    'omuni.pages',
 
 )
 
@@ -138,7 +138,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
         # Add our own context processors
         'django.core.context_processors.request',
-        'omuni.apps.commons.context_processors.get_site',
+        'omuni.commons.context_processors.get_site',
 )
 
 FIXTURE_DIRS = (
@@ -183,3 +183,12 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
+
+# MOVE ANYTHING BELOW to settings_local.py later
+
+# debug_toolbar stuff
+INTERNAL_IPS = ('127.0.0.1',)
+
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': False,
+}
