@@ -3,17 +3,14 @@
 {% load url from future %}
 
 {% block title %}
-{% trans 'Thanks for signing up to Reach!' %}
+{% trans 'Thanks for registering' %}.
 {% endblock title %}
 
 {% block content %}
 <section id="signup">
     <p>
-        {% trans 'An activation email has been sent tot he account address you entered' %}.
-    </p>
-    <p>
         {% blocktrans %}
-        We have just sent an activation email to the address you provided. Please check your email and click on the link to activate your account. The link is valid for 24 hours, so please check for the email and click the link now so we can get you started.
+        An activation email has been sent to the email address you entered. Please check your email and click on the link to activate your account.
         {% endblocktrans %}
     </p>
 </section>

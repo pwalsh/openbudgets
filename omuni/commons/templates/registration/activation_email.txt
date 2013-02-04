@@ -1,11 +1,12 @@
-You (or someone pretending to be you) have asked to register an account at 
-{{ site.name }}.  If this wasn't you, please ignore this email
-and your address will be removed from our records.
+Hi,
 
-To activate this account, please click the following link within the next 
-{{ expiration_days }} days:
+We received a request at {{ site.name }} to regoster for a user account using this email address.
 
-http://{{ site.domain }}/accounts/activate/{{ activation_key }}
+If this was not you, please ignore this email and your address will be removed from our records when the activation period expires.
 
-Sincerely,
-{{ site.name }} Management
+If this was you, you must act to register your account in the next {{ expiration_days }} days by clicking the following link:
+
+{{ protocol }}://{{ site.domain }}/accounts/activate/{{ activation_key }}
+
+Thanks for using {{ site.name }},
+The {{ site.name }} Team

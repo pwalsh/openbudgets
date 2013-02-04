@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n form_extras %}
 
 {% block content %}
 <h1>
@@ -8,7 +8,16 @@
 <div>
     <div class="box-3 float-left">
         <form action="" method="POST">
-            {{form}}
+            {% csrf_token %}
+            <fieldset>
+                {% field_generator form.username %}
+                {% field_generator form.email %}
+                {% field_generator form.password1 %}
+                {% field_generator form.password2 %}
+            </fieldset>
+            <fieldset>
+                {% include 'partials/_form_action_submit.html' %}
+            </fieldset>
         </form>
     </div>
 </div>

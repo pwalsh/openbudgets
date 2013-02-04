@@ -18,7 +18,7 @@
         <title>{% block metatitle %}{{ page.title }} | {{ site.name }}{% endblock metatitle %}</title>
 
         <base href="{{ site.url }}" />
-
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/base.css" />
         {% block stylesheets %}
 
         {% endblock stylesheets %}
@@ -28,9 +28,9 @@
         <link rel="apple-touch-icon-precomposed" media="screen and (resolution: 326dpi)" href="{{ STATIC_URL }}skin/img/icon-114.png" />
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico" /-->
 
-        {% block javascript %}
+        {% block js_head %}
 
-        {% endblock javascript %}
+        {% endblock js_head %}
     </head>
 
     <body class="{{ LANGUAGE_CODE }}">
@@ -38,7 +38,7 @@
             <header>
                 <div class="wrapper">
                 {% block header %}
-
+                {% include 'accounts/partials/_user_account_tools.html' %}
                 {% endblock header %}
                 </div>
             </header>
@@ -71,8 +71,8 @@
             </div>
         </footer>
 
-        {% block bodyscripts %}
+        {% block js_body %}
 
-        {% endblock bodyscripts %}
+        {% endblock js_body %}
     </body>
 </html>

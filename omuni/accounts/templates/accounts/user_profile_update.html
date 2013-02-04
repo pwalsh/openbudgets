@@ -1,0 +1,18 @@
+{% extends 'accounts/user_profile_detail.html' %}
+{% load i18n form_extras %}
+{% load url from future %}
+
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    <fieldset>
+        {% field_generator form.username %}
+        {% field_generator form.email %}
+        {% field_generator form.first_name %}
+        {% field_generator form.last_name %}
+        {% field_generator form.language %}
+    </fieldset>
+    <fieldset>
+        {% include 'partials/_form_action_update.html' %}
+    </fieldset>
+{% endblock content %}

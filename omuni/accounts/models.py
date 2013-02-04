@@ -1,7 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from uuidfield import UUIDField
+from omuni.settings import LANGUAGES
 
 
 class UserProfile(models.Model):
@@ -12,6 +15,12 @@ class UserProfile(models.Model):
     )
     uuid = UUIDField(
         auto=True
+    )
+    language = models.CharField(
+        max_length=2,
+        choices=LANGUAGES,
+        default='en',
+        help_text=_('Set your prefered language for the app')
     )
 
     class Meta:
@@ -25,3 +34,10 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return self.user.username
+
+
+@receiver(post_save, sender=User, dispatch_uid='create_user_profile')
+def create_user_profile(sender, instance, created, **kwargs):
+    """A new UserProfile is created for every new User created."""
+    if created:
+        UserProfile.objects.create(user=instance)

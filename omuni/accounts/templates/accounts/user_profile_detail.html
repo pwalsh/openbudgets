@@ -12,4 +12,40 @@
 {{ user.email }}
 <br />
 {{ user.get_profile.uuid }}
+<br />
+<a href="{% url 'auth_password_change' %}">{% trans 'Change password' %}</a>
+<br />
+<a href="{% url 'user_profile_update' user.get_profile.uuid %}">{% trans 'Update profile' %}</a>
+<section>
+    <div>
+        <h3>{% trans 'My Bookmarks' %}</h3>
+        <p>
+            here
+        </p>
+    </div>
+    <div>
+        <h3>{% trans 'My Stories' %}</h3>
+        <p>
+            here
+        </p>
+    </div>
+    <div>
+        <h3>{% trans 'My Comments' %}</h3>
+        <p>
+            here
+        </p>
+    </div>
+    <div>
+        <h3>{% trans 'My Annotations' %}</h3>
+        <p>
+            here
+        </p>
+    </div>
+    <div>
+        <h3>{% trans 'My Tags' %}</h3>
+        <p>
+            here
+        </p>
+    </div>
+</section>
 {% endblock content %}
