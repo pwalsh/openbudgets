@@ -10,11 +10,11 @@ from omuni.settings import LANGUAGES
 class UserProfile(models.Model):
     """Extends Django's User with our project specific user fields"""
 
-    user = models.OneToOneField(
-        User
-    )
     uuid = UUIDField(
         auto=True
+    )
+    user = models.OneToOneField(
+        User
     )
     language = models.CharField(
         max_length=2,
