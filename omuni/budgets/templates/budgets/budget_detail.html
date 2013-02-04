@@ -7,6 +7,9 @@
 {% endblock title %}
 
 {% block content %}
+<p>
+    <a href="{% url 'geopol_detail' object.geopol.slug %}">{% trans 'Back to the geopol' %}</a>
+</p>
 {% if object.items %}
 {% for item in object.items %}
 <p>

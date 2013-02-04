@@ -15,7 +15,7 @@ urlpatterns = patterns('',
     ),
     url(r'^budget/(?P<slug>[-\w]+)/$',
         BudgetDetailView.as_view(),
-        name='geopol_detail'
+        name='budget_detail'
     ),
 
 )

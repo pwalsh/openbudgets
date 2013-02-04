@@ -32,6 +32,18 @@ class Budget(models.Model):
         value = BudgetItem.objects.filter(budget=self)
         return value
 
+    class Meta:
+        ordering = ['geopol']
+        verbose_name = _('Budget')
+        verbose_name_plural = _('Budgets')
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('budget_detail', [self.uuid])
+
+    def __unicode__(self):
+        return self.geopol + unicode(self.year)
+
 
 class BudgetClassificationMap(models.Model):
     """The budget classification system for the given geopolitical entity"""

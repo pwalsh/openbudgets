@@ -39,7 +39,7 @@
 <strong>{% trans 'This Geopolitical entity has the following budgets' %}...</strong>
 <br />
 {% for budget in object.budgets %}
-{{ budget.year }}
+<a href="{% url 'budget_detail' budget.uuid %}">{{ budget.year }}</a>
 <br />
 {% endfor %}
 {% endif %}
