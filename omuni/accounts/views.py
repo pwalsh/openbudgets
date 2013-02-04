@@ -5,7 +5,7 @@ from omuni.accounts.forms import UserProfileForm
 from omuni.commons.mixins import UserDataObjectMixin
 
 
-class UserProfileDetailView(LoginRequiredMixin, DetailView):
+class UserProfileDetailView(LoginRequiredMixin, UserDataObjectMixin, DetailView):
     model = UserProfile
     template_name = 'accounts/user_profile_detail.html'
     slug_field = 'uuid'

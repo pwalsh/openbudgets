@@ -9,7 +9,6 @@ class UserDataObjectMixin(SingleObjectMixin):
     """
     def get_object(self, queryset=None, castable=True):
         obj = super(UserDataObjectMixin, self).get_object(queryset)
-
         if obj.user_id != self.request.user.id:
             raise PermissionDenied
 
