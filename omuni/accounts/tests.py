@@ -27,9 +27,22 @@ class UserTestCase(TestCase):
 
     def test_user_profile_update(self):
         self.client.login(username=self.user1.username, password='morelove!')
-        response = self.client.get(self.user1_profile_update)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, self.user1.email)
+        # Does GET on update respond as we expect?
+        response_get = self.client.get(self.user1_profile_update)
+        self.assertEqual(response_get.status_code, 200)
+        self.assertContains(response_get, self.user1.email)
+
+        # Does POST on update respond as we expect?
+        data_valid = {'username': self.user1.username, 'email': self.user1.email, 'first_name': self.user1.first_name, 'last_name': self.user1.last_name, 'language': self.user1.get_profile().language}
+        # valid object
+        response_post_valid = self.client.post(self.user1_profile_update, data_valid)
+        self.assertEqual(response_post_valid.status_code, 302)
+
+        # invalid email address
+        data_invalid_email = data_valid.copy()
+        data_invalid_email['email'] = 'something'
+        response_post_invalid_email = self.client.post(self.user1_profile_update, data_invalid_email)
+        self.assertEqual(response_post_invalid_email.status_code, 200)
 
     def test_user_profile_views_private(self):
         # Can we reach profile views when not logged in?
