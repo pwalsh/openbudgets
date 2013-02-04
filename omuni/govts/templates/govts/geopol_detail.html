@@ -1,0 +1,46 @@
+{% extends 'govts/geopol_list.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+{{ object.name }}
+{% endblock title %}
+
+{% block content %}
+<p>
+    <a href="{% url 'geopol_list' %}">{% trans 'Back to all geopols' %}</a>
+</p>
+
+{% if object.direct_children %}
+<strong>{% trans 'Munis of this Country' %}</strong>
+<br />
+<p>
+{% for child in object.direct_children %}
+    <a href="{% url 'geopol_detail' child.slug %}">
+        {{ child.name }}
+    </a>
+    <br />
+{% endfor %}
+</p>
+{% endif %}
+
+{% if object.under %}
+<strong>{% trans 'This Geopolitical entity is in scope of' %}...</strong>
+<br />
+<p>
+    <a href="{% url 'geopol_detail' object.under.slug %}">
+        {{ object.under.name }}
+    </a>
+</p>
+{% endif %}
+
+
+{% if object.budgets %}
+<strong>{% trans 'This Geopolitical entity has the following budgets' %}...</strong>
+<br />
+{% for budget in object.budgets %}
+{{ budget.year }}
+<br />
+{% endfor %}
+{% endif %}
+{% endblock content %}

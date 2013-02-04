@@ -1,0 +1,118 @@
+[
+
+{
+    "model": "govts.GeoPoliticalEntity",
+    "pk": 1,
+    "fields": {
+        "slug": "israel",
+        "name": "Israel",
+        "code": "IS"
+    }
+},
+
+{
+    "model": "govts.GeoPoliticalEntity",
+    "pk": 2,
+    "fields": {
+        "slug": "united-states-of-america",
+        "name": "United States of America",
+        "code": "USA"
+    }
+},
+
+{
+    "model": "govts.GeoPoliticalEntity",
+    "pk": 3,
+    "fields": {
+        "slug": "tel-aviv",
+        "name": "Tel Aviv",
+        "code": "TLV",
+        "under": 1
+    }
+},
+
+{
+    "model": "govts.GeoPoliticalEntity",
+    "pk": 4,
+    "fields": {
+        "slug": "california",
+        "name": "California",
+        "code": "CALI",
+        "under": 2
+    }
+},
+
+{
+    "model": "budgets.Budget",
+    "pk": 1,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf14",
+        "geopol": 3,
+        "year": 2012,
+        "description": "Description of this"
+    }
+},
+
+{
+    "model": "budgets.BudgetClassificationMap",
+    "pk": 1,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf14",
+        "geopol": 1,
+        "target": "muni",
+        "name": "Israel Muni Budget"
+    }
+},
+
+{
+    "model": "budgets.BudgetClassificationMapNode",
+    "pk": 1,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf14",
+        "budget_classification_map": 1,
+        "code": "1",
+        "name": "Services",
+        "description": "Services are much ado about nothing"
+    }
+},
+
+{
+    "model": "budgets.BudgetClassificationMapNode",
+    "pk": 2,
+    "fields": {
+        "uuid": "19685c0d4ebe43e3acee6dd163cb1832",
+        "budget_classification_map": 1,
+        "code": "11",
+        "name": "Services of streets",
+        "description": "Services are much ado about nothing",
+        "under": 1
+    }
+},
+
+{
+    "model": "budgets.BudgetItem",
+    "pk": 1,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf14",
+        "budget": 1,
+        "code": 1,
+        "explanation": "some explanation",
+        "amount": 2000000
+
+    }
+},
+
+{
+    "model": "budgets.BudgetItem",
+    "pk": 2,
+    "fields": {
+        "uuid": "4e60a01f118b4798a7f4934972ddabe6",
+        "budget": 1,
+        "code": 2,
+        "explanation": "some explanation",
+        "amount": 2000000
+
+    }
+}
+
+]

@@ -19,6 +19,10 @@ urlpatterns = patterns('',
         include('omuni.accounts.urls')
     ),
 
+    url(r'^govts/',
+        include('omuni.govts.urls')
+    ),
+
     url(r'^robots\.txt',
         TemplateView.as_view(template_name='robots.txt')
     ),

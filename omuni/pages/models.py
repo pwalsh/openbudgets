@@ -1,6 +1,6 @@
 from django.db import models
-from autoslug import AutoSlugField
 from django.utils.translation import ugettext_lazy as _
+from autoslug import AutoSlugField
 from omuni.commons.data import OBJECT_STATES
 
 
