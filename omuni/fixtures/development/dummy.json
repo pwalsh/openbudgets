@@ -96,7 +96,7 @@
         "uuid": "6cd238ac63974392834ad62699c1cf14",
         "budget": 1,
         "code": 1,
-        "explanation": "some explanation",
+        "explanation": "some explanation of that item",
         "amount": 2000000
 
     }
@@ -109,8 +109,8 @@
         "uuid": "4e60a01f118b4798a7f4934972ddabe6",
         "budget": 1,
         "code": 2,
-        "explanation": "some explanation",
-        "amount": 2000000
+        "explanation": "some explanation of this item",
+        "amount": 10000
 
     }
 }

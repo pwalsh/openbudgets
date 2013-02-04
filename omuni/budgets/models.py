@@ -27,13 +27,10 @@ class Budget(models.Model):
         help_text=_('Text for this budget.')
     )
 
-    # @property:
-    # A method which the budget classification type for the given
-    # geopol, and builds a classification structure from the
-    # available BudgetResource instances for this Budget
-
-    # @property: total $
-    pass
+    @property
+    def items(self):
+        value = BudgetItem.objects.filter(budget=self)
+        return value
 
 
 class BudgetClassificationMap(models.Model):
