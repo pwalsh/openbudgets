@@ -98,6 +98,7 @@ INSTALLED_APPS = (
     'omuni.commons',
     'omuni.govts',
     'omuni.pages',
+    'modeltranslation',
 
 )
 
