@@ -4,66 +4,18 @@ from uuidfield import UUIDField
 from omuni.govts.models import GeoPoliticalEntity, GEOPOL_TYPE_CHOICES
 
 
-#BUDGET_YEAR_CHOICES = (
-#    (year, year) for year in range(1948, 2015)
-#)
 NODE_DIRECTIONS = (
-    (1, 'income'), (2, 'expense')
+    (1, _('income')), (2, _('expense'))
 )
 
 
-class Budget(models.Model):
-    """A budget for the given year and geopolitical entity"""
-
-    uuid = UUIDField(
-        auto=True
-    )
-    geopol = models.ForeignKey(
-        GeoPoliticalEntity,
-    )
-    period_start = models.DateField(
-        _('Period start')
-    )
-    period_end = models.DateField(
-        _('Period end')
-    )
-    description = models.TextField(
-        _('Budget description'),
-        blank=True,
-        help_text=_('Text for this budget.')
-    )
-
-    @property
-    def items(self):
-        value = BudgetItem.objects.filter(budget=self)
-        return value
-
-    #TODO: implement a shortcut from period_start/end to year 
-    @property
-    def year(self):
-        pass
-
-    class Meta:
-        ordering = ['geopol']
-        verbose_name = _('Budget')
-        verbose_name_plural = _('Budgets')
-
-    @models.permalink
-    def get_absolute_url(self):
-        return ('budget_detail', [self.uuid])
-
-    def __unicode__(self):
-        return self.geopol + unicode(self.period_end) + ' - ' + unicode(self.period_start)
-
-
 class BudgetClassificationTree(models.Model):
-    """The budget classification system for the given geopolitical entity"""
+    """The budget classification system for a given geopolitical entity"""
 
     uuid = UUIDField(
         auto=True
     )
     geopol = models.ForeignKey(
-        # must be top level (country) only
         GeoPoliticalEntity,
         related_name='classification_trees'
     )
@@ -80,6 +32,9 @@ class BudgetClassificationTree(models.Model):
     def nodes(self):
         value = BudgetClassificationTreeNode.objects.filter(budget_classification_map=self)
         return value
+
+    # TODO: Clean method that enforces 'geopol' as a top level geopol
+    # Meaning, we want this to point to a country only
 
     class Meta:
         ordering = ['name']
@@ -121,7 +76,8 @@ class BudgetClassificationTreeNode(models.Model):
     parent = models.ForeignKey(
         'self',
         null=True,
-        blank=True
+        blank=True,
+        related_name='parents'
     )
     #TODO: in Israeli budget this should be automatically filled in the importer
     direction = models.PositiveSmallIntegerField(
@@ -131,6 +87,7 @@ class BudgetClassificationTreeNode(models.Model):
     )
     #TODO: validate that never points to itself
     #TODO: validate that it points to the opposite `direction`
+    # TODO: if setting inverse, always set it on the relation (they should always be the same)
     inverse = models.OneToOneField(
         'self',
         null=True,
@@ -141,7 +98,7 @@ class BudgetClassificationTreeNode(models.Model):
     #TODO: implement
     @property
     def root(self):
-       pass
+        pass
 
     @property
     def items(self):
@@ -158,6 +115,58 @@ class BudgetClassificationTreeNode(models.Model):
 
     def __unicode__(self):
         return self.code
+
+
+class Budget(models.Model):
+    """A budget for the given year and geopolitical entity"""
+
+    uuid = UUIDField(
+        auto=True
+    )
+    geopol = models.ForeignKey(
+        GeoPoliticalEntity,
+    )
+    period_start = models.DateField(
+        _('Period start'),
+        help_text=_('The start date for this budget')
+    )
+    period_end = models.DateField(
+        _('Period end'),
+        help_text=_('The end date for this budget')
+    )
+    description = models.TextField(
+        _('Budget description'),
+        blank=True,
+        help_text=_('Text for this budget.')
+    )
+
+    @property
+    def items(self):
+        value = BudgetItem.objects.filter(budget=self)
+        return value
+
+    #TODO: implement a shortcut from period_start/end to year
+    @property
+    def period(self):
+        # TODO: Write a smarter method for the general use case
+        # naive, just for current purposes
+        tmp = self.period_end - self.period_start
+        if tmp.days <= 365:
+            return self.period_start.year
+        else:
+            return unicode(self.period_start.year) + ' - ' + self.period_end.year
+
+    class Meta:
+        ordering = ['geopol']
+        verbose_name = _('Budget')
+        verbose_name_plural = _('Budgets')
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('budget_detail', [self.uuid])
+
+    def __unicode__(self):
+        return self.geopol + unicode(self.period_end) + ' - ' + unicode(self.period_start)
 
 
 class BudgetItem(models.Model):

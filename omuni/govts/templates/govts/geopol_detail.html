@@ -11,11 +11,11 @@
     <a href="{% url 'geopol_list' %}">{% trans 'Back to all geopols' %}</a>
 </p>
 
-{% if object.direct_children %}
+{% if object.children %}
 <strong>{% trans 'Munis of this Country' %}</strong>
 <br />
 <p>
-{% for child in object.direct_children %}
+{% for child in object.children %}
     <a href="{% url 'geopol_detail' child.slug %}">
         {{ child.name }}
     </a>
@@ -24,12 +24,12 @@
 </p>
 {% endif %}
 
-{% if object.under %}
+{% if object.parent %}
 <strong>{% trans 'This Geopolitical entity is in scope of' %}...</strong>
 <br />
 <p>
-    <a href="{% url 'geopol_detail' object.under.slug %}">
-        {{ object.under.name }}
+    <a href="{% url 'geopol_detail' object.parent.slug %}">
+        {{ object.parent.name }}
     </a>
 </p>
 {% endif %}
@@ -39,7 +39,7 @@
 <strong>{% trans 'This Geopolitical entity has the following budgets' %}...</strong>
 <br />
 {% for budget in object.budgets %}
-<a href="{% url 'budget_detail' budget.uuid %}">{{ budget.year }}</a>
+<a href="{% url 'budget_detail' budget.uuid %}">{{ budget.period }}</a>
 <br />
 {% endfor %}
 {% endif %}
