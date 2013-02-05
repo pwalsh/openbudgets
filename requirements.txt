@@ -10,3 +10,4 @@ hg+http://bitbucket.org/ubernostrum/django-registration/
 django-uuidfield
 django-debug-toolbar
 django-braces
+django-modeltranslation
