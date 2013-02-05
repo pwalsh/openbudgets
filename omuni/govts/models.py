@@ -30,7 +30,7 @@ class GeoPoliticalEntity(models.Model):
         max_length=20,
         choices=GEOPOL_TYPE_CHOICES
     )
-    under = models.ForeignKey(
+    parent = models.ForeignKey(
         'self',
         null=True,
         blank=True
@@ -43,9 +43,16 @@ class GeoPoliticalEntity(models.Model):
         return value
 
     @property
-    def direct_children(self):
-        value = GeoPoliticalEntity.objects.filter(under=self)
-        return value
+    def children(self):
+        return GeoPoliticalEntity.objects.filter(parent=self)
+
+    @property
+    def descendants(self):
+        children = self.children
+        result = [] + list(children)
+        for node in children:
+            result += node.descendants
+        return result
 
     # @property: ultimate parent (country)
 
