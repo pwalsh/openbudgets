@@ -15,6 +15,7 @@ class GeoPoliticalEntity(models.Model):
 
     name = models.CharField(
         max_length=255,
+        unique=True,
         help_text=_('The name of this Geopolitical entity.')
     )
     slug = AutoSlugField(
@@ -28,7 +29,8 @@ class GeoPoliticalEntity(models.Model):
     )
     type_is = models.CharField(
         max_length=20,
-        choices=GEOPOL_TYPE_CHOICES
+        choices=GEOPOL_TYPE_CHOICES,
+        help_text=_('Declare the type of entity this geopol is from the available choices.')
     )
     parent = models.ForeignKey(
         'self',
@@ -54,8 +56,8 @@ class GeoPoliticalEntity(models.Model):
             result += node.descendants
         return result
 
-    # @property: ultimate parent (country)
-
+    # @property: root (country)
+    # TODO: some work in the clean method of the model
     # clean method: if type_is is state, then part_of must be null
     # and blank. and other related checks for toher situations.
 
