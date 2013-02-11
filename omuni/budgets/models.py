@@ -125,6 +125,7 @@ class Budget(models.Model):
     )
     geopol = models.ForeignKey(
         GeoPoliticalEntity,
+        related_name='budgets'
     )
     period_start = models.DateField(
         _('Period start'),

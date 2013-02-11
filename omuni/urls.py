@@ -11,6 +11,9 @@ sitemaps = {
 
 urlpatterns = patterns('',
 
+    url(r'^api/',
+        include('omuni.api.urls')
+    ),
     url(r'^admin/',
         include(admin.site.urls)
     ),

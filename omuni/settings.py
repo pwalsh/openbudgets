@@ -11,6 +11,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+# will be updated for deployment
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -34,22 +35,28 @@ USE_L10N = True
 
 USE_TZ = True
 
-MEDIA_ROOT = os.path.abspath(os.path.join(PROJECT_ROOT, 'static', 'media'))
+MEDIA_ROOT = os.path.abspath(
+    os.path.join(PROJECT_ROOT, 'static', 'media')
+)
 
 MEDIA_URL = '/static/media/'
 
-STATIC_ROOT = os.path.abspath(os.path.join(PROJECT_ROOT, 'static'))
+STATIC_ROOT = os.path.abspath(
+    os.path.join(PROJECT_ROOT, 'static')
+)
 
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.abspath(os.path.join(PROJECT_ROOT, 'commons', 'static')),
+    os.path.abspath(
+        os.path.join(PROJECT_ROOT, 'commons', 'static')
+    ),
 )
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    #'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 SECRET_KEY = 'pvh9d)+7aui4=evh$yv!qgbr3oyz-4=^oj_%6g8+v57b=de5)7'
@@ -57,7 +64,7 @@ SECRET_KEY = 'pvh9d)+7aui4=evh$yv!qgbr3oyz-4=^oj_%6g8+v57b=de5)7'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    #'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -69,7 +76,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',  # For development only
+
+    # debug_toolbar for development only
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'omuni.urls'
@@ -77,8 +86,9 @@ ROOT_URLCONF = 'omuni.urls'
 WSGI_APPLICATION = 'omuni.wsgi.application'
 
 TEMPLATE_DIRS = (
-    # Make sure that our project templates are called before anything that might override them in our 3rd party libraries
-    os.path.abspath(os.path.join(PROJECT_ROOT, 'commons', 'templates')),
+    os.path.abspath(
+        os.path.join(PROJECT_ROOT, 'commons', 'templates')
+    ),
 )
 
 INSTALLED_APPS = (
@@ -94,15 +104,19 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     'south',
     'registration',
+    'rest_framework',
     'rosetta_grappelli',
     'rosetta',
     'modeltranslation',
     'omuni.accounts',
+    'omuni.api',
     'omuni.budgets',
     'omuni.commons',
     'omuni.govts',
     'omuni.pages',
-    'debug_toolbar',  # For development only
+
+    # debug_toolbar for development only
+    'debug_toolbar',
 
 )
 
@@ -131,26 +145,28 @@ LOGGING = {
 }
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-        # loading the django defaults...
-        'django.contrib.auth.context_processors.auth',
-        'django.core.context_processors.debug',
-        'django.core.context_processors.i18n',
-        'django.core.context_processors.media',
-        'django.core.context_processors.static',
-        'django.core.context_processors.tz',
-        'django.contrib.messages.context_processors.messages',
-
-        # Add our own context processors
-        'django.core.context_processors.request',
-        'omuni.commons.context_processors.get_site',
+    # here are the django defaults
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    'django.contrib.messages.context_processors.messages',
+    # and here our additions for the project
+    'django.core.context_processors.request',
+    'omuni.commons.context_processors.get_site',
 )
 
 FIXTURE_DIRS = (
-    os.path.abspath(os.path.join(PROJECT_ROOT, 'fixtures')),
+    os.path.abspath(
+        os.path.join(PROJECT_ROOT, 'fixtures')
+    ),
 )
 
-# Supported languages for this instance of open muni
+# Supported languages
 gettext = lambda s: s
+
 LANGUAGES = (
     ('en', gettext('English')),
     ('he', gettext('Hebrew')),
@@ -158,8 +174,7 @@ LANGUAGES = (
     ('ru', gettext('Russian')),
 )
 
-# We use Mozilla's unicode-slugify function so we can slugify
-# Hebrew and Arabic correctly, NOT transliterate
+# We do unicode slugs around here, not transliterations...
 AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
 
 ACCOUNT_ACTIVATION_DAYS = 7
@@ -192,7 +207,19 @@ GRAPPELLI_ADMIN_TITLE = 'Open Budget'
 
 GRAPPELLI_INDEX_DASHBOARD = 'omuni.dashboard.OpenBudgetDashboard'
 
-# MOVE ANYTHING BELOW to settings_local.py later
+# Django REST Framework configuration
+REST_FRAMEWORK = {
+
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
+
+    'PAGINATE_BY': 10
+
+}
+
+
+# MOVE ANYTHING BELOW TO: settings_local.py
 
 # debug_toolbar stuff
 INTERNAL_IPS = ('127.0.0.1',)
