@@ -4,7 +4,7 @@ Open Muni
 The Open Muni project is a web app and web API for municipality budgets, and related contextual data.
 
 Get involved
-============
+------------
 
 Code: https://github.com/hasadna/open-muni
 
@@ -17,33 +17,21 @@ Product requirements: https://docs.google.com/document/d/1cDOELgc4VQ8iPSr6795g0i
 More about HaSadna (Public Knowledge Workshop): http://hasadna.org.il/
 
 
-Quickstart
-===========
+Installation
+------------
 
-A simple guide to get started coding.
+See the docs directory for full docs. It is sphinx, so::
 
-Build a local environment
--------------------------
+    make html
+
+there.
+
+5 min install
+-------------
 
 Make sure you have the latest version of virtualenv installed, and set it up so you have a directory for your envs, and a directory for your projects. 
 
-For example, I do it like so:
-
-*On Ubuntu*
-
-/srv/environments/
-
-/srv/projects/
-
-
-*On Mac OS X*
-
-/Users/me/Sites/environments/
-
-/Users/me/Sites/projects/
-
-
-With virtualenv setup properly on your machine, do the following::
+With virtualenv setup properly on your machine, do something like::
 
     mkvirtualenv open-muni
 
@@ -55,7 +43,7 @@ With virtualenv setup properly on your machine, do the following::
 
     git clone git@github.com:hasadna/open-muni.git .
 
-Important: Note the "." at the end of the git clone directive.
+**Important: Note the "." at the end of the git clone directive.**
 
 And continuing::
 
@@ -65,39 +53,4 @@ And continuing::
 
     python manage.py runserver
 
-
-Open Muni repository practices
-------------------------------
-
-We are following the Git Flow paradigm for managing branches, deployment code, etc. This keeps things ordered and logical and makes it easy to see at a glance what is being worked on, what a pull request is addressing, and so on.
-
-Read more about Git Flow: 
-
-http://nvie.com/posts/a-successful-git-branching-model/
-
-Git Flow (and Open Muni) essentials:
-
-Open Muni always have at least two branches available in the public repo: "master" and "development".
-
-Master is for *production* - you should not ever be working off master. Master is the domain of the repository maintainers only.
-
-Work off development
-~~~~~~~~~~~~~~~~~~~~
-
-If you read the post on Git Flow above, you can see the reasoning in the approach. If you want to make small bug fixes, enhancements, do them on your "develop" branch, and then submit a pull request when your code is finished.
-
-Or, create a feature/ branch
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-If you are tackling a specific feature, or a larger issue, it is good practice to branch off "develop" into your own dedicated "feature/" branch. Then, when you code is ready, submit a pull request for this branch.
-
-For example, if you want to add a new feature to allow bookmarking of any page. First, make sure you are on the "develop" branch. Then, create a feature branch like so:
-
-git checkout -b feature/bookmarks
-
-Now, write all your code for bookmarks, and when ready, you can submit a pull request for "feature/bookmarks".
-
-Again, see the original post about Git Flow for more:
-
-http://nvie.com/posts/a-successful-git-branching-model/
-
-Some GUI version control apps, such as Source Tree for OS X, integrate Git Flow into the app, making it even easier to follow the principles.
+Now see the docs for full documentation.
