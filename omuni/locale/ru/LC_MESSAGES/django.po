@@ -1,0 +1,584 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-02-11 10:20+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+#: dashboard.py:14
+msgid "User management"
+msgstr ""
+
+#: dashboard.py:22
+msgid "Government entities"
+msgstr ""
+
+#: dashboard.py:30
+msgid "Budget records"
+msgstr ""
+
+#: dashboard.py:38
+msgid "Generic pages"
+msgstr ""
+
+#: dashboard.py:46
+msgid "Media management"
+msgstr ""
+
+#: dashboard.py:50
+msgid "FileBrowser"
+msgstr ""
+
+#: dashboard.py:55
+msgid "Static translations"
+msgstr ""
+
+#: dashboard.py:63
+msgid "Support"
+msgstr ""
+
+#: dashboard.py:67
+msgid "Django Documentation"
+msgstr ""
+
+#: dashboard.py:72
+msgid "Grappelli Documentation"
+msgstr ""
+
+#: dashboard.py:77
+msgid "Built by prjts"
+msgstr ""
+
+#: dashboard.py:82
+msgid "Email Paul Walsh (developer)"
+msgstr ""
+
+#: dashboard.py:87
+msgid "Email Yehonatan Daniv (developer)"
+msgstr ""
+
+#: dashboard.py:96
+msgid "Recent Actions"
+msgstr ""
+
+#: settings.py:155
+msgid "English"
+msgstr ""
+
+#: settings.py:156
+msgid "Hebrew"
+msgstr ""
+
+#: settings.py:157
+msgid "Arabic"
+msgstr ""
+
+#: settings.py:158
+msgid "Russian"
+msgstr ""
+
+#: accounts/forms.py:13
+msgid "Your username."
+msgstr ""
+
+#: accounts/forms.py:19
+msgid "Your email address."
+msgstr ""
+
+#: accounts/forms.py:25
+msgid "Your first name."
+msgstr ""
+
+#: accounts/forms.py:31
+msgid "Your last name."
+msgstr ""
+
+#: accounts/models.py:23
+msgid "Set your prefered language for the app"
+msgstr ""
+
+#: accounts/models.py:28
+msgid "User profile"
+msgstr ""
+
+#: accounts/models.py:29
+msgid "User profiles"
+msgstr ""
+
+#: accounts/templates/accounts/user_profile_detail.html:6
+msgid "Your profile"
+msgstr ""
+
+#: accounts/templates/accounts/user_profile_detail.html:16
+msgid "Change password"
+msgstr ""
+
+#: accounts/templates/accounts/user_profile_detail.html:18
+msgid "Update profile"
+msgstr ""
+
+#: accounts/templates/accounts/user_profile_detail.html:21
+msgid "My Bookmarks"
+msgstr ""
+
+#: accounts/templates/accounts/user_profile_detail.html:27
+msgid "My Stories"
+msgstr ""
+
+#: accounts/templates/accounts/user_profile_detail.html:33
+msgid "My Comments"
+msgstr ""
+
+#: accounts/templates/accounts/user_profile_detail.html:39
+msgid "My Annotations"
+msgstr ""
+
+#: accounts/templates/accounts/user_profile_detail.html:45
+msgid "My Tags"
+msgstr ""
+
+#: accounts/templates/accounts/partials/_user_account_tools.html:6
+msgid "Profile"
+msgstr ""
+
+#: budgets/models.py:8
+msgid "income"
+msgstr ""
+
+#: budgets/models.py:8
+msgid "expense"
+msgstr ""
+
+#: budgets/models.py:28
+msgid "The name of this classification tree."
+msgstr ""
+
+#: budgets/models.py:41
+msgid "Budget classification tree"
+msgstr ""
+
+#: budgets/models.py:42
+msgid "Budget classification trees"
+msgstr ""
+
+#: budgets/models.py:65 budgets/templates/budgets/budget_detail.html:16
+msgid "Code"
+msgstr ""
+
+#: budgets/models.py:69
+msgid "Name"
+msgstr ""
+
+#: budgets/models.py:72
+msgid "Entry description"
+msgstr ""
+
+#: budgets/models.py:74 budgets/models.py:95
+msgid "Describe for this entry."
+msgstr ""
+
+#: budgets/models.py:84
+msgid "Income/Expense"
+msgstr ""
+
+#: budgets/models.py:86
+msgid "Determines whether this is an income or expense."
+msgstr ""
+
+#: budgets/models.py:109
+msgid "Budget classification tree node"
+msgstr ""
+
+#: budgets/models.py:110
+msgid "Budget classification tree nodes"
+msgstr ""
+
+#: budgets/models.py:130
+msgid "Period start"
+msgstr ""
+
+#: budgets/models.py:131
+msgid "The start date for this budget"
+msgstr ""
+
+#: budgets/models.py:134
+msgid "Period end"
+msgstr ""
+
+#: budgets/models.py:135
+msgid "The end date for this budget"
+msgstr ""
+
+#: budgets/models.py:138
+msgid "Budget description"
+msgstr ""
+
+#: budgets/models.py:140
+msgid "Text for this budget."
+msgstr ""
+
+#: budgets/models.py:161
+msgid "Budget"
+msgstr ""
+
+#: budgets/models.py:162
+msgid "Budgets"
+msgstr ""
+
+#: budgets/models.py:184
+msgid "Item explanation"
+msgstr ""
+
+#: budgets/models.py:186
+msgid "Explanation that appears for this entry."
+msgstr ""
+
+#: budgets/models.py:189 budgets/templates/budgets/budget_detail.html:20
+msgid "Amount"
+msgstr ""
+
+#: budgets/models.py:190
+msgid "The amount of this entry, plus or minus."
+msgstr ""
+
+#: budgets/models.py:195
+msgid "Budget item"
+msgstr ""
+
+#: budgets/models.py:196
+msgid "Budget items"
+msgstr ""
+
+#: budgets/templates/budgets/budget_detail.html:6
+msgid "budget"
+msgstr ""
+
+#: budgets/templates/budgets/budget_detail.html:11
+msgid "Back to the geopol"
+msgstr ""
+
+#: budgets/templates/budgets/budget_detail.html:18
+msgid "Explanation"
+msgstr ""
+
+#: commons/templates/partials/_form_action_change.html:2
+msgid "Change"
+msgstr ""
+
+#: commons/templates/partials/_form_action_create.html:2
+msgid "Create"
+msgstr ""
+
+#: commons/templates/partials/_form_action_delete.html:2
+msgid "Delete"
+msgstr ""
+
+#: commons/templates/partials/_form_action_login.html:2
+msgid "Login"
+msgstr ""
+
+#: commons/templates/partials/_form_action_submit.html:2
+msgid "Submit"
+msgstr ""
+
+#: commons/templates/partials/_form_action_update.html:2
+msgid "Update"
+msgstr ""
+
+#: commons/templates/registration/activate.html:6
+#: commons/templates/registration/activation_complete.html:6
+msgid "Activation complete"
+msgstr ""
+
+#: commons/templates/registration/activate.html:6
+msgid "Activation problem"
+msgstr ""
+
+#: commons/templates/registration/activate.html:11
+msgid "An activation email has been sent tot he account address you entered"
+msgstr ""
+
+#: commons/templates/registration/activate.html:15
+msgid "Thanks"
+msgstr ""
+
+#: commons/templates/registration/activate.html:15
+msgid "activation complete!  You may now"
+msgstr ""
+
+#: commons/templates/registration/activate.html:15
+#: commons/templates/registration/activation_complete.html:12
+msgid "login"
+msgstr ""
+
+#: commons/templates/registration/activate.html:15
+#: commons/templates/registration/activation_complete.html:12
+msgid "using the username and password you set at registration"
+msgstr ""
+
+#: commons/templates/registration/activate.html:17
+msgid ""
+"Oops &ndash; it seems that your activation key is invalid.  Please check the "
+"url again."
+msgstr ""
+
+#: commons/templates/registration/activation_complete.html:12
+msgid "You may now"
+msgstr ""
+
+#: commons/templates/registration/login.html:6
+msgid "Log in to your account"
+msgstr ""
+
+#: commons/templates/registration/login.html:25
+msgid "Forgot password"
+msgstr ""
+
+#: commons/templates/registration/login.html:27
+msgid "Register for free"
+msgstr ""
+
+#: commons/templates/registration/logout.html:6
+msgid "Thanks for using the app"
+msgstr ""
+
+#: commons/templates/registration/logout.html:12
+msgid "If you logged out by mistake, you can log back in again below"
+msgstr ""
+
+#: commons/templates/registration/logout.html:15
+msgid "Log in"
+msgstr ""
+
+#: commons/templates/registration/password_change_done.html:6
+msgid "Done"
+msgstr ""
+
+#: commons/templates/registration/password_change_done.html:13
+msgid "Hmmm, something is wrong there. See the error(s) below and try again"
+msgstr ""
+
+#: commons/templates/registration/password_change_done.html:18
+msgid "You&apos;ve successfully changed your password"
+msgstr ""
+
+#: commons/templates/registration/password_change_done.html:19
+msgid "Go back to your profile"
+msgstr ""
+
+#: commons/templates/registration/password_change_form.html:6
+msgid "Update password"
+msgstr ""
+
+#: commons/templates/registration/password_reset_complete.html:6
+msgid "Password reset complete"
+msgstr ""
+
+#: commons/templates/registration/password_reset_complete.html:11
+msgid "Glad we got all that sorted out"
+msgstr ""
+
+#: commons/templates/registration/password_reset_complete.html:14
+msgid "Your password has been reset successfully"
+msgstr ""
+
+#: commons/templates/registration/password_reset_complete.html:16
+msgid "Please use your new credentials to"
+msgstr ""
+
+#: commons/templates/registration/password_reset_complete.html:16
+msgid "login to your account now"
+msgstr ""
+
+#: commons/templates/registration/password_reset_confirm.html:6
+msgid "Enter your new password"
+msgstr ""
+
+#: commons/templates/registration/password_reset_confirm.html:10
+msgid "Make sure it is hard for someone else, but easy for you, to remember"
+msgstr ""
+
+#: commons/templates/registration/password_reset_confirm.html:13
+#: commons/templates/registration/password_reset_form.html:12
+msgid "There was an error in the form. Try again"
+msgstr ""
+
+#: commons/templates/registration/password_reset_done.html:6
+msgid "Reset password mail sent"
+msgstr ""
+
+#: commons/templates/registration/password_reset_done.html:11
+msgid "Check your inbox and we&apos;ll get moving right along"
+msgstr ""
+
+#: commons/templates/registration/password_reset_done.html:14
+msgid ""
+"\n"
+"        Thanks for verifying your email address. A message has been sent to "
+"the address you supplied with further instructions.\n"
+"        "
+msgstr ""
+
+#: commons/templates/registration/password_reset_form.html:6
+msgid "Reset your password"
+msgstr ""
+
+#: commons/templates/registration/password_reset_form.html:17
+msgid ""
+"Enter the email address your signed up with, and we&apos;ll begin the "
+"password reset process"
+msgstr ""
+
+#: commons/templates/registration/registration_complete.html:6
+msgid "Thanks for registering"
+msgstr ""
+
+#: commons/templates/registration/registration_complete.html:12
+msgid ""
+"\n"
+"        An activation email has been sent to the email address you entered. "
+"Please check your email and click on the link to activate your account.\n"
+"        "
+msgstr ""
+
+#: commons/templates/registration/registration_form.html:6
+msgid "Create an account today."
+msgstr ""
+
+#: govts/models.py:19
+msgid "The name of this Geopolitical entity."
+msgstr ""
+
+#: govts/models.py:28
+msgid "The official abbreviated code for this Geopolitical entity."
+msgstr ""
+
+#: govts/models.py:33
+msgid "Declare the type of entity this geopol is from the available choices."
+msgstr ""
+
+#: govts/models.py:66
+msgid "Geopolitical entity"
+msgstr ""
+
+#: govts/models.py:67
+msgid "Geopolitical entities"
+msgstr ""
+
+#: govts/templates/govts/geopol_detail.html:11
+msgid "Back to all geopols"
+msgstr ""
+
+#: govts/templates/govts/geopol_detail.html:15
+msgid "Munis of this Country"
+msgstr ""
+
+#: govts/templates/govts/geopol_detail.html:28
+msgid "This Geopolitical entity is in scope of"
+msgstr ""
+
+#: govts/templates/govts/geopol_detail.html:39
+msgid "This Geopolitical entity has the following budgets"
+msgstr ""
+
+#: govts/templates/govts/geopol_list.html:6
+msgid "All Geopolitical entities"
+msgstr ""
+
+#: pages/forms.py:6
+msgid "We need your name to respond nicely!"
+msgstr ""
+
+#: pages/forms.py:7
+msgid "We can&apos;t get back to you without it."
+msgstr ""
+
+#: pages/forms.py:8
+msgid "What is it about"
+msgstr ""
+
+#: pages/forms.py:9
+msgid "What do you want to tell us"
+msgstr ""
+
+#: pages/models.py:10
+msgid "Publication status"
+msgstr ""
+
+#: pages/models.py:13
+msgid "Determines whether the page is publically accessible or not."
+msgstr ""
+
+#: pages/models.py:16
+msgid "Page title"
+msgstr ""
+
+#: pages/models.py:18
+msgid "The main heading for your page."
+msgstr ""
+
+#: pages/models.py:25
+msgid "Content"
+msgstr ""
+
+#: pages/models.py:27
+msgid "The main content for this page."
+msgstr ""
+
+#: pages/models.py:30
+msgid "Index"
+msgstr ""
+
+#: pages/models.py:32
+msgid ""
+"A number used to order pages in indexes, as an alternative to date-based "
+"ordering."
+msgstr ""
+
+#: pages/models.py:35
+msgid "Show in navigation"
+msgstr ""
+
+#: pages/models.py:37
+msgid ""
+"A hook to control whether the page will be displayed in main navigation "
+"lists."
+msgstr ""
+
+#: pages/models.py:45
+msgid "Crated on"
+msgstr ""
+
+#: pages/models.py:48
+msgid "The timestamp for when this instance was created."
+msgstr ""
+
+#: pages/models.py:51
+msgid "Last modified"
+msgstr ""
+
+#: pages/models.py:54
+msgid "The timestamp for when this instance was last modified."
+msgstr ""
+
+#: pages/models.py:66
+msgid "page"
+msgstr ""
+
+#: pages/models.py:67
+msgid "pages"
+msgstr ""

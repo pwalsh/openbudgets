@@ -88,17 +88,21 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'grappelli.dashboard',
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.sitemaps',
     'south',
     'registration',
-    'debug_toolbar',  # For development only
+    'rosetta_grappelli',
+    'rosetta',
+    'modeltranslation',
     'omuni.accounts',
     'omuni.budgets',
     'omuni.commons',
     'omuni.govts',
     'omuni.pages',
-    'modeltranslation',
+    'debug_toolbar',  # For development only
 
 )
 
@@ -172,6 +176,7 @@ ABSOLUTE_URL_OVERRIDES = {
     'auth.user': lambda u: "/accounts/%s/" % u.get_profile.uuid,
 }
 
+# SMTP configuration
 EMAIL_USE_TLS = True
 
 EMAIL_HOST = 'smtp.gmail.com'
@@ -181,6 +186,11 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = ''
 
 EMAIL_HOST_PASSWORD = ''
+
+# Grappelli configuration
+GRAPPELLI_ADMIN_TITLE = 'Open Budget'
+
+GRAPPELLI_INDEX_DASHBOARD = 'omuni.dashboard.OpenBudgetDashboard'
 
 # MOVE ANYTHING BELOW to settings_local.py later
 
