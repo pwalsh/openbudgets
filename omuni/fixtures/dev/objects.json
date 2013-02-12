@@ -180,7 +180,7 @@
     "fields": {
         "uuid": "6cd238ac63974392834ad62699c1cf14",
         "budget": 1,
-        "code": 1,
+        "node": 1,
         "explanation": "some explanation of that item",
         "amount": 2000000,
         "created_on": "2012-01-01T09:00:00+03:00",
@@ -195,7 +195,7 @@
     "fields": {
         "uuid": "4e60a01f118b4798a7f4934972ddabe6",
         "budget": 1,
-        "code": 2,
+        "node": 2,
         "explanation": "some explanation of this item",
         "amount": 10000,
         "created_on": "2012-01-01T09:00:00+03:00",

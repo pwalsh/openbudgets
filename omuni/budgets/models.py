@@ -185,7 +185,7 @@ class BudgetItem(TimeStampedModel, models.Model):
     budget = models.ForeignKey(
         Budget
     )
-    code = models.ForeignKey(
+    node = models.ForeignKey(
         BudgetClassificationTreeNode
     )
     explanation = models.TextField(
@@ -199,7 +199,7 @@ class BudgetItem(TimeStampedModel, models.Model):
     )
 
     class Meta:
-        ordering = ['code']
+        ordering = ['node']
         verbose_name = _('Budget item')
         verbose_name_plural = _('Budget items')
 
@@ -208,7 +208,7 @@ class BudgetItem(TimeStampedModel, models.Model):
         return ('budget_item_detail', [self.uuid])
 
     def __unicode__(self):
-        return self.code
+        return self.node.code
 
 
 class BudgetImport(TimeStampedModel, models.Model):
