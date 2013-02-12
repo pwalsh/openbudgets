@@ -36,11 +36,29 @@
 
 
 {% if object.budgets %}
-<strong>{% trans 'This Geopolitical entity has the following budgets' %}...</strong>
-<br />
+<strong>{% trans 'Budgets available' %}...</strong>
+<ul>
 {% for budget in object.budgets %}
-<a href="{% url 'budget_detail' budget.uuid %}">{{ budget.period }}</a>
-<br />
+<li>
+    <a href="{% url 'budget_detail' budget.uuid %}">
+        {{ budget.period }}
+    </a>
+</li>
 {% endfor %}
+</ul>
 {% endif %}
+
+{% if object.actuals %}
+<strong>{% trans 'Actuals available' %}...</strong>
+<ul>
+{% for actual in object.actuals %}
+<li>
+    <a href="{% url 'actual_detail' actual.uuid %}">
+        {{ actual.period }} (Variance: {% if actual.has_budgets %}{{ actual.variance }}%{% endif %})
+    </a>
+</li>
+{% endfor %}
+</ul>
+{% endif %}
+
 {% endblock content %}

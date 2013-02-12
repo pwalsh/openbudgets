@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from omuni.govts.models import GeoPoliticalEntity
-from omuni.budgets.models import Budget, BudgetItem
+from omuni.budgets.models import Budget, BudgetItem, Actual, ActualItem
 
 
 class BudgetItemSerializer(serializers.ModelSerializer):
@@ -15,6 +15,21 @@ class BudgetSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Budget
+        fields = ('uuid', 'geopol', 'period_start', 'period_end', 'description', 'items')
+
+
+class ActualItemSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ActualItem
+
+
+class ActualSerializer(serializers.HyperlinkedModelSerializer):
+
+    items = ActualItemSerializer()
+
+    class Meta:
+        model = Actual
         fields = ('uuid', 'geopol', 'period_start', 'period_end', 'description', 'items')
 
 

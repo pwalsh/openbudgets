@@ -51,20 +51,6 @@
 },
 
 {
-    "model": "budgets.Budget",
-    "pk": 1,
-    "fields": {
-        "uuid": "6cd238ac63974392834ad62699c1cf14",
-        "geopol": 3,
-        "period_start": "2012-01-01",
-        "period_end": "2012-12-31",
-        "description": "Description of this particular budget",
-        "created_on": "2012-01-01T09:00:00+03:00",
-        "last_modified": "2012-01-01T09:00:00+03:00"
-    }
-},
-
-{
     "model": "budgets.BudgetTemplate",
     "pk": 1,
     "fields": {
@@ -175,6 +161,20 @@
 },
 
 {
+    "model": "budgets.Budget",
+    "pk": 1,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf14",
+        "geopol": 3,
+        "period_start": "2012-01-01",
+        "period_end": "2012-12-31",
+        "description": "Description of this particular budget",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
     "model": "budgets.BudgetItem",
     "pk": 1,
     "fields": {
@@ -198,6 +198,50 @@
         "node": 2,
         "explanation": "some explanation of this item",
         "amount": 10000,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+
+    }
+},
+
+{
+    "model": "budgets.Actual",
+    "pk": 1,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf14",
+        "geopol": 3,
+        "period_start": "2012-01-01",
+        "period_end": "2012-12-31",
+        "description": "Description of this particular actual",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "budgets.ActualItem",
+    "pk": 1,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf14",
+        "actual": 1,
+        "node": 1,
+        "explanation": "some explanation of that item",
+        "amount": 3000000,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+
+    }
+},
+
+{
+    "model": "budgets.ActualItem",
+    "pk": 2,
+    "fields": {
+        "uuid": "4e60a01f118b4798a7f4934972ddabe6",
+        "actual": 1,
+        "node": 2,
+        "explanation": "some explanation of this item",
+        "amount": 8000,
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
 

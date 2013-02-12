@@ -46,6 +46,12 @@ class GeoPoliticalEntity(TimeStampedModel, models.Model):
         return value
 
     @property
+    def actuals(self):
+        Actual = get_model('budgets', 'Actual')
+        value = Actual.objects.filter(geopol=self)
+        return value
+
+    @property
     def children(self):
         return GeoPoliticalEntity.objects.filter(parent=self)
 

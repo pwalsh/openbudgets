@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+{{ object.geopol.name }} {{ object.period }} {% trans 'budget' %}
+{% endblock title %}
+
+{% block content %}
+<p>
+    <a href="{% url 'geopol_detail' object.geopol.slug %}">{% trans 'Back to the geopol' %}</a>
+</p>
+{% if object.items %}
+{% for item in object.items %}
+<p>
+    <strong>{% trans 'Code' %}</strong>: {{ item.code }}
+    <br />
+    <strong>{% trans 'Explanation' %}</strong>: {{ item.explanation }}
+    <br />
+    <strong>{% trans 'Amount' %}</strong>: {{ item.amount }}
+</p>
+{% endfor %}
+{% endif %}
+{% endblock content %}

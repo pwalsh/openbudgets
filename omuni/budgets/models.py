@@ -1,3 +1,4 @@
+from __future__ import division
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
@@ -122,8 +123,8 @@ class BudgetTemplateNode(TimeStampedModel, models.Model):
         return self.code
 
 
-class Budget(TimeStampedModel, models.Model):
-    """A budget for the given year and geopolitical entity"""
+class Sheet(TimeStampedModel, models.Model):
+    """An abstract class for common Budget and Actual data"""
 
     uuid = UUIDField(
         auto=True
@@ -133,25 +134,20 @@ class Budget(TimeStampedModel, models.Model):
     )
     period_start = models.DateField(
         _('Period start'),
-        help_text=_('The start date for this budget')
+        help_text=_('The start date for this %(class)s')
     )
     period_end = models.DateField(
         _('Period end'),
-        help_text=_('The end date for this budget')
+        help_text=_('The end date for this %(class)s')
     )
     description = models.TextField(
         _('Budget description'),
         blank=True,
-        help_text=_('Text for this budget.')
+        help_text=_('Descriptive text for this %(class)s')
     )
     sources = generic.GenericRelation(
         DataSource
     )
-
-    @property
-    def items(self):
-        value = BudgetItem.objects.filter(budget=self)
-        return value
 
     #TODO: implement a shortcut from period_start/end to year
     @property
@@ -164,26 +160,115 @@ class Budget(TimeStampedModel, models.Model):
         else:
             return unicode(self.period_start.year) + ' - ' + self.period_end.year
 
+    @property
+    def total(self):
+        tmp = [item.amount for item in self.items]
+        value = sum(tmp)
+        return value
+
     class Meta:
+        abstract = True
         ordering = ['geopol']
+
+
+class Budget(Sheet):
+    """Budget for the given geopol and period"""
+
+    @property
+    def items(self):
+        value = BudgetItem.objects.filter(budget=self)
+        return value
+
+    @property
+    def has_actuals(self):
+        # TODO: This is a test POC. need much more robust way
+        # to get one or more actuals for this budget
+        value = True
+        try:
+            Actual.objects.filter(geopol=self.geopol, period_start=self.period_start, period_end=self.period_end)
+        except Actual.DoesNotExist:
+            value = False
+        return value
+
+    class Meta:
         verbose_name = _('Budget')
         verbose_name_plural = _('Budgets')
 
     @models.permalink
     def get_absolute_url(self):
-        return ('budget_detail', [self.uuid])
+        return ('actual_detail', [self.uuid])
 
     def __unicode__(self):
-        return self.geopol.name + ': ' + unicode(self.period_start) + ' - ' + unicode(self.period_end)
+        return self.__class__.__name__ + ' for ' + self.geopol.name \
+        + ': ' + unicode(self.period_start) + ' - ' + \
+        unicode(self.period_end)
 
 
-class BudgetItem(TimeStampedModel, models.Model):
-    """Describes the minimal attributes of a single item in a budget"""
+class Actual(Sheet):
+    """Actual for the given geopol and period"""
+
+    # Actuals is designed here in parallel to budget for
+    # the possible scenarios of:
+    # actual report availability, but no budget availability
+    # actual report that spans more than one budget, or
+    # less than one budget
+
+    # TODO: implement a save method that checks period range,
+    # and compares match with budget/actual. Actual periods
+    # should smartly map over budget periods, and not fall
+    # inconveiently like, an actual for 10 months, but a budget for 12.
+
+    @property
+    def items(self):
+        value = ActualItem.objects.filter(actual=self)
+        return value
+
+    @property
+    def has_budgets(self):
+        # TODO: This is a test POC. need much more robust way
+        # to get one or more budgets for this actual
+        value = True
+        try:
+            Budget.objects.filter(geopol=self.geopol, period_start=self.period_start, period_end=self.period_end)
+        except Budget.DoesNotExist:
+            value = False
+        return value
+
+    @property
+    def variance(self):
+        """If this actual has one or more associated budgets in the system, calculate the variance"""
+        value = None
+        tmp = []
+        # TODO: This is a test POC. need much more robust way
+        # to get one or more actuals for this budget
+        budgets = Budget.objects.filter(geopol=self.geopol, period_start=self.period_start, period_end=self.period_end)
+        for budget in budgets:
+            tmp.append(budget.total)
+
+        budget_sum = sum(tmp)
+        # We are using python division from future
+        value = round(self.total / budget_sum * 100, 2)
+        return value
+
+    class Meta:
+        verbose_name = _('Actual')
+        verbose_name_plural = _('Actuals')
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('actual_detail', [self.uuid])
+
+    def __unicode__(self):
+        return self.__class__.__name__ + ' for ' + self.geopol.name \
+        + ': ' + unicode(self.period_start) + ' - ' + \
+        unicode(self.period_end)
+
+
+class SheetItem(TimeStampedModel, models.Model):
+    """Abstract class for common BudgetItem and ActualItem data"""
+
     uuid = UUIDField(
         auto=True
-    )
-    budget = models.ForeignKey(
-        Budget
     )
     node = models.ForeignKey(
         BudgetTemplateNode
@@ -199,13 +284,43 @@ class BudgetItem(TimeStampedModel, models.Model):
     )
 
     class Meta:
+        abstract = True
         ordering = ['node']
+
+
+class BudgetItem(SheetItem):
+    """Describes a single item in a budget"""
+
+    budget = models.ForeignKey(
+        Budget
+    )
+
+    class Meta:
         verbose_name = _('Budget item')
         verbose_name_plural = _('Budget items')
 
     @models.permalink
     def get_absolute_url(self):
         return ('budget_item_detail', [self.uuid])
+
+    def __unicode__(self):
+        return self.node.code
+
+
+class ActualItem(SheetItem):
+    """Describes a single item in an actual"""
+
+    actual = models.ForeignKey(
+        Actual
+    )
+
+    class Meta:
+        verbose_name = _('Actual item')
+        verbose_name_plural = _('Actual items')
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('actual_item_detail', [self.uuid])
 
     def __unicode__(self):
         return self.node.code

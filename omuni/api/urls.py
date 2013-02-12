@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url, include
 from rest_framework.urlpatterns import format_suffix_patterns
-from omuni.api.views import GeoPoliticalEntityList, GeoPoliticalEntityDetail, BudgetList, BudgetDetail
+from omuni.api.views import GeoPoliticalEntityList, GeoPoliticalEntityDetail, BudgetList, BudgetDetail, BudgetItemList, BudgetItemDetail, ActualList, ActualDetail, ActualItemList, ActualItemDetail
 
 
 urlpatterns = patterns('omuni.api.views',
@@ -24,12 +24,28 @@ urlpatterns = patterns('omuni.api.views',
         name='budget-detail'
     ),
     url(r'^budgetitems/$',
-        BudgetList.as_view(),
+        BudgetItemList.as_view(),
         name='budgetitem-list'
     ),
     url(r'^budgetitem/(?P<pk>\d+)/$',
-        BudgetDetail.as_view(),
+        BudgetItemDetail.as_view(),
         name='budgetitem-detail'
+    ),
+    url(r'^actuals/$',
+        ActualList.as_view(),
+        name='actual-list'
+    ),
+    url(r'^actual/(?P<pk>\d+)/$',
+        ActualDetail.as_view(),
+        name='actual-detail'
+    ),
+    url(r'^actualitems/$',
+        ActualItemList.as_view(),
+        name='actualitem-list'
+    ),
+    url(r'^actualitem/(?P<pk>\d+)/$',
+        ActualItemDetail.as_view(),
+        name='actualitem-detail'
     ),
 )
 
