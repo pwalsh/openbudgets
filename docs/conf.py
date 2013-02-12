@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Open Muni documentation build configuration file, created by
+# Open Budget documentation build configuration file, created by
 # sphinx-quickstart on Sun Jan 27 21:17:44 2013.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -40,7 +40,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Open Muni'
+project = u'Open Budget'
 copyright = u'2013, Yehonatan Daniv and Paul Walsh for the Open Knowledge Workshop'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -91,7 +91,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'sphinxdoc'
+html_theme = 'default'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -164,7 +164,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'OpenMunidoc'
+htmlhelp_basename = 'OpenBudgetdoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -183,7 +183,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'OpenMuni.tex', u'Open Muni Documentation',
+  ('index', 'OpenBudget.tex', u'Open Budget Documentation',
    u'Yehonatan Daniv and Paul Walsh for the Open Knowledge Workshop', 'manual'),
 ]
 
@@ -213,7 +213,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'openmuni', u'Open Muni Documentation',
+    ('index', 'openbudget', u'Open Budget Documentation',
      [u'Yehonatan Daniv and Paul Walsh for the Open Knowledge Workshop'], 1)
 ]
 
@@ -227,8 +227,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'OpenMuni', u'Open Muni Documentation',
-   u'Yehonatan Daniv and Paul Walsh for the Open Knowledge Workshop', 'OpenMuni', 'One line description of project.',
+  ('index', 'OpenBudget', u'Open Budget Documentation',
+   u'Yehonatan Daniv and Paul Walsh for the Open Knowledge Workshop', 'OpenBudget', 'The Open Budget project is a web app and web API for municipality budgets, and related contextual data.',
    'Miscellaneous'),
 ]
 
