@@ -17,7 +17,6 @@ class BudgetClassificationTree(models.Model):
     )
     geopol = models.ForeignKey(
         GeoPoliticalEntity,
-        related_name='classification_trees'
     )
     target = models.CharField(
         max_length=20,
@@ -77,7 +76,7 @@ class BudgetClassificationTreeNode(models.Model):
         'self',
         null=True,
         blank=True,
-        related_name='parents'
+        related_name='node_parent'
     )
     #TODO: in Israeli budget this should be automatically filled in the importer
     direction = models.PositiveSmallIntegerField(
@@ -125,7 +124,6 @@ class Budget(models.Model):
     )
     geopol = models.ForeignKey(
         GeoPoliticalEntity,
-        related_name='budgets'
     )
     period_start = models.DateField(
         _('Period start'),
