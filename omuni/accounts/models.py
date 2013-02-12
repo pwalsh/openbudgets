@@ -41,3 +41,98 @@ def create_user_profile(sender, instance, created, **kwargs):
     """A new UserProfile is created for every new User created."""
     if created:
         UserProfile.objects.create(user=instance)
+
+
+class UserProxyBase(User):
+    """A proxy object so we can treat different users types distinctly.
+
+    Heavily used in the admin to customize how user accounts
+    are managed from there.
+    """
+
+    class Meta:
+        proxy = True
+
+    @property
+    def uuid(self):
+        tmp = UserProfile.objects.get(user=self)
+        value = tmp.uuid
+        return value
+
+    @property
+    def language(self):
+        tmp = UserProfile.objects.get(user=self)
+        value = tmp.language
+        return value
+
+    def __unicode__(self):
+        return self.username
+
+
+class CoreTeamUserProxyManager(models.Manager):
+    """Filter core team user proxy queries correctly"""
+
+    def get_query_set(self):
+        return super(CoreTeamUserProxyManager, self).get_query_set().filter(groups__in=[1])
+
+
+class CoreTeamUserProxy(UserProxyBase):
+    """Provides a proxy interface to users on the core team"""
+
+    objects = CoreTeamUserProxyManager()
+
+    class Meta:
+        proxy = True
+        verbose_name = _('Core team user')
+        verbose_name_plural = _('Core team users')
+
+    def save(self, *args, **kwargs):
+        super(CoreTeamUserProxy, self).save(*args, **kwargs)
+        self.groups.add(1)
+        profile, created = UserProfile.objects.get_or_create(user=self)
+
+
+class ContentTeamUserManager(models.Manager):
+    """Filter content team user proxy queries correctly"""
+
+    def get_query_set(self):
+        return super(ContentTeamUserManager, self).get_query_set().filter(groups__in=[2])
+
+
+class ContentTeamUserProxy(UserProxyBase):
+    """Provides a proxy interface to users on the content team"""
+
+    objects = ContentTeamUserManager()
+
+    class Meta:
+        proxy = True
+        verbose_name = _('Content team user')
+        verbose_name_plural = _('Content team users')
+
+    def save(self, *args, **kwargs):
+        super(ContentTeamUserProxy, self).save(*args, **kwargs)
+        self.groups.add(2)
+        profile, created = UserProfile.objects.get_or_create(user=self)
+
+
+class PublicUserProxyManager(models.Manager):
+    """Filter public user proxy queries correctly"""
+
+    def get_query_set(self):
+        return super(PublicUserProxyManager, self).get_query_set().filter(groups__in=[3])
+
+
+class PublicUserProxy(UserProxyBase):
+    """Provides a proxy interface to public users"""
+
+    objects = PublicUserProxyManager()
+
+    class Meta:
+        proxy = True
+        verbose_name = _('Public user')
+        verbose_name_plural = _('Public users')
+
+    def save(self, *args, **kwargs):
+        super(PublicUserProxy, self).save(*args, **kwargs)
+        self.groups.add(3)
+        profile, created = UserProfile.objects.get_or_create(user=self)

@@ -174,7 +174,7 @@ class Budget(TimeStampedModel, models.Model):
         return ('budget_detail', [self.uuid])
 
     def __unicode__(self):
-        return self.geopol + unicode(self.period_end) + ' - ' + unicode(self.period_start)
+        return self.geopol.name + ': ' + unicode(self.period_start) + ' - ' + unicode(self.period_end)
 
 
 class BudgetItem(TimeStampedModel, models.Model):

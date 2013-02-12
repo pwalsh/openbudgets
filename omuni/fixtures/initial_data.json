@@ -12,6 +12,7 @@
         "is_staff": 1,
         "is_active": 1,
         "is_superuser": 1,
+        "groups": [1],
         "last_login": "2013-01-01T09:00:00+02:00",
         "date_joined": "2013-01-01T09:00:00+02:00"
     }
@@ -29,8 +30,123 @@
         "is_staff": 1,
         "is_active": 1,
         "is_superuser": 1,
+        "groups": [1],
         "last_login": "2013-01-01T09:00:00+02:00",
         "date_joined": "2013-01-01T09:00:00+02:00"
+    }
+},
+
+{
+    "model": "auth.User",
+    "pk": 3,
+    "fields": {
+        "username": "iivri",
+        "first_name": "Ido",
+        "last_name": "Ivri",
+        "email": "idoivri@gmail.com",
+        "password": "sha1$d0ac3$d37cb4b152d98c9727f7d696795f2d6ad9438ee4",
+        "is_staff": 1,
+        "is_active": 1,
+        "is_superuser": 1,
+        "groups": [1],
+        "last_login": "2013-01-01T09:00:00+02:00",
+        "date_joined": "2013-01-01T09:00:00+02:00"
+    }
+},
+
+{
+    "model": "auth.User",
+    "pk": 4,
+    "fields": {
+        "username": "yadmon",
+        "first_name": "Yuval",
+        "last_name": "Admon",
+        "email": "yuval@hasadna.org.il",
+        "password": "sha1$d0ac3$d37cb4b152d98c9727f7d696795f2d6ad9438ee4",
+        "is_staff": 1,
+        "is_active": 1,
+        "is_superuser": 0,
+        "groups": [2],
+        "last_login": "2013-01-01T09:00:00+02:00",
+        "date_joined": "2013-01-01T09:00:00+02:00"
+    }
+},
+
+{
+    "model": "auth.User",
+    "pk": 5,
+    "fields": {
+        "username": "mrubenstein",
+        "first_name": "Mor",
+        "last_name": "Rubenstein",
+        "email": "mor@hasadna.org.il",
+        "password": "sha1$d0ac3$d37cb4b152d98c9727f7d696795f2d6ad9438ee4",
+        "is_staff": 1,
+        "is_active": 1,
+        "is_superuser": 0,
+        "groups": [2],
+        "last_login": "2013-01-01T09:00:00+02:00",
+        "date_joined": "2013-01-01T09:00:00+02:00"
+    }
+},
+
+{
+    "model": "auth.User",
+    "pk": 6,
+    "fields": {
+        "username": "gchen",
+        "first_name": "Gal",
+        "last_name": "Chen",
+        "email": "gal@hasadna.org.il",
+        "password": "sha1$d0ac3$d37cb4b152d98c9727f7d696795f2d6ad9438ee4",
+        "is_staff": 1,
+        "is_active": 1,
+        "is_superuser": 0,
+        "groups": [2],
+        "last_login": "2013-01-01T09:00:00+02:00",
+        "date_joined": "2013-01-01T09:00:00+02:00"
+    }
+},
+
+{
+    "model": "auth.User",
+    "pk": 6,
+    "fields": {
+        "username": "citizen",
+        "first_name": "Concerned",
+        "last_name": "Citizen",
+        "email": "citizen@example.com",
+        "password": "sha1$d0ac3$d37cb4b152d98c9727f7d696795f2d6ad9438ee4",
+        "is_staff": 0,
+        "is_active": 1,
+        "is_superuser": 0,
+        "groups": [3],
+        "last_login": "2013-01-01T09:00:00+02:00",
+        "date_joined": "2013-01-01T09:00:00+02:00"
+    }
+},
+
+{
+    "model": "auth.Group",
+    "pk": 1,
+    "fields": {
+        "name": "Core Team"
+    }
+},
+
+{
+    "model": "auth.Group",
+    "pk": 2,
+    "fields": {
+        "name": "Content Team"
+    }
+},
+
+{
+    "model": "auth.Group",
+    "pk": 3,
+    "fields": {
+        "name": "Public Users"
     }
 }
 
