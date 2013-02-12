@@ -14,7 +14,7 @@ class OpenBudgetDashboard(Dashboard):
             collapsible=True,
             column=1,
             css_classes=('collapse closed',),
-            models=('omuni.accounts.*'),
+            models=('omuni.accounts.*',),
         ))
 
         self.children.append(modules.AppList(
