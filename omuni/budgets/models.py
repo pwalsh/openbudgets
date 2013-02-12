@@ -12,8 +12,8 @@ NODE_DIRECTIONS = (
 )
 
 
-class BudgetClassificationTree(TimeStampedModel, models.Model):
-    """The budget classification system for a given geopolitical entity"""
+class BudgetTemplate(TimeStampedModel, models.Model):
+    """The budget template for a given geopolitical entity"""
 
     uuid = UUIDField(
         auto=True
@@ -27,7 +27,7 @@ class BudgetClassificationTree(TimeStampedModel, models.Model):
     )
     name = models.CharField(
         max_length=255,
-        help_text=_('The name of this classification tree.')
+        help_text=_('The name of this budget template.')
     )
     sources = generic.GenericRelation(
         DataSource
@@ -35,7 +35,7 @@ class BudgetClassificationTree(TimeStampedModel, models.Model):
 
     @property
     def nodes(self):
-        value = BudgetClassificationTreeNode.objects.filter(budget_classification_map=self)
+        value = BudgetTemplateNode.objects.filter(template=self)
         return value
 
     # TODO: Clean method that enforces 'geopol' as a top level geopol
@@ -43,25 +43,25 @@ class BudgetClassificationTree(TimeStampedModel, models.Model):
 
     class Meta:
         ordering = ['name']
-        verbose_name = _('Budget classification tree')
-        verbose_name_plural = _('Budget classification trees')
+        verbose_name = _('Budget template')
+        verbose_name_plural = _('Budget templates')
 
     @models.permalink
     def get_absolute_url(self):
-        return ('budget_classification_tree_detail', [self.uuid])
+        return ('budget_template_detail', [self.uuid])
 
     def __unicode__(self):
         return self.name
 
 
-class BudgetClassificationTreeNode(TimeStampedModel, models.Model):
-    """The individual nodes in a budget classification system"""
+class BudgetTemplateNode(TimeStampedModel, models.Model):
+    """The individual nodes in a budget template"""
 
     uuid = UUIDField(
         auto=True
     )
-    tree = models.ForeignKey(
-        BudgetClassificationTree,
+    template = models.ForeignKey(
+        BudgetTemplate,
         null=True,
         blank=True
     )
@@ -111,12 +111,12 @@ class BudgetClassificationTreeNode(TimeStampedModel, models.Model):
 
     class Meta:
         ordering = ['name']
-        verbose_name = _('Budget classification tree node')
-        verbose_name_plural = _('Budget classification tree nodes')
+        verbose_name = _('Budget template node')
+        verbose_name_plural = _('Budget template nodes')
 
     @models.permalink
     def get_absolute_url(self):
-        return ('budget_classification_tree_node', [self.uuid])
+        return ('budget_template_node', [self.uuid])
 
     def __unicode__(self):
         return self.code
@@ -186,7 +186,7 @@ class BudgetItem(TimeStampedModel, models.Model):
         Budget
     )
     node = models.ForeignKey(
-        BudgetClassificationTreeNode
+        BudgetTemplateNode
     )
     explanation = models.TextField(
         _('Item explanation'),

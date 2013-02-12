@@ -1,21 +1,21 @@
 from django.contrib import admin
-from omuni.budgets.models import BudgetClassificationTree, BudgetClassificationTreeNode, Budget, BudgetItem
+from omuni.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem
 
 
-class BudgetClassificationTreeNodeInline(admin.StackedInline):
-    """Gives an inlineable BudgetClassificationTreeNode form"""
+class BudgetTemplateNodeInline(admin.StackedInline):
+    """Gives an inlineable BudgetTemplateNode form"""
 
-    model = BudgetClassificationTreeNode
-    fk_name = 'tree'
+    model = BudgetTemplateNode
+    fk_name = 'template'
     classes = ('grp-collapse grp-open',)
     inline_classes = ('grp-collapse grp-open',)
     extra = 2
 
 
-class BudgetClassificationTreeAdmin(admin.ModelAdmin):
-    """Admin form for adding budget classification trees"""
+class BudgetTemplateAdmin(admin.ModelAdmin):
+    """Admin form for adding budget templates"""
 
-    inlines = [BudgetClassificationTreeNodeInline]
+    inlines = [BudgetTemplateNodeInline]
 
 
 class BudgetItemInline(admin.StackedInline):
@@ -34,5 +34,5 @@ class BudgetAdmin(admin.ModelAdmin):
     inlines = [BudgetItemInline]
 
 
-admin.site.register(BudgetClassificationTree, BudgetClassificationTreeAdmin)
+admin.site.register(BudgetTemplate, BudgetTemplateAdmin)
 admin.site.register(Budget, BudgetAdmin)

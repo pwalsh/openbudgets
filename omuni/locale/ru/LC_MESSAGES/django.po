@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-11 10:20+0200\n"
+"POT-Creation-Date: 2013-02-12 20:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,76 +19,80 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: dashboard.py:14
+#: dashboard.py:13
 msgid "User management"
 msgstr ""
 
-#: dashboard.py:22
+#: dashboard.py:21
 msgid "Government entities"
 msgstr ""
 
-#: dashboard.py:30
+#: dashboard.py:29
 msgid "Budget records"
 msgstr ""
 
-#: dashboard.py:38
+#: dashboard.py:37
 msgid "Generic pages"
 msgstr ""
 
-#: dashboard.py:46
+#: dashboard.py:45
 msgid "Media management"
 msgstr ""
 
-#: dashboard.py:50
+#: dashboard.py:49
 msgid "FileBrowser"
 msgstr ""
 
-#: dashboard.py:55
+#: dashboard.py:54
 msgid "Static translations"
 msgstr ""
 
-#: dashboard.py:63
+#: dashboard.py:62
 msgid "Support"
 msgstr ""
 
-#: dashboard.py:67
+#: dashboard.py:66
 msgid "Django Documentation"
 msgstr ""
 
-#: dashboard.py:72
+#: dashboard.py:71
 msgid "Grappelli Documentation"
 msgstr ""
 
-#: dashboard.py:77
+#: dashboard.py:76
 msgid "Built by prjts"
 msgstr ""
 
-#: dashboard.py:82
+#: dashboard.py:81
 msgid "Email Paul Walsh (developer)"
 msgstr ""
 
-#: dashboard.py:87
+#: dashboard.py:86
 msgid "Email Yehonatan Daniv (developer)"
 msgstr ""
 
-#: dashboard.py:96
+#: dashboard.py:95
 msgid "Recent Actions"
 msgstr ""
 
-#: settings.py:155
+#: settings.py:171
 msgid "English"
 msgstr ""
 
-#: settings.py:156
+#: settings.py:172
 msgid "Hebrew"
 msgstr ""
 
-#: settings.py:157
+#: settings.py:173
 msgid "Arabic"
 msgstr ""
 
-#: settings.py:158
+#: settings.py:174
 msgid "Russian"
+msgstr ""
+
+#: accounts/admin.py:24
+msgid "Account credentials"
 msgstr ""
 
 #: accounts/forms.py:13
@@ -117,6 +121,30 @@ msgstr ""
 
 #: accounts/models.py:29
 msgid "User profiles"
+msgstr ""
+
+#: accounts/models.py:86
+msgid "Core team user"
+msgstr ""
+
+#: accounts/models.py:87
+msgid "Core team users"
+msgstr ""
+
+#: accounts/models.py:109
+msgid "Content team user"
+msgstr ""
+
+#: accounts/models.py:110
+msgid "Content team users"
+msgstr ""
+
+#: accounts/models.py:132
+msgid "Public user"
+msgstr ""
+
+#: accounts/models.py:133
+msgid "Public users"
 msgstr ""
 
 #: accounts/templates/accounts/user_profile_detail.html:6
@@ -155,111 +183,111 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: budgets/models.py:8
+#: budgets/models.py:11
 msgid "income"
 msgstr ""
 
-#: budgets/models.py:8
+#: budgets/models.py:11
 msgid "expense"
 msgstr ""
 
-#: budgets/models.py:28
-msgid "The name of this classification tree."
+#: budgets/models.py:30
+msgid "The name of this budget template."
 msgstr ""
 
-#: budgets/models.py:41
-msgid "Budget classification tree"
+#: budgets/models.py:46
+msgid "Budget template"
 msgstr ""
 
-#: budgets/models.py:42
-msgid "Budget classification trees"
+#: budgets/models.py:47
+msgid "Budget templates"
 msgstr ""
 
-#: budgets/models.py:65 budgets/templates/budgets/budget_detail.html:16
+#: budgets/models.py:70 budgets/templates/budgets/budget_detail.html:16
 msgid "Code"
 msgstr ""
 
-#: budgets/models.py:69
+#: budgets/models.py:74
 msgid "Name"
 msgstr ""
 
-#: budgets/models.py:72
+#: budgets/models.py:77
 msgid "Entry description"
 msgstr ""
 
-#: budgets/models.py:74 budgets/models.py:95
+#: budgets/models.py:79 budgets/models.py:100
 msgid "Describe for this entry."
 msgstr ""
 
-#: budgets/models.py:84
+#: budgets/models.py:89
 msgid "Income/Expense"
 msgstr ""
 
-#: budgets/models.py:86
+#: budgets/models.py:91
 msgid "Determines whether this is an income or expense."
 msgstr ""
 
-#: budgets/models.py:109
-msgid "Budget classification tree node"
+#: budgets/models.py:114
+msgid "Budget template node"
 msgstr ""
 
-#: budgets/models.py:110
-msgid "Budget classification tree nodes"
-msgstr ""
-
-#: budgets/models.py:130
-msgid "Period start"
-msgstr ""
-
-#: budgets/models.py:131
-msgid "The start date for this budget"
-msgstr ""
-
-#: budgets/models.py:134
-msgid "Period end"
+#: budgets/models.py:115
+msgid "Budget template nodes"
 msgstr ""
 
 #: budgets/models.py:135
-msgid "The end date for this budget"
+msgid "Period start"
 msgstr ""
 
-#: budgets/models.py:138
-msgid "Budget description"
+#: budgets/models.py:136
+msgid "The start date for this budget"
+msgstr ""
+
+#: budgets/models.py:139
+msgid "Period end"
 msgstr ""
 
 #: budgets/models.py:140
+msgid "The end date for this budget"
+msgstr ""
+
+#: budgets/models.py:143
+msgid "Budget description"
+msgstr ""
+
+#: budgets/models.py:145
 msgid "Text for this budget."
 msgstr ""
 
-#: budgets/models.py:161
+#: budgets/models.py:169
 msgid "Budget"
 msgstr ""
 
-#: budgets/models.py:162
+#: budgets/models.py:170
 msgid "Budgets"
 msgstr ""
 
-#: budgets/models.py:184
+#: budgets/models.py:192
 msgid "Item explanation"
 msgstr ""
 
-#: budgets/models.py:186
+#: budgets/models.py:194
 msgid "Explanation that appears for this entry."
 msgstr ""
 
-#: budgets/models.py:189 budgets/templates/budgets/budget_detail.html:20
+#: budgets/models.py:197 budgets/templates/budgets/budget_detail.html:20
 msgid "Amount"
 msgstr ""
 
-#: budgets/models.py:190
+#: budgets/models.py:198
 msgid "The amount of this entry, plus or minus."
 msgstr ""
 
-#: budgets/models.py:195
+#: budgets/models.py:203
 msgid "Budget item"
 msgstr ""
 
-#: budgets/models.py:196
+#: budgets/models.py:204
 msgid "Budget items"
 msgstr ""
 
@@ -273,6 +301,54 @@ msgstr ""
 
 #: budgets/templates/budgets/budget_detail.html:18
 msgid "Explanation"
+msgstr ""
+
+#: commons/models.py:21
+msgid "Source Name"
+msgstr ""
+
+#: commons/models.py:23
+msgid "The name of this data source"
+msgstr ""
+
+#: commons/models.py:26
+msgid "Source URL"
+msgstr ""
+
+#: commons/models.py:28
+msgid "The URL the data was retrieved from"
+msgstr ""
+
+#: commons/models.py:31
+msgid "Data retrieval date"
+msgstr ""
+
+#: commons/models.py:32
+msgid "The date this data was retrieved from the source"
+msgstr ""
+
+#: commons/models.py:35
+msgid "Notes"
+msgstr ""
+
+#: commons/models.py:36
+msgid "Write any additional notes about the sourcing of this dataset"
+msgstr ""
+
+#: commons/models.py:51
+msgid "Data source"
+msgstr ""
+
+#: commons/models.py:52
+msgid "Data sources"
+msgstr ""
+
+#: commons/mixins/models.py:12
+msgid "Created on"
+msgstr ""
+
+#: commons/mixins/models.py:17
+msgid "Last modified"
 msgstr ""
 
 #: commons/templates/partials/_form_action_change.html:2
@@ -459,23 +535,23 @@ msgstr ""
 msgid "Create an account today."
 msgstr ""
 
-#: govts/models.py:19
+#: govts/models.py:20
 msgid "The name of this Geopolitical entity."
 msgstr ""
 
-#: govts/models.py:28
+#: govts/models.py:29
 msgid "The official abbreviated code for this Geopolitical entity."
 msgstr ""
 
-#: govts/models.py:33
+#: govts/models.py:34
 msgid "Declare the type of entity this geopol is from the available choices."
 msgstr ""
 
-#: govts/models.py:66
+#: govts/models.py:67
 msgid "Geopolitical entity"
 msgstr ""
 
-#: govts/models.py:67
+#: govts/models.py:68
 msgid "Geopolitical entities"
 msgstr ""
 
@@ -515,70 +591,54 @@ msgstr ""
 msgid "What do you want to tell us"
 msgstr ""
 
-#: pages/models.py:10
+#: pages/models.py:11
 msgid "Publication status"
 msgstr ""
 
-#: pages/models.py:13
+#: pages/models.py:14
 msgid "Determines whether the page is publically accessible or not."
 msgstr ""
 
-#: pages/models.py:16
+#: pages/models.py:17
 msgid "Page title"
 msgstr ""
 
-#: pages/models.py:18
+#: pages/models.py:19
 msgid "The main heading for your page."
 msgstr ""
 
-#: pages/models.py:25
+#: pages/models.py:26
 msgid "Content"
 msgstr ""
 
-#: pages/models.py:27
+#: pages/models.py:28
 msgid "The main content for this page."
 msgstr ""
 
-#: pages/models.py:30
+#: pages/models.py:31
 msgid "Index"
 msgstr ""
 
-#: pages/models.py:32
+#: pages/models.py:33
 msgid ""
 "A number used to order pages in indexes, as an alternative to date-based "
 "ordering."
 msgstr ""
 
-#: pages/models.py:35
+#: pages/models.py:36
 msgid "Show in navigation"
 msgstr ""
 
-#: pages/models.py:37
+#: pages/models.py:38
 msgid ""
 "A hook to control whether the page will be displayed in main navigation "
 "lists."
 msgstr ""
 
-#: pages/models.py:45
-msgid "Crated on"
-msgstr ""
-
-#: pages/models.py:48
-msgid "The timestamp for when this instance was created."
-msgstr ""
-
-#: pages/models.py:51
-msgid "Last modified"
-msgstr ""
-
-#: pages/models.py:54
-msgid "The timestamp for when this instance was last modified."
-msgstr ""
-
-#: pages/models.py:66
+#: pages/models.py:55
 msgid "page"
 msgstr ""
 
-#: pages/models.py:67
+#: pages/models.py:56
 msgid "pages"
 msgstr ""
