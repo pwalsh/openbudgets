@@ -38,6 +38,8 @@
             <header>
                 <div class="wrapper">
                 {% block header %}
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'api' %}">API</a>
                 {% include 'accounts/partials/_user_account_tools.html' %}
                 {% endblock header %}
                 </div>

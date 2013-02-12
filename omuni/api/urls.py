@@ -5,7 +5,8 @@ from omuni.api.views import GeoPoliticalEntityList, GeoPoliticalEntityDetail, Bu
 
 urlpatterns = patterns('omuni.api.views',
     url(r'^$',
-        'api_root'
+        'api_root',
+        name='api'
     ),
     url(r'^geopols/$',
         GeoPoliticalEntityList.as_view(),
