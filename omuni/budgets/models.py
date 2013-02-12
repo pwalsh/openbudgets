@@ -1,7 +1,10 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.contenttypes import generic
 from uuidfield import UUIDField
 from omuni.govts.models import GeoPoliticalEntity, GEOPOL_TYPE_CHOICES
+from omuni.commons.models import DataSource
+from omuni.commons.mixins.models import TimeStampedModel
 
 
 NODE_DIRECTIONS = (
@@ -9,7 +12,7 @@ NODE_DIRECTIONS = (
 )
 
 
-class BudgetClassificationTree(models.Model):
+class BudgetClassificationTree(TimeStampedModel, models.Model):
     """The budget classification system for a given geopolitical entity"""
 
     uuid = UUIDField(
@@ -25,6 +28,9 @@ class BudgetClassificationTree(models.Model):
     name = models.CharField(
         max_length=255,
         help_text=_('The name of this classification tree.')
+    )
+    sources = generic.GenericRelation(
+        DataSource
     )
 
     @property
@@ -48,7 +54,7 @@ class BudgetClassificationTree(models.Model):
         return self.name
 
 
-class BudgetClassificationTreeNode(models.Model):
+class BudgetClassificationTreeNode(TimeStampedModel, models.Model):
     """The individual nodes in a budget classification system"""
 
     uuid = UUIDField(
@@ -116,7 +122,7 @@ class BudgetClassificationTreeNode(models.Model):
         return self.code
 
 
-class Budget(models.Model):
+class Budget(TimeStampedModel, models.Model):
     """A budget for the given year and geopolitical entity"""
 
     uuid = UUIDField(
@@ -137,6 +143,9 @@ class Budget(models.Model):
         _('Budget description'),
         blank=True,
         help_text=_('Text for this budget.')
+    )
+    sources = generic.GenericRelation(
+        DataSource
     )
 
     @property
@@ -168,7 +177,7 @@ class Budget(models.Model):
         return self.geopol + unicode(self.period_end) + ' - ' + unicode(self.period_start)
 
 
-class BudgetItem(models.Model):
+class BudgetItem(TimeStampedModel, models.Model):
     """Describes the minimal attributes of a single item in a budget"""
     uuid = UUIDField(
         auto=True
@@ -202,7 +211,7 @@ class BudgetItem(models.Model):
         return self.code
 
 
-class BudgetImport(models.Model):
+class BudgetImport(TimeStampedModel, models.Model):
     # save imported CSVs here first
     # process them from here before creating budget object
     # can keep versions of the file too if we need

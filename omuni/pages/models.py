@@ -2,9 +2,10 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from autoslug import AutoSlugField
 from omuni.commons.data import OBJECT_STATES
+from omuni.commons.mixins.models import TimeStampedModel
 
 
-class Page(models.Model):
+class Page(TimeStampedModel, models.Model):
 
     status = models.IntegerField(
         _('Publication status'),
@@ -40,18 +41,6 @@ class Page(models.Model):
         'self',
         blank=True,
         null=True
-    )
-    created_on = models.DateTimeField(
-        _('Crated on'),
-        auto_now_add=True,
-        editable=False,
-        help_text=_('The timestamp for when this instance was created.'),
-    )
-    last_modified = models.DateTimeField(
-        _('Last modified'),
-        auto_now=True,
-        editable=False,
-        help_text=_('The timestamp for when this instance was last modified.'),
     )
 
     @models.permalink

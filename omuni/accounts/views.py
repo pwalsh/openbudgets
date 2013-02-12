@@ -2,7 +2,7 @@ from django.views.generic import DetailView, UpdateView
 from braces.views import LoginRequiredMixin
 from omuni.accounts.models import UserProfile
 from omuni.accounts.forms import UserProfileForm
-from omuni.commons.mixins import UserDataObjectMixin
+from omuni.commons.mixins.views import UserDataObjectMixin
 
 
 class UserProfileDetailView(LoginRequiredMixin, UserDataObjectMixin, DetailView):
