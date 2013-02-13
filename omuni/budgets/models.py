@@ -100,8 +100,13 @@ class BudgetTemplateNode(UUIDModel, TimeStampedModel, models.Model):
         pass
 
     @property
-    def items(self):
-        return BudgetItem.objects.filter(code=self)
+    def budget_items(self):
+        return BudgetItem.objects.filter(node=self)
+
+    @property
+    def actual_items(self):
+        return ActualItem.objects.filter(node=self)
+
 
     class Meta:
         ordering = ['name']
