@@ -3,8 +3,11 @@ from django.utils.translation import ugettext_lazy as _
 from uuidfield import UUIDField
 
 
-class TimeStampedModel(object):
+class TimeStampedModel(models.Model):
     """A simple mixin to timestamp models that inherit from it"""
+
+    class Meta:
+        abstract = True
 
     created_on = models.DateTimeField(
         _('Created on'),
@@ -18,8 +21,11 @@ class TimeStampedModel(object):
     )
 
 
-class UUIDModel(object):
+class UUIDModel(models.Model):
     """A simple mixin to universally uniquely identify models that inherit from it"""
+
+    class Meta:
+        abstract = True
 
     uuid = UUIDField(
         auto=True
