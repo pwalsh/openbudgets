@@ -170,16 +170,13 @@ class Budget(Sheet):
         return value
 
     @property
+    def actuals(self):
+       return Actual.objects.filter(geopol=self.geopol, period_start=self.period_start, period_end=self.period_end)
+
+    @property
     def has_actuals(self):
         # TODO: This is a test POC. need much more robust way
-        # to get one or more actuals for this budget
-        value = True
-        try:
-            # TODO: optimize, move to manager and use count() and limit with [:1]
-            Actual.objects.filter(geopol=self.geopol, period_start=self.period_start, period_end=self.period_end)
-        except Actual.DoesNotExist:
-            value = False
-        return value
+        return bool(len(self.actuals))
 
     class Meta:
         verbose_name = _('Budget')
@@ -215,15 +212,13 @@ class Actual(Sheet):
         return value
 
     @property
+    def budgets(self):
+        return Budget.objects.filter(geopol=self.geopol, period_start=self.period_start, period_end=self.period_end)
+
+    @property
     def has_budgets(self):
         # TODO: This is a test POC. need much more robust way
-        # to get one or more budgets for this actual
-        value = True
-        try:
-            Budget.objects.filter(geopol=self.geopol, period_start=self.period_start, period_end=self.period_end)
-        except Budget.DoesNotExist:
-            value = False
-        return value
+        return bool(len(self.budgets))
 
     @property
     def variance(self):
@@ -231,9 +226,7 @@ class Actual(Sheet):
         value = None
         tmp = []
         # TODO: This is a test POC. need much more robust way
-        # to get one or more actuals for this budget
-        budgets = Budget.objects.filter(geopol=self.geopol, period_start=self.period_start, period_end=self.period_end)
-        for budget in budgets:
+        for budget in self.budgets:
             tmp.append(budget.total)
 
         budget_sum = sum(tmp)
