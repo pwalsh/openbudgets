@@ -2,10 +2,9 @@ from __future__ import division
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
-from uuidfield import UUIDField
 from omuni.govts.models import GeoPoliticalEntity, GEOPOL_TYPE_CHOICES
 from omuni.commons.models import DataSource
-from omuni.commons.mixins.models import TimeStampedModel
+from omuni.commons.mixins.models import TimeStampedModel, UUIDModel
 
 
 NODE_DIRECTIONS = (
@@ -13,12 +12,9 @@ NODE_DIRECTIONS = (
 )
 
 
-class BudgetTemplate(TimeStampedModel, models.Model):
+class BudgetTemplate(UUIDModel, TimeStampedModel, models.Model):
     """The budget template for a given geopolitical entity"""
 
-    uuid = UUIDField(
-        auto=True
-    )
     geopol = models.ForeignKey(
         GeoPoliticalEntity,
     )
@@ -55,12 +51,9 @@ class BudgetTemplate(TimeStampedModel, models.Model):
         return self.name
 
 
-class BudgetTemplateNode(TimeStampedModel, models.Model):
+class BudgetTemplateNode(UUIDModel, TimeStampedModel, models.Model):
     """The individual nodes in a budget template"""
 
-    uuid = UUIDField(
-        auto=True
-    )
     template = models.ForeignKey(
         BudgetTemplate,
         null=True,
@@ -123,12 +116,9 @@ class BudgetTemplateNode(TimeStampedModel, models.Model):
         return self.code
 
 
-class Sheet(TimeStampedModel, models.Model):
+class Sheet(UUIDModel, TimeStampedModel, models.Model):
     """An abstract class for common Budget and Actual data"""
 
-    uuid = UUIDField(
-        auto=True
-    )
     geopol = models.ForeignKey(
         GeoPoliticalEntity,
     )
@@ -185,6 +175,7 @@ class Budget(Sheet):
         # to get one or more actuals for this budget
         value = True
         try:
+            # TODO: optimize, move to manager and use count() and limit with [:1]
             Actual.objects.filter(geopol=self.geopol, period_start=self.period_start, period_end=self.period_end)
         except Actual.DoesNotExist:
             value = False
@@ -216,7 +207,7 @@ class Actual(Sheet):
     # TODO: implement a save method that checks period range,
     # and compares match with budget/actual. Actual periods
     # should smartly map over budget periods, and not fall
-    # inconveiently like, an actual for 10 months, but a budget for 12.
+    # inconveniently like, an actual for 10 months, but a budget for 12.
 
     @property
     def items(self):
@@ -264,12 +255,9 @@ class Actual(Sheet):
         unicode(self.period_end)
 
 
-class SheetItem(TimeStampedModel, models.Model):
+class SheetItem(UUIDModel, TimeStampedModel, models.Model):
     """Abstract class for common BudgetItem and ActualItem data"""
 
-    uuid = UUIDField(
-        auto=True
-    )
     node = models.ForeignKey(
         BudgetTemplateNode
     )
