@@ -4,7 +4,7 @@ from django.db.models.loading import get_model
 from django.contrib.contenttypes import generic
 from autoslug import AutoSlugField
 from omuni.commons.mixins.models import TimeStampedModel, UUIDModel
-from omuni.interactions.models import Remark
+from omuni.interactions.models import IComment
 
 
 GEOPOL_TYPE_CHOICES = (
@@ -46,7 +46,8 @@ class GeoPoliticalEntity(TimeStampedModel, UUIDModel, models.Model):
         blank=True
     )
     discussion = generic.GenericRelation(
-        Remark
+        IComment,
+        object_id_field="object_pk"
     )
 
     @property
@@ -79,8 +80,8 @@ class GeoPoliticalEntity(TimeStampedModel, UUIDModel, models.Model):
     # and blank. and other related checks for toher situations.
 
     @classmethod
-    def get_class_name(self):
-        value = self.__name__.lower()
+    def get_class_name(cls):
+        value = cls.__name__.lower()
         return value
 
     class Meta:

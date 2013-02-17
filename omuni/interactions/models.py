@@ -7,27 +7,65 @@ from django.utils.translation import ugettext_lazy as _
 from omuni.commons.mixins.models import TimeStampedModel, UUIDModel
 
 
-class Remark(TimeStampedModel, UUIDModel, Comment):
-    """Just a comment, really"""
+COMMENT_TYPE_CHOICES = (
+    ('post', _('Post')),
+    ('annotation', _('Annotation')),
+)
+
+
+class IComment(TimeStampedModel, UUIDModel, Comment):
+    """Django's Comment class with additional functionality"""
+
     #title = models.CharField(max_length=300)
-    pass
+    of_type = models.CharField(
+        _('Of type'),
+        max_length=20,
+        choices=COMMENT_TYPE_CHOICES,
+        editable=False
+    )
+
+    @classmethod
+    def get_class_name(cls):
+        value = cls.__name__.lower()
+        return value
+
+    def get_absolute_url(self, anchor_pattern="#comment-%(uuid)s"):
+        return self.get_content_object_url() + (anchor_pattern % self.__dict__)
 
 
-class RemarkProxyBase(Remark):
+class CommentProxyBase(IComment):
 
     class Meta:
         proxy = True
 
 
-class Opinion(RemarkProxyBase):
+class PostManager(models.Manager):
+    """Returns just Posts"""
+
+    def get_query_set(self):
+        return super(PostManager, self).get_query_set().filter(of_type='post')
+
+
+class Post(CommentProxyBase):
+
+    objects = PostManager()
 
     class Meta:
         proxy = True
-        verbose_name = _('Opinion')
-        verbose_name_plural = _('Opinions')
+        verbose_name = _('Post')
+        verbose_name_plural = _('Posts')
 
 
-class Annotation(RemarkProxyBase):
+class AnnotationManager(models.Manager):
+    """Returns just Annotations"""
+
+    def get_query_set(self):
+        return super(AnnotationManager, self).get_query_set().filter(of_type='annotation')
+
+
+class Annotation(CommentProxyBase):
+
+    objects = AnnotationManager()
 
     class Meta:
         proxy = True
@@ -41,38 +79,6 @@ class ToggleableInteractionManager(models.Manager):
     def of_user(self, user):
         """Get this user's objects for this interaction"""
         return self.get_query_set().filter(user=user)
-
-    @classmethod
-    def toggle(cls, content_object, user):
-        """Toggle interaction state for this object/user combo.
-
-        Example: If the given object is already starred for
-        this user, then toggle unstars, and vice versa.
-        """
-        content_type = ContentType.objects.get_for_model(
-            type(content_object)
-        )
-
-        try:
-            # if it exists, then we are deleting it
-            interaction = self.of_user.get(
-                content_type=content_type,
-                object_id=content_object.pk,
-                content_object=content_object
-            )
-            interaction.delete()
-
-        except Star.DoesNotExist:
-            # if it doesn't exist, we are creating it
-            interaction = self.model.objects.create(
-                user=user,
-                content_type=content_type,
-                object_id=content_object.pk,
-                content_object=content_object
-            )
-            interaction.save()
-
-        return interaction
 
 
 class ToggleableInteraction(TimeStampedModel, models.Model):
@@ -93,6 +99,11 @@ class ToggleableInteraction(TimeStampedModel, models.Model):
     content_object = generic.GenericForeignKey(
         'content_type', 'object_id',
     )
+
+    @classmethod
+    def get_class_name(cls):
+        value = cls.__name__.lower()
+        return value
 
     class Meta:
         abstract = True

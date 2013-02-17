@@ -1,15 +1,18 @@
 from django import forms
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.comments.forms import CommentForm
-from omuni.interactions.models import Remark
+from omuni.interactions.models import IComment
 
 
-class RemarkForm(CommentForm):
+class ICommentForm(CommentForm):
     #title = forms.CharField(max_length=300)
 
     def get_comment_model(self):
-        return Remark
+        return IComment
 
     def get_comment_create_data(self):
-        data = super(RemarkForm, self).get_comment_create_data()
-        #data['title'] = self.cleaned_data['title']
+        data = super(ICommentForm, self).get_comment_create_data()
+        # TODO: Gotta automagically know what type it should be
+        # and set accordingly
+        data['of_type'] = 'post'
         return data

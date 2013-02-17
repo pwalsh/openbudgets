@@ -5,7 +5,7 @@ from django.contrib.contenttypes import generic
 from omuni.govts.models import GeoPoliticalEntity, GEOPOL_TYPE_CHOICES
 from omuni.commons.models import DataSource
 from omuni.commons.mixins.models import TimeStampedModel, UUIDModel
-from omuni.interactions.models import Remark
+from omuni.interactions.models import IComment
 
 
 NODE_DIRECTIONS = (
@@ -145,7 +145,8 @@ class Sheet(TimeStampedModel, UUIDModel, models.Model):
         DataSource
     )
     discussion = generic.GenericRelation(
-        Remark
+        IComment,
+        object_id_field="object_pk"
     )
 
     #TODO: implement a shortcut from period_start/end to year
@@ -166,8 +167,8 @@ class Sheet(TimeStampedModel, UUIDModel, models.Model):
         return value
 
     @classmethod
-    def get_class_name(self):
-        value = self.__name__.lower()
+    def get_class_name(cls):
+        value = cls.__name__.lower()
         return value
 
     class Meta:
@@ -278,7 +279,8 @@ class SheetItem(TimeStampedModel, UUIDModel, models.Model):
         help_text=_('The amount of this entry, plus or minus.')
     )
     discussion = generic.GenericRelation(
-        Remark
+        IComment,
+        object_id_field="object_pk"
     )
 
     @property
@@ -287,8 +289,8 @@ class SheetItem(TimeStampedModel, UUIDModel, models.Model):
         return value
 
     @classmethod
-    def get_class_name(self):
-        value = self.__name__.lower()
+    def get_class_name(cls):
+        value = cls.__name__.lower()
         return value
 
     class Meta:

@@ -1,10 +1,10 @@
-from omuni.interactions.models import Remark
-from omuni.interactions.forms import RemarkForm
+from omuni.interactions.models import IComment
+from omuni.interactions.forms import ICommentForm
 
 
 def get_model():
-    return Remark
+    return IComment
 
 
 def get_form():
-    return RemarkForm
+    return ICommentForm

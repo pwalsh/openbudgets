@@ -1,9 +1,9 @@
 from modeltranslation.translator import translator, TranslationOptions
-from omuni.interactions.models import Remark
+from omuni.interactions.models import Comment
 
 
-class RemarkTransOps(TranslationOptions):
+class CommentTransOps(TranslationOptions):
     fields = ('comment',)
 
 
-translator.register(Remark, RemarkTransOps)
+translator.register(Comment, CommentTransOps)
