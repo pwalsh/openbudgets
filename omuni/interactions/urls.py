@@ -4,7 +4,7 @@ from omuni.interactions.views import CommentFeed
 
 urlpatterns = patterns('',
 
-    url(r'^feed/(?P<uuid>[-\w]+)/discussion\.atom/$',
+    url(r'^feed/(?P<model>[-\w]+)/(?P<uuid>[-\w]+)/discussion\.atom$',
             CommentFeed(),
             name='comment_feed'
         ),

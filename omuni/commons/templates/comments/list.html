@@ -7,7 +7,7 @@
   {% trans 'This discussion has' %} {{ comment_count }} {% trans 'comments' %}. {% trans 'What do you have to say' %}?
 </p>
 <p>
-  <a href="{% url 'comment_feed' object.uuid %}">Feed</a>
+  <a href="{% url 'comment_feed' object.get_class_name object.uuid %}">Feed</a>
 </p>
 
   {% for comment in comment_list %}

@@ -5,7 +5,7 @@ class SheetTransOps(TranslationOptions):
     fields = ('description',)
 
 class SheetItemTransOps(TranslationOptions):
-    fields = ('explanation',)
+    fields = ('description',)
 
 class BudgetTemplateTransOps(TranslationOptions):
     fields = ('name',)

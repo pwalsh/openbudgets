@@ -5,6 +5,7 @@ from django.contrib.contenttypes import generic
 from omuni.govts.models import GeoPoliticalEntity, GEOPOL_TYPE_CHOICES
 from omuni.commons.models import DataSource
 from omuni.commons.mixins.models import TimeStampedModel, UUIDModel
+from omuni.interactions.models import Remark
 
 
 NODE_DIRECTIONS = (
@@ -143,6 +144,9 @@ class Sheet(TimeStampedModel, UUIDModel, models.Model):
     sources = generic.GenericRelation(
         DataSource
     )
+    discussion = generic.GenericRelation(
+        Remark
+    )
 
     #TODO: implement a shortcut from period_start/end to year
     @property
@@ -159,6 +163,11 @@ class Sheet(TimeStampedModel, UUIDModel, models.Model):
     def total(self):
         tmp = [item.amount for item in self.items]
         value = sum(tmp)
+        return value
+
+    @classmethod
+    def get_class_name(self):
+        value = self.__name__.lower()
         return value
 
     class Meta:
@@ -259,15 +268,28 @@ class SheetItem(TimeStampedModel, UUIDModel, models.Model):
     node = models.ForeignKey(
         BudgetTemplateNode
     )
-    explanation = models.TextField(
-        _('Item explanation'),
+    description = models.TextField(
+        _('Item description'),
         blank=True,
-        help_text=_('Explanation that appears for this entry.')
+        help_text=_('Description that appears for this entry.')
     )
     amount = models.IntegerField(
         _('Amount'),
         help_text=_('The amount of this entry, plus or minus.')
     )
+    discussion = generic.GenericRelation(
+        Remark
+    )
+
+    @property
+    def name(self):
+        value = self.node.name
+        return value
+
+    @classmethod
+    def get_class_name(self):
+        value = self.__name__.lower()
+        return value
 
     class Meta:
         abstract = True

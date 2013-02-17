@@ -1,8 +1,10 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.loading import get_model
+from django.contrib.contenttypes import generic
 from autoslug import AutoSlugField
 from omuni.commons.mixins.models import TimeStampedModel, UUIDModel
+from omuni.interactions.models import Remark
 
 
 GEOPOL_TYPE_CHOICES = (
@@ -18,6 +20,11 @@ class GeoPoliticalEntity(TimeStampedModel, UUIDModel, models.Model):
         max_length=255,
         unique=True,
         help_text=_('The name of this Geopolitical entity.')
+    )
+    description = models.TextField(
+        _('Entry description'),
+        blank=True,
+        help_text=_('Describe.')
     )
     slug = AutoSlugField(
         populate_from='name',
@@ -37,6 +44,9 @@ class GeoPoliticalEntity(TimeStampedModel, UUIDModel, models.Model):
         'self',
         null=True,
         blank=True
+    )
+    discussion = generic.GenericRelation(
+        Remark
     )
 
     @property
@@ -67,6 +77,11 @@ class GeoPoliticalEntity(TimeStampedModel, UUIDModel, models.Model):
     # TODO: some work in the clean method of the model
     # clean method: if type_is is state, then part_of must be null
     # and blank. and other related checks for toher situations.
+
+    @classmethod
+    def get_class_name(self):
+        value = self.__name__.lower()
+        return value
 
     class Meta:
         ordering = ['name']
