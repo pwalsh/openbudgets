@@ -1,10 +1,10 @@
 from modeltranslation.translator import translator, TranslationOptions
-from omuni.budgets.models import Budget, BudgetItem, BudgetTemplate, BudgetTemplateNode 
+from omuni.budgets.models import Budget, BudgetItem, Actual, ActualItem, BudgetTemplate, BudgetTemplateNode 
 
-class BudgetTransOps(TranslationOptions):
+class SheetTransOps(TranslationOptions):
     fields = ('description',)
 
-class BudgetItemTransOps(TranslationOptions):
+class SheetItemTransOps(TranslationOptions):
     fields = ('explanation',)
 
 class BudgetTemplateTransOps(TranslationOptions):
@@ -14,7 +14,9 @@ class BudgetTemplateNodeTransOps(TranslationOptions):
     fields = ('name', 'description')
 
 
-translator.register(Budget, BudgetTransOps)
-translator.register(BudgetItem, BudgetItemTransOps)
+translator.register(Budget, SheetTransOps)
+translator.register(BudgetItem, SheetItemTransOps)
+translator.register(Actual, SheetTransOps)
+translator.register(ActualItem, SheetItemTransOps)
 translator.register(BudgetTemplate, BudgetTemplateTransOps)
 translator.register(BudgetTemplateNode, BudgetTemplateNodeTransOps)
