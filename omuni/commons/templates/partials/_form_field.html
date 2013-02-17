@@ -1,4 +1,10 @@
-<div class="field {{ custom_class }}">
+<div class="field {{ custom_class }}" {% if inline_styles %}style="{{ inline_styles }}{% endif %}">
+    {% if hidden %}
+    {% comment %}
+    Don't show a label if the field should be hidden
+    {% endcomment %}
+    {% else %}
+
     {{ field.label_tag }}
     {% if field.help_text %}
     <i class="field-help icon-info-sign" title="{{ field.help_text }}"></i>
@@ -12,5 +18,8 @@
         {% endfor %}
     </span>
     {% endif %}
+
+    {% endif %}
+
     {{ field }}
 </div>

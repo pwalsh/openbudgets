@@ -11,7 +11,7 @@ GEOPOL_TYPE_CHOICES = (
 )
 
 
-class GeoPoliticalEntity(UUIDModel, TimeStampedModel, models.Model):
+class GeoPoliticalEntity(TimeStampedModel, UUIDModel, models.Model):
     """Describes a State, municipality, or other geopolitical entity"""
 
     name = models.CharField(

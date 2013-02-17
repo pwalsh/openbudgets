@@ -12,7 +12,7 @@ NODE_DIRECTIONS = (
 )
 
 
-class BudgetTemplate(UUIDModel, TimeStampedModel, models.Model):
+class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
     """The budget template for a given geopolitical entity"""
 
     geopol = models.ForeignKey(
@@ -51,7 +51,7 @@ class BudgetTemplate(UUIDModel, TimeStampedModel, models.Model):
         return self.name
 
 
-class BudgetTemplateNode(UUIDModel, TimeStampedModel, models.Model):
+class BudgetTemplateNode(TimeStampedModel, UUIDModel, models.Model):
     """The individual nodes in a budget template"""
 
     template = models.ForeignKey(
@@ -121,7 +121,7 @@ class BudgetTemplateNode(UUIDModel, TimeStampedModel, models.Model):
         return self.code
 
 
-class Sheet(UUIDModel, TimeStampedModel, models.Model):
+class Sheet(TimeStampedModel, UUIDModel, models.Model):
     """An abstract class for common Budget and Actual data"""
 
     geopol = models.ForeignKey(
@@ -253,7 +253,7 @@ class Actual(Sheet):
         unicode(self.period_end)
 
 
-class SheetItem(UUIDModel, TimeStampedModel, models.Model):
+class SheetItem(TimeStampedModel, UUIDModel, models.Model):
     """Abstract class for common BudgetItem and ActualItem data"""
 
     node = models.ForeignKey(

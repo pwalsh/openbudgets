@@ -22,7 +22,7 @@ class TimeStampedModel(models.Model):
 
 
 class UUIDModel(models.Model):
-    """A simple mixin to universally uniquely identify models that inherit from it"""
+    """A simple mixin to add a uuid to models that inherit from it"""
 
     class Meta:
         abstract = True

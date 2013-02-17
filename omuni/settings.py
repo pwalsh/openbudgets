@@ -98,6 +98,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.comments',
     'grappelli.dashboard',
     'grappelli',
     'django.contrib.admin',
@@ -113,6 +114,7 @@ INSTALLED_APPS = (
     'omuni.budgets',
     'omuni.commons',
     'omuni.govts',
+    'omuni.interactions',
     'omuni.pages',
 
     # debug_toolbar for development only
@@ -218,6 +220,10 @@ REST_FRAMEWORK = {
 
 }
 
+# Comments
+COMMENTS_APP = 'omuni.interactions'
+COMMENTS_HIDE_REMOVED = True
+COMMENT_MAX_LENGTH = 10000
 
 # MOVE ANYTHING BELOW TO: settings_local.py
 
