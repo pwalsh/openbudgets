@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from uuidfield import UUIDField
 
 
 class TimeStampedModel(models.Model):
@@ -17,4 +18,15 @@ class TimeStampedModel(models.Model):
         _('Last modified'),
         auto_now=True,
         editable=False
+    )
+
+
+class UUIDModel(models.Model):
+    """A simple mixin to add a uuid to models that inherit from it"""
+
+    class Meta:
+        abstract = True
+
+    uuid = UUIDField(
+        auto=True
     )

@@ -2,10 +2,9 @@ from __future__ import division
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
-from uuidfield import UUIDField
 from omuni.govts.models import GeoPoliticalEntity, GEOPOL_TYPE_CHOICES
 from omuni.commons.models import DataSource
-from omuni.commons.mixins.models import TimeStampedModel
+from omuni.commons.mixins.models import TimeStampedModel, UUIDModel
 
 
 NODE_DIRECTIONS = (
@@ -13,12 +12,9 @@ NODE_DIRECTIONS = (
 )
 
 
-class BudgetTemplate(TimeStampedModel, models.Model):
+class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
     """The budget template for a given geopolitical entity"""
 
-    uuid = UUIDField(
-        auto=True
-    )
     geopol = models.ForeignKey(
         GeoPoliticalEntity,
     )
@@ -55,12 +51,9 @@ class BudgetTemplate(TimeStampedModel, models.Model):
         return self.name
 
 
-class BudgetTemplateNode(TimeStampedModel, models.Model):
+class BudgetTemplateNode(TimeStampedModel, UUIDModel, models.Model):
     """The individual nodes in a budget template"""
 
-    uuid = UUIDField(
-        auto=True
-    )
     template = models.ForeignKey(
         BudgetTemplate,
         null=True,
@@ -123,12 +116,9 @@ class BudgetTemplateNode(TimeStampedModel, models.Model):
         return self.code
 
 
-class Sheet(TimeStampedModel, models.Model):
+class Sheet(TimeStampedModel, UUIDModel, models.Model):
     """An abstract class for common Budget and Actual data"""
 
-    uuid = UUIDField(
-        auto=True
-    )
     geopol = models.ForeignKey(
         GeoPoliticalEntity,
     )
@@ -264,12 +254,9 @@ class Actual(Sheet):
         unicode(self.period_end)
 
 
-class SheetItem(TimeStampedModel, models.Model):
+class SheetItem(TimeStampedModel, UUIDModel, models.Model):
     """Abstract class for common BudgetItem and ActualItem data"""
 
-    uuid = UUIDField(
-        auto=True
-    )
     node = models.ForeignKey(
         BudgetTemplateNode
     )

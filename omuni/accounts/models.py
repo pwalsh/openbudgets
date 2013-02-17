@@ -3,16 +3,13 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from uuidfield import UUIDField
 from omuni.settings import LANGUAGES
+from omuni.commons.mixins.models import UUIDModel
 
 
-class UserProfile(models.Model):
+class UserProfile(UUIDModel, models.Model):
     """Extends Django's User with our project specific user fields"""
 
-    uuid = UUIDField(
-        auto=True
-    )
     user = models.OneToOneField(
         User
     )

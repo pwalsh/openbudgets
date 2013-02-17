@@ -2,11 +2,10 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
-from uuidfield import UUIDField
-from omuni.commons.mixins.models import TimeStampedModel
+from omuni.commons.mixins.models import TimeStampedModel, UUIDModel
 
 
-class DataSource(TimeStampedModel, models.Model):
+class DataSource(TimeStampedModel, UUIDModel, models.Model):
     """Describes an original source of data.
 
     All data in the system should declare a data source.
@@ -14,9 +13,6 @@ class DataSource(TimeStampedModel, models.Model):
     to any model that stores data.
     """
 
-    uuid = UUIDField(
-        auto=True
-    )
     name = models.CharField(
         _('Source Name'),
         max_length=255,

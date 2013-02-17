@@ -23,6 +23,12 @@ urlpatterns = patterns('',
     url(r'^govts/',
         include('omuni.govts.urls')
     ),
+    url(r'^interactions/',
+        include('omuni.interactions.urls')
+    ),
+    url(r'^comments/',
+        include('django.contrib.comments.urls')
+    ),
     url(r'^robots\.txt',
         TemplateView.as_view(template_name='robots.txt')
     ),

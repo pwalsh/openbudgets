@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.loading import get_model
 from autoslug import AutoSlugField
-from omuni.commons.mixins.models import TimeStampedModel
+from omuni.commons.mixins.models import TimeStampedModel, UUIDModel
 
 
 GEOPOL_TYPE_CHOICES = (
@@ -11,7 +11,7 @@ GEOPOL_TYPE_CHOICES = (
 )
 
 
-class GeoPoliticalEntity(TimeStampedModel, models.Model):
+class GeoPoliticalEntity(TimeStampedModel, UUIDModel, models.Model):
     """Describes a State, municipality, or other geopolitical entity"""
 
     name = models.CharField(

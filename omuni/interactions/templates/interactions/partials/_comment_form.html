@@ -1,0 +1,13 @@
+{% load i18n comments %}
+{% load url from future %}
+
+
+{% if user.is_authenticated %}
+
+{% render_comment_form for object %}
+
+{% else %}
+
+<a href="{% url 'auth_login' %}?next={{ request.path }}">{% trans 'Login' %}</a> {% trans 'or' %} <a href="{% url 'registration_register' %}">{% trans 'Register' %}</a> {% trans 'to comment' %}.
+
+{% endif %}
