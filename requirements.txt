@@ -15,3 +15,4 @@ django-grappelli
 django-rosetta
 git+https://github.com/prjts/django-rosetta-grappelli.git
 djangorestframework
+django-subdomains

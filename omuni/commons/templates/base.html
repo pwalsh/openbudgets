@@ -1,5 +1,4 @@
-{% load i18n %}
-{% load url from future %}
+{% load i18n subdomainurls %}
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}">
@@ -40,8 +39,14 @@
                 {% block header %}
                 <a href="{% url 'home' %}">Home</a>
                 <a href="{% url 'geopol_list' %}">Govts</a>
-                <a href="{% url 'api' %}">API</a>
+                <a href="{% url 'api' subdomain='api' %}">API</a>
                 {% include 'accounts/partials/_user_account_tools.html' %}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;
+                Load site by language: 
+                <a href="{% url 'home' subdomain='he' %}">HE</a>
+                <a href="{% url 'home' subdomain='en' %}">EN</a>
+                <a href="{% url 'home' subdomain='ar' %}">AR</a>
+                <a href="{% url 'home' subdomain='ru' %}">RU</a>
                 {% endblock header %}
                 </div>
             </header>

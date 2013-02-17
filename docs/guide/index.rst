@@ -32,6 +32,15 @@ Requirements
 
 Please make sure you meet these requirements before moving on to installation. If you have a linux distro or Mac OS X, you likely already have Python 2.7.
 
+Setup hosts files
+~~~~~~~~~~~~~~~~~
+
+We are using subdomains extensively, for languages and for the API.
+
+So first, edit your hosts file and add some aliases for 127.0.0.1::
+
+    127.0.0.1 [whatever else you have] he.obudget.dev, en.obudget.dev, ar.obudget.dev, ru.obudget.dev, api.obudget.dev, obudget.dev, www.obudget.dev
+
 Install virtualenv/virtualenvwrapper
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -97,7 +106,7 @@ And continuing, we'll install all the project requirements into our virtualenv, 
 
 Right now you can see the app at the following address in your browser::
 
-    http://127.0.0.1:8000/
+    http://obudget.dev:8000/
 
 
 Contributing code

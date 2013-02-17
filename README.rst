@@ -29,7 +29,13 @@ there.
 5 min install
 -------------
 
-Make sure you have the latest version of virtualenv installed, and set it up so you have a directory for your envs, and a directory for your projects. 
+Make sure you have the latest version of virtualenv installed, and set it up so you have a directory for your envs, and a directory for your projects.
+
+We are using subdomains extensively, for languages and for the API.
+
+So first, edit your hosts file and add some aliases for 127.0.0.1::
+
+    127.0.0.1 [whatever else you have] he.obudget.dev, en.obudget.dev, ar.obudget.dev, ru.obudget.dev, api.obudget.dev, obudget.dev, www.obudget.dev
 
 With virtualenv setup properly on your machine, do something like::
 
@@ -52,5 +58,7 @@ And continuing::
     python manage.py syncdb --migrate
 
     python manage.py runserver
+
+Now go to obudget.dev:8000 in your browser
 
 Now see the docs for full documentation.

@@ -71,6 +71,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
     'omuni.commons.middleware.InterfaceLanguage',
     'django.middleware.common.CommonMiddleware',
+    'subdomains.middleware.SubdomainURLRoutingMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -82,6 +83,16 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'omuni.urls'
+
+SUBDOMAIN_URLCONFS = {
+    None: 'omuni.urls',
+    'www': 'omuni.urls',
+    'he': 'omuni.urls',
+    'en': 'omuni.urls',
+    'ru': 'omuni.urls',
+    'ar': 'omuni.urls',
+    'api': 'omuni.api.urls',
+}
 
 WSGI_APPLICATION = 'omuni.wsgi.application'
 
@@ -104,6 +115,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.sitemaps',
     'south',
+    'subdomains',
     'registration',
     'rest_framework',
     'rosetta_grappelli',
