@@ -4,7 +4,7 @@
     "model": "sites.Site",
     "pk": 1,
     "fields": {
-        "domain": "he.obudget.dev:8000",
+        "domain": "obudget.dev:8000",
         "name": "Open Muni Budgets"
     }
 }
