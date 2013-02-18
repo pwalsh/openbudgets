@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+{% trans 'Code' %}: {{ object.node.code }} ({{ object.node.name }})
+{% endblock title %}
+
+{% block content %}
+<section>
+    <h2>
+        {{ object.budget.geopol }} {{ object.budget.period }} {% trans 'budget' %}
+    </h2>
+    <div>
+        {% trans 'Amount' %}: {{ object.amount }}
+        <br />
+        {{ object.description }}
+    </div>
+    <div>
+        <a href="{% url 'budget_detail' object.budget.uuid %}">{% trans 'Back to the Budget' %}</a>
+        <br />
+        <a href="{% url 'geopol_detail' object.budget.geopol.slug %}">{% trans 'Back to the Entity' %}</a>
+    </div>
+</section>
+{% include 'interactions/partials/_discussion.html' %}
+
+{% endblock content %}

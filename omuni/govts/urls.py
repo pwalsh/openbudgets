@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 from omuni.govts.views import GeoPolDetailView, GeoPolListView
-from omuni.budgets.views import BudgetDetailView, ActualDetailView
+from omuni.budgets.views import BudgetDetailView, BudgetItemDetailView, ActualDetailView, ActualItemDetailView
 
 
 urlpatterns = patterns('',
@@ -20,6 +20,14 @@ urlpatterns = patterns('',
     url(r'^actual/(?P<slug>[-\w]+)/$',
         ActualDetailView.as_view(),
         name='actual_detail'
+    ),
+    url(r'^budget/item/(?P<slug>[-\w]+)/$',
+        BudgetItemDetailView.as_view(),
+        name='budget_item_detail'
+    ),
+    url(r'^actual/item/(?P<slug>[-\w]+)/$',
+        ActualItemDetailView.as_view(),
+        name='actual_item_detail'
     ),
 
 )

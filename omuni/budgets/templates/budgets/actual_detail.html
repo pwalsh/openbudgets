@@ -18,6 +18,10 @@
     <strong>{% trans 'Explanation' %}</strong>: {{ item.explanation }}
     <br />
     <strong>{% trans 'Amount' %}</strong>: {{ item.amount }}
+    <br />
+    <a href="{% url 'budget_item_detail' item.uuid %}">
+        {% trans 'View this item' %}
+    </a>
 </p>
 {% endfor %}
 {% endif %}
