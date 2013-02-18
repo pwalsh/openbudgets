@@ -35,7 +35,7 @@ We are using subdomains extensively, for languages and for the API.
 
 So first, edit your hosts file and add some aliases for 127.0.0.1::
 
-    127.0.0.1 [whatever else you have] he.obudget.dev, en.obudget.dev, ar.obudget.dev, ru.obudget.dev, api.obudget.dev, obudget.dev, www.obudget.dev
+    127.0.0.1 [whatever else you have] he.obudget.dev en.obudget.dev ar.obudget.dev ru.obudget.dev api.obudget.dev obudget.dev www.obudget.dev
 
 With virtualenv setup properly on your machine, do something like::
 
