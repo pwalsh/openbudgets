@@ -24,7 +24,6 @@ class Page(TimeStampedModel, models.Model):
     )
     content = models.TextField(
         _('Content'),
-        blank=True,
         help_text=_('The main content for this page.')
     )
     index = models.IntegerField(
@@ -34,7 +33,7 @@ class Page(TimeStampedModel, models.Model):
     )
     in_nav = models.BooleanField(
         _('Show in navigation'),
-        default=1,
+        default=True,
         help_text=_('A hook to control whether the page will be displayed in main navigation lists.')
     )
     parent = models.ForeignKey(

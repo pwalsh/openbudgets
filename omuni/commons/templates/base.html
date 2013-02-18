@@ -87,9 +87,22 @@
 
         <footer>
             <div class="wrapper">
-            {% block footer %}
-
-            {% endblock footer %}
+                {% block footer %}
+                <nav>
+                    <a href="{% url 'page' slug='about' %}">
+                        {% trans 'About' %}
+                    </a>
+                    <a href="{% url 'page' slug='privacy' %}">
+                        {% trans 'Privacy' %}
+                    </a>
+                    <a href="{% url 'page' slug='terms' %}">
+                        {% trans 'Terms' %}
+                    </a>
+                    <a href="{% url 'contact' %}">
+                        {% trans 'Contact' %}
+                    </a>
+                </nav>
+                {% endblock footer %}
             </div>
         </footer>
 
