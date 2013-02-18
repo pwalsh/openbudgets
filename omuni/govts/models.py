@@ -1,15 +1,17 @@
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.db.models import Q
 from django.db.models.loading import get_model
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
 from autoslug import AutoSlugField
 from omuni.commons.mixins.models import TimeStampedModel, UUIDModel
 from omuni.interactions.models import IComment
+from omuni.commons.utilities import get_ultimate_parent
 
 
 GEOPOL_TYPE_CHOICES = (
-    ('state', 'state'),
-    ('muni', 'muni')
+    ('state', 'State'),
+    ('muni', 'Municipality')
 )
 
 
@@ -35,7 +37,7 @@ class GeoPoliticalEntity(TimeStampedModel, UUIDModel, models.Model):
         unique=True,
         help_text=_('The official abbreviated code for this Geopolitical entity.')
     )
-    type_is = models.CharField(
+    is_type = models.CharField(
         max_length=20,
         choices=GEOPOL_TYPE_CHOICES,
         help_text=_('Declare the type of entity this geopol is from the available choices.')
@@ -51,6 +53,50 @@ class GeoPoliticalEntity(TimeStampedModel, UUIDModel, models.Model):
     )
 
     @property
+    def state(self):
+        """Returns the State (Country) for this entity.
+
+        Gets the state for this object with this logic:
+
+        * if is_type State, then return self
+        * if is_type is not State, then recurse
+        parents until encounter the ultimate parent, and
+        ensure that the ultimate parent is_type State
+        before returning it.
+        """
+        value = None
+        if self.is_type == 'state':
+            value = self
+        else:
+            ultimate_parent = get_ultimate_parent(self.parent)
+            if ultimate_parent.is_type == 'state':
+                value = ultimate_parent
+        return value
+
+    @property
+    def munis(self):
+        """Returns a list of related muni objects.
+
+        Gets the munis for this object with this logic:
+
+        * if is_type State, get all the State's munis
+        * if is_type Muni, get all sibling munis.
+        * otherwise, return None.
+        """
+        value = None
+        excludes = []
+        if self.is_type == 'muni':
+            value = self.state.munis.exclude(pk=self.pk)
+
+        if self.is_type == 'state':
+            tmp = GeoPoliticalEntity.objects.filter(is_type='muni')
+            for obj in tmp:
+                if obj.state != self:
+                    excludes.append(obj.pk)
+            value = tmp.exclude(pk__in=excludes)
+        return value
+
+    @property
     def budgets(self):
         Budget = get_model('budgets', 'Budget')
         value = Budget.objects.filter(geopol=self)
@@ -62,22 +108,9 @@ class GeoPoliticalEntity(TimeStampedModel, UUIDModel, models.Model):
         value = Actual.objects.filter(geopol=self)
         return value
 
-    @property
-    def children(self):
-        return GeoPoliticalEntity.objects.filter(parent=self)
-
-    @property
-    def descendants(self):
-        children = self.children
-        result = [] + list(children)
-        for node in children:
-            result += node.descendants
-        return result
-
-    # @property: root (country)
-    # TODO: some work in the clean method of the model
-    # clean method: if type_is is state, then part_of must be null
-    # and blank. and other related checks for toher situations.
+    # TODO: clean method
+    # 1. State CAN'T have parent
+    # 2. Muni MUST have parent
 
     @classmethod
     def get_class_name(cls):

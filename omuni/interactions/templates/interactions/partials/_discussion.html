@@ -1,7 +1,9 @@
 {% load i18n comments %}
 {% load url from future %}
 <section id="discussion">
-<h3>{% trans 'Discussion' %}</h3>
+<h2>
+    {% trans 'Discussion' %}
+</h2>
 {% include 'interactions/partials/_comment_list.html' %}
 {% include 'interactions/partials/_comment_form.html' %}
 </section>

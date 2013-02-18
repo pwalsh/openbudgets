@@ -9,59 +9,105 @@
 {% block content %}
 {% star object user %}
 <p>
-    <a href="{% url 'geopol_list' %}">{% trans 'Back to all geopols' %}</a>
-</p>
-
-{% if object.children %}
-<strong>{% trans 'Munis of this Country' %}</strong>
-<br />
-<p>
-{% for child in object.children %}
-    <a href="{% url 'geopol_detail' child.slug %}">
-        {{ child.name }}
-    </a>
-    <br />
-{% endfor %}
-</p>
-{% endif %}
-
-{% if object.parent %}
-<strong>{% trans 'This Geopolitical entity is in scope of' %}...</strong>
-<br />
-<p>
-    <a href="{% url 'geopol_detail' object.parent.slug %}">
-        {{ object.parent.name }}
+    <a href="{% url 'geopol_list' %}">
+        {% trans 'Back to all geopols' %}
     </a>
 </p>
-{% endif %}
 
+<section>
+    <h2>
+        {% trans 'About' %} {{ object.name }}
+    </h2>
 
-{% if object.budgets %}
-<strong>{% trans 'Budgets available' %}...</strong>
-<ul>
-{% for budget in object.budgets %}
-<li>
-    <a href="{% url 'budget_detail' budget.uuid %}">
-        {{ budget.period }}
-    </a>
-</li>
-{% endfor %}
-</ul>
-{% endif %}
+    {% if object.state == object %}
+    {% else %}
+    <p>
+        {{ object.name }} {% trans 'is part of' %} <a href="{% url 'geopol_detail' object.state.slug %}">{{ object.state }}</a>
+    </p>
+    {% endif %}
 
-{% if object.actuals %}
-<strong>{% trans 'Actuals available' %}...</strong>
-<ul>
-{% for actual in object.actuals %}
-<li>
-    <a href="{% url 'actual_detail' actual.uuid %}">
-        {{ actual.period }} (Variance: {% if actual.has_budgets %}{{ actual.variance }}%{% endif %})
-    </a>
-</li>
-{% endfor %}
-</ul>
-{% endif %}
+    <div>
+        {{ object.description }}
+    </div>
+</section>
 
-{% include 'interactions/partials/_discussion.html' %}
+<section>
+    <h2>
+        {% if object.state == object %}
+        {% trans 'Municipalities of' %} {{ object.name }}
+        {% else %}
+        {% trans 'Related' %} {% trans 'Municipalities' %}
+        {% endif %}
+    </h2>
+    <div>
+        {% if not object.munis %}
+        <p>
+            {{ object.name }} {% trans 'has no related municipalities' %}.</a>
+        </p>
+        {% else %}
+        {% for muni in object.munis %}
+        <a href="{% url 'geopol_detail' muni.slug %}">
+            {{ muni.name }}
+        </a>
+        <br />
+        {% endfor %}
+        {% endif %}
+    </div>
+</section>
 
+<section>
+    <h2>
+        {% trans 'Budgets and Actuals' %}
+    </h2>
+    {% if not object.budgets or not object.actuals %}
+    <p>
+        {% trans 'There are no Budgets or Actuals for this entity' %}.
+    </p>
+    {% else %}
+    <div>
+        {% if not object.budgets %}
+        <p>
+            {% trans 'There are no Budgets this entity' %}.
+        </p>
+        {% else %}
+        <h3>
+            {% trans 'Budgets available' %}...
+        </h3>
+        <ul>
+        {% for budget in object.budgets %}
+        <li>
+            <a href="{% url 'budget_detail' budget.uuid %}">
+                {{ budget.period }}
+            </a>
+        </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    <div>
+        {% if not object.actuals %}
+        <p>
+            {% trans 'There are no Actuals this entity' %}.
+        </p>
+        {% else %}
+        <h3>
+            {% trans 'Actuals available' %}...
+        </h3>
+        <ul>
+        {% for actual in object.actuals %}
+        <li>
+            <a href="{% url 'actual_detail' actual.uuid %}">
+                {{ actual.period }} (Variance: {% if actual.has_budgets %}{{ actual.variance }}%{% endif %})
+            </a>
+        </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    {% endif %}
+</section>
+
+<section>
+    {% include 'interactions/partials/_discussion.html' %}
+</section>
 {% endblock content %}

@@ -7,7 +7,8 @@
         "uuid": "6cd238ac63974392834ad62699c1cf14",
         "slug": "israel",
         "name": "Israel",
-        "description": "This is a wonderful place",
+        "is_type": "state",
+        "description": "Israel a small yet stunning country.",
         "code": "IS",
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
@@ -21,7 +22,8 @@
         "uuid": "6cd238ac63974392834ad62699c1cf13",
         "slug": "united-states-of-america",
         "name": "United States of America",
-        "description": "This is a wonderful place",
+        "is_type": "state",
+        "description": "United States is the land of the free and the home of the brave.",
         "code": "USA",
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
@@ -35,7 +37,8 @@
         "uuid": "19685c0d4ebe43e3acee6dd163cb1832",
         "slug": "tel-aviv",
         "name": "Tel Aviv",
-        "description": "This is a wonderful place",
+        "is_type": "muni",
+        "description": "Tel Aviv is a gorgeous beachside city on the Mediterranean Sea.",
         "code": "TLV",
         "parent": 1,
         "created_on": "2012-01-01T09:00:00+03:00",
@@ -50,9 +53,26 @@
         "uuid": "e044ad0fd7d041fd88c7a6816ee5520e",
         "slug": "california",
         "name": "California",
-        "description": "This is a wonderful place",
+        "is_type": "muni",
+        "description": "California is magnificnt place on the west coast of North America.",
         "code": "CALI",
         "parent": 2,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "govts.GeoPoliticalEntity",
+    "pk": 5,
+    "fields": {
+        "uuid": "19685c0d4ebe43e3acee6dd163cb1831",
+        "slug": "jerusalem",
+        "name": "Jerusalem",
+        "is_type": "muni",
+        "description": "Jerusalem is a wonderful place in the Judean hills.",
+        "code": "JER",
+        "parent": 1,
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }
