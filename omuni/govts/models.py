@@ -108,23 +108,23 @@ class GeoPoliticalEntity(TimeStampedModel, UUIDModel, models.Model):
         value = Actual.objects.filter(geopol=self)
         return value
 
-    # TODO: clean method
-    # 1. State CAN'T have parent
-    # 2. Muni MUST have parent
-
-    @classmethod
-    def get_class_name(cls):
-        value = cls.__name__.lower()
-        return value
-
-    class Meta:
-        ordering = ['name']
-        verbose_name = _('Geopolitical entity')
-        verbose_name_plural = _('Geopolitical entities')
-
     @models.permalink
     def get_absolute_url(self):
         return ('geopol_detail', [self.slug])
 
     def __unicode__(self):
         return self.name
+
+    @classmethod
+    def get_class_name(cls):
+        value = cls.__name__.lower()
+        return value
+
+    # TODO: clean method
+    # 1. State CAN'T have parent
+    # 2. Muni MUST have parent
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = _('Geopolitical entity')
+        verbose_name_plural = _('Geopolitical entities')
