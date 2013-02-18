@@ -1,0 +1,17 @@
+{% extends "rest_framework/base.html" %}
+{% load i18n subdomainurls %}
+
+
+{% block title %}
+{% trans 'Open Budget API' %}
+{% endblock %}
+
+
+{% block branding %}
+<a href={% url 'api' subdomain='api' %}>
+    {% trans 'Open Budget API' %}
+</a>
+<a href={% url 'home' subdomain='www' %} style="font-size: 0.5em;">
+    ...{% trans 'App Home' %}
+</a>
+{% endblock %}
