@@ -107,13 +107,20 @@ class GeoPoliticalEntity(TimeStampedModel, UUIDModel, models.Model):
         Actual = get_model('budgets', 'Actual')
         value = Actual.objects.filter(geopol=self)
         return value
+        self.state.slug + ',' + self.slug
+
+    # TODO: see my notes in govts.views
+    # want to build better slugs for SEO (bots and humans)
+    #@property
+    #def extended_slug(self):
+    #    return unicode(self.state.slug) + ',' + unicode(self.slug)
+
+    def __unicode__(self):
+        return self.name
 
     @models.permalink
     def get_absolute_url(self):
         return ('geopol_detail', [self.slug])
-
-    def __unicode__(self):
-        return self.name
 
     @classmethod
     def get_class_name(cls):
