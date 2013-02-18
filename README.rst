@@ -57,6 +57,10 @@ And continuing::
 
     python manage.py syncdb --migrate
 
+    python manage.py loaddata dev/sites.json
+
+    python manage.py loaddata dev/objects.json
+
     python manage.py runserver
 
 Now go to obudget.dev:8000 in your browser
