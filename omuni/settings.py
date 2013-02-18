@@ -237,6 +237,11 @@ COMMENTS_APP = 'omuni.interactions'
 COMMENTS_HIDE_REMOVED = True
 COMMENT_MAX_LENGTH = 10000
 
+# Sessions apply for all subdomains
+# CHANGE FOR settings_local
+#SESSION_COOKIE_DOMAIN='obudget.org.il'
+SESSION_COOKIE_DOMAIN='obudget.dev'
+
 # MOVE ANYTHING BELOW TO: settings_local.py
 
 # debug_toolbar stuff
