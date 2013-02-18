@@ -17,6 +17,7 @@
         <title>{% block metatitle %}{{ page.title }} | {{ site.name }}{% endblock metatitle %}</title>
 
         <base href="{{ site.url }}" />
+        <link rel="stylesheet" type="text/css" href="http://adaptabl.org/adaptabl.idiom.css" />
         <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/base.css" />
         {% block stylesheets %}
 
@@ -37,16 +38,29 @@
             <header>
                 <div class="wrapper">
                 {% block header %}
-                <a href="{% url 'home' %}">Home</a>
-                <a href="{% url 'geopol_list' %}">Govts</a>
-                <a href="{% url 'api' subdomain='api' %}">API</a>
-                {% include 'accounts/partials/_user_account_tools.html' %}
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;
-                Load site by language: 
-                <a href="{% url 'home' subdomain='he' %}">HE</a>
-                <a href="{% url 'home' subdomain='en' %}">EN</a>
-                <a href="{% url 'home' subdomain='ar' %}">AR</a>
-                <a href="{% url 'home' subdomain='ru' %}">RU</a>
+                    <nav>
+                        {% block nav %}
+                        <a href="{% url 'home' %}">
+                            {% trans 'Home' %}
+                        </a>
+                        <a href="{% url 'geopol_list' %}">
+                            {% trans 'Geopols' %}
+                        </a>
+                        <a href="{% url 'api' subdomain='api' %}">
+                            {% trans 'API' %}
+                        </a>
+                        {% endblock nav %}
+                        <span class="float-right">
+                            <span class="langs">
+                                {% for lang in LANGUAGES %}
+                                <a href="{% url 'home' subdomain=lang.0 %}">
+                                    {{ lang.0|upper }}
+                                </a>
+                                {% endfor %}
+                            </span>
+                            {% include 'accounts/partials/_user_account_tools.html' %}
+                        </span>
+                    </nav>
                 {% endblock header %}
                 </div>
             </header>
