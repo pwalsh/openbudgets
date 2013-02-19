@@ -4,6 +4,7 @@ django
 fabric
 south
 PIL
+mock
 django-autoslug
 git+https://github.com/mozilla/unicode-slugify
 hg+http://bitbucket.org/ubernostrum/django-registration/
