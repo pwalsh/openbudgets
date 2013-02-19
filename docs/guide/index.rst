@@ -143,22 +143,28 @@ If you want to contribute code, please keep these points in mind:
 
 * **Style**: We try to follow PEP-8 Please lint your code before submitting a pull request
 * **Tests**: If you write a piece of code, write a test before you submit a pull request, and also make sure your code does not break existing tests
+* **Docs**: If you write a piece of code, please make sure it has docstrings to explain the functionality
 * **Branching**: We follow the Git Flow method for managing branches. and all development work is done off the **develop** branch
 
 More below.
 
 Style
-+++++
+~~~~~
 
 TODO
 
 Tests
-+++++
+~~~~~
+
+TODO
+
+Docs
+~~~~~
 
 TODO
 
 Branching
-+++++++++
+~~~~~~~~~
 
 We follow GitFlow_ for branch management.
 
@@ -189,15 +195,13 @@ The Code
 Introduction
 ~~~~~~~~~~~~
 
-For the most part, Open Budget is a fairly standard Django project, using Grappelli for a nicer Admin UI/API, and Django REST Framework for the Open Budget Web API.
+Open Budget is written in Python and JavaScript.
 
-You can see all the other dependencies in the requirements.txt file, but Django, Grappelli and Django REST are the main frameworks you'll be interacting with when writing code for users of the web app, users of the admin, and users of the web API.
+Server side, Django provides the application framework. On top of Django, we've built the Web API using Django REST Framework, and we've heavily customized the Admin interface using Grappelli.
 
-The layout of the project is quite close to the standard Django idiom of an "app" for each distinct area of functionality.
+You can see additional server side dependencies in the requirements.txt file at the repository root.
 
-There is a "special" app called "commons" which has code that is used throughout the project as a whole. Here you will find things like general utility functions, mixin classes, and common data models.
 
-Let's get into the details...
 
 Admin
 ~~~~~
