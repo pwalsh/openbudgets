@@ -12,11 +12,11 @@ Code: https://github.com/hasadna/open-muni
 
 Issues: https://github.com/hasadna/open-muni/issues
 
+Docs: http://open-budget.readthedocs.org/
+
 Discussion: https://groups.google.com/forum/?fromgroups=#!forum/open-muni-dev
 
-Product requirements: https://docs.google.com/document/d/1cDOELgc4VQ8iPSr6795g0iMMz_klE5dM_s-y2GXbH7o/edit#
-
-More about HaSadna (Public Knowledge Workshop): http://hasadna.org.il/
+HaSadna (Public Knowledge Workshop): http://hasadna.org.il/
 
 
 Installation
@@ -58,6 +58,8 @@ And continuing::
     pip install -r requirements.txt
 
     python manage.py syncdb --migrate
+
+    python manage.py test accounts api budgets commons govts interactions pages
 
     python manage.py loaddata dev/sites.json
 
