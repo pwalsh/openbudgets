@@ -18,16 +18,6 @@ Discussion: https://groups.google.com/forum/?fromgroups=#!forum/open-muni-dev
 
 HaSadna (Public Knowledge Workshop): http://hasadna.org.il/
 
-
-Installation
-------------
-
-See the docs directory for full docs. It is sphinx, so::
-
-    make html
-
-there.
-
 5 min install
 -------------
 
