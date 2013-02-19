@@ -3,8 +3,6 @@ Open Muni
 
 The Open Muni project is a web app and web API for municipality budgets, and related contextual data.
 
-Build status:
-
 .. image:: https://travis-ci.org/prjts/open-muni.png
 
 Get involved
