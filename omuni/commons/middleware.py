@@ -1,15 +1,15 @@
 """Custom middleware for Omuni"""
-
 from django.utils import translation
+from subdomains.utils import get_domain
+from omuni.commons.utilities import get_language_key
 
 
 class InterfaceLanguage(object):
     """Returns a LANGUAGE_CODE object for the request context"""
     def process_request(self, request):
-        # In future we might use host to determine language
-        # e.g., en.omuni.org.il / he.omuni.org.il / ar.omuni.org.il
-
-        # For now, we are just hardcoded to English
-        translation.activate('en')
-
+        domain = get_domain()
+        host = request.get_host()
+        user = request.user
+        lang = get_language_key(host, domain, user)
+        translation.activate(lang)
         request.LANGUAGE_CODE = translation.get_language()
