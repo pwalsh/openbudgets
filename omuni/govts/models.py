@@ -107,7 +107,6 @@ class GeoPoliticalEntity(TimeStampedModel, UUIDModel, models.Model):
         Actual = get_model('budgets', 'Actual')
         value = Actual.objects.filter(geopol=self)
         return value
-        self.state.slug + ',' + self.slug
 
     # TODO: see my notes in govts.views
     # want to build better slugs for SEO (bots and humans)
