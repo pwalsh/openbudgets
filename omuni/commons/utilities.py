@@ -22,7 +22,7 @@ def get_language_key(host, domain, user):
     """
     # Get lang from authenticated user
     if not user.is_anonymous():
-        value = request.user.get_profile().language
+        value = user.get_profile().language
 
     # Get lang based on request host and global language settings
     else:
