@@ -3,6 +3,8 @@ Open Muni
 
 The Open Muni project is a web app and web API for municipality budgets, and related contextual data.
 
+.. image:: https://travis-ci.org/prjts/open-muni.png
+
 Get involved
 ------------
 
@@ -10,21 +12,11 @@ Code: https://github.com/hasadna/open-muni
 
 Issues: https://github.com/hasadna/open-muni/issues
 
+Docs: http://open-budget.readthedocs.org/
+
 Discussion: https://groups.google.com/forum/?fromgroups=#!forum/open-muni-dev
 
-Product requirements: https://docs.google.com/document/d/1cDOELgc4VQ8iPSr6795g0iMMz_klE5dM_s-y2GXbH7o/edit#
-
-More about HaSadna (Public Knowledge Workshop): http://hasadna.org.il/
-
-
-Installation
-------------
-
-See the docs directory for full docs. It is sphinx, so::
-
-    make html
-
-there.
+HaSadna (Public Knowledge Workshop): http://hasadna.org.il/
 
 5 min install
 -------------
@@ -35,7 +27,7 @@ We are using subdomains extensively, for languages and for the API.
 
 So first, edit your hosts file and add some aliases for 127.0.0.1::
 
-    127.0.0.1 [whatever else you have] he.obudget.dev, en.obudget.dev, ar.obudget.dev, ru.obudget.dev, api.obudget.dev, obudget.dev, www.obudget.dev
+    127.0.0.1 [whatever else you have] he.obudget.dev en.obudget.dev ar.obudget.dev ru.obudget.dev api.obudget.dev obudget.dev www.obudget.dev
 
 With virtualenv setup properly on your machine, do something like::
 
@@ -56,6 +48,8 @@ And continuing::
     pip install -r requirements.txt
 
     python manage.py syncdb --migrate
+
+    python manage.py test accounts api budgets commons govts interactions pages
 
     python manage.py loaddata dev/sites.json
 

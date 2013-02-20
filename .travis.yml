@@ -1,0 +1,10 @@
+language: python
+python:
+  - "2.7"
+install: pip install -r requirements.txt
+script:  python manage.py test accounts api budgets commons govts interactions pages
+notifications:
+  email:
+    - hello@prjts.com
+on_success: always
+on_failure: always

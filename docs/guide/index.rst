@@ -1,48 +1,39 @@
 Open Budget
 ===========
 
-A platform for transparent budgets at all levels of government.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+A platform for accessible government budget data
+------------------------------------------------
 
-This guide is for developers using Open Budget in their own projects, or contributing code to the main repository. It provides instrcutions for installation, an overview of the code base, some context on factors that influenced the design.
+This guide is for developers using Open Budget in their own projects, or contributing code to the main repository. It provides instructions for installation, an overview of the code base, some context on factors that influenced the design.
 
 Get involved
 ------------
 
-Code: https://github.com/hasadna/open-muni
+**Code**: https://github.com/hasadna/open-muni
 
-Issues: https://github.com/hasadna/open-muni/issues
+**Issues**: https://github.com/hasadna/open-muni/issues
 
-Docs: http://open-budget.readthedocs.org/
+**Docs**: http://open-budget.readthedocs.org/
 
-Discussion: https://groups.google.com/forum/?fromgroups=#!forum/open-muni-dev
+**Discussion**: https://groups.google.com/forum/?fromgroups=#!forum/open-muni-dev
 
-PRD: https://docs.google.com/document/d/1cDOELgc4VQ8iPSr6795g0iMMz_klE5dM_s-y2GXbH7o/
+**HaSadna (Public Knowledge Workshop)**: http://hasadna.org.il/
 
-More about HaSadna (Public Knowledge Workshop): http://hasadna.org.il/
+Global requirements
+-------------------
 
-Requirements
-------------
-
-* A unix-based OS
+* A unix-like OS (We develop on Ubuntu and Mac OS X)
 * Python 2.7
 * Git
 * virtualenv
 * virtualenvwrapper
 
-Please make sure you meet these requirements before moving on to installation. If you have a linux distro or Mac OS X, you likely already have Python 2.7.
+Please make sure you meet these requirements before moving on to installation.
 
-Setup hosts files
-~~~~~~~~~~~~~~~~~
+virtualenv
+~~~~~~~~~~
 
-We are using subdomains extensively, for languages and for the API.
-
-So first, edit your hosts file and add some aliases for 127.0.0.1::
-
-    127.0.0.1 [whatever else you have] he.obudget.dev, en.obudget.dev, ar.obudget.dev, ru.obudget.dev, api.obudget.dev, obudget.dev, www.obudget.dev
-
-Install virtualenv/virtualenvwrapper
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Virtual environments are an important tool for Python web development. If you haven't used them before, follow these install instructions.
 
 **Ubuntu**::
 
@@ -59,30 +50,58 @@ Install virtualenv/virtualenvwrapper
 
     sudo pip install virtualenvwrapper
 
+Once virtualenv and virtualenvwrapper are installed, you need to configure your shell.
 
-Configure your shell
-~~~~~~~~~~~~~~~~~~~~
-
-**~/.bash_profile on Mac OS X, ~/.profile on Ubuntu**::
+**Ubuntu ~/.profile**::
 
     export EDITOR=nano
-
     export WORKON_HOME="/srv/environments"
-
     export PROJECT_HOME="/srv/projects"
-
     source /usr/local/bin/virtualenvwrapper.sh
-
     export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
 
-With these settings, your virtualenvs live at /srv/environments/, and your project code lives at /srv/projects/. Adjust according to your tastes. On Mac OS X, for example, I do /Users/me/Sites/environments/ and /Users/me/Sites/projects/.
+**Mac OS X ~/.bash_profile**::
 
-Now we can move on and install the project.
+    export EDITOR=nano
+    export WORKON_HOME="/Users/[YOUR_USER]/Sites/environments"
+    export PROJECT_HOME="/Users/[YOUR_USER]/Sites/projects"
+    source /usr/local/bin/virtualenvwrapper.sh
+    export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
+
+
+
+Read more about virtualenv_ and virtualenvwrapper_.
+
+.. _virtualenv: http://www.virtualenv.org/en/latest/
+.. _virtualenvwrapper: http://www.doughellmann.com/projects/virtualenvwrapper/
+
+Now we can move on to the project installation.
 
 Installation
 ------------
 
-Issue the following commands to create a new virtualenv for the project, and clone the git repository into your project directory::
+Configure hosts
+~~~~~~~~~~~~~~~
+
+This project makes use of subdomains to target languages, and for the API. To enable this functionality fully, you'll need to edit your hosts file on your development machine.
+
+**Ubuntu**::
+
+    sudo nano /etc/hosts
+
+**Mac OS X**::
+
+    sudo nano /private/etc/hosts
+
+Add the following domain mappings for localhost::
+
+    127.0.0.1 [whatever else you have]  obudget.dev www.obudget.dev api.obudget.dev en.obudget.dev he.obudget.dev ar.obudget.dev ru.obudget.dev
+
+
+Make a virtualenv
+~~~~~~~~~~~~~~~~~
+
+Issue the following commands to create a new virtualenv for the project, and then clone the git repository into your virtualenv project directory::
 
     mkvirtualenv open-muni
 
@@ -94,13 +113,19 @@ Issue the following commands to create a new virtualenv for the project, and clo
 
     git clone git@github.com:hasadna/open-muni.git .
 
-**Important: Note the "." at the end of the git clone directive.**
+**Important: Note the "." at the end of the git clone command.**
 
-And continuing, we'll install all the project requirements into our virtualenv, populate our intial database, and run a server for the project::
+And continuing, we'll install all the project requirements into our virtualenv, populate our initial database, load some development data, run some tests, and run a server for the project::
 
     pip install -r requirements.txt
 
     python manage.py syncdb --migrate
+
+    python manage.py test accounts api budgets commons govts interactions pages
+
+    python manage.py loaddata dev/sites.json
+
+    python manage.py loaddata dev/objects.json
 
     python manage.py runserver
 
@@ -109,116 +134,154 @@ Right now you can see the app at the following address in your browser::
     http://obudget.dev:8000/
 
 
-Contributing code
------------------
+Contributions
+-------------
 
-We are following the Git Flow paradigm for managing branches, deployment code, etc. This keeps things ordered and logical and makes it easy to see at a glance what is being worked on, what a pull request is addressing, and so on.
+You can contribute to the project with code, content and ideas. If you have any ideas or suggestions for content, please open a ticket on the issue tracker, or post a topic on the developer discussion group (links on home page of the docs).
 
-Read more about Git Flow: 
+If you want to contribute code, please keep these points in mind:
 
-http://nvie.com/posts/a-successful-git-branching-model/
+* **Style**: We try to follow PEP-8 Please lint your code before submitting a pull request
+* **Tests**: If you write a piece of code, write a test before you submit a pull request, and also make sure your code does not break existing tests
+* **Docs**: If you write a piece of code, please make sure it has docstrings to explain the functionality
+* **Branching**: We follow the Git Flow method for managing branches. and all development work is done off the **develop** branch
 
-Git Flow (and Open Muni) essentials:
+More below.
 
-Open Muni always have at least two branches available in the public repo: "master" and "development".
+Style
+~~~~~
 
-Master is for *production* - you should not ever be working off master. Master is the domain of the repository maintainers only.
+TODO
 
-Work off development
-~~~~~~~~~~~~~~~~~~~~
+Tests
+~~~~~
 
-If you read the post on Git Flow above, you can see the reasoning in the approach. If you want to make small bug fixes, enhancements, do them on your "develop" branch, and then submit a pull request when your code is finished.
+TODO
 
-Or, create a feature/ branch
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-If you are tackling a specific feature, or a larger issue, it is good practice to branch off "develop" into your own dedicated "feature/" branch. Then, when you code is ready, submit a pull request for this branch.
+Docs
+~~~~~
 
-For example, if you want to add a new feature to allow bookmarking of any page. First, make sure you are on the "develop" branch. Then, create a feature branch like so:
+TODO
 
-git checkout -b feature/bookmarks
+Branching
+~~~~~~~~~
 
-Now, write all your code for bookmarks, and when ready, you can submit a pull request for "feature/bookmarks".
+We follow GitFlow_ for branch management.
 
-Again, see the original post about Git Flow for more:
+.. _GitFlow: http://nvie.com/posts/a-successful-git-branching-model/
+
+What this means:
+
+* Master branch is for production deployment only - you should not ever be working off it
+* Develop branch is for work. Either work directly from it, or, preferably, branch off it into a "feature" branch
+* A feature branch is named "feature/[YOUR_FEATURE_NAME]". Pull requests on themed branches like this are nice.
+
+Examples:
+
+* I want to work on a ticket to add "bookmarking" features, then I branch off "develop" into "feature/bookmarks", and when I am finished, I submit a pull request for this branch
+
+* I want to work on a ticket to refactor view logic in the "govts" app, then I branch off "develop" into "feature/govts-refactoring", and when I am finished, I submit a pull request for this branch
+
+Again, see the original post about Git Flow for more good practices:
 
 http://nvie.com/posts/a-successful-git-branching-model/
 
 Some GUI version control apps, such as Source Tree for OS X, integrate Git Flow into the app, making it even easier to follow the principles.
 
 
-Know the codebase
------------------
+The Code
+--------
 
 Introduction
 ~~~~~~~~~~~~
 
-For the most part, Open Budget is a fairly standard Django project, using Grappelli for a nicer Admin UI/API, and Django REST Framework for the Open Budget Web API.
+Open Budget is written in Python and JavaScript.
 
-You can see all the other dependencies in the requirements.txt file, but Django, Grappelli and Django REST are the main frameworks you'll be interacting with when writing code for users of the web app, users of the admin, and users of the web API.
+Server side, Django provides the application framework. On top of Django, we've built the Web API using Django REST Framework, and we've heavily customized the Admin interface using Grappelli.
 
-The layout of the project is quite close to the standard Django idiom of an "app" for each distinct area of functionality.
+You can see additional server side dependencies in the requirements.txt file at the repository root.
 
-There is a "special" app called "commons" which has code that is used throughout the project as a whole. Here you will find things like general utility functions, mixin classes, and common data models.
+Schema migrations
+~~~~~~~~~~~~~~~~~
 
-Let's get into the details...
+South, and if/how modeltranslations effects this.
 
-Admin
-~~~~~
-
-The Admin is highly customized from the default Django CRUD mappings.
-
-**Interface**
-
-We are using Grappelli_ as our admin framework, giving us a more user-friendly UI "out of the box", and a nicer API for customizing Django Admin behaviour.
-
-.. _Grappelli: https://django-grappelli.readthedocs.org/en/latest/
-
-**Data entry**
-
-Data entry should be easy for content editors. That means developers need to do a bit more work so that performing content tasks in the admin is intuitive for these users.
-
-Django's default admin mappings are not enough - your content editor users don't need to know about the relational data structure underneath. In many cases, the answer is to employ ProxyModels_.
-
-.. _ProxyModels: https://docs.djangoproject.com/en/dev/topics/db/models/#proxy-models
-
-A great example of this is the standard User/UserProfile dance in Django. It is far from intuitive for a content editor to have two objects in the admin for what should be "one thing" - the User Profile. Use Proxy Models and win.
-
-See our examples in account.models and account.admin.
-
-Follow this pattern whenever it is required for reasonable data entry by non-technical staff.
-
-
-Accounts
-~~~~~~~~
-Everything to do with User Accounts.
-
-
-Budgets
-~~~~~~~
-
-
-Government entities
-~~~~~~~~~~~~~~~~~~~
 
 Localization
 ~~~~~~~~~~~~
 
-model trans
+A key feature of Open Budget is that everything can be localized and internationalized - including model data.
 
-Schema migration
-~~~~~~~~~~~~~~~~
+For localization of files in the project, we of course use Django's built in localization features.
 
-REST API
-~~~~~~~~
+For localization of model data, we use modeltranslation_, a pluggbale app for Django.
+
+For displaying localized data, we use subdomains_ in combination with a custom InterfaceLanguage_ middleware class, that sets a language key based on either (a) user preference, or (b) the request host.
+
+The major reason we decided to expose localized content via subdomains is that it is still the prefered method for indexing via google (here_).
+
+We want Open Budget content to be highly discoverable, and thus we want Google and other search engines to crawl and rank each language as a distinct entity. We have also added language annotations as per those same guidelines to the same end.
+
+.. _modeltranslation: https://django-modeltranslation.readthedocs.org/en/latest/
+.. _InterfaceLanguage: https://github.com/hasadna/open-muni/blob/develop/omuni/commons/middleware.py#L7
+.. _subdomains: http://django-subdomains.readthedocs.org/en/latest/
+.. _here: http://googlewebmastercentral.blogspot.co.il/2011/12/new-markup-for-multilingual-content.html
+
 
 Commons
 ~~~~~~~
 
+There is an app called commons - it has all sorts of project-wide code.
 
-API docs
---------
+Budgets and Actuals
+~~~~~~~~~~~~~~~~~~~
 
-Should be autogenerated from docstrings
+Budget and Actuals data is always mapped to a BudgetTemplate. Depending on the relations of BudgetTemplateNodes, a template maybe flat or a tree.
 
-License
--------
+Any level of government can have a BudgetTemplate, but all members of the same level must share the same template. It is still unclear if/how to deal with change of template overtime. The Israel Muni use case is quite structured, but we probably want to created something more generic.
+
+Governments
+~~~~~~~~~~~
+
+Govts are represented by the GeoPoliticalEntity model, which has realtions with self to build a gvernment structure.
+
+Accounts
+~~~~~~~~
+
+Django's user model is extended with a UserProfile.
+
+Interactions
+~~~~~~~~~~~~
+
+The Interactions app deals with all functionality related to the way a user can interact with objects in the web app. For example, Star an object, follow and object, contribute to discussion on an object, and so on.
+
+Pages
+~~~~~
+
+Pages is a simple app to add generic web pages to the system: think about, privacy, and so on.
+
+
+Admin
+~~~~~
+
+The goal of any admin is to make it easy for content editors, not developers, to add content to a system. By default, the Django admin does not deliver on this promise, but it provides a foundation to build on.
+
+First, we are using the excellent Grappelli_ app as our admin framework, overriding the default Django Admin. Grappelli gives us a more user-friendly UI "out of the box", and a nicer API for customizing Django Admin behaviour. 
+
+In addition, we have added some tweaks to make Grappelli play nicer with RTL language display, and with the modeltranslations app, and some of our own custom views. We also make extensive use of ProxyModels_ to simplify the admin interface for content editors.
+
+If you contribute code that should be exposed in some way to the admin, please consider the end user - the content editor, and use Proxy Models or whatever else is required to make their lives easier.
+
+**An example of using a Proxy Model**
+
+A great example when to use a Proxy Model is the standard User/UserProfile dance in Django.
+
+It is far from intuitive for a content editor to have two objects in the admin for what should be "one thing" - the User. Use Proxy Models and win. See our examples in account.models and account.admin.
+
+.. _Grappelli: https://django-grappelli.readthedocs.org/en/latest/
+.. _ProxyModels: https://docs.djangoproject.com/en/dev/topics/db/models/#proxy-models
+
+REST API
+~~~~~~~~
+
+We have a REST API based on Django REST Framework.

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-12 20:01+0200\n"
+"POT-Creation-Date: 2013-02-20 09:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,19 +74,19 @@ msgstr ""
 msgid "Recent Actions"
 msgstr ""
 
-#: settings.py:171
+#: settings.py:186
 msgid "English"
 msgstr ""
 
-#: settings.py:172
+#: settings.py:187
 msgid "Hebrew"
 msgstr ""
 
-#: settings.py:173
+#: settings.py:188
 msgid "Arabic"
 msgstr ""
 
-#: settings.py:174
+#: settings.py:189
 msgid "Russian"
 msgstr ""
 
@@ -110,39 +110,39 @@ msgstr ""
 msgid "Your last name."
 msgstr ""
 
-#: accounts/models.py:23
+#: accounts/models.py:21
 msgid "Set your prefered language for the app"
 msgstr ""
 
-#: accounts/models.py:28
+#: accounts/models.py:48
 msgid "User profile"
 msgstr ""
 
-#: accounts/models.py:29
+#: accounts/models.py:49
 msgid "User profiles"
 msgstr ""
 
-#: accounts/models.py:86
+#: accounts/models.py:106
 msgid "Core team user"
 msgstr ""
 
-#: accounts/models.py:87
+#: accounts/models.py:107
 msgid "Core team users"
 msgstr ""
 
-#: accounts/models.py:109
+#: accounts/models.py:129
 msgid "Content team user"
 msgstr ""
 
-#: accounts/models.py:110
+#: accounts/models.py:130
 msgid "Content team users"
 msgstr ""
 
-#: accounts/models.py:132
+#: accounts/models.py:152
 msgid "Public user"
 msgstr ""
 
-#: accounts/models.py:133
+#: accounts/models.py:153
 msgid "Public users"
 msgstr ""
 
@@ -159,70 +159,78 @@ msgid "Update profile"
 msgstr ""
 
 #: accounts/templates/accounts/user_profile_detail.html:21
-msgid "My Bookmarks"
+msgid "Starred"
 msgstr ""
 
-#: accounts/templates/accounts/user_profile_detail.html:27
-msgid "My Stories"
+#: accounts/templates/accounts/user_profile_detail.html:31
+msgid "Following"
 msgstr ""
 
-#: accounts/templates/accounts/user_profile_detail.html:33
-msgid "My Comments"
+#: accounts/templates/accounts/user_profile_detail.html:41
+msgid "Discussion posts"
 msgstr ""
 
-#: accounts/templates/accounts/user_profile_detail.html:39
-msgid "My Annotations"
+#: accounts/templates/accounts/user_profile_detail.html:46
+#: accounts/templates/accounts/user_profile_detail.html:69
+msgid "On"
 msgstr ""
 
-#: accounts/templates/accounts/user_profile_detail.html:45
-msgid "My Tags"
+#: accounts/templates/accounts/user_profile_detail.html:57
+#: accounts/templates/accounts/user_profile_detail.html:80
+msgid "Submitted"
+msgstr ""
+
+#: accounts/templates/accounts/user_profile_detail.html:64
+msgid "Item Annotations"
 msgstr ""
 
 #: accounts/templates/accounts/partials/_user_account_tools.html:6
 msgid "Profile"
 msgstr ""
 
-#: budgets/models.py:11
+#: budgets/models.py:12
 msgid "income"
 msgstr ""
 
-#: budgets/models.py:11
+#: budgets/models.py:12
 msgid "expense"
 msgstr ""
 
-#: budgets/models.py:30
+#: budgets/models.py:28
 msgid "The name of this budget template."
 msgstr ""
 
-#: budgets/models.py:46
+#: budgets/models.py:44
 msgid "Budget template"
 msgstr ""
 
-#: budgets/models.py:47
+#: budgets/models.py:45
 msgid "Budget templates"
 msgstr ""
 
-#: budgets/models.py:70 budgets/templates/budgets/budget_detail.html:16
+#: budgets/models.py:65 budgets/templates/budgets/actual_detail.html:16
+#: budgets/templates/budgets/budget_detail.html:16
+#: budgets/templates/budgets/budget_item_detail.html:6
 msgid "Code"
 msgstr ""
 
-#: budgets/models.py:74
+#: budgets/models.py:69
 msgid "Name"
 msgstr ""
 
-#: budgets/models.py:77
+#: budgets/models.py:72 govts/models.py:27
 msgid "Entry description"
 msgstr ""
 
-#: budgets/models.py:79 budgets/models.py:100
+#: budgets/models.py:74 budgets/models.py:95
 msgid "Describe for this entry."
 msgstr ""
 
-#: budgets/models.py:89
+#: budgets/models.py:84
 msgid "Income/Expense"
 msgstr ""
 
-#: budgets/models.py:91
+#: budgets/models.py:86
 msgid "Determines whether this is an income or expense."
 msgstr ""
 
@@ -234,120 +242,203 @@ msgstr ""
 msgid "Budget template nodes"
 msgstr ""
 
-#: budgets/models.py:135
+#: budgets/models.py:132
 msgid "Period start"
 msgstr ""
 
-#: budgets/models.py:136
-msgid "The start date for this budget"
+#: budgets/models.py:133
+#, python-format
+msgid "The start date for this %(class)s"
 msgstr ""
 
-#: budgets/models.py:139
+#: budgets/models.py:136
 msgid "Period end"
 msgstr ""
 
-#: budgets/models.py:140
-msgid "The end date for this budget"
+#: budgets/models.py:137
+#, python-format
+msgid "The end date for this %(class)s"
 msgstr ""
 
-#: budgets/models.py:143
+#: budgets/models.py:140
 msgid "Budget description"
 msgstr ""
 
-#: budgets/models.py:145
-msgid "Text for this budget."
+#: budgets/models.py:142
+#, python-format
+msgid "Descriptive text for this %(class)s"
 msgstr ""
 
-#: budgets/models.py:169
+#: budgets/models.py:197
 msgid "Budget"
 msgstr ""
 
-#: budgets/models.py:170
+#: budgets/models.py:198
 msgid "Budgets"
 msgstr ""
 
-#: budgets/models.py:192
-msgid "Item explanation"
+#: budgets/models.py:253
+msgid "Actual"
 msgstr ""
 
-#: budgets/models.py:194
-msgid "Explanation that appears for this entry."
+#: budgets/models.py:254
+msgid "Actuals"
 msgstr ""
 
-#: budgets/models.py:197 budgets/templates/budgets/budget_detail.html:20
+#: budgets/models.py:273
+msgid "Item description"
+msgstr ""
+
+#: budgets/models.py:275
+msgid "Description that appears for this entry."
+msgstr ""
+
+#: budgets/models.py:278 budgets/templates/budgets/actual_detail.html:20
+#: budgets/templates/budgets/budget_detail.html:20
+#: budgets/templates/budgets/budget_item_detail.html:15
 msgid "Amount"
 msgstr ""
 
-#: budgets/models.py:198
+#: budgets/models.py:279
 msgid "The amount of this entry, plus or minus."
 msgstr ""
 
-#: budgets/models.py:203
+#: budgets/models.py:309
 msgid "Budget item"
 msgstr ""
 
-#: budgets/models.py:204
+#: budgets/models.py:310
 msgid "Budget items"
 msgstr ""
 
+#: budgets/models.py:328
+msgid "Actual item"
+msgstr ""
+
+#: budgets/models.py:329
+msgid "Actual items"
+msgstr ""
+
+#: budgets/templates/budgets/actual_detail.html:6
+#: budgets/templates/budgets/actual_item_detail.html:6
 #: budgets/templates/budgets/budget_detail.html:6
+#: budgets/templates/budgets/budget_item_detail.html:12
 msgid "budget"
 msgstr ""
 
+#: budgets/templates/budgets/actual_detail.html:11
 #: budgets/templates/budgets/budget_detail.html:11
 msgid "Back to the geopol"
 msgstr ""
 
+#: budgets/templates/budgets/actual_detail.html:18
 #: budgets/templates/budgets/budget_detail.html:18
 msgid "Explanation"
 msgstr ""
 
-#: commons/models.py:21
+#: budgets/templates/budgets/actual_detail.html:23
+#: budgets/templates/budgets/budget_detail.html:23
+msgid "View this item"
+msgstr ""
+
+#: budgets/templates/budgets/actual_item_detail.html:6
+msgid "for the"
+msgstr ""
+
+#: budgets/templates/budgets/budget_item_detail.html:20
+msgid "Back to the Budget"
+msgstr ""
+
+#: budgets/templates/budgets/budget_item_detail.html:22
+msgid "Back to the Entity"
+msgstr ""
+
+#: commons/models.py:17
 msgid "Source Name"
 msgstr ""
 
-#: commons/models.py:23
+#: commons/models.py:19
 msgid "The name of this data source"
 msgstr ""
 
-#: commons/models.py:26
+#: commons/models.py:22
 msgid "Source URL"
 msgstr ""
 
-#: commons/models.py:28
+#: commons/models.py:24
 msgid "The URL the data was retrieved from"
 msgstr ""
 
-#: commons/models.py:31
+#: commons/models.py:27
 msgid "Data retrieval date"
 msgstr ""
 
-#: commons/models.py:32
+#: commons/models.py:28
 msgid "The date this data was retrieved from the source"
 msgstr ""
 
-#: commons/models.py:35
+#: commons/models.py:31
 msgid "Notes"
 msgstr ""
 
-#: commons/models.py:36
+#: commons/models.py:32
 msgid "Write any additional notes about the sourcing of this dataset"
 msgstr ""
 
-#: commons/models.py:51
+#: commons/models.py:47
 msgid "Data source"
 msgstr ""
 
-#: commons/models.py:52
+#: commons/models.py:48
 msgid "Data sources"
 msgstr ""
 
-#: commons/mixins/models.py:12
+#: commons/mixins/models.py:13
 msgid "Created on"
 msgstr ""
 
-#: commons/mixins/models.py:17
+#: commons/mixins/models.py:18
 msgid "Last modified"
+msgstr ""
+
+#: commons/templates/base.html:44
+msgid "Home"
+msgstr ""
+
+#: commons/templates/base.html:47
+msgid "Geopols"
+msgstr ""
+
+#: commons/templates/base.html:50
+msgid "API"
+msgstr ""
+
+#: commons/templates/base.html:87 govts/templates/govts/geopol_detail.html:19
+msgid "About"
+msgstr ""
+
+#: commons/templates/base.html:90
+msgid "Privacy"
+msgstr ""
+
+#: commons/templates/base.html:93
+msgid "Terms"
+msgstr ""
+
+#: commons/templates/base.html:96
+msgid "Contact"
+msgstr ""
+
+#: commons/templates/comments/list.html:7
+msgid "This discussion has"
+msgstr ""
+
+#: commons/templates/comments/list.html:7
+msgid "comments"
+msgstr ""
+
+#: commons/templates/comments/list.html:7
+msgid "What do you have to say"
 msgstr ""
 
 #: commons/templates/partials/_form_action_change.html:2
@@ -363,7 +454,13 @@ msgid "Delete"
 msgstr ""
 
 #: commons/templates/partials/_form_action_login.html:2
+#: interactions/templates/interactions/partials/_comment_form.html:11
 msgid "Login"
+msgstr ""
+
+#: commons/templates/partials/_form_action_post.html:2
+#: interactions/models.py:11 interactions/models.py:55
+msgid "Post"
 msgstr ""
 
 #: commons/templates/partials/_form_action_submit.html:2
@@ -534,44 +631,141 @@ msgstr ""
 msgid "Create an account today."
 msgstr ""
 
-#: govts/models.py:20
+#: commons/templates/rest_framework/api.html:6
+#: commons/templates/rest_framework/api.html:12
+msgid "Open Budget API"
+msgstr ""
+
+#: commons/templates/rest_framework/api.html:15
+msgid "App Home"
+msgstr ""
+
+#: govts/models.py:24
 msgid "The name of this Geopolitical entity."
 msgstr ""
 
 #: govts/models.py:29
+msgid "Describe."
+msgstr ""
+
+#: govts/models.py:38
 msgid "The official abbreviated code for this Geopolitical entity."
 msgstr ""
 
-#: govts/models.py:34
+#: govts/models.py:43
 msgid "Declare the type of entity this geopol is from the available choices."
 msgstr ""
 
-#: govts/models.py:67
+#: govts/models.py:135
 msgid "Geopolitical entity"
 msgstr ""
 
-#: govts/models.py:68
+#: govts/models.py:136
 msgid "Geopolitical entities"
 msgstr ""
 
-#: govts/templates/govts/geopol_detail.html:11
+#: govts/templates/govts/geopol_detail.html:13
 msgid "Back to all geopols"
 msgstr ""
 
-#: govts/templates/govts/geopol_detail.html:15
-msgid "Munis of this Country"
+#: govts/templates/govts/geopol_detail.html:25
+msgid "is part of"
 msgstr ""
 
-#: govts/templates/govts/geopol_detail.html:28
-msgid "This Geopolitical entity is in scope of"
+#: govts/templates/govts/geopol_detail.html:37
+msgid "Municipalities of"
 msgstr ""
 
 #: govts/templates/govts/geopol_detail.html:39
-msgid "This Geopolitical entity has the following budgets"
+msgid "Related"
+msgstr ""
+
+#: govts/templates/govts/geopol_detail.html:39
+msgid "Municipalities"
+msgstr ""
+
+#: govts/templates/govts/geopol_detail.html:45
+msgid "has no related municipalities"
+msgstr ""
+
+#: govts/templates/govts/geopol_detail.html:60
+msgid "Budgets and Actuals"
+msgstr ""
+
+#: govts/templates/govts/geopol_detail.html:64
+msgid "There are no Budgets or Actuals for this entity"
+msgstr ""
+
+#: govts/templates/govts/geopol_detail.html:70
+msgid "There are no Budgets this entity"
+msgstr ""
+
+#: govts/templates/govts/geopol_detail.html:74
+msgid "Budgets available"
+msgstr ""
+
+#: govts/templates/govts/geopol_detail.html:90
+msgid "There are no Actuals this entity"
+msgstr ""
+
+#: govts/templates/govts/geopol_detail.html:94
+msgid "Actuals available"
 msgstr ""
 
 #: govts/templates/govts/geopol_list.html:6
 msgid "All Geopolitical entities"
+msgstr ""
+
+#: interactions/models.py:12 interactions/models.py:72
+msgid "Annotation"
+msgstr ""
+
+#: interactions/models.py:21
+msgid "Of type"
+msgstr ""
+
+#: interactions/models.py:56
+msgid "Posts"
+msgstr ""
+
+#: interactions/models.py:73
+msgid "Annotations"
+msgstr ""
+
+#: interactions/models.py:126
+msgid "Star"
+msgstr ""
+
+#: interactions/models.py:127
+msgid "Stars"
+msgstr ""
+
+#: interactions/models.py:134 interactions/models.py:135
+msgid "Follow"
+msgstr ""
+
+#: interactions/templates/interactions/partials/_comment_form.html:11
+msgid "or"
+msgstr ""
+
+#: interactions/templates/interactions/partials/_comment_form.html:11
+msgid "Register"
+msgstr ""
+
+#: interactions/templates/interactions/partials/_comment_form.html:11
+msgid "to comment"
+msgstr ""
+
+#: interactions/templates/interactions/partials/_discussion.html:5
+msgid "Discussion"
+msgstr ""
+
+#: interactions/templatetags/interactions.py:28
+msgid "Unstar this item"
+msgstr ""
+
+#: interactions/templatetags/interactions.py:33
+msgid "Star this item"
 msgstr ""
 
 #: pages/forms.py:6
@@ -610,34 +804,34 @@ msgstr ""
 msgid "Content"
 msgstr ""
 
-#: pages/models.py:28
+#: pages/models.py:27
 msgid "The main content for this page."
 msgstr ""
 
-#: pages/models.py:31
+#: pages/models.py:30
 msgid "Index"
 msgstr ""
 
-#: pages/models.py:33
+#: pages/models.py:32
 msgid ""
 "A number used to order pages in indexes, as an alternative to date-based "
 "ordering."
 msgstr ""
 
-#: pages/models.py:36
+#: pages/models.py:35
 msgid "Show in navigation"
 msgstr ""
 
-#: pages/models.py:38
+#: pages/models.py:37
 msgid ""
 "A hook to control whether the page will be displayed in main navigation "
 "lists."
 msgstr ""
 
-#: pages/models.py:55
+#: pages/models.py:54
 msgid "page"
 msgstr ""
 
-#: pages/models.py:56
+#: pages/models.py:55
 msgid "pages"
 msgstr ""

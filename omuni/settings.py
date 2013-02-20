@@ -25,8 +25,6 @@ DATABASES = {
 
 TIME_ZONE = 'UTC'
 
-LANGUAGE_CODE = 'en-us'
-
 SITE_ID = 1
 
 USE_I18N = True
@@ -69,23 +67,23 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
-    'omuni.commons.middleware.InterfaceLanguage',
     'django.middleware.common.CommonMiddleware',
     'subdomains.middleware.SubdomainURLRoutingMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'omuni.commons.middleware.InterfaceLanguage',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     # debug_toolbar for development only
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'omuni.urls'
 
 SUBDOMAIN_URLCONFS = {
-    None: 'omuni.urls',
+    '': 'omuni.urls',
     'www': 'omuni.urls',
     'he': 'omuni.urls',
     'en': 'omuni.urls',
@@ -130,7 +128,7 @@ INSTALLED_APPS = (
     'omuni.pages',
 
     # debug_toolbar for development only
-    'debug_toolbar',
+    #'debug_toolbar',
 
 )
 
@@ -178,9 +176,12 @@ FIXTURE_DIRS = (
     ),
 )
 
-# Supported languages
-gettext = lambda s: s
+# Languages
+LANGUAGE_CODE = 'en'
 
+MODELTRANSLATION_DEFAULT_LANGUAGE = LANGUAGE_CODE
+
+gettext = lambda s: s
 LANGUAGES = (
     ('en', gettext('English')),
     ('he', gettext('Hebrew')),

@@ -2,9 +2,9 @@ from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
-from omuni.api.serializers import GeoPoliticalEntitySerializer, BudgetSerializer, BudgetItemSerializer, ActualSerializer, ActualItemSerializer
+from omuni.api.serializers import GeoPoliticalEntitySerializer, BudgetTemplateSerializer, BudgetTemplateNodeSerializer, BudgetSerializer, BudgetItemSerializer, ActualSerializer, ActualItemSerializer
 from omuni.govts.models import GeoPoliticalEntity
-from omuni.budgets.models import Budget, BudgetItem, Actual, ActualItem
+from omuni.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
 
 
 @api_view(['GET'])
@@ -30,6 +30,20 @@ class GeoPoliticalEntityDetail(generics.RetrieveAPIView):
 
     model = GeoPoliticalEntity
     serializer_class = GeoPoliticalEntitySerializer
+
+
+class BudgetTemplateDetail(generics.RetrieveAPIView):
+    """API endpoint that represents a single budget template"""
+
+    model = BudgetTemplate
+    serializer_class = BudgetTemplateSerializer
+
+
+class BudgetTemplateNodeDetail(generics.RetrieveAPIView):
+    """API endpoint that represents a single budget template node"""
+
+    model = BudgetTemplateNode
+    serializer_class = BudgetTemplateNodeSerializer
 
 
 class BudgetList(generics.ListAPIView):
