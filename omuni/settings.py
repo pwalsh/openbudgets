@@ -237,6 +237,9 @@ REST_FRAMEWORK = {
 
 }
 
+# Sentry error logging
+SENTRY_DSN = ''
+
 # Comments
 COMMENTS_APP = 'omuni.interactions'
 COMMENTS_HIDE_REMOVED = True
