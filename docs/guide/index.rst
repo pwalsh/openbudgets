@@ -125,17 +125,7 @@ And continuing, we'll install all the project requirements into our virtualenv, 
 
     pip install -r requirements.txt
 
-    python manage.py syncdb --migrate
-
-    python manage.py test accounts api budgets commons govts interactions pages international
-
-    # We load pages here because the modeltranslation tables 
-    # are not present until after syncdb has finished.
-    python manage.py loaddata pages.json
-
-    python manage.py loaddata dev/sites.json
-
-    python manage.py loaddata dev/objects.json
+    python manage.py devstrap -t
 
     python manage.py runserver
 

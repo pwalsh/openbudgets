@@ -245,7 +245,14 @@ COMMENTS_APP = 'omuni.interactions'
 COMMENTS_HIDE_REMOVED = True
 COMMENT_MAX_LENGTH = 10000
 
-#SESSION_COOKIE_DOMAIN='obudget.org.il'
+# MOVE ANYTHING BELOW TO: settings_local.py
+
+# debug_toolbar stuff
+INTERNAL_IPS = ('127.0.0.1',)
+
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': False,
+}
 # for DEMO site
 SESSION_COOKIE_DOMAIN='open-budget.prjts.com'
 
