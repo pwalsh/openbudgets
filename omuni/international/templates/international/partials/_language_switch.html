@@ -1,0 +1,7 @@
+{% load i18n subdomainurls %}
+
+<span class="language-switch">
+    {% for lang in languages %}
+    <a href="{{ lang.url }}" title="{{ lang.key }}">{{ lang.key }}</a>
+    {% endfor %}
+</span>

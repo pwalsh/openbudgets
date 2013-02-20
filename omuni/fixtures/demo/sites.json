@@ -1,0 +1,12 @@
+[
+
+{
+    "model": "sites.Site",
+    "pk": 1,
+    "fields": {
+        "domain": "open-budget.prjts.com",
+        "name": "Open Budget"
+    }
+}
+
+]

@@ -1,7 +1,8 @@
 import os
+
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -72,7 +73,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'omuni.commons.middleware.InterfaceLanguage',
+    'omuni.international.middleware.InterfaceLanguage',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
@@ -112,6 +113,7 @@ INSTALLED_APPS = (
     'grappelli',
     'django.contrib.admin',
     'django.contrib.sitemaps',
+    'gunicorn',
     'south',
     'subdomains',
     'registration',
@@ -125,6 +127,7 @@ INSTALLED_APPS = (
     'omuni.commons',
     'omuni.govts',
     'omuni.interactions',
+    'omuni.international',
     'omuni.pages',
 
     # debug_toolbar for development only
@@ -182,6 +185,7 @@ LANGUAGE_CODE = 'en'
 MODELTRANSLATION_DEFAULT_LANGUAGE = LANGUAGE_CODE
 
 gettext = lambda s: s
+
 LANGUAGES = (
     ('en', gettext('English')),
     ('he', gettext('Hebrew')),
@@ -233,15 +237,13 @@ REST_FRAMEWORK = {
 
 }
 
+# Sentry error logging
+SENTRY_DSN = ''
+
 # Comments
 COMMENTS_APP = 'omuni.interactions'
 COMMENTS_HIDE_REMOVED = True
 COMMENT_MAX_LENGTH = 10000
-
-# Sessions apply for all subdomains
-# CHANGE FOR settings_local
-#SESSION_COOKIE_DOMAIN='obudget.org.il'
-SESSION_COOKIE_DOMAIN='obudget.dev'
 
 # MOVE ANYTHING BELOW TO: settings_local.py
 
@@ -251,6 +253,8 @@ INTERNAL_IPS = ('127.0.0.1',)
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
 }
+# for DEMO site
+SESSION_COOKIE_DOMAIN='open-budget.prjts.com'
 
 # Load settings_local if it exists
 try:

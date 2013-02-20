@@ -1,0 +1,6 @@
+{% load i18n subdomainurls %}
+
+{% for lang in languages %}
+<link rel="alternate" hreflang="{{ lang.key }}" href="{{ lang.url }}" />
+{% endfor %}
+

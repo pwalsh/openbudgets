@@ -14,6 +14,8 @@ Issues: https://github.com/hasadna/open-muni/issues
 
 Docs: http://open-budget.readthedocs.org/
 
+Demo: http://open-budget.prjts.com/
+
 Discussion: https://groups.google.com/forum/?fromgroups=#!forum/open-muni-dev
 
 HaSadna (Public Knowledge Workshop): http://hasadna.org.il/
@@ -43,6 +45,11 @@ With virtualenv setup properly on your machine, do something like::
 
 **Important: Note the "." at the end of the git clone directive.**
 
+Now, you need to set up your settings_local file which is a file that is not in version control. It should be something like this:
+
+https://gist.github.com/pwalsh/4994244
+
+
 And continuing::
 
     pip install -r requirements.txt
@@ -50,6 +57,8 @@ And continuing::
     python manage.py syncdb --migrate
 
     python manage.py test accounts api budgets commons govts interactions pages
+
+    python manage.py loaddata pages.json
 
     python manage.py loaddata dev/sites.json
 

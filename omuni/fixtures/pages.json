@@ -1,0 +1,39 @@
+[
+
+{
+    "model": "pages.Page",
+    "pk": 1,
+    "fields": {
+        "title": "Privacy",
+        "slug": "privacy",
+        "content": "Privacy statement of the site.",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "pages.Page",
+    "pk": 2,
+    "fields": {
+        "title": "Terms",
+        "slug": "terms",
+        "content": "Terms and conditions of the site.",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "pages.Page",
+    "pk": 3,
+    "fields": {
+        "title": "About",
+        "slug": "about",
+        "content": "About the site. Who created it, the goals, and so on.",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+}
+
+]

@@ -15,6 +15,8 @@ Get involved
 
 **Docs**: http://open-budget.readthedocs.org/
 
+**Demo**: http://open-budget.prjts.com/
+
 **Discussion**: https://groups.google.com/forum/?fromgroups=#!forum/open-muni-dev
 
 **HaSadna (Public Knowledge Workshop)**: http://hasadna.org.il/
@@ -115,6 +117,10 @@ Issue the following commands to create a new virtualenv for the project, and the
 
 **Important: Note the "." at the end of the git clone command.**
 
+Now, you need to set up your settings_local file which is a file that is not in version control. It should be something like this:
+
+https://gist.github.com/pwalsh/4994244
+
 And continuing, we'll install all the project requirements into our virtualenv, populate our initial database, load some development data, run some tests, and run a server for the project::
 
     pip install -r requirements.txt
@@ -122,6 +128,10 @@ And continuing, we'll install all the project requirements into our virtualenv, 
     python manage.py syncdb --migrate
 
     python manage.py test accounts api budgets commons govts interactions pages
+
+    # We load pages here because the modeltranslation tables 
+    # are not present until after syncdb has finished.
+    python manage.py loaddata pages.json
 
     python manage.py loaddata dev/sites.json
 
@@ -211,6 +221,8 @@ Localization
 ~~~~~~~~~~~~
 
 A key feature of Open Budget is that everything can be localized and internationalized - including model data.
+
+Our custom code for localization and internationalization is located in the "international" app - this app may evolve into a pluggable app in the future.
 
 For localization of files in the project, we of course use Django's built in localization features.
 
