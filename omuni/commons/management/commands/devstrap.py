@@ -44,4 +44,7 @@ class Command(BaseCommand):
         for fixture in settings.FIXTURES:
             call_command('loaddata', fixture)
 
+        if options['test']:
+            call_command('test', 'accounts', 'api', 'budgets', 'commons', 'govts', 'interactions', 'pages', 'international')
+
         self.stdout.write("### Development bootstrapping completed successfully\n")
