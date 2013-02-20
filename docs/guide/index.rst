@@ -15,6 +15,8 @@ Get involved
 
 **Docs**: http://open-budget.readthedocs.org/
 
+**Demo**: http://open-budget.prjts.com/
+
 **Discussion**: https://groups.google.com/forum/?fromgroups=#!forum/open-muni-dev
 
 **HaSadna (Public Knowledge Workshop)**: http://hasadna.org.il/
