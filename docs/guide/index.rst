@@ -127,7 +127,7 @@ And continuing, we'll install all the project requirements into our virtualenv, 
 
     python manage.py syncdb --migrate
 
-    python manage.py test accounts api budgets commons govts interactions pages
+    python manage.py test accounts api budgets commons govts interactions pages international
 
     # We load pages here because the modeltranslation tables 
     # are not present until after syncdb has finished.

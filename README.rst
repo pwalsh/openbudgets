@@ -56,7 +56,7 @@ And continuing::
 
     python manage.py syncdb --migrate
 
-    python manage.py test accounts api budgets commons govts interactions pages
+    python manage.py test accounts api budgets commons govts interactions pages international
 
     python manage.py loaddata pages.json
 
