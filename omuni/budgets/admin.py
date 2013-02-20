@@ -1,9 +1,11 @@
 from django.contrib import admin
+from modeltranslation.admin import TranslationAdmin, TranslationStackedInline
 from omuni.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
 from omuni.commons.admin import DataSourceInline
+from omuni.commons.admin import TranslatedMedia
 
 
-class BudgetTemplateNodeInline(admin.StackedInline):
+class BudgetTemplateNodeInline(TranslationStackedInline):
     """Gives an inlineable BudgetTemplateNode form"""
 
     model = BudgetTemplateNode
@@ -11,15 +13,17 @@ class BudgetTemplateNodeInline(admin.StackedInline):
     classes = ('grp-collapse grp-open',)
     inline_classes = ('grp-collapse grp-closed',)
     extra = 2
+    Media = TranslatedMedia
 
 
-class BudgetTemplateAdmin(admin.ModelAdmin):
+class BudgetTemplateAdmin(TranslationAdmin):
     """Admin form for adding budget templates"""
 
     inlines = [DataSourceInline, BudgetTemplateNodeInline]
+    Media = TranslatedMedia
 
 
-class BudgetItemInline(admin.StackedInline):
+class BudgetItemInline(TranslationStackedInline):
     """Gives an inlineable BudgetItem form"""
 
     model = BudgetItem
@@ -27,15 +31,17 @@ class BudgetItemInline(admin.StackedInline):
     classes = ('grp-collapse grp-open',)
     inline_classes = ('grp-collapse grp-closed',)
     extra = 2
+    Media = TranslatedMedia
 
 
-class BudgetAdmin(admin.ModelAdmin):
+class BudgetAdmin(TranslationAdmin):
     """Admin form for adding budgets"""
 
     inlines = [DataSourceInline, BudgetItemInline]
+    Media = TranslatedMedia
 
 
-class ActualItemInline(admin.StackedInline):
+class ActualItemInline(TranslationStackedInline):
     """Gives an inlineable ActualItem form"""
 
     model = ActualItem
@@ -43,12 +49,14 @@ class ActualItemInline(admin.StackedInline):
     classes = ('grp-collapse grp-open',)
     inline_classes = ('grp-collapse grp-closed',)
     extra = 2
+    Media = TranslatedMedia
 
 
-class ActualAdmin(admin.ModelAdmin):
+class ActualAdmin(TranslationAdmin):
     """Admin form for adding actuals"""
 
     inlines = [ActualItemInline, DataSourceInline]
+    Media = TranslatedMedia
 
 
 admin.site.register(BudgetTemplate, BudgetTemplateAdmin)
