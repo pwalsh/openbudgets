@@ -115,6 +115,10 @@ Issue the following commands to create a new virtualenv for the project, and the
 
 **Important: Note the "." at the end of the git clone command.**
 
+Now, you need to set up your settings_local file which is a file that is not in version control. It should be something like this:
+
+https://gist.github.com/pwalsh/4994244
+
 And continuing, we'll install all the project requirements into our virtualenv, populate our initial database, load some development data, run some tests, and run a server for the project::
 
     pip install -r requirements.txt

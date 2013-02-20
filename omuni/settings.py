@@ -1,7 +1,8 @@
 import os
+
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -112,6 +113,7 @@ INSTALLED_APPS = (
     'grappelli',
     'django.contrib.admin',
     'django.contrib.sitemaps',
+    'gunicorn',
     'south',
     'subdomains',
     'registration',
@@ -240,16 +242,12 @@ COMMENTS_APP = 'omuni.interactions'
 COMMENTS_HIDE_REMOVED = True
 COMMENT_MAX_LENGTH = 10000
 
-# Sessions apply for all subdomains
-# CHANGE FOR settings_local
 #SESSION_COOKIE_DOMAIN='obudget.org.il'
-SESSION_COOKIE_DOMAIN='obudget.dev'
+# for DEMO site
+SESSION_COOKIE_DOMAIN='open-budget.prjts.com'
 
-# MOVE ANYTHING BELOW TO: settings_local.py
-
-# debug_toolbar stuff
-INTERNAL_IPS = ('127.0.0.1',)
-
-DEBUG_TOOLBAR_CONFIG = {
-    'INTERCEPT_REDIRECTS': False,
-}
+# Load settings_local if it exists
+try:
+    from settings_local import *
+except ImportError:
+    pass

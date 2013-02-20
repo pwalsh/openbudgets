@@ -1,8 +1,9 @@
 yolk
-sphinx
 django
-fabric
+gunicorn
 south
+fabric
+sphinx
 PIL
 mock
 django-autoslug

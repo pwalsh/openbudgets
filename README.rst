@@ -43,6 +43,11 @@ With virtualenv setup properly on your machine, do something like::
 
 **Important: Note the "." at the end of the git clone directive.**
 
+Now, you need to set up your settings_local file which is a file that is not in version control. It should be something like this:
+
+https://gist.github.com/pwalsh/4994244
+
+
 And continuing::
 
     pip install -r requirements.txt
