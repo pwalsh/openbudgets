@@ -1,4 +1,4 @@
-{% load i18n subdomainurls %}
+{% load i18n subdomainurls international %}
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}">
@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-
+        {% multilingual_meta request.get_full_path %}
         {% block meta %}
 
         {% endblock meta %}
@@ -33,7 +33,7 @@
         {% endblock js_head %}
     </head>
 
-    <body class="{{ LANGUAGE_CODE }}">
+    <body class="{{ LANGUAGE_CODE }}{% if LANGUAGE_BIDI %} rtl{% else %} ltr{% endif %}">
         <div id="sticky">
             <header>
                 <div class="wrapper">
@@ -51,13 +51,7 @@
                         </a>
                         {% endblock nav %}
                         <span class="float-right">
-                            <span class="langs">
-                                {% for lang in LANGUAGES %}
-                                <a href="{% url 'home' subdomain=lang.0 %}">
-                                    {{ lang.0|upper }}
-                                </a>
-                                {% endfor %}
-                            </span>
+                            {% language_switch request.get_full_path %}
                             {% include 'accounts/partials/_user_account_tools.html' %}
                         </span>
                     </nav>

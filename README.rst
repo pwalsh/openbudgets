@@ -51,6 +51,8 @@ And continuing::
 
     python manage.py test accounts api budgets commons govts interactions pages
 
+    python manage.py loaddata pages.json
+
     python manage.py loaddata dev/sites.json
 
     python manage.py loaddata dev/objects.json

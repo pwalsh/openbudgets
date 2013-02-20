@@ -72,7 +72,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'omuni.commons.middleware.InterfaceLanguage',
+    'omuni.international.middleware.InterfaceLanguage',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
@@ -125,6 +125,7 @@ INSTALLED_APPS = (
     'omuni.commons',
     'omuni.govts',
     'omuni.interactions',
+    'omuni.international',
     'omuni.pages',
 
     # debug_toolbar for development only
@@ -182,6 +183,7 @@ LANGUAGE_CODE = 'en'
 MODELTRANSLATION_DEFAULT_LANGUAGE = LANGUAGE_CODE
 
 gettext = lambda s: s
+
 LANGUAGES = (
     ('en', gettext('English')),
     ('he', gettext('Hebrew')),

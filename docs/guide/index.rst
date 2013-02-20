@@ -123,6 +123,10 @@ And continuing, we'll install all the project requirements into our virtualenv, 
 
     python manage.py test accounts api budgets commons govts interactions pages
 
+    # We load pages here because the modeltranslation tables 
+    # are not present until after syncdb has finished.
+    python manage.py loaddata pages.json
+
     python manage.py loaddata dev/sites.json
 
     python manage.py loaddata dev/objects.json
@@ -211,6 +215,8 @@ Localization
 ~~~~~~~~~~~~
 
 A key feature of Open Budget is that everything can be localized and internationalized - including model data.
+
+Our custom code for localization and internationalization is located in the "international" app - this app may evolve into a pluggable app in the future.
 
 For localization of files in the project, we of course use Django's built in localization features.
 
