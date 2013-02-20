@@ -9,16 +9,13 @@ from omuni import settings
 class Command(BaseCommand):
     help = 'Bootstrap development environment'
     option_list = BaseCommand.option_list + (
-            make_option('-i',
-                    action='store_true',
-                    dest='install',
-                    default=False,
-                    help="Install project's dependencies"),
-            make_option('-t',
-                        action='store_true',
-                        dest='test',
-                        default=False,
-                        help="Run tests"),
+            make_option(
+                '-t',
+                action='store_true',
+                dest='test',
+                default=False,
+                help="Run tests"
+            ),
         )
 
     def handle(self, *args, **options):
@@ -34,11 +31,6 @@ class Command(BaseCommand):
                 os.remove(db_file_path)
             except IOError as e:
                 raise CommandError(e)
-
-        # install python/django requirements
-        if options['install']:
-            self.stdout.write("### Installing requirements\n")
-            call(['pip', 'install', '-r', 'requirements.txt'])
 
         # sync the db and do South migrations
         try:
