@@ -9,9 +9,9 @@ This guide is for developers using Open Budget in their own projects, or contrib
 Get involved
 ------------
 
-**Code**: https://github.com/hasadna/open-muni
+**Code**: https://github.com/hasadna/omuni-budget
 
-**Issues**: https://github.com/hasadna/open-muni/issues
+**Issues**: https://github.com/hasadna/omuni-budget/issues
 
 **Docs**: http://open-budget.readthedocs.org/
 
