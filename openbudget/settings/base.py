@@ -93,6 +93,7 @@ INSTALLED_APPS = (
     'django.contrib.comments',
     'grappelli.dashboard',
     'grappelli',
+    'grappelli_modeltranslation',
     'django.contrib.admin',
     'django.contrib.sitemaps',
     'gunicorn',
