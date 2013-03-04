@@ -1,18 +1,31 @@
 import os
 
-PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = (
-    ('Paul Walsh', 'paulywalsh@gmail.com'),
-    ('Yehonatan Daniv', 'maggotfish@gmail.com'),
-)
+SECRET_KEY = 'pvh9d)+7aui4=evh$yv!qgbr3oyz-4=^oj_%6g8+v57b=de5)7'
+SETTINGS_ROOT = os.path.abspath(os.path.dirname(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.dirname(SETTINGS_ROOT))
+WSGI_APPLICATION = 'omuni.wsgi.application'
 
-MANAGERS = ADMINS
+ROOT_URLCONF = 'omuni.urls'
+SUBDOMAIN_URLCONFS = {
+    '': 'omuni.urls',
+    'www': 'omuni.urls',
+    'he': 'omuni.urls',
+    'en': 'omuni.urls',
+    'ru': 'omuni.urls',
+    'ar': 'omuni.urls',
+    'api': 'omuni.api.urls',
+}
 
-# will be updated for deployment
+SITE_ID = 1
+TIME_ZONE = 'UTC'
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -23,16 +36,6 @@ DATABASES = {
         'PORT': '',
     }
 }
-
-TIME_ZONE = 'UTC'
-
-SITE_ID = 1
-
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
 
 MEDIA_ROOT = os.path.abspath(
     os.path.join(PROJECT_ROOT, 'static', 'media')
@@ -52,18 +55,20 @@ STATICFILES_DIRS = (
     ),
 )
 
+TEMPLATE_DIRS = (
+    os.path.abspath(
+        os.path.join(PROJECT_ROOT, 'commons', 'templates')
+    ),
+)
+
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    #'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
-
-SECRET_KEY = 'pvh9d)+7aui4=evh$yv!qgbr3oyz-4=^oj_%6g8+v57b=de5)7'
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-    #'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -76,29 +81,6 @@ MIDDLEWARE_CLASSES = (
     'omuni.international.middleware.InterfaceLanguage',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    # debug_toolbar for development only
-    #'debug_toolbar.middleware.DebugToolbarMiddleware',
-)
-
-ROOT_URLCONF = 'omuni.urls'
-
-SUBDOMAIN_URLCONFS = {
-    '': 'omuni.urls',
-    'www': 'omuni.urls',
-    'he': 'omuni.urls',
-    'en': 'omuni.urls',
-    'ru': 'omuni.urls',
-    'ar': 'omuni.urls',
-    'api': 'omuni.api.urls',
-}
-
-WSGI_APPLICATION = 'omuni.wsgi.application'
-
-TEMPLATE_DIRS = (
-    os.path.abspath(
-        os.path.join(PROJECT_ROOT, 'commons', 'templates')
-    ),
 )
 
 INSTALLED_APPS = (
@@ -129,10 +111,6 @@ INSTALLED_APPS = (
     'omuni.interactions',
     'omuni.international',
     'omuni.pages',
-
-    # debug_toolbar for development only
-    #'debug_toolbar',
-
 )
 
 LOGGING = {
@@ -160,7 +138,6 @@ LOGGING = {
 }
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    # here are the django defaults
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',
@@ -168,24 +145,21 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
-    # and here our additions for the project
     'django.core.context_processors.request',
     'omuni.commons.context_processors.get_site',
 )
 
+# FIXTURE CONF
 FIXTURE_DIRS = (
     os.path.abspath(
         os.path.join(PROJECT_ROOT, 'fixtures')
     ),
 )
 
-# Languages
+# LANGUAGE CONF
 LANGUAGE_CODE = 'en'
-
 MODELTRANSLATION_DEFAULT_LANGUAGE = LANGUAGE_CODE
-
 gettext = lambda s: s
-
 LANGUAGES = (
     ('en', gettext('English')),
     ('he', gettext('Hebrew')),
@@ -193,71 +167,32 @@ LANGUAGES = (
     ('ru', gettext('Russian')),
 )
 
-# We do unicode slugs around here, not transliterations...
+# UNICODE SLUG CONF
 AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
 
+# USER ACCOUNT CONF
 ACCOUNT_ACTIVATION_DAYS = 7
-
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
-
 LOGIN_URL = '/accounts/login/'
-
 LOGIN_REDIRECT_URL = '/'
-
 LOGOUT_URL = '/accounts/logout/'
-
 ABSOLUTE_URL_OVERRIDES = {
     'auth.user': lambda u: "/accounts/%s/" % u.get_profile.uuid,
 }
 
-# SMTP configuration
-EMAIL_USE_TLS = True
-
-EMAIL_HOST = 'smtp.gmail.com'
-
-EMAIL_PORT = 587
-
-EMAIL_HOST_USER = ''
-
-EMAIL_HOST_PASSWORD = ''
-
-# Grappelli configuration
+# GRAPPELLI CONF
 GRAPPELLI_ADMIN_TITLE = 'Open Budget'
-
 GRAPPELLI_INDEX_DASHBOARD = 'omuni.dashboard.OpenBudgetDashboard'
 
-# Django REST Framework configuration
+# DJANGO REST FRAMEWORK CONF
 REST_FRAMEWORK = {
-
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
     ),
-
     'PAGINATE_BY': 10
-
 }
 
-# Sentry error logging
-SENTRY_DSN = ''
-
-# Comments
+# COMMENTS CONF
 COMMENTS_APP = 'omuni.interactions'
 COMMENTS_HIDE_REMOVED = True
 COMMENT_MAX_LENGTH = 10000
-
-# MOVE ANYTHING BELOW TO: settings_local.py
-
-# debug_toolbar stuff
-INTERNAL_IPS = ('127.0.0.1',)
-
-DEBUG_TOOLBAR_CONFIG = {
-    'INTERCEPT_REDIRECTS': False,
-}
-# for DEMO site
-SESSION_COOKIE_DOMAIN='open-budget.prjts.com'
-
-# Load settings_local if it exists
-try:
-    from settings_local import *
-except ImportError:
-    pass

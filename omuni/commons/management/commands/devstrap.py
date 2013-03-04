@@ -3,7 +3,7 @@ from optparse import make_option
 from subprocess import call
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
-from omuni import settings
+from omuni.settings import local as settings
 
 
 class Command(BaseCommand):
@@ -41,7 +41,7 @@ class Command(BaseCommand):
 
         # load fixtures
         self.stdout.write("### Loading fixtures\n")
-        for fixture in settings.FIXTURES:
+        for fixture in settings.DEVSTRAP['FIXTURES']:
             call_command('loaddata', fixture)
 
         if options['test']:

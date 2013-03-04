@@ -1,4 +1,4 @@
-from omuni import settings
+from omuni.settings import base as settings
 
 
 def get_language_key(host, domain, user):

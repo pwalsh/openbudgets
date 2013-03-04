@@ -5,7 +5,7 @@
 *.sublime-workspace
 *.db
 *.pyc
-settings_local.py
+settings/production.py
 docs/_build
 docs/_static
 docs/_templates

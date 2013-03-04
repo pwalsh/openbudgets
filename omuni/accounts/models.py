@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from omuni.settings import LANGUAGES
+from omuni.settings.base import LANGUAGES
 from omuni.interactions.models import IComment, Post, Annotation, Star, Follow
 from omuni.commons.mixins.models import UUIDModel
 
