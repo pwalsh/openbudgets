@@ -1,0 +1,25 @@
+{% load i18n comments %}
+{% load url from future %}
+
+<dl id="comments">
+{% get_comment_count for object as comment_count %}
+<p>
+  {% trans 'This discussion has' %} {{ comment_count }} {% trans 'comments' %}. {% trans 'What do you have to say' %}?
+</p>
+{% if comment_list %}
+<p>
+  <a href="{% url 'comment_feed' object.get_class_name object.uuid %}">Feed</a>
+</p>
+{% endif %}
+
+  {% for comment in comment_list %}
+  <a name="comment-{{ comment.uuid }}"></a>
+    <dt id="c{{ comment.id }}">
+        {{ comment.submit_date }} - {{ comment.name }}
+    </dt>
+    <dd>
+        <p>{{ comment.comment }}</p>
+        <a href="{% get_comment_permalink comment "#comment-%(uuid)s"%}">permalink</a>
+    </dd>
+  {% endfor %}
+</dl>

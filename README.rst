@@ -3,14 +3,14 @@ Open Budget for Municipalities
 
 The Open Budget project is a web app and web API for municipality budgets, and related contextual data.
 
-.. image:: https://travis-ci.org/prjts/open-muni.png
+.. image:: https://travis-ci.org/prjts/open-budget.png
 
 Get involved
 ------------
 
-Code: https://github.com/hasadna/omuni-budget
+Code: https://github.com/hasadna/openbudget-budget
 
-Issues: https://github.com/hasadna/omuni-budget/issues
+Issues: https://github.com/hasadna/openbudget-budget/issues
 
 Docs: http://open-budget.readthedocs.org/
 

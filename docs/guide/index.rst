@@ -105,15 +105,15 @@ Make a virtualenv
 
 Issue the following commands to create a new virtualenv for the project, and then clone the git repository into your virtualenv project directory::
 
-    mkvirtualenv open-muni
+    mkvirtualenv open-budget
 
-    mkdir /srv/projects/open-muni
+    mkdir /srv/projects/open-budget
 
-    setvirtualenvproject /srv/environments/open-muni /srv/projects/open-muni
+    setvirtualenvproject /srv/environments/open-budget /srv/projects/open-budget
 
     cdproject
 
-    git clone git@github.com:hasadna/open-muni.git .
+    git clone git@github.com:hasadna/omuni-budget.git .
 
 **Important: Note the "." at the end of the git clone command.**
 
@@ -221,7 +221,7 @@ The major reason we decided to expose localized content via subdomains is that i
 We want Open Budget content to be highly discoverable, and thus we want Google and other search engines to crawl and rank each language as a distinct entity. We have also added language annotations as per those same guidelines to the same end.
 
 .. _modeltranslation: https://django-modeltranslation.readthedocs.org/en/latest/
-.. _InterfaceLanguage: https://github.com/hasadna/open-muni/blob/develop/omuni/commons/middleware.py#L7
+.. _InterfaceLanguage: https://github.com/hasadna/open-muni/blob/develop/openbudget/commons/middleware.py#L7
 .. _subdomains: http://django-subdomains.readthedocs.org/en/latest/
 .. _here: http://googlewebmastercentral.blogspot.co.il/2011/12/new-markup-for-multilingual-content.html
 

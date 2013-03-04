@@ -2,7 +2,7 @@ language: python
 python:
   - "2.7"
 install: pip install -r requirements.txt
-script:  python manage.py test accounts api budgets commons govts interactions pages international
+script: python manage.py test accounts api budgets commons govts interactions pages international
 notifications:
   email:
     - hello@prjts.com
