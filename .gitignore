@@ -5,7 +5,7 @@
 *.sublime-workspace
 *.db
 *.pyc
-settings/production.py
+openbudget/settings/production.py
 docs/_build
 docs/_static
 docs/_templates
