@@ -40,11 +40,8 @@ class Command(BaseCommand):
         except:
             raise CommandError('syncdb failed')
 
-        # load fixtures
-        self.stdout.write("### Loading fixtures\n")
-        for fixture in settings.DEVSTRAP['FIXTURES']:
-            call_command('loaddata', fixture)
-
+        # register models translations (duh)
+        self.stdout.write("### Registering models translations\n")
         register_models_translations()
 
         self.stdout.write("### Loading fixtures\n")
