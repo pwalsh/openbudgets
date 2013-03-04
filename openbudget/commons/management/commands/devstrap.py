@@ -4,6 +4,7 @@ from subprocess import call
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
 from openbudget.settings import local as settings
+from modeltranslation.models import autodiscover as register_models_translations
 
 
 class Command(BaseCommand):
@@ -40,6 +41,12 @@ class Command(BaseCommand):
             raise CommandError('syncdb failed')
 
         # load fixtures
+        self.stdout.write("### Loading fixtures\n")
+        for fixture in settings.DEVSTRAP['FIXTURES']:
+            call_command('loaddata', fixture)
+
+        register_models_translations()
+
         self.stdout.write("### Loading fixtures\n")
         for fixture in settings.DEVSTRAP['FIXTURES']:
             call_command('loaddata', fixture)
