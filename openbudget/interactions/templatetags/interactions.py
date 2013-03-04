@@ -1,10 +1,10 @@
-from django.template import Library
-from django.contrib.contenttypes.models import ContentType
+from django import template
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.contenttypes.models import ContentType
 from openbudget.interactions.models import Star
 
 
-register = Library()
+register = template.Library()
 
 
 @register.inclusion_tag('interactions/partials/_star.html')

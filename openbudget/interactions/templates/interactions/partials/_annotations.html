@@ -1,0 +1,9 @@
+{% load i18n %}
+{% load url from future %}
+<section id="annotations">
+<h2>
+    {% trans 'My Annotations' %}
+</h2>
+{% include 'interactions/partials/_annotation_list.html' %}
+{% include 'interactions/partials/_comment_form.html' %}
+</section>

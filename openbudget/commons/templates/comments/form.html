@@ -1,15 +1,18 @@
 {% load comments i18n form_extras %}
+{% load url from future %}
 
 
 <form action="{% comment_form_target %}" method="POST">
     {% csrf_token %}
     <fieldset>
         {% field_generator form.comment %}
+        {% field_generator form.of_type hidden=1 %}
         {% field_generator form.honeypot inline_styles="display: none;" %}
         {% field_generator form.content_type hidden=1 %}
         {% field_generator form.object_pk hidden=1 %}
         {% field_generator form.timestamp hidden=1 %}
         {% field_generator form.security_hash hidden=1 %}
+        <input type="hidden" name="next" value="{{ request.path }}" />
     </fieldset>
     <fieldset>
         {% include 'partials/_form_action_post.html' %}
