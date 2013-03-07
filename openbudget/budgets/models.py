@@ -16,7 +16,7 @@ NODE_DIRECTIONS = (
 )
 
 
-class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
+class BudgetTemplate(TimeStampedModel, UUIDModel):
     """The budget template for a given geopolitical entity"""
 
     geopol = models.ForeignKey(
@@ -124,7 +124,7 @@ class BudgetTemplateNode(MPTTModel, TimeStampedModel, UUIDModel):
         return self.code
 
 
-class Sheet(TimeStampedModel, UUIDModel, models.Model):
+class Sheet(TimeStampedModel, UUIDModel):
     """An abstract class for common Budget and Actual data"""
 
     geopol = models.ForeignKey(
@@ -265,7 +265,7 @@ class Actual(Sheet):
         unicode(self.period_end)
 
 
-class Annotation(UUIDModel, TimeStampedModel, models.Model):
+class Annotation(UUIDModel, TimeStampedModel):
     user = models.OneToOneField(
         User
     )
@@ -290,7 +290,7 @@ class Annotation(UUIDModel, TimeStampedModel, models.Model):
         verbose_name_plural = _('Annotations')
 
 
-class SheetItem(TimeStampedModel, UUIDModel, models.Model):
+class SheetItem(TimeStampedModel, UUIDModel):
     """Abstract class for common BudgetItem and ActualItem data"""
 
     node = models.ForeignKey(

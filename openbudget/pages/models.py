@@ -5,7 +5,7 @@ from openbudget.commons.data import OBJECT_STATES
 from openbudget.commons.mixins.models import TimeStampedModel
 
 
-class Page(TimeStampedModel, models.Model):
+class Page(TimeStampedModel):
 
     status = models.IntegerField(
         _('Publication status'),

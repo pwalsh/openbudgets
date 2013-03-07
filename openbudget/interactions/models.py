@@ -16,7 +16,7 @@ class ToggleableInteractionManager(models.Manager):
         return self.get_query_set().filter(user=user)
 
 
-class ToggleableInteraction(TimeStampedModel, models.Model):
+class ToggleableInteraction(TimeStampedModel):
     """An abstract class for toggleable user interactions with objects"""
 
     objects = ToggleableInteractionManager()

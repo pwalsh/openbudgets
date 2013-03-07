@@ -5,7 +5,7 @@ from django.contrib.contenttypes import generic
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
 
 
-class DataSource(TimeStampedModel, UUIDModel, models.Model):
+class DataSource(TimeStampedModel, UUIDModel):
     """Describes an original source of data.
 
     All data in the system should declare a data source.
