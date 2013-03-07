@@ -1,0 +1,8 @@
+{
+  "volo": {
+    "baseDir": "./openbudget/commons/static/js",
+    "dependencies": {
+      "uijet": "github:ydaniv/uijet/v0.0.3"
+    }
+  }
+}
