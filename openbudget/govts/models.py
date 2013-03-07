@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.db.models.loading import get_model
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
+from mptt.models import MPTTModel, TreeForeignKey
 from autoslug import AutoSlugField
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
 from openbudget.interactions.models import IComment
@@ -15,7 +16,7 @@ GEOPOL_TYPE_CHOICES = (
 )
 
 
-class GeoPoliticalEntity(TimeStampedModel, UUIDModel, models.Model):
+class GeoPoliticalEntity(TimeStampedModel, UUIDModel, MPTTModel):
     """Describes a State, municipality, or other geopolitical entity"""
 
     name = models.CharField(
@@ -42,10 +43,11 @@ class GeoPoliticalEntity(TimeStampedModel, UUIDModel, models.Model):
         choices=GEOPOL_TYPE_CHOICES,
         help_text=_('Declare the type of entity this geopol is from the available choices.')
     )
-    parent = models.ForeignKey(
+    parent = TreeForeignKey(
         'self',
         null=True,
-        blank=True
+        blank=True,
+        related_name='children'
     )
     discussion = generic.GenericRelation(
         IComment,

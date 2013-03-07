@@ -2,6 +2,7 @@ from __future__ import division
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
+from mptt.models import MPTTModel, TreeForeignKey
 from openbudget.govts.models import GeoPoliticalEntity, GEOPOL_TYPE_CHOICES
 from openbudget.commons.models import DataSource
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
@@ -18,6 +19,7 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
 
     geopol = models.ForeignKey(
         GeoPoliticalEntity,
+        related_name='templates'
     )
     target = models.CharField(
         max_length=20,
@@ -52,7 +54,7 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
         return self.name
 
 
-class BudgetTemplateNode(TimeStampedModel, UUIDModel, models.Model):
+class BudgetTemplateNode(TimeStampedModel, UUIDModel, MPTTModel):
     """The individual nodes in a budget template"""
 
     template = models.ForeignKey(
@@ -73,11 +75,11 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel, models.Model):
         blank=True,
         help_text=_('Describe for this entry.')
     )
-    parent = models.ForeignKey(
+    parent = TreeForeignKey(
         'self',
         null=True,
         blank=True,
-        related_name='node_parent'
+        related_name='children'
     )
     #TODO: in Israeli budget this should be automatically filled in the importer
     direction = models.PositiveSmallIntegerField(
@@ -94,11 +96,6 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel, models.Model):
         blank=True,
         help_text=_('Describe for this entry.')
     )
-
-    #TODO: implement
-    @property
-    def root(self):
-        pass
 
     @property
     def budget_items(self):
@@ -127,6 +124,7 @@ class Sheet(TimeStampedModel, UUIDModel, models.Model):
 
     geopol = models.ForeignKey(
         GeoPoliticalEntity,
+        related_name='sheets'
     )
     period_start = models.DateField(
         _('Period start'),
@@ -267,7 +265,8 @@ class SheetItem(TimeStampedModel, UUIDModel, models.Model):
     """Abstract class for common BudgetItem and ActualItem data"""
 
     node = models.ForeignKey(
-        BudgetTemplateNode
+        BudgetTemplateNode,
+        related_name='items'
     )
     description = models.TextField(
         _('Item description'),
@@ -302,7 +301,8 @@ class BudgetItem(SheetItem):
     """Describes a single item in a budget"""
 
     budget = models.ForeignKey(
-        Budget
+        Budget,
+        related_name='items'
     )
 
     class Meta:
@@ -321,7 +321,8 @@ class ActualItem(SheetItem):
     """Describes a single item in an actual"""
 
     actual = models.ForeignKey(
-        Actual
+        Actual,
+        related_name='items'
     )
 
     class Meta:
