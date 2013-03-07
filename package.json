@@ -2,7 +2,10 @@
   "volo": {
     "baseDir": "./openbudget/commons/static/js",
     "dependencies": {
-      "uijet": "github:ydaniv/uijet/v0.0.3"
+      "uijet": "github:ydaniv/uijet/v0.0.4",
+      "zepto": "github:madrobby/zepto/v1.0",
+      "q": "github:kriskowal/q/0.9.1",
+      "eventbox": "github:ydaniv/eventbox/v0.1.1"
     }
   }
 }
