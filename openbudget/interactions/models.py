@@ -1,76 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.comments.models import Comment
+from django.contrib.comments.models import BaseCommentAbstractModel
+from django.contrib.comments.managers import CommentManager
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext_lazy as _
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
-
-
-COMMENT_TYPE_CHOICES = (
-    ('post', _('Post')),
-    ('annotation', _('Annotation')),
-)
-
-
-class IComment(TimeStampedModel, UUIDModel, Comment):
-    """Django's Comment class with additional functionality"""
-
-    #title = models.CharField(max_length=300)
-    of_type = models.CharField(
-        _('Of type'),
-        max_length=20,
-        choices=COMMENT_TYPE_CHOICES,
-        editable=False
-    )
-
-    @classmethod
-    def get_class_name(cls):
-        value = cls.__name__.lower()
-        return value
-
-    def get_absolute_url(self, anchor_pattern="#comment-%(uuid)s"):
-        return self.get_content_object_url() + (anchor_pattern % self.__dict__)
-
-
-class CommentProxyBase(IComment):
-
-    class Meta:
-        proxy = True
-
-
-class PostManager(models.Manager):
-    """Returns just Posts"""
-
-    def get_query_set(self):
-        return super(PostManager, self).get_query_set().filter(of_type='post')
-
-
-class Post(CommentProxyBase):
-
-    objects = PostManager()
-
-    class Meta:
-        proxy = True
-        verbose_name = _('Post')
-        verbose_name_plural = _('Posts')
-
-
-class AnnotationManager(models.Manager):
-    """Returns just Annotations"""
-
-    def get_query_set(self):
-        return super(AnnotationManager, self).get_query_set().filter(of_type='annotation')
-
-
-class Annotation(CommentProxyBase):
-
-    objects = AnnotationManager()
-
-    class Meta:
-        proxy = True
-        verbose_name = _('Annotation')
-        verbose_name_plural = _('Annotations')
 
 
 class ToggleableInteractionManager(models.Manager):

@@ -40,7 +40,7 @@
     <div>
         <h3>{% trans 'Discussion posts' %}</h3>
         <div id="stars">
-            {% for post in user.get_profile.posts %}
+            {% for post in user.get_profile.comments %}
             <div class="discussion">
                 <h4>
                     {% trans 'On' %} {{ post.content_object }}

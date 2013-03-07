@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 from openbudget.interactions.models import Star
 
 
-class ICommentFeed(Feed):
+class CommentFeed(Feed):
     """"Give an object, get all comments for it in Atom"""
 
     feed_type = Atom1Feed
@@ -39,7 +39,7 @@ class ICommentFeed(Feed):
         return value
 
     def items(self, obj):
-        value = obj.posts.all()
+        value = obj.discussion.all()
         return value
 
 

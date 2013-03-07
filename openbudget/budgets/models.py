@@ -1,12 +1,14 @@
 from __future__ import division
 from django.db import models
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from mptt.models import MPTTModel, TreeForeignKey
+from django.contrib.comments.models import Comment
 from openbudget.govts.models import GeoPoliticalEntity, GEOPOL_TYPE_CHOICES
 from openbudget.commons.models import DataSource
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
-from openbudget.interactions.models import IComment
 
 
 NODE_DIRECTIONS = (
@@ -143,7 +145,7 @@ class Sheet(TimeStampedModel, UUIDModel, models.Model):
         DataSource
     )
     discussion = generic.GenericRelation(
-        IComment,
+        Comment,
         object_id_field="object_pk"
     )
 
@@ -261,6 +263,31 @@ class Actual(Sheet):
         unicode(self.period_end)
 
 
+class Annotation(UUIDModel, TimeStampedModel, models.Model):
+    user = models.OneToOneField(
+        User
+    )
+    note = models.TextField(
+            _('note'),
+            blank=True,
+            help_text=_('This note.')
+    )
+    content_type = models.ForeignKey(
+        ContentType,
+        editable=False
+    )
+    object_id = models.PositiveIntegerField(
+        editable=False
+    )
+    content_object = generic.GenericForeignKey(
+        'content_type', 'object_id',
+    )
+    class Meta:
+        ordering = ['user']
+        verbose_name = _('Annotation')
+        verbose_name_plural = _('Annotations')
+
+
 class SheetItem(TimeStampedModel, UUIDModel, models.Model):
     """Abstract class for common BudgetItem and ActualItem data"""
 
@@ -278,7 +305,11 @@ class SheetItem(TimeStampedModel, UUIDModel, models.Model):
         help_text=_('The amount of this entry, plus or minus.')
     )
     discussion = generic.GenericRelation(
-        IComment,
+        Comment,
+        object_id_field="object_pk"
+    )
+    annotation = generic.GenericRelation(
+        Annotation,
         object_id_field="object_pk"
     )
 

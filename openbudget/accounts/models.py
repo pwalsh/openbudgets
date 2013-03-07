@@ -1,10 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.comments.models import Comment
 from django.utils.translation import ugettext as _
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from openbudget.settings.base import LANGUAGES
-from openbudget.interactions.models import IComment, Post, Annotation, Star, Follow
+from openbudget.interactions.models import Star, Follow
+from openbudget.budgets.models import Annotation
 from openbudget.commons.mixins.models import UUIDModel
 
 
@@ -22,14 +24,12 @@ class UserProfile(UUIDModel, models.Model):
     )
 
     @property
-    def posts(self):
-        # We'll use proxy models to get the actual discussions
-        value = Post.objects.filter(user=self.user)
+    def comments(self):
+        value = Comment.objects.filter(user=self.user)
         return value
 
     @property
     def annotations(self):
-        # We'll use proxy models to get the actual annotations
         value = Annotation.objects.filter(user=self.user)
         return value
 

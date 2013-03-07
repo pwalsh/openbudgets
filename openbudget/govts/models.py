@@ -4,9 +4,9 @@ from django.db.models.loading import get_model
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
 from mptt.models import MPTTModel, TreeForeignKey
+from django.contrib.comments.models import Comment
 from autoslug import AutoSlugField
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
-from openbudget.interactions.models import IComment
 from openbudget.commons.utilities import get_ultimate_parent
 
 
@@ -50,7 +50,7 @@ class GeoPoliticalEntity(TimeStampedModel, UUIDModel, MPTTModel):
         related_name='children'
     )
     discussion = generic.GenericRelation(
-        IComment,
+        Comment,
         object_id_field="object_pk"
     )
 

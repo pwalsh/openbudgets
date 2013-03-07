@@ -11,11 +11,11 @@ ADMINS = (
 MANAGERS = ADMINS
 
 MIDDLEWARE_CLASSES += (
-    #'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 INSTALLED_APPS += (
-    #'debug_toolbar',
+    'debug_toolbar',
 )
 
 EMAIL_USE_TLS = True
