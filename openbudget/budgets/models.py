@@ -56,7 +56,7 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
         return self.name
 
 
-class BudgetTemplateNode(TimeStampedModel, UUIDModel, MPTTModel):
+class BudgetTemplateNode(MPTTModel, TimeStampedModel, UUIDModel):
     """The individual nodes in a budget template"""
 
     template = models.ForeignKey(
@@ -113,6 +113,9 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel, MPTTModel):
         verbose_name = _('Budget template node')
         verbose_name_plural = _('Budget template nodes')
 
+    class MPTTMeta:
+        order_insertion_by = ['code']
+
     @models.permalink
     def get_absolute_url(self):
         return ('budget_template_node', [self.uuid])
@@ -125,8 +128,7 @@ class Sheet(TimeStampedModel, UUIDModel, models.Model):
     """An abstract class for common Budget and Actual data"""
 
     geopol = models.ForeignKey(
-        GeoPoliticalEntity,
-        related_name='sheets'
+        GeoPoliticalEntity
     )
     period_start = models.DateField(
         _('Period start'),
@@ -292,8 +294,7 @@ class SheetItem(TimeStampedModel, UUIDModel, models.Model):
     """Abstract class for common BudgetItem and ActualItem data"""
 
     node = models.ForeignKey(
-        BudgetTemplateNode,
-        related_name='items'
+        BudgetTemplateNode
     )
     description = models.TextField(
         _('Item description'),

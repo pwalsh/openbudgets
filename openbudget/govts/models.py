@@ -16,7 +16,7 @@ GEOPOL_TYPE_CHOICES = (
 )
 
 
-class GeoPoliticalEntity(TimeStampedModel, UUIDModel, MPTTModel):
+class GeoPoliticalEntity(MPTTModel, TimeStampedModel, UUIDModel):
     """Describes a State, municipality, or other geopolitical entity"""
 
     name = models.CharField(
@@ -136,3 +136,6 @@ class GeoPoliticalEntity(TimeStampedModel, UUIDModel, MPTTModel):
         ordering = ['name']
         verbose_name = _('Geopolitical entity')
         verbose_name_plural = _('Geopolitical entities')
+
+    class MPTTMeta:
+        order_insertion_by = ['code']
