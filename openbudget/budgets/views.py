@@ -1,4 +1,5 @@
 from django.views.generic import DetailView
+from django.shortcuts import render
 from openbudget.budgets.models import Budget, BudgetItem, Actual, ActualItem
 
 
@@ -24,3 +25,6 @@ class ActualItemDetailView(DetailView):
     model = ActualItem
     template_name = 'budgets/actual_item_detail.html'
     slug_field = 'uuid'
+
+def budget_browser(request):
+    return render(request, 'budgets/browser.html')

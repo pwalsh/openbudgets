@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/browser/main.css"/>
+    <title>Open Muni Budget | Budget Browser</title>
+</head>
+<body>
+    <div id="budget_browser" class="uijet_app">
+        Hello Budget Browser!
+    </div>
+    <script>
+        var BASE_URL = '{{ STATIC_URL }}';
+    </script>
+    <script src="{{ STATIC_URL }}js/require.js" data-main="{{ STATIC_URL }}js/browser/main"></script>
+</body>
+</html>

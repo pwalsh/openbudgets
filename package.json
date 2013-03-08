@@ -5,7 +5,8 @@
       "uijet": "github:ydaniv/uijet/v0.0.4",
       "zepto": "github:madrobby/zepto/v1.0",
       "q": "github:kriskowal/q/0.9.1",
-      "eventbox": "github:ydaniv/eventbox/v0.1.1"
+      "eventbox": "github:ydaniv/eventbox/v0.1.1",
+      "require": "github:jrburke/requirejs/2.1.5"
     }
   }
 }

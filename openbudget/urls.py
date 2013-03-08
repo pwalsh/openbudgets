@@ -17,6 +17,9 @@ urlpatterns = patterns('',
     url(r'^accounts/',
         include('openbudget.accounts.urls')
     ),
+    url(r'^budgets/',
+        include('openbudget.budgets.urls')
+    ),
     url(r'^govts/',
         include('openbudget.govts.urls')
     ),
