@@ -176,7 +176,7 @@ Examples:
 
 * I want to work on a ticket to add "bookmarking" features, then I branch off "develop" into "feature/bookmarks", and when I am finished, I submit a pull request for this branch
 
-* I want to work on a ticket to refactor view logic in the "govts" app, then I branch off "develop" into "feature/govts-refactoring", and when I am finished, I submit a pull request for this branch
+* I want to work on a ticket to refactor view logic in the "entities" app, then I branch off "develop" into "feature/entities-refactoring", and when I am finished, I submit a pull request for this branch
 
 Again, see the original post about Git Flow for more good practices:
 
@@ -241,7 +241,7 @@ Any level of government can have a BudgetTemplate, but all members of the same l
 Governments
 ~~~~~~~~~~~
 
-Govts are represented by the GeoPoliticalEntity model, which has realtions with self to build a gvernment structure.
+Govts are represented by the Entity model, which has realtions with self to build a gvernment structure.
 
 Accounts
 ~~~~~~~~

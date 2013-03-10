@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-20 09:02+0200\n"
+"POT-Creation-Date: 2013-03-10 18:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,22 +74,6 @@ msgstr ""
 msgid "Recent Actions"
 msgstr ""
 
-#: settings.py:186
-msgid "English"
-msgstr ""
-
-#: settings.py:187
-msgid "Hebrew"
-msgstr ""
-
-#: settings.py:188
-msgid "Arabic"
-msgstr ""
-
-#: settings.py:189
-msgid "Russian"
-msgstr ""
-
 #: accounts/admin.py:24
 msgid "Account credentials"
 msgstr ""
@@ -110,7 +94,7 @@ msgstr ""
 msgid "Your last name."
 msgstr ""
 
-#: accounts/models.py:21
+#: accounts/models.py:23
 msgid "Set your prefered language for the app"
 msgstr ""
 
@@ -188,134 +172,150 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: budgets/models.py:12
-msgid "income"
+#: budgets/models.py:14
+msgid "REVENUE"
 msgstr ""
 
-#: budgets/models.py:12
-msgid "expense"
+#: budgets/models.py:15
+msgid "EXPENDITURE"
 msgstr ""
 
 #: budgets/models.py:28
 msgid "The name of this budget template."
 msgstr ""
 
-#: budgets/models.py:44
+#: budgets/models.py:41
 msgid "Budget template"
 msgstr ""
 
-#: budgets/models.py:45
+#: budgets/models.py:42
 msgid "Budget templates"
 msgstr ""
 
-#: budgets/models.py:65 budgets/templates/budgets/actual_detail.html:16
+#: budgets/models.py:62 budgets/templates/budgets/actual_detail.html:16
 #: budgets/templates/budgets/budget_detail.html:16
 #: budgets/templates/budgets/budget_item_detail.html:6
 msgid "Code"
 msgstr ""
 
-#: budgets/models.py:69
+#: budgets/models.py:66
 msgid "Name"
 msgstr ""
 
-#: budgets/models.py:72 govts/models.py:27
+#: budgets/models.py:69 entities/models.py:125
 msgid "Entry description"
 msgstr ""
 
-#: budgets/models.py:74 budgets/models.py:95
+#: budgets/models.py:71 budgets/models.py:93
 msgid "Describe for this entry."
 msgstr ""
 
-#: budgets/models.py:84
-msgid "Income/Expense"
+#: budgets/models.py:81
+msgid "REVENUE/EXPENDITURE"
 msgstr ""
 
-#: budgets/models.py:86
-msgid "Determines whether this is an income or expense."
+#: budgets/models.py:83
+msgid "Indicates whether this node is for revenue or expenditure"
 msgstr ""
 
-#: budgets/models.py:114
+#: budgets/models.py:112
 msgid "Budget template node"
 msgstr ""
 
-#: budgets/models.py:115
+#: budgets/models.py:113
 msgid "Budget template nodes"
 msgstr ""
 
-#: budgets/models.py:132
+#: budgets/models.py:130
 msgid "Period start"
 msgstr ""
 
-#: budgets/models.py:133
+#: budgets/models.py:131
 #, python-format
 msgid "The start date for this %(class)s"
 msgstr ""
 
-#: budgets/models.py:136
+#: budgets/models.py:134
 msgid "Period end"
 msgstr ""
 
-#: budgets/models.py:137
+#: budgets/models.py:135
 #, python-format
 msgid "The end date for this %(class)s"
 msgstr ""
 
-#: budgets/models.py:140
+#: budgets/models.py:138
 msgid "Budget description"
 msgstr ""
 
-#: budgets/models.py:142
+#: budgets/models.py:140
 #, python-format
 msgid "Descriptive text for this %(class)s"
 msgstr ""
 
-#: budgets/models.py:197
+#: budgets/models.py:195
 msgid "Budget"
 msgstr ""
 
-#: budgets/models.py:198
+#: budgets/models.py:196
 msgid "Budgets"
 msgstr ""
 
-#: budgets/models.py:253
+#: budgets/models.py:251
 msgid "Actual"
 msgstr ""
 
-#: budgets/models.py:254
+#: budgets/models.py:252
 msgid "Actuals"
 msgstr ""
 
-#: budgets/models.py:273
+#: budgets/models.py:269
+msgid "note"
+msgstr ""
+
+#: budgets/models.py:271
+msgid "This note."
+msgstr ""
+
+#: budgets/models.py:285
+msgid "Annotation"
+msgstr ""
+
+#: budgets/models.py:286
+msgid "Annotations"
+msgstr ""
+
+#: budgets/models.py:296
 msgid "Item description"
 msgstr ""
 
-#: budgets/models.py:275
+#: budgets/models.py:298
 msgid "Description that appears for this entry."
 msgstr ""
 
-#: budgets/models.py:278 budgets/templates/budgets/actual_detail.html:20
+#: budgets/models.py:301 budgets/templates/budgets/actual_detail.html:20
 #: budgets/templates/budgets/budget_detail.html:20
 #: budgets/templates/budgets/budget_item_detail.html:15
 msgid "Amount"
 msgstr ""
 
-#: budgets/models.py:279
-msgid "The amount of this entry, plus or minus."
+#: budgets/models.py:302
+msgid "The amount of this entry. The node determines REVENUE or EXPENDITURE"
 msgstr ""
 
-#: budgets/models.py:309
+#: budgets/models.py:336
 msgid "Budget item"
 msgstr ""
 
-#: budgets/models.py:310
+#: budgets/models.py:337
 msgid "Budget items"
 msgstr ""
 
-#: budgets/models.py:328
+#: budgets/models.py:355
 msgid "Actual item"
 msgstr ""
 
-#: budgets/models.py:329
+#: budgets/models.py:356
 msgid "Actual items"
 msgstr ""
 
@@ -328,7 +328,7 @@ msgstr ""
 
 #: budgets/templates/budgets/actual_detail.html:11
 #: budgets/templates/budgets/budget_detail.html:11
-msgid "Back to the geopol"
+msgid "Back to the entity"
 msgstr ""
 
 #: budgets/templates/budgets/actual_detail.html:18
@@ -406,14 +406,15 @@ msgid "Home"
 msgstr ""
 
 #: commons/templates/base.html:47
-msgid "Geopols"
+msgid "Entities"
 msgstr ""
 
 #: commons/templates/base.html:50
 msgid "API"
 msgstr ""
 
-#: commons/templates/base.html:87 govts/templates/govts/geopol_detail.html:19
+#: commons/templates/base.html:87
+#: entities/templates/entities/entity_detail.html:19
 msgid "About"
 msgstr ""
 
@@ -427,6 +428,38 @@ msgstr ""
 
 #: commons/templates/base.html:96
 msgid "Contact"
+msgstr ""
+
+#: commons/templates/comments/_preview.html:4
+#: commons/templates/comments/_preview.html:13
+msgid "Preview your comment"
+msgstr ""
+
+#: commons/templates/comments/_preview.html:11
+msgid "Please correct the error below"
+msgid_plural "Please correct the errors below"
+msgstr[0] ""
+msgstr[1] ""
+
+#: commons/templates/comments/_preview.html:16
+msgid "and"
+msgstr ""
+
+#: commons/templates/comments/_preview.html:16
+msgid "Post your comment"
+msgstr ""
+
+#: commons/templates/comments/_preview.html:16
+msgid "or make changes"
+msgstr ""
+
+#: commons/templates/comments/_preview.html:32
+#: commons/templates/partials/_form_action_post.html:2
+msgid "Post"
+msgstr ""
+
+#: commons/templates/comments/_preview.html:33
+msgid "Preview"
 msgstr ""
 
 #: commons/templates/comments/list.html:7
@@ -456,11 +489,6 @@ msgstr ""
 #: commons/templates/partials/_form_action_login.html:2
 #: interactions/templates/interactions/partials/_comment_form.html:11
 msgid "Login"
-msgstr ""
-
-#: commons/templates/partials/_form_action_post.html:2
-#: interactions/models.py:11 interactions/models.py:55
-msgid "Post"
 msgstr ""
 
 #: commons/templates/partials/_form_action_submit.html:2
@@ -640,108 +668,154 @@ msgstr ""
 msgid "App Home"
 msgstr ""
 
-#: govts/models.py:24
-msgid "The name of this Geopolitical entity."
+#: entities/models.py:26
+msgid "The name of this entity domain."
 msgstr ""
 
-#: govts/models.py:29
+#: entities/models.py:44
+msgid "entity domain"
+msgstr ""
+
+#: entities/models.py:45
+msgid "entity domains"
+msgstr ""
+
+#: entities/models.py:72 pages/models.py:30
+msgid "Index"
+msgstr ""
+
+#: entities/models.py:73
+msgid "Position this division in relation to others"
+msgstr ""
+
+#: entities/models.py:78
+msgid "The name of this division"
+msgstr ""
+
+#: entities/models.py:81
+msgid "has budgets"
+msgstr ""
+
+#: entities/models.py:83
+msgid "Must be true if this division directly presents budgets"
+msgstr ""
+
+#: entities/models.py:101
+msgid "domain division"
+msgstr ""
+
+#: entities/models.py:102
+msgid "domain divisions"
+msgstr ""
+
+#: entities/models.py:122
+msgid "The name of this entity"
+msgstr ""
+
+#: entities/models.py:127
 msgid "Describe."
 msgstr ""
 
-#: govts/models.py:38
-msgid "The official abbreviated code for this Geopolitical entity."
+#: entities/models.py:133
+msgid "The official abbreviated code for this entity."
 msgstr ""
 
-#: govts/models.py:43
-msgid "Declare the type of entity this geopol is from the available choices."
+#: entities/models.py:212
+msgid "entity"
 msgstr ""
 
-#: govts/models.py:135
-msgid "Geopolitical entity"
+#: entities/models.py:213 entities/templates/entities/entity_detail.html:24
+msgid "entities"
 msgstr ""
 
-#: govts/models.py:136
-msgid "Geopolitical entities"
-msgstr ""
-
-#: govts/templates/govts/geopol_detail.html:13
+#: entities/templates/entities/entity_detail.html:13
 msgid "Back to all geopols"
 msgstr ""
 
-#: govts/templates/govts/geopol_detail.html:25
-msgid "is part of"
+#: entities/templates/entities/entity_detail.html:24
+msgid "is one of "
 msgstr ""
 
-#: govts/templates/govts/geopol_detail.html:37
-msgid "Municipalities of"
+#: entities/templates/entities/entity_detail.html:24
+msgid "in "
 msgstr ""
 
-#: govts/templates/govts/geopol_detail.html:39
+#: entities/templates/entities/entity_detail.html:36
+msgid "Budgeting entities of"
+msgstr ""
+
+#: entities/templates/entities/entity_detail.html:38
 msgid "Related"
 msgstr ""
 
-#: govts/templates/govts/geopol_detail.html:39
-msgid "Municipalities"
+#: entities/templates/entities/entity_detail.html:38
+msgid "budgeting entities"
 msgstr ""
 
-#: govts/templates/govts/geopol_detail.html:45
-msgid "has no related municipalities"
+#: entities/templates/entities/entity_detail.html:44
+msgid "has no related entities that declare budgets"
 msgstr ""
 
-#: govts/templates/govts/geopol_detail.html:60
+#: entities/templates/entities/entity_detail.html:48
+msgid "We have the following related entities with budgets in the system"
+msgstr ""
+
+#: entities/templates/entities/entity_detail.html:62
 msgid "Budgets and Actuals"
 msgstr ""
 
-#: govts/templates/govts/geopol_detail.html:64
+#: entities/templates/entities/entity_detail.html:67
+msgid "is a"
+msgstr ""
+
+#: entities/templates/entities/entity_detail.html:67
+msgid "of"
+msgstr ""
+
+#: entities/templates/entities/entity_detail.html:67
+msgid ""
+"and therefore does not declare budgets. It serves a purely administrative "
+"function."
+msgstr ""
+
+#: entities/templates/entities/entity_detail.html:73
 msgid "There are no Budgets or Actuals for this entity"
 msgstr ""
 
-#: govts/templates/govts/geopol_detail.html:70
-msgid "There are no Budgets this entity"
-msgstr ""
-
-#: govts/templates/govts/geopol_detail.html:74
+#: entities/templates/entities/entity_detail.html:78
 msgid "Budgets available"
 msgstr ""
 
-#: govts/templates/govts/geopol_detail.html:90
-msgid "There are no Actuals this entity"
+#: entities/templates/entities/entity_detail.html:82
+msgid "There are no Budgets this entity"
 msgstr ""
 
-#: govts/templates/govts/geopol_detail.html:94
+#: entities/templates/entities/entity_detail.html:98
 msgid "Actuals available"
 msgstr ""
 
-#: govts/templates/govts/geopol_list.html:6
-msgid "All Geopolitical entities"
+#: entities/templates/entities/entity_detail.html:102
+msgid "There are no Actuals this entity"
 msgstr ""
 
-#: interactions/models.py:12 interactions/models.py:72
-msgid "Annotation"
+#: entities/templates/entities/entity_list.html:6
+msgid "All Entities"
 msgstr ""
 
-#: interactions/models.py:21
-msgid "Of type"
-msgstr ""
-
-#: interactions/models.py:56
-msgid "Posts"
-msgstr ""
-
-#: interactions/models.py:73
-msgid "Annotations"
-msgstr ""
-
-#: interactions/models.py:126
+#: interactions/models.py:61
 msgid "Star"
 msgstr ""
 
-#: interactions/models.py:127
+#: interactions/models.py:62
 msgid "Stars"
 msgstr ""
 
-#: interactions/models.py:134 interactions/models.py:135
+#: interactions/models.py:69 interactions/models.py:70
 msgid "Follow"
+msgstr ""
+
+#: interactions/templates/interactions/partials/_annotations.html:5
+msgid "My Annotations"
 msgstr ""
 
 #: interactions/templates/interactions/partials/_comment_form.html:11
@@ -808,10 +882,6 @@ msgstr ""
 msgid "The main content for this page."
 msgstr ""
 
-#: pages/models.py:30
-msgid "Index"
-msgstr ""
-
 #: pages/models.py:32
 msgid ""
 "A number used to order pages in indexes, as an alternative to date-based "
@@ -834,4 +904,20 @@ msgstr ""
 
 #: pages/models.py:55
 msgid "pages"
+msgstr ""
+
+#: settings/base.py:165
+msgid "English"
+msgstr ""
+
+#: settings/base.py:166
+msgid "Hebrew"
+msgstr ""
+
+#: settings/base.py:167
+msgid "Arabic"
+msgstr ""
+
+#: settings/base.py:168
+msgid "Russian"
 msgstr ""

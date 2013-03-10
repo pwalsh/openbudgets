@@ -1,15 +1,15 @@
 from django.views.generic import DetailView, ListView
-from openbudget.govts.models import GeoPoliticalEntity
+from openbudget.entities.models import Entity
 
 
-class GeoPolListView(ListView):
-    model = GeoPoliticalEntity
-    template_name = 'govts/geopol_list.html'
+class EntityListView(ListView):
+    model = Entity
+    template_name = 'entities/entity_list.html'
 
 
-class GeoPolDetailView(DetailView):
-    model = GeoPoliticalEntity
-    template_name = 'govts/geopol_detail.html'
+class EntityDetailView(DetailView):
+    model = Entity
+    template_name = 'entities/entity_detail.html'
 
     # TODO: get object when slug is more complex
     # We want things like:
@@ -23,10 +23,10 @@ class GeoPolDetailView(DetailView):
     #    print 'get object'
     #    real_slug = self.kwargs['slug'].split(',')[-1]
     #    print real_slug
-    #    queryset = super(GeoPolDetailView, self).get_queryset()
+    #    queryset = super(EntityDetailView, self).get_queryset()
     #    print queryset
     #    queryset = queryset.filter(slug=real_slug)
     #    print 'this'
     #    print queryset
-    #    obj = super(GeoPolDetailView, self).get_object(queryset)
+    #    obj = super(EntityDetailView, self).get_object(queryset)
     #    return obj

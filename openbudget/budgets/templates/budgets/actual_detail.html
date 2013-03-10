@@ -8,7 +8,7 @@
 
 {% block content %}
 <p>
-    <a href="{% url 'geopol_detail' object.geopol.slug %}">{% trans 'Back to the geopol' %}</a>
+    <a href="{% url 'entity_detail' object.entity.slug %}">{% trans 'Back to the entity' %}</a>
 </p>
 {% if object.items %}
 {% for item in object.items %}

@@ -45,6 +45,6 @@ class Command(BaseCommand):
             call_command('loaddata', fixture)
 
         if options['test']:
-            call_command('test', 'accounts', 'api', 'budgets', 'commons', 'govts', 'interactions', 'pages', 'international')
+            call_command('test', 'accounts', 'api', 'budgets', 'commons', 'entities', 'interactions', 'pages', 'international')
 
         self.stdout.write("### Development bootstrapping completed successfully\n")

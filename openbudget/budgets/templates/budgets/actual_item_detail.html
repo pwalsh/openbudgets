@@ -3,7 +3,7 @@
 {% load url from future %}
 
 {% block title %}
-{{ object.node.name }} / {{ object.node.code }} {% trans 'for the' %} {{ object.actual.geopol }} {{ object.budget.period }} {% trans 'budget' %}
+{{ object.node.name }} / {{ object.node.code }} {% trans 'for the' %} {{ object.actual.entity }} {{ object.budget.period }} {% trans 'budget' %}
 {% endblock title %}
 
 {% block content %}

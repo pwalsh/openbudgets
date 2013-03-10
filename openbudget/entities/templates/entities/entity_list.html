@@ -3,12 +3,12 @@
 {% load url from future %}
 
 {% block title %}
-{% trans 'All Geopolitical entities' %}
+{% trans 'All Entities' %}
 {% endblock title %}
 
 {% block content %}
 {% for object in object_list %}
-<a href="{% url 'geopol_detail' object.slug %}">
+<a href="{% url 'entity_detail' object.slug %}">
     {{ object.name }}
 </a>
 <br />

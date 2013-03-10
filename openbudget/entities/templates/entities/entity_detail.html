@@ -1,4 +1,4 @@
-{% extends 'govts/geopol_list.html' %}
+{% extends 'entities/entity_list.html' %}
 {% load i18n interactions %}
 {% load url from future %}
 
@@ -9,7 +9,7 @@
 {% block content %}
 {% star object user %}
 <p>
-    <a href="{% url 'geopol_list' %}">
+    <a href="{% url 'entity_list' %}">
         {% trans 'Back to all geopols' %}
     </a>
 </p>
@@ -18,11 +18,10 @@
     <h2>
         {% trans 'About' %} {{ object.name }}
     </h2>
-
-    {% if object.state == object %}
+    {% if object.ultimate_parent == object %}
     {% else %}
     <p>
-        {{ object.name }} {% trans 'is part of' %} <a href="{% url 'geopol_detail' object.state.slug %}">{{ object.state }}</a>
+        {{ object.name }} {% trans 'is one of ' %} {{ object.division.count }} {{ object.division.name }} {% trans 'entities' %} {% trans 'in ' %} <a href="{% url 'entity_detail' object.ultimate_parent.slug %}">{{ object.ultimate_parent }}</a>.
     </p>
     {% endif %}
 
@@ -33,22 +32,25 @@
 
 <section>
     <h2>
-        {% if object.state == object %}
-        {% trans 'Municipalities of' %} {{ object.name }}
+        {% if object.ultimate_parent == object %}
+        {% trans 'Budgeting entities of' %} {{ object.name }}
         {% else %}
-        {% trans 'Related' %} {% trans 'Municipalities' %}
+        {% trans 'Related' %} {% trans 'budgeting entities' %}
         {% endif %}
     </h2>
     <div>
-        {% if not object.munis %}
+        {% if not object.related_entities %}
         <p>
-            {{ object.name }} {% trans 'has no related municipalities' %}.</a>
+            {{ object.name }} {% trans 'has no related entities that declare budgets' %}.</a>
         </p>
         {% else %}
-        {% for muni in object.munis %}
-        <a href="{% url 'geopol_detail' muni.slug %}">
-            {{ muni.name }}
-        </a>
+        <p>
+            {% trans 'We have the following related entities with budgets in the system' %}.
+        </p>
+        {% for related_entity in object.related_entities %}
+        <a href="{% url 'entity_detail' related_entity.slug %}">
+            {{ related_entity.name }}
+        </a> ({{ related_entity.division.name }})
         <br />
         {% endfor %}
         {% endif %}
@@ -59,20 +61,27 @@
     <h2>
         {% trans 'Budgets and Actuals' %}
     </h2>
-    {% if not object.budgets or not object.actuals %}
+
+    {% if not object.division.has_budgets %}
+    <p>
+        <strong>{{ object.name }}</strong> {% trans 'is a' %} {{ object.division.name }} {% trans 'of' %} {{ object.division.domain }}, {% trans 'and therefore does not declare budgets. It serves a purely administrative function.' %}
+    </p>
+    {% else %}
+
+    {% if not object.budgets and not object.actuals %}
     <p>
         {% trans 'There are no Budgets or Actuals for this entity' %}.
     </p>
     {% else %}
     <div>
+        <h3>
+            {% trans 'Budgets available' %}...
+        </h3>
         {% if not object.budgets %}
         <p>
             {% trans 'There are no Budgets this entity' %}.
         </p>
         {% else %}
-        <h3>
-            {% trans 'Budgets available' %}...
-        </h3>
         <ul>
         {% for budget in object.budgets %}
         <li>
@@ -85,14 +94,14 @@
         {% endif %}
     </div>
     <div>
+        <h3>
+            {% trans 'Actuals available' %}...
+        </h3>
         {% if not object.actuals %}
         <p>
             {% trans 'There are no Actuals this entity' %}.
         </p>
         {% else %}
-        <h3>
-            {% trans 'Actuals available' %}...
-        </h3>
         <ul>
         {% for actual in object.actuals %}
         <li>
@@ -104,6 +113,8 @@
         </ul>
         {% endif %}
     </div>
+    {% endif %}
+
     {% endif %}
 </section>
 

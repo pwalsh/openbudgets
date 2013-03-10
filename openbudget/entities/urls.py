@@ -1,17 +1,17 @@
 from django.conf.urls import patterns, url
-from openbudget.govts.views import GeoPolDetailView, GeoPolListView
+from openbudget.entities.views import EntityDetailView, EntityListView
 from openbudget.budgets.views import BudgetDetailView, BudgetItemDetailView, ActualDetailView, ActualItemDetailView
 
 
 urlpatterns = patterns('',
 
     url(r'^$',
-        GeoPolListView.as_view(),
-        name='geopol_list'
+        EntityListView.as_view(),
+        name='entity_list'
     ),
     url(r'^(?P<slug>[-\w]+)/$',
-        GeoPolDetailView.as_view(),
-        name='geopol_detail'
+        EntityDetailView.as_view(),
+        name='entity_detail'
     ),
     url(r'^budget/(?P<slug>[-\w]+)/$',
         BudgetDetailView.as_view(),

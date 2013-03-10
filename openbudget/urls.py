@@ -9,16 +9,16 @@ sitemaps = {
     'site': OmuniSitemap,
 }
 
-urlpatterns = patterns('',
 
+urlpatterns = patterns('',
     url(r'^admin/',
         include(admin.site.urls)
     ),
     url(r'^accounts/',
         include('openbudget.accounts.urls')
     ),
-    url(r'^govts/',
-        include('openbudget.govts.urls')
+    url(r'^entities/',
+        include('openbudget.entities.urls')
     ),
     url(r'^interactions/',
         include('openbudget.interactions.urls')
@@ -42,5 +42,4 @@ urlpatterns = patterns('',
     url(r'^',
         include('openbudget.pages.urls')
     ),
-
 )

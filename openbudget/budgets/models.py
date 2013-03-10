@@ -5,25 +5,23 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.contrib.comments.models import Comment
-from openbudget.govts.models import GeoPoliticalEntity, GEOPOL_TYPE_CHOICES
+from openbudget.entities.models import Domain, DomainDivision, Entity
 from openbudget.commons.models import DataSource
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
 
 
 NODE_DIRECTIONS = (
-    (1, _('income')), (2, _('expense'))
+    (1, _('REVENUE')),
+    (2, _('EXPENDITURE'))
 )
 
 
 class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
-    """The budget template for a given geopolitical entity"""
+    """The budget template for a given domain division.
 
-    geopol = models.ForeignKey(
-        GeoPoliticalEntity,
-    )
-    target = models.CharField(
-        max_length=20,
-        choices=GEOPOL_TYPE_CHOICES
+    """
+    divisions = models.ManyToManyField(
+        DomainDivision,
     )
     name = models.CharField(
         max_length=255,
@@ -37,9 +35,6 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
     def nodes(self):
         value = BudgetTemplateNode.objects.filter(template=self)
         return value
-
-    # TODO: Clean method that enforces 'geopol' as a top level geopol
-    # Meaning, we want this to point to a country only
 
     class Meta:
         ordering = ['name']
@@ -83,15 +78,16 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel, models.Model):
     )
     #TODO: in Israeli budget this should be automatically filled in the importer
     direction = models.PositiveSmallIntegerField(
-        _('Income/Expense'),
+        _('REVENUE/EXPENDITURE'),
         choices=NODE_DIRECTIONS,
-        help_text=_('Determines whether this is an income or expense.')
+        help_text=_('Indicates whether this node is for revenue or expenditure')
     )
     #TODO: validate that never points to itself
-    #TODO: validate that it points to the opposite `direction`
-    # TODO: if setting inverse, always set it on the relation (they should always be the same)
-    inverse = models.OneToOneField(
+    #TODO: validate that it always points to the opposite `direction`
+    #TODO: enforce only one choice - we are using m2m just for the buult in symmetry
+    inverse = models.ManyToManyField(
         'self',
+        symmetrical=True,
         null=True,
         blank=True,
         help_text=_('Describe for this entry.')
@@ -127,8 +123,8 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel, models.Model):
 class Sheet(TimeStampedModel, UUIDModel, models.Model):
     """An abstract class for common Budget and Actual data"""
 
-    geopol = models.ForeignKey(
-        GeoPoliticalEntity,
+    entity = models.ForeignKey(
+        Entity,
     )
     period_start = models.DateField(
         _('Period start'),
@@ -175,11 +171,11 @@ class Sheet(TimeStampedModel, UUIDModel, models.Model):
 
     class Meta:
         abstract = True
-        ordering = ['geopol']
+        ordering = ['entity']
 
 
 class Budget(Sheet):
-    """Budget for the given geopol and period"""
+    """Budget for the given entity and period"""
 
     @property
     def items(self):
@@ -188,7 +184,7 @@ class Budget(Sheet):
 
     @property
     def actuals(self):
-       return Actual.objects.filter(geopol=self.geopol, period_start=self.period_start, period_end=self.period_end)
+       return Actual.objects.filter(entity=self.entity, period_start=self.period_start, period_end=self.period_end)
 
     @property
     def has_actuals(self):
@@ -204,13 +200,13 @@ class Budget(Sheet):
         return ('actual_detail', [self.uuid])
 
     def __unicode__(self):
-        return self.__class__.__name__ + ' for ' + self.geopol.name \
+        return self.__class__.__name__ + ' for ' + self.entity.name \
         + ': ' + unicode(self.period_start) + ' - ' + \
         unicode(self.period_end)
 
 
 class Actual(Sheet):
-    """Actual for the given geopol and period"""
+    """Actual for the given entity and period"""
 
     # Actuals is designed here in parallel to budget for
     # the possible scenarios of:
@@ -230,7 +226,7 @@ class Actual(Sheet):
 
     @property
     def budgets(self):
-        return Budget.objects.filter(geopol=self.geopol, period_start=self.period_start, period_end=self.period_end)
+        return Budget.objects.filter(entity=self.entity, period_start=self.period_start, period_end=self.period_end)
 
     @property
     def has_budgets(self):
@@ -260,7 +256,7 @@ class Actual(Sheet):
         return ('actual_detail', [self.uuid])
 
     def __unicode__(self):
-        return self.__class__.__name__ + ' for ' + self.geopol.name \
+        return self.__class__.__name__ + ' for ' + self.entity.name \
         + ': ' + unicode(self.period_start) + ' - ' + \
         unicode(self.period_end)
 
@@ -303,7 +299,7 @@ class SheetItem(TimeStampedModel, UUIDModel, models.Model):
     )
     amount = models.IntegerField(
         _('Amount'),
-        help_text=_('The amount of this entry, plus or minus.')
+        help_text=_('The amount of this entry. The node determines REVENUE or EXPENDITURE')
     )
     discussion = generic.GenericRelation(
         Comment,
