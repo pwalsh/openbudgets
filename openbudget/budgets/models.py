@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
-from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.comments.models import Comment
 from openbudget.entities.models import Domain, DomainDivision, Entity
 from openbudget.commons.models import DataSource
@@ -50,7 +49,7 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
         return self.name
 
 
-class BudgetTemplateNode(MPTTModel, TimeStampedModel, UUIDModel):
+class BudgetTemplateNode(TimeStampedModel, UUIDModel):
     """The individual nodes in a budget template"""
 
     template = models.ForeignKey(
@@ -71,7 +70,7 @@ class BudgetTemplateNode(MPTTModel, TimeStampedModel, UUIDModel):
         blank=True,
         help_text=_('Describe for this entry.')
     )
-    parent = TreeForeignKey(
+    parent = models.ForeignKey(
         'self',
         null=True,
         blank=True,
