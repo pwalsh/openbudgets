@@ -6,6 +6,7 @@ fabric
 sphinx
 PIL
 raven
+tablib
 django-autoslug
 git+https://github.com/mozilla/unicode-slugify
 hg+http://bitbucket.org/ubernostrum/django-registration/

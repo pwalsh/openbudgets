@@ -91,7 +91,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.comments',
-    'mptt',
     'grappelli.dashboard',
     'grappelli',
     'grappelli_modeltranslation',
