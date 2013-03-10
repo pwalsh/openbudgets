@@ -5,9 +5,7 @@ south
 fabric
 sphinx
 PIL
-mock
 raven
-django-mptt
 django-autoslug
 git+https://github.com/mozilla/unicode-slugify
 hg+http://bitbucket.org/ubernostrum/django-registration/
