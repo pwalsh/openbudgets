@@ -35,14 +35,16 @@ DEVSTRAP = {
     'FIXTURES': (
         'dev/sites',
         'dev/objects',
-        'pages',
+        'israel_pages',
+        'israel_entities',
+        'israel_budgets',
     ),
     'TESTS': (
         'accounts',
         'api',
         'budgets',
         'commons',
-        'govts',
+        'entities',
         'interactions',
         'pages',
         'international'
