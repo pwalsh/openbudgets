@@ -37,4 +37,14 @@ DEVSTRAP = {
         'dev/objects',
         'pages',
     ),
+    'TESTS': (
+        'accounts',
+        'api',
+        'budgets',
+        'commons',
+        'govts',
+        'interactions',
+        'pages',
+        'international'
+    )
 }
