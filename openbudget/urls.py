@@ -20,6 +20,9 @@ urlpatterns = patterns('',
     url(r'^entities/',
         include('openbudget.entities.urls')
     ),
+    url(r'^budgets/',
+        include('openbudget.budgets.urls')
+    ),
     url(r'^interactions/',
         include('openbudget.interactions.urls')
     ),

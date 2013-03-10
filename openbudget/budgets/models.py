@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
+from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.comments.models import Comment
 from openbudget.entities.models import Domain, DomainDivision, Entity
 from openbudget.commons.models import DataSource
@@ -49,7 +50,7 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
         return self.name
 
 
-class BudgetTemplateNode(TimeStampedModel, UUIDModel, models.Model):
+class BudgetTemplateNode(MPTTModel, TimeStampedModel, UUIDModel):
     """The individual nodes in a budget template"""
 
     template = models.ForeignKey(
@@ -70,11 +71,11 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel, models.Model):
         blank=True,
         help_text=_('Describe for this entry.')
     )
-    parent = models.ForeignKey(
+    parent = TreeForeignKey(
         'self',
         null=True,
         blank=True,
-        related_name='node_parent'
+        related_name='children'
     )
     #TODO: in Israeli budget this should be automatically filled in the importer
     direction = models.PositiveSmallIntegerField(
@@ -93,11 +94,6 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel, models.Model):
         help_text=_('Describe for this entry.')
     )
 
-    #TODO: implement
-    @property
-    def root(self):
-        pass
-
     @property
     def budget_items(self):
         return BudgetItem.objects.filter(node=self)
@@ -112,6 +108,9 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel, models.Model):
         verbose_name = _('Budget template node')
         verbose_name_plural = _('Budget template nodes')
 
+    class MPTTMeta:
+        order_insertion_by = ['code']
+
     @models.permalink
     def get_absolute_url(self):
         return ('budget_template_node', [self.uuid])
@@ -120,8 +119,9 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel, models.Model):
         return self.code
 
 
-class Sheet(TimeStampedModel, UUIDModel, models.Model):
+class Sheet(TimeStampedModel, UUIDModel):
     """An abstract class for common Budget and Actual data"""
+
 
     entity = models.ForeignKey(
         Entity,
@@ -261,7 +261,7 @@ class Actual(Sheet):
         unicode(self.period_end)
 
 
-class Annotation(UUIDModel, TimeStampedModel, models.Model):
+class Annotation(UUIDModel, TimeStampedModel):
     user = models.OneToOneField(
         User
     )
@@ -286,7 +286,7 @@ class Annotation(UUIDModel, TimeStampedModel, models.Model):
         verbose_name_plural = _('Annotations')
 
 
-class SheetItem(TimeStampedModel, UUIDModel, models.Model):
+class SheetItem(TimeStampedModel, UUIDModel):
     """Abstract class for common BudgetItem and ActualItem data"""
 
     node = models.ForeignKey(
@@ -329,7 +329,8 @@ class BudgetItem(SheetItem):
     """Describes a single item in a budget"""
 
     budget = models.ForeignKey(
-        Budget
+        Budget,
+        related_name='items'
     )
 
     class Meta:
@@ -348,7 +349,8 @@ class ActualItem(SheetItem):
     """Describes a single item in an actual"""
 
     actual = models.ForeignKey(
-        Actual
+        Actual,
+        related_name='items'
     )
 
     class Meta:

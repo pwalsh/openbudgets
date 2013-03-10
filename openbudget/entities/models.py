@@ -4,6 +4,7 @@ from django.db.models.loading import get_model
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
 from django.contrib.comments.models import Comment
+from mptt.models import MPTTModel, TreeForeignKey
 from autoslug import AutoSlugField
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
 from openbudget.commons.utilities import get_ultimate_parent
@@ -102,19 +103,13 @@ class DomainDivision(TimeStampedModel, models.Model):
         verbose_name_plural = _('domain divisions')
 
 
-class Entity(TimeStampedModel, UUIDModel, models.Model):
+class Entity(MPTTModel, TimeStampedModel, UUIDModel, models.Model):
     """Describes an entity in a domain.
 
 
     """
     division = models.ForeignKey(
         DomainDivision
-    )
-    # TODO: parent choices conditional on division choice?
-    parent = models.ForeignKey(
-        'self',
-        null=True,
-        blank=True
     )
     name = models.CharField(
         max_length=255,
@@ -135,6 +130,13 @@ class Entity(TimeStampedModel, UUIDModel, models.Model):
     discussion = generic.GenericRelation(
         Comment,
         object_id_field="object_pk"
+    )
+    # TODO: parent choices conditional on division choice?
+    parent = TreeForeignKey(
+        'self',
+        null=True,
+        blank=True,
+        related_name='children'
     )
     slug = AutoSlugField(
         populate_from='name',
