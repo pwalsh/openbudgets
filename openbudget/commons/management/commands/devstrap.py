@@ -15,6 +15,20 @@ class Command(BaseCommand):
                 default=False,
                 help="Run tests"
             ),
+            make_option(
+                '-i',
+                action='store_true',
+                dest='interactive',
+                default=False,
+                help="Enable syncdb related input"
+            ),
+            make_option(
+                '-m',
+                action='store_true',
+                dest='migrate',
+                default=False,
+                help="Run DB migrations"
+            )
         )
 
     def handle(self, *args, **options):
@@ -35,7 +49,10 @@ class Command(BaseCommand):
         # sync the db and do South migrations
         try:
             self.stdout.write("### Syncing DB\n")
-            call_command('syncdb', interactive=False, migrate=True)
+            call_command('syncdb', **{
+                'interactive': options['interactive'],
+                'migrate': options['migrate']
+            })
         except:
             raise CommandError('syncdb failed')
 
