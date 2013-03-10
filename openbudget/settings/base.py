@@ -9,14 +9,14 @@ SETTINGS_ROOT = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.dirname(SETTINGS_ROOT))
 WSGI_APPLICATION = 'openbudget.wsgi.application'
 
-ROOT_URLCONF = 'openbudget.urls'
+ROOT_URLCONF = 'openbudget.ui.urls'
 SUBDOMAIN_URLCONFS = {
-    '': 'openbudget.urls',
-    'www': 'openbudget.urls',
-    'he': 'openbudget.urls',
-    'en': 'openbudget.urls',
-    'ru': 'openbudget.urls',
-    'ar': 'openbudget.urls',
+    '': 'openbudget.ui.urls',
+    'www': 'openbudget.ui.urls',
+    'he': 'openbudget.ui.urls',
+    'en': 'openbudget.ui.urls',
+    'ru': 'openbudget.ui.urls',
+    'ar': 'openbudget.ui.urls',
     'api': 'openbudget.api.urls',
 }
 
@@ -78,7 +78,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'openbudget.international.middleware.InterfaceLanguage',
+    'openbudget.apps.international.middleware.InterfaceLanguage',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -105,14 +105,14 @@ INSTALLED_APPS = (
     'rosetta_grappelli',
     'rosetta',
     'modeltranslation',
-    'openbudget.accounts',
+    'openbudget.apps.accounts',
+    'openbudget.apps.budgets',
+    'openbudget.apps.entities',
+    'openbudget.apps.interactions',
+    'openbudget.apps.international',
+    'openbudget.apps.pages',
     'openbudget.api',
-    'openbudget.budgets',
     'openbudget.commons',
-    'openbudget.entities',
-    'openbudget.interactions',
-    'openbudget.international',
-    'openbudget.pages',
 )
 
 LOGGING = {

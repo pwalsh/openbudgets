@@ -3,8 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from openbudget.api import serializers
-from openbudget.entities.models import Entity, Domain, DomainDivision
-from openbudget.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
+from openbudget.apps.entities.models import Entity, Domain, DomainDivision
+from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
 
 
 @api_view(['GET'])

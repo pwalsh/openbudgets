@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from openbudget.entities.models import Entity, Domain, DomainDivision
-from openbudget.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
+from openbudget.apps.entities.models import Entity, Domain, DomainDivision
+from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
 
 
 class BudgetTemplateSerializer(serializers.HyperlinkedModelSerializer):
