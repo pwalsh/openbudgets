@@ -36,6 +36,7 @@ DEVSTRAP = {
         'israel_pages',
         'israel_entities',
         'israel_budgets',
+        'israel_strings',
         'dev/sites',
         'dev/objects',
     ),

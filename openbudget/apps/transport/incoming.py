@@ -2,6 +2,7 @@
 
 
 import tablib
+from openbudget.apps.transport import models
 
 
 def persist_source_file(source_file):
@@ -37,11 +38,15 @@ def clean_headers(dataset):
 
 def get_header_maps():
     value = []
-    #header_maps = HeaderMap.objects.all()
-    #for map in header_maps:
-    #   value.append((map.s, [m.s for m in map.alt_set.all()]))
+    header_strings = models.String.objects.filter(parent__isnull=True)
+    for string in header_strings:
+       value.append(
+            (
+                string.string,
+                [alias.string for alias in string.alias_set.all()]
+            )
+        )
 
-    #actually I want a dict
     return value
 
 
