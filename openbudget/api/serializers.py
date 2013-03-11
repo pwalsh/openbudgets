@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from openbudget.govts.models import GeoPoliticalEntity
-from openbudget.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
+from openbudget.apps.entities.models import Entity, Domain, DomainDivision
+from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
 
 
 class BudgetTemplateSerializer(serializers.HyperlinkedModelSerializer):
@@ -43,9 +43,26 @@ class ActualSerializer(serializers.HyperlinkedModelSerializer):
         model = Actual
 
 
-class GeoPoliticalEntitySerializer(serializers.HyperlinkedModelSerializer):
+class EntitySerializer(serializers.HyperlinkedModelSerializer):
 
     budgets = BudgetSerializer()
 
     class Meta:
-        model = GeoPoliticalEntity
+        model = Entity
+
+
+class DomainDivisionSerializer(serializers.HyperlinkedModelSerializer):
+
+    entities = EntitySerializer()
+
+    class Meta:
+        model = DomainDivision
+
+
+class DomainSerializer(serializers.HyperlinkedModelSerializer):
+
+    entities = EntitySerializer()
+    divisions = DomainDivisionSerializer()
+
+    class Meta:
+        model = Domain

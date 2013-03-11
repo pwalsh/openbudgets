@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+{% trans 'All Entities' %}
+{% endblock title %}
+
+{% block content %}
+{% for object in object_list %}
+<a href="{% url 'entity_detail' object.slug %}">
+    {{ object.name }}
+</a>
+<br />
+{% endfor %}
+{% endblock content %}

@@ -5,7 +5,7 @@
     "pk": 1,
     "fields": {
         "domain": "obudget.dev:8000",
-        "name": "Open Muni Budgets"
+        "name": "Open Budget"
     }
 }
 

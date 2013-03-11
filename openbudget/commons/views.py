@@ -1,6 +1,6 @@
 from itertools import chain
 from django.contrib.sitemaps import Sitemap
-from openbudget.pages.models import Page
+from openbudget.apps.pages.models import Page
 
 
 class OmuniSitemap(Sitemap):

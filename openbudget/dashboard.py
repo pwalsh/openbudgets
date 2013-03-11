@@ -22,7 +22,7 @@ class OpenBudgetDashboard(Dashboard):
             collapsible=True,
             column=1,
             css_classes=('collapse closed',),
-            models=('openbudget.govts.*',),
+            models=('openbudget.entities.*',),
         ))
 
         self.children.append(modules.AppList(

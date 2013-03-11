@@ -33,16 +33,19 @@ DEBUG_TOOLBAR_CONFIG = {
 
 DEVSTRAP = {
     'FIXTURES': (
+        'israel_pages',
+        'israel_entities',
+        'israel_budgets',
+        'israel_strings',
         'dev/sites',
         'dev/objects',
-        'pages',
     ),
     'TESTS': (
         'accounts',
         'api',
         'budgets',
         'commons',
-        'govts',
+        'entities',
         'interactions',
         'pages',
         'international'

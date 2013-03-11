@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+{{ object.geopol.name }} {{ object.period }} {% trans 'budget' %}
+{% endblock title %}
+
+{% block content %}
+<p>
+    <a href="{% url 'entity_detail' object.entity.slug %}">{% trans 'Back to the entity' %}</a>
+</p>
+{% if object.items %}
+{% for item in object.items %}
+<p>
+    <strong>{% trans 'Code' %}</strong>: {{ item.code }}
+    <br />
+    <strong>{% trans 'Explanation' %}</strong>: {{ item.explanation }}
+    <br />
+    <strong>{% trans 'Amount' %}</strong>: {{ item.amount }}
+    <br />
+    <a href="{% url 'budget_item_detail' item.uuid %}">
+        {% trans 'View this item' %}
+    </a>
+</p>
+{% endfor %}
+{% endif %}
+
+{% include 'interactions/partials/_discussion.html' %}
+
+
+{% endblock content %}
