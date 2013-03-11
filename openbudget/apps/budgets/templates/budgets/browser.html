@@ -8,10 +8,31 @@
 </head>
 <body>
     <div id="budget_browser" class="uijet_app">
-        Hello Budget Browser!
+        <div id="spreadsheet"></div>
     </div>
     <script>
         var BASE_URL = '{{ STATIC_URL }}';
+    </script>
+    <script>
+        var ws;
+        function socket() {
+            ws = new WebSocket("ws://127.0.0.1:8080");
+            ws.onmessage = function ( e ) {
+                var data = JSON.parse(e.data);
+                if ( data.r ) {
+                    location.reload();
+                }
+            };
+        }
+        setInterval(function () {
+            if ( ws ) {
+                if ( ws.readyState !== 1 ) {
+                    socket();
+                }
+            } else {
+                socket();
+            }
+        }, 1000);
     </script>
     <script src="{{ STATIC_URL }}js/require.js" data-main="{{ STATIC_URL }}js/browser/main"></script>
 </body>

@@ -1,6 +1,6 @@
 /**!
  * UIjet UI Framework
- * @version: 0.0.4
+ * @version 0.0.5
  * @license BSD License (c) copyright Yehonatan Daniv
  * https://raw.github.com/ydaniv/uijet/master/LICENSE
  */
@@ -643,9 +643,9 @@
      * @namespace uijet
      */
     uijet =  {
-        version             : '0.0.4',
-        ROUTE_PREFIX        : '',
-        ROUTE_SUFFIX        : '',
+        version             : '0.0.5',
+        route_prefix        : '',
+        route_suffix        : '',
         init_queue          : [],
         // detected browser features
         support             : {
@@ -762,8 +762,13 @@
          */
         Factory             : function (name, declaration) {
             widget_factories[name] = function (config) {
-                config && extend(true, declaration.config, config);
-                return declaration;
+                // create a copy of the original declaration
+                var copy = { type : declaration.type };
+                // make sure the original `config` object is copied
+                copy.config = extend({}, declaration.config);
+                // mix in additional configurations
+                config && extend(true, copy.config, config);
+                return copy;
             };
             return this;
         },
@@ -834,10 +839,10 @@
                 }
                 if ( _options ) {
                     if ( _options.route_prefix ) {
-                        this.ROUTE_PREFIX = _options.route_prefix;
+                        this.route_prefix = _options.route_prefix;
                     }
                     if ( _options.route_suffix ) {
-                        this.ROUTE_SUFFIX = _options.route_suffix;
+                        this.route_suffix = _options.route_suffix;
                     }
                     try {
                         this.setRoute();
@@ -1334,7 +1339,7 @@
             return this;
         },
         //TODO: add docs
-        position            : function (widget, exclude) {debugger;
+        position            : function (widget, exclude) {
             var container_id = widgets[widget.id].container,
                 siblings = container_id ? widgets[container_id].contained || [] : [], sibling,
                 position = {position: 'absolute', top: 0, bottom: 0, right: 0, left: 0},
