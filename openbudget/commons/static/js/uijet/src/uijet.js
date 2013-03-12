@@ -773,19 +773,20 @@
             return this;
         },
         /**
-         * Gets a resource by name or defines a new resource class.
+         * Gets a resource instance by name or registers a new resource instance.
          * 
          * @param name {String} identifier for that resource class
-         * @param [resource] {Object} this resource's prototype
-         * @returns this|resource {Object}
+         * @param [resource] {Object} this resource's constructor
+         * @param [initial] {Object|Array} initial data for the generated instance
+         * @returns this|resource_instance {Object}
          */
-        Resource            : function (name, resource) {
+        Resource            : function (name, resource, initial) {
             if ( arguments.length === 1 ) {
                 if ( name in resources ) {
                     return resources[name];
                 }
             }
-            resources[name] = resource;
+            resources[name] = uijet.newResource(resource);
             return this;
         },
         // ### uijet.View
@@ -968,8 +969,9 @@
         // Performs the work for the `uijet.start` API call.
         _start              : function (_widget, _skip_import) {
             var that = this,
-                _factory = _widget.factory, _type, _config,
-                _dfrd_start, _self, mixedin_type, _w, l, _d, _c, _mixins, _adapters, _widgets;
+                _factory = _widget.factory,
+                _config = _widget.config,
+                _type, _dfrd_start, _self, mixedin_type, _w, l, _d, _c, _mixins, _adapters, _widgets;
             if ( _factory && widget_factories[_factory] ) {
                 _widget = widget_factories[_factory](_config);
             }
@@ -1343,6 +1345,7 @@
             var container_id = widgets[widget.id].container,
                 siblings = container_id ? widgets[container_id].contained || [] : [], sibling,
                 position = {position: 'absolute', top: 0, bottom: 0, right: 0, left: 0},
+                processed = {},
                 set_style = false,
                 processed_position, p, len;
             if ( exclude && (len = exclude.length) ) {
@@ -1361,9 +1364,22 @@
                 if ( processed_position = widgets[sibling].self.processed_position ) {
                     set_style = true;
                     for ( p in processed_position ) {
-                        !~ exclude.indexOf(p) && (position[p] = processed_position[p]);
+                        if ( !~ exclude.indexOf(p) ) {
+                            if ( p in processed ) {
+                                if ( processed[p].unit === processed_position[p].unit &&
+                                    processed[p].size < processed_position[p].size ) {
+                                    processed[p].size = processed_position[p].size;
+                                }
+                            }
+                            else {
+                                processed[p] = processed_position[p];
+                            }
+                        }
                     }
                 }
+            }
+            for ( p in processed ) {
+                position[p] = processed[p].size + processed[p].unit;
             }
             if ( set_style ) {
                 if ( 'left' in position || 'right' in position ) position.width = 'auto';
