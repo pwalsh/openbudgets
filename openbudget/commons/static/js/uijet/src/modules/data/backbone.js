@@ -44,7 +44,7 @@
                     that.notify('post_fetch_data', response);
                     dfrd_update.resolve();
                 };
-                
+
                 this.resource.fetch({
                     success : _success,
                     error   : function (response) {
