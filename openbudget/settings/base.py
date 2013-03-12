@@ -193,3 +193,22 @@ REST_FRAMEWORK = {
     ),
     'PAGINATE_BY': 10
 }
+
+# EMAIL CONF
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+
+# SENTRY CONF
+SENTRY_DSN = ''
+
+# DEVELOPER ADMINS CONF
+ADMINS = (
+    ('', ''),
+    ('', ''),
+)
+
+# OPEN BUDGET CUSTOM CONF
+TEMP_FILES_DIR = os.path.abspath(os.path.join(os.path.dirname(PROJECT_ROOT), 'tmp'))
