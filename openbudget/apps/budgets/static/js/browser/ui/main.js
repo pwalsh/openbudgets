@@ -41,7 +41,7 @@ define([
                 },
                 app_events      : {
                     'budgets_list.selected' : function (data) {
-                        var that = this;console.log(data);
+                        var that = this;
                         this.data = data;
                         this.render().then(function () {
                             that.publish('rendered');
