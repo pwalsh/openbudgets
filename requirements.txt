@@ -5,8 +5,9 @@ south
 fabric
 sphinx
 PIL
-raven
+pytz
 tablib
+raven
 django-autoslug
 git+https://github.com/mozilla/unicode-slugify
 hg+http://bitbucket.org/ubernostrum/django-registration/
