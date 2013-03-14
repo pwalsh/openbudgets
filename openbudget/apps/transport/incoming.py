@@ -1,36 +1,54 @@
 import datetime
 import tablib
 from openbudget.settings.base import TEMP_FILES_DIR, ADMINS
-from openbudget.apps.transport import models
+from openbudget.apps.transport.models import String
+from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
 
 
-class FileImport(object):
-    """Gets data out of files and into the database.
+class FileImporter(object):
+    """Gets data out of files and into the database."""
 
-
-    """
-    def __init__(self, sourcefile=None, datatype=None):
-        self.source_file = sourcefile
+    def __init__(self, sourcefile, datatype=None, nesting_style=None):
+        self.sourcefile = sourcefile
         self.data_type = datatype
+        self.nesting_style = nesting_style
+        self.datatypes = {
+            'budgettemplate': (BudgetTemplate, BudgetTemplateNode),
+            'budget': (Budget, BudgetItem),
+            'actual': (Actual, ActualItem),
+        }
 
-    def get_datatype_from_filename(sourcefile):
-        """Import data correctly by file naming convention.
+    def get_metadata(self):
+        """Get metadata from file by convention.
 
-        This handy method allows us to import data without an
-        interactive wizard.
+        Allows us to import data without an interactive wizard.
+
+        format: NAME-OF-OBJECT_DATATYPE_DIVISIONS_TUPLE.extension
+        example: israel-municipality_budgettemplate_4,5,6.csv
         """
-        pass
+        keys = unicode(self.sourcefile).split('.')[0].split('_')
+        # divisions is budget template specific at this stage
+        name, datatype, divisions = keys[0], keys[1], list(keys[2].split(','))
+        value = (name, datatype, divisions)
+        return value
 
-    def to_dataset(sourcefile):
+    def create_dataset(self):
+        """Turn the datastream into a dataset object"""
+        datastream = self.sourcefile.read()
+
         try:
-            tablib.import_set(sourcefile)
-        except Exception, e: #TODO: Check the possible exceptions
+            dataset = tablib.import_set(datastream)
+            value = dataset
 
-            # save the file for analysis in case of exception
+        except Exception, e:
+            # TODO: need to get more specific exception
             dt = datetime.datetime.now().isoformat()
-            this_file = TEMP_FILES_DIR + '/failed_import_{}.sourcefile'.format(dt)
+            this_file = TEMP_FILES_DIR + '/failed_import_{timestamp}_{filename}'.format(
+                timestamp=dt,
+                filename=unicode(self.sourcefile)
+            )
             with open(this_file, 'wb+') as tmp_file:
-                for chunk in fobj.chunks():
+                for chunk in self.sourcefile.chunks():
                     tmp_file.write(chunk)
 
             # email ourselves that we have a file to check
@@ -40,22 +58,26 @@ class FileImport(object):
             recipients = [ADMINS]
             send_mail(subject, message, sender, recipients)
 
-            # tell the customer what happened and what will happen
-            return ''
+            value = 'FAILED'
 
-    def persist_sourcefile(sourcefile):
+        return value
+
+    def persist_sourcefile(self):
         """Saves an uploaded source file to a work directory."""
         pass
 
-    def create_dataset(sourcefile):
-        """Returns a Tablib dataset from a given source file."""
-        pass
+    def normalize_headers(self, dataset):
+        """Clean the headers of the dataframe.
 
-    def clean_headers(dataset):
-        """Clean the headers of the existing dataset.
+        We replace the existing headers with new ones that have
+        been cleaned and normalized.
 
-        To clean, we strip white space and common joining symbols.
-        And, we convert everything to lowercase.
+        To clean, we strip white space and common joining symbols,
+        and we convert all to lowercase.
+        To normalize, we match the header to strings in a string
+        alias map, and convert to the string in the map when our
+        key is either the string or in the alias list.
+
         """
         symbols = {
             ord('_'): None,
@@ -65,37 +87,24 @@ class FileImport(object):
             ord("'"): None,
         }
 
-        for header in dataset.headers:
-            header.translate(symbols).lower()
+        for header in dataset:
+            tmp = unicode(header).translate(symbols).lower()
+            alias_map = self._get_header_aliases()
+
+            for k, v in alias_map.iteritems():
+                if (tmp == k) or (tmp in v):
+                    new_header = k
+                    dataset[new_header] = dataset.pop(header)
 
         value = dataset
         return value
 
-    def get_header_aliases():
-        value = []
-        header_strings = models.String.objects.filter(parent__isnull=True)
-        for string in header_strings:
-           value.append(
-                (
-                    string.string,
-                    [alias.string for alias in string.alias_set.all()]
-                )
-            )
-        return value
-
-    def normalize_headers(dataset):
-        """Normalize the headers of the existing dataset.
-
-        Headers are normalized according to a defalt set of string
-        mappings, and sets of related strings entered via site admins.
-        """
-        #header_maps = get_header_maps() - want DICT, not list
-        for header in dataset.headers:
-            try:
-                new = header_maps[header]
-            except KeyError:
-                new = header
-            value.append(new)
+    def _get_header_aliases(self):
+        """Hit the DB and get the available strings and aliases."""
+        value = {}
+        strings = String.objects.filter(parent__isnull=True)
+        for string in strings:
+           value[string.string] = [alias.string for alias in string.alias_set.all()]
         return value
 
     def validate_data_structure(dataset):
@@ -122,4 +131,7 @@ class FileImport(object):
 
     def to_db(dataset):
         """Save a dataset to the database"""
+        if nesting_style:
+            # parse parent child relations accoridng to rules of style
+            pass
         pass
