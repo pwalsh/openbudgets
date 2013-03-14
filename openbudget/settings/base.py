@@ -106,6 +106,7 @@ INSTALLED_APPS = (
     'modeltranslation',
     'openbudget.apps.accounts',
     'openbudget.apps.budgets',
+    'openbudget.apps.contexts',
     'openbudget.apps.entities',
     'openbudget.apps.interactions',
     'openbudget.apps.international',

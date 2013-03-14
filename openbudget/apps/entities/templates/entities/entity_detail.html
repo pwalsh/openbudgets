@@ -28,6 +28,28 @@
     <div>
         {{ object.description }}
     </div>
+    <div>
+        <h2>{% trans 'Contextual data' %}</h2>
+        <h3>{% trans 'GeoSpatial' %}</h3>
+        {% for obj in object.geospatial_set.all %}
+        {% trans 'Square meters' %}: {{ obj.sqm }} ({{ obj.period_start }} - {{ obj.period_end }})
+        <br />
+        {% endfor %}
+        <h3>{% trans 'Demographic' %}</h3>
+        {% for obj in object.demographic_set.all %}
+        {% trans 'Population' %}: {{ obj.population }} ({{ obj.period_start }} - {{ obj.period_end }})
+        <br />
+        {% endfor %}
+        <h3>{% trans 'Education' %}</h3>
+        {% for obj in object.education_set.all %}
+        {% trans 'High schools' %}: {{ obj.high_school_count }} ({{ obj.period_start }} - {{ obj.period_end }})
+        <br />
+        {% trans 'Primary schools' %}: {{ obj.primary_school_count }} ({{ obj.period_start }} - {{ obj.period_end }})
+        <br />
+        {% trans 'Pre-schools' %}: {{ obj.pre_school_count }} ({{ obj.period_start }} - {{ obj.period_end }})
+        <br />
+        {% endfor %}
+    </div>
 </section>
 
 <section>
