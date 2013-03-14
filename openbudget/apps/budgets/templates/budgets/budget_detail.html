@@ -10,8 +10,8 @@
 <p>
     <a href="{% url 'entity_detail' object.entity.slug %}">{% trans 'Back to the entity' %}</a>
 </p>
-{% if object.items %}
-{% for item in object.items %}
+{% if object.items.count %}
+{% for item in object.items.all %}
 <p>
     <strong>{% trans 'Code' %}</strong>: {{ item.code }}
     <br />

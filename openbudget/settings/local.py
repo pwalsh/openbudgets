@@ -11,6 +11,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 MIDDLEWARE_CLASSES += (
+    'openbudget.api.middleware.XsSharing',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 

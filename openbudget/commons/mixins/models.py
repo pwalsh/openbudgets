@@ -30,3 +30,29 @@ class UUIDModel(models.Model):
     uuid = UUIDField(
         auto=True
     )
+
+
+class PeriodicModel(models.Model):
+
+    class Meta:
+        abstract = True
+
+    period_start = models.DateField(
+        _('Period start'),
+        help_text=_('The start date for this %(class)s')
+    )
+    period_end = models.DateField(
+        _('Period end'),
+        help_text=_('The end date for this %(class)s')
+    )
+
+    #TODO: implement a shortcut from period_start/end to year
+    @property
+    def period(self):
+        # TODO: Write a smarter method for the general use case
+        # naive, just for current purposes
+        tmp = self.period_end - self.period_start
+        if tmp.days <= 365:
+            return self.period_start.year
+        else:
+            return unicode(self.period_start.year) + ' - ' + self.period_end.year

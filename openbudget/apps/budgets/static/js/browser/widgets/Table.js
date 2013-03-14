@@ -19,7 +19,8 @@
      */
     uijet.Widget('TableRow', {
         options : {
-            type_class  : ['uijet_list', 'uijet_tablerow']
+            type_class  : ['uijet_list', 'uijet_tablerow'],
+            horizontal  : true
         }
     }, {
         widgets : 'List'
@@ -49,21 +50,36 @@
      */
     .Widget('TableGrid', {
         options : {
-            type_class  : ['uijet_list', 'uijet_tablegrid']
+            type_class      : ['uijet_list', 'uijet_tablegrid'],
+            item_selector   : '.uijet_tablerow'
         },
         init    : function (options) {
             this._super(options);
+            this.row_factory_id = this.id + '_row';
 
-            var row_config = this.options.row;
+            var row = this.options.row || {};
+            if ( ! row.container ) row.container = this.id;
 
-            row_config && uijet.Factory(this.id + '_row', row_config);
+            uijet.Factory(this.row_factory_id, {
+                type    : 'TableRow',
+                config  : row
+            });
 
             return this;
         },
         render  : function () {
-            var res = this._super();
+            var res = this._super(),
+                factory_id = this.row_factory_id;
 
-            // init
+            // init rows
+            this.$element.children().each(function (i, row) {
+                uijet.start({
+                    factory : factory_id,
+                    config  : {
+                        element : row
+                    }
+                });
+            });
 
             return res;
         }
@@ -84,43 +100,42 @@
         init    : function (options) {
             this._super(options);
 
-            var table_id = this.id,
-                body = this.options.body,
-                head = this.options.head;
-
-            // init TableHead
-            if ( ! head ) head = {};
-                if ( ! head.element ) {
-                    head.element = uijet.$('<ul>', { id : table_id + '_head' });
-                    this.$element.append(head.element);
-                }
-                if ( ! head.container ) head.container = table_id;
-
-            uijet.start({
-                type    : 'TableHead',
-                config  : head
-            });
-
-            // init TableGrid
-            if ( ! body ) body = {};
-                if ( ! body.element ) {
-                    body.element = uijet.$('<ul>', { id : table_id + '_grid' });
-                    this.$element.append(body.element);
-                }
-                if ( ! body.container ) body.container = table_id;
-
-            uijet.start({
-                type    : 'TableGrid',
-                config  : body
-            });
+            this.initHead(this.options.head)
+                .initGrid(this.options.grid);
 
             return this;
         },
-        render  : function () {
-            var res = this._super();
-            // render head
-            // render body
-            return res;
+        initHead: function (options) {
+            var table_id = this.id;
+            // init TableHead
+            if ( ! options ) options = {};
+            if ( ! options.element ) {
+                options.element = uijet.$('<ul>', { id : table_id + '_head' });
+                this.$element.append(options.element);
+            }
+            if ( ! options.container ) options.container = table_id;
+
+            uijet.start({
+                type    : 'TableHead',
+                config  : options
+            });
+            return this;
+        },
+        initGrid: function (options) {
+            var table_id = this.id;
+            // init TableGrid
+            if ( ! options ) options = {};
+            if ( ! options.element ) {
+                options.element = uijet.$('<ul>', { id : table_id + '_grid' });
+                this.$element.append(options.element);
+            }
+            if ( ! options.container ) options.container = table_id;
+
+            uijet.start({
+                type    : 'TableGrid',
+                config  : options
+            });
+            return this;
         }
     });
 
