@@ -5,9 +5,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.contrib.comments.models import Comment
-from openbudget.apps.entities.models import Domain, DomainDivision, Entity
+from openbudget.apps.entities.models import DomainDivision, Entity
 from openbudget.commons.models import DataSource
-from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
+from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, PeriodicModel
 
 
 NODE_DIRECTIONS = (
@@ -17,8 +17,16 @@ NODE_DIRECTIONS = (
 
 
 class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
-    """The budget template for a given domain division.
+    """
+    The budget template for a given domain division.
 
+    Templates can inherit other Templates in a prototypal manner,
+    meaning, it inherits all its nodes from its parent and then
+    defines its own overrides/additions/removals of nodes.
+
+    Examples of Templates inheritance:
+        * Extending a base Template with more Entity-specific nodes.
+        * Denoting Template changes over time.
     """
     divisions = models.ManyToManyField(
         DomainDivision,
@@ -30,11 +38,21 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
     sources = generic.GenericRelation(
         DataSource
     )
+    parent = models.ForeignKey(
+        'self',
+        null=True,
+        blank=True,
+        related_name='children'
+    )
 
+    #TODO: this is a naive fetch of all nodes, need to handle template merges
     @property
     def nodes(self):
-        value = BudgetTemplateNode.objects.filter(template=self)
-        return value
+        self_nodes = list(BudgetTemplateNode.objects.filter(template=self))
+        if not self.parent:
+            return self_nodes
+        else:
+            return self.parent.nodes + self_nodes
 
     class Meta:
         ordering = ['name']
@@ -75,6 +93,17 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
         null=True,
         blank=True,
         related_name='children'
+    )
+    forwards = models.ManyToManyField(
+        'self',
+        symmetrical=True,
+        null=True,
+        blank=True
+    )
+    backwards = models.ManyToManyField(
+        'self',
+        null=True,
+        blank=True
     )
     #TODO: in Israeli budget this should be automatically filled in the importer
     direction = models.PositiveSmallIntegerField(
@@ -118,20 +147,15 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
         return self.code
 
 
-class Sheet(TimeStampedModel, UUIDModel):
+class Sheet(PeriodicModel, TimeStampedModel, UUIDModel):
     """An abstract class for common Budget and Actual data"""
 
 
     entity = models.ForeignKey(
         Entity,
     )
-    period_start = models.DateField(
-        _('Period start'),
-        help_text=_('The start date for this %(class)s')
-    )
-    period_end = models.DateField(
-        _('Period end'),
-        help_text=_('The end date for this %(class)s')
+    template = models.ForeignKey(
+        BudgetTemplate,
     )
     description = models.TextField(
         _('Budget description'),
@@ -145,17 +169,6 @@ class Sheet(TimeStampedModel, UUIDModel):
         Comment,
         object_id_field="object_pk"
     )
-
-    #TODO: implement a shortcut from period_start/end to year
-    @property
-    def period(self):
-        # TODO: Write a smarter method for the general use case
-        # naive, just for current purposes
-        tmp = self.period_end - self.period_start
-        if tmp.days <= 365:
-            return self.period_start.year
-        else:
-            return unicode(self.period_start.year) + ' - ' + self.period_end.year
 
     @property
     def total(self):
@@ -200,8 +213,8 @@ class Budget(Sheet):
 
     def __unicode__(self):
         return self.__class__.__name__ + ' for ' + self.entity.name \
-        + ': ' + unicode(self.period_start) + ' - ' + \
-        unicode(self.period_end)
+            + ': ' + unicode(self.period_start) + ' - ' + \
+            unicode(self.period_end)
 
 
 class Actual(Sheet):
@@ -256,8 +269,8 @@ class Actual(Sheet):
 
     def __unicode__(self):
         return self.__class__.__name__ + ' for ' + self.entity.name \
-        + ': ' + unicode(self.period_start) + ' - ' + \
-        unicode(self.period_end)
+            + ': ' + unicode(self.period_start) + ' - ' + \
+            unicode(self.period_end)
 
 
 class Annotation(UUIDModel, TimeStampedModel):
@@ -265,9 +278,9 @@ class Annotation(UUIDModel, TimeStampedModel):
         User
     )
     note = models.TextField(
-            _('note'),
-            blank=True,
-            help_text=_('This note.')
+        _('note'),
+        blank=True,
+        help_text=_('This note.')
     )
     content_type = models.ForeignKey(
         ContentType,
@@ -279,6 +292,7 @@ class Annotation(UUIDModel, TimeStampedModel):
     content_object = generic.GenericForeignKey(
         'content_type', 'object_id',
     )
+
     class Meta:
         ordering = ['user']
         verbose_name = _('Annotation')
