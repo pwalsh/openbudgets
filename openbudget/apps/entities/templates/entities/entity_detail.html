@@ -107,9 +107,10 @@
         <ul>
         {% for budget in object.budgets %}
         <li>
-            <a href="{% url 'budget_detail' budget.uuid %}">
-                {{ budget.period }}
-            </a>
+            <a href="{% url 'budget_detail' budget.uuid %}">{{ budget.period }}</a>
+            <span>
+                ({{ budget.total }})
+            </span>
         </li>
         {% endfor %}
         </ul>
@@ -127,9 +128,10 @@
         <ul>
         {% for actual in object.actuals %}
         <li>
-            <a href="{% url 'actual_detail' actual.uuid %}">
-                {{ actual.period }} (Variance: {% if actual.has_budgets %}{{ actual.variance }}%{% endif %})
-            </a>
+            <a href="{% url 'actual_detail' actual.uuid %}">{{ actual.period }}</a>
+            <span>
+                (Total: {% if actual.has_budgets %}{{ actual.total }}{% endif %}; Variance: {% if actual.has_budgets %}{{ actual.variance }}%{% endif %})
+            </span>
         </li>
         {% endfor %}
         </ul>

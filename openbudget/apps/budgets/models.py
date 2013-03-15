@@ -159,7 +159,7 @@ class Sheet(TimeStampedModel, UUIDModel):
 
     @property
     def total(self):
-        tmp = [item.amount for item in self.items]
+        tmp = [item.amount for item in self.item_set.all()]
         value = sum(tmp)
         return value
 
@@ -175,11 +175,6 @@ class Sheet(TimeStampedModel, UUIDModel):
 
 class Budget(Sheet):
     """Budget for the given entity and period"""
-
-    @property
-    def items(self):
-        value = BudgetItem.objects.filter(budget=self)
-        return value
 
     @property
     def actuals(self):
@@ -217,11 +212,6 @@ class Actual(Sheet):
     # and compares match with budget/actual. Actual periods
     # should smartly map over budget periods, and not fall
     # inconveniently like, an actual for 10 months, but a budget for 12.
-
-    @property
-    def items(self):
-        value = ActualItem.objects.filter(actual=self)
-        return value
 
     @property
     def budgets(self):
@@ -329,7 +319,7 @@ class BudgetItem(SheetItem):
 
     budget = models.ForeignKey(
         Budget,
-        related_name='items'
+        related_name='item_set'
     )
 
     class Meta:
@@ -349,7 +339,7 @@ class ActualItem(SheetItem):
 
     actual = models.ForeignKey(
         Actual,
-        related_name='items'
+        related_name='item_set'
     )
 
     class Meta:
