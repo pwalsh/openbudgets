@@ -50,6 +50,15 @@ Developer guide
    guide/index
 
 
+Specifications
+--------------
+
+.. toctree::
+   :maxdepth: 2
+
+   specs/index
+
+
 Indices and tables
 ==================
 
