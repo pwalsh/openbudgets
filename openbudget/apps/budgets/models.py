@@ -10,12 +10,6 @@ from openbudget.commons.models import DataSource
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
 
 
-NODE_DIRECTIONS = (
-    (1, _('REVENUE')),
-    (2, _('EXPENDITURE'))
-)
-
-
 class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
     """The budget template for a given domain division.
 
@@ -30,11 +24,6 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
     sources = generic.GenericRelation(
         DataSource
     )
-
-    @property
-    def nodes(self):
-        value = BudgetTemplateNode.objects.filter(template=self)
-        return value
 
     class Meta:
         ordering = ['name']
@@ -52,10 +41,16 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
 class BudgetTemplateNode(TimeStampedModel, UUIDModel):
     """The individual nodes in a budget template"""
 
+    NODE_DIRECTIONS = (
+        (1, _('REVENUE')),
+        (2, _('EXPENDITURE'))
+    )
+
     template = models.ForeignKey(
         BudgetTemplate,
         null=True,
-        blank=True
+        blank=True,
+        related_name='node_set'
     )
     code = models.CharField(
         max_length=50,
