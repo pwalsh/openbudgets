@@ -50,6 +50,7 @@
     "pk": 2,
     "fields": {
         "uuid": "6cd238ac63974392834ad62699c1cf11",
+        "template": 1,
         "entity": 7,
         "period_start": "2011-01-01",
         "period_end": "2011-12-31",
@@ -94,6 +95,7 @@
     "pk": 3,
     "fields": {
         "uuid": "6cd238ac63974392834ad62699c1cf10",
+        "template": 1,
         "entity": 7,
         "period_start": "2010-01-01",
         "period_end": "2010-12-31",
@@ -183,6 +185,7 @@
     "pk": 2,
     "fields": {
         "uuid": "6cd238ac63974392834ad62699c1cf19",
+        "template": 1,
         "entity": 7,
         "period_start": "2012-01-01",
         "period_end": "2012-12-31",
@@ -228,6 +231,7 @@
     "fields": {
         "uuid": "6cd238ac63974392834ad62699c1cf13",
         "entity": 7,
+        "template": 1,
         "period_start": "2010-01-01",
         "period_end": "2010-12-31",
         "description": "Description of this particular actual",
