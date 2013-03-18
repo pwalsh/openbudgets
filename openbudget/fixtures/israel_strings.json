@@ -124,6 +124,26 @@
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }
+},
+
+{
+    "model": "transport.String",
+    "pk": 13,
+    "fields": {
+        "string": "direction",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "transport.String",
+    "pk": 14,
+    "fields": {
+        "string": "description",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
 }
 
 

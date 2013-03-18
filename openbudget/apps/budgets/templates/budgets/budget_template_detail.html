@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+{{ object.name }}
+{% endblock title %}
+
+{% block content %}
+
+A budget template.
+
+{% for node in object.node_set.all %}
+    <div>
+        name: {{ node.name }} | code: {{ node.code }} | parent: {{ node.parent }}
+    </div>
+{% endfor %}
+
+{% endblock content %}

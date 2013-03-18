@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+Budget Templates in System
+{% endblock title %}
+
+{% block content %}
+
+{% for object in object_list %}
+    <div>
+    name: {{ object.name }} | applies to: {% for division in object.divisions.all %}{{ division.name }}{% endfor %}
+    <br />
+    <a href="{% url 'budget_template_detail' object.uuid %}" title="">Go there</a>
+    </div>
+{% endfor %}
+
+{% endblock content %}

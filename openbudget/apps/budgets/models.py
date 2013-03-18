@@ -1,5 +1,4 @@
 from __future__ import division
-import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
@@ -9,12 +8,6 @@ from django.contrib.comments.models import Comment
 from openbudget.apps.entities.models import DomainDivision, Entity
 from openbudget.commons.models import DataSource
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, PeriodicModel
-
-
-NODE_DIRECTIONS = (
-    (1, _('REVENUE')),
-    (2, _('EXPENDITURE'))
-)
 
 
 class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
@@ -52,8 +45,14 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
 class BudgetTemplateNode(TimeStampedModel, UUIDModel):
     """The individual nodes in a budget template"""
 
+    NODE_DIRECTIONS = (
+        (1, _('REVENUE')),
+        (2, _('EXPENDITURE'))
+    )
+
     templates = models.ManyToManyField(
-        BudgetTemplate
+        BudgetTemplate,
+        related_name='node_set'
     )
     code = models.CharField(
         max_length=50,
@@ -194,7 +193,7 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel):
 
     @property
     def total(self):
-        tmp = [item.amount for item in self.items]
+        tmp = [item.amount for item in self.item_set.all()]
         value = sum(tmp)
         return value
 
@@ -210,11 +209,6 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel):
 
 class Budget(Sheet):
     """Budget for the given entity and period"""
-
-    @property
-    def items(self):
-        value = BudgetItem.objects.filter(budget=self)
-        return value
 
     @property
     def actuals(self):
@@ -252,11 +246,6 @@ class Actual(Sheet):
     # and compares match with budget/actual. Actual periods
     # should smartly map over budget periods, and not fall
     # inconveniently like, an actual for 10 months, but a budget for 12.
-
-    @property
-    def items(self):
-        value = ActualItem.objects.filter(actual=self)
-        return value
 
     @property
     def budgets(self):
@@ -365,7 +354,7 @@ class BudgetItem(SheetItem):
 
     budget = models.ForeignKey(
         Budget,
-        related_name='items'
+        related_name='item_set'
     )
 
     class Meta:
@@ -385,7 +374,7 @@ class ActualItem(SheetItem):
 
     actual = models.ForeignKey(
         Actual,
-        related_name='items'
+        related_name='item_set'
     )
 
     class Meta:
