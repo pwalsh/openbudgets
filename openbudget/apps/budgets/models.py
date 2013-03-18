@@ -1,4 +1,5 @@
 from __future__ import division
+import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
@@ -19,14 +20,6 @@ NODE_DIRECTIONS = (
 class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
     """
     The budget template for a given domain division.
-
-    Templates can inherit other Templates in a prototypal manner,
-    meaning, it inherits all its nodes from its parent and then
-    defines its own overrides/additions/removals of nodes.
-
-    Examples of Templates inheritance:
-        * Extending a base Template with more Entity-specific nodes.
-        * Denoting Template changes over time.
     """
     divisions = models.ManyToManyField(
         DomainDivision,
@@ -38,21 +31,10 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
     sources = generic.GenericRelation(
         DataSource
     )
-    parent = models.ForeignKey(
-        'self',
-        null=True,
-        blank=True,
-        related_name='children'
-    )
 
-    #TODO: this is a naive fetch of all nodes, need to handle template merges
     @property
     def nodes(self):
-        self_nodes = list(BudgetTemplateNode.objects.filter(template=self))
-        if not self.parent:
-            return self_nodes
-        else:
-            return self.parent.nodes + self_nodes
+        return BudgetTemplateNode.objects.filter(templates=self)
 
     class Meta:
         ordering = ['name']
@@ -70,10 +52,8 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
 class BudgetTemplateNode(TimeStampedModel, UUIDModel):
     """The individual nodes in a budget template"""
 
-    template = models.ForeignKey(
-        BudgetTemplate,
-        null=True,
-        blank=True
+    templates = models.ManyToManyField(
+        BudgetTemplate
     )
     code = models.CharField(
         max_length=50,
@@ -94,16 +74,19 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
         blank=True,
         related_name='children'
     )
-    forwards = models.ManyToManyField(
-        'self',
-        symmetrical=True,
-        null=True,
-        blank=True
-    )
+    # forwards = models.ManyToManyField(
+    #     'self',
+    #     null=True,
+    #     blank=True,
+    #     symmetrical=False,
+    #     related_name='pasts'
+    # )
     backwards = models.ManyToManyField(
         'self',
         null=True,
-        blank=True
+        blank=True,
+        symmetrical=False,
+        related_name='forwards'
     )
     #TODO: in Israeli budget this should be automatically filled in the importer
     direction = models.PositiveSmallIntegerField(
@@ -130,14 +113,34 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
     def actual_items(self):
         return ActualItem.objects.filter(node=self)
 
+    @property
+    def past(self):
+        nodes = list(self.backwards.all())
+        if len(nodes):
+            for node in nodes:
+                nodes += node.past
+        return nodes
+
+    @property
+    def future(self):
+        nodes = list(self.forwards.all())
+        if len(nodes):
+            for node in nodes:
+                nodes += node.future
+        return nodes
+
+    @property
+    def with_past(self):
+        return [self] + self.past
+
+    @property
+    def with_future(self):
+        return [self] + self.future
 
     class Meta:
         ordering = ['name']
         verbose_name = _('Budget template node')
         verbose_name_plural = _('Budget template nodes')
-
-    class MPTTMeta:
-        order_insertion_by = ['code']
 
     @models.permalink
     def get_absolute_url(self):
@@ -145,6 +148,25 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
 
     def __unicode__(self):
         return self.code
+
+
+class BudgetTemplateNodeRelation(models.Model):
+    """A relation between a node and a template"""
+
+    template = models.ForeignKey(
+        BudgetTemplate
+    )
+    node = models.ForeignKey(
+        BudgetTemplateNode
+    )
+
+    class Meta:
+        ordering = ['template__name', 'node__name']
+        verbose_name = _('Budget template-node relation')
+        verbose_name = _('Budget template-node relations')
+
+    def __unicode__(self):
+        return '%s -> %s' % (self.template, self.node)
 
 
 class Sheet(PeriodicModel, TimeStampedModel, UUIDModel):

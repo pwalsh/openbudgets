@@ -17,7 +17,7 @@
     "pk": 1,
     "fields": {
         "uuid": "208413189e1c4312b024cfac4081cb34",
-        "template": 1,
+        "templates": [1],
         "code": "1",
         "name": "Services",
         "description": "Services are much ado about nothing",
@@ -32,7 +32,7 @@
     "pk": 2,
     "fields": {
         "uuid": "a0936a00b7f3494087f674ca7d7028c0",
-        "template": 1,
+        "templates": [1],
         "code": "11",
         "name": "Services of streets",
         "description": "Services are much ado about nothing",
@@ -48,7 +48,7 @@
     "pk": 3,
     "fields": {
         "uuid": "6cd238ac63974392834ad62699c1cf14",
-        "template": 1,
+        "templates": [1],
         "code": "7",
         "name": "Parks",
         "description": "We Heart Parks",
@@ -64,7 +64,7 @@
     "pk": 4,
     "fields": {
         "uuid": "19685c0d4ebe43e3acee6dd163cb1832",
-        "template": 1,
+        "templates": [1],
         "code": "74",
         "name": "Dog parks",
         "description": "We like dog parks",
@@ -81,7 +81,7 @@
     "pk": 5,
     "fields": {
         "uuid": "e044ad0fd7d041fd88c7a6816ee5520e",
-        "template": 1,
+        "templates": [1],
         "code": "2",
         "name": "Parks",
         "description": "We Heart Parks",
@@ -97,7 +97,7 @@
     "pk": 6,
     "fields": {
         "uuid": "4e60a01f118b4798a7f4934972ddabe6",
-        "template": 1,
+        "templates": [1],
         "code": "24",
         "name": "Dog parks",
         "description": "We like dog parks",

@@ -4,20 +4,16 @@ from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, B
 from openbudget.commons.admin import DataSourceInline
 
 
-class BudgetTemplateNodeInline(TranslationStackedInline):
-    """Gives an inlineable BudgetTemplateNode form"""
+class BudgetTemplaeNodeAdmin(TranslationAdmin):
+    """Admin form for adding budget template nodes"""
 
-    model = BudgetTemplateNode
-    fk_name = 'template'
-    classes = ('grp-collapse grp-open',)
-    inline_classes = ('grp-collapse grp-closed',)
-    extra = 2
+    filter_horizontal = ('templates',)
 
 
 class BudgetTemplateAdmin(TranslationAdmin):
     """Admin form for adding budget templates"""
 
-    inlines = [DataSourceInline, BudgetTemplateNodeInline]
+    inlines = [DataSourceInline,]
 
 
 class BudgetItemInline(TranslationStackedInline):
@@ -53,5 +49,6 @@ class ActualAdmin(TranslationAdmin):
 
 
 admin.site.register(BudgetTemplate, BudgetTemplateAdmin)
+admin.site.register(BudgetTemplateNode, BudgetTemplaeNodeAdmin)
 admin.site.register(Budget, BudgetAdmin)
 admin.site.register(Actual, ActualAdmin)
