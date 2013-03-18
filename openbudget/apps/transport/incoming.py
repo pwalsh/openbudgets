@@ -9,7 +9,7 @@ from openbudget.apps.entities.models import Entity, Domain,DomainDivision
 class FileImporter(object):
     """Gets data out of files and into the database."""
 
-    def __init__(self, sourcefile, datatype=None, nesting_style=None):
+    def __init__(self, sourcefile, datatype=None, nesting_style=None, ignore_unknown_headers=False, ignore_invalid_rows=False):
         self.sourcefile = sourcefile
         self.data_type = datatype
         self.nesting_style = nesting_style
