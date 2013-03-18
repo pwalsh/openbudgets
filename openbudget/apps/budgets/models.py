@@ -10,6 +10,32 @@ from openbudget.commons.models import DataSource
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, PeriodicModel
 
 
+class Annotation(UUIDModel, TimeStampedModel):
+    user = models.OneToOneField(
+        User
+    )
+    note = models.TextField(
+        _('note'),
+        blank=True,
+        help_text=_('This note.')
+    )
+    content_type = models.ForeignKey(
+        ContentType,
+        editable=False
+    )
+    object_id = models.PositiveIntegerField(
+        editable=False
+    )
+    content_object = generic.GenericForeignKey(
+        'content_type', 'object_id',
+    )
+
+    class Meta:
+        ordering = ['user']
+        verbose_name = _('Annotation')
+        verbose_name_plural = _('Annotations')
+
+
 class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
     """
     The budget template for a given domain division.
@@ -282,32 +308,6 @@ class Actual(Sheet):
         return self.__class__.__name__ + ' for ' + self.entity.name \
             + ': ' + unicode(self.period_start) + ' - ' + \
             unicode(self.period_end)
-
-
-class Annotation(UUIDModel, TimeStampedModel):
-    user = models.OneToOneField(
-        User
-    )
-    note = models.TextField(
-        _('note'),
-        blank=True,
-        help_text=_('This note.')
-    )
-    content_type = models.ForeignKey(
-        ContentType,
-        editable=False
-    )
-    object_id = models.PositiveIntegerField(
-        editable=False
-    )
-    content_object = generic.GenericForeignKey(
-        'content_type', 'object_id',
-    )
-
-    class Meta:
-        ordering = ['user']
-        verbose_name = _('Annotation')
-        verbose_name_plural = _('Annotations')
 
 
 class SheetItem(TimeStampedModel, UUIDModel):
