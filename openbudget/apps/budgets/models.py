@@ -354,7 +354,7 @@ class BudgetItem(SheetItem):
 
     budget = models.ForeignKey(
         Budget,
-        related_name='item_set'
+        related_name='items'
     )
 
     class Meta:
@@ -374,7 +374,7 @@ class ActualItem(SheetItem):
 
     actual = models.ForeignKey(
         Actual,
-        related_name='item_set'
+        related_name='items'
     )
 
     class Meta:
