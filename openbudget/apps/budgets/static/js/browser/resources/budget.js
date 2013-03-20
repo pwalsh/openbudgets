@@ -8,10 +8,26 @@ define([
             idAttribute : 'uuid'
         }),
         BudgetsCollection = uijet.Collection({
-            model   : BudgetModel,
-            url     : BASE_API_URL + 'budgets/',
-            parse   : function (response) {
+            model       : BudgetModel,
+            url         : BASE_API_URL + 'budgets/',
+            parse       : function (response) {
                 return response.results;
+            },
+            chartData   : function (index) {
+                var budgets = this.toJSON(),
+                    data = [];
+
+                budgets.forEach(function (budget) {
+                    var time = new Date(budget.period_start).getFullYear();
+                    data.push({
+                        x : time,
+                        y : budget.items[index].amount
+                    });
+                });
+
+                return data.sort(function (a, b) {
+                    return a.x - b.x;
+                });
             }
         }),
         exports = {
