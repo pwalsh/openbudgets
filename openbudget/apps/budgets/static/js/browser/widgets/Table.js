@@ -146,7 +146,7 @@
             // init TableGrid
             if ( ! options ) options = {};
             if ( ! options.element ) {
-                options.element = uijet.$('<ul>', { id : table_id + '_grid' });
+                options.element = uijet.$('<div>', { id : table_id + '_grid' });
                 this.$element.append(options.element);
             }
             if ( ! options.container ) options.container = table_id;
