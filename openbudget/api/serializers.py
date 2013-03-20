@@ -15,7 +15,15 @@ class BudgetTemplateNodeSerializer(serializers.HyperlinkedModelSerializer):
         model = BudgetTemplateNode
 
 
+class BudgetTemplateNodeModel(serializers.ModelSerializer):
+
+    class Meta:
+        model = BudgetTemplateNode
+
+
 class BudgetItemSerializer(serializers.HyperlinkedModelSerializer):
+
+    node = BudgetTemplateNodeModel()
 
     class Meta:
         model = BudgetItem
@@ -30,6 +38,8 @@ class BudgetSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ActualItemSerializer(serializers.HyperlinkedModelSerializer):
+
+    node = BudgetTemplateNodeModel()
 
     class Meta:
         model = ActualItem
