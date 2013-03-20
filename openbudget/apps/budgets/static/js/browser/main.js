@@ -1,12 +1,16 @@
 requirejs.config({
-    baseUrl : window.BASE_URL + 'js',
+    baseUrl : window.BASE_URL + 'js/lib',
     paths   : {
-        uijet_dir   : 'uijet/src',
+        uijet_dir   : 'uijet',
         plugins     : '.',
-        browser     : 'browser',
-        ui          : 'browser/ui',
-        widgets     : 'browser/widgets',
-        resources   : 'browser/resources'
+        browser     : '../browser',
+        ui          : '../browser/ui',
+        widgets     : '../browser/widgets',
+        adapters    : '../browser/adapters',
+        resources   : '../browser/resources'
+    },
+    shim    : {
+        rickshaw: ['d3']
     }
 });
 requirejs([
