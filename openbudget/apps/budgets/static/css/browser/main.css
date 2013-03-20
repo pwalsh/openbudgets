@@ -1,1 +1,18 @@
 @import url(/static/js/lib/uijet/uijet.css);
+
+
+.spreadsheet-col {
+    text-align: left;
+}
+.spreadsheet-col-amount {
+    width: 7rem;
+}
+.spreadsheet-col-code {
+    width: 2rem;
+}
+.spreadsheet-col-desc {
+    width: 20rem;
+}
+.spreadsheet-col-name {
+    width: 10rem;
+}
