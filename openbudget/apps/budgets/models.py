@@ -162,6 +162,10 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
     def with_future(self):
         return [self] + self.future
 
+    @property
+    def timeline(self):
+        return self.with_past + self.future
+
     class Meta:
         ordering = ['name']
         verbose_name = _('Budget template node')
@@ -349,8 +353,19 @@ class SheetItem(TimeStampedModel, UUIDModel):
         ordering = ['node']
 
 
+class BudgetItemManager(models.Manager):
+    def timeline(self, node_uuid, entity_uuid):
+        try:
+            node = BudgetTemplateNode.objects.get(uuid=node_uuid)
+        except BudgetTemplateNode.DoesNotExist:
+            raise BudgetTemplateNode.DoesNotExist
+        return BudgetItem.objects.filter(node__in=node.timeline, budget__entity__uuid=entity_uuid)
+
+
 class BudgetItem(SheetItem):
     """Describes a single item in a budget"""
+
+    objects = BudgetItemManager()
 
     budget = models.ForeignKey(
         Budget,
