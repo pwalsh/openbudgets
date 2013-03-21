@@ -1,9 +1,10 @@
 define([
     'uijet_dir/uijet',
-    'resources/budget',
+    'browser/app',
+    'widgets/Table',
     'widgets/Graph',
     'adapters/RickshawGraph'
-], function (uijet) {
+], function (uijet, app) {
 
     uijet.declare([{
         type    : 'Pane',
@@ -14,13 +15,16 @@ define([
     }, {
         type    : 'List',
         config  : {
-            element : '#budgets_list',
+            element : '#munis_list',
             mixins  : ['Templated'],
-            resource: 'Budgets',
-            position: 'top:70|50',
+            resource: 'Munis',
+            position: 'top:80|50',
             signals : {
                 pre_select  : function ($selected) {
-                    return this.resource.get($selected[0].id).toJSON();
+                    return {
+                        url : $selected.attr('data-url'),
+                        id  : $selected[0].id
+                    };
                 }
             }
         }
@@ -30,11 +34,9 @@ define([
             element     : '#spreadsheet',
             dont_wake   : true,
             mixins      : ['Layered'],
-            head        : {
-                columns : ['code', 'name', 'amount', 'description']
-            },
             grid        : {
                 mixins          : ['Templated'],
+                resource        : 'Budgets',
                 template_name   : 'spreadsheet-grid',
                 signals         : {
                     pre_render      : function () {
@@ -43,17 +45,11 @@ define([
                     post_rowsinit   : function () {
                         this.$element[0].style.opacity = 1;
                     }
-                },
-                app_events      : {
-                    'budgets_list.selected' : function (data) {
-                        this.data = data;
-                        this.publish('wake', true);
-                    }
                 }
             },
             position    : 'fluid',
             app_events  : {
-                'spreadsheet_grid.wake' : 'wake+'
+                MUNI_PICKED : 'wake+'
             }
         }
     }, {
@@ -69,20 +65,38 @@ define([
                 axis    : 'time'
             },
             position    : 'fluid',
-            resource    : 'Budgets',
+            data_url    : app.BASE_API_URL + '{entity_pk}/timeline/{node_pk}/',
+            signals     : {
+                process_data: function (items) {
+                    return items.map(function (item) {
+                        return {
+                            x : new Date(item.budget.period_start).getFullYear(),
+                            y : item.amount
+                        };
+                    }).sort(function (a, b) {
+                        return a.x - b.x;
+                    });
+                }
+            },
             app_events  : {
                 'spreadsheet.selected'  : function (selected) {
-                    var data = this.resource.chartData(selected.row.index());
-                    this.options.graph.series = [{
-                        data    : data,
-                        color   : this.palette.color()
-                    }];
-                    this.changed = true;
+                    this.context = {
+                        node_pk     : selected.row[0].id,
+                        entity_pk   : app.current_muni.id
+                    };
+                    this.update().then(function () {
+                        this.options.graph.series = [{
+                            data    : this.data,
+                            color   : this.palette.color()
+                        }];
+                        this.changed = true;
 
-                    this.wake(true);
+                        this.wake(true);
+                    }.bind(this));
                 }
             }
         }
     }]);
 
+    return app;
 });
