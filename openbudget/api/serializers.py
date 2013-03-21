@@ -21,9 +21,17 @@ class BudgetTemplateNodeModel(serializers.ModelSerializer):
         model = BudgetTemplateNode
 
 
+class PeriodField(serializers.RelatedField):
+    def to_native(self, value):
+        return {
+            'period_start': value.period_start,
+            'period_end': value.period_end
+        }
+
 class BudgetItemLinked(serializers.HyperlinkedModelSerializer):
 
     node = BudgetTemplateNodeModel()
+    budget = PeriodField()
 
     class Meta:
         model = BudgetItem
@@ -40,6 +48,7 @@ class BudgetLinked(serializers.HyperlinkedModelSerializer):
 class ActualItemLinked(serializers.HyperlinkedModelSerializer):
 
     node = BudgetTemplateNodeModel()
+    actual = PeriodField()
 
     class Meta:
         model = ActualItem
@@ -56,6 +65,7 @@ class ActualLinked(serializers.HyperlinkedModelSerializer):
 class EntityLinked(serializers.HyperlinkedModelSerializer):
 
     budgets = BudgetLinked()
+    actuals = ActualLinked()
 
     class Meta:
         model = Entity
