@@ -22,14 +22,14 @@ class EntityList(generics.ListAPIView):
     """API endpoint that represents a list of geopols"""
 
     model = Entity
-    serializer_class = serializers.EntityLinked
+    serializer_class = serializers.EntityListLinked
 
 
 class EntityDetail(generics.RetrieveAPIView):
     """API endpoint that represents a single geopol"""
 
     model = Entity
-    serializer_class = serializers.EntityLinked
+    serializer_class = serializers.EntityDetailLinked
 
 
 class DomainList(generics.ListAPIView):

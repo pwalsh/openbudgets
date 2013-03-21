@@ -62,7 +62,16 @@ class ActualLinked(serializers.HyperlinkedModelSerializer):
         model = Actual
 
 
-class EntityLinked(serializers.HyperlinkedModelSerializer):
+class EntityListLinked(serializers.HyperlinkedModelSerializer):
+
+    budgets = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='budget-detail')
+    actuals = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='actual-detail')
+
+    class Meta:
+        model = Entity
+
+
+class EntityDetailLinked(serializers.HyperlinkedModelSerializer):
 
     budgets = BudgetLinked()
     actuals = ActualLinked()
@@ -73,7 +82,7 @@ class EntityLinked(serializers.HyperlinkedModelSerializer):
 
 class DomainDivisionLinked(serializers.HyperlinkedModelSerializer):
 
-    entities = EntityLinked()
+    entities = EntityListLinked()
 
     class Meta:
         model = DomainDivision
@@ -81,7 +90,7 @@ class DomainDivisionLinked(serializers.HyperlinkedModelSerializer):
 
 class DomainLinked(serializers.HyperlinkedModelSerializer):
 
-    entities = EntityLinked()
+    entities = EntityListLinked()
     divisions = DomainDivisionLinked()
 
     class Meta:
