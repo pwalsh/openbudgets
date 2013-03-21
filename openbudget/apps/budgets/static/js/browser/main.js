@@ -14,9 +14,7 @@ requirejs.config({
     }
 });
 requirejs([
-    'browser/app',
-    'widgets/Table',
     'ui/main'
 ], function (Browser) {
-    Browser.init();
+    Browser.start();
 });
