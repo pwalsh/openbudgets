@@ -19,7 +19,7 @@
     "model": "budgets.BudgetItem",
     "pk": 1,
     "fields": {
-        "uuid": "6cd238ac63974392834ad62699c1cf14",
+        "uuid": "6cd238ac63974392834ad62699c1cf15",
         "budget": 1,
         "node": 1,
         "description": "some explanation of that item",
@@ -49,7 +49,7 @@
     "model": "budgets.Budget",
     "pk": 2,
     "fields": {
-        "uuid": "6cd238ac63974392834ad62699c1cf11",
+        "uuid": "6cd238ac63974392834ad62699c1cf22",
         "template": 1,
         "entity": 7,
         "period_start": "2011-01-01",
@@ -64,7 +64,7 @@
     "model": "budgets.BudgetItem",
     "pk": 3,
     "fields": {
-        "uuid": "6cd238ac63974392834ad62699c1cf15",
+        "uuid": "6cd238ac63974392834ad62699c1cf16",
         "budget": 2,
         "node": 1,
         "description": "some explanation of that item",
@@ -79,7 +79,7 @@
     "model": "budgets.BudgetItem",
     "pk": 4,
     "fields": {
-        "uuid": "4e60a01f118b4798a7f4934972ddabe7",
+        "uuid": "4e60a01f118b4798a7f4934972ddabe8",
         "budget": 2,
         "node": 2,
         "description": "some explanation of this item",
@@ -139,7 +139,7 @@
     "model": "budgets.Actual",
     "pk": 1,
     "fields": {
-        "uuid": "6cd238ac63974392834ad62699c1cf14",
+        "uuid": "6cd238ac63974392834ad62699c1cf12",
         "entity": 7,
         "template": 1,
         "period_start": "2012-01-01",
@@ -154,7 +154,7 @@
     "model": "budgets.ActualItem",
     "pk": 1,
     "fields": {
-        "uuid": "6cd238ac63974392834ad62699c1cf14",
+        "uuid": "6cd238ac63974392834ad62699c1cf17",
         "actual": 1,
         "node": 1,
         "description": "some explanation of that item",
@@ -169,7 +169,7 @@
     "model": "budgets.ActualItem",
     "pk": 2,
     "fields": {
-        "uuid": "4e60a01f118b4798a7f4934972ddabe6",
+        "uuid": "4e60a01f118b4798a7f4934972ddabe7",
         "actual": 1,
         "node": 2,
         "description": "some explanation of this item",
