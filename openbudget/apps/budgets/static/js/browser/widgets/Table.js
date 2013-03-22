@@ -87,7 +87,7 @@
 
             this.destroyContained()
                 // init rows
-                .$element.children().each(function (i, row) {
+                .$element.children('ul').each(function (i, row) {
                     uijet.start({
                         factory : factory_id,
                         config  : {
