@@ -6,6 +6,30 @@ define([
     'adapters/RickshawGraph'
 ], function (uijet, app) {
 
+    uijet.Factory('spreadsheet', {
+        type    : 'Table',
+        config  : {
+            dont_wake   : true,
+            grid        : {
+                mixins          : ['Templated'],
+                resource        : 'Budgets',
+                template_name   : 'spreadsheet-grid',
+                signals         : {
+                    pre_render      : function () {
+                        this.$element[0].style.opacity = 0;
+                    },
+                    post_rowsinit   : function () {
+                        this.$element[0].style.opacity = 1;
+                    }
+                }
+            },
+            position    : 'fluid',
+            app_events  : {
+                MUNI_PICKED : 'wake+'
+            }
+        }
+    });
+
     uijet.declare([{
         type    : 'Pane',
         config  : {
@@ -29,45 +53,33 @@ define([
             }
         }
     }, {
-        type    : 'Table',
+        factory : 'spreadsheet',
         config  : {
-            element     : '#spreadsheet',
-            dont_wake   : true,
-            mixins      : ['Layered'],
-            grid        : {
-                mixins          : ['Templated'],
-                resource        : 'Budgets',
-                template_name   : 'spreadsheet-grid',
-                signals         : {
-                    pre_render      : function () {
-                        this.$element[0].style.opacity = 0;
-                    },
-                    post_rowsinit   : function () {
-                        this.$element[0].style.opacity = 1;
-                    }
-                }
-            },
-            position    : 'fluid',
-            app_events  : {
-                MUNI_PICKED : 'wake+'
+            element : '#actuals_spreadsheet',
+            position: 'bottom:40%',
+            grid    : {
+                resource: 'Actuals'
             }
+        }
+    }, {
+        factory : 'spreadsheet',
+        config  : {
+            element : '#budgets_spreadsheet'
         }
     }, {
         type    : 'Graph',
         config  : {
             element     : '#graph',
             adapters    : 'RickshawGraph',
-            mixins      : ['Layered'],
             dont_wake   : true,
             graph       : {
                 renderer: 'stack',
                 scheme  : 'classic9',
                 axis    : 'time'
             },
-            position    : 'fluid',
             data_url    : app.BASE_API_URL + '{entity_pk}/timeline/{node_pk}/',
             signals     : {
-                process_data: function (items) {
+                process_data    : function (items) {
                     return items.map(function (item) {
                         return {
                             x : new Date(item.budget.period_start).getFullYear(),
@@ -76,12 +88,10 @@ define([
                     }).sort(function (a, b) {
                         return a.x - b.x;
                     });
-                }
-            },
-            app_events  : {
-                'spreadsheet.selected'  : function (selected) {
+                },
+                draw_timeline   : function (selected) {
                     this.context = {
-                        node_pk     : selected.row[0].id,
+                        node_pk     : selected.row.attr('data-node'),
                         entity_pk   : app.current_muni.id
                     };
                     this.update().then(function () {
@@ -94,6 +104,10 @@ define([
                         this.wake(true);
                     }.bind(this));
                 }
+            },
+            app_events  : {
+                'budgets_spreadsheet.selected'  : 'draw_timeline+',
+                'actuals_spreadsheet.selected'  : 'draw_timeline+'
             }
         }
     }]);
