@@ -3,22 +3,32 @@ from openbudget.apps.entities.models import Entity, Domain, DomainDivision
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
 
 
-class BudgetTemplateLinked(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = BudgetTemplate
-
-
 class BudgetTemplateNodeLinked(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = BudgetTemplateNode
 
 
+class UUIDField(serializers.RelatedField):
+    def to_native(self, value):
+        return str(value.uuid)
+
 class BudgetTemplateNodeModel(serializers.ModelSerializer):
+
+    backwards = UUIDField(many=True)
+    forwards = UUIDField(many=True)
+    inverse = UUIDField(many=True)
 
     class Meta:
         model = BudgetTemplateNode
+
+
+class BudgetTemplateLinked(serializers.HyperlinkedModelSerializer):
+
+    node_set = BudgetTemplateNodeModel()
+
+    class Meta:
+        model = BudgetTemplate
 
 
 class PeriodField(serializers.RelatedField):
