@@ -6,8 +6,9 @@ define([
     'uijet_dir/modules/engine/mustache',
     'uijet_dir/modules/xhr/zepto',
     'resources',
+    'underscore',
     'uijet_dir/modules/extensions/zepto-touch'
-], function (uijet, $, Ebox, Q, Mustache, Zepto_again, resources) {
+], function (uijet, $, Ebox, Q, Mustache, Zepto_again, resources, _) {
     
     var Browser =  {
             BASE_API_URL: resources.API_BASE,
@@ -18,7 +19,21 @@ define([
                 uijet.Resource('Budgets', resources.Budgets);
                 uijet.Resource('Actuals', resources.Actuals);
                 uijet.Resource('Munis', resources.Munis);
+                uijet.Resource('Items', resources.Items);
 
+                /*
+                 * subscribing to events in models
+                 */
+                uijet.subscribe({
+                    budgets_updated : function (data) {
+                        var items = [];
+                        _.each(data.budgets, function (budget) {
+                            items = items.concat(budget.items);
+                        });
+                        uijet.Resource('Items').reset(items);
+                        uijet.publish('items_populated');
+                    }
+                });
                 /*
                  * subscribing to events in views
                  */
