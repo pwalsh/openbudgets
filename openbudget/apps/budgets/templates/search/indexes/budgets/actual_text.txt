@@ -1,3 +1,5 @@
 {{ object.entity.name }}
 {{ object.template.name }}
 {{ object.description }}
+{{ object.period_start }}
+{{ object.period_end }}

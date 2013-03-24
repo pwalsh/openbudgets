@@ -34,7 +34,7 @@
         <div class="overview">
             <h4>{{ result.object.entity.name }}</h4>
             <div>
-                {% trans 'A budget for the period of' %} {{ result.object.period.year }}.
+                {% trans 'A budget for the period of' %} {{ result.object.period_start.year }}.
             </div>
             <div class="label green-bg">
                 {{ result.object.get_class_name }}
@@ -49,13 +49,43 @@
         <div class="overview">
             <h4>{{ result.object.entity.name }}</h4>
             <div>
-                {% trans 'An actual for the period of' %} {{ result.object.period.year }}.
+                {% trans 'An actual for the period of' %} {{ result.object.period_start.year }}.
+            </div>
+            <div class="label orange-bg">
+                {{ result.object.get_class_name }}
+            </div>
+        </div>
+        <a class="button blue" href="{% url 'actual_detail' result.object.uuid %}">{% trans 'See record' %}</a>
+    </div>
+    {% endif %}
+
+    {% if result.object.get_class_name == 'actualitem' %}
+    <div class="search-result-object actual-item">
+        <div class="overview">
+            <h4>{{ result.object.node.name }} [{% trans 'Code' %}: {{ result.object.node.code }}]</h4>
+            <div>
+                {% trans 'An item in the Actuals for ' %} {{ result.object.actual.entity.name }} {% trans 'in' %} {{ result.object.actual.period_start.year }}.
+            </div>
+            <div class="label purple-bg">
+                {{ result.object.get_class_name }}
+            </div>
+        </div>
+        <a class="button blue" href="{% url 'actual_item_detail' result.object.uuid %}">{% trans 'See record' %}</a>
+    </div>
+    {% endif %}
+
+    {% if result.object.get_class_name == 'budgetitem' %}
+    <div class="search-result-object budget-item">
+        <div class="overview">
+            <h4>{{ result.object.node.name }} [{% trans 'Code' %}: {{ result.object.node.code }}]</h4>
+            <div>
+                {% trans 'An item in the Budget for ' %} {{ result.object.budget.entity.name }} {% trans 'in' %} {{ result.object.budget.period_start.year }}.
             </div>
             <div class="label red-bg">
                 {{ result.object.get_class_name }}
             </div>
         </div>
-        <a class="button blue" href="{% url 'actual_detail' result.object.uuid %}">{% trans 'See record' %}</a>
+        <a class="button blue" href="{% url 'budget_item_detail' result.object.uuid %}">{% trans 'See record' %}</a>
     </div>
     {% endif %}
 
