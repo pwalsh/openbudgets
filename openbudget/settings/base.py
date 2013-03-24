@@ -98,6 +98,7 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     'gunicorn',
     'south',
+    'haystack',
     'subdomains',
     'registration',
     'rest_framework',
@@ -194,6 +195,15 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ),
     'PAGINATE_BY': 10
+}
+
+# HAYSTACK CONF
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(PROJECT_ROOT, 'commons', 'search', 'index'),
+    },
 }
 
 # EMAIL CONF

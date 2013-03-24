@@ -12,7 +12,7 @@
 {% endif %}
 
 <section id="login">
-    <form action="{% url 'auth_login' %}" method="post">
+    <form class="box-3 _float-left" action="{% url 'auth_login' %}" method="post">
         {% csrf_token %}
         <fieldset>
             {% field_generator form.username %}
@@ -20,11 +20,12 @@
             {% include 'partials/_form_action_login.html' %}
             <input type="hidden" name="next" value="{{ next }}" />
         </fieldset>
+        <div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="{% url 'auth_password_reset' %}" title="Forgot password? Reset it here">{% trans 'Forgot password' %}?</a>
+            &nbsp;|&nbsp;
+            <a href="{% url 'registration_register' %}" title="Register for Free">{% trans 'Register for free' %}</a>
+        </div>
     </form>
-    <div class="actions">
-        <a href="{% url 'auth_password_reset' %}" title="Forgot password? Reset it here">{% trans 'Forgot password' %}?</a>
-        &nbsp;|&nbsp;
-        <a href="{% url 'registration_register' %}" title="Register for Free">{% trans 'Register for free' %}</a>
-    </div>
 </section>
 {% endblock content %}

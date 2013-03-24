@@ -1,0 +1,3 @@
+{{ object.entity.name }}
+{{ object.template.name }}
+{{ object.description }}

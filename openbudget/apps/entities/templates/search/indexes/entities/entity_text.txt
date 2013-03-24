@@ -1,0 +1,5 @@
+{{ object.name }}
+{{ object.description }}
+{{ object.code }}
+{{ object.division.name }}
+{{ object.division.domain.name }}

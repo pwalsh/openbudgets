@@ -1,12 +1,12 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 from django.contrib import admin
-from openbudget.commons.views import OmuniSitemap
+from openbudget.commons.views import OBudgetSitemap, OBudgetSearchView
 admin.autodiscover()
 
 
 sitemaps = {
-    'site': OmuniSitemap,
+    'site': OBudgetSitemap,
 }
 
 
@@ -28,6 +28,10 @@ urlpatterns = patterns('',
     ),
     url(r'^transport/',
         include('openbudget.apps.transport.urls')
+    ),
+    url(r'^search/',
+        OBudgetSearchView(),
+        name='search'
     ),
     url(r'^comments/',
         include('django.contrib.comments.urls')

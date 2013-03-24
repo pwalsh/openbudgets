@@ -169,7 +169,7 @@ class Entity(TimeStampedModel, UUIDModel, models.Model):
 
         Relation is determined by Domain, and whether the entity
         is a budgeting entity.
- 
+
         """
         value = Entity.objects.filter(division__domain=self.division.domain, division__has_budgets=True).exclude(id=self.id)
         return value

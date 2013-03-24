@@ -50,7 +50,7 @@
                             {% trans 'API' %}
                         </a>
                         {% endblock nav %}
-                        <span class="float-right">
+                        <span class="_float-right">
                             {% language_switch request.get_full_path %}
                             {% include 'accounts/partials/_user_account_tools.html' %}
                         </span>
@@ -82,23 +82,26 @@
         <footer>
             <div class="wrapper">
                 {% block footer %}
-                <nav>
-                    <a href="{% url 'page' slug='about' %}">
-                        {% trans 'About' %}
-                    </a>
-                    <a href="{% url 'page' slug='privacy' %}">
-                        {% trans 'Privacy' %}
-                    </a>
-                    <a href="{% url 'page' slug='terms' %}">
-                        {% trans 'Terms' %}
-                    </a>
-                    <a href="{% url 'contact' %}">
-                        {% trans 'Contact' %}
-                    </a>
-                    <a href="{% url 'budget_template_list' %}">
-                        {% trans 'See what budget templates are here' %}
-                    </a>
-                </nav>
+                <div class="box-2 _float-left">
+                    {% include 'partials/_searchbox.html' %}
+                </div>
+
+                <div class="box-2 _float-left _align-right">
+                    <nav>
+                        <a href="{% url 'page' slug='about' %}">
+                            {% trans 'About' %}
+                        </a>
+                        <a href="{% url 'page' slug='privacy' %}">
+                            {% trans 'Privacy' %}
+                        </a>
+                        <a href="{% url 'page' slug='terms' %}">
+                            {% trans 'Terms' %}
+                        </a>
+                        <a href="{% url 'contact' %}">
+                            {% trans 'Contact' %}
+                        </a>
+                    </nav>
+                </div>
                 {% endblock footer %}
             </div>
         </footer>

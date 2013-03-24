@@ -1,0 +1,5 @@
+{% load url from future %}
+<form class="searchbox" action="{% url 'search' %}" method="GET">
+    <input type="text" name="q" placeholder="Search anything ..."/>
+    {% include 'partials/_form_action_search.html' %}
+</form>
