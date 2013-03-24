@@ -9,3 +9,4 @@ openbudget/settings/production.py
 docs/_build
 docs/_static
 docs/_templates
+openbudget/commons/static/js/lib

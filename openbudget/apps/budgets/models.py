@@ -234,7 +234,7 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel):
 
     @property
     def total(self):
-        tmp = [item.amount for item in self.item_set.all()]
+        tmp = [item.amount for item in self.items.all()]
         value = sum(tmp)
         return value
 

@@ -10,8 +10,8 @@
 <p>
     <a href="{% url 'entity_detail' object.entity.slug %}">{% trans 'Back to the entity' %}</a>
 </p>
-{% if object.item_set %}
-{% for item in object.item_set.all %}
+{% if object.items %}
+{% for item in object.items.all %}
 <p>
     <strong>{% trans 'Code' %}</strong>: {{ item.code }}
     <br />
@@ -25,6 +25,25 @@
 </p>
 {% endfor %}
 {% endif %}
+
+<section>
+    <h2>
+        {% trans 'Export this Budget' %}
+    </h2>
+    <div>
+    <a href="{% url 'data_export' object.get_class_name object.uuid 'csv' %}">
+        {% trans 'CSV' %}
+    </a>
+    &nbsp;|&nbsp;
+    <a href="{% url 'data_export' object.get_class_name object.uuid 'xls' %}">
+        {% trans 'XLS' %}
+    </a>
+    &nbsp;|&nbsp;
+    <a href="{% url 'data_export' object.get_class_name object.uuid 'xlsx' %}">
+        {% trans 'XLSX' %}
+    </a>
+</div>
+</section>
 
 {% include 'interactions/partials/_discussion.html' %}
 

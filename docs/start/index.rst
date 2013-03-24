@@ -1,18 +1,25 @@
 Requirements
 ============
 
+Open Budget is written in Python and JavaScript. If you develop web apps in these languages, it is likely that your machine is ready to start work. Check that you meet these requirements:
+
 * A unix-like OS (We develop on Ubuntu and Mac OS X)
 * Python 2.7
+* Node.js
 * Git
 * virtualenv
 * virtualenvwrapper
 
 Please make sure you meet these requirements before moving on to installation.
 
-virtualenv
-----------
+About virtualenv
+----------------
 
-Virtual environments are an important tool for Python web development. If you haven't used them before, follow these install instructions.
+Virtual environments are an important tool for Python web development.
+
+We have noticed that even Python developers who have not done web app development before are not familiar with virutalenv. The concept behind virtualenv may also seem unfamiliar to developers coming from other languages.
+
+So, if you haven't used virtualenv before, follow these install instructions, and read more about virtualenv via the links below.
 
 **Ubuntu**::
 
@@ -53,6 +60,11 @@ Read more about virtualenv_ and virtualenvwrapper_.
 
 .. _virtualenv: http://www.virtualenv.org/en/latest/
 .. _virtualenvwrapper: http://www.doughellmann.com/projects/virtualenvwrapper/
+
+About Node.js
+-------------
+
+Open Budget is not a Node.js app, but we do make use of node.js tools in our development environments.
 
 Now we can move on to the project installation.
 
@@ -97,6 +109,8 @@ Issue the following commands to create a new virtualenv for the project, and the
 And continuing, we'll install all the project requirements into our virtualenv, populate our initial database, load some development data, run some tests, and run a server for the project::
 
     pip install -r requirements.txt
+
+    volo add
 
     python manage.py devstrap -t
 
