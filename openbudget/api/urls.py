@@ -72,6 +72,10 @@ urlpatterns = patterns('openbudget.api.views',
         views.ActualItemDetail.as_view(),
         name='actualitem-detail'
     ),
+    url(r'^(?P<entity_pk>\w+)/timeline/(?P<node_pk>\w+)/$',
+        views.NodeBudgetTimeline.as_view(),
+        name='node-budget-timeline'
+    ),
 )
 
 # Format suffixes

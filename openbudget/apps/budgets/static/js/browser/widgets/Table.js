@@ -21,6 +21,16 @@
         options : {
             type_class  : ['uijet_list', 'uijet_tablerow'],
             horizontal  : true
+        },
+        publish     : function (topic, data) {
+            uijet.publish(this.options.component + '.' + topic, data);
+            return this;
+        },
+        getTransfer : function ($selected) {
+            return {
+                row : this.$element,
+                cell: $selected
+            };
         }
     }, {
         widgets : 'List'
@@ -59,6 +69,7 @@
 
             var row = this.options.row || {};
             if ( ! row.container ) row.container = this.id;
+            if ( ! row.component ) row.component = this.options.container;
 
             uijet.Factory(this.row_factory_id, {
                 type    : 'TableRow',
@@ -67,19 +78,28 @@
 
             return this;
         },
-        render  : function () {
-            var res = this._super(),
+        render  : function (data) {
+            var that = this,
+                res = this._super(),
                 factory_id = this.row_factory_id;
 
-            // init rows
-            this.$element.children().each(function (i, row) {
-                uijet.start({
-                    factory : factory_id,
-                    config  : {
-                        element : row
-                    }
+            this.notify(true, 'pre_rowsinit');
+
+            this.destroyContained()
+                // init rows
+                .$element.children('ul').each(function (i, row) {
+                    uijet.start({
+                        factory : factory_id,
+                        config  : {
+                            element : row
+                        }
+                    });
                 });
-            });
+
+            uijet.whenAll( this.wakeContained(this.context) )
+                .then(function () {
+                    that.notify(true, 'post_rowsinit');
+                });
 
             return res;
         }
@@ -126,7 +146,7 @@
             // init TableGrid
             if ( ! options ) options = {};
             if ( ! options.element ) {
-                options.element = uijet.$('<ul>', { id : table_id + '_grid' });
+                options.element = uijet.$('<div>', { id : table_id + '_grid' });
                 this.$element.append(options.element);
             }
             if ( ! options.container ) options.container = table_id;

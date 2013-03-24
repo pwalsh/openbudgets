@@ -1,1 +1,22 @@
-@import url(/static/js/uijet/src/uijet.css);
+@import url(/static/js/lib/uijet/uijet.css);
+
+.uijet_tablegrid h4 {
+    margin: 20px 0 10px;
+    text-align: left;
+}
+
+.spreadsheet-col {
+    text-align: left;
+}
+.spreadsheet-col-amount {
+    width: 7rem;
+}
+.spreadsheet-col-code {
+    width: 2rem;
+}
+.spreadsheet-col-desc {
+    width: 20rem;
+}
+.spreadsheet-col-name {
+    width: 10rem;
+}
