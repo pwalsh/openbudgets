@@ -1,6 +1,6 @@
 from datetime import date
 from django.test import TestCase
-from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem
+from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, BudgetTemplateNodeRelation, Budget, BudgetItem
 from openbudget.apps.entities.models import Entity
 
 
@@ -11,10 +11,10 @@ class TemplateInheritanceTestCase(TestCase):
 
     def setUp(self):
         """
-        Creating 2 additional templates: 
+        Creating 2 additional templates:
             1. template_1 which inherits base template
             2. templtae_2 which inherits template_1
-            
+
         Creating 3 additional, dangling nodes on template_1 and 2 on template_2.
         """
         base = BudgetTemplate.objects.get(pk=1)
@@ -28,7 +28,10 @@ class TemplateInheritanceTestCase(TestCase):
             name=base.name + "'s child"
         )
         for node in base_nodes:
-            node.templates.add(self.template_1)
+            BudgetTemplateNodeRelation.objects.create(
+                template=self.template_1,
+                node=node
+            )
 
         # creating dangling nodes
         parent = base_nodes[5]
@@ -39,7 +42,10 @@ class TemplateInheritanceTestCase(TestCase):
             parent=parent,
             direction=parent.direction
         )
-        self.node_1_1.templates.add(self.template_1)
+        BudgetTemplateNodeRelation.objects.create(
+            template=self.template_1,
+            node=self.node_1_1
+        )
 
         parent = base_nodes[4]
         parent_code = parent.code
@@ -49,7 +55,10 @@ class TemplateInheritanceTestCase(TestCase):
             parent=parent,
             direction=parent.direction
         )
-        self.node_1_2.templates.add(self.template_1)
+        BudgetTemplateNodeRelation.objects.create(
+            template=self.template_1,
+            node=self.node_1_2
+        )
 
         parent = self.node_1_2
         parent_code = parent.code
@@ -59,14 +68,20 @@ class TemplateInheritanceTestCase(TestCase):
             parent=parent,
             direction=parent.direction
         )
-        self.node_1_2_1.templates.add(self.template_1)
+        BudgetTemplateNodeRelation.objects.create(
+            template=self.template_1,
+            node=self.node_1_2_1
+        )
 
         # create a new template: template_2 inherits template_1
         self.template_2 = BudgetTemplate.objects.create(
             name=self.template_1.name + "'s child"
         )
         for node in self.template_1.nodes:
-            node.templates.add(self.template_2)
+            BudgetTemplateNodeRelation.objects.create(
+                template=self.template_2,
+                node=node
+            )
 
         parent = self.node_1_1
         parent_code = parent.code
@@ -76,7 +91,10 @@ class TemplateInheritanceTestCase(TestCase):
             parent=parent,
             direction=parent.direction
         )
-        self.node_2_1.templates.add(self.template_2)
+        BudgetTemplateNodeRelation.objects.create(
+            template=self.template_2,
+            node=self.node_2_1
+        )
 
         parent = self.node_1_2_1
         parent_code = parent.code
@@ -86,15 +104,18 @@ class TemplateInheritanceTestCase(TestCase):
             parent=parent,
             direction=parent.direction
         )
-        self.node_2_2.templates.add(self.template_2)
+        BudgetTemplateNodeRelation.objects.create(
+            template=self.template_2,
+            node=self.node_2_2
+        )
 
     def test_dangling_nodes_level_1(self):
         """
         Test dangling nodes using template inheritance.
-        
+
         Level 1:
         Test that template_1 contains exactly the nodes of base + node_1_1, node_1_2 and node_1_2_1
-        
+
         Level 2:
         Test that template_2 contains exactly the nodes of base + nodes of template_1 + node_2_1 and node_2_2
         """
@@ -129,8 +150,8 @@ class TemplateInheritanceTestCase(TestCase):
     def test_morphing_node_with_same_code(self):
         """
         Test morphing nodes using template inheritance and manual backwards setting.
-        
-        
+
+
         Test #1:
             * 1 level backward.
             * Same code.

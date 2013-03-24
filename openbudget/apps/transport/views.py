@@ -1,7 +1,7 @@
 from django.views.generic import FormView, TemplateView
 from django.shortcuts import redirect
 from openbudget.apps.transport.forms import FileImportForm
-from openbudget.apps.transport.incoming import FileImporter
+from openbudget.apps.transport.incoming import DataImporter
 
 
 class FileImportView(FormView):
@@ -10,16 +10,19 @@ class FileImportView(FormView):
 
     def form_valid(self, form, *args, **kwargs):
         sourcefile = self.request.FILES['sourcefile']
-        importer = FileImporter(sourcefile)
-        name, datatype, divisions = importer.get_metadata()
-        dataset = importer.create_dataset()
-        dataset = importer.normalize_headers(dataset)
-        print dataset.headers
-        to_db = importer.to_db(dataset)
-        if to_db is True:
+        importer = DataImporter(
+            sourcefile,
+            dataset_meta_in_filename=True
+        )
+        dataset = importer.dataset()
+        response = importer.validate(dataset)
+        if not response['valid']:
+            return response
+        save = importer.save(dataset)
+        if save:
             return redirect('import_success')
         else:
-            print 'EPIC FAIL'
+            return 'SAVE FAILED'
 
 
 class ImportSuccessView(TemplateView):

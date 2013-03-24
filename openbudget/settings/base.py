@@ -111,6 +111,7 @@ INSTALLED_APPS = (
     'openbudget.apps.interactions',
     'openbudget.apps.international',
     'openbudget.apps.pages',
+    'openbudget.apps.sources',
     'openbudget.apps.transport',
     'openbudget.api',
     'openbudget.commons',
