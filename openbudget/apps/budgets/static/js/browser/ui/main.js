@@ -16,10 +16,10 @@ define([
                 template_name   : 'spreadsheet-grid',
                 signals         : {
                     pre_render      : function () {
-                        this.$element[0].style.opacity = 0;
+                        this.disappear();
                     },
                     post_rowsinit   : function () {
-                        this.$element[0].style.opacity = 1;
+                        this.appear();
                     }
                 }
             },
@@ -72,20 +72,38 @@ define([
             element     : '#graph',
             adapters    : 'RickshawGraph',
             dont_wake   : true,
+            style       : {
+                padding : '5%',
+                width   : '90%',
+                height  : '90%',
+                zIndex  : -1
+            },
             graph       : {
-                renderer: 'stack',
+                renderer: 'line',
                 scheme  : 'classic9',
-                axis    : 'time'
+                y_axis  : true,
+                x_axis  : 'time'
             },
             data_url    : app.BASE_API_URL + '{entity_pk}/timeline/{node_pk}/',
             signals     : {
                 process_data    : function (items) {
-                    return items.map(function (item) {
-                        return {
-                            x : new Date(item.budget.period_start).getFullYear(),
-                            y : item.amount
-                        };
-                    }).sort(function (a, b) {
+                    var cache = {}, data = [];
+
+                    items.forEach(function (item, i) {
+                        var time = +new Date(item.budget.period_start)/1000;
+                        if ( time in cache ) {
+                            data[cache[time]].y += item.amount;
+                        }
+                        else {
+                            cache[time] = data.length;
+                            data.push({
+                                x : time,
+                                y : item.amount
+                            });
+                        }
+                    });
+
+                    return data.sort(function (a, b) {
                         return a.x - b.x;
                     });
                 },
