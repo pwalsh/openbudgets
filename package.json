@@ -13,7 +13,9 @@
       "underscore": "github:amdjs/underscore/1.4.4",
       "backbone": "github:amdjs/backbone/0.9.10",
       "d3": "github:mbostock/d3/v3.0.8",
-      "rickshaw": "github:shutterstock/rickshaw/v1.2.1"
+      "rickshaw": "github:shutterstock/rickshaw/v1.2.1",
+      "touch": "github:madrobby/zepto/v1.0#src/touch.js",
+      "gesture": "github:madrobby/zepto/v1.0#src/gesture.js"
     }
   }
 }

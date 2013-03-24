@@ -5,7 +5,8 @@ define([
     'uijet_dir/modules/promises/q',
     'uijet_dir/modules/engine/mustache',
     'uijet_dir/modules/xhr/zepto',
-    'resources'
+    'resources',
+    'uijet_dir/modules/extensions/zepto-touch'
 ], function (uijet, $, Ebox, Q, Mustache, Zepto_again, resources) {
     
     var Browser =  {
