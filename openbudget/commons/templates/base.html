@@ -44,7 +44,10 @@
                             {% trans 'Home' %}
                         </a>
                         <a href="{% url 'entity_list' %}">
-                            {% trans 'Entities' %}
+                            {% trans 'Government Entities' %}
+                        </a>
+                        <a href="{% url 'budget_browser' %}">
+                            {% trans 'Data Browser' %}
                         </a>
                         <a href="{% url 'api' subdomain='api' %}">
                             {% trans 'API' %}

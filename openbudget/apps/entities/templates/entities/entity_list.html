@@ -3,14 +3,48 @@
 {% load url from future %}
 
 {% block title %}
-{% trans 'All Entities' %}
+{% trans 'Opening Israeli Budgets' %}
 {% endblock title %}
 
 {% block content %}
+
+{% for division in domain.divisions.all %}
+<section class="box-2 _float-left">
+    <h2>
+        {{ division.name }}
+    </h2>
+    {% if division.entities.all %}
+    {% for entity in division.entities.all %}
+    <div>
+        <h3>
+            {{ entity.name }} <a href="{% url 'entity_detail' entity.slug %}">{% trans '->>' %}</a>
+        </h3>
+        <p>
+            {% if entity.division.has_budgets %}
+            {% if entity.budgets %}
+            {% trans 'We currently have budgets on record for' %} {% for budget in entity.budgets %} <a href="{% url 'budget_detail' budget.uuid %}">{{ budget.period }}</a> {% endfor %}
+            {% else %}
+            {% trans 'We do not currently have budgets for this' %} {{ entity.division.name }}.
+            {% endif %}
+            {% else %}
+            This is a non-budgeting administrative zone.
+            {% endif %}
+        </p>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>
+        {% trans 'No records here.' %}
+    </p>
+    {% endif %}
+</section>
+{% endfor %}
+
+
+
 {% for object in object_list %}
-<a href="{% url 'entity_detail' object.slug %}">
-    {{ object.name }}
-</a>
+
 <br />
 {% endfor %}
+
 {% endblock content %}
