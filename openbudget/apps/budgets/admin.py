@@ -1,7 +1,7 @@
 from django.contrib import admin
 from grappelli_modeltranslation.admin import TranslationAdmin, TranslationStackedInline
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
-from openbudget.commons.admin import DataSourceInline
+from openbudget.apps.sources.admin import DataSourceInline
 
 
 class BudgetTemplaeNodeAdmin(TranslationAdmin):

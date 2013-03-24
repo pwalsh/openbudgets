@@ -32,15 +32,27 @@ class UUIDModel(models.Model):
     )
 
 
-class PeriodicModel(models.Model):
-
+class PeriodStartModel(models.Model):
     class Meta:
         abstract = True
 
     period_start = models.DateField(
         _('Period start'),
-        help_text=_('The start date for this %(class)s')
+        help_text=_('The start date for this %(class)s'),
+        null=True,
+        blank=True
     )
+
+    #TODO: Move period method here
+    # if hass attr period_end, elif get other models in future from period_start, else period is til now.
+    # then this method will work with classes that subclass this class.
+
+
+class PeriodicModel(PeriodStartModel):
+
+    class Meta:
+        abstract = True
+
     period_end = models.DateField(
         _('Period end'),
         help_text=_('The end date for this %(class)s')

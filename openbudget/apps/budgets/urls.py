@@ -7,4 +7,4 @@ urlpatterns = patterns('',
         budget_browser,
         name='budget_browser'
     ),
-) 
+)

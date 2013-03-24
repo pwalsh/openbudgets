@@ -6,8 +6,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.contrib.comments.models import Comment
 from openbudget.apps.entities.models import DomainDivision, Entity
-from openbudget.commons.models import DataSource
-from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, PeriodicModel
+from openbudget.apps.sources.models import DataSource
+from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, PeriodStartModel, PeriodicModel
 
 
 class Annotation(UUIDModel, TimeStampedModel):
@@ -36,7 +36,7 @@ class Annotation(UUIDModel, TimeStampedModel):
         verbose_name_plural = _('Annotations')
 
 
-class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
+class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel, models.Model):
     """
     The budget template for a given domain division.
     """
@@ -55,6 +55,11 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, models.Model):
     def nodes(self):
         return BudgetTemplateNode.objects.filter(templates=self)
 
+    @classmethod
+    def get_class_name(cls):
+        value = cls.__name__.lower()
+        return value
+
     class Meta:
         ordering = ['name']
         verbose_name = _('Budget template')
@@ -72,12 +77,13 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
     """The individual nodes in a budget template"""
 
     NODE_DIRECTIONS = (
-        (1, _('REVENUE')),
-        (2, _('EXPENDITURE'))
+        ('REVENUE', _('REVENUE')),
+        ('EXPENDITURE', _('EXPENDITURE'))
     )
 
     templates = models.ManyToManyField(
         BudgetTemplate,
+        through='BudgetTemplateNodeRelation',
         related_name='node_set'
     )
     code = models.CharField(
@@ -113,15 +119,14 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
         symmetrical=False,
         related_name='forwards'
     )
-    #TODO: in Israeli budget this should be automatically filled in the importer
-    direction = models.PositiveSmallIntegerField(
+    direction = models.CharField(
         _('REVENUE/EXPENDITURE'),
+        max_length=15,
         choices=NODE_DIRECTIONS,
         help_text=_('Indicates whether this node is for revenue or expenditure')
     )
     #TODO: validate that never points to itself
     #TODO: validate that it always points to the opposite `direction`
-    #TODO: enforce only one choice - we are using m2m just for the buult in symmetry
     inverse = models.ManyToManyField(
         'self',
         symmetrical=True,
@@ -170,6 +175,9 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
         ordering = ['name']
         verbose_name = _('Budget template node')
         verbose_name_plural = _('Budget template nodes')
+        unique_together = (
+            ('code', 'parent') # and name?
+        )
 
     @models.permalink
     def get_absolute_url(self):
@@ -191,8 +199,11 @@ class BudgetTemplateNodeRelation(models.Model):
 
     class Meta:
         ordering = ['template__name', 'node__name']
-        verbose_name = _('Budget template-node relation')
-        verbose_name = _('Budget template-node relations')
+        verbose_name = _('Budget Template/Node Relation')
+        verbose_name = _('Budget Template/Node Relations')
+        unique_together = (
+            ('node', 'template')
+        )
 
     def __unicode__(self):
         return '%s -> %s' % (self.template, self.node)
@@ -224,7 +235,7 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel):
 
     @property
     def total(self):
-        tmp = [item.amount for item in self.item_set.all()]
+        tmp = [item.amount for item in self.items.all()]
         value = sum(tmp)
         return value
 
