@@ -7,44 +7,37 @@
 {% endblock title %}
 
 {% block content %}
+<h2>
+    {% trans 'State of Israel' %}
+</h2>
+<p>
+    {% trans 'We do not currently have budgets for the State of Israel, but please browse the Israel municipality budget and actuals data below.' %}
+</p>
+<p>
+    {% trans 'If there is missing data that you know how to source, or that you&apos;d like to see here, please' %} <a href="{% url 'contact' %}" title="{% trans 'contact us' %}">{% trans 'contact us' %}</a>
+</p>
 
-{% for division in domain.divisions.all %}
-<section class="box-2 _float-left">
-    <h2>
-        {{ division.name }}
-    </h2>
-    {% if division.entities.all %}
-    {% for entity in division.entities.all %}
+{% for entity in object_list %}
+{% if entity.division.has_budgets and entity.division.index != 0 %}
+<div class="entity-preview">
+    <h3>
+        {{ entity.name }}
+
+        <span class="box-4 _float-right _align-right">
+            <a class="button blue" href="{% url 'entity_detail' entity.slug %}" title="{{ entity.name }}">{% trans 'View' %}</a>
+        </span>
+    </h3>
     <div>
-        <h3>
-            {{ entity.name }} <a href="{% url 'entity_detail' entity.slug %}">{% trans '->>' %}</a>
-        </h3>
         <p>
-            {% if entity.division.has_budgets %}
-            {% if entity.budgets %}
-            {% trans 'We currently have budgets on record for' %} {% for budget in entity.budgets %} <a href="{% url 'budget_detail' budget.uuid %}">{{ budget.period }}</a> {% endfor %}
-            {% else %}
-            {% trans 'We do not currently have budgets for this' %} {{ entity.division.name }}.
-            {% endif %}
-            {% else %}
-            This is a non-budgeting administrative zone.
-            {% endif %}
+            {{ entity.description }}
         </p>
+        <div class="context">
+            {{ entity.division.name }}
+        </div>
     </div>
-    {% endfor %}
-    {% else %}
-    <p>
-        {% trans 'No records here.' %}
-    </p>
-    {% endif %}
-</section>
-{% endfor %}
+</div>
 
-
-
-{% for object in object_list %}
-
-<br />
+{% endif %}
 {% endfor %}
 
 {% endblock content %}

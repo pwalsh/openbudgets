@@ -3,82 +3,72 @@
 {% load url from future %}
 
 {% block title %}
-{% trans 'Your profile' %}
+{{ user.get_full_name }}
 {% endblock title %}
 
 {% block content %}
-{{ user.username }}
-<br />
-{{ user.email }}
-<br />
-{{ user.get_profile.uuid }}
-<br />
-<a href="{% url 'auth_password_change' %}">{% trans 'Change password' %}</a>
-<br />
-<a href="{% url 'user_profile_update' user.get_profile.uuid %}">{% trans 'Update profile' %}</a>
-<section>
-    <div>
-        <h3>{% trans 'Starred' %}</h3>
-        <div id="stars">
-            {% for star in user.get_profile.stars %}
-            <div class="star">
-                {{ star }}
-            </div>
-            {% endfor %}
+
+<section class="row account">
+    <h2>
+        {% trans 'Your account' %}
+    </h2>
+    <div class="box-2 _float-left">
+        <div class="box-2 _float-left">
+            <h4>
+                {% trans 'Username' %}
+            </h4>
+            <p>
+                {{ user.username }}
+            </p>
+        </div>
+        <div class="box-2 _float-left">
+            <h4>
+                {% trans 'Email' %}
+            </h4>
+            <p>
+                {{ user.email }}
+            </p>
+        </div>
+        <div class="box-2 _float-left">
+            <h4>
+                {% trans 'Update' %}
+            </h4>
+            <p>
+                <a href="{% url 'user_profile_update' user.get_profile.uuid %}">{% trans 'Update your profile' %}</a>
+                <br />
+                <a href="{% url 'auth_password_change' %}">{% trans 'Change your password' %}</a>
+            </p>
         </div>
     </div>
-    <div>
+</section>
+
+<section class="row account">
+    <div class="box-3 _float-left">
         <h3>{% trans 'Following' %}</h3>
-        <div id="follows">
+        <div class="follows">
             {% for follow in user.get_profile.follows %}
             <div class="follow">
-                {{ follow }}
+                <a href="{{ follow.content_object.get_absolute_url }}" title="">{{ follow.content_object }}</a>
             </div>
             {% endfor %}
         </div>
     </div>
-    <div>
-        <h3>{% trans 'Discussion posts' %}</h3>
-        <div id="stars">
-            {% for post in user.get_profile.comments %}
-            <div class="discussion">
-                <h4>
-                    {% trans 'On' %} {{ post.content_object }}
-                    <span>
-                        <a href="{{ post.content_object.get_absolute_url }}#comment={{post.uuid}}">
-                            -->
-                        </a>
-                    </span>
-                </h4>
-                <p>
-                    {{ post.comment }}
-                </p>
-                <p>
-                    {% trans 'Submitted' %} {{ post.submit_date }}
-                </p>
+    <div class="box-3 _float-left">
+        <h3>{% trans 'Starred' %}</h3>
+        <div class="stars">
+            {% for star in user.get_profile.stars %}
+            <div class="star">
+                <a href="{{ star.content_object.get_absolute_url }}" title="">{{ star.content_object }}</a>
             </div>
             {% endfor %}
         </div>
     </div>
-    <div>
-        <h3>{% trans 'Item Annotations' %}</h3>
-        <div id="annotations">
-            {% for annotation in user.get_profile.annotations %}
-            <div class="annotation">
-                <h4>
-                    {% trans 'On' %} {{ annotation.content_object }}
-                    <span>
-                        <a href="{{ annotation.content_object.get_absolute_url }}#comment={{annotation.uuid}}">
-                            -->
-                        </a>
-                    </span>
-                </h4>
-                <p>
-                    {{ annotation.comment }}
-                </p>
-                <p>
-                    {% trans 'Submitted' %} {{ annotation.submit_date }}
-                </p>
+    <div class="box-3 _float-left">
+        <h3>{% trans 'Commented on' %}</h3>
+        <div class="comments">
+            {% for comment in user.get_profile.comments %}
+            <div class="comment">
+                <a href="{{ comment.content_object.get_absolute_url }}" title="">{{ comment.content_object }}</a>
             </div>
             {% endfor %}
         </div>

@@ -27,7 +27,8 @@ def star(obj, user):
         try:
             star = Star.objects.get(
                 user=user,
-                content_type=content_type
+                content_type=content_type,
+                object_id=obj.id
             )
             data['interaction'] = Star.get_class_name()
             data['star'] = _('Unstar') + ' ' + '&#9733;'
@@ -62,7 +63,8 @@ def follow(obj, user):
         try:
             follow = Follow.objects.get(
                 user=user,
-                content_type=content_type
+                content_type=content_type,
+                object_id=obj.id
             )
             data['interaction'] = Follow.get_class_name()
             data['follow'] = _('Unfollow') + ' ' + '&#10058;'

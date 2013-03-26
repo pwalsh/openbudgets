@@ -201,6 +201,6 @@ class Entity(TimeStampedModel, UUIDModel, models.Model):
     # 2. other division.index values MUST have parent
 
     class Meta:
-        ordering = ['name']
+        ordering = ['division__index', 'name']
         verbose_name = _('entity')
         verbose_name_plural = _('entities')

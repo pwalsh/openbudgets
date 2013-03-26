@@ -247,6 +247,8 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel):
         abstract = True
         ordering = ['entity']
 
+    def __unicode__(self):
+        return unicode(self.period) + ' ' + self.__class__.__name__ + ' for ' + self.entity.name
 
 class Budget(Sheet):
     """Budget for the given entity and period"""
@@ -267,11 +269,6 @@ class Budget(Sheet):
     @models.permalink
     def get_absolute_url(self):
         return ('actual_detail', [self.uuid])
-
-    def __unicode__(self):
-        return self.__class__.__name__ + ' for ' + self.entity.name \
-            + ': ' + unicode(self.period_start) + ' - ' + \
-            unicode(self.period_end)
 
 
 class Actual(Sheet):
@@ -318,11 +315,6 @@ class Actual(Sheet):
     @models.permalink
     def get_absolute_url(self):
         return ('actual_detail', [self.uuid])
-
-    def __unicode__(self):
-        return self.__class__.__name__ + ' for ' + self.entity.name \
-            + ': ' + unicode(self.period_start) + ' - ' + \
-            unicode(self.period_end)
 
 
 class SheetItem(TimeStampedModel, UUIDModel):

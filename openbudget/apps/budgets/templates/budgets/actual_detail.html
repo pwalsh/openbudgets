@@ -1,14 +1,21 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n interactions %}
 {% load url from future %}
 
 {% block title %}
-{{ object.geopol.name }} {{ object.period }} {% trans 'budget' %}
+{{ object.entity.name }} {% trans 'Actuals' %} {{ object.period }}
 {% endblock title %}
+
+{% block interactions %}
+<span class="interactions">
+{% follow object user %}
+{% star object user %}
+</span>
+{% endblock interactions %}
 
 {% block content %}
 <p>
-    <a href="{% url 'entity_detail' object.entity.slug %}">{% trans 'Back to the entity' %}</a>
+    <a href="{% url 'entity_detail' object.entity.slug %}">{% trans 'Back to' %} {{ object.entity.name }}</a>
 </p>
 {% if object.items %}
 {% for item in object.items.all %}

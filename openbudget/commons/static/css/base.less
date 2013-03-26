@@ -1,5 +1,10 @@
 @import "../js/lib/adaptabl/adaptabl.idiom";
 
+textarea {
+    height: 5em;
+    min-height: 5em;
+}
+
 nav a {
     padding-left: 0.5em;
     padding-right: 0.5em;
@@ -70,4 +75,64 @@ footer nav {
 .interaction:hover input[type="submit"] {
     background-color: darken(@yellow, 10%);
 }
+
+.discussion {
+    ._float-left;
+    .box-2;
+    background-color: lighten(@grey, 45%);
+    margin: 1em 0;
+    padding: 0.5em;
+
+    label {
+        background-color: lighten(@grey, 45%);
+    }
+}
+
+.account {
+
+    .star, .follow, .comment {
+        background-color: lighten(@grey, 40%);
+        margin-right: 1.5em;
+        margin-bottom: 0.5em;
+        padding: 0.5em;
+    }
+
+    .star:before {
+        content: "\2605";
+    }
+
+    .follow:before {
+        content: "\274A";
+    }
+
+    .comment:before {
+        content: "\27A6";
+    }
+}
+
+.entity-preview {
+    ._object;
+    ._float-left;
+    width: 23%;
+    background-color: lighten(@grey, 40%);
+    margin-right: 1%;
+    margin-left: 1%;
+    margin-bottom: 0.5em;
+    padding: 0.25em 0.25em 0 0.25em;
+
+    h3 span {
+        font-size: 0.75em;
+    }
+
+    .context {
+        ._object;
+        ._float-left;
+        ._align-right;
+        font-size: 0.825em;
+        background-color: lighten(@grey, 35%);
+        padding: 0.125em 0.5em 0.125em 0.125em;
+        margin-left: -1%;
+    }
+}
+
 

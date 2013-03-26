@@ -141,6 +141,7 @@ form .field .field-help,form .double-field .field-help{float:right;font-size:0.7
 .notice{float:left;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;width:100%;height:2em;line-height:2em;color:#efd634;background-color:#f2df63;}
 .success{float:left;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;width:100%;height:2em;line-height:2em;color:#efd634;background-color:#f2df63;}
 .error{float:left;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;width:100%;height:2em;line-height:2em;color:#efd634;background-color:#f2df63;}
+textarea{height:5em;min-height:5em;}
 nav a{padding-left:0.5em;padding-right:0.5em;}
 footer nav{font-size:0.875em;}
 .langs{margin-right:2em;font-size:0.75em;}
@@ -153,3 +154,10 @@ footer nav{font-size:0.875em;}
 .interaction{display:inline-block;width:90px;font-size:0.5em;line-height:1em;height:1em;margin-left:0.25em;margin-right:0.25em;}
 .interaction input[type="submit"]{background-color:#efd634;}
 .interaction:hover input[type="submit"]{background-color:#dec312;}
+.discussion{float:left;margin:0 auto;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;-webkit-border-radius:0.2em;-moz-border-radius:0.2em;border-radius:0.2em;width:100%;width:50%;background-color:#f2f2f2;margin:1em 0;padding:0.5em;}.discussion label{background-color:#f2f2f2;}
+.account .star,.account .follow,.account .comment{background-color:#e6e6e6;margin-right:1.5em;margin-bottom:0.5em;padding:0.5em;}
+.account .star:before{content:"\2605";}
+.account .follow:before{content:"\274A";}
+.account .comment:before{content:"\27A6";}
+.entity-preview{float:left;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;width:100%;float:left;width:23%;background-color:#e6e6e6;margin-right:1%;margin-left:1%;margin-bottom:0.5em;padding:0.25em 0.25em 0 0.25em;}.entity-preview h3 span{font-size:0.75em;}
+.entity-preview .context{float:left;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;width:100%;float:left;text-align:right;font-size:0.825em;background-color:#d9d9d9;padding:0.125em 0.5em 0.125em 0.125em;margin-left:-1%;}
