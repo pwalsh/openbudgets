@@ -6,8 +6,14 @@
 {{ object.name }}
 {% endblock title %}
 
-{% block content %}
+{% block interactions %}
+<span class="interactions">
+{% follow object user %}
 {% star object user %}
+</span>
+{% endblock interactions %}
+
+{% block content %}
 <p>
     <a href="{% url 'entity_list' %}">
         {% trans 'Back to all geopols' %}

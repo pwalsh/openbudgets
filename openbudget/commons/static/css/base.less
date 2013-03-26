@@ -1,0 +1,73 @@
+@import "../js/lib/adaptabl/adaptabl.idiom";
+
+nav a {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+footer nav {
+    font-size: 0.875em;
+}
+
+.langs {
+    margin-right: 2em;
+    font-size: 0.75em;
+}
+
+.searchbox {
+    float: left;
+    display: inline-block;
+    width: 450px;
+    padding-top: 1em;
+}
+
+.searchbox input[type="text"] {
+    display: inline-block;
+    float: left;
+    width: 65%;
+    height: 2.875em;
+    line-height: 2.875em;
+    padding-left: 0.75em;
+}
+
+.searchbox input[type="submit"] {
+    display: inline-block;
+    float: right;
+    width: 30%;
+}
+
+.search-result-object {
+    float: left;
+    width: 20%;
+    margin: 2.5%;
+}
+
+.search-result-object .label {
+    padding: 0.25em;
+    margin: 0.5em 0;
+}
+
+.interactions {
+    display: inline-block;
+    float: right;
+    text-align: right;
+}
+
+.interaction {
+    display: inline-block;
+    width: 90px;
+    font-size: 0.5em;
+    line-height: 1em;
+    height: 1em;
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+}
+
+.interaction input[type="submit"] {
+    background-color: @yellow;
+}
+
+.interaction:hover input[type="submit"] {
+    background-color: darken(@yellow, 10%);
+}
+

@@ -17,7 +17,7 @@ class ToggleableInteractionManager(models.Manager):
 
 
 class ToggleableInteraction(TimeStampedModel):
-    """An abstract class for toggleable user interactions with objects"""
+    """An abstract class for toggleable user-object interactions"""
 
     objects = ToggleableInteractionManager()
 
@@ -46,7 +46,7 @@ class ToggleableInteraction(TimeStampedModel):
         unique_together = (
             ('user', 'content_type', 'object_id'),
         )
-    
+
     def __unicode__(self):
         return "{user} <> {obj}".format(
             user=self.user,
@@ -67,4 +67,4 @@ class Follow(ToggleableInteraction):
 
     class Meta:
         verbose_name = _('Follow')
-        verbose_name_plural = _('Follow')
+        verbose_name_plural = _('Follows')

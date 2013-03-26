@@ -44,10 +44,10 @@
                             {% trans 'Home' %}
                         </a>
                         <a href="{% url 'entity_list' %}">
-                            {% trans 'Government Entities' %}
+                            {% trans 'Municipalities' %}
                         </a>
                         <a href="{% url 'budget_browser' %}">
-                            {% trans 'Data Browser' %}
+                            {% trans 'Budget Browser' %}
                         </a>
                         <a href="{% url 'api' subdomain='api' %}">
                             {% trans 'API' %}
@@ -67,10 +67,17 @@
                 {% block main %}
 
                     <h1>
-                        {%block title %}
+                        {% block title %}
 
                         {% endblock title %}
+
+                        {% block interactions %}
+
+                        {% endblock interactions %}
                     </h1>
+                    <div class="interactions">
+
+                    </div>
                     <div>
                         {%block content %}
 
