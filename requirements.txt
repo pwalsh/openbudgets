@@ -9,6 +9,9 @@ pytz
 tablib
 raven
 whoosh
+redis
+celery
+django-celery
 git+https://github.com/toastdriven/django-haystack.git
 django-autoslug
 git+https://github.com/mozilla/unicode-slugify
