@@ -99,6 +99,7 @@ INSTALLED_APPS = (
     'gunicorn',
     'south',
     'haystack',
+    'djcelery',
     'subdomains',
     'registration',
     'rest_framework',
@@ -204,6 +205,29 @@ HAYSTACK_CONNECTIONS = {
         'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
         'PATH': os.path.join(PROJECT_ROOT, 'commons', 'search', 'index'),
     },
+}
+
+# CELERY CONF
+from celery.schedules import crontab
+import djcelery
+djcelery.setup_loader()
+BROKER_URL = 'redis://127.0.0.1:6379/'
+CELERYBEAT_SCHEDULE = {
+    "update_index": {
+        "task": "tasks.update_index",
+        "schedule": crontab(
+           minute=0,
+            hour=0
+        ),
+    },
+    "rebuild_index": {
+        "task": "tasks.rebuild_index",
+        "schedule": crontab(
+            day_of_week='saturday',
+            minute=0,
+            hour=0
+        ),
+    }
 }
 
 # EMAIL CONF
