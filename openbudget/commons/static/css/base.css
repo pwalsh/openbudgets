@@ -166,3 +166,4 @@ footer nav{font-size:0.875em;}
 .taxonomy-status{margin:0 auto;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;-webkit-border-radius:0.2em;-moz-border-radius:0.2em;border-radius:0.2em;width:100%;width:25%;display:inline-block;text-align:center;float:right;color:white;}.taxonomy-status.published{background-color:#2dd280;}
 .taxonomy-status.draft{background-color:#ee902b;}
 .tagged-sheet{text-decoration:none;padding:0.25em;background-color:#5abff2;color:#ffffff;font-size:0.875em;}.tagged-sheet:hover{color:#f5f5f5;}
+.budget-item{float:left;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;width:100%;float:left;width:24%;background-color:#f2f2f2;margin:0.5%;padding:0.5%;font-size:0.75em;}

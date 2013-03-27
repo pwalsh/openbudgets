@@ -47,6 +47,11 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel, models.Model
         max_length=255,
         help_text=_('The name of this budget template.')
     )
+    description = models.TextField(
+        _('Entry description'),
+        blank=True,
+        help_text=_('Describe for this entry.')
+    )
     sources = generic.GenericRelation(
         DataSource
     )
