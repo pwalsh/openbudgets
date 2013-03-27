@@ -90,7 +90,7 @@ footer nav {
 
 .account {
 
-    .star, .follow, .comment {
+    .star, .follow, .comment, .taxonomy {
         background-color: lighten(@grey, 40%);
         margin-right: 1.5em;
         margin-bottom: 0.5em;
@@ -107,6 +107,10 @@ footer nav {
 
     .comment:before {
         content: "\27A6";
+    }
+
+    .taxonomy:before {
+        content: "\2744";
     }
 }
 
@@ -136,6 +140,22 @@ footer nav {
 
     .data-status {
         font-size: 0.825em;
+    }
+}
+
+.taxonomy-status {
+    .box-4;
+    ._display-inline-block;
+    ._align-center;
+    ._float-right;
+    color: white;
+
+    &.published {
+        .green-bg;
+    }
+
+    &.draft {
+        .orange-bg;
     }
 }
 

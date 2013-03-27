@@ -3,10 +3,12 @@ from django.db.models.loading import get_model
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
-from taggit.models import GenericTaggedItemBase, TagBase
+from taggit.models import ItemBase as TaggitItemBase
 from autoslug import AutoSlugField
 from slugify import slugify as unislugify
+from openbudget.apps.budgets.models import BudgetTemplateNode
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
+from openbudget.commons.data import OBJECT_STATES
 
 
 # Our models need to impement tags like so:
@@ -24,6 +26,19 @@ class Taxonomy(TimeStampedModel, UUIDModel, models.Model):
         max_length=255,
         unique=True,
         help_text=_('The name of this taxonomy.')
+    )
+
+    description = models.TextField(
+        _('Taxonomy description'),
+        blank=True,
+        help_text=_('Describe the purpose and goals of this taxonomy.')
+    )
+
+    status = models.IntegerField(
+        _('Publication status'),
+        choices=OBJECT_STATES,
+        default=1,
+        help_text=_('Determines whether the taxonomy is publically viewable.')
     )
 
     slug = AutoSlugField(
@@ -51,60 +66,76 @@ class Taxonomy(TimeStampedModel, UUIDModel, models.Model):
     class Meta:
         verbose_name = _("Taxonomy")
         verbose_name_plural = _("Taxonomies")
+        unique_together = (
+            ('user', 'name'),
+        )
 
 
-class TaxonomyTag(TagBase):
-    """Supporting proper unicode slugs.
+class TagManager(models.Manager):
 
-    Attention:
+    def get_queryset(self):
+        taxonomy = Taxonomy.objects.get(
+            slug=self.kwargs['taxonomy_slug']
+        )
+        return super(TagManager, self).get_queryset().filter(
+            taxonomy=taxonomy
+        )
 
-    Django's SlugField is a curse when you want
-    unicode slugs. In most places in the code base, we can
-    elegantly deal with it using AutoSlugField and mozilla's
-    unicode-friendly slugify function. Using 3rd party apps
-    is a *bit* more problematic. I considered forking taggit
-    to directly replace the SlugField with with the above
-    solution. I compromised and instead implemented here a
-    unislug field.
-
-    Note that I *still* unislugify the inherited slug field, but
-    this will break if you try to use it directly with Django's
-    url resolver from templates: {% url 'tag_view' tag.slug %}
-
-    In this solution, the compromise requires:
-    {% url 'tag_view' tag.unislug %}
-
-    """
+class Tag(models.Model):
+    """A tag with full unicode support."""
 
     taxonomy = models.ForeignKey(
         Taxonomy,
         related_name='tags'
     )
 
-    unislug = AutoSlugField(
+    name = models.CharField(
+        _('Name'),
+        max_length=100
+    )
+
+    slug = AutoSlugField(
         populate_from='name',
         unique=True
     )
 
-    def slugify(self, tag, i=None):
-        slug = unislugify(self.name)
-        if i is not None:
-            slug += "_%d" % i
-        return slug
+    @models.permalink
+    def get_absolute_url(self):
+        return ('tag_detail', [self.taxonomy.slug, self.slug])
+
+    def __unicode__(self):
+        return self.name
 
     class Meta:
-        verbose_name = _("Taxonomy tag")
-        verbose_name_plural = _("Taxonomy tags")
+        verbose_name = _("Tag")
+        verbose_name_plural = _("Tags")
+        unique_together = (
+            ('name', 'taxonomy'),
+        )
 
 
-class TaxonomyTaggedItem(GenericTaggedItemBase):
+class TaggedNode(TaggitItemBase):
 
     tag = models.ForeignKey(
-        TaxonomyTag,
-        related_name="tags"
+        Tag,
+        related_name='tags'
     )
 
-    class Meta:
-        verbose_name = _("Taxonomy tagged item")
-        verbose_name_plural = _("Taxonomy tagged items")
+    content_object = models.ForeignKey(
+        BudgetTemplateNode,
+        related_name='tags'
+    )
 
+    @classmethod
+    def tags_for(cls, model, instance=None):
+        ct = ContentType.objects.get_for_model(model)
+        kwargs = {
+            "%s__content_type" % cls.tag_relname(): ct
+        }
+        if instance is not None:
+            kwargs["%s__object_id" % cls.tag_relname()] = instance.pk
+        return cls.tag_model().objects.filter(**kwargs).distinct()
+
+    class Meta:
+        verbose_name = _("Tagged node")
+        verbose_name_plural = _("Tagged nodes")

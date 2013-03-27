@@ -47,7 +47,7 @@
         <div class="taxonomies">
             {% for taxonomy in user.taxonomies.all %}
             <div class="taxonomy">
-                <a href="{% url 'taxonomy_detail' taxonomy.slug %}" title="{{ taxonomy.name }}">{{ taxonomy.name }} [{{ taxonomy.count }} {% trans 'tags' %}]</a>
+                <a href="{% url 'taxonomy_detail' taxonomy.slug %}" title="{{ taxonomy.name }}">{{ taxonomy.name }} [{{ taxonomy.count }} {% trans 'tags' %}]<span class="taxonomy-status {{ taxonomy.get_status_display }}">{{ taxonomy.get_status_display }}</span></a>
             </div>
             {% endfor %}
         </div>

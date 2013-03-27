@@ -1,6 +1,7 @@
+
 from django.views.generic import DetailView, ListView
 from django.utils.translation import ugettext as _
-from openbudget.apps.taxonomies.models import Taxonomy, TaxonomyTag, TaxonomyTaggedItem
+from openbudget.apps.taxonomies.models import Taxonomy, Tag
 
 
 class TaxonomyDetailView(DetailView):
@@ -8,7 +9,6 @@ class TaxonomyDetailView(DetailView):
     template_name = 'taxonomies/taxonomy_detail.html'
 
 
-class TaxonomyTagDetailView(DetailView):
-    model = TaxonomyTag
-    template_name = 'taxonomies/taxonomy_tag_detail.html'
-    slug_field = 'unislug'
+class TagDetailView(DetailView):
+    model = Tag
+    template_name = 'taxonomies/tag_detail.html'

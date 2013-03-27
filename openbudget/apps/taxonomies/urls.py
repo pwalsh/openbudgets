@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import patterns, url
-from openbudget.apps.taxonomies.views import TaxonomyTagDetailView, TaxonomyDetailView
+from openbudget.apps.taxonomies.views import TagDetailView, TaxonomyDetailView
 
 
 urlpatterns = patterns('',
@@ -9,9 +9,9 @@ urlpatterns = patterns('',
         name='taxonomy_detail'
     ),
 
-    url(r'^tag/(?P<slug>[-\w]+)/$',
-        TaxonomyTagDetailView.as_view(),
-        name='taxonomy_tag_detail'
+    url(r'^tag/(?P<taxonomy_slug>[-\w]+)/(?P<slug>[-\w]+)/$',
+        TagDetailView.as_view(),
+        name='tag_detail'
     ),
 
 )

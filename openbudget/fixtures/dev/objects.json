@@ -350,6 +350,51 @@
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }
+},
+
+{
+    "model": "taxonomies.Taxonomy",
+    "pk": 1,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf15",
+        "user": 1,
+        "name": "Ethiopian Health",
+        "description": "This taxonomy presents a picture of funding of Ethiopian health initiatives at the municipal level.",
+        "slug": "ethiopian-health",
+        "status": 2,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "taxonomies.Taxonomy",
+    "pk": 2,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf14",
+        "user": 1,
+        "name": "Spending on Arab Citizens",
+        "description": "This taxonomy presents a topical focus on spending related to the Arabic population at the municipal level.",
+        "slug": "spending-on-arab-citizens",
+        "status": 2,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "taxonomies.Taxonomy",
+    "pk": 3,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf11",
+        "user": 1,
+        "name": "Education Spending for Children",
+        "description": "This taxonomy presents a view onto spending for education of our children at the municipal level.",
+        "slug": "education-spending-for-children",
+        "status": 1,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
 }
 
 ]
