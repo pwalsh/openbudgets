@@ -78,7 +78,8 @@ class TagManager(models.Manager):
             slug=self.kwargs['taxonomy_slug']
         )
         return super(TagManager, self).get_queryset().filter(
-            taxonomy=taxonomy
+            taxonomy=taxonomy,
+            slug=self.kwargs['taxonomy_slug']
         )
 
 class Tag(models.Model):
@@ -96,7 +97,7 @@ class Tag(models.Model):
 
     slug = AutoSlugField(
         populate_from='name',
-        unique=True
+        unique=False
     )
 
     @models.permalink
@@ -118,12 +119,12 @@ class TaggedNode(TaggitItemBase):
 
     tag = models.ForeignKey(
         Tag,
-        related_name='tags'
+        related_name='nodetags'
     )
 
     content_object = models.ForeignKey(
         BudgetTemplateNode,
-        related_name='tags'
+        related_name='nodetags'
     )
 
     @classmethod
@@ -139,3 +140,6 @@ class TaggedNode(TaggitItemBase):
     class Meta:
         verbose_name = _("Tagged node")
         verbose_name_plural = _("Tagged nodes")
+        unique_together = (
+            ('tag', 'content_object'),
+        )

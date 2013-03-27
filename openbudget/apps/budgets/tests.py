@@ -7,7 +7,7 @@ from openbudget.apps.entities.models import Entity
 class TemplateInheritanceTestCase(TestCase):
     """Testing templates inheritance, dangling template nodes and nodes morphing over time"""
 
-    fixtures = ['israel_budgets.json', 'israel_entities.json', 'dev/objects.json']
+    fixtures = ['demo/objects.json']
 
     def setUp(self):
         """
