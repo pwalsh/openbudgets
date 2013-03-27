@@ -176,7 +176,7 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
         verbose_name = _('Budget template node')
         verbose_name_plural = _('Budget template nodes')
         unique_together = (
-            ('code', 'parent') # and name?
+            ('code', 'parent', 'name')
         )
 
     @models.permalink

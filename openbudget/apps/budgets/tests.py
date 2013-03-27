@@ -169,8 +169,14 @@ class TemplateInheritanceTestCase(TestCase):
             parent=backward.parent,
             direction=backward.direction
         )
-        backward.templates.remove(self.template_2)
-        node_2_3.templates.add(self.template_2)
+        BudgetTemplateNodeRelation.objects.get(
+            template=self.template_2,
+            node=backward
+        ).delete()
+        BudgetTemplateNodeRelation.objects.create(
+            template=self.template_2,
+            node=node_2_3
+        )
         node_2_3.backwards.add(backward)
 
         backward = self.base.nodes[0]
@@ -181,8 +187,14 @@ class TemplateInheritanceTestCase(TestCase):
             parent=backward.parent,
             direction=backward.direction
         )
-        backward.templates.remove(self.template_2)
-        node_2_4.templates.add(self.template_2)
+        BudgetTemplateNodeRelation.objects.get(
+            template=self.template_2,
+            node=backward
+        ).delete()
+        BudgetTemplateNodeRelation.objects.create(
+            template=self.template_2,
+            node=node_2_4
+        )
         node_2_4.backwards.add(backward)
 
         # create new budget based on tempalte_2
