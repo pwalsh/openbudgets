@@ -29,7 +29,7 @@
 
     <section class="row">
         <h2>
-            {% trans 'Items' %}
+            {% trans 'Items' %} [{{ object.item_count }} {% trans 'in total' %}]
         </h2>
         {% if object.items %}
         {% for item in object.items.all %}
