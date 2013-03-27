@@ -243,6 +243,11 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel):
         value = sum(tmp)
         return value
 
+    @property
+    def item_count(self):
+        value = self.items.all().count()
+        return value
+
     @classmethod
     def get_class_name(cls):
         value = cls.__name__.lower()
