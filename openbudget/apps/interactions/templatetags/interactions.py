@@ -74,6 +74,6 @@ def follow(obj, user):
         except Follow.DoesNotExist:
             data['interaction'] = Follow.get_class_name()
             data['follow'] = _('Follow') + ' ' + '&#10058;'
-            data['title'] = _('Add this item to your followed items. You will receive email updates for any updates or discussion on the item.')
+            data['title'] = _('Add this item to your followed items. You will receive email for any updates or discussion on the item.')
 
         return data
