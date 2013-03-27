@@ -6,54 +6,36 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.contrib.comments.models import Comment
 from openbudget.apps.entities.models import DomainDivision, Entity
-from openbudget.apps.sources.models import DataSource
+from openbudget.apps.sources.models import ReferenceSource, AuxSource
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, PeriodStartModel, PeriodicModel
 
 
-class Annotation(UUIDModel, TimeStampedModel):
-    user = models.OneToOneField(
-        User
-    )
-    note = models.TextField(
-        _('note'),
-        blank=True,
-        help_text=_('This note.')
-    )
-    content_type = models.ForeignKey(
-        ContentType,
-        editable=False
-    )
-    object_id = models.PositiveIntegerField(
-        editable=False
-    )
-    content_object = generic.GenericForeignKey(
-        'content_type', 'object_id',
-    )
-
-    class Meta:
-        ordering = ['user']
-        verbose_name = _('Annotation')
-        verbose_name_plural = _('Annotations')
-
-
 class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel, models.Model):
+    """The budget template for a given domain division.
+
     """
-    The budget template for a given domain division.
-    """
+
     divisions = models.ManyToManyField(
         DomainDivision,
     )
+
     name = models.CharField(
         max_length=255,
         help_text=_('The name of this budget template.')
     )
+
     description = models.TextField(
         _('Entry description'),
         blank=True,
         help_text=_('Describe for this entry.')
     )
-    sources = generic.GenericRelation(
-        DataSource
+
+    reference_sources = generic.GenericRelation(
+        ReferenceSource
+    )
+
+    aux_sources = generic.GenericRelation(
+        AuxSource
     )
 
     @property
@@ -65,17 +47,17 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel, models.Model
         value = cls.__name__.lower()
         return value
 
-    class Meta:
-        ordering = ['name']
-        verbose_name = _('Budget template')
-        verbose_name_plural = _('Budget templates')
-
     @models.permalink
     def get_absolute_url(self):
         return ('budget_template_detail', [self.uuid])
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = _('Budget template')
+        verbose_name_plural = _('Budget templates')
 
 
 class BudgetTemplateNode(TimeStampedModel, UUIDModel):
@@ -91,25 +73,30 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
         through='BudgetTemplateNodeRelation',
         related_name='node_set'
     )
+
     code = models.CharField(
         max_length=50,
         help_text=_('Code')
     )
+
     name = models.CharField(
         max_length=255,
         help_text=_('Name')
     )
+
     description = models.TextField(
         _('Entry description'),
         blank=True,
         help_text=_('Describe for this entry.')
     )
+
     parent = models.ForeignKey(
         'self',
         null=True,
         blank=True,
         related_name='children'
     )
+
     # forwards = models.ManyToManyField(
     #     'self',
     #     null=True,
@@ -117,6 +104,7 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
     #     symmetrical=False,
     #     related_name='pasts'
     # )
+
     backwards = models.ManyToManyField(
         'self',
         null=True,
@@ -124,12 +112,14 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
         symmetrical=False,
         related_name='forwards'
     )
+
     direction = models.CharField(
         _('REVENUE/EXPENDITURE'),
         max_length=15,
         choices=NODE_DIRECTIONS,
         help_text=_('Indicates whether this node is for revenue or expenditure')
     )
+
     #TODO: validate that never points to itself
     #TODO: validate that it always points to the opposite `direction`
     inverse = models.ManyToManyField(
@@ -176,6 +166,13 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
     def timeline(self):
         return self.with_past + self.future
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('budget_template_node', [self.uuid])
+
+    def __unicode__(self):
+        return self.code
+
     class Meta:
         ordering = ['name']
         verbose_name = _('Budget template node')
@@ -184,13 +181,6 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
             ('code', 'parent', 'name'),
         )
 
-    @models.permalink
-    def get_absolute_url(self):
-        return ('budget_template_node', [self.uuid])
-
-    def __unicode__(self):
-        return self.code
-
 
 class BudgetTemplateNodeRelation(models.Model):
     """A relation between a node and a template"""
@@ -198,9 +188,13 @@ class BudgetTemplateNodeRelation(models.Model):
     template = models.ForeignKey(
         BudgetTemplate
     )
+
     node = models.ForeignKey(
         BudgetTemplateNode
     )
+
+    def __unicode__(self):
+        return '%s -> %s' % (self.template, self.node)
 
     class Meta:
         ordering = ['template__name', 'node__name']
@@ -210,28 +204,32 @@ class BudgetTemplateNodeRelation(models.Model):
             ('node', 'template')
         )
 
-    def __unicode__(self):
-        return '%s -> %s' % (self.template, self.node)
-
 
 class Sheet(PeriodicModel, TimeStampedModel, UUIDModel):
     """An abstract class for common Budget and Actual data"""
 
-
     entity = models.ForeignKey(
         Entity,
     )
+
     template = models.ForeignKey(
         BudgetTemplate,
     )
+
     description = models.TextField(
         _('Budget description'),
         blank=True,
         help_text=_('Descriptive text for this %(class)s')
     )
-    sources = generic.GenericRelation(
-        DataSource
+
+    reference_sources = generic.GenericRelation(
+        ReferenceSource
     )
+
+    aux_sources = generic.GenericRelation(
+        AuxSource
+    )
+
     discussion = generic.GenericRelation(
         Comment,
         object_id_field="object_pk"
@@ -253,12 +251,13 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel):
         value = cls.__name__.lower()
         return value
 
+    def __unicode__(self):
+        return unicode(self.period) + ' ' + self.__class__.__name__ + ' for ' + self.entity.name
+
     class Meta:
         abstract = True
         ordering = ['entity']
 
-    def __unicode__(self):
-        return unicode(self.period) + ' ' + self.__class__.__name__ + ' for ' + self.entity.name
 
 class Budget(Sheet):
     """Budget for the given entity and period"""
@@ -272,13 +271,13 @@ class Budget(Sheet):
         # TODO: This is a test POC. need much more robust way
         return bool(len(self.actuals))
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('budget_detail', [self.uuid])
+
     class Meta:
         verbose_name = _('Budget')
         verbose_name_plural = _('Budgets')
-
-    @models.permalink
-    def get_absolute_url(self):
-        return ('actual_detail', [self.uuid])
 
 
 class Actual(Sheet):
@@ -318,13 +317,13 @@ class Actual(Sheet):
         value = round(self.total / budget_sum * 100, 2)
         return value
 
-    class Meta:
-        verbose_name = _('Actual')
-        verbose_name_plural = _('Actuals')
-
     @models.permalink
     def get_absolute_url(self):
         return ('actual_detail', [self.uuid])
+
+    class Meta:
+        verbose_name = _('Actual')
+        verbose_name_plural = _('Actuals')
 
 
 class SheetItem(TimeStampedModel, UUIDModel):
@@ -333,21 +332,20 @@ class SheetItem(TimeStampedModel, UUIDModel):
     node = models.ForeignKey(
         BudgetTemplateNode
     )
+
     description = models.TextField(
         _('Item description'),
         blank=True,
         help_text=_('Description that appears for this entry.')
     )
+
     amount = models.IntegerField(
         _('Amount'),
         help_text=_('The amount of this entry. The node determines REVENUE or EXPENDITURE')
     )
+
     discussion = generic.GenericRelation(
         Comment,
-        object_id_field="object_pk"
-    )
-    annotation = generic.GenericRelation(
-        Annotation,
         object_id_field="object_pk"
     )
 
@@ -385,16 +383,16 @@ class BudgetItem(SheetItem):
         related_name='items'
     )
 
-    class Meta:
-        verbose_name = _('Budget item')
-        verbose_name_plural = _('Budget items')
-
     @models.permalink
     def get_absolute_url(self):
         return ('budget_item_detail', [self.uuid])
 
     def __unicode__(self):
         return self.node.code
+
+    class Meta:
+        verbose_name = _('Budget item')
+        verbose_name_plural = _('Budget items')
 
 
 class ActualItem(SheetItem):
@@ -405,10 +403,6 @@ class ActualItem(SheetItem):
         related_name='items'
     )
 
-    class Meta:
-        verbose_name = _('Actual item')
-        verbose_name_plural = _('Actual items')
-
     @models.permalink
     def get_absolute_url(self):
         return ('actual_item_detail', [self.uuid])
@@ -416,13 +410,6 @@ class ActualItem(SheetItem):
     def __unicode__(self):
         return self.node.code
 
-
-class BudgetImport(TimeStampedModel, models.Model):
-    # save imported CSVs here first
-    # process them from here before creating budget object
-    # can keep versions of the file too if we need
-
-    # file
-    # uploaded by
-    # state
-    pass
+    class Meta:
+        verbose_name = _('Actual item')
+        verbose_name_plural = _('Actual items')

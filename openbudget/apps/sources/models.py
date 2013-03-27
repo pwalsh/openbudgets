@@ -42,14 +42,31 @@ class DataSource(TimeStampedModel, UUIDModel):
         'content_type', 'object_id',
     )
 
+    def __unicode__(self):
+        return self.name
+
     class Meta:
-        ordering = ['name']
-        verbose_name = _('Data source')
-        verbose_name_plural = _('Data sources')
+        abstract = True
+
+
+class ReferenceSource(DataSource):
+    class Meta:
+        ordering = ['last_modified', 'name']
+        verbose_name = _('Reference source')
+        verbose_name_plural = _('Reference sources')
 
     @models.permalink
     def get_absolute_url(self):
-        return ('data_source_detail', [self.uuid])
+        return ('reference_source_detail', [self.uuid])
 
-    def __unicode__(self):
-        return self.name
+
+class AuxSource(DataSource):
+    class Meta:
+        ordering = ['last_modified', 'name']
+        verbose_name = _('Auxilliary source')
+        verbose_name_plural = _('Auxilliary sources')
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('aux_source_detail', [self.uuid])
+
