@@ -78,6 +78,9 @@
                 {{ taxonomy.name }}
             </h3>
             <p>
+                {% trans 'By' %} {{ taxonomy.user.get_full_name }}
+            </p>
+            <p>
             {{ taxonomy.description }}
             </p>
             <ul>
