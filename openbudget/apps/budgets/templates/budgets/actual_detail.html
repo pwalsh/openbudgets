@@ -61,7 +61,7 @@
             </li>
             <li>
                 <a href="{% url 'budget_template_detail' object.template.uuid %}">
-                    {% trans 'About the official scheme' %}
+                    {% trans 'About' %}
                 </a>
             </li>
         </ul>
@@ -71,19 +71,27 @@
         <h2>
             {% trans 'Alternative taxonomies' %}
         </h2>
-        {% if object.taxonomies %}
-        {% for taxonomy in object.taxonomies.all %}
+        {% if object.template.taxonomies %}
+        {% for taxonomy in object.template.taxonomies.all %}
         <div class="budget-taxonomies">
-            [{{ taxonomy.name }}
-            <br />
+            <h3>
+                {{ taxonomy.name }}
+            </h3>
+            <p>
             {{ taxonomy.description }}
-            <br />
-            <a href="#">
-                {% trans 'View Budget through taxonomy' %}
-            </a>
-            <a href="{% url 'taxonomy_detail' taxonomy.slug %}">
-                {% trans 'About this taxonomy' %}
-            </a>
+            </p>
+            <ul>
+                <li>
+                    <a href="#">
+                        {% trans 'View through this taxonomy' %}
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'taxonomy_detail' taxonomy.slug %}">
+                        {% trans 'About' %}
+                    </a>
+                </li>
+            </ul>
         </div>
         {% endfor %}
         {% else %}

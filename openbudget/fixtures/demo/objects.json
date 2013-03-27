@@ -798,6 +798,7 @@
     "fields": {
         "uuid": "6cd238ac63974392834ad62699c1cf15",
         "user": 3,
+        "template": 1,
         "name": "Ethiopian Health",
         "description": "This taxonomy presents a picture of funding of Ethiopian health initiatives at the municipal level.",
         "slug": "ethiopian-health",
@@ -813,6 +814,7 @@
     "fields": {
         "uuid": "6cd238ac63974392834ad62699c1cf14",
         "user": 3,
+        "template": 1,
         "name": "Spending on Arab Citizens",
         "description": "This taxonomy presents a topical focus on spending related to the Arabic population at the municipal level.",
         "slug": "spending-on-arab-citizens",
@@ -828,6 +830,7 @@
     "fields": {
         "uuid": "6cd238ac63974392834ad62699c1cf11",
         "user": 3,
+        "template": 1,
         "name": "Education Spending for Children",
         "description": "This taxonomy presents a view onto spending for education of our children at the municipal level.",
         "slug": "education-spending-for-children",
