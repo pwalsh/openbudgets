@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}
+{{ object.name }}
+{% endblock title %}
+
+{% block content %}
+
+<section>
+    tags::
+    <br />
+    {% for tag in object.tags.all %}
+        {{ tag.name }}
+    {% endfor %}
+</section>
+
+{% endblock content %}

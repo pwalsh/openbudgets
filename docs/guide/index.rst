@@ -66,9 +66,10 @@ Comparison as meaning-making
 TODO
 
 
-Project apps
+Features
 ============
 
+These section of features is basically organized per "django app" - python packages in the django app convention. You can find these in the code base under the "apps" directory. However, some sections, like Search, don't fit into this paradigm.
 As a brief overview....
 
 ui and api routes.....
@@ -206,6 +207,11 @@ Sources
 
 TODO
 
+Taxonomies
+----------
+
+TODO
+
 Transport
 ---------
 
@@ -227,6 +233,12 @@ Supported use cases
 ~~~~~~~~~~~~~~~~~~~
 
 Open Budget V1 supports the importing of Budget Templates, Budgets and Actuals, and the export of all public data. Here we'll talk more about importing, which is by far the most essential and most difficult problem.
+
+Search
+------
+
+Search is built with Haystack on top of a Whoosh search backend. Whoosh is an easy to deploy and highly portale file-based search backend written in Python.
+
 
 Importing Budget Templates
 ++++++++++++++++++++++++++

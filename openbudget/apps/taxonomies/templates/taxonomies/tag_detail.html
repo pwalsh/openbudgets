@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}
+{{ object.name }} {% trans 'in' %} {{ object.taxonomy.name }}
+{% endblock title %}
+
+{% block content %}
+
+<section>
+    <h2>
+        {{ object.taxonomy }} {% trans 'by' %} {{ object.taxonomy.user.get_full_name }}
+    </h2>
+</section>
+
+{% endblock content %}

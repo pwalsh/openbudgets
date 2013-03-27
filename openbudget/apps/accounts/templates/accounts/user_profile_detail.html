@@ -40,6 +40,18 @@
             </p>
         </div>
     </div>
+    <div class="box-2 _float-left">
+        <h3>
+            {% trans 'Taxonomies' %}
+        </h3>
+        <div class="taxonomies">
+            {% for taxonomy in user.taxonomies.all %}
+            <div class="taxonomy">
+                <a href="{% url 'taxonomy_detail' taxonomy.slug %}" title="{{ taxonomy.name }}">{{ taxonomy.name }} [{{ taxonomy.count }} {% trans 'tags' %}]</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </section>
 
 <section class="row account">

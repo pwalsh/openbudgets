@@ -26,6 +26,9 @@ urlpatterns = patterns('',
     url(r'^interactions/',
         include('openbudget.apps.interactions.urls')
     ),
+    url(r'^taxonomies/',
+        include('openbudget.apps.taxonomies.urls')
+    ),
     url(r'^transport/',
         include('openbudget.apps.transport.urls')
     ),

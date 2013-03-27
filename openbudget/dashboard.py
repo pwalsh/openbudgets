@@ -34,6 +34,14 @@ class OpenBudgetDashboard(Dashboard):
         ))
 
         self.children.append(modules.AppList(
+            _('Budget taxonomies'),
+            collapsible=True,
+            column=1,
+            css_classes=('collapse closed',),
+            models=('openbudget.apps.taxonomies.*',),
+        ))
+
+        self.children.append(modules.AppList(
             _('Transport'),
             collapsible=True,
             column=1,
