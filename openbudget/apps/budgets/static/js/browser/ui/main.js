@@ -74,8 +74,6 @@ define([
             dont_wake   : true,
             style       : {
                 padding : '5%',
-                width   : '90%',
-                height  : '90%',
                 zIndex  : -1
             },
             graph       : {
