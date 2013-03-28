@@ -3,7 +3,37 @@
 {% load url from future %}
 
 {% block content %}
+<section class="box-2 _float-left">
 
-The home page
+<h1>
+    {% blocktrans %}Welcome to Open Budget{% endblocktrans %}
+</h1>
+<p>
+    {% blocktrans %}
+    This is the demo site. Please have a look around. There is some test data that should give a basic overview of the current featureset.
+    {% endblocktrans %}
+</p>
+<p>
+    {% blocktrans %}
+    Some features are only visible to loggedin users. To login, use the following credentials:
+    {% endblocktrans %}
+    <br /><br />
+    Username: democitizen
+    <br />
+    Password: morelove!
+    <br /><br />
+    <a class="button blue" href="{% url 'auth_login' %}?next=/">
+        Login now
+    </a>
+</p>
 
+{% if user.is_authenticated %}
+<h3>
+    Now that you are logged in...
+</h3>
+<p>
+    You should make sure to see your <a href="{% url 'user_profile_detail' user.get_profile.uuid %}" title="">user account page</a> and follow some of the links there too.
+</p>
+{% endif %}
+</section>
 {% endblock content %}
