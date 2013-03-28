@@ -1,7 +1,7 @@
 from django.contrib import admin
 from grappelli_modeltranslation.admin import TranslationAdmin, TranslationStackedInline
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
-from openbudget.apps.sources.admin import DataSourceInline
+from openbudget.apps.sources.admin import ReferenceSourceInline, AuxSourceInline
 
 
 class BudgetTemplaeNodeAdmin(TranslationAdmin):
@@ -13,7 +13,7 @@ class BudgetTemplaeNodeAdmin(TranslationAdmin):
 class BudgetTemplateAdmin(TranslationAdmin):
     """Admin form for adding budget templates"""
 
-    inlines = [DataSourceInline,]
+    inlines = [ReferenceSourceInline, AuxSourceInline]
 
 
 class BudgetItemInline(TranslationStackedInline):
@@ -29,7 +29,7 @@ class BudgetItemInline(TranslationStackedInline):
 class BudgetAdmin(TranslationAdmin):
     """Admin form for adding budgets"""
 
-    inlines = [DataSourceInline, BudgetItemInline]
+    inlines = [BudgetItemInline, ReferenceSourceInline, AuxSourceInline]
 
 
 class ActualItemInline(TranslationStackedInline):
@@ -45,7 +45,7 @@ class ActualItemInline(TranslationStackedInline):
 class ActualAdmin(TranslationAdmin):
     """Admin form for adding actuals"""
 
-    inlines = [ActualItemInline, DataSourceInline]
+    inlines = [ActualItemInline, ReferenceSourceInline, AuxSourceInline]
 
 
 admin.site.register(BudgetTemplate, BudgetTemplateAdmin)

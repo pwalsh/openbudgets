@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load url from future %}
+
+
+{% block content %}
+<div class="search-content">
+{% if query %}
+
+<h2>{% trans 'Your search returned...' %}</h2>
+
+<div class="search-results">
+    {% include 'partials/_pagination.html' %}
+
+    {% for result in page.object_list %}
+
+    {% if result.object.get_class_name == 'entity' %}
+    <div class="search-result-object entity">
+        <div class="overview">
+            <h4>{{ result.object.name }}</h4>
+            <div>
+                {% trans 'A' %} {{ result.object.division.name }} {% trans 'of' %} {{ result.object.ultimate_parent }}.
+            </div>
+            <div class="label yellow-bg">
+                {{ result.object.get_class_name }}
+            </div>
+        </div>
+        <a class="button blue" href="{% url 'entity_detail' result.object.slug %}">{% trans 'See record' %}</a>
+    </div>
+    {% endif %}
+
+    {% if result.object.get_class_name == 'budget' %}
+    <div class="search-result-object budget">
+        <div class="overview">
+            <h4>{{ result.object.entity.name }}</h4>
+            <div>
+                {% trans 'A budget for the period of' %} {{ result.object.period_start.year }}.
+            </div>
+            <div class="label green-bg">
+                {{ result.object.get_class_name }}
+            </div>
+        </div>
+        <a class="button blue" href="{% url 'budget_detail' result.object.uuid %}">{% trans 'See record' %}</a>
+    </div>
+    {% endif %}
+
+    {% if result.object.get_class_name == 'actual' %}
+    <div class="search-result-object actual">
+        <div class="overview">
+            <h4>{{ result.object.entity.name }}</h4>
+            <div>
+                {% trans 'An actual for the period of' %} {{ result.object.period_start.year }}.
+            </div>
+            <div class="label orange-bg">
+                {{ result.object.get_class_name }}
+            </div>
+        </div>
+        <a class="button blue" href="{% url 'actual_detail' result.object.uuid %}">{% trans 'See record' %}</a>
+    </div>
+    {% endif %}
+
+    {% if result.object.get_class_name == 'actualitem' %}
+    <div class="search-result-object actual-item">
+        <div class="overview">
+            <h4>{{ result.object.node.name }} [{% trans 'Code' %}: {{ result.object.node.code }}]</h4>
+            <div>
+                {% trans 'An item in the Actuals for ' %} {{ result.object.actual.entity.name }} {% trans 'in' %} {{ result.object.actual.period_start.year }}.
+            </div>
+            <div class="label purple-bg">
+                {{ result.object.get_class_name }}
+            </div>
+        </div>
+        <a class="button blue" href="{% url 'actual_item_detail' result.object.uuid %}">{% trans 'See record' %}</a>
+    </div>
+    {% endif %}
+
+    {% if result.object.get_class_name == 'budgetitem' %}
+    <div class="search-result-object budget-item">
+        <div class="overview">
+            <h4>{{ result.object.node.name }} [{% trans 'Code' %}: {{ result.object.node.code }}]</h4>
+            <div>
+                {% trans 'An item in the Budget for ' %} {{ result.object.budget.entity.name }} {% trans 'in' %} {{ result.object.budget.period_start.year }}.
+            </div>
+            <div class="label red-bg">
+                {{ result.object.get_class_name }}
+            </div>
+        </div>
+        <a class="button blue" href="{% url 'budget_item_detail' result.object.uuid %}">{% trans 'See record' %}</a>
+    </div>
+    {% endif %}
+
+    {% empty %}
+
+    <div class="no-results">
+        <p>
+            {% blocktrans %}
+            Sorry, we have no records that match your search term.
+            {% endblocktrans %}
+        </p>
+        <h3>{% trans 'Search again...' %}</h3>
+        <p>
+            {% trans 'Search again for anything related to budgets.' %}
+        </p>
+        <form class="box-3 _float-left" action="." method="GET">
+            <input type="text" name="q" placeholder="{% trans 'Search for ...' %}" />
+            {% include 'partials/_form_action_search.html' %}
+        </form>
+    </div>
+    {% endfor %}
+    {% include 'partials/_pagination.html' %}
+</div>
+
+{% else %}
+
+<div class="row">
+    <div class="no-query">
+        <h2>{% trans 'Search for anything related to budgets' %}</h2>
+        <p>
+            {% blocktrans %}
+            Enter any budget-related keywords, and we'll retreive the matching records for you.
+            {% endblocktrans %}
+        </p>
+        <form class="box-3 _float-left" action="." method="GET">
+            <input type="text" name="q" placeholder="{% trans 'Search for ...' %}" />
+            {% include 'partials/_form_action_search.html' %}
+        </form>
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock content %}

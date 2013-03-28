@@ -5,6 +5,8 @@ The Open Budget project is a web app and web API for municipality budgets, and r
 
 .. image:: https://travis-ci.org/prjts/open-budget.png
 
+NOTE:: That build error is because of a new bug introduced to django-registration. We want to wait for it to be fixed before we work around it in our code.
+
 Get involved
 ------------
 

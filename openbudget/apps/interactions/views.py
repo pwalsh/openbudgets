@@ -1,6 +1,6 @@
 from django.contrib.syndication.views import Feed
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.utils.feedgenerator import Atom1Feed
 from django.utils.translation import ugettext as _
@@ -46,20 +46,30 @@ class CommentFeed(Feed):
 def toggleable_interaction(request):
     """Post data and if it fits, we'll create or delete a toggleable interaction type"""
     data= request.POST
-    content_type = ContentType.objects.get(model=data['content_type'])
-    user = User.objects.get(id=data['user'])
-    if 'obj' in data.keys():
+    content_type = ContentType.objects.get(
+        model=data['content_type']
+    )
+    user = User.objects.get(
+        id=data['user']
+    )
+    interaction = get_model(
+        'interactions',
+        data['interaction']
+    )
 
-        star = Star.objects.get(id=int(data['obj']))
-        star.delete()
-
+    if 'obj' in data:
+        intobj = interaction.objects.get(
+            id=int(data['obj'])
+        )
+        intobj.delete()
     else:
-
-        star = Star.objects.create(
+        intobj = interaction.objects.create(
             user=user,
             content_type=content_type,
             object_id=int(data['object_id'])
         )
 
-    return HttpResponse('did it')
+    obj_url= intobj.content_object.get_absolute_url()
+
+    return HttpResponseRedirect(obj_url)
 

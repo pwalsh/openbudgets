@@ -3,14 +3,48 @@
 {% load url from future %}
 
 {% block title %}
-{% trans 'All Entities' %}
+{% trans 'Opening Israeli Budgets' %}
 {% endblock title %}
 
 {% block content %}
-{% for object in object_list %}
-<a href="{% url 'entity_detail' object.slug %}">
-    {{ object.name }}
-</a>
-<br />
+<h2>
+    {% trans 'State of Israel' %}
+</h2>
+<p>
+    {% trans 'We do not currently store budgets for the State of Israel, but please browse the Israel municipality budget and actuals data below.' %}
+</p>
+<p>
+    {% trans 'If there is missing data that you know how to source, or that you&apos;d like to see here, please' %} <a href="{% url 'contact' %}" title="{% trans 'contact us' %}">{% trans 'contact us' %}</a>
+</p>
+
+{% for entity in object_list %}
+{% if entity.division.has_budgets and entity.division.index != 0 %}
+<div class="entity-preview">
+    <h3>
+        {{ entity.name }}
+
+        <span class="box-4 _float-right _align-right">
+            <a class="button blue" href="{% url 'entity_detail' entity.slug %}" title="{{ entity.name }}">{% trans 'View' %}</a>
+        </span>
+    </h3>
+    <div>
+        <p>
+            {{ entity.description }}
+        </p>
+        <div class="data-status">
+            {% if not entity.budgets %}
+            <span class="red">{% trans 'No available budget data.' %}</span>
+            {% else %}
+            Budgets: {% for budget in entity.budgets %}<a href="{% url 'budget_detail' budget.uuid %}" title="{{ entity.name }} {{ entity.budget.period }} {% trans 'budget' %}">{{ budget.period }}</a> {% endfor %}
+            {% endif %}
+        </div>
+        <div class="context">
+            {{ entity.division.name }}
+        </div>
+    </div>
+</div>
+
+{% endif %}
 {% endfor %}
+
 {% endblock content %}

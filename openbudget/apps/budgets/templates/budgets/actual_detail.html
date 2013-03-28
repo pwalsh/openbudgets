@@ -1,49 +1,148 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n interactions %}
 {% load url from future %}
 
 {% block title %}
-{{ object.geopol.name }} {{ object.period }} {% trans 'budget' %}
+{{ object.entity.name }} {% trans 'Actuals' %} {{ object.period }}
 {% endblock title %}
 
-{% block content %}
-<p>
-    <a href="{% url 'entity_detail' object.entity.slug %}">{% trans 'Back to the entity' %}</a>
-</p>
-{% if object.items %}
-{% for item in object.items.all %}
-<p>
-    <strong>{% trans 'Code' %}</strong>: {{ item.code }}
-    <br />
-    <strong>{% trans 'Explanation' %}</strong>: {{ item.explanation }}
-    <br />
-    <strong>{% trans 'Amount' %}</strong>: {{ item.amount }}
-    <br />
-    <a href="{% url 'budget_item_detail' item.uuid %}">
-        {% trans 'View this item' %}
-    </a>
-</p>
-{% endfor %}
+{% block interactions %}
+{% if user.is_authenticated %}
+<span class="interactions">
+{% follow object user %}
+{% star object user %}
+</span>
 {% endif %}
+{% endblock interactions %}
 
-<section>
-    <h2>
-        {% trans 'Export this Actual' %}
-    </h2>
-    <div>
-    <a href="{% url 'data_export' object.get_class_name object.uuid 'csv' %}">
-        {% trans 'CSV' %}
-    </a>
-    &nbsp;|&nbsp;
-    <a href="{% url 'data_export' object.get_class_name object.uuid 'xls' %}">
-        {% trans 'XLS' %}
-    </a>
-    &nbsp;|&nbsp;
-    <a href="{% url 'data_export' object.get_class_name object.uuid 'xlsx' %}">
-        {% trans 'XLSX' %}
-    </a>
+{% block content %}
+
+<div class="box-23 _float-left">
+    <section>
+        <h2>
+            {{ object.total }} {% trans 'NIS' %}
+        </h2>
+        <p>
+            {{ object.description }}
+        </p>
+    </section>
+
+    <section class="row">
+        <h2>
+            {% trans 'Items' %} [{{ object.item_count }} {% trans 'in total' %}]
+        </h2>
+        {% if object.items %}
+        {% for item in object.items.all %}
+        <div class="budget-item">
+            [{{ item.node.code }}] {{ item.node.name }}
+            <br />
+            {{ item.amount }} {% trans 'NIS' %}
+            <br />
+            <a href="{% url 'budget_item_detail' item.uuid %}">
+                {% trans 'View' %}
+            </a>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </section>
+
+    <section class="row" title="{{ object.template.description }}">
+        <h3>
+            {% trans 'According to the' %} {{ object.template.name }}
+        </h3>
+        <p>
+            {% trans 'The official classificatory scheme, in effect since' %} {{ object.template.period_start.year }}.
+        </p>
+        <ul>
+            <li>
+                <a href="#">
+                    {% trans 'See all budget data' %}
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'budget_template_detail' object.template.uuid %}">
+                    {% trans 'About' %}
+                </a>
+            </li>
+        </ul>
+    </section>
+
+    <section class="row">
+        <h2>
+            {% trans 'Alternative taxonomies' %}
+        </h2>
+        {% if object.template.taxonomies %}
+        {% for taxonomy in object.template.taxonomies.all %}
+        <div class="budget-taxonomies">
+            <h3>
+                {{ taxonomy.name }}
+            </h3>
+            <p>
+                {% trans 'By' %} {{ taxonomy.user.get_full_name }}
+            </p>
+            <p>
+            {{ taxonomy.description }}
+            </p>
+            <ul>
+                <li>
+                    <a href="#">
+                        {% trans 'View through this taxonomy' %}
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'taxonomy_detail' taxonomy.slug %}">
+                        {% trans 'About' %}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        {% endfor %}
+        {% else %}
+        {% trans 'There are no taxonomies currently available.' %}
+        {% endif %}
+    </section>
 </div>
-</section>
+
+<div class="box-3 _float-left">
+    <section>
+        <h2>
+            {% trans 'Export this Actual' %}
+        </h2>
+        <div>
+        <a href="{% url 'data_export' object.get_class_name object.uuid 'csv' %}">
+            {% trans 'CSV' %}
+        </a>
+        &nbsp;|&nbsp;
+        <a href="{% url 'data_export' object.get_class_name object.uuid 'xls' %}">
+            {% trans 'XLS' %}
+        </a>
+        &nbsp;|&nbsp;
+        <a href="{% url 'data_export' object.get_class_name object.uuid 'xlsx' %}">
+            {% trans 'XLSX' %}
+        </a>
+    </div>
+    </section>
+    <section>
+        <h3>
+            {% trans 'See something else' %}
+        </h3>
+        <ul>
+            <li>
+                <a href="{% url 'entity_detail' object.entity.slug %}">
+                    {{ object.entity.name }}
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'entity_list' %}">
+                    {% trans 'All municipalities' %}
+                </a>
+            </li>
+        </ul>
+        <p>
+
+    </p>
+    </section>
+</div>
 
 {% include 'interactions/partials/_discussion.html' %}
 

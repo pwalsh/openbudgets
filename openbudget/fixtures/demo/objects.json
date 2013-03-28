@@ -1,0 +1,1014 @@
+[
+
+{
+    "model": "pages.Page",
+    "pk": 1,
+    "fields": {
+        "title": "Privacy",
+        "slug": "privacy",
+        "content": "Privacy statement of the site.",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "pages.Page",
+    "pk": 2,
+    "fields": {
+        "title": "Terms",
+        "slug": "terms",
+        "content": "Terms and conditions of the site.",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "pages.Page",
+    "pk": 3,
+    "fields": {
+        "title": "About",
+        "slug": "about",
+        "content": "About the site. Who created it, the goals, and so on.",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.Domain",
+    "pk": 1,
+    "fields": {
+        "name": "Government",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.DomainDivision",
+    "pk": 1,
+    "fields": {
+        "domain": 1,
+        "index": 0,
+        "name": "State",
+        "has_budgets": true,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.DomainDivision",
+    "pk": 2,
+    "fields": {
+        "domain": 1,
+        "index": 1,
+        "name": "District",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.DomainDivision",
+    "pk": 3,
+    "fields": {
+        "domain": 1,
+        "index": 2,
+        "name": "Sub-District",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.DomainDivision",
+    "pk": 4,
+    "fields": {
+        "domain": 1,
+        "index": 3,
+        "name": "City Municipality",
+        "has_budgets": true,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.DomainDivision",
+    "pk": 5,
+    "fields": {
+        "domain": 1,
+        "index": 3,
+        "name": "Local Municipality",
+        "has_budgets": true,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.DomainDivision",
+    "pk": 6,
+    "fields": {
+        "domain": 1,
+        "index": 3,
+        "name": "Regional Municipality",
+        "has_budgets": true,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.Entity",
+    "pk": 1,
+    "fields": {
+        "division": 1,
+        "uuid": "6cd238ac63974392834ad62699c1cf14",
+        "name": "Israel",
+        "description": "Israel a small yet stunning country.",
+        "code": "IL",
+        "slug": "israel",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.Entity",
+    "pk": 2,
+    "fields": {
+        "division": 2,
+        "parent": 1,
+        "uuid": "6cd238ac63974392834ad62699c1cf13",
+        "name": "Jerusalem district",
+        "description": "The Jerusalem district encompasses the city of Jerusalem and other places...",
+        "code": "JER",
+        "slug": "jerusalem-district",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.Entity",
+    "pk": 3,
+    "fields": {
+        "division": 2,
+        "parent": 1,
+        "uuid": "6cd238ac63974392834ad62699c1cf15",
+        "name": "Tel Aviv district",
+        "description": "Tel Aviv district encompasses the city of Tel Aviv and other surrounding places",
+        "code": "TAD",
+        "slug": "telaviv-district",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.Entity",
+    "pk": 4,
+    "fields": {
+        "division": 2,
+        "parent": 1,
+        "uuid": "6cd238ac63974392834ad62699c1cf16",
+        "name": "Haifa district",
+        "description": "Haifa district encompasses a whole bunch of stuff you didn't think it would.",
+        "code": "HAD",
+        "slug": "haifa-district",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.Entity",
+    "pk": 5,
+    "fields": {
+        "division": 3,
+        "parent": 4,
+        "uuid": "6cd238ac63974392834ad62699c1cf17",
+        "name": "Haifa subdistrict",
+        "description": "Haifa subdistrict is the are of Haifa and its surrounds.",
+        "code": "HASD",
+        "slug": "haifa-subdistrict",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.Entity",
+    "pk": 6,
+    "fields": {
+        "division": 3,
+        "parent": 4,
+        "uuid": "6cd238ac63974392834ad62699c1cf18",
+        "name": "Hadera subdistrict",
+        "description": "Hadera subdistrict is for Hadera and its surrounds and is part of the Haifa district, believe it our not.",
+        "code": "HADSD",
+        "slug": "hadera-subdistrict",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.Entity",
+    "pk": 7,
+    "fields": {
+        "division": 4,
+        "parent": 3,
+        "uuid": "6cd238ac63974392834ad62699c1cf19",
+        "name": "Tel Aviv",
+        "description": "Tel Aviv municipality is a wonderful place.",
+        "code": "TAM",
+        "slug": "tel-aviv",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.Entity",
+    "pk": 8,
+    "fields": {
+        "division": 4,
+        "parent": 2,
+        "uuid": "6cd238ac63974392834ad62699c1cf20",
+        "name": "Jerusalem",
+        "description": "Jeursalem municipality is a wonderful place.",
+        "code": "JERUM",
+        "slug": "jerusalem",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.Entity",
+    "pk": 9,
+    "fields": {
+        "division": 4,
+        "parent": 5,
+        "uuid": "6cd238ac63974392834ad62699c1cf21",
+        "name": "Haifa",
+        "description": "Haifa municipality is a wonderful place.",
+        "code": "HAIFM",
+        "slug": "haifa",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.Entity",
+    "pk": 10,
+    "fields": {
+        "division": 4,
+        "parent": 6,
+        "uuid": "6cd238ac63974392834ad62699c1cf22",
+        "name": "Hadera",
+        "description": "Hadera municipality is a wonderful place.",
+        "code": "HADERM",
+        "slug": "hadera",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "budgets.BudgetTemplate",
+    "pk": 1,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf14",
+        "divisions": [4,5,6],
+        "name": "Israeli Municipality Budget Structure",
+        "period_start": "1994-01-01",
+        "description": "The offical classification scheme for Israel municipality budgets since 1994. The classification scheme describes a comprehensive structure for revenue and expense categories to a depth of 4 children in the 'tree'. The scheme also allows for municiplaities to append cutom codes that are children of existing nodes below the 4th level.",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "budgets.BudgetTemplateNode",
+    "pk": 1,
+    "fields": {
+        "uuid": "208413189e1c4312b024cfac4081cb34",
+        "code": "1",
+        "name": "Services",
+        "description": "Services are much ado about nothing",
+        "direction": "REVENUE",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "budgets.BudgetTemplateNodeRelation",
+    "pk": 1,
+    "fields": {
+        "template": 1,
+        "node": 1
+    }
+},
+
+{
+    "model": "budgets.BudgetTemplateNode",
+    "pk": 2,
+    "fields": {
+        "uuid": "a0936a00b7f3494087f674ca7d7028c0",
+        "code": "11",
+        "name": "Services of streets",
+        "description": "Services are much ado about nothing",
+        "direction": "REVENUE",
+        "parent": 1,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "budgets.BudgetTemplateNodeRelation",
+    "pk": 2,
+    "fields": {
+        "template": 1,
+        "node": 2
+    }
+},
+
+{
+    "model": "budgets.BudgetTemplateNode",
+    "pk": 3,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf14",
+        "code": "7",
+        "name": "Parks",
+        "description": "We Heart Parks",
+        "direction": "REVENUE",
+        "inverse": [5],
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "budgets.BudgetTemplateNodeRelation",
+    "pk": 3,
+    "fields": {
+        "template": 1,
+        "node": 3
+    }
+},
+
+{
+    "model": "budgets.BudgetTemplateNode",
+    "pk": 4,
+    "fields": {
+        "uuid": "19685c0d4ebe43e3acee6dd163cb1832",
+        "code": "74",
+        "name": "Dog parks",
+        "description": "We like dog parks",
+        "direction": "REVENUE",
+        "parent": 3,
+        "inverse": [6],
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "budgets.BudgetTemplateNodeRelation",
+    "pk": 4,
+    "fields": {
+        "template": 1,
+        "node": 4
+    }
+},
+
+{
+    "model": "budgets.BudgetTemplateNode",
+    "pk": 5,
+    "fields": {
+        "uuid": "e044ad0fd7d041fd88c7a6816ee5520e",
+        "code": "2",
+        "name": "Parks",
+        "description": "We Heart Parks",
+        "direction": "EXPENDITURE",
+        "inverse": [3],
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "budgets.BudgetTemplateNodeRelation",
+    "pk": 5,
+    "fields": {
+        "template": 1,
+        "node": 5
+    }
+},
+
+{
+    "model": "budgets.BudgetTemplateNode",
+    "pk": 6,
+    "fields": {
+        "uuid": "4e60a01f118b4798a7f4934972ddabe6",
+        "code": "24",
+        "name": "Dog parks",
+        "description": "We like dog parks",
+        "direction": "EXPENDITURE",
+        "inverse": [4],
+        "parent": 5,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "budgets.BudgetTemplateNodeRelation",
+    "pk": 6,
+    "fields": {
+        "template": 1,
+        "node": 6
+    }
+},
+
+{
+    "model": "budgets.Budget",
+    "pk": 1,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf14",
+        "entity": 7,
+        "template": 1,
+        "period_start": "2012-01-01",
+        "period_end": "2012-12-31",
+        "description": "Description of this particular budget",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "budgets.BudgetItem",
+    "pk": 1,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf15",
+        "budget": 1,
+        "node": 1,
+        "description": "some explanation of that item",
+        "amount": 2000000,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+
+    }
+},
+
+{
+    "model": "budgets.BudgetItem",
+    "pk": 2,
+    "fields": {
+        "uuid": "4e60a01f118b4798a7f4934972ddabe6",
+        "budget": 1,
+        "node": 2,
+        "description": "some explanation of this item",
+        "amount": 10000,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+
+    }
+},
+
+{
+    "model": "budgets.Budget",
+    "pk": 2,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf22",
+        "template": 1,
+        "entity": 7,
+        "period_start": "2011-01-01",
+        "period_end": "2011-12-31",
+        "description": "Description of this particular budget",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "budgets.BudgetItem",
+    "pk": 3,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf16",
+        "budget": 2,
+        "node": 1,
+        "description": "some explanation of that item",
+        "amount": 1700000,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+
+    }
+},
+
+{
+    "model": "budgets.BudgetItem",
+    "pk": 4,
+    "fields": {
+        "uuid": "4e60a01f118b4798a7f4934972ddabe8",
+        "budget": 2,
+        "node": 2,
+        "description": "some explanation of this item",
+        "amount": 30000,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+
+    }
+},
+
+{
+    "model": "budgets.Budget",
+    "pk": 3,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf10",
+        "template": 1,
+        "entity": 7,
+        "period_start": "2010-01-01",
+        "period_end": "2010-12-31",
+        "description": "Description of this particular budget",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "budgets.BudgetItem",
+    "pk": 5,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf09",
+        "budget": 3,
+        "node": 1,
+        "description": "some explanation of that item",
+        "amount": 2340000,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+
+    }
+},
+
+{
+    "model": "budgets.BudgetItem",
+    "pk": 6,
+    "fields": {
+        "uuid": "4e60a01f118b4798a7f4934972ddabe1",
+        "budget": 3,
+        "node": 2,
+        "description": "some explanation of this item",
+        "amount": 7000,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+
+    }
+},
+
+{
+    "model": "budgets.Actual",
+    "pk": 1,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf12",
+        "entity": 7,
+        "template": 1,
+        "period_start": "2012-01-01",
+        "period_end": "2012-12-31",
+        "description": "Description of this particular actual",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "budgets.ActualItem",
+    "pk": 1,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf17",
+        "actual": 1,
+        "node": 1,
+        "description": "some explanation of that item",
+        "amount": 3000000,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+
+    }
+},
+
+{
+    "model": "budgets.ActualItem",
+    "pk": 2,
+    "fields": {
+        "uuid": "4e60a01f118b4798a7f4934972ddabe7",
+        "actual": 1,
+        "node": 2,
+        "description": "some explanation of this item",
+        "amount": 8000,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+
+    }
+},
+
+{
+    "model": "budgets.Actual",
+    "pk": 2,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf19",
+        "template": 1,
+        "entity": 7,
+        "period_start": "2012-01-01",
+        "period_end": "2012-12-31",
+        "description": "Description of this particular actual",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "budgets.ActualItem",
+    "pk": 3,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf18",
+        "actual": 2,
+        "node": 1,
+        "description": "some explanation of that item",
+        "amount": 2100000,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+
+    }
+},
+
+{
+    "model": "budgets.ActualItem",
+    "pk": 4,
+    "fields": {
+        "uuid": "4e60a01f118b4798a7f4934972ddabe9",
+        "actual": 2,
+        "node": 2,
+        "description": "some explanation of this item",
+        "amount": 2000,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+
+    }
+},
+
+{
+    "model": "budgets.Actual",
+    "pk": 3,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf13",
+        "entity": 7,
+        "template": 1,
+        "period_start": "2010-01-01",
+        "period_end": "2010-12-31",
+        "description": "Description of this particular actual",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "budgets.ActualItem",
+    "pk": 5,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf11",
+        "actual": 3,
+        "node": 1,
+        "description": "some explanation of that item",
+        "amount": 4100000,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+
+    }
+},
+
+{
+    "model": "budgets.ActualItem",
+    "pk": 6,
+    "fields": {
+        "uuid": "4e60a01f118b4798a7f4934972ddabe3",
+        "actual": 3,
+        "node": 2,
+        "description": "some explanation of this item",
+        "amount": 13000,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+
+    }
+},
+
+{
+    "model": "contexts.GeoSpatial",
+    "pk": 1,
+    "fields": {
+        "entity": 7,
+        "period_start": "1967-01-01",
+        "period_end": "1989-12-31",
+        "sqm": 1030000000,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "contexts.GeoSpatial",
+    "pk": 2,
+    "fields": {
+        "entity": 7,
+        "period_start": "1990-01-01",
+        "period_end": "2013-01-01",
+        "sqm": 1234567890,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "contexts.Demographic",
+    "pk": 1,
+    "fields": {
+        "entity": 7,
+        "period_start": "1967-01-01",
+        "period_end": "1989-12-31",
+        "population": 329000,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "contexts.Demographic",
+    "pk": 2,
+    "fields": {
+        "entity": 7,
+        "period_start": "1990-01-01",
+        "period_end": "2013-01-01",
+        "population": 732000,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "contexts.Education",
+    "pk": 1,
+    "fields": {
+        "entity": 7,
+        "period_start": "1967-01-01",
+        "period_end": "1989-12-31",
+        "high_school_count": 31,
+        "primary_school_count": 66,
+        "pre_school_count": 72,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "contexts.Education",
+    "pk": 2,
+    "fields": {
+        "entity": 7,
+        "period_start": "1990-01-01",
+        "period_end": "2013-01-01",
+        "high_school_count": 42,
+        "primary_school_count": 73,
+        "pre_school_count": 100,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "taxonomies.Taxonomy",
+    "pk": 1,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf15",
+        "user": 3,
+        "template": 1,
+        "name": "Ethiopian Health",
+        "description": "This taxonomy presents a picture of funding of Ethiopian health initiatives at the municipal level.",
+        "slug": "ethiopian-health",
+        "status": 2,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "taxonomies.Taxonomy",
+    "pk": 2,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf14",
+        "user": 3,
+        "template": 1,
+        "name": "Spending on Arab Citizens",
+        "description": "This taxonomy presents a topical focus on spending related to the Arabic population at the municipal level.",
+        "slug": "spending-on-arab-citizens",
+        "status": 2,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "taxonomies.Taxonomy",
+    "pk": 3,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf11",
+        "user": 3,
+        "template": 1,
+        "name": "Education Spending for Children",
+        "description": "This taxonomy presents a view onto spending for education of our children at the municipal level.",
+        "slug": "education-spending-for-children",
+        "status": 1,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "taxonomies.Tag",
+    "pk": 1,
+    "fields": {
+        "taxonomy": 1,
+        "name": "Child birth",
+        "slug": "child-birth"
+    }
+},
+
+{
+    "model": "taxonomies.TaggedNode",
+    "pk": 1,
+    "fields": {
+        "tag": 1,
+        "content_object": 6
+    }
+},
+
+{
+    "model": "taxonomies.Tag",
+    "pk": 2,
+    "fields": {
+        "taxonomy": 1,
+        "name": "Elderly services",
+        "slug": "elderly-services"
+    }
+},
+
+{
+    "model": "taxonomies.TaggedNode",
+    "pk": 2,
+    "fields": {
+        "tag": 2,
+        "content_object": 2
+    }
+},
+
+{
+    "model": "taxonomies.Tag",
+    "pk": 3,
+    "fields": {
+        "taxonomy": 1,
+        "name": "Drug user support",
+        "slug": "drug-user-support"
+    }
+},
+
+{
+    "model": "taxonomies.TaggedNode",
+    "pk": 3,
+    "fields": {
+        "tag": 3,
+        "content_object": 4
+    }
+},
+
+{
+    "model": "taxonomies.Tag",
+    "pk": 4,
+    "fields": {
+        "taxonomy": 2,
+        "name": "Primary schools",
+        "slug": "primary-schools"
+    }
+},
+
+{
+    "model": "taxonomies.TaggedNode",
+    "pk": 4,
+    "fields": {
+        "tag": 4,
+        "content_object": 3
+    }
+},
+
+{
+    "model": "taxonomies.Tag",
+    "pk": 5,
+    "fields": {
+        "taxonomy": 3,
+        "name": "Colleges",
+        "slug": "colleges"
+    }
+},
+
+{
+    "model": "taxonomies.TaggedNode",
+    "pk": 5,
+    "fields": {
+        "tag": 5,
+        "content_object": 6
+    }
+},
+
+{
+    "model": "taxonomies.Tag",
+    "pk": 6,
+    "fields": {
+        "taxonomy": 3,
+        "name": "Pre schools",
+        "slug": "pre-schools"
+    }
+},
+
+{
+    "model": "taxonomies.TaggedNode",
+    "pk": 6,
+    "fields": {
+        "tag": 6,
+        "content_object": 2
+    }
+},
+
+{
+    "model": "taxonomies.Tag",
+    "pk": 7,
+    "fields": {
+        "taxonomy": 3,
+        "name": "Primary schools",
+        "slug": "primary-schools"
+    }
+},
+
+{
+    "model": "taxonomies.TaggedNode",
+    "pk": 7,
+    "fields": {
+        "tag": 7,
+        "content_object": 5
+    }
+},
+
+{
+    "model": "taxonomies.Tag",
+    "pk": 8,
+    "fields": {
+        "taxonomy": 2,
+        "name": "Elderly services",
+        "slug": "elderly-services"
+    }
+},
+
+{
+    "model": "taxonomies.TaggedNode",
+    "pk": 8,
+    "fields": {
+        "tag": 8,
+        "content_object": 1
+    }
+},
+
+{
+    "model": "taxonomies.Tag",
+    "pk": 9,
+    "fields": {
+        "taxonomy": 2,
+        "name": "Roads and parks",
+        "slug": "roads-and-parks"
+    }
+},
+
+{
+    "model": "taxonomies.TaggedNode",
+    "pk": 9,
+    "fields": {
+        "tag": 9,
+        "content_object": 2
+    }
+}
+
+]

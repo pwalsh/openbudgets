@@ -15,7 +15,8 @@
       "d3": "github:mbostock/d3/v3.0.8",
       "rickshaw": "github:shutterstock/rickshaw/v1.2.1",
       "touch": "github:madrobby/zepto/v1.0#src/touch.js",
-      "gesture": "github:madrobby/zepto/v1.0#src/gesture.js"
+      "gesture": "github:madrobby/zepto/v1.0#src/gesture.js",
+      "adaptabl": "https://github.com/prjts/adaptabl/archive/master.zip"
     }
   }
 }

@@ -1,5 +1,5 @@
 yolk
-django==1.4.5
+django
 gunicorn
 south
 fabric
@@ -8,9 +8,15 @@ PIL
 pytz
 tablib
 raven
+whoosh
+redis
+celery
+django-celery
+git+https://github.com/toastdriven/django-haystack.git
 django-autoslug
 git+https://github.com/mozilla/unicode-slugify
 hg+http://bitbucket.org/ubernostrum/django-registration/
+django-taggit
 django-uuidfield
 django-debug-toolbar
 django-braces

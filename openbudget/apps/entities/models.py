@@ -27,11 +27,6 @@ class Domain(TimeStampedModel, models.Model):
     )
 
     @property
-    def divisions(self):
-        value = DomainDivision.objects.filter(domain=self)
-        return value
-
-    @property
     def entities(self):
         value = Entity.objects.filter(division__domain=self)
         return value
@@ -66,7 +61,8 @@ class DomainDivision(TimeStampedModel, models.Model):
 
     """
     domain = models.ForeignKey(
-        Domain
+        Domain,
+        related_name='divisions'
     )
     index = models.PositiveSmallIntegerField(
         _('Index'),
@@ -88,16 +84,11 @@ class DomainDivision(TimeStampedModel, models.Model):
         value = Entity.objects.filter(division=self).count()
         return value
 
-    @property
-    def entities(self):
-        value = Entity.objects.filter(division=self)
-        return value
-
     def __unicode__(self):
         return self.domain.name + ' > ' + self.name
 
     class Meta:
-        ordering = ['name']
+        ordering = ['index', 'name']
         verbose_name = _('domain division')
         verbose_name_plural = _('domain divisions')
 
@@ -108,7 +99,8 @@ class Entity(TimeStampedModel, UUIDModel, models.Model):
 
     """
     division = models.ForeignKey(
-        DomainDivision
+        DomainDivision,
+        related_name='entities'
     )
     name = models.CharField(
         max_length=255,
@@ -169,7 +161,7 @@ class Entity(TimeStampedModel, UUIDModel, models.Model):
 
         Relation is determined by Domain, and whether the entity
         is a budgeting entity.
- 
+
         """
         value = Entity.objects.filter(division__domain=self.division.domain, division__has_budgets=True).exclude(id=self.id)
         return value
@@ -209,6 +201,6 @@ class Entity(TimeStampedModel, UUIDModel, models.Model):
     # 2. other division.index values MUST have parent
 
     class Meta:
-        ordering = ['name']
+        ordering = ['division__index', 'name']
         verbose_name = _('entity')
         verbose_name_plural = _('entities')

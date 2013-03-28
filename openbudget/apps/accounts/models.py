@@ -6,7 +6,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from openbudget.settings.base import LANGUAGES
 from openbudget.apps.interactions.models import Star, Follow
-from openbudget.apps.budgets.models import Annotation
 from openbudget.commons.mixins.models import UUIDModel
 
 
@@ -26,11 +25,6 @@ class UserProfile(UUIDModel, models.Model):
     @property
     def comments(self):
         value = Comment.objects.filter(user=self.user)
-        return value
-
-    @property
-    def annotations(self):
-        value = Annotation.objects.filter(user=self.user)
         return value
 
     @property
