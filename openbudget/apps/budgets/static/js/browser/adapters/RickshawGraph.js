@@ -13,6 +13,8 @@
 
     uijet.Adapter('RickshawGraph', {
         setGraphOptions : function (ops) {
+            this.axes = {};
+
             if ( ! ops )
                 this.options.graph = ops = {};
 
@@ -23,6 +25,14 @@
                 this.palette = new Rickshaw.Color.Palette({ scheme: ops.scheme });
                 delete ops.scheme;
             }
+            if ( ops.x_axis ) {
+                this.axes.x = ops.x_axis;
+                delete ops.x_axis;
+            }
+            if ( ops.y_axis ) {
+                this.axes.y = ops.y_axis;
+                delete ops.y_axis;
+            }
 
             return this;
         },
@@ -30,16 +40,7 @@
             if ( ! this.graph ) {
                 var ops = this.options.graph,
                     x_axis, y_axis;
-                this.axes = {};
 
-                if ( ops.x_axis ) {
-                    this.axes.x = ops.x_axis;
-                    delete ops.x_axis;
-                }
-                if ( ops.y_axis ) {
-                    this.axes.y = ops.y_axis;
-                    delete ops.y_axis;
-                }
                 if ( graph_data )
                     ops.series = graph_data;
 
@@ -48,6 +49,8 @@
                     if ( x_axis = this.axes.x ) {
                         if ( x_axis === 'time' )
                             new Rickshaw.Graph.Axis.Time({ graph: this.graph });
+                        else
+                            new Rickshaw.Graph.Axis.X({ graph: this.graph });
                     }
                     if ( y_axis = this.axes.y ) {
                         new Rickshaw.Graph.Axis.Y({ graph: this.graph });
