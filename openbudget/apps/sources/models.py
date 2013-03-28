@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
+from openbudget.commons.utilities import get_media_file_path
 
 
 class DataSource(TimeStampedModel, UUIDModel):
@@ -23,6 +24,13 @@ class DataSource(TimeStampedModel, UUIDModel):
         _('Source Name'),
         max_length=255,
         help_text=_('The name of this data source')
+    )
+
+    data = models.FileField(
+        _('Source data file'),
+        upload_to=get_media_file_path,
+        blank=True,
+        help_text=_('The source file.')
     )
 
     url = models.URLField(
@@ -53,6 +61,11 @@ class DataSource(TimeStampedModel, UUIDModel):
     content_object = generic.GenericForeignKey(
         'content_type', 'object_id',
     )
+
+    @classmethod
+    def get_class_name(cls):
+        value = cls.__name__.lower()
+        return value
 
     def __unicode__(self):
         return self.name

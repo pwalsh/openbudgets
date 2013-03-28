@@ -2,16 +2,42 @@
 {% load i18n %}
 
 {% block title %}
-{{ object.name }}
+{{ object.name }}<span class="_align-right _float-right purple-bg padding-all" style="font-size: 0.75em;color: white;">{% trans 'auxiliary source' %}</span>
 {% endblock title %}
 
 {% block content %}
 
 <section>
-    <h2>
-        {{ object.name }}
-    </h2>
+    <h3>
+        <a href="{{ object.content_object.get_absolute_url }}" title="{{ object.content_object }}">{{ object.content_object }}</a>
+    </h3>
+    <p>
+        {% trans 'Uploaded by' %} <strong>{{ object.added_by.get_full_name }}</strong>
+    </p>
+    <p>
 
+    </p>
+    <div>
+        <h4>
+            {% trans 'About' %}
+        </h4>
+        <ul>
+            <li>{% trans 'Retreived from' %} <a href="{{ object.url }}" title="">{{ object.url }}</a></li>
+            <li>{% trans 'Retreival date' %}: {{ object.retrieval_date }}</li>
+        </ul>
+    </div>
+    <div>
+        <p>
+            {{ object.notes }}
+        </p>
+    </div>
+    <div>
+        <strong>
+            <a href="{{ object.data.url }}" title="{{ object.name }}">
+            {% trans 'Download' %}
+            </a>
+        </strong>
+    </div>
 </section>
 
 {% endblock content %}

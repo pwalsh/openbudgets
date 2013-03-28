@@ -1009,6 +1009,109 @@
         "tag": 9,
         "content_object": 2
     }
+},
+
+{
+    "model": "sources.referencesource",
+    "pk": 1,
+    "fields": {
+        "object_id": 1,
+        "content_type": ["budgets", "budget"],
+        "added_by": ["pwalsh"],
+        "uuid": "de79ce65b9494405a3473843c6a71b52",
+        "name": "Some source name",
+        "url": "http://somesourceurl.com/",
+        "data": "/static/media/referencesource/example_reference.pdf",
+        "retrieval_date": "2013-03-21",
+        "notes": "some notes aout this data source file.",
+        "created_on": "2013-03-28T11:12:22.105Z",
+        "last_modified": "2013-03-28T11:12:22.105Z"
+    }
+},
+
+{
+    "model": "sources.auxsource",
+    "pk": 1,
+    "fields": {
+        "object_id": 1,
+        "content_type": ["budgets", "budget"],
+        "added_by": ["democitizen"],
+        "uuid": "01b8905001224b449f35a6e09d97d184",
+        "name": "Some data uploaded by citizen",
+        "url": "http://somesourceurlforthis.org/",
+        "data": "/static/media/auxsource/example_aux.csv",
+        "retrieval_date": "2013-03-01",
+        "notes": "My specific notes about this data source.",
+        "created_on": "2013-03-28T11:12:22.116Z",
+        "last_modified": "2013-03-28T11:12:22.116Z"
+    }
+},
+
+{
+    "model": "interactions.star",
+    "pk": 1,
+    "fields": {
+        "created_on": "2013-03-28T11:27:38.158Z",
+        "last_modified": "2013-03-28T11:27:38.158Z",
+        "user": ["democitizen"],
+        "content_type": ["budgets", "budget"],
+        "object_id": 1
+    }
+},
+
+{
+    "model": "interactions.star",
+    "pk": 2,
+    "fields": {
+        "created_on": "2013-03-28T11:27:48.571Z",
+        "last_modified": "2013-03-28T11:27:48.571Z",
+        "user": ["democitizen"],
+        "content_type": ["budgets", "budget"],
+        "object_id": 2
+    }
+},
+
+{
+    "model": "interactions.star",
+    "pk": 3,
+    "fields": {
+        "created_on": "2013-03-28T11:28:06.439Z",
+        "last_modified": "2013-03-28T11:28:06.439Z",
+        "user": ["democitizen"],
+        "content_type": ["budgets", "actual"],
+        "object_id": 3
+    }
+},
+
+{
+    "model": "interactions.follow",
+    "pk": 1,
+    "fields": {
+        "created_on": "2013-03-28T11:27:19.943Z",
+        "last_modified": "2013-03-28T11:27:19.943Z",
+        "user": ["democitizen"],
+        "content_type": ["entities", "entity"],
+        "object_id": 7
+    }
+},
+
+{
+    "model": "comments.comment",
+    "pk": 1,
+    "fields": {
+        "comment": "The actuals for this item are huge compared to (a), the budget, and (b) the actuals for the preceding and subsequent years. I wonder if some non-standard expenses have been hidden away here. If anyone has any insights, I'd be grateful to hear them.",
+        "user_url": "",
+        "submit_date": "2013-03-28T11:30:17.687Z",
+        "ip_address": "127.0.0.1",
+        "object_pk": "5",
+        "site": 1,
+        "is_removed": false,
+        "user": ["democitizen"],
+        "content_type": ["budgets", "actualitem"],
+        "is_public": true,
+        "user_name": "Concerned Citizen",
+        "user_email": "citizen@example.com"
+    }
 }
 
 ]
