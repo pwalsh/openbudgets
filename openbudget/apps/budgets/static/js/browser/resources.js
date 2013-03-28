@@ -1,10 +1,66 @@
 define([
     'uijet_dir/uijet',
-    'uijet_dir/modules/data/backbone'
-], function (uijet, Backbone) {
+    'uijet_dir/modules/data/backbone',
+    'underscore'
+], function (uijet, Backbone, _) {
 
     // base URL for the web API endpoint
     var BASE_API_URL = 'http://api.obudget.dev:8000/',
+
+        /*
+         * BudgetTemplateNode Model
+         */
+        Node = uijet.Model({
+            idAttribute : 'uuid'
+        }),
+        /*
+         * BudgetTemplateNodes Collection
+         */
+        Nodes = uijet.Collection({
+            model   : Node,
+            parse   : function (response) {
+                return response.node_set;
+            },
+            past    : function (node_id, past) {
+                var node = this.get(node_id),
+                    backwards = node.get('backwards');
+                past = past || [];
+                _.each(backwards, function (id) {
+                    past.push(id);
+                    this.past(id, past);
+                }, this);
+                return past;
+            },
+            future  : function (node_id, future) {
+                var node = this.get(node_id),
+                    forwards = node.get('forwards');
+                future = future || [];
+                _.each(forwards, function (id) {
+                    future.push(id);
+                    this.future(id, future);
+                }, this);
+                return future;
+            },
+            timeline: function (node_id) {
+                return[node_id].concat(this.future(node_id), this.past(node_id));
+            }
+        }),
+
+        /*
+         * SheetItem Model
+         */
+        Item = uijet.Model({
+            idAttribute : 'uuid'
+        }),
+        /*
+         * SheetItems Collection
+         */
+        Items = uijet.Collection({
+            model   : Item,
+            timeline: function (node) {
+                
+            }
+        }),
 
         /*
          * Budget Model
@@ -16,12 +72,16 @@ define([
          * Budgets Collection
          */
         Budgets = uijet.Collection({
-            model       : Budget,
-            url         : BASE_API_URL + 'budgets/',
-            parse       : function (response) {
-                return response.budgets;
+            model   : Budget,
+            parse   : function (response) {
+                var budgets = response.budgets;
+                uijet.publish('budgets_updated', {
+                    collection  : this,
+                    budgets     : budgets
+                });
+                return budgets;
             },
-            setUrl      : function (entity_url) {
+            setUrl  : function (entity_url) {
                 this.url = entity_url;
             }
         }),
@@ -36,12 +96,11 @@ define([
          * Actuals Collection
          */
         Actuals = uijet.Collection({
-            model       : Actual,
-            url         : BASE_API_URL + 'actuals/',
-            parse       : function (response) {
+            model   : Actual,
+            parse   : function (response) {
                 return response.actuals;
             },
-            setUrl      : function (entity_url) {
+            setUrl  : function (entity_url) {
                 this.url = entity_url;
             }
         }),
@@ -56,9 +115,9 @@ define([
          * Munis (Entiities) Collection
          */
         Munis = uijet.Collection({
-            model       : Muni,
-            url         : BASE_API_URL + 'domain-division/4/',
-            parse       : function (response) {
+            model   : Muni,
+            url     : BASE_API_URL + 'domain-division/4/',
+            parse   : function (response) {
                 return response.entities;
             }
         });
@@ -66,11 +125,10 @@ define([
     return {
         API_BASE: BASE_API_URL,
         Backbone: Backbone,
-        Budget  : Budget,
         Budgets : Budgets,
-        Actual  : Actual,
         Actuals : Actuals,
-        Muni    : Muni,
-        Munis   : Munis
+        Munis   : Munis,
+        Nodes   : Nodes,
+        Items   : Items
     };
 });

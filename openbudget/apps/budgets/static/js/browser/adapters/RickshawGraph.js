@@ -28,18 +28,29 @@
         },
         initGraph       : function (graph_data) {
             if ( ! this.graph ) {
-                var ops = this.options.graph;
+                var ops = this.options.graph,
+                    x_axis, y_axis;
+                this.axes = {};
 
+                if ( ops.x_axis ) {
+                    this.axes.x = ops.x_axis;
+                    delete ops.x_axis;
+                }
+                if ( ops.y_axis ) {
+                    this.axes.y = ops.y_axis;
+                    delete ops.y_axis;
+                }
                 if ( graph_data )
                     ops.series = graph_data;
 
                 if ( ops.series ) {
                     this.graph = new Rickshaw.Graph(ops);
-                    if ( ops.axis ) {
-                        if ( ops.axis === 'time' ) {
+                    if ( x_axis = this.axes.x ) {
+                        if ( x_axis === 'time' )
                             new Rickshaw.Graph.Axis.Time({ graph: this.graph });
-                            delete ops.axis;
-                        }
+                    }
+                    if ( y_axis = this.axes.y ) {
+                        new Rickshaw.Graph.Axis.Y({ graph: this.graph });
                     }
                 }
                 else {

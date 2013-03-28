@@ -210,6 +210,7 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel):
 
     entity = models.ForeignKey(
         Entity,
+        related_name='%(class)s'
     )
 
     template = models.ForeignKey(
