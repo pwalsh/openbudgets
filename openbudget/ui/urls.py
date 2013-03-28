@@ -32,6 +32,9 @@ urlpatterns = patterns('',
     url(r'^transport/',
         include('openbudget.apps.transport.urls')
     ),
+    url(r'^sources/',
+        include('openbudget.apps.sources.urls')
+    ),
     url(r'^search/',
         OBudgetSearchView(),
         name='search'

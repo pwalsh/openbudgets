@@ -30,11 +30,11 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel, models.Model
         help_text=_('Describe for this entry.')
     )
 
-    reference_sources = generic.GenericRelation(
+    referencesources = generic.GenericRelation(
         ReferenceSource
     )
 
-    aux_sources = generic.GenericRelation(
+    auxsources = generic.GenericRelation(
         AuxSource
     )
 
@@ -222,11 +222,11 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel):
         help_text=_('Descriptive text for this %(class)s')
     )
 
-    reference_sources = generic.GenericRelation(
+    referencesources = generic.GenericRelation(
         ReferenceSource
     )
 
-    aux_sources = generic.GenericRelation(
+    auxsources = generic.GenericRelation(
         AuxSource
     )
 

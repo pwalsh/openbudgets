@@ -13,7 +13,7 @@ class BudgetTemplaeNodeAdmin(TranslationAdmin):
 class BudgetTemplateAdmin(TranslationAdmin):
     """Admin form for adding budget templates"""
 
-    inlines = [ReferenceSourceInline,]
+    inlines = [ReferenceSourceInline, AuxSourceInline]
 
 
 class BudgetItemInline(TranslationStackedInline):
@@ -29,7 +29,7 @@ class BudgetItemInline(TranslationStackedInline):
 class BudgetAdmin(TranslationAdmin):
     """Admin form for adding budgets"""
 
-    inlines = [ReferenceSourceInline, BudgetItemInline]
+    inlines = [BudgetItemInline, ReferenceSourceInline, AuxSourceInline]
 
 
 class ActualItemInline(TranslationStackedInline):

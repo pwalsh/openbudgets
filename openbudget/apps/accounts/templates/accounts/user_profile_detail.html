@@ -58,31 +58,57 @@
     <div class="box-3 _float-left">
         <h3>{% trans 'Following' %}</h3>
         <div class="follows">
+            {% if user.get_profile.follows %}
             {% for follow in user.get_profile.follows %}
             <div class="follow">
                 <a href="{{ follow.content_object.get_absolute_url }}" title="">{{ follow.content_object }}</a>
             </div>
             {% endfor %}
+            {% else %}
+            {% trans 'You are not following any items yet.' %}
+            {% endif %}
         </div>
     </div>
     <div class="box-3 _float-left">
         <h3>{% trans 'Starred' %}</h3>
         <div class="stars">
+            {% if user.get_profile.stars %}
             {% for star in user.get_profile.stars %}
             <div class="star">
                 <a href="{{ star.content_object.get_absolute_url }}" title="">{{ star.content_object }}</a>
             </div>
             {% endfor %}
+            {% else %}
+            {% trans 'You have not starred any items yet.' %}
+            {% endif %}
         </div>
     </div>
     <div class="box-3 _float-left">
         <h3>{% trans 'Commented on' %}</h3>
         <div class="comments">
+            {% if user.get_profile.comments %}
             {% for comment in user.get_profile.comments %}
             <div class="comment">
                 <a href="{{ comment.content_object.get_absolute_url }}" title="">{{ comment.content_object }}</a>
             </div>
             {% endfor %}
+            {% else %}
+            {% trans 'You do not have any comments yet.' %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="box-3 _float-left">
+        <h3>{% trans 'Uploads' %}</h3>
+        <div class="uploads">
+            {% if user.auxsources.all %}
+            {% for auxsource in user.auxsources.all %}
+            <div class="upload">
+                <a href="{% url 'auxsource_detail' auxsource.uuid %}" title="">{{ auxsource.name }}</a>
+            </div>
+            {% endfor %}
+            {% else %}
+            {% trans 'You have not uploaded any files.' %}
+            {% endif %}
         </div>
     </div>
 </section>
