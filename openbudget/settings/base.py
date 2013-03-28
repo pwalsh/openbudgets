@@ -38,13 +38,18 @@ DATABASES = {
 }
 
 MEDIA_ROOT = os.path.abspath(
-    os.path.join(PROJECT_ROOT, 'static', 'media')
+    os.path.join(os.path.dirname(PROJECT_ROOT),
+        'static',
+        'media'
+    )
 )
 
 MEDIA_URL = '/static/media/'
 
 STATIC_ROOT = os.path.abspath(
-    os.path.join(PROJECT_ROOT, 'static')
+    os.path.join(os.path.dirname(PROJECT_ROOT),
+        'static'
+    )
 )
 
 STATIC_URL = '/static/'
