@@ -65,5 +65,13 @@ class Command(BaseCommand):
         if options['test']:
             call_command('test', *settings.DEVSTRAP['TESTS'])
 
+        # build the search index
+        call_command(
+            'rebuild_index',
+            verbosity=0,
+            interactive=False
+        )
+        self.stdout.write('### Just built the search index\n')
+
         # wave goodbye
         self.stdout.write("### Development bootstrapping completed successfully\n")
