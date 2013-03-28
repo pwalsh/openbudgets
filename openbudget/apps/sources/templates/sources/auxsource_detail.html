@@ -2,14 +2,14 @@
 {% load i18n %}
 
 {% block title %}
-{{ object.name }}
+{{ object.name }}<span class="_align-right _float-right purple-bg padding-all" style="font-size: 0.75em;color: white;">{% trans 'auxiliary source' %}</span>
 {% endblock title %}
 
 {% block content %}
 
 <section>
     <h3>
-        {% trans 'An Auxiliary source file for' %} {{ object.content_object }}
+        <a href="{{ object.content_object.get_absolute_url }}" title="{{ object.content_object }}">{{ object.content_object }}</a>
     </h3>
     <p>
         {% trans 'Uploaded by' %} <strong>{{ object.added_by.get_full_name }}</strong>

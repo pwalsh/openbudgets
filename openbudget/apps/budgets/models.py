@@ -130,6 +130,14 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
         help_text=_('Describe for this entry.')
     )
 
+    referencesources = generic.GenericRelation(
+        ReferenceSource
+    )
+
+    auxsources = generic.GenericRelation(
+        AuxSource
+    )
+
     @property
     def budget_items(self):
         return BudgetItem.objects.filter(node=self)
@@ -343,6 +351,14 @@ class SheetItem(TimeStampedModel, UUIDModel):
     amount = models.IntegerField(
         _('Amount'),
         help_text=_('The amount of this entry. The node determines REVENUE or EXPENDITURE')
+    )
+
+    referencesources = generic.GenericRelation(
+        ReferenceSource
+    )
+
+    auxsources = generic.GenericRelation(
+        AuxSource
     )
 
     discussion = generic.GenericRelation(
