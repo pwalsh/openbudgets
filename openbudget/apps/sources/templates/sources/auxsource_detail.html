@@ -8,10 +8,36 @@
 {% block content %}
 
 <section>
-    <h2>
-        {{ object.name }}
-    </h2>
+    <h3>
+        {% trans 'An Auxiliary source file for' %} {{ object.content_object }}
+    </h3>
+    <p>
+        {% trans 'Uploaded by' %} <strong>{{ object.added_by.get_full_name }}</strong>
+    </p>
+    <p>
 
+    </p>
+    <div>
+        <h4>
+            {% trans 'About' %}
+        </h4>
+        <ul>
+            <li>{% trans 'Retreived from' %} <a href="{{ object.url }}" title="">{{ object.url }}</a></li>
+            <li>{% trans 'Retreival date' %}: {{ object.retrieval_date }}</li>
+        </ul>
+    </div>
+    <div>
+        <p>
+            {{ object.notes }}
+        </p>
+    </div>
+    <div>
+        <strong>
+            <a href="{{ object.data.url }}" title="{{ object.name }}">
+            {% trans 'Download' %}
+            </a>
+        </strong>
+    </div>
 </section>
 
 {% endblock content %}

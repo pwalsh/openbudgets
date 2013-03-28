@@ -1,6 +1,6 @@
 """Some helper functions for the project"""
 import os
-from openbudget.settings.base import MEDIA_ROOT
+
 
 def get_ultimate_parent(obj):
     """Returns the ultimate parent of any object.
@@ -20,7 +20,6 @@ def get_media_file_path(instance, filename):
     """Puts any uploaded file in the right place."""
     tmp, ext = os.path.splitext(filename)
     value = os.path.join(
-        MEDIA_ROOT,
         instance.get_class_name(),
         unicode(instance.uuid) + ext)
     return value
