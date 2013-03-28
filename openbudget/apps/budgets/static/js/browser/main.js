@@ -11,7 +11,8 @@ requirejs.config({
         resources       : '../browser/resources'
     },
     shim    : {
-        rickshaw: ['d3']
+        rickshaw: ['d3'],
+        touch   : ['zepto']
     }
 });
 requirejs([
