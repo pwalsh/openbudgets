@@ -40,17 +40,21 @@ class ToggleableInteraction(TimeStampedModel):
         value = cls.__name__.lower()
         return value
 
-    class Meta:
-        abstract = True
-        ordering = ['user', 'content_type', 'object_id']
-        unique_together = (
-            ('user', 'content_type', 'object_id'),
-        )
+    @models.permalink
+    def get_absolute_url(self):
+        return self.content_object.get_absolute_url()
 
     def __unicode__(self):
         return "{user} <> {obj}".format(
             user=self.user,
             obj=self.content_object
+        )
+
+    class Meta:
+        abstract = True
+        ordering = ['user', 'content_type', 'object_id']
+        unique_together = (
+            ('user', 'content_type', 'object_id'),
         )
 
 

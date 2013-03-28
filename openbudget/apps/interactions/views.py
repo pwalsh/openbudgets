@@ -1,6 +1,6 @@
 from django.contrib.syndication.views import Feed
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.utils.feedgenerator import Atom1Feed
 from django.utils.translation import ugettext as _
@@ -69,5 +69,7 @@ def toggleable_interaction(request):
             object_id=int(data['object_id'])
         )
 
-    return HttpResponse('did it')
+    obj_url= intobj.content_object.get_absolute_url()
+
+    return HttpResponseRedirect(obj_url)
 
