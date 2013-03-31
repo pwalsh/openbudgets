@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block main %}
+
+<section id="contact">
+    <form class="box-2 _float-left" action="." method="POST">
+    {% include 'pages/partials/_contact_form.html' %}
+    </form>
+</section>
+
+{% endblock main %}

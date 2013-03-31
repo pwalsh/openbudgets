@@ -9,14 +9,14 @@ SETTINGS_ROOT = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.dirname(SETTINGS_ROOT))
 WSGI_APPLICATION = 'openbudget.wsgi.application'
 
-ROOT_URLCONF = 'openbudget.urls'
+ROOT_URLCONF = 'openbudget.ui.urls'
 SUBDOMAIN_URLCONFS = {
-    '': 'openbudget.urls',
-    'www': 'openbudget.urls',
-    'he': 'openbudget.urls',
-    'en': 'openbudget.urls',
-    'ru': 'openbudget.urls',
-    'ar': 'openbudget.urls',
+    '': 'openbudget.ui.urls',
+    'www': 'openbudget.ui.urls',
+    'he': 'openbudget.ui.urls',
+    'en': 'openbudget.ui.urls',
+    'ru': 'openbudget.ui.urls',
+    'ar': 'openbudget.ui.urls',
     'api': 'openbudget.api.urls',
 }
 
@@ -38,13 +38,18 @@ DATABASES = {
 }
 
 MEDIA_ROOT = os.path.abspath(
-    os.path.join(PROJECT_ROOT, 'static', 'media')
+    os.path.join(os.path.dirname(PROJECT_ROOT),
+        'static',
+        'media'
+    )
 )
 
 MEDIA_URL = '/static/media/'
 
 STATIC_ROOT = os.path.abspath(
-    os.path.join(PROJECT_ROOT, 'static')
+    os.path.join(os.path.dirname(PROJECT_ROOT),
+        'static'
+    )
 )
 
 STATIC_URL = '/static/'
@@ -78,7 +83,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'openbudget.international.middleware.InterfaceLanguage',
+    'openbudget.apps.international.middleware.InterfaceLanguage',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -93,24 +98,32 @@ INSTALLED_APPS = (
     'django.contrib.comments',
     'grappelli.dashboard',
     'grappelli',
+    'grappelli_modeltranslation',
     'django.contrib.admin',
     'django.contrib.sitemaps',
     'gunicorn',
     'south',
+    'haystack',
+    'djcelery',
     'subdomains',
     'registration',
     'rest_framework',
     'rosetta_grappelli',
     'rosetta',
     'modeltranslation',
-    'openbudget.accounts',
+    'taggit',
+    'openbudget.apps.accounts',
+    'openbudget.apps.budgets',
+    'openbudget.apps.contexts',
+    'openbudget.apps.entities',
+    'openbudget.apps.interactions',
+    'openbudget.apps.international',
+    'openbudget.apps.pages',
+    'openbudget.apps.sources',
+    'openbudget.apps.taxonomies',
+    'openbudget.apps.transport',
     'openbudget.api',
-    'openbudget.budgets',
     'openbudget.commons',
-    'openbudget.govts',
-    'openbudget.interactions',
-    'openbudget.international',
-    'openbudget.pages',
 )
 
 LOGGING = {
@@ -192,7 +205,53 @@ REST_FRAMEWORK = {
     'PAGINATE_BY': 10
 }
 
-# COMMENTS CONF
-COMMENTS_APP = 'openbudget.interactions'
-COMMENTS_HIDE_REMOVED = True
-COMMENT_MAX_LENGTH = 10000
+# HAYSTACK CONF
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(PROJECT_ROOT, 'commons', 'search', 'index'),
+    },
+}
+
+# CELERY CONF
+from celery.schedules import crontab
+import djcelery
+djcelery.setup_loader()
+BROKER_URL = 'redis://127.0.0.1:6379/'
+CELERYBEAT_SCHEDULE = {
+    "update_index": {
+        "task": "tasks.update_index",
+        "schedule": crontab(
+           minute=0,
+            hour=0
+        ),
+    },
+    "rebuild_index": {
+        "task": "tasks.rebuild_index",
+        "schedule": crontab(
+            day_of_week='saturday',
+            minute=0,
+            hour=0
+        ),
+    }
+}
+
+# EMAIL CONF
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+
+# SENTRY CONF
+SENTRY_DSN = ''
+
+# DEVELOPER ADMINS CONF
+ADMINS = (
+    ('', ''),
+    ('', ''),
+)
+
+# OPEN BUDGET CUSTOM CONF
+TEMP_FILES_DIR = os.path.abspath(os.path.join(os.path.dirname(PROJECT_ROOT), 'tmp'))

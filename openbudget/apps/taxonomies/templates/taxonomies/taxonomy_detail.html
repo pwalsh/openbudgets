@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}
+{{ object.name }}
+{% endblock title %}
+
+{% block content %}
+
+<section>
+    <h2>
+        {% trans 'A Taxonomy by' %} {{ object.user.get_full_name }}
+    </h2>
+    <div>
+        {{ object.description }}
+    </div>
+    <h3>
+        {% trans 'Tags' %}
+    </h3>
+    <ul>
+    {% for tag in object.tags.all %}
+        <li><a href="{% url 'tag_detail' object.slug tag.slug %}" title="{{ tag.name }}">{{ tag.name }}</a></li>
+    {% endfor %}
+    </ul>
+</section>
+
+{% endblock content %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+{{ object.node.name }} / {{ object.node.code }} {% trans 'for the' %} {{ object.actual.entity }} {{ object.budget.period }} {% trans 'budget' %}
+{% endblock title %}
+
+{% block content %}
+<section>
+    {{object}}
+</section>
+{% include 'interactions/partials/_discussion.html' %}
+{% endblock content %}

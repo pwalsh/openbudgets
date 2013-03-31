@@ -4,6 +4,60 @@
     "model": "auth.User",
     "pk": 1,
     "fields": {
+        "username": "demosuperadmin",
+        "first_name": "Super",
+        "last_name": "Administrator",
+        "email": "superadmin@example.com",
+        "password": "sha1$d0ac3$d37cb4b152d98c9727f7d696795f2d6ad9438ee4",
+        "is_staff": 1,
+        "is_active": 1,
+        "is_superuser": 1,
+        "groups": [1],
+        "last_login": "2013-01-01T09:00:00+02:00",
+        "date_joined": "2013-01-01T09:00:00+02:00"
+    }
+},
+
+{
+    "model": "auth.User",
+    "pk": 2,
+    "fields": {
+        "username": "democontentadmin",
+        "first_name": "Content",
+        "last_name": "Administrator",
+        "email": "contentadmin@example.com",
+        "password": "sha1$d0ac3$d37cb4b152d98c9727f7d696795f2d6ad9438ee4",
+        "is_staff": 1,
+        "is_active": 1,
+        "is_superuser": 0,
+        "groups": [2],
+        "last_login": "2013-01-01T09:00:00+02:00",
+        "date_joined": "2013-01-01T09:00:00+02:00"
+    }
+},
+
+{
+    "model": "auth.User",
+    "pk": 3,
+    "fields": {
+        "username": "democitizen",
+        "first_name": "Concerned",
+        "last_name": "Citizen",
+        "email": "citizen@example.com",
+        "password": "sha1$d0ac3$d37cb4b152d98c9727f7d696795f2d6ad9438ee4",
+        "is_staff": 0,
+        "is_active": 1,
+        "is_superuser": 0,
+        "groups": [3],
+        "last_login": "2013-01-01T09:00:00+02:00",
+        "date_joined": "2013-01-01T09:00:00+02:00"
+    }
+},
+
+{
+    "model": "auth.User",
+    "pk": 4,
+    "fields": {
         "username": "pwalsh",
         "first_name": "Paul",
         "last_name": "Walsh",
@@ -20,7 +74,7 @@
 
 {
     "model": "auth.User",
-    "pk": 2,
+    "pk": 5,
     "fields": {
         "username": "ydaniv",
         "first_name": "Yehonatan",
@@ -38,7 +92,7 @@
 
 {
     "model": "auth.User",
-    "pk": 3,
+    "pk": 6,
     "fields": {
         "username": "iivri",
         "first_name": "Ido",
@@ -56,7 +110,7 @@
 
 {
     "model": "auth.User",
-    "pk": 4,
+    "pk": 7,
     "fields": {
         "username": "yadmon",
         "first_name": "Yuval",
@@ -74,7 +128,7 @@
 
 {
     "model": "auth.User",
-    "pk": 5,
+    "pk": 8,
     "fields": {
         "username": "mrubenstein",
         "first_name": "Mor",
@@ -92,7 +146,7 @@
 
 {
     "model": "auth.User",
-    "pk": 6,
+    "pk": 9,
     "fields": {
         "username": "gchen",
         "first_name": "Gal",
@@ -103,24 +157,6 @@
         "is_active": 1,
         "is_superuser": 0,
         "groups": [2],
-        "last_login": "2013-01-01T09:00:00+02:00",
-        "date_joined": "2013-01-01T09:00:00+02:00"
-    }
-},
-
-{
-    "model": "auth.User",
-    "pk": 6,
-    "fields": {
-        "username": "citizen",
-        "first_name": "Concerned",
-        "last_name": "Citizen",
-        "email": "citizen@example.com",
-        "password": "sha1$d0ac3$d37cb4b152d98c9727f7d696795f2d6ad9438ee4",
-        "is_staff": 0,
-        "is_active": 1,
-        "is_superuser": 0,
-        "groups": [3],
         "last_login": "2013-01-01T09:00:00+02:00",
         "date_joined": "2013-01-01T09:00:00+02:00"
     }

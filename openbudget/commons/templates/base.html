@@ -17,7 +17,6 @@
         <title>{% block metatitle %}{{ page.title }} | {{ site.name }}{% endblock metatitle %}</title>
 
         <base href="{{ site.url }}" />
-        <link rel="stylesheet" type="text/css" href="http://adaptabl.org/adaptabl.idiom.css" />
         <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/base.css" />
         {% block stylesheets %}
 
@@ -43,14 +42,17 @@
                         <a href="{% url 'home' %}">
                             {% trans 'Home' %}
                         </a>
-                        <a href="{% url 'geopol_list' %}">
-                            {% trans 'Geopols' %}
+                        <a href="{% url 'entity_list' %}">
+                            {% trans 'Municipalities' %}
+                        </a>
+                        <a href="{% url 'budget_browser' %}">
+                            {% trans 'Budget Browser' %}
                         </a>
                         <a href="{% url 'api' subdomain='api' %}">
                             {% trans 'API' %}
                         </a>
                         {% endblock nav %}
-                        <span class="float-right">
+                        <span class="_float-right">
                             {% language_switch request.get_full_path %}
                             {% include 'accounts/partials/_user_account_tools.html' %}
                         </span>
@@ -64,10 +66,17 @@
                 {% block main %}
 
                     <h1>
-                        {%block title %}
+                        {% block title %}
 
                         {% endblock title %}
+
+                        {% block interactions %}
+
+                        {% endblock interactions %}
                     </h1>
+                    <div class="interactions">
+
+                    </div>
                     <div>
                         {%block content %}
 
@@ -82,20 +91,26 @@
         <footer>
             <div class="wrapper">
                 {% block footer %}
-                <nav>
-                    <a href="{% url 'page' slug='about' %}">
-                        {% trans 'About' %}
-                    </a>
-                    <a href="{% url 'page' slug='privacy' %}">
-                        {% trans 'Privacy' %}
-                    </a>
-                    <a href="{% url 'page' slug='terms' %}">
-                        {% trans 'Terms' %}
-                    </a>
-                    <a href="{% url 'contact' %}">
-                        {% trans 'Contact' %}
-                    </a>
-                </nav>
+                <div class="box-2 _float-left">
+                    {% include 'partials/_searchbox.html' %}
+                </div>
+
+                <div class="box-2 _float-left _align-right">
+                    <nav>
+                        <a href="{% url 'page' slug='about' %}">
+                            {% trans 'About' %}
+                        </a>
+                        <a href="{% url 'page' slug='privacy' %}">
+                            {% trans 'Privacy' %}
+                        </a>
+                        <a href="{% url 'page' slug='terms' %}">
+                            {% trans 'Terms' %}
+                        </a>
+                        <a href="{% url 'contact' %}">
+                            {% trans 'Contact' %}
+                        </a>
+                    </nav>
+                </div>
                 {% endblock footer %}
             </div>
         </footer>

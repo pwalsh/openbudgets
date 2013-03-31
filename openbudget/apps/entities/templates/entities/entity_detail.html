@@ -1,0 +1,162 @@
+{% extends 'entities/entity_list.html' %}
+{% load i18n interactions %}
+{% load url from future %}
+
+{% block title %}
+{{ object.name }}
+{% endblock title %}
+
+{% block interactions %}
+{% if user.is_authenticated %}
+<span class="interactions">
+{% follow object user %}
+{% star object user %}
+</span>
+{% endif %}
+{% endblock interactions %}
+
+{% block content %}
+<p>
+    <a href="{% url 'entity_list' %}">
+        {% trans 'Back to all geopols' %}
+    </a>
+</p>
+
+<section>
+    <h2>
+        {% trans 'About' %} {{ object.name }}
+    </h2>
+    {% if object.ultimate_parent == object %}
+    {% else %}
+    <p>
+        {{ object.name }} {% trans 'is one of ' %} {{ object.division.count }} {{ object.division.name }} {% trans 'entities' %} {% trans 'in ' %} <a href="{% url 'entity_detail' object.ultimate_parent.slug %}">{{ object.ultimate_parent }}</a>.
+    </p>
+    {% endif %}
+
+    <div>
+        {{ object.description }}
+    </div>
+    <div class="row">
+        <h2>{% trans 'Contextual data' %}</h2>
+        <div class="box-3 _float-left">
+            <h3>{% trans 'GeoSpatial' %}</h3>
+            {% for obj in object.geospatial_set.all %}
+            {% trans 'Square meters' %}: {{ obj.sqm }} ({{ obj.period_start }} - {{ obj.period_end }})
+            <br />
+            {% endfor %}
+        </div>
+        <div class="box-3 _float-left">
+            <h3>{% trans 'Demographic' %}</h3>
+            {% for obj in object.demographic_set.all %}
+            {% trans 'Population' %}: {{ obj.population }} ({{ obj.period_start }} - {{ obj.period_end }})
+            <br />
+            {% endfor %}
+        </div>
+        <div class="box-3 _float-left">
+            <h3>{% trans 'Education' %}</h3>
+            {% for obj in object.education_set.all %}
+            {% trans 'High schools' %}: {{ obj.high_school_count }} ({{ obj.period_start }} - {{ obj.period_end }})
+            <br />
+            {% trans 'Primary schools' %}: {{ obj.primary_school_count }} ({{ obj.period_start }} - {{ obj.period_end }})
+            <br />
+            {% trans 'Pre-schools' %}: {{ obj.pre_school_count }} ({{ obj.period_start }} - {{ obj.period_end }})
+            <br />
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>
+        {% if object.ultimate_parent == object %}
+        {% trans 'Budgeting entities of' %} {{ object.name }}
+        {% else %}
+        {% trans 'Related' %} {% trans 'budgeting entities' %}
+        {% endif %}
+    </h2>
+    <div>
+        {% if not object.related_entities %}
+        <p>
+            {{ object.name }} {% trans 'has no related entities that declare budgets' %}.</a>
+        </p>
+        {% else %}
+        <p>
+            {% trans 'We have the following related entities with budgets in the system' %}.
+        </p>
+        {% for related_entity in object.related_entities %}
+        <a href="{% url 'entity_detail' related_entity.slug %}">
+            {{ related_entity.name }}
+        </a> ({{ related_entity.division.name }})
+        <br />
+        {% endfor %}
+        {% endif %}
+    </div>
+</section>
+
+<section>
+    <h2>
+        {% trans 'Budgets and Actuals' %}
+    </h2>
+
+    {% if not object.division.has_budgets %}
+    <p>
+        <strong>{{ object.name }}</strong> {% trans 'is a' %} {{ object.division.name }} {% trans 'of' %} {{ object.division.domain }}, {% trans 'and therefore does not declare budgets. It serves a purely administrative function.' %}
+    </p>
+    {% else %}
+
+    {% if not object.budgets and not object.actuals %}
+    <p>
+        {% trans 'There are no Budgets or Actuals for this entity' %}.
+    </p>
+    {% else %}
+    <div>
+        <h3>
+            {% trans 'Budgets available' %}...
+        </h3>
+        {% if not object.budgets %}
+        <p>
+            {% trans 'There are no Budgets this entity' %}.
+        </p>
+        {% else %}
+        <ul>
+        {% for budget in object.budgets %}
+        <li>
+            <a href="{% url 'budget_detail' budget.uuid %}">{{ budget.period }}</a>
+            <span>
+                ({{ budget.total }})
+            </span>
+        </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    <div>
+        <h3>
+            {% trans 'Actuals available' %}...
+        </h3>
+        {% if not object.actuals %}
+        <p>
+            {% trans 'There are no Actuals this entity' %}.
+        </p>
+        {% else %}
+        <ul>
+        {% for actual in object.actuals %}
+        <li>
+            <a href="{% url 'actual_detail' actual.uuid %}">{{ actual.period }}</a>
+            <span>
+                (Total: {% if actual.has_budgets %}{{ actual.total }}{% endif %}; Variance: {% if actual.has_budgets %}{{ actual.variance }}%{% endif %})
+            </span>
+        </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% endif %}
+</section>
+
+<section>
+    {% include 'interactions/partials/_discussion.html' %}
+</section>
+{% endblock content %}

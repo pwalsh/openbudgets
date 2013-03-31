@@ -14,7 +14,7 @@ class OpenBudgetDashboard(Dashboard):
             collapsible=True,
             column=1,
             css_classes=('collapse closed',),
-            models=('openbudget.accounts.*',),
+            models=('openbudget.apps.accounts.*',),
         ))
 
         self.children.append(modules.AppList(
@@ -22,7 +22,7 @@ class OpenBudgetDashboard(Dashboard):
             collapsible=True,
             column=1,
             css_classes=('collapse closed',),
-            models=('openbudget.govts.*',),
+            models=('openbudget.apps.entities.*',),
         ))
 
         self.children.append(modules.AppList(
@@ -30,7 +30,23 @@ class OpenBudgetDashboard(Dashboard):
             collapsible=True,
             column=1,
             css_classes=('collapse closed',),
-            models=('openbudget.budgets.*',),
+            models=('openbudget.apps.budgets.*',),
+        ))
+
+        self.children.append(modules.AppList(
+            _('Budget taxonomies'),
+            collapsible=True,
+            column=1,
+            css_classes=('collapse closed',),
+            models=('openbudget.apps.taxonomies.*',),
+        ))
+
+        self.children.append(modules.AppList(
+            _('Transport'),
+            collapsible=True,
+            column=1,
+            css_classes=('collapse closed',),
+            models=('openbudget.apps.transport.*',),
         ))
 
         self.children.append(modules.AppList(
@@ -38,7 +54,7 @@ class OpenBudgetDashboard(Dashboard):
             collapsible=True,
             column=1,
             css_classes=('collapse closed',),
-            models=('openbudget.pages.*',),
+            models=('openbudget.apps.pages.*',),
         ))
 
         self.children.append(modules.LinkList(

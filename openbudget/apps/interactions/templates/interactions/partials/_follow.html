@@ -1,0 +1,14 @@
+{% load i18n comments %}
+{% load url from future %}
+
+<form class="interaction follow" action="{% url 'toggleable_interaction' %}" method="POST">
+    {% csrf_token %}
+    {% if obj %}
+    <input type="hidden" name="obj" value="{{ obj }}"/>
+    {% endif %}
+    <input type="hidden" name="interaction" value="{{ interaction }}"/>
+    <input type="hidden" name="user" value="{{ user.id }}"/>
+    <input type="hidden" name="content_type" value="{{ content_type }}"/>
+    <input type="hidden" name="object_id" value="{{ object_id }}"/>
+    <input type="submit" value="{{ follow|safe }}" title="{{ title }}"/>
+</form>

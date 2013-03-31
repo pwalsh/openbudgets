@@ -1,6 +1,5 @@
 import os
 from optparse import make_option
-from subprocess import call
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
 from openbudget.settings import local as settings
@@ -16,9 +15,24 @@ class Command(BaseCommand):
                 default=False,
                 help="Run tests"
             ),
+            make_option(
+                '-i',
+                action='store_true',
+                dest='interactive',
+                default=False,
+                help="Enable syncdb related input"
+            ),
+            make_option(
+                '-m',
+                action='store_true',
+                dest='migrate',
+                default=False,
+                help="Run DB migrations"
+            )
         )
 
     def handle(self, *args, **options):
+        # say hello
         self.stdout.write("### DON'T PANIC\n")
         self.stdout.write("### Bootstrapping development environment\n")
 
@@ -35,7 +49,10 @@ class Command(BaseCommand):
         # sync the db and do South migrations
         try:
             self.stdout.write("### Syncing DB\n")
-            call_command('syncdb', interactive=False, migrate=True)
+            call_command('syncdb', **{
+                'interactive': options['interactive'],
+                'migrate': options['migrate']
+            })
         except:
             raise CommandError('syncdb failed')
 
@@ -44,7 +61,17 @@ class Command(BaseCommand):
         for fixture in settings.DEVSTRAP['FIXTURES']:
             call_command('loaddata', fixture)
 
+        # run tests
         if options['test']:
-            call_command('test', 'accounts', 'api', 'budgets', 'commons', 'govts', 'interactions', 'pages', 'international')
+            call_command('test', *settings.DEVSTRAP['TESTS'])
 
+        # build the search index
+        call_command(
+            'rebuild_index',
+            verbosity=0,
+            interactive=False
+        )
+        self.stdout.write('### Just built the search index\n')
+
+        # wave goodbye
         self.stdout.write("### Development bootstrapping completed successfully\n")

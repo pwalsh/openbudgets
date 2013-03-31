@@ -8,9 +8,9 @@ The Open Budget project is a web app and web API for municipality budgets, and r
 Get involved
 ------------
 
-Code: https://github.com/hasadna/openbudget-budget
+Code: https://github.com/hasadna/omuni-budget
 
-Issues: https://github.com/hasadna/openbudget-budget/issues
+Issues: https://github.com/hasadna/omuni-budget/issues
 
 Docs: http://open-budget.readthedocs.org/
 

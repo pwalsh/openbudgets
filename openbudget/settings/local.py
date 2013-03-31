@@ -11,11 +11,12 @@ ADMINS = (
 MANAGERS = ADMINS
 
 MIDDLEWARE_CLASSES += (
-    #'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'openbudget.api.middleware.XsSharing',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 INSTALLED_APPS += (
-    #'debug_toolbar',
+    'debug_toolbar',
 )
 
 EMAIL_USE_TLS = True
@@ -34,7 +35,21 @@ DEBUG_TOOLBAR_CONFIG = {
 DEVSTRAP = {
     'FIXTURES': (
         'dev/sites',
-        'dev/objects',
-        'pages',
+        'demo/objects',
+        'israel/strings'
     ),
+    'TESTS': (
+        'accounts',
+        'api',
+        'budgets',
+        'commons',
+        'contexts',
+        'entities',
+        'interactions',
+        'international',
+        'pages',
+        'sources',
+        'taxonomies',
+        'transport'
+    )
 }

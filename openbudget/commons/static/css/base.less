@@ -1,0 +1,189 @@
+@import "../js/lib/adaptabl/adaptabl.idiom";
+
+textarea {
+    height: 5em;
+    min-height: 5em;
+}
+
+nav a {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+footer nav {
+    font-size: 0.875em;
+}
+
+.langs {
+    margin-right: 2em;
+    font-size: 0.75em;
+}
+
+.searchbox {
+    float: left;
+    display: inline-block;
+    width: 450px;
+    padding-top: 1em;
+}
+
+.searchbox input[type="text"] {
+    display: inline-block;
+    float: left;
+    width: 65%;
+    height: 2.875em;
+    line-height: 2.875em;
+    padding-left: 0.75em;
+}
+
+.searchbox input[type="submit"] {
+    display: inline-block;
+    float: right;
+    width: 30%;
+}
+
+.search-result-object {
+    float: left;
+    width: 20%;
+    margin: 2.5%;
+}
+
+.search-result-object .label {
+    padding: 0.25em;
+    margin: 0.5em 0;
+}
+
+.interactions {
+    display: inline-block;
+    float: right;
+    text-align: right;
+}
+
+.interaction {
+    display: inline-block;
+    width: 90px;
+    font-size: 0.5em;
+    line-height: 1em;
+    height: 1em;
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+}
+
+.interaction input[type="submit"] {
+    background-color: @yellow;
+}
+
+.interaction:hover input[type="submit"] {
+    background-color: darken(@yellow, 10%);
+}
+
+.discussion {
+    ._float-left;
+    .box-2;
+    background-color: lighten(@grey, 45%);
+    margin: 1em 0;
+    padding: 0.5em;
+
+    label {
+        background-color: lighten(@grey, 45%);
+    }
+}
+
+.account {
+
+    .star, .follow, .comment, .taxonomy, .file {
+        background-color: lighten(@grey, 40%);
+        margin-right: 1.5em;
+        margin-bottom: 0.5em;
+        padding: 0.5em;
+        font-size: 0.875em;
+    }
+
+    .star:before {
+        content: "\2605";
+    }
+
+    .follow:before {
+        content: "\274A";
+    }
+
+    .comment:before {
+        content: "\27A6";
+    }
+
+    .taxonomy:before {
+        content: "\2744";
+    }
+
+    .comment-quote {
+        font-size: 0.875em;
+    }
+}
+
+.entity-preview {
+    ._object;
+    ._float-left;
+    width: 23%;
+    background-color: lighten(@grey, 40%);
+    margin-right: 1%;
+    margin-left: 1%;
+    margin-bottom: 0.5em;
+    padding: 0.25em 0.25em 0 0.25em;
+
+    h3 span {
+        font-size: 0.75em;
+    }
+
+    .context {
+        ._object;
+        ._float-left;
+        ._align-right;
+        font-size: 0.825em;
+        background-color: lighten(@grey, 35%);
+        padding: 0.125em 0.5em 0.125em 0.125em;
+        margin-left: -1%;
+    }
+
+    .data-status {
+        font-size: 0.825em;
+    }
+}
+
+.taxonomy-status {
+    .box-4;
+    ._display-inline-block;
+    ._align-center;
+    ._float-right;
+    color: white;
+
+    &.published {
+        .green-bg;
+    }
+
+    &.draft {
+        .orange-bg;
+    }
+}
+
+.tagged-sheet {
+    text-decoration: none;
+    padding: 0.25em;
+    background-color: lighten(@blue, 10%);
+    color: @white;
+    font-size: 0.875em;
+
+    &:hover {
+        color: darken(@white, 4%);
+    }
+}
+
+.budget-item {
+    ._object;
+    ._float-left;
+    width: 24%;
+    background-color: lighten(@grey, 45%);
+    margin: 0.5%;
+    padding: 0.5%;
+    font-size: 0.75em;
+}
+
+

@@ -13,13 +13,13 @@
 {% endif %}
 
   {% for comment in comment_list %}
-  <a name="comment-{{ comment.uuid }}"></a>
+  <a name="c{{ comment.id }}"></a>
     <dt id="c{{ comment.id }}">
         {{ comment.submit_date }} - {{ comment.name }}
     </dt>
     <dd>
         <p>{{ comment.comment }}</p>
-        <a href="{% get_comment_permalink comment "#comment-%(uuid)s"%}">permalink</a>
+        <a href="{% get_comment_permalink comment %}">permalink</a>
     </dd>
   {% endfor %}
 </dl>

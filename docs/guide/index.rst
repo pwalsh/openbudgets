@@ -1,195 +1,5 @@
-Open Budget
+Orientation
 ===========
-
-A platform for accessible government budget data
-------------------------------------------------
-
-This guide is for developers using Open Budget in their own projects, or contributing code to the main repository. It provides instructions for installation, an overview of the code base, some context on factors that influenced the design.
-
-Get involved
-------------
-
-**Code**: https://github.com/hasadna/omuni-budget
-
-**Issues**: https://github.com/hasadna/omuni-budget/issues
-
-**Docs**: http://open-budget.readthedocs.org/
-
-**Demo**: http://open-budget.prjts.com/
-
-**Discussion**: https://groups.google.com/forum/?fromgroups=#!forum/open-muni-dev
-
-**HaSadna (Public Knowledge Workshop)**: http://hasadna.org.il/
-
-Global requirements
--------------------
-
-* A unix-like OS (We develop on Ubuntu and Mac OS X)
-* Python 2.7
-* Git
-* virtualenv
-* virtualenvwrapper
-
-Please make sure you meet these requirements before moving on to installation.
-
-virtualenv
-~~~~~~~~~~
-
-Virtual environments are an important tool for Python web development. If you haven't used them before, follow these install instructions.
-
-**Ubuntu**::
-
-    sudo apt-get install python-pip
-
-    sudo pip install virtualenv
-
-    sudo pip install virtualenvwrapper
-
-
-**Mac OS X (you must have a recent XCode install)**::
-
-    sudo easy_install virtualenv
-
-    sudo pip install virtualenvwrapper
-
-Once virtualenv and virtualenvwrapper are installed, you need to configure your shell.
-
-**Ubuntu ~/.profile**::
-
-    export EDITOR=nano
-    export WORKON_HOME="/srv/environments"
-    export PROJECT_HOME="/srv/projects"
-    source /usr/local/bin/virtualenvwrapper.sh
-    export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
-
-**Mac OS X ~/.bash_profile**::
-
-    export EDITOR=nano
-    export WORKON_HOME="/Users/[YOUR_USER]/Sites/environments"
-    export PROJECT_HOME="/Users/[YOUR_USER]/Sites/projects"
-    source /usr/local/bin/virtualenvwrapper.sh
-    export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
-
-
-
-Read more about virtualenv_ and virtualenvwrapper_.
-
-.. _virtualenv: http://www.virtualenv.org/en/latest/
-.. _virtualenvwrapper: http://www.doughellmann.com/projects/virtualenvwrapper/
-
-Now we can move on to the project installation.
-
-Installation
-------------
-
-Configure hosts
-~~~~~~~~~~~~~~~
-
-This project makes use of subdomains to target languages, and for the API. To enable this functionality fully, you'll need to edit your hosts file on your development machine.
-
-**Ubuntu**::
-
-    sudo nano /etc/hosts
-
-**Mac OS X**::
-
-    sudo nano /private/etc/hosts
-
-Add the following domain mappings for localhost::
-
-    127.0.0.1 [whatever else you have]  obudget.dev www.obudget.dev api.obudget.dev en.obudget.dev he.obudget.dev ar.obudget.dev ru.obudget.dev
-
-
-Make a virtualenv
-~~~~~~~~~~~~~~~~~
-
-Issue the following commands to create a new virtualenv for the project, and then clone the git repository into your virtualenv project directory::
-
-    mkvirtualenv open-budget
-
-    mkdir /srv/projects/open-budget
-
-    setvirtualenvproject /srv/environments/open-budget /srv/projects/open-budget
-
-    cdproject
-
-    git clone git@github.com:hasadna/omuni-budget.git .
-
-**Important: Note the "." at the end of the git clone command.**
-
-And continuing, we'll install all the project requirements into our virtualenv, populate our initial database, load some development data, run some tests, and run a server for the project::
-
-    pip install -r requirements.txt
-
-    python manage.py devstrap -t
-
-    python manage.py runserver
-
-Right now you can see the app at the following address in your browser::
-
-    http://obudget.dev:8000/
-
-
-Contributions
--------------
-
-You can contribute to the project with code, content and ideas. If you have any ideas or suggestions for content, please open a ticket on the issue tracker, or post a topic on the developer discussion group (links on home page of the docs).
-
-If you want to contribute code, please keep these points in mind:
-
-* **Style**: We try to follow PEP-8 Please lint your code before submitting a pull request
-* **Tests**: If you write a piece of code, write a test before you submit a pull request, and also make sure your code does not break existing tests
-* **Docs**: If you write a piece of code, please make sure it has docstrings to explain the functionality
-* **Branching**: We follow the Git Flow method for managing branches. and all development work is done off the **develop** branch
-
-More below.
-
-Style
-~~~~~
-
-TODO
-
-Tests
-~~~~~
-
-TODO
-
-Docs
-~~~~~
-
-TODO
-
-Branching
-~~~~~~~~~
-
-We follow GitFlow_ for branch management.
-
-.. _GitFlow: http://nvie.com/posts/a-successful-git-branching-model/
-
-What this means:
-
-* Master branch is for production deployment only - you should not ever be working off it
-* Develop branch is for work. Either work directly from it, or, preferably, branch off it into a "feature" branch
-* A feature branch is named "feature/[YOUR_FEATURE_NAME]". Pull requests on themed branches like this are nice.
-
-Examples:
-
-* I want to work on a ticket to add "bookmarking" features, then I branch off "develop" into "feature/bookmarks", and when I am finished, I submit a pull request for this branch
-
-* I want to work on a ticket to refactor view logic in the "govts" app, then I branch off "develop" into "feature/govts-refactoring", and when I am finished, I submit a pull request for this branch
-
-Again, see the original post about Git Flow for more good practices:
-
-http://nvie.com/posts/a-successful-git-branching-model/
-
-Some GUI version control apps, such as Source Tree for OS X, integrate Git Flow into the app, making it even easier to follow the principles.
-
-
-The Code
---------
-
-Introduction
-~~~~~~~~~~~~
 
 Open Budget is written in Python and JavaScript.
 
@@ -197,14 +7,176 @@ Server side, Django provides the application framework. On top of Django, we've 
 
 You can see additional server side dependencies in the requirements.txt file at the repository root.
 
+
+Code Management
+===============
+
+How we organize and manage our code base.
+
+Dependencies
+------------
+
+Python
+~~~~~~
+
+Python dependencies are managed with pip.
+
+pip install -r requirements.txt
+
+will read the file and install the required dependencies.
+
+JavaScript
+~~~~~~~~~~
+
+JavaScript dependencies are managed with volo. packages.json in the root of the repository described the package dependencies.
+
+volo add
+
+will read the file and install the required dependencies.
+
+Repositories
+------------
+
+Git branching
+
 Schema migrations
-~~~~~~~~~~~~~~~~~
+-----------------
 
 South, and if/how modeltranslations effects this.
 
 
-Localization
-~~~~~~~~~~~~
+Design goals
+============
+
+Some of the broader design goals that influenced how we approach Open Budget.
+
+Natively localized
+------------------
+
+TODO
+
+Generic implementation
+----------------------
+
+TODO
+
+Comparison as meaning-making
+----------------------------
+
+TODO
+
+
+Features
+============
+
+These section of features is basically organized per "django app" - python packages in the django app convention. You can find these in the code base under the "apps" directory. However, some sections, like Search, don't fit into this paradigm.
+As a brief overview....
+
+ui and api routes.....
+
+Accounts
+--------
+
+Django's user model is extended with a UserProfile.
+
+Budgets
+-------
+
+
+The Budgets app contains all code related to budgets. This means budget templates and their nodes, budgets and their items, and actuals and their items. Budget, Actual and Budget Templates all should be imported by file - see the Transport app for more information on importing datasets, and see the specs for preparing files for import.
+
+Only administrators with access priveledges can add and edit budget data. Any user or visitor can export budget data.
+
+Why?
+~~~~
+
+Modeling budgets for a range of use cases is a difficult problem. Things to consider include how budgets are structured, and how budgets change over time in the way they are classified.
+
+Open Budget provides a platform for comparing budget and actual data of entities that are related. We thus presume some type of consistent order, across entities and over time, and an implementation goal is to provide this type of consistency as appropriate, while still allowing for change in ways that do not break comparative analysis.
+
+How
+---
+
+There are three main models: BudgetTemplate, Budget, and Actual.
+
+Each is essentially a container for related nodes: BudgetTemplateNodes in the case of BudgetTemplates, and Items in the case of Budgets and Actuals.
+
+The relations between these models have been designed to suit a number of use cases, as explained below.
+
+Supported use cases
+~~~~~~~~~~~~~~~~~~~
+
+**1. Budgets, and Actuals, are declared according to a static BudgetTemplate**
+
+The simplest use case, the system of classification for a budget is known (the BudgetTemplate). A given Budget or Actual will have items that map exactly to the BudgetTemplateNodes of the BudgetTemplate.
+
+Working with data that fits this use case is a matter of:
+
+* Importing a BudgetTemplate into Open Budget
+* For an Entity that 'has' this BudgetTemplate, enter a new Budget and/or Actual.
+* All the items of the budget or actual should have a 'code' that corresponds to a 'code' in the BudgetTemplate (every node has a code)
+* It is ok for a Budget to not have an entry for every node in a template, but expected that the Budget will not have codes that are not in the template
+
+
+#TODO: EXAMPLE CSV FILE AND AN EXPLICIT TEST FOR THIS
+
+**2. Budgets, and Actuals, are declared according to a static BudgetTemplate, where the Budget Template applies for a given period of time**
+
+This use case is almost identical to the first one, but we want to emphasis it for clarity. A BudgetTemplate has an optional "period_start" attribute, which is a date object. If set, this budget template applies from this date forwards, until it meets the next subseqeunt BudgetTemplate object, or none.
+
+For example, we could have, for "Israeli Municipalities", a BudgetTemplate with a period_start of 1994. If there are no other BudgetTemplates for "Israeli Municipalities", then any Budget or Actual entered into the system with a date of 1994 or after, should comply with this BudgetTemplate.
+
+A Budget with say, a date of 1980, would not be able to be entered - it would have no applicable BudgetTemplate.
+
+Let's say we added another BudgetTemplate to the system for "Israeli Municipalities", with a period_start of 2007. Now, the previous BudgetTemplate would apply for 1994 - 2006. Budgets and Actuals with dates of 2007 and after would use the new template.
+
+* Add logic to check forwards and backwards.
+
+#TODO: EXAMPLE CSV FILE AND AN EXPLICIT TEST FOR THIS
+
+**3. Budgets, and Actuals have a BudgetTemplate, but can also introduce new Nodes that to not exist in the 'official' template**
+
+This is the Israeli Municipality use case as it currently exists:
+
+There is an official BudgetTemplate that all munis must adhere to. In addition to the "official template", munis can add additional "nodes", *where these nodes are children of an existing node*.
+
+#TODO: EXAMPLE CSV FILE AND AN EXPLICIT TEST FOR THIS
+
+**4. Budgets and Actuals have a Template in a way that matches use cases 1, 2, or 3 above, but the relative position of a node changes over time**
+
+TODO
+
+#TODO: EXAMPLE CSV FILE AND AN EXPLICIT TEST FOR THIS
+
+**5. Budgets and Actuals have a Template in a way that matches use cases 1, 2, or 3 above, but the name of a node changes over time**
+
+TODO
+
+#TODO: EXAMPLE CSV FILE AND AN EXPLICIT TEST FOR THIS
+
+**6. Budgets and Actuals have a Template that is barely consistent in structure (at least in a long view over time), and node codes change in *meaning* over time**
+
+TODO
+
+#TODO: EXAMPLE CSV FILE AND AN EXPLICIT TEST FOR THIS
+
+Contexts
+--------
+
+TODO
+
+Entities
+--------
+
+Govts are represented by the Entity model, which has realtions with self to build a gvernment structure.
+
+Interactions
+------------
+
+The Interactions app deals with all functionality related to the way a user can interact with objects in the web app. For example, Star an object, follow and object, contribute to discussion on an object, and so on.
+
+International
+-------------
 
 A key feature of Open Budget is that everything can be localized and internationalized - including model data.
 
@@ -225,46 +197,104 @@ We want Open Budget content to be highly discoverable, and thus we want Google a
 .. _subdomains: http://django-subdomains.readthedocs.org/en/latest/
 .. _here: http://googlewebmastercentral.blogspot.co.il/2011/12/new-markup-for-multilingual-content.html
 
-
-Commons
-~~~~~~~
-
-There is an app called commons - it has all sorts of project-wide code.
-
-Budgets and Actuals
-~~~~~~~~~~~~~~~~~~~
-
-Budget and Actuals data is always mapped to a BudgetTemplate. Depending on the relations of BudgetTemplateNodes, a template maybe flat or a tree.
-
-Any level of government can have a BudgetTemplate, but all members of the same level must share the same template. It is still unclear if/how to deal with change of template overtime. The Israel Muni use case is quite structured, but we probably want to created something more generic.
-
-Governments
-~~~~~~~~~~~
-
-Govts are represented by the GeoPoliticalEntity model, which has realtions with self to build a gvernment structure.
-
-Accounts
-~~~~~~~~
-
-Django's user model is extended with a UserProfile.
-
-Interactions
-~~~~~~~~~~~~
-
-The Interactions app deals with all functionality related to the way a user can interact with objects in the web app. For example, Star an object, follow and object, contribute to discussion on an object, and so on.
-
 Pages
-~~~~~
+-----
 
 Pages is a simple app to add generic web pages to the system: think about, privacy, and so on.
 
+Sources
+-------
+
+TODO
+
+Taxonomies
+----------
+
+TODO
+
+Transport
+---------
+
+The Transport app contains all code related to getting data into and out of the system via files. Only administrators with access priveledges can import data into the system. Any user or visitor can export any data.
+
+Why?
+~~~~
+
+Content editors can always use the Admin interface to edit and add data, but this ranges from impractical to impossible when it comes to large, complex datasets like budget and actual reports.
+
+Transport deals with this problem by providing easy to use interfaces for content editors and developers to get large amounts of data into and out of Open Budget through file import and export.
+
+What?
+~~~~~
+
+The primary file format for importing data is CSV, and we provide exports in CSV and XLSX formats. Other formats can be added as required. Feel free to open an issue describing a use case, or, even better, make a pull request adding support for your preferred file format(s).
+
+Supported use cases
+~~~~~~~~~~~~~~~~~~~
+
+Open Budget V1 supports the importing of Budget Templates, Budgets and Actuals, and the export of all public data. Here we'll talk more about importing, which is by far the most essential and most difficult problem.
+
+Search
+------
+
+Search is built with Haystack on top of a Whoosh search backend. Whoosh is an easy to deploy and highly portale file-based search backend written in Python.
+
+
+Importing Budget Templates
+++++++++++++++++++++++++++
+
+Open Budget supports consistent budget classification schemes, where each "type" of "entity" would share (more or less) the same scheme.
+
+We call these classification schemes "Budget Templates". For more information on how Budget Templates are implemented, please refer to the section on the "Budgets" app in "Project apps".
+
+Here we'll presume you are familiar with how the internal machinery works, and get right down to importing a Budget Template.
+
+The first step is to create a CSV file that describes your Budget Template in a way that the transport importer can understand. We have publushed a spec describing a valid Budget Template CSV file here.
+
+Budget Template CSV files can be imported in one of two ways:
+
+1. Via the interactive importer wizard available in the Admin.
+
+2. Via the commandline, following the file naming convention.
+
+Each method has pros and cons. In general, we suggest using the interactive importer wizard until you are dealing with test data.
+
+
+
+Importing Budgets and Actuals
++++++++++++++++++++++++++++++
+
+TODO
+
+REST API
+========
+
+TODO
+
+Commons
+=======
+
+TODO
+
+including devstrap
+
+
+Initial and test data
+=========================
+
+TODO
+
+Settings
+========
+
+TODO
 
 Admin
-~~~~~
+=====
 
 The goal of any admin is to make it easy for content editors, not developers, to add content to a system. By default, the Django admin does not deliver on this promise, but it provides a foundation to build on.
 
-First, we are using the excellent Grappelli_ app as our admin framework, overriding the default Django Admin. Grappelli gives us a more user-friendly UI "out of the box", and a nicer API for customizing Django Admin behaviour. 
+First, we are using the excellent Grappelli_ app as our admin framework, overriding the default Django Admin. Grappelli gives us a more user-friendly UI "out of the box", and a nicer API for customizing Django Admin behaviour.
 
 In addition, we have added some tweaks to make Grappelli play nicer with RTL language display, and with the modeltranslations app, and some of our own custom views. We also make extensive use of ProxyModels_ to simplify the admin interface for content editors.
 
@@ -279,7 +309,7 @@ It is far from intuitive for a content editor to have two objects in the admin f
 .. _Grappelli: https://django-grappelli.readthedocs.org/en/latest/
 .. _ProxyModels: https://docs.djangoproject.com/en/dev/topics/db/models/#proxy-models
 
-REST API
-~~~~~~~~
+Documentation
+=============
 
-We have a REST API based on Django REST Framework.
+You are reading it. Powered by Sphinx and hosted on Read the Docs.
