@@ -5,7 +5,8 @@ define([
 ], function (uijet, Backbone, _) {
 
     // base URL for the web API endpoint
-    var BASE_API_URL = 'http://api.obudget.dev:8000/',
+    var host = window.location.host,
+        BASE_API_URL = 'http://' + (host.split('.').length === 2 ? 'api.' + host : host.replace(/^([^\.]+)/, 'api')) + '/',
 
         /*
          * BudgetTemplateNode Model
