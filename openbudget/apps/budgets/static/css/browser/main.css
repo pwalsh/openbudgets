@@ -1,5 +1,5 @@
 @import url(/static/js/lib/uijet/uijet.css);
-@import url(/static/css/rickshaw.css);
+@import url(/static/js/lib/rickshaw-css.css);
 
 .uijet_tablegrid h4 {
     margin: 20px 0 10px;
