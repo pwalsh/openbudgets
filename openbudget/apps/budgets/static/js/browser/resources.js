@@ -1,12 +1,12 @@
 define([
+    'settings',
     'uijet_dir/uijet',
     'uijet_dir/modules/data/backbone',
     'underscore'
-], function (uijet, Backbone, _) {
+], function (SETTINGS, uijet, Backbone, _) {
 
     // base URL for the web API endpoint
-    var host = window.location.host,
-        BASE_API_URL = 'http://' + (host.split('.').length === 2 ? 'api.' + host : host.replace(/^([^\.]+)/, 'api')) + '/',
+    var BASE_API_URL = SETTINGS.BASE_API_URL,
 
         /*
          * BudgetTemplateNode Model

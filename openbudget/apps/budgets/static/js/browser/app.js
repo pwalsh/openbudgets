@@ -1,4 +1,5 @@
 define([
+    'settings',
     'uijet_dir/uijet',
     'uijet_dir/modules/dom/zepto',
     'uijet_dir/modules/pubsub/eventbox',
@@ -8,10 +9,10 @@ define([
     'resources',
     'underscore',
     'uijet_dir/modules/extensions/zepto-touch'
-], function (uijet, $, Ebox, Q, Mustache, Zepto_again, resources, _) {
+], function (SETTINGS, uijet, $, Ebox, Q, Mustache, Zepto_again, resources, _) {
     
     var Browser =  {
-            BASE_API_URL: resources.API_BASE,
+            BASE_API_URL: SETTINGS.BASE_API_URL,
             start       : function (options) {
                 /*
                  * registering the collections' instances we'll be using in the Browser application
@@ -50,6 +51,10 @@ define([
                     templates_extension : 'ms'
                 });
             },
+            /**
+             * @params muni {Object} - a Muni object as returned by the web API
+             * @returns Browser
+             */
             pickMuni    : function (muni) {
                 Browser.current_muni = muni;
 

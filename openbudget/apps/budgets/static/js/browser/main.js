@@ -1,8 +1,8 @@
 requirejs.config({
     baseUrl : window.BASE_URL + 'js/lib',
     paths   : {
+        settings        : '../settings',
         uijet_dir       : 'uijet',
-        plugins         : '.',
         'zepto-touch'   : 'touch',
         browser         : '../browser',
         ui              : '../browser/ui',
