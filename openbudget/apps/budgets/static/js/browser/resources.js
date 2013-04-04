@@ -1,12 +1,11 @@
 define([
-    'settings',
     'uijet_dir/uijet',
     'uijet_dir/modules/data/backbone',
     'underscore'
 ], function (SETTINGS, uijet, Backbone, _) {
 
     // base URL for the web API endpoint
-    var BASE_API_URL = SETTINGS.BASE_API_URL,
+    var BASE_API_URL = window.BASE_API_URL,
 
         /*
          * BudgetTemplateNode Model
