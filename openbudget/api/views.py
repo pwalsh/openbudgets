@@ -130,15 +130,22 @@ class ActualItemDetail(generics.RetrieveAPIView):
     serializer_class = serializers.ActualItemLinked
 
 
-class NodeBudgetTimeline(generics.ListAPIView):
+class NodeTimeline(generics.ListAPIView):
     """
-    API endpoint that retrieves a timeline of budget items
+    API endpoint that retrieves a timeline of budget items and actual items
     according to a given node, entity and optionally a period
     """
 
     def get(self, request, entity_pk, node_pk, *args, **kwargs):
-        """GET handler for retrieving all budget items of the node's timeline, filtered by entity"""
+        """GET handler for retrieving all budget items and actual items of the node's timeline, filtered by entity"""
 
         budget_items = BudgetItem.objects.timeline(node_pk, entity_pk)
-        serializer = serializers.BudgetItemLinked(budget_items, many=True)
-        return Response(serializer.data)
+        actual_items = ActualItem.objects.timeline(node_pk, entity_pk)
+
+        budget_items_serialized = serializers.BudgetItemLinked(budget_items, many=True).data
+        actual_items_serialized = serializers.ActualItemLinked(actual_items, many=True).data
+
+        return Response({
+            "budget_items": budget_items_serialized,
+            "actual_items": actual_items_serialized
+        })
