@@ -86,32 +86,39 @@ define([
             data_url    : app.BASE_API_URL + '{entity_pk}/timeline/{node_pk}/',
             route       : 'viz/:entity_pk/timeline/:node_pk/',
             signals     : {
-                process_data    : function (items) {
-                    var cache = {}, data = [];
+                process_data    : function (response) {
+                    var items_sorter = function (a, b) {
+                            return a.x - b.x;
+                        },
+                        items_looper = function (item, i) {
+                            var time = +new Date((item.actual || item.budget).period_start)/1000;
+                            if ( time in cache ) {
+                                this[cache[time]].y += item.amount;
+                            }
+                            else {
+                                cache[time] = this.length;
+                                this.push({
+                                    x : time,
+                                    y : item.amount
+                                });
+                            }
+                        },
+                        series = [], items = [], cache, type;
 
-                    items.forEach(function (item, i) {
-                        var time = +new Date(item.budget.period_start)/1000;
-                        if ( time in cache ) {
-                            data[cache[time]].y += item.amount;
-                        }
-                        else {
-                            cache[time] = data.length;
-                            data.push({
-                                x : time,
-                                y : item.amount
-                            });
-                        }
-                    });
+                    for ( type in response ) {
+                        cache = {};
+                        response[type].forEach(items_looper, items);
+                        series.push({ data : items.slice().sort(items_sorter) });
+                        items.length = 0;
+                    }
 
-                    return data.sort(function (a, b) {
-                        return a.x - b.x;
-                    });
+                    return series;
                 },
                 get_series      : function () {
-                    return (this.options.graph.series = [{
-                        data    : this.getData(),
-                        color   : this.palette.color()
-                    }]);
+                    return (this.options.graph.series = this.getData().map(function (item) {
+                        item.color = this.palette.color();
+                        return item;
+                    }, this));
                 },
                 draw_timeline   : function (selected) {
                     var context;
