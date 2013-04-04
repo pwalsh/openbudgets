@@ -2,7 +2,7 @@ define([
     'uijet_dir/uijet',
     'uijet_dir/modules/data/backbone',
     'underscore'
-], function (SETTINGS, uijet, Backbone, _) {
+], function (uijet, Backbone, _) {
 
     // base URL for the web API endpoint
     var BASE_API_URL = window.BASE_API_URL,
