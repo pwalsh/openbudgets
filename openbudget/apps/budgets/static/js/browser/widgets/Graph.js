@@ -25,6 +25,8 @@
             if ( ! this.options.dont_draw )
                 this.draw();
 
+            this.notify('post_render');
+
             return res;
         },
         setGraphOptions : function (ops) {
