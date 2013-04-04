@@ -70,6 +70,7 @@ define([
         type    : 'Graph',
         config  : {
             element     : '#graph',
+            mixins      : ['Routed'],
             adapters    : 'RickshawGraph',
             dont_wake   : true,
             style       : {
@@ -83,6 +84,7 @@ define([
                 x_axis  : 'time'
             },
             data_url    : app.BASE_API_URL + '{entity_pk}/timeline/{node_pk}/',
+            route       : 'viz/:entity_pk/timeline/:node_pk/',
             signals     : {
                 process_data    : function (items) {
                     var cache = {}, data = [];
@@ -105,20 +107,36 @@ define([
                         return a.x - b.x;
                     });
                 },
+                get_series      : function () {
+                    return (this.options.graph.series = [{
+                        data    : this.getData(),
+                        color   : this.palette.color()
+                    }]);
+                },
                 draw_timeline   : function (selected) {
-                    this.context = {
-                        node_pk     : selected.row.attr('data-node'),
-                        entity_pk   : app.current_muni.id
-                    };
+                    var context;
+                    if ( selected ) {
+                        context = this.context = {
+                            node_pk     : selected.row.attr('data-node'),
+                            entity_pk   : app.current_muni.id,
+                            refresh     : true
+                        };
+                    }
                     this.update().then(function () {
-                        this.options.graph.series = [{
-                            data    : this.data,
-                            color   : this.palette.color()
-                        }];
+                        this.notify('get_series');
                         this.changed = true;
 
-                        this.wake(true);
+                        selected && this.wake(context, true);
                     }.bind(this));
+                },
+                pre_wake        : function () {
+                    uijet.navigate(
+                        'viz/' +
+                        this.substitute(
+                            this.options.data_url.replace(app.BASE_API_URL, ''),
+                            this.context
+                        )
+                    );
                 }
             },
             app_events  : {
