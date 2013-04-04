@@ -58,8 +58,10 @@
                 }
                 else {
                     var that = this;
-                    return uijet.when(this.getGraphData()).then(function () {
-//                        that.initGraph(that.data);
+                    return uijet.when( this.getGraphData() )
+                        .then(function () {
+                            var data = that.notify('get_series') || that.getData();
+                            return that.initGraph(data);
                     }, uijet.Utils.rethrow);
                 }
             }
