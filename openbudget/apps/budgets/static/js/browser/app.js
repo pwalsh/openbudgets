@@ -1,7 +1,7 @@
 define([
-    'settings',
     'uijet_dir/uijet',
     'uijet_dir/modules/dom/zepto',
+    'uijet_dir/modules/router/backbone',
     'uijet_dir/modules/pubsub/eventbox',
     'uijet_dir/modules/promises/q',
     'uijet_dir/modules/engine/mustache',
@@ -9,10 +9,10 @@ define([
     'resources',
     'underscore',
     'uijet_dir/modules/extensions/zepto-touch'
-], function (SETTINGS, uijet, $, Ebox, Q, Mustache, Zepto_again, resources, _) {
+], function (uijet, $, Router, Ebox, Q, Mustache, Zepto_again, resources, _) {
     
     var Browser =  {
-            BASE_API_URL: SETTINGS.BASE_API_URL,
+            BASE_API_URL: window.BASE_API_URL,
             start       : function (options) {
                 /*
                  * registering the collections' instances we'll be using in the Browser application
@@ -42,6 +42,16 @@ define([
                     'munis_list.selected'   : this.pickMuni
                 });
 
+                /*
+                 * start router
+                 */
+                Browser.router = Router();
+
+                uijet.subscribe({
+                    startup : function () {
+                        Backbone.history.start();
+                    }
+                });
                 /*
                  * Starting uijet
                  */
