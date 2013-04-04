@@ -385,8 +385,8 @@ class BudgetItemManager(models.Manager):
     def timeline(self, node_uuid, entity_uuid):
         try:
             node = BudgetTemplateNode.objects.get(uuid=node_uuid)
-        except BudgetTemplateNode.DoesNotExist:
-            raise BudgetTemplateNode.DoesNotExist
+        except BudgetTemplateNode.DoesNotExist as e:
+            raise e
         return BudgetItem.objects.filter(node__in=node.timeline, budget__entity__uuid=entity_uuid)
 
 
@@ -412,8 +412,18 @@ class BudgetItem(SheetItem):
         verbose_name_plural = _('Budget items')
 
 
+class ActualItemManager(models.Manager):
+    def timeline(self, node_uuid, entity_uuid):
+        try:
+            node = BudgetTemplateNode.objects.get(uuid=node_uuid)
+        except BudgetTemplateNode.DoesNotExist as e:
+            raise e
+        return ActualItem.objects.filter(node__in=node.timeline, actual__entity__uuid=entity_uuid)
+
 class ActualItem(SheetItem):
     """Describes a single item in an actual"""
+
+    objects = ActualItemManager()
 
     actual = models.ForeignKey(
         Actual,
