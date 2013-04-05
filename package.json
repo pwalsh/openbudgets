@@ -5,7 +5,7 @@
     "dependencies": {
       "uijet": "https://github.com/ydaniv/uijet/archive/master.zip",
       "zepto": "github:madrobby/zepto/v1.0",
-      "q": "github:kriskowal/q/0.9.1",
+      "q": "github:kriskowal/q/v0.9.2",
       "eventbox": "github:ydaniv/eventbox/v0.1.1",
       "require": "github:jrburke/requirejs/2.1.5",
       "mustache": "github:janl/mustache.js/0.7.2",
