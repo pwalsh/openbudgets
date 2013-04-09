@@ -170,8 +170,6 @@ FIXTURE_DIRS = (
 )
 
 # LANGUAGE CONF
-LANGUAGE_CODE = 'en'
-MODELTRANSLATION_DEFAULT_LANGUAGE = LANGUAGE_CODE
 gettext = lambda s: s
 LANGUAGES = (
     ('en', gettext('English')),
@@ -179,6 +177,8 @@ LANGUAGES = (
     ('ar', gettext('Arabic')),
     ('ru', gettext('Russian')),
 )
+LANGUAGE_CODE = LANGUAGES[0][0]
+MODELTRANSLATION_DEFAULT_LANGUAGE = LANGUAGE_CODE
 
 # UNICODE SLUG CONF
 AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
