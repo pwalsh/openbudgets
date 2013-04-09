@@ -1,8 +1,6 @@
 from __future__ import division
 from django.db import models
-from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.contrib.comments.models import Comment
 from openbudget.apps.entities.models import DomainDivision, Entity
