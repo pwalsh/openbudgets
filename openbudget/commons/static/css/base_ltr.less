@@ -1,4 +1,5 @@
-@import "../js/lib/adaptabl/adaptabl.idiom";
+@import "../js/lib/adaptabl/adaptabl.mock";
+
 
 textarea {
     height: 5em;
@@ -10,6 +11,19 @@ nav a {
     padding-right: 0.5em;
 }
 
+#home {
+
+    .demo {
+        .box(50%);
+        .float;
+    }
+}
+
+.user-widget {
+    .-float;
+    .-alignment;
+}
+
 footer nav {
     font-size: 0.875em;
 }
@@ -19,26 +33,35 @@ footer nav {
     font-size: 0.75em;
 }
 
+.searchbox-container {
+    .box(50%);
+    .float;
+}
+
 .searchbox {
-    float: left;
+    .layout-object(450px);
     display: inline-block;
-    width: 450px;
     padding-top: 1em;
 }
 
+.footer-links {
+    .box(50%);
+    .float;
+    .-alignment;
+}
+
 .searchbox input[type="text"] {
+    .layout-object(65%);
     display: inline-block;
-    float: left;
-    width: 65%;
     height: 2.875em;
     line-height: 2.875em;
     padding-left: 0.75em;
 }
 
 .searchbox input[type="submit"] {
+    .box(30%);
+    .-float;
     display: inline-block;
-    float: right;
-    width: 30%;
 }
 
 .search-result-object {
@@ -54,8 +77,9 @@ footer nav {
 
 .interactions {
     display: inline-block;
-    float: right;
-    text-align: right;
+    .-float;
+    .-alignment;
+    .height(2em);
 }
 
 .interaction {
@@ -68,17 +92,38 @@ footer nav {
     margin-right: 0.25em;
 }
 
+.box-2 {
+    .layout-object(50%);
+}
+
+.box-3 {
+    .layout-object(33%);
+}
+
+.context {
+    .layout-object(33%);
+}
+
+.budget-actions, .actual-actions {
+    .layout-object(33%);
+}
+
+.budget-info, .actual-info {
+    .box(67%);
+    .float;
+}
+
 .interaction input[type="submit"] {
-    background-color: @yellow;
+    /*background-color: @yellow;*/
 }
 
 .interaction:hover input[type="submit"] {
-    background-color: darken(@yellow, 10%);
+    /*background-color: darken(@yellow, 10%);*/
 }
 
 .discussion {
-    ._float-left;
-    .box-2;
+    .float;
+    .box(50%);
     background-color: lighten(@grey, 45%);
     margin: 1em 0;
     padding: 0.5em;
@@ -120,23 +165,26 @@ footer nav {
 }
 
 .entity-preview {
-    ._object;
-    ._float-left;
-    width: 23%;
-    background-color: lighten(@grey, 40%);
-    margin-right: 1%;
-    margin-left: 1%;
+    .layout-object(23%);
+    .background-color(lighten(@grey, 40%));
+    .margin-horizontal(1%);
     margin-bottom: 0.5em;
     padding: 0.25em 0.25em 0 0.25em;
+
+    .more {
+        .box(25%);
+        .-float;
+        .-alignment;
+    }
 
     h3 span {
         font-size: 0.75em;
     }
 
     .context {
-        ._object;
-        ._float-left;
-        ._align-right;
+        .layout-object;
+        .-float;
+        .-alignment;
         font-size: 0.825em;
         background-color: lighten(@grey, 35%);
         padding: 0.125em 0.5em 0.125em 0.125em;
@@ -149,10 +197,10 @@ footer nav {
 }
 
 .taxonomy-status {
-    .box-4;
-    ._display-inline-block;
-    ._align-center;
-    ._float-right;
+    .box(25%);
+    .display-inline-block;
+    .align-center;
+    .-float;
     color: white;
 
     &.published {
@@ -177,13 +225,11 @@ footer nav {
 }
 
 .budget-item {
-    ._object;
-    ._float-left;
+    .layout-object;
+    .float;
     width: 24%;
     background-color: lighten(@grey, 45%);
     margin: 0.5%;
     padding: 0.5%;
     font-size: 0.75em;
 }
-
-

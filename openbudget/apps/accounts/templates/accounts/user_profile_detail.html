@@ -12,8 +12,8 @@
     <h2>
         {% trans 'Your account' %}
     </h2>
-    <div class="box-2 _float-left">
-        <div class="box-2 _float-left">
+    <div class="box-2">
+        <div class="box-2">
             <h4>
                 {% trans 'Username' %}
             </h4>
@@ -21,7 +21,7 @@
                 {{ user.username }}
             </p>
         </div>
-        <div class="box-2 _float-left">
+        <div class="box-2">
             <h4>
                 {% trans 'Email' %}
             </h4>
@@ -29,7 +29,7 @@
                 {{ user.email }}
             </p>
         </div>
-        <div class="box-2 _float-left">
+        <div class="box-2">
             <h4>
                 {% trans 'Update' %}
             </h4>
@@ -40,7 +40,7 @@
             </p>
         </div>
     </div>
-    <div class="box-2 _float-left">
+    <div class="box-2">
         <h3>
             {% trans 'Taxonomies' %}
         </h3>
@@ -55,8 +55,8 @@
 </section>
 
 <section class="row account">
-    <div class="box-2 _float-left">
-        <div class="box-2 _float-left">
+    <div class="box-2">
+        <div class="box-2">
             <h3>{% trans 'Starred' %}</h3>
             <div class="stars">
                 {% if user.get_profile.stars %}
@@ -70,7 +70,7 @@
                 {% endif %}
             </div>
         </div>
-        <div class="box-2 _float-left">
+        <div class="box-2">
             <h3>{% trans 'Following' %}</h3>
             <div class="follows">
                 {% if user.get_profile.follows %}
@@ -85,7 +85,7 @@
             </div>
         </div>
     </div>
-    <div class="box-2 _float-left">
+    <div class="box-2">
         <h3>{% trans 'Commented on' %}</h3>
         <div class="comments">
             {% if user.get_profile.comments %}
@@ -104,7 +104,7 @@
     </div>
 </section>
 <section class="row account">
-    <div class="box-3 _float-left">
+    <div class="box-3">
         <h3>{% trans 'My files' %}</h3>
         <div class="files">
             {% if user.auxsources.all %}
