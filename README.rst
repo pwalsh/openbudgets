@@ -55,7 +55,7 @@ And continuing::
 
 Now we'll grab the stuff we need for the front-end:
 
-First, you'll need to install (Node.js)[http://nodejs.org/], and then install (volo)[http://volojs.org/] as follows::
+First, you'll need to install `Node.js <http://nodejs.org/>`_, and then install `volo <http://volojs.org/>`_ as follows::
 
     npm install -g volo
 
