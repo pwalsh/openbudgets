@@ -41,7 +41,7 @@ With virtualenv setup properly on your machine, do something like::
 
     cdproject
 
-    git clone git@github.com:hasadna/open-muni.git .
+    git clone git@github.com:hasadna/omuni-budget.git .
 
 **Important: Note the "." at the end of the git clone directive.**
 
@@ -52,6 +52,16 @@ And continuing::
     python manage.py devstrap -t
 
     python manage.py runserver
+
+Now we'll grab the stuff we need for the front-end::
+
+First, you'll need to install (Node.js)[http://nodejs.org/], and then install (volo)[http://volojs.org/] as follows:
+
+    npm install -g volo
+
+Now we can simply fetch all our client-side dependencies::
+
+    volo add
 
 Now go to obudget.dev:8000 in your browser
 
