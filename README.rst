@@ -49,13 +49,13 @@ And continuing::
 
     pip install -r requirements.txt
 
-    python manage.py devstrap -t
+    python manage.py devstrap -m -t
 
     python manage.py runserver
 
-Now we'll grab the stuff we need for the front-end::
+Now we'll grab the stuff we need for the front-end:
 
-First, you'll need to install (Node.js)[http://nodejs.org/], and then install (volo)[http://volojs.org/] as follows:
+First, you'll need to install (Node.js)[http://nodejs.org/], and then install (volo)[http://volojs.org/] as follows::
 
     npm install -g volo
 
