@@ -17,7 +17,7 @@
         <title>{% block metatitle %}{{ page.title }} | {{ site.name }}{% endblock metatitle %}</title>
 
         <base href="{{ site.url }}" />
-        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/base.css" />
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/base_{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}.css" />
         {% block stylesheets %}
 
         {% endblock stylesheets %}
@@ -52,7 +52,7 @@
                             {% trans 'API' %}
                         </a>
                         {% endblock nav %}
-                        <span class="_float-right">
+                        <span class="user-widget">
                             {% language_switch request.get_full_path %}
                             {% include 'accounts/partials/_user_account_tools.html' %}
                         </span>
@@ -91,11 +91,11 @@
         <footer>
             <div class="wrapper">
                 {% block footer %}
-                <div class="box-2 _float-left">
+                <div class="searchbox-container">
                     {% include 'partials/_searchbox.html' %}
                 </div>
 
-                <div class="box-2 _float-left _align-right">
+                <div class="footer-links">
                     <nav>
                         <a href="{% url 'page' slug='about' %}">
                             {% trans 'About' %}

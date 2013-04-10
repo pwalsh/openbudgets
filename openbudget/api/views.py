@@ -20,14 +20,14 @@ def api_root(request, format=None):
 
 
 class EntityList(generics.ListAPIView):
-    """API endpoint that represents a list of geopols"""
+    """API endpoint that represents a list of entities"""
 
     model = Entity
     serializer_class = serializers.EntityListLinked
 
 
 class EntityDetail(generics.RetrieveAPIView):
-    """API endpoint that represents a single geopol"""
+    """API endpoint that represents a single entities"""
 
     model = Entity
     serializer_class = serializers.EntityDetailLinked
