@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from openbudget.api import serializers
 from openbudget.apps.entities.models import Entity, Domain, DomainDivision
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
+from openbudget.apps.visualizations.models import Visualization
 
 
 @api_view(['GET'])
@@ -128,6 +129,20 @@ class ActualItemDetail(generics.RetrieveAPIView):
 
     model = ActualItem
     serializer_class = serializers.ActualItemLinked
+
+
+class VisualizationCreate(generics.ListCreateAPIView):
+    """API endpoint for creating a visualization object or retrieving a list of them"""
+
+    model = Visualization
+    serializer_class = serializers.VisualizationLinked
+
+
+class VisualizationAct(generics.RetrieveUpdateDestroyAPIView):
+    """API endpoint for getting, updating and deleting a visualization object"""
+
+    model = Visualization
+    serializer_class = serializers.VisualizationLinked
 
 
 class NodeTimeline(generics.ListAPIView):

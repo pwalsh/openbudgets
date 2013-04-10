@@ -1,14 +1,14 @@
 define([
     'uijet_dir/uijet',
-    'uijet_dir/modules/dom/zepto',
+    'uijet_dir/modules/dom/jquery',
     'uijet_dir/modules/router/backbone',
     'uijet_dir/modules/pubsub/eventbox',
     'uijet_dir/modules/promises/q',
     'uijet_dir/modules/engine/mustache',
-    'uijet_dir/modules/xhr/zepto',
+    'uijet_dir/modules/xhr/jquery',
     'resources',
     'underscore',
-    'uijet_dir/modules/extensions/zepto-touch'
+    'storage'
 ], function (uijet, $, Router, Ebox, Q, Mustache, Zepto_again, resources, _) {
     
     var Browser =  {

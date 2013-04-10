@@ -8,7 +8,8 @@ requirejs.config({
         ui              : '../browser/ui',
         widgets         : '../browser/widgets',
         adapters        : '../browser/adapters',
-        resources       : '../browser/resources'
+        resources       : '../browser/resources',
+        storage         : '../storage'
     },
     shim    : {
         rickshaw: ['d3'],

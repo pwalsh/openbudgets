@@ -70,7 +70,6 @@ define([
         type    : 'Graph',
         config  : {
             element     : '#graph',
-            mixins      : ['Routed'],
             adapters    : 'RickshawGraph',
             dont_wake   : true,
             style       : {
@@ -84,7 +83,6 @@ define([
                 x_axis  : 'time'
             },
             data_url    : app.BASE_API_URL + '{entity_pk}/timeline/{node_pk}/',
-            route       : 'viz/:entity_pk/timeline/:node_pk/',
             signals     : {
                 process_data    : function (response) {
                     var items_sorter = function (a, b) {
@@ -133,17 +131,8 @@ define([
                         this.notify('get_series');
                         this.changed = true;
 
-                        selected && this.wake(context, true);
+                        selected && this.wake(context);
                     }.bind(this));
-                },
-                pre_wake        : function () {
-                    uijet.navigate(
-                        'viz/' +
-                        this.substitute(
-                            this.options.data_url.replace(app.BASE_API_URL, ''),
-                            this.context
-                        )
-                    );
                 }
             },
             app_events  : {
