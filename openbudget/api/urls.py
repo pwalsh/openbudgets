@@ -76,6 +76,14 @@ urlpatterns = patterns('openbudget.api.views',
         views.NodeTimeline.as_view(),
         name='node-timeline'
     ),
+    url(r'^viz/$',
+        views.VisualizationCreate.as_view(),
+        name='viz-create'
+    ),
+    url(r'^viz/(?P<viz_pk>\w+)/$',
+        views.VisualizationAct.as_view(),
+        name='viz-act'
+    ),
 )
 
 # Format suffixes
