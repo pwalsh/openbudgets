@@ -39,7 +39,7 @@ By default, the LANGUAGES tuple (and other constants that depend on it) looks li
 
 *Domains*
 
-It is also required to map a language to a subdomain or multiple sobdomains. We use subdomains for two reasons:
+It is also required to map a language to a subdomain or multiple subdomains. We use subdomains for two reasons:
 
 1. It is optimal for search indexing, and the preferred method for delivering multlilingual content as per the Google Webmaster Guidelines.
 
@@ -105,7 +105,7 @@ This subdomain configuration is then used in our InterfaceLanguage middleware, w
 Code
 ----
 
-The internationalization implementation is build using several 3rd party packages, and some custom code for this project.
+The internationalization implementation is built using several 3rd party packages, and some custom code for this project.
 
 Dependencies
 ~~~~~~~~~~~~
@@ -164,8 +164,8 @@ code implementation:
 https://github.com/hasadna/omuni-budget/blob/develop/openbudget/apps/international/middleware.py
 
 
-Custom
-~~~~~~
+Project Code
+~~~~~~~~~~~~
 
 International
 +++++++++++++
@@ -206,7 +206,7 @@ The multilingual_meta templatetag is used in the base template of the app. It pr
 Other
 +++++
 
-There are a few other areas in the project that have language related code specifically.
+There are a few other areas in the project that have language-related code.
 
 **Base Template**
 
