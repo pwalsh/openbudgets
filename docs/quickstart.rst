@@ -112,7 +112,7 @@ And continuing, we'll install all the project requirements into our virtualenv, 
 
     volo add
 
-    python manage.py devstrap -t
+    python manage.py devstrap -m -t
 
     python manage.py runserver
 
