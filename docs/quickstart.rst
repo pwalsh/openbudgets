@@ -66,6 +66,8 @@ About Node.js
 
 Open Budget is not a Node.js app, but we do make use of node.js tools in our development environments.
 
+Make sure you have version **0.6.5+** installed.
+
 Now we can move on to the project installation.
 
 Installation
@@ -105,6 +107,18 @@ Issue the following commands to create a new virtualenv for the project, and the
     git clone git@github.com:hasadna/omuni-budget.git .
 
 **Important: Note the "." at the end of the git clone command.**
+
+Install volo
+------------
+
+`volo <http://volojs.org/>`_ is a tool that automates a lot build and project creation related tasks, 
+and package management among those.
+
+To install volo Issue the following command::
+
+    npm install -g volo
+
+For more details see `<https://github.com/volojs/volo#volo>`_
 
 And continuing, we'll install all the project requirements into our virtualenv, populate our initial database, load some development data, run some tests, and run a server for the project::
 
