@@ -1,11 +1,44 @@
-Orientation
-===========
+Guide
+=====
 
 Open Budget is written in Python and JavaScript.
 
-Server side, Django provides the application framework. On top of Django, we've built the Web API using Django REST Framework, and we've heavily customized the Admin interface using Grappelli.
+The server is written using Django, a popular web app framework in Python.
 
-You can see additional server side dependencies in the requirements.txt file at the repository root.
+For more detailed information, navigate to the appropriate section via the menus below.
+
+
+Features
+--------
+
+.. toctree::
+   :maxdepth: 1
+
+   features/admin
+   features/internationalization
+
+
+Interfaces
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   interfaces/ui
+   interfaces/api
+
+
+Management
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   management/project
+   management/dependencies
+   management/repositories
+
+
 
 
 Code Management
@@ -175,42 +208,7 @@ Interactions
 
 The Interactions app deals with all functionality related to the way a user can interact with objects in the web app. For example, Star an object, follow and object, contribute to discussion on an object, and so on.
 
-International
--------------
 
-A key feature of Open Budget is that everything can be localized and internationalized - including model data.
-
-Our custom code for localization and internationalization is located in the "international" app - this app may evolve into a pluggable app in the future.
-
-For localization of files in the project, we of course use Django's built in localization features.
-
-For localization of model data, we use modeltranslation_, a pluggbale app for Django.
-
-For displaying localized data, we use subdomains_ in combination with a custom InterfaceLanguage_ middleware class, that sets a language key based on either (a) user preference, or (b) the request host.
-
-The major reason we decided to expose localized content via subdomains is that it is still the prefered method for indexing via google (here_).
-
-We want Open Budget content to be highly discoverable, and thus we want Google and other search engines to crawl and rank each language as a distinct entity. We have also added language annotations as per those same guidelines to the same end.
-
-.. _modeltranslation: https://django-modeltranslation.readthedocs.org/en/latest/
-.. _InterfaceLanguage: https://github.com/hasadna/open-muni/blob/develop/openbudget/commons/middleware.py#L7
-.. _subdomains: http://django-subdomains.readthedocs.org/en/latest/
-.. _here: http://googlewebmastercentral.blogspot.co.il/2011/12/new-markup-for-multilingual-content.html
-
-Pages
------
-
-Pages is a simple app to add generic web pages to the system: think about, privacy, and so on.
-
-Sources
--------
-
-TODO
-
-Taxonomies
-----------
-
-TODO
 
 Transport
 ---------
