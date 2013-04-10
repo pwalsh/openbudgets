@@ -4,9 +4,9 @@ Requirements
 Open Budget is written in Python and JavaScript. If you develop web apps in these languages, it is likely that your machine is ready to start work. Check that you meet these requirements:
 
 * A unix-like OS (We develop on Ubuntu and Mac OS X)
-* Python 2.7
-* Node.js
-* Git
+* `Python 2.7 <http://python.org/download/>`_
+* `Node.js <http://nodejs.org/>`_
+* `Git <http://git-scm.com>`_
 * virtualenv
 * virtualenvwrapper
 
