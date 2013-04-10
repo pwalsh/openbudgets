@@ -1,7 +1,9 @@
 Open Budget: A platform for accessible and meaningful budgetary data
 ====================================================================
 
-The Open Budget project is a web app and API for the storage, access, and manipulation of budgetary data. It is written in Python and JavaScript, using frameworks and libraries such as Django, D3, Uijet, and Jquery.
+The Open Budget project is a web app and API for the storage, access, and manipulation of budgetary data.
+
+It is written in Python and JavaScript, using frameworks and libraries such as Django, D3, Backbone, Uijet, and Jquery.
 
 Open Budget is especially useful for comparing budgets and actuals over time, and across related entities.
 
@@ -29,20 +31,20 @@ You can contribute to the project in a number of ways:
 
 **Start a discussion**: https://groups.google.com/forum/?fromgroups=#!forum/open-muni-dev
 
-**HaSadna (Public Knowledge Workshop)**: http://hasadna.org.il/
+**HaSadna (Public Knowledge Workshop)**: http://www.hasadna.org.il/en/
 
 
-Getting started
----------------
+Quickstart
+----------
 
 .. toctree::
    :maxdepth: 1
 
-   start/index
+   quickstart
 
 
-Developer guide
----------------
+Guide
+-----
 
 .. toctree::
    :maxdepth: 2
@@ -50,13 +52,13 @@ Developer guide
    guide/index
 
 
-Specifications
---------------
+Demo
+----
 
 .. toctree::
    :maxdepth: 2
 
-   specs/index
+   demo/index
 
 
 Indices and tables
