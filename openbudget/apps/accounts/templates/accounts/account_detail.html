@@ -34,7 +34,7 @@
                 {% trans 'Update' %}
             </h4>
             <p>
-                <a href="{% url 'user_profile_update' user.get_profile.uuid %}">{% trans 'Update your profile' %}</a>
+                <a href="{% url 'account_update' user.get_profile.uuid %}">{% trans 'Update your profile' %}</a>
                 <br />
                 <a href="{% url 'auth_password_change' %}">{% trans 'Change your password' %}</a>
             </p>

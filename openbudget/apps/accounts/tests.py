@@ -1,62 +1,181 @@
-# -*- coding: utf-8 -*-
-
+import random
 from django.test import TestCase
-from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from openbudget.apps.accounts.factories import UserFactory, UserProfileFactory
 
 
 class UserTestCase(TestCase):
     """Tests for User objects and their related views, urls, etc."""
 
-    fixtures = ['test_accounts.json']
-
     def setUp(self):
-        self.user1 = User.objects.get(pk=1)
-        self.user1_profile_detail = reverse('user_profile_detail', args=(self.user1.get_profile().uuid,))
-        self.user1_profile_update = reverse('user_profile_update', args=(self.user1.get_profile().uuid,))
+        self.users = UserFactory.create_batch(5)
 
-        self.user2 = User.objects.get(pk=2)
-        self.user2_profile_detail = reverse('user_profile_detail', args=(self.user2.get_profile().uuid,))
-        self.user2_profile_update = reverse('user_profile_update', args=(self.user2.get_profile().uuid,))
+    def test_detailview_read(self):
+        for user in self.users:
+            login = self.client.login(
+                username=user.username,
+                password='letmein'
+            )
+            detailview = reverse(
+                'account_detail',
+                args=(user.get_profile().uuid,)
+            )
+            response = self.client.get(detailview)
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, user.email)
 
-    def test_user_profile_detail(self):
-        self.client.login(username=self.user1.username, password='morelove!')
-        response = self.client.get(self.user1_profile_detail)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, self.user1.email)
+    def test_updateview_read(self):
+        for user in self.users:
+            login = self.client.login(
+                username=user.username,
+                password='letmein'
+            )
+            updateview = reverse(
+                'account_update',
+                args=(user.get_profile().uuid,)
+            )
+            response = self.client.get(updateview)
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, user.email)
 
-    def test_user_profile_update(self):
-        self.client.login(username=self.user1.username, password='morelove!')
-        # Does GET on update respond as we expect?
-        response_get = self.client.get(self.user1_profile_update)
-        self.assertEqual(response_get.status_code, 200)
-        self.assertContains(response_get, self.user1.email)
+    def test_updateview_write(self):
+        for user in self.users:
+            login = self.client.login(
+                username=user.username,
+                password='letmein'
+            )
+            updateview = reverse(
+                'account_update',
+                args=(user.get_profile().uuid,)
+            )
+            response = self.client.get(updateview)
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, user.email)
+            valid_data = {
+                'username': user.username,
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'language': user.get_profile().language
+            }
+            invalid_data = valid_data.copy()
+            invalid_data['email'] = 'invalid_email_address'
+            valid_data_response = self.client.post(
+                updateview,
+                valid_data
+            )
+            invalid_data_response = self.client.post(
+                updateview,
+                invalid_data
+            )
+            self.assertEqual(valid_data_response.status_code, 302)
+            self.assertEqual(invalid_data_response.status_code, 200)
 
-        # Does POST on update respond as we expect?
-        data_valid = {'username': self.user1.username, 'email': self.user1.email, 'first_name': self.user1.first_name, 'last_name': self.user1.last_name, 'language': self.user1.get_profile().language}
-        # valid object
-        response_post_valid = self.client.post(self.user1_profile_update, data_valid)
-        self.assertEqual(response_post_valid.status_code, 302)
+    def test_detailview_read_for_anonymous_user(self):
+        for user in self.users:
+            detailview = reverse(
+                'account_detail',
+                args=(user.get_profile().uuid,)
+            )
+            response = self.client.get(detailview)
+            self.assertEqual(response.status_code, 302)
 
-        # invalid email address
-        data_invalid_email = data_valid.copy()
-        data_invalid_email['email'] = 'something'
-        response_post_invalid_email = self.client.post(self.user1_profile_update, data_invalid_email)
-        self.assertEqual(response_post_invalid_email.status_code, 200)
+    def test_updateview_read_for_anonymous_user(self):
+        for user in self.users:
+            updateview = reverse(
+                'account_update',
+                args=(user.get_profile().uuid,)
+            )
+            response = self.client.get(updateview)
+            self.assertEqual(response.status_code, 302)
 
-    def test_user_profile_views_private(self):
-        # Can we reach profile views when not logged in?
-        # We expect to be redirected to the login page
-        response_detail = self.client.get(self.user1_profile_detail)
-        self.assertEqual(response_detail.status_code, 302)
-        response_update = self.client.get(self.user1_profile_update)
-        self.assertEqual(response_update.status_code, 302)
+    def test_detailview_read_for_wrong_user(self):
+        for user in self.users:
+            detailview = reverse(
+                'account_detail',
+                args=(user.get_profile().uuid,)
+            )
+            other_users = self.users
+            other_users.remove(user)
+            random_user = random.choice(self.users)
+            login = self.client.login(
+                username=random_user.username,
+                password='letmein'
+            )
+            response = self.client.get(detailview)
+            self.assertEqual(response.status_code, 403)
 
-        # Can we reach the profile views of another user?
-        # We expect to get PermissionDenied due to use of our
-        # UserDataObjectMixin custom mixin for CBVs.
-        self.client.login(username=self.user2.username, password='morelove!')
-        response_detail = self.client.get(self.user1_profile_detail)
-        self.assertEqual(response_detail.status_code, 403)
-        response_update = self.client.get(self.user1_profile_update)
-        self.assertEqual(response_update.status_code, 403)
+    def test_updateview_read_for_wrong_user(self):
+        for user in self.users:
+            updateview = reverse(
+                'account_update',
+                args=(user.get_profile().uuid,)
+            )
+            other_users = self.users
+            other_users.remove(user)
+            random_user = random.choice(other_users)
+            login = self.client.login(
+                username=random_user.username,
+                password='letmein'
+            )
+            response = self.client.get(updateview)
+            self.assertEqual(response.status_code, 403)
+
+    def test_updateview_write_for_anonymous_user(self):
+        for user in self.users:
+            updateview = reverse(
+                'account_update',
+                args=(user.get_profile().uuid,)
+            )
+            valid_data = {
+                'username': user.username,
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'language': user.get_profile().language
+            }
+            invalid_data = valid_data.copy()
+            invalid_data['email'] = 'invalid_email_address'
+            valid_data_response = self.client.post(
+                updateview,
+                valid_data
+            )
+            invalid_data_response = self.client.post(
+                updateview,
+                invalid_data
+            )
+            self.assertEqual(valid_data_response.status_code, 302)
+            self.assertEqual(invalid_data_response.status_code, 302)
+
+    def test_updateview_write_for_wrong_user(self):
+        for user in self.users:
+            updateview = reverse(
+                'account_update',
+                args=(user.get_profile().uuid,)
+            )
+            other_users = self.users
+            other_users.remove(user)
+            random_user = random.choice(other_users)
+            login = self.client.login(
+                username=random_user.username,
+                password='letmein'
+            )
+            valid_data = {
+                'username': user.username,
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'language': user.get_profile().language
+            }
+            invalid_data = valid_data.copy()
+            invalid_data['email'] = 'invalid_email_address'
+            valid_data_response = self.client.post(
+                updateview,
+                valid_data
+            )
+            invalid_data_response = self.client.post(
+                updateview,
+                invalid_data
+            )
+            self.assertEqual(valid_data_response.status_code, 403)
+            self.assertEqual(invalid_data_response.status_code, 403)

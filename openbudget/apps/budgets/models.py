@@ -418,6 +418,7 @@ class ActualItemManager(models.Manager):
             raise e
         return ActualItem.objects.filter(node__in=node.timeline, actual__entity__uuid=entity_uuid)
 
+
 class ActualItem(SheetItem):
     """Describes a single item in an actual"""
 

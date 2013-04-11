@@ -7,14 +7,14 @@ from openbudget.commons.mixins.views import UserDataObjectMixin
 
 class UserProfileDetailView(LoginRequiredMixin, UserDataObjectMixin, DetailView):
     model = UserProfile
-    template_name = 'accounts/user_profile_detail.html'
+    template_name = 'accounts/account_detail.html'
     slug_field = 'uuid'
 
 
 class UserProfileUpdateView(LoginRequiredMixin, UserDataObjectMixin, UpdateView):
     model = UserProfile
     form_class = UserProfileForm
-    template_name = 'accounts/user_profile_update.html'
+    template_name = 'accounts/account_update.html'
     slug_field = 'uuid'
 
     def get_form_kwargs(self, **kwargs):

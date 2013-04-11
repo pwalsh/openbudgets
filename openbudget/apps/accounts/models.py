@@ -44,7 +44,7 @@ class UserProfile(UUIDModel, models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('user_profile_detail', [self.uuid])
+        return ('account_detail', [self.uuid])
 
     def __unicode__(self):
         return self.user.username

@@ -4,16 +4,15 @@ from openbudget.apps.accounts.views import UserProfileDetailView, UserProfileUpd
 
 urlpatterns = patterns('',
 
-    url(r'^profile/(?P<slug>[-\w]+)/$',
-        UserProfileDetailView.as_view(),
-        name='user_profile_detail'
-    ),
-    url(r'^profile/(?P<slug>[-\w]+)/update/$',
-        UserProfileUpdateView.as_view(),
-        name='user_profile_update'
-    ),
-    url(r'^',
+    url(r'^auth/',
         include('registration.backends.default.urls')
     ),
-
+    url(r'^(?P<slug>[-\w]+)/$',
+        UserProfileDetailView.as_view(),
+        name='account_detail'
+    ),
+    url(r'^(?P<slug>[-\w]+)/update/$',
+        UserProfileUpdateView.as_view(),
+        name='account_update'
+    ),
 )
