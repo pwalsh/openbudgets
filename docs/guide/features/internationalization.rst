@@ -20,7 +20,7 @@ https://github.com/hasadna/omuni-budget/blob/develop/openbudget/settings/base.py
 
 When configuring a new instance of Open Budget, you'll first want to customize the languages your instance will support. This is done via the LANGUAGES tuple.
 
-The first language in the LANGUAGES tuple is always the default language. It is possible to just have a single language in the LANGUAGES tuple.
+The **first language in the LANGUAGES tuple is always the default** language. It is possible to just have a single language in the LANGUAGES tuple.
 
 By default, the LANGUAGES tuple (and other constants that depend on it) looks like this::
 

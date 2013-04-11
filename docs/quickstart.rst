@@ -4,9 +4,9 @@ Requirements
 Open Budget is written in Python and JavaScript. If you develop web apps in these languages, it is likely that your machine is ready to start work. Check that you meet these requirements:
 
 * A unix-like OS (We develop on Ubuntu and Mac OS X)
-* Python 2.7
-* Node.js
-* Git
+* `Python 2.7 <http://python.org/download/>`_
+* `Node.js <http://nodejs.org/>`_
+* `Git <http://git-scm.com>`_
 * virtualenv
 * virtualenvwrapper
 
@@ -66,6 +66,8 @@ About Node.js
 
 Open Budget is not a Node.js app, but we do make use of node.js tools in our development environments.
 
+Make sure you have version **0.6.5+** installed.
+
 Now we can move on to the project installation.
 
 Installation
@@ -106,13 +108,25 @@ Issue the following commands to create a new virtualenv for the project, and the
 
 **Important: Note the "." at the end of the git clone command.**
 
+Install volo
+------------
+
+`volo <http://volojs.org/>`_ is a tool that automates a lot build and project creation related tasks, 
+and package management among those.
+
+To install volo Issue the following command::
+
+    npm install -g volo
+
+For more details see `<https://github.com/volojs/volo#volo>`_
+
 And continuing, we'll install all the project requirements into our virtualenv, populate our initial database, load some development data, run some tests, and run a server for the project::
 
     pip install -r requirements.txt
 
     volo add
 
-    python manage.py devstrap -t
+    python manage.py devstrap -m -t
 
     python manage.py runserver
 
