@@ -24,3 +24,4 @@ class Visualization(TimeStampedModel, UUIDModel):
     class Meta:
         verbose_name = _('Visualization')
         verbose_name_plural = _('Visualizations')
+

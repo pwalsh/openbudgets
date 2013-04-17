@@ -1,7 +1,7 @@
 import random
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-from openbudget.apps.accounts.factories import UserFactory, UserProfileFactory
+from openbudget.apps.accounts.factories import UserFactory
 
 
 class UserTestCase(TestCase):
@@ -11,8 +11,10 @@ class UserTestCase(TestCase):
         self.users = UserFactory.create_batch(5)
 
     def test_detailview_read(self):
+        """Check that a user's account detail view works."""
+
         for user in self.users:
-            login = self.client.login(
+            self.client.login(
                 username=user.username,
                 password='letmein'
             )
@@ -21,12 +23,15 @@ class UserTestCase(TestCase):
                 args=(user.get_profile().uuid,)
             )
             response = self.client.get(detailview)
+
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, user.email)
 
     def test_updateview_read(self):
+        """Check that a user's account update view works."""
+
         for user in self.users:
-            login = self.client.login(
+            self.client.login(
                 username=user.username,
                 password='letmein'
             )
@@ -35,12 +40,15 @@ class UserTestCase(TestCase):
                 args=(user.get_profile().uuid,)
             )
             response = self.client.get(updateview)
+
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, user.email)
 
     def test_updateview_write(self):
+        """Check that a user's account update view can be written to."""
+
         for user in self.users:
-            login = self.client.login(
+            self.client.login(
                 username=user.username,
                 password='letmein'
             )
@@ -49,8 +57,10 @@ class UserTestCase(TestCase):
                 args=(user.get_profile().uuid,)
             )
             response = self.client.get(updateview)
+
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, user.email)
+
             valid_data = {
                 'username': user.username,
                 'email': user.email,
@@ -68,28 +78,37 @@ class UserTestCase(TestCase):
                 updateview,
                 invalid_data
             )
+
             self.assertEqual(valid_data_response.status_code, 302)
             self.assertEqual(invalid_data_response.status_code, 200)
 
     def test_detailview_read_for_anonymous_user(self):
+        """Ensure that an anon user can't reach an account detail view."""
+
         for user in self.users:
             detailview = reverse(
                 'account_detail',
                 args=(user.get_profile().uuid,)
             )
             response = self.client.get(detailview)
+
             self.assertEqual(response.status_code, 302)
 
     def test_updateview_read_for_anonymous_user(self):
+        """Ensure that an anon user can't reach an account update view."""
+
         for user in self.users:
             updateview = reverse(
                 'account_update',
                 args=(user.get_profile().uuid,)
             )
             response = self.client.get(updateview)
+
             self.assertEqual(response.status_code, 302)
 
     def test_detailview_read_for_wrong_user(self):
+        """Ensure that a user can't read another user's detail view."""
+
         for user in self.users:
             detailview = reverse(
                 'account_detail',
@@ -98,14 +117,19 @@ class UserTestCase(TestCase):
             other_users = self.users
             other_users.remove(user)
             random_user = random.choice(self.users)
-            login = self.client.login(
+
+            self.client.login(
                 username=random_user.username,
                 password='letmein'
             )
+
             response = self.client.get(detailview)
+
             self.assertEqual(response.status_code, 403)
 
     def test_updateview_read_for_wrong_user(self):
+        """Ensure that an auth user can't read another user's update view."""
+
         for user in self.users:
             updateview = reverse(
                 'account_update',
@@ -114,14 +138,19 @@ class UserTestCase(TestCase):
             other_users = self.users
             other_users.remove(user)
             random_user = random.choice(other_users)
-            login = self.client.login(
+
+            self.client.login(
                 username=random_user.username,
                 password='letmein'
             )
+
             response = self.client.get(updateview)
+
             self.assertEqual(response.status_code, 403)
 
     def test_updateview_write_for_anonymous_user(self):
+        """Ensure that an anon user can't write to user's update view."""
+
         for user in self.users:
             updateview = reverse(
                 'account_update',
@@ -144,10 +173,13 @@ class UserTestCase(TestCase):
                 updateview,
                 invalid_data
             )
+
             self.assertEqual(valid_data_response.status_code, 302)
             self.assertEqual(invalid_data_response.status_code, 302)
 
     def test_updateview_write_for_wrong_user(self):
+        """Ensure that an auth user can't write to another user's update view."""
+
         for user in self.users:
             updateview = reverse(
                 'account_update',
@@ -156,10 +188,12 @@ class UserTestCase(TestCase):
             other_users = self.users
             other_users.remove(user)
             random_user = random.choice(other_users)
-            login = self.client.login(
+
+            self.client.login(
                 username=random_user.username,
                 password='letmein'
             )
+
             valid_data = {
                 'username': user.username,
                 'email': user.email,
@@ -177,5 +211,6 @@ class UserTestCase(TestCase):
                 updateview,
                 invalid_data
             )
+
             self.assertEqual(valid_data_response.status_code, 403)
             self.assertEqual(invalid_data_response.status_code, 403)
