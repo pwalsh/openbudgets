@@ -127,8 +127,8 @@ class DataImporter(object):
             'valid': False
         }
 
-        #valid_structure = self._valid_data_structure(dataset)
-        #valid_values = self._valid_data_values(dataset)
+        #valid_structure = self._validate_data_structure(dataset)
+        #valid_values = self._validate_data_values(dataset)
 
         # TODO: temporary True until I write this function!!!
         response['valid'] = True
@@ -169,10 +169,26 @@ class DataImporter(object):
             return 'bork... we cant deal with this thing man.'
 
         # now we process all objects in the dataset
-        objs = dataset.dict
+        objects = dataset.dict
+        saved_cache = []
+        objects_lookup = {}
+
+        for obj in objects:
+            objects_lookup[obj['code'] + '|' + obj['parent']] = obj
+
+        def _save_object(obj, skip_inverse=False):
+            if obj['parent']:
+                #TODO: need to make sure we fill the `parentalias` and `inversealias` cells with values for all rows
+                index = '%s|%s' % (obj['parent'], obj['parentalias'].split('|')[0])
+                if not (index in saved_cache):
+                    _save_object(objects_lookup[index])
+                index = '%s|%s' % (obj['inverse'], obj['inversealias'].split('|')[0])
+                if not (index in saved_cache):
+                    _save_object(objects_lookup[index], True)
+                #TODO: create the object in DB
 
         print 'BEFORE SORT'
-        for obj in objs:
+        for obj in objects:
             print obj['code'], obj['parent'], obj['inverse']
         # TODO: The best impl would be to sort this list
         # so that relational dependencies (eg: parent, inverse)
@@ -191,36 +207,36 @@ class DataImporter(object):
         # performance, but the fact is that it is currently not
         # generic enough for *required* related fields, should
         # that use case arise.
-        #objs.sort(key=itemgetter('inverse'))
-        #objs.sort(key=itemgetter('parent'))
+        #objects.sort(key=itemgetter('inverse'))
+        #objects.sort(key=itemgetter('parent'))
 
 
         non_dependent_list = []
         parent_dependent_list = []
         inverse_dependent_list = []
 
-        for index, item in enumerate(objs):
+        for index, item in enumerate(objects):
 
             if not item['parent'] and not item['inverse']:
                 non_dependent_list.append(item)
 
             if item['parent']:
-                #for row in objs:
+                #for row in objects:
                 #    if (row['code'] == item['parent']):
                 parent_dependent_list.append(item)
 
             if item['inverse']:
-                #for row in objs:
+                #for row in objects:
                 #    if (row['code'] == item['parent']):
                 inverse_dependent_list.append(item)
 
             for index, thing in enumerate(parent_dependent_list):
                 if thing['code'] == item['parent']:
-                    objs.pop(index)
-                    objs.append(thing)
+                    objects.pop(index)
+                    objects.append(thing)
 
         print 'AFTER SORT'
-        for obj in objs:
+        for obj in objects:
             print obj['code'], obj['parent'], obj['inverse']
 
         print 'NON DEPENDENT LIST'
@@ -235,7 +251,7 @@ class DataImporter(object):
 
 
         # budget template nodes, first pass: commit basic object
-        for obj in objs:
+        for obj in objects:
             child_model = modelset['items'].objects.create(
                 code=obj['code'],
                 name=obj['name'],
@@ -247,7 +263,7 @@ class DataImporter(object):
             )
 
         # budget template nodes, 2nd pass: add parents
-        for obj in objs:
+        for obj in objects:
             if obj['parent']:
                 if obj['parentscope']:
                     parentscope = BudgetTemplateNode.objects.get(
@@ -273,7 +289,7 @@ class DataImporter(object):
                 this_obj.save()
 
         # budget template nodes, 3rd pass: add inverse relations
-        for obj in objs:
+        for obj in objects:
             if obj['inverse']:
                 if ',' in obj['inverse']:
                     inverses = obj['inverse'].split(',')
@@ -307,7 +323,27 @@ class DataImporter(object):
         value = True
         return value
 
-    def _valid_data_structure(self, dataset):
+    def __detect_relational_ambiguities(self):
+        objects = self.dataset.dict
+        available_codes = [o['code'] for o in objects]
+
+        for obj in objects:
+            parent = obj['parent']
+            inverse = obj['inverse']
+
+            if parent:
+                if not (parent in available_codes):
+                    raise ImportError
+                if available_codes.count(parent) > 1:
+                    raise ImportError
+
+            if inverse:
+                if not (inverse in available_codes):
+                    raise ImportError
+                if available_codes.count(inverse) > 1:
+                    raise ImportError
+
+    def _validate_data_structure(self, dataset):
         """Validate the data structure against a template"""
         # get template
         # validate headers
@@ -319,7 +355,7 @@ class DataImporter(object):
         # need to see if that is so
         pass
 
-    def _valid_data_values(self, dataset):
+    def _validate_data_values(self, dataset):
         """Validate that the data values match the expected input"""
         # check type matches expected
         # return tuple of (bool, list(co-ordinates))
