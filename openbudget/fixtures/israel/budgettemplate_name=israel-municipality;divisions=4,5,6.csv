@@ -87,7 +87,7 @@ NAME,CODE,PARENT,PARENT ALIAS,DIRECTION,INVERSE,INVERSE ALIAS,DESCRIPTION
 דרכים ומדרכות,742,74,,EXPENDITURE,242,,
 אחזקת כבישים עורקים,7421,742,,EXPENDITURE,2421,,
 אחזקת כבישים פנימיים ומדרכות,7422,742,,EXPENDITURE,2422,,
-תאורת רחובות,743,743,,EXPENDITURE,243,,
+תאורת רחובות,743,74,,EXPENDITURE,243,,
 בטיחות בדרכים,744,74,,EXPENDITURE,244,,
 תחזוקת רמזורים ואיי תנועה,7441,744,,EXPENDITURE,2441,,
 תחזוקת מעברים תת קרקעיים וגשרים,7442,744,,EXPENDITURE,2442,,
