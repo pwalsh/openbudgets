@@ -4,8 +4,9 @@ import tablib
 from django.core.mail import send_mail
 from openbudget.settings.base import TEMP_FILES_DIR, ADMINS, EMAIL_HOST_USER
 from openbudget.apps.transport.models import String
-from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, BudgetTemplateNodeRelation, Budget, BudgetItem, Actual, ActualItem
-from openbudget.apps.entities.models import Entity, Domain,DomainDivision
+from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode,\
+    BudgetTemplateNodeRelation, Budget, BudgetItem, Actual, ActualItem
+from openbudget.apps.entities.models import Entity, DomainDivision
 
 
 class DataImporter(object):
@@ -25,13 +26,9 @@ class DataImporter(object):
 
     """
 
-    def __init__(
-        self,
-        sourcefile,
-        ignore_unknown_headers=False,
-        ignore_invalid_rows=False,
-        dataset_meta_in_filename=False
-    ):
+    def __init__(self, sourcefile, ignore_unknown_headers=False,
+                 ignore_invalid_rows=False, dataset_meta_in_filename=False):
+
         self.sourcefile = sourcefile
         self.ignore_unknown_headers = ignore_unknown_headers
         self.ignore_invalid_rows = ignore_invalid_rows
@@ -190,23 +187,27 @@ class DataImporter(object):
 
         # budget template nodes, first pass: commit basic object
         for obj in objects:
+
             if obj['parent']:
                 parent = BudgetTemplateNode.objects.get(
                     code=obj['parent'],
                     templates__in=[container_model]
                 )
+
                 child_model = modelset['items'].objects.create(
                     code=obj['code'],
                     name=obj['name'],
                     direction=obj['direction'],
                     parent=parent,
                 )
+
             else:
                 child_model = modelset['items'].objects.create(
                     code=obj['code'],
                     name=obj['name'],
                     direction=obj['direction'],
                     )
+
             BudgetTemplateNodeRelation.objects.create(
                 template=container_model,
                 node=child_model
