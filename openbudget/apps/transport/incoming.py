@@ -192,13 +192,14 @@ class DataImporter(object):
         for obj in objects:
             if obj['parent']:
                 parent = BudgetTemplateNode.objects.get(
-                    code=obj['parent']
+                    code=obj['parent'],
+                    templates__in=[container_model]
                 )
                 child_model = modelset['items'].objects.create(
                     code=obj['code'],
                     name=obj['name'],
                     direction=obj['direction'],
-                    parent = parent,
+                    parent=parent,
                 )
             else:
                 child_model = modelset['items'].objects.create(
