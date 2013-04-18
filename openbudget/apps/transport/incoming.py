@@ -101,7 +101,7 @@ class DataImporter(object):
 
         try:
             raw_dataset = tablib.import_set(datastream)
-        except AttributeError, e:
+        except AttributeError as e:
             # TODO: need to get more specific exception
             dt = datetime.datetime.now().isoformat()
             this_file = TEMP_FILES_DIR + \
@@ -200,11 +200,11 @@ class DataImporter(object):
                 template=container_model,
                 node=child_model
             )
-
+        """
         # budget template nodes, 2nd pass: add parents
         for obj in objects:
             if obj['parent']:
-                if obj['parentscope']:
+                if obj['parentalias']:
                     parentscope = BudgetTemplateNode.objects.get(
                         code=obj['parentscope'],
                         templates__in=[container_model]
@@ -232,10 +232,10 @@ class DataImporter(object):
             if obj['inverse']:
                 if ',' in obj['inverse']:
                     inverses = obj['inverse'].split(',')
-                    inversescopes = obj['inversescope'].split(',')
+                    inversescopes = obj['inversealias'].split(',')
                 else:
                     inverses = [obj['inverse']]
-                    inversescopes = [obj['inversescope']]
+                    inversescopes = [obj['inversealias']]
 
                 for i, inverse in enumerate(inverses):
                     if inversescopes[i]:
@@ -257,7 +257,7 @@ class DataImporter(object):
 
                     this_obj = BudgetTemplateNode.objects.get(code=obj['code'], templates__in=[container_model])
                     this_obj.inverse.add(i)
-
+        """
         self._save_sourcefile()
         value = True
         return value
@@ -382,7 +382,7 @@ class DataImporter(object):
         # check the modelset key is valid, otherwise we'll stop here
         try:
             modelset = self.modelsets[modelset_key]
-        except AttributeError, e:
+        except AttributeError as e:
             raise e
         # now get the keyword arguments for the container object
         containerobject_kwargs = tmp.split(';')
@@ -392,7 +392,7 @@ class DataImporter(object):
             # and make sure each attribute is valid for the container
             try:
                 getattr(modelset['container'], attr)
-            except AttributeError, e:
+            except AttributeError as e:
                 raise e
             # if the value has commas, it is an m2m related field
             if ',' in v:
