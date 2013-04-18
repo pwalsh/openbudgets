@@ -1,8 +1,8 @@
 import os
 import datetime
 import tablib
-from operator import itemgetter
-from openbudget.settings.base import TEMP_FILES_DIR, ADMINS
+from django.core.mail import send_mail
+from openbudget.settings.base import TEMP_FILES_DIR, ADMINS, EMAIL_HOST_USER
 from openbudget.apps.transport.models import String
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, BudgetTemplateNodeRelation, Budget, BudgetItem, Actual, ActualItem
 from openbudget.apps.entities.models import Entity, Domain,DomainDivision
@@ -98,6 +98,7 @@ class DataImporter(object):
         """
         value = None
         datastream = self.sourcefile.read()
+
         try:
             raw_dataset = tablib.import_set(datastream)
         except AttributeError, e:
@@ -118,14 +119,14 @@ class DataImporter(object):
             recipients = [ADMINS]
             send_mail(subject, message, sender, recipients)
             raise e
+
         dataset = self._normalize_headers(raw_dataset)
         value = dataset
+
         return value
 
     def validate(self, dataset):
-        response = {
-            'valid': False
-        }
+        response = {'valid': False}
 
         #valid_structure = self._validate_data_structure(dataset)
         #valid_values = self._validate_data_values(dataset)
@@ -133,7 +134,7 @@ class DataImporter(object):
         # TODO: temporary True until I write this function!!!
         response['valid'] = True
         value = response
-        return response
+        return value
 
     def save(self, dataset):
         """Save all the objects from this import"""
@@ -186,68 +187,6 @@ class DataImporter(object):
                 if not (index in saved_cache):
                     _save_object(objects_lookup[index], True)
                 #TODO: create the object in DB
-
-        print 'BEFORE SORT'
-        for obj in objects:
-            print obj['code'], obj['parent'], obj['inverse']
-        # TODO: The best impl would be to sort this list
-        # so that relational dependencies (eg: parent, inverse)
-        # are always commited before they are needed.
-        # The itemgetter sorting below was part of an attempt at this
-        # but it is ultimately flawed, as it is only sorting based on
-        # the characters in the string. Leaving it here for now as
-        # a reminder.
-        #
-        # If the list was sorted properly, in the section below,
-        # we would not need to iterate over the list twice to commit.
-        # As it is, this only currently works because the related
-        # fields are not required fields. On the other hand, because
-        # of the current implementation, we can use bulk_create on the
-        # iterations. I haven't consider what this means in
-        # performance, but the fact is that it is currently not
-        # generic enough for *required* related fields, should
-        # that use case arise.
-        #objects.sort(key=itemgetter('inverse'))
-        #objects.sort(key=itemgetter('parent'))
-
-
-        non_dependent_list = []
-        parent_dependent_list = []
-        inverse_dependent_list = []
-
-        for index, item in enumerate(objects):
-
-            if not item['parent'] and not item['inverse']:
-                non_dependent_list.append(item)
-
-            if item['parent']:
-                #for row in objects:
-                #    if (row['code'] == item['parent']):
-                parent_dependent_list.append(item)
-
-            if item['inverse']:
-                #for row in objects:
-                #    if (row['code'] == item['parent']):
-                inverse_dependent_list.append(item)
-
-            for index, thing in enumerate(parent_dependent_list):
-                if thing['code'] == item['parent']:
-                    objects.pop(index)
-                    objects.append(thing)
-
-        print 'AFTER SORT'
-        for obj in objects:
-            print obj['code'], obj['parent'], obj['inverse']
-
-        print 'NON DEPENDENT LIST'
-        for obj in non_dependent_list:
-            print obj['code']
-        print 'PARENT DEPENDENT LIST'
-        for obj in parent_dependent_list:
-            print obj['code']
-        print 'INVERSE DEPENDENT LIST'
-        for obj in inverse_dependent_list:
-            print obj['code']
 
 
         # budget template nodes, first pass: commit basic object
@@ -464,5 +403,5 @@ class DataImporter(object):
 
     def _get_meta_from_post(self):
         # TODO: When we have an interactive importer
-        value - None
+        value = None
         return value
