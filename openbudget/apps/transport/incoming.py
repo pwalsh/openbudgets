@@ -188,18 +188,29 @@ class DataImporter(object):
                     _save_object(objects_lookup[index], True)
                 #TODO: create the object in DB
 
-
         # budget template nodes, first pass: commit basic object
         for obj in objects:
-            child_model = modelset['items'].objects.create(
-                code=obj['code'],
-                name=obj['name'],
-                direction=obj['direction'],
-            )
+            if obj['parent']:
+                parent = BudgetTemplateNode.objects.get(
+                    code=obj['parent']
+                )
+                child_model = modelset['items'].objects.create(
+                    code=obj['code'],
+                    name=obj['name'],
+                    direction=obj['direction'],
+                    parent = parent,
+                )
+            else:
+                child_model = modelset['items'].objects.create(
+                    code=obj['code'],
+                    name=obj['name'],
+                    direction=obj['direction'],
+                    )
             BudgetTemplateNodeRelation.objects.create(
                 template=container_model,
                 node=child_model
             )
+
         """
         # budget template nodes, 2nd pass: add parents
         for obj in objects:
