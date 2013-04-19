@@ -186,12 +186,12 @@ AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
 
 # USER ACCOUNT CONF
 ACCOUNT_ACTIVATION_DAYS = 7
-AUTH_PROFILE_MODULE = 'accounts.Account'
+AUTH_USER_MODEL = 'accounts.Account'
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_URL = '/accounts/logout/'
 ABSOLUTE_URL_OVERRIDES = {
-    'auth.user': lambda u: "/accounts/%s/" % u.get_profile.uuid,
+    'auth.user': lambda u: '/accounts/{uuid}/'.format(uuid=u.uuid)
 }
 
 # GRAPPELLI CONF

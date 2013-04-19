@@ -1,14 +1,14 @@
 import random
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-from openbudget.apps.accounts.factories import UserFactory
+from openbudget.apps.accounts.factories import AccountFactory
 
 
 class UserTestCase(TestCase):
-    """Tests for User objects and their related views, urls, etc."""
+    """Tests for Account objects and their related views, urls, etc."""
 
     def setUp(self):
-        self.users = UserFactory.create_batch(5)
+        self.users = AccountFactory.create_batch(5)
 
     def test_detailview_read(self):
         """Check that a user's account detail view works."""
@@ -20,7 +20,7 @@ class UserTestCase(TestCase):
             )
             detailview = reverse(
                 'account_detail',
-                args=(user.get_profile().uuid,)
+                args=(user.uuid,)
             )
             response = self.client.get(detailview)
 
@@ -37,7 +37,7 @@ class UserTestCase(TestCase):
             )
             updateview = reverse(
                 'account_update',
-                args=(user.get_profile().uuid,)
+                args=(user.uuid,)
             )
             response = self.client.get(updateview)
 
@@ -54,7 +54,7 @@ class UserTestCase(TestCase):
             )
             updateview = reverse(
                 'account_update',
-                args=(user.get_profile().uuid,)
+                args=(user.uuid,)
             )
             response = self.client.get(updateview)
 
@@ -66,7 +66,7 @@ class UserTestCase(TestCase):
                 'email': user.email,
                 'first_name': user.first_name,
                 'last_name': user.last_name,
-                'language': user.get_profile().language
+                'language': user.language
             }
             invalid_data = valid_data.copy()
             invalid_data['email'] = 'invalid_email_address'
@@ -88,7 +88,7 @@ class UserTestCase(TestCase):
         for user in self.users:
             detailview = reverse(
                 'account_detail',
-                args=(user.get_profile().uuid,)
+                args=(user.uuid,)
             )
             response = self.client.get(detailview)
 
@@ -100,7 +100,7 @@ class UserTestCase(TestCase):
         for user in self.users:
             updateview = reverse(
                 'account_update',
-                args=(user.get_profile().uuid,)
+                args=(user.uuid,)
             )
             response = self.client.get(updateview)
 
@@ -112,7 +112,7 @@ class UserTestCase(TestCase):
         for user in self.users:
             detailview = reverse(
                 'account_detail',
-                args=(user.get_profile().uuid,)
+                args=(user.uuid,)
             )
             other_users = self.users
             other_users.remove(user)
@@ -133,7 +133,7 @@ class UserTestCase(TestCase):
         for user in self.users:
             updateview = reverse(
                 'account_update',
-                args=(user.get_profile().uuid,)
+                args=(user.uuid,)
             )
             other_users = self.users
             other_users.remove(user)
@@ -154,14 +154,14 @@ class UserTestCase(TestCase):
         for user in self.users:
             updateview = reverse(
                 'account_update',
-                args=(user.get_profile().uuid,)
+                args=(user.uuid,)
             )
             valid_data = {
                 'username': user.username,
                 'email': user.email,
                 'first_name': user.first_name,
                 'last_name': user.last_name,
-                'language': user.get_profile().language
+                'language': user.language
             }
             invalid_data = valid_data.copy()
             invalid_data['email'] = 'invalid_email_address'
@@ -183,7 +183,7 @@ class UserTestCase(TestCase):
         for user in self.users:
             updateview = reverse(
                 'account_update',
-                args=(user.get_profile().uuid,)
+                args=(user.uuid,)
             )
             other_users = self.users
             other_users.remove(user)
@@ -199,7 +199,7 @@ class UserTestCase(TestCase):
                 'email': user.email,
                 'first_name': user.first_name,
                 'last_name': user.last_name,
-                'language': user.get_profile().language
+                'language': user.language
             }
             invalid_data = valid_data.copy()
             invalid_data['email'] = 'invalid_email_address'

@@ -1,8 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
+from openbudget.settings.base import AUTH_USER_MODEL
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
 from openbudget.commons.utilities import get_media_file_path
 
@@ -16,7 +16,7 @@ class DataSource(TimeStampedModel, UUIDModel):
     """
 
     added_by = models.ForeignKey(
-        User,
+        AUTH_USER_MODEL,
         related_name='%(class)ss'
     )
 

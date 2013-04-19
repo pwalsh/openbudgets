@@ -1,14 +1,12 @@
 import datetime
-from django.utils.timezone import utc
 import factory
-from django.contrib.auth.models import User
-from openbudget.settings import base as settings
+from django.utils.timezone import utc
 from openbudget.apps.accounts.models import Account
 
 
-class UserFactory(factory.Factory):
+class AccountFactory(factory.Factory):
 
-    FACTORY_FOR = User
+    FACTORY_FOR = Account
     password = 'letmein'
 
     username = factory.Sequence(lambda n: 'username{0}'.format(n))
@@ -28,16 +26,8 @@ class UserFactory(factory.Factory):
     @classmethod
     def _prepare(cls, create, **kwargs):
         password = kwargs.pop('password', None)
-        user = super(UserFactory, cls)._prepare(create, **kwargs)
-        user.set_password(password)
+        account = super(AccountFactory, cls)._prepare(create, **kwargs)
+        account.set_password(password)
         if create:
-            user.save()
-        return user
-
-
-class AccountFactory(factory.Factory):
-
-    FACTORY_FOR = Account
-
-    user = factory.SubFactory(UserFactory)
-    language = settings.LANGUAGE_CODE
+            account.save()
+        return account

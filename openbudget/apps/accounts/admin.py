@@ -83,7 +83,6 @@ class PublicUserProxyAdmin(UserProxyBaseAdmin):
 
 
 # Django Auth admin config
-admin.site.unregister(User)
 admin.site.unregister(Group)
 
 # Django Sites admin config

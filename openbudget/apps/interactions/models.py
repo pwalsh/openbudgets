@@ -1,11 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
-from django.contrib.comments.models import BaseCommentAbstractModel
-from django.contrib.comments.managers import CommentManager
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext_lazy as _
-from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
+from openbudget.settings.base import AUTH_USER_MODEL
+from openbudget.commons.mixins.models import TimeStampedModel
 
 
 class ToggleableInteractionManager(models.Manager):
@@ -22,7 +20,7 @@ class ToggleableInteraction(TimeStampedModel):
     objects = ToggleableInteractionManager()
 
     user = models.ForeignKey(
-        User
+        AUTH_USER_MODEL
     )
     content_type = models.ForeignKey(
         ContentType,

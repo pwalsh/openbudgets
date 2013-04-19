@@ -6,8 +6,6 @@ Requires:
 
 
 from django.template import Library
-from django.contrib.contenttypes.models import ContentType
-from django.utils.translation import ugettext_lazy as _
 from subdomains.utils import get_domain
 from openbudget.settings import base as settings
 

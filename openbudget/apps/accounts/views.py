@@ -16,29 +16,3 @@ class AccountUpdateView(LoginRequiredMixin, UserDataObjectMixin, UpdateView):
     form_class = AccountForm
     template_name = 'accounts/account_update.html'
     slug_field = 'uuid'
-
-    def get_form_kwargs(self, **kwargs):
-        kwargs = super(AccountUpdateView, self).get_form_kwargs(**kwargs)
-
-        data = {
-            'username': self.object.user.username,
-            'email': self.object.user.email,
-            'first_name': self.object.user.first_name,
-            'last_name': self.object.user.last_name,
-            'language': self.object.language
-        }
-
-        kwargs.update({'initial': data})
-        return kwargs
-
-    def form_valid(self, form, *args, **kwargs):
-        self.object = form.save(commit=False)
-        user = self.object.user
-        user.username = form.cleaned_data.get('username')
-        user.email = form.cleaned_data.get('email')
-        user.first_name = form.cleaned_data.get('first_name')
-        user.last_name = form.cleaned_data.get('last_name')
-        user.save()
-        self.object.save()
-
-        return super(AccountUpdateView, self).form_valid(form)
