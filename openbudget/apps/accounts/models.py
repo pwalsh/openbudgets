@@ -50,9 +50,9 @@ class Account(UUIDModel, models.Model):
         return self.user.username
 
 
-@receiver(post_save, sender=User, dispatch_uid='create_user_profile')
+@receiver(post_save, sender=User, dispatch_uid='create_account')
 def create_user_profile(sender, instance, created, **kwargs):
-    """A new UserProfile is created for every new User created."""
+    """A new Account is created for every new User created."""
     if created:
         Account.objects.create(user=instance)
 
