@@ -1,5 +1,5 @@
 from modeltranslation.translator import translator, TranslationOptions
-from openbudget.apps.accounts.models import UserProfile
+from openbudget.apps.accounts.models import Account
 
 #class UserProfileTranslationOptions(TranslationOptions):
 #    fields = ()

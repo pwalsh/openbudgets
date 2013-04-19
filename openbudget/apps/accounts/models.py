@@ -9,7 +9,7 @@ from openbudget.apps.interactions.models import Star, Follow
 from openbudget.commons.mixins.models import UUIDModel
 
 
-class UserProfile(UUIDModel, models.Model):
+class Account(UUIDModel, models.Model):
     """Extends Django's User with our project specific user fields"""
 
     user = models.OneToOneField(
@@ -54,7 +54,7 @@ class UserProfile(UUIDModel, models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     """A new UserProfile is created for every new User created."""
     if created:
-        UserProfile.objects.create(user=instance)
+        Account.objects.create(user=instance)
 
 
 class UserProxyBase(User):
@@ -69,13 +69,13 @@ class UserProxyBase(User):
 
     @property
     def uuid(self):
-        tmp = UserProfile.objects.get(user=self)
+        tmp = Account.objects.get(user=self)
         value = tmp.uuid
         return value
 
     @property
     def language(self):
-        tmp = UserProfile.objects.get(user=self)
+        tmp = Account.objects.get(user=self)
         value = tmp.language
         return value
 
@@ -103,7 +103,7 @@ class CoreTeamUserProxy(UserProxyBase):
     def save(self, *args, **kwargs):
         super(CoreTeamUserProxy, self).save(*args, **kwargs)
         self.groups.add(1)
-        profile, created = UserProfile.objects.get_or_create(user=self)
+        profile, created = Account.objects.get_or_create(user=self)
 
 
 class ContentTeamUserManager(models.Manager):
@@ -126,7 +126,7 @@ class ContentTeamUserProxy(UserProxyBase):
     def save(self, *args, **kwargs):
         super(ContentTeamUserProxy, self).save(*args, **kwargs)
         self.groups.add(2)
-        profile, created = UserProfile.objects.get_or_create(user=self)
+        profile, created = Account.objects.get_or_create(user=self)
 
 
 class PublicUserProxyManager(models.Manager):
@@ -149,4 +149,4 @@ class PublicUserProxy(UserProxyBase):
     def save(self, *args, **kwargs):
         super(PublicUserProxy, self).save(*args, **kwargs)
         self.groups.add(3)
-        profile, created = UserProfile.objects.get_or_create(user=self)
+        profile, created = Account.objects.get_or_create(user=self)

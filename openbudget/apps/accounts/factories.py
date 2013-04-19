@@ -3,7 +3,7 @@ from django.utils.timezone import utc
 import factory
 from django.contrib.auth.models import User
 from openbudget.settings import base as settings
-from openbudget.apps.accounts.models import UserProfile
+from openbudget.apps.accounts.models import Account
 
 
 class UserFactory(factory.Factory):
@@ -35,9 +35,9 @@ class UserFactory(factory.Factory):
         return user
 
 
-class UserProfileFactory(factory.Factory):
+class AccountFactory(factory.Factory):
 
-    FACTORY_FOR = UserProfile
+    FACTORY_FOR = Account
 
     user = factory.SubFactory(UserFactory)
     language = settings.LANGUAGE_CODE

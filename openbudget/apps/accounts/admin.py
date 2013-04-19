@@ -4,13 +4,13 @@ from django.contrib.sites.models import Site
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext as _
 from registration.models import RegistrationProfile
-from openbudget.apps.accounts.models import UserProfile, PublicUserProxy, ContentTeamUserProxy, CoreTeamUserProxy
+from openbudget.apps.accounts.models import Account, PublicUserProxy, ContentTeamUserProxy, CoreTeamUserProxy
 
 
-class UserProfileInline(admin.StackedInline):
-    """Gives an inlineable UserProfile form"""
+class AccountInline(admin.StackedInline):
+    """Gives an inlineable Account form"""
 
-    model = UserProfile
+    model = Account
     fk_name = 'user'
     classes = ('grp-collapse grp-open',)
     inline_classes = ('grp-collapse grp-open',)
@@ -40,7 +40,7 @@ class CoreTeamUserProxyAdmin(UserProxyBaseAdmin):
             request, form_url, extra_context)
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
-        self.inlines = [UserProfileInline]
+        self.inlines = [AccountInline]
         return super(CoreTeamUserProxyAdmin, self).change_view(request, object_id, form_url, extra_context)
 
 
@@ -59,7 +59,7 @@ class ContentTeamUserProxyAdmin(UserProxyBaseAdmin):
             request, form_url, extra_context)
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
-        self.inlines = [UserProfileInline]
+        self.inlines = [AccountInline]
         return super(ContentTeamUserProxyAdmin, self).change_view(request, object_id, form_url, extra_context)
 
 
@@ -78,7 +78,7 @@ class PublicUserProxyAdmin(UserProxyBaseAdmin):
             request, form_url, extra_context)
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
-        self.inlines = [UserProfileInline]
+        self.inlines = [AccountInline]
         return super(PublicUserProxyAdmin, self).change_view(request, object_id, form_url, extra_context)
 
 

@@ -1,12 +1,11 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from registration.forms import RegistrationForm
-from openbudget.apps.accounts.models import UserProfile
+from openbudget.apps.accounts.models import Account
 
 
-class UserProfileForm(forms.ModelForm):
+class AccountForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super(UserProfileForm, self).__init__(*args, **kwargs)
+        super(AccountForm, self).__init__(*args, **kwargs)
 
         self.fields['username'] = forms.CharField(
             max_length=30,
@@ -33,5 +32,5 @@ class UserProfileForm(forms.ModelForm):
         )
 
     class Meta:
-        model = UserProfile
+        model = Account
         exclude = ['user', 'uuid']

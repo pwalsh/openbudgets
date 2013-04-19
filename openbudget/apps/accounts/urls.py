@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from openbudget.apps.accounts.views import UserProfileDetailView, UserProfileUpdateView
+from openbudget.apps.accounts.views import AccountDetailView, AccountUpdateView
 
 
 urlpatterns = patterns('',
@@ -8,11 +8,11 @@ urlpatterns = patterns('',
         include('registration.backends.default.urls')
     ),
     url(r'^(?P<slug>[-\w]+)/$',
-        UserProfileDetailView.as_view(),
+        AccountDetailView.as_view(),
         name='account_detail'
     ),
     url(r'^(?P<slug>[-\w]+)/update/$',
-        UserProfileUpdateView.as_view(),
+        AccountUpdateView.as_view(),
         name='account_update'
     ),
 )
