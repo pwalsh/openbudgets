@@ -1,4 +1,35 @@
-Context
-=======
+Contexts
+========
 
-In our to give meaning to data, we need to establish the context.
+Overview
+--------
+
+
+Configuration
+-------------
+
+
+Dependencies
+------------
+
+
+Project Code
+------------
+
+Models
+~~~~~~
+
+Forms
+~~~~~
+
+Views
+~~~~~
+
+URLs
+~~~~
+
+Templates
+~~~~~~~~~
+
+Template Tags
+~~~~~~~~~~~~~

@@ -1,9 +1,10 @@
 [
 
 {
-    "model": "auth.User",
+    "model": "accounts.Account",
     "pk": 1,
     "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf10",
         "username": "demosuperadmin",
         "first_name": "Super",
         "last_name": "Administrator",
@@ -19,9 +20,10 @@
 },
 
 {
-    "model": "auth.User",
+    "model": "accounts.Account",
     "pk": 2,
     "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf11",
         "username": "democontentadmin",
         "first_name": "Content",
         "last_name": "Administrator",
@@ -37,9 +39,10 @@
 },
 
 {
-    "model": "auth.User",
+    "model": "accounts.Account",
     "pk": 3,
     "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf12",
         "username": "democitizen",
         "first_name": "Concerned",
         "last_name": "Citizen",
@@ -55,9 +58,10 @@
 },
 
 {
-    "model": "auth.User",
+    "model": "accounts.Account",
     "pk": 4,
     "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf13",
         "username": "pwalsh",
         "first_name": "Paul",
         "last_name": "Walsh",
@@ -73,9 +77,10 @@
 },
 
 {
-    "model": "auth.User",
+    "model": "accounts.Account",
     "pk": 5,
     "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf14",
         "username": "ydaniv",
         "first_name": "Yehonatan",
         "last_name": "Daniv",
@@ -91,9 +96,10 @@
 },
 
 {
-    "model": "auth.User",
+    "model": "accounts.Account",
     "pk": 6,
     "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf15",
         "username": "iivri",
         "first_name": "Ido",
         "last_name": "Ivri",
@@ -109,9 +115,10 @@
 },
 
 {
-    "model": "auth.User",
+    "model": "accounts.Account",
     "pk": 7,
     "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf16",
         "username": "yadmon",
         "first_name": "Yuval",
         "last_name": "Admon",
@@ -127,31 +134,14 @@
 },
 
 {
-    "model": "auth.User",
+    "model": "accounts.Account",
     "pk": 8,
     "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf17",
         "username": "mrubenstein",
         "first_name": "Mor",
         "last_name": "Rubenstein",
         "email": "mor@hasadna.org.il",
-        "password": "sha1$d0ac3$d37cb4b152d98c9727f7d696795f2d6ad9438ee4",
-        "is_staff": 1,
-        "is_active": 1,
-        "is_superuser": 0,
-        "groups": [2],
-        "last_login": "2013-01-01T09:00:00+02:00",
-        "date_joined": "2013-01-01T09:00:00+02:00"
-    }
-},
-
-{
-    "model": "auth.User",
-    "pk": 9,
-    "fields": {
-        "username": "gchen",
-        "first_name": "Gal",
-        "last_name": "Chen",
-        "email": "gal@hasadna.org.il",
         "password": "sha1$d0ac3$d37cb4b152d98c9727f7d696795f2d6ad9438ee4",
         "is_staff": 1,
         "is_active": 1,

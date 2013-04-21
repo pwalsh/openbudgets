@@ -34,7 +34,7 @@
                 {% trans 'Update' %}
             </h4>
             <p>
-                <a href="{% url 'account_update' user.get_profile.uuid %}">{% trans 'Update your profile' %}</a>
+                <a href="{% url 'account_update' user.uuid %}">{% trans 'Update your profile' %}</a>
                 <br />
                 <a href="{% url 'auth_password_change' %}">{% trans 'Change your password' %}</a>
             </p>
@@ -59,8 +59,8 @@
         <div class="box-2">
             <h3>{% trans 'Starred' %}</h3>
             <div class="stars">
-                {% if user.get_profile.stars %}
-                {% for star in user.get_profile.stars %}
+                {% if user.stars %}
+                {% for star in user.stars %}
                 <div class="star">
                     <a href="{{ star.content_object.get_absolute_url }}" title="">{{ star.content_object }}</a>
                 </div>
@@ -73,8 +73,8 @@
         <div class="box-2">
             <h3>{% trans 'Following' %}</h3>
             <div class="follows">
-                {% if user.get_profile.follows %}
-                {% for follow in user.get_profile.follows %}
+                {% if user.follows %}
+                {% for follow in user.follows %}
                 <div class="follow">
                     <a href="{{ follow.content_object.get_absolute_url }}" title="">{{ follow.content_object }}</a>
                 </div>
@@ -88,8 +88,8 @@
     <div class="box-2">
         <h3>{% trans 'Commented on' %}</h3>
         <div class="comments">
-            {% if user.get_profile.comments %}
-            {% for comment in user.get_profile.comments %}
+            {% if user.comments %}
+            {% for comment in user.comments %}
             <div class="comment">
                 <a href="{{ comment.content_object.get_absolute_url }}" title="">{{ comment.content_object.name }}<span class="_float-right _align-right">{{ comment.submit_date|date:"d M Y" }}</span></a>
                 <blockquote class="comment-quote">

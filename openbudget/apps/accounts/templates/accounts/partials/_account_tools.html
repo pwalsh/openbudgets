@@ -3,7 +3,7 @@
 
 {% if user.is_authenticated %}
 
-Hi {{ user.username }} | <a href="{% url 'account_detail' user.get_profile.uuid %}">{% trans 'Account' %}</a> | <a href="{% url 'auth_logout' %}">Logout</a>
+Hi {{ user.username }} | <a href="{% url 'account_detail' user.uuid %}">{% trans 'Account' %}</a> | <a href="{% url 'auth_logout' %}">Logout</a>
 
 {% else %}
 

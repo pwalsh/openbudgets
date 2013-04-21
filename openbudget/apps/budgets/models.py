@@ -237,11 +237,6 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel):
         AuxSource
     )
 
-    discussion = generic.GenericRelation(
-        Comment,
-        object_id_field="object_pk"
-    )
-
     @property
     def total(self):
         tmp = [item.amount for item in self.items.all()]
@@ -359,7 +354,7 @@ class SheetItem(TimeStampedModel, UUIDModel):
         AuxSource
     )
 
-    discussion = generic.GenericRelation(
+    comments = generic.GenericRelation(
         Comment,
         object_id_field="object_pk"
     )
