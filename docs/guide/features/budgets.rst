@@ -1,6 +1,42 @@
 Budgets
 =======
 
+Overview
+--------
+
+The Interactions app deals with all functionality related to the way a user can interact with objects in the web app. For example, Star an object, follow and object, contribute to discussion on an object, and so on.
+
+Configuration
+-------------
+
+
+Dependencies
+------------
+
+
+Project Code
+------------
+
+Models
+~~~~~~
+
+Forms
+~~~~~
+
+Views
+~~~~~
+
+URLs
+~~~~
+
+Templates
+~~~~~~~~~
+
+Template Tags
+~~~~~~~~~~~~~
+
+
+
 The Budgets app contains all code related to budgets. This means budget templates and their nodes, budgets and their items, and actuals and their items. Budget, Actual and Budget Templates all should be imported by file - see the Transport app for more information on importing datasets, and see the specs for preparing files for import.
 
 Only administrators with access priveledges can add and edit budget data. Any user or visitor can export budget data.
