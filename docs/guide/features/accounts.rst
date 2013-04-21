@@ -50,7 +50,7 @@ https://docs.djangoproject.com/en/dev/topics/auth/customizing/#auth-custom-user
 
 How to import::
 
-    from django.contrib.auth.models import User
+    from django.contrib.auth import get_user_model
 
 Example implementation:
 
@@ -110,7 +110,9 @@ On top of all the properties of the default auth.User model, we have a language 
 Proxies
 +++++++
 
-Proxy Models are an excellent feature of Django, allowing the developer to customize an interface over a model with ease. We make use of Proxy Models on user accounts in the admin, to separate the different types of users we have into distinct admin entities.
+Proxy Models are an excellent feature of Django, allowing the developer to customize an interface over a model with ease.
+
+We make use of Proxy Models on user accounts in the admin, to separate the different types of users we have into distinct entities in the admin.
 
 Forms
 ~~~~~
