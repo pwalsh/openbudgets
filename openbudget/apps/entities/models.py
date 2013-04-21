@@ -118,10 +118,7 @@ class Entity(TimeStampedModel, UUIDModel, models.Model):
         blank=True,
         help_text=_('The official abbreviated code for this entity.')
     )
-    discussion = generic.GenericRelation(
-        Comment,
-        object_id_field="object_pk"
-    )
+
     # TODO: parent choices conditional on division choice?
     parent = models.ForeignKey(
         'self',
