@@ -32,7 +32,7 @@ In the vast majority of cases, you would not expect to modify any of these setti
 Dependencies
 ------------
 
-Open Budget accounts depend on the following 3rd party packages:
+Open Budget accounts depends on the following 3rd party packages:
 
 * django
 * registration
