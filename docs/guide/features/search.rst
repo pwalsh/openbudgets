@@ -103,4 +103,13 @@ https://github.com/hasadna/omuni-budget/blob/develop/openbudget/commons/tasks.py
 Project Code
 ------------
 
-There is no specific custom code for this feature. All the code in the codebase simply follows settings for Haystack and Celery.
+There is no specific custom code for this feature.
+
+All the code in the codebase simply follows settings for Haystack and Celery.
+
+Templates
+---------
+
+https://github.com/hasadna/omuni-budget/tree/develop/openbudget/commons/templates/search
+
+We implement a custom search results page.
