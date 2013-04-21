@@ -6,18 +6,18 @@ from openbudget.settings.base import AUTH_USER_MODEL
 from openbudget.commons.mixins.models import TimeStampedModel
 
 
-class ToggleableInteractionManager(models.Manager):
-    """Helpers for querying Toggleable Interaction objects"""
+class InteractionManager(models.Manager):
+    """Helpers for querying Interaction objects"""
 
     def of_user(self, user):
         """Get this user's objects for this interaction"""
         return self.get_query_set().filter(user=user)
 
 
-class ToggleableInteraction(TimeStampedModel):
-    """An abstract class for toggleable user-object interactions"""
+class Interaction(TimeStampedModel):
+    """An abstract class for user-object interactions"""
 
-    objects = ToggleableInteractionManager()
+    objects = InteractionManager()
 
     user = models.ForeignKey(
         AUTH_USER_MODEL
@@ -56,7 +56,7 @@ class ToggleableInteraction(TimeStampedModel):
         )
 
 
-class Star(ToggleableInteraction):
+class Star(Interaction):
     """Objects that are starred by users"""
 
     class Meta:
@@ -64,9 +64,17 @@ class Star(ToggleableInteraction):
         verbose_name_plural = _('Stars')
 
 
-class Follow(ToggleableInteraction):
+class Follow(Interaction):
     """Objects that are followed by users"""
 
     class Meta:
         verbose_name = _('Follow')
         verbose_name_plural = _('Follows')
+
+
+class Share(Interaction):
+    """TBD: Objects that are shared by users"""
+
+    class Meta:
+        verbose_name = _('Share')
+        verbose_name_plural = _('Shares')
