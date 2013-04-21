@@ -170,109 +170,146 @@ class DataImporter(object):
             return 'bork... we cant deal with this thing man.'
 
         # now we process all objects in the dataset
-        objects = dataset.dict
-        saved_cache = []
-        objects_lookup = {}
+        saved_cache = {}
 
-        for obj in objects:
-            objects_lookup[obj['code'] + '|' + obj['parent']] = obj
+        def _generate_lookup(objects):
+            conflicting = {}
+            lookup_table = {}
 
-        def _save_object(obj, skip_inverse=False):
-            if obj['parent']:
-                #TODO: need to make sure we fill the `parentalias` and `inversealias` cells with values for all rows
-                index = '%s|%s' % (obj['parent'], obj['parentalias'].split('|')[0])
-                if not (index in saved_cache):
-                    _save_object(objects_lookup[index])
-                index = '%s|%s' % (obj['inverse'], obj['inversealias'].split('|')[0])
-                if not (index in saved_cache):
-                    _save_object(objects_lookup[index], True)
-                #TODO: create the object in DB
+            for obj in objects:
+                code = obj['code']
 
-        # budget template nodes, first pass: commit basic object
-        for obj in objects:
-            if obj['parent']:
-                parent = BudgetTemplateNode.objects.get(
-                    code=obj['parent'],
-                    templates__in=[container_model]
-                )
-                child_model = modelset['items'].objects.create(
-                    code=obj['code'],
-                    name=obj['name'],
-                    direction=obj['direction'],
-                    parent=parent,
-                )
-            else:
-                child_model = modelset['items'].objects.create(
-                    code=obj['code'],
-                    name=obj['name'],
-                    direction=obj['direction'],
-                    )
+                if code in lookup_table:
+                    if code not in conflicting:
+                        conflicting[code] = []
+                    conflicting[code].append(obj)
+                else:
+                    lookup_table[code] = obj
+
+            for code, obj_list in conflicting.iteritems():
+                conflicting[code].append(lookup_table.pop(code))
+
+            for code, obj_list in conflicting.iteritems():
+                for obj in obj_list:
+                    # assuming there can't be two top level nodes with same code, naturally
+                    key = '%s:%s' % (code, obj['parent'])
+                    # see if `parent` is also in conflict by looking for a `parentalias`
+                    if 'parentalias' in obj and obj['parentalias']:
+                        key = key + ':' + obj['parentalias']
+
+                    if key in lookup_table:
+                        raise Exception
+
+                    lookup_table[key] = obj
+
+        objects_lookup = _generate_lookup(dataset.dict)
+
+        def _lookup_object(code=None, parent='', alias='', obj=None, lookup_table=objects_lookup):
+            if obj:
+                code = obj['code']
+                if 'parent' in obj and obj['parent']:
+                    parent = obj['parent']
+                if 'parentalias' in obj and obj['parentalias']:
+                    alias = obj['parentalias']
+
+            if code:
+                key = ''
+                if code in lookup_table:
+                    key = code
+                elif parent or alias:
+                    if not parent:
+                        parent = alias.split(':')[0]
+                    key = ':'.join((code, parent))
+                    if key not in lookup_table:
+                        key = ':'.join((code, alias))
+
+                if key in lookup_table:
+                    return key, lookup_table[key]
+
+            return None, None
+
+        def _save_object(obj, key):
+            inverses = []
+            # check if we already saved this object and have it in cache
+            cache_key, cache = _lookup_object(obj=obj, lookup_table=saved_cache)
+            if cache:
+                return cache
+
+            if 'inverse' in obj:
+                inverse_codes = obj['inverse'].split(',')
+
+                if len(inverse_codes):
+                    aliases = []
+
+                    if 'inversealias' in obj:
+                        aliases = obj['inversealias'].split(',')
+                        # clean up
+                        del obj['inversealias']
+
+                    for i, inv_code in enumerate(inverse_codes):
+                        if i in aliases:
+                            inverse_key, inverse = _lookup_object(code=inv_code, alias=aliases[i])
+                        else:
+                            inverse_key, inverse = _lookup_object(code=inv_code)
+
+                        if inverse_key in saved_cache:
+                            inverses.append(saved_cache[inverse_key])
+                        else:
+                            inverses.append(_save_object(inverse, inverse_key))
+
+                else:
+                    # clean inverse
+                    if 'inversealias' in obj:
+                        del obj['inversealias']
+
+                del obj['inverse']
+
+            if 'parent' in obj and obj['parent']:
+
+                if 'parentalias' in obj:
+                    alias = obj['parentalias']
+                    # clean parentalias
+                    del obj['parentalias']
+                else:
+                    alias = ''
+
+                parent_key, parent = _lookup_object(code=obj['parent'], alias=alias)
+
+                if parent_key in saved_cache:
+                    obj['parent'] = saved_cache[parent_key]
+                else:
+                    parent = _save_object(parent, parent_key)
+                    obj['parent'] = parent
+
+            elif 'parent' in obj:
+                # clean parent
+                del obj['parent']
+
+                if 'parentalias' in obj:
+                    # clean parentalias
+                    del obj['parentalias']
+
+            item = modelset['items'].objects.create(**obj)
+
+            if len(inverses):
+                for inverse in inverses:
+                    item.inverse.add(inverse)
+
+            # cache the saved object
+            saved_cache[key] = item
+
             BudgetTemplateNodeRelation.objects.create(
                 template=container_model,
-                node=child_model
+                node=item
             )
 
-        """
-        # budget template nodes, 2nd pass: add parents
-        for obj in objects:
-            if obj['parent']:
-                if obj['parentalias']:
-                    parentscope = BudgetTemplateNode.objects.get(
-                        code=obj['parentscope'],
-                        templates__in=[container_model]
-                    )
-                    parent = BudgetTemplateNode.objects.get(
-                        code=obj['parent'],
-                        parent=parentscope,
-                        templates__in=[container_model]
-                    )
-                else:
-                    parent = BudgetTemplateNode.objects.get(
-                        code=obj['parent'],
-                        parent__isnull=True,
-                        templates__in=[container_model]
-                    )
-                this_obj = BudgetTemplateNode.objects.get(
-                    code=obj['code'],
-                    templates__in=[container_model]
-                )
-                this_obj.parent = parent
-                this_obj.save()
+            return item
 
-        # budget template nodes, 3rd pass: add inverse relations
-        for obj in objects:
-            if obj['inverse']:
-                if ',' in obj['inverse']:
-                    inverses = obj['inverse'].split(',')
-                    inversescopes = obj['inversealias'].split(',')
-                else:
-                    inverses = [obj['inverse']]
-                    inversescopes = [obj['inversealias']]
+        for key, obj in objects_lookup.iteritems():
+            _save_object(obj, key)
 
-                for i, inverse in enumerate(inverses):
-                    if inversescopes[i]:
-                        iscope = BudgetTemplateNode.objects.get(
-                            code=inversescopes[i],
-                            templates__in=[container_model]
-                        )
-                        i = BudgetTemplateNode.objects.get(
-                            code=inverse,
-                            parent=iscope,
-                            templates__in=[container_model]
-                        )
-                    else:
-                        i = BudgetTemplateNode.objects.get(
-                            code=inverse,
-                            parent__isnull=True,
-                            templates__in=[container_model]
-                        )
-
-                    this_obj = BudgetTemplateNode.objects.get(code=obj['code'], templates__in=[container_model])
-                    this_obj.inverse.add(i)
-        """
         self._save_sourcefile()
-        value = True
-        return value
+        return True
 
     def __detect_relational_ambiguities(self):
         objects = self.dataset.dict
@@ -283,13 +320,13 @@ class DataImporter(object):
             inverse = obj['inverse']
 
             if parent:
-                if not (parent in available_codes):
+                if parent not in available_codes:
                     raise ImportError
                 if available_codes.count(parent) > 1:
                     raise ImportError
 
             if inverse:
-                if not (inverse in available_codes):
+                if inverse not in available_codes:
                     raise ImportError
                 if available_codes.count(inverse) > 1:
                     raise ImportError
