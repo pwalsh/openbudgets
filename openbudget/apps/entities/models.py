@@ -104,7 +104,6 @@ class Entity(TimeStampedModel, UUIDModel, models.Model):
     )
     name = models.CharField(
         max_length=255,
-        unique=True,
         help_text=_('The name of this entity')
     )
     description = models.TextField(
@@ -118,8 +117,6 @@ class Entity(TimeStampedModel, UUIDModel, models.Model):
         blank=True,
         help_text=_('The official abbreviated code for this entity.')
     )
-
-    # TODO: parent choices conditional on division choice?
     parent = models.ForeignKey(
         'self',
         null=True,
@@ -201,3 +198,6 @@ class Entity(TimeStampedModel, UUIDModel, models.Model):
         ordering = ['division__index', 'name']
         verbose_name = _('entity')
         verbose_name_plural = _('entities')
+        unique_together = (
+            ('name', 'parent'),
+        )
