@@ -201,36 +201,28 @@ class DataImporter(object):
 
         objects_lookup = _generate_lookup(dataset.dict)
 
-        def _lookup_object(code=None, parent='', alias='', obj=None, lookup_table=objects_lookup):
-            if obj:
-                code = obj['code']
-                if 'parent' in obj and obj['parent']:
-                    parent = obj['parent']
-                if 'parentalias' in obj and obj['parentalias']:
-                    alias = obj['parentalias']
-
+        def _lookup_object(code=None, parent='', alias=''):
             if code:
                 key = ''
-                if code in lookup_table:
+                if code in objects_lookup:
                     key = code
                 elif parent or alias:
                     if not parent:
                         parent = alias.split(':')[0]
                     key = ':'.join((code, parent))
-                    if key not in lookup_table:
+                    if key not in objects_lookup:
                         key = ':'.join((code, alias))
 
-                if key in lookup_table:
-                    return key, lookup_table[key]
+                if key in objects_lookup:
+                    return key, objects_lookup[key]
 
             return None, None
 
         def _save_object(obj, key):
             inverses = []
             # check if we already saved this object and have it in cache
-            cache_key, cache = _lookup_object(obj=obj, lookup_table=saved_cache)
-            if cache:
-                return cache
+            if key in saved_cache:
+                return saved_cache[key]
 
             if 'inverse' in obj:
                 inverse_codes = obj['inverse'].split(',')
