@@ -174,6 +174,106 @@
     "fields": {
         "name": "Public Users"
     }
+},
+
+{
+    "model": "transport.String",
+    "pk": 1,
+    "fields": {
+        "string": "revenue",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "transport.String",
+    "pk": 2,
+    "fields": {
+        "string": "expenditure",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "transport.String",
+    "pk": 3,
+    "fields": {
+        "string": "name",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "transport.String",
+    "pk": 4,
+    "fields": {
+        "string": "code",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "transport.String",
+    "pk": 5,
+    "fields": {
+        "string": "parent",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "transport.String",
+    "pk": 6,
+    "fields": {
+        "string": "inverse",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "transport.String",
+    "pk": 7,
+    "fields": {
+        "string": "direction",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "transport.String",
+    "pk": 8,
+    "fields": {
+        "string": "description",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "transport.String",
+    "pk": 9,
+    "fields": {
+        "string": "parentalias",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "transport.String",
+    "pk": 10,
+    "fields": {
+        "string": "inversealias",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
 }
 
 ]
