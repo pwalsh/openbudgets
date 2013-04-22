@@ -737,26 +737,26 @@
 },
 
 {
-    "model": "contexts.Demographic",
+    "model": "contexts.Population",
     "pk": 1,
     "fields": {
         "entity": 7,
         "period_start": "1967-01-01",
         "period_end": "1989-12-31",
-        "population": 329000,
+        "count": 329000,
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }
 },
 
 {
-    "model": "contexts.Demographic",
+    "model": "contexts.Population",
     "pk": 2,
     "fields": {
         "entity": 7,
         "period_start": "1990-01-01",
         "period_end": "2013-01-01",
-        "population": 732000,
+        "count": 732000,
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }
