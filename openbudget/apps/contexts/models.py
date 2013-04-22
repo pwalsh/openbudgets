@@ -23,9 +23,9 @@ class GeoSpatial(Context):
     )
 
 
-class Demographic(Context):
-    """data on the demographics of the entity"""
-    population = models.PositiveIntegerField(
+class Population(Context):
+    """data on the population of the entity"""
+    count = models.PositiveIntegerField(
         _('Population'),
         null=True,
         blank=True,
