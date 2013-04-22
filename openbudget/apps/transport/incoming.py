@@ -168,6 +168,8 @@ class DataImporter(object):
 
         # now we process all objects in the dataset
         saved_cache = {}
+        ROUTE_SEPARATOR = '|'
+        ITEM_SEPARATOR = ';'
 
         def _generate_lookup(objects):
             conflicting = {}
@@ -189,15 +191,17 @@ class DataImporter(object):
             for code, obj_list in conflicting.iteritems():
                 for obj in obj_list:
                     # assuming there can't be two top level nodes with same code, naturally
-                    key = '%s:%s' % (code, obj['parent'])
+                    key = ROUTE_SEPARATOR.join((code, obj['parent']))
                     # see if `parent` is also in conflict by looking for a `parentalias`
                     if 'parentalias' in obj and obj['parentalias']:
-                        key = key + ':' + obj['parentalias']
+                        key = key + ROUTE_SEPARATOR + obj['parentalias']
 
                     if key in lookup_table:
-                        raise Exception
-
+                        raise Exception('Found key: %s of object: %s colliding with: %s' % (key, obj, lookup_table[key]))
+                    
                     lookup_table[key] = obj
+
+            return lookup_table
 
         objects_lookup = _generate_lookup(dataset.dict)
 
@@ -208,10 +212,10 @@ class DataImporter(object):
                     key = code
                 elif parent or alias:
                     if not parent:
-                        parent = alias.split(':')[0]
-                    key = ':'.join((code, parent))
+                        parent = alias.split(ROUTE_SEPARATOR)[0]
+                    key = ROUTE_SEPARATOR.join((code, parent))
                     if key not in objects_lookup:
-                        key = ':'.join((code, alias))
+                        key = ROUTE_SEPARATOR.join((code, alias))
 
                 if key in objects_lookup:
                     return key, objects_lookup[key]
@@ -225,13 +229,13 @@ class DataImporter(object):
                 return saved_cache[key]
 
             if 'inverse' in obj:
-                inverse_codes = obj['inverse'].split(',')
+                inverse_codes = obj['inverse'].split(ITEM_SEPARATOR)
 
-                if len(inverse_codes):
+                if len(inverse_codes) and inverse_codes[0]:
                     aliases = []
 
                     if 'inversealias' in obj:
-                        aliases = obj['inversealias'].split(',')
+                        aliases = obj['inversealias'].split(ITEM_SEPARATOR)
                         # clean up
                         del obj['inversealias']
 
@@ -240,6 +244,10 @@ class DataImporter(object):
                             inverse_key, inverse = _lookup_object(code=inv_code, alias=aliases[i])
                         else:
                             inverse_key, inverse = _lookup_object(code=inv_code)
+
+                        if not inverse_key:
+                            raise Exception('%s' % inverse_codes)
+                            # raise Exception('The following lookup failed: code %s, alias %s' % (inv_code, aliases[i]))
 
                         if inverse_key in saved_cache:
                             inverses.append(saved_cache[inverse_key])
