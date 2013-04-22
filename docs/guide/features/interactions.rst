@@ -15,6 +15,7 @@ Comment
 * Only authenticated users can comment
 * In the current codebase, only Budget Items and Actual Items can have comments
 * Budgets and Actuals can (and will) agregate the comments of their children
+* Implemented with a generic foreign key, so adding Comments to new models is trivial
 
 Star
 ++++
@@ -22,6 +23,7 @@ Star
 * Only authenticated users can Star
 * Starring an item adds it to a user's account page, where this is a list of starred items
 * Starred items can be unstarred from the account page, or the view of the object that is starred
+* Implemented with a generic foreign key, so adding Stars to new models is trivial
 
 Follow
 ++++++
@@ -31,6 +33,7 @@ Follow
 * Only authenticated users can Follow
 * Following an item adds it to a user's account page, where this is a list of followed items
 * Followed items can be unfollowed from the account page, or the view of the object that is followed
+* Implemented with a generic foreign key, so adding Follows to new models is trivial
 * TBD: Logic to know what events on a given object (or related objects to an object) trigger notifications.
 * TBD: Actually send notifications
 * TBD: The email message for the notifications
@@ -38,7 +41,8 @@ Follow
 Share
 +++++
 
-TBD: Placeholder for coming feature
+* Implemented with a generic foreign key, so adding comments to new models is trivial
+* TBD: Everything else. This is a placeholder for a coming feature
 
 Configuration
 -------------
