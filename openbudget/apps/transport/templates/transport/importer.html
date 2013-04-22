@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/importer/main.css"/>
+    <title>Open Muni Budget | Budget Importer</title>
+</head>
+<body>
+    <div id="importer" class="uijet_app">
+        <h1 id="heading">Welcome to Budget Importer 4000</h1>
+        <form id="import_form">
+            <label for="sourcefile_input">Source File:</label><input type="file" name="sourcefile" id="sourcefile_input"/>
+        </form>
+    </div>
+    <script>
+        var BASE_URL = '{{ STATIC_URL }}',
+            BASE_API_URL = 'http://api.{{ site|safe }}/';
+    </script>
+    <script src="{{ STATIC_URL }}lib/require.js" data-main="{{ STATIC_URL }}src/importer/main"></script>
+</body>
+</html>

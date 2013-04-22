@@ -1,5 +1,6 @@
 from django.views.generic import View, FormView, TemplateView
 from django.shortcuts import redirect
+from django.shortcuts import render
 from openbudget.apps.transport.forms import FileImportForm
 from openbudget.apps.transport.incoming import DataImporter
 from openbudget.commons.mixins.views import FileResponseMixin
@@ -55,3 +56,7 @@ class FileExportView(FileResponseMixin, View):
 
 class ImportSuccessView(TemplateView):
     template_name = 'transport/import_success.html'
+
+
+def importer_app(request):
+    return render(request, 'transport/importer.html')
