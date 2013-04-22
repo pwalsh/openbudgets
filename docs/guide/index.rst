@@ -20,8 +20,8 @@ Features
    features/admin
    features/budgets
    features/context
-   features/data-transport
    features/entities
+   features/import
    features/interactions
    features/internationalization
    features/search
@@ -54,7 +54,7 @@ Specifications
 .. toctree::
    :maxdepth: 1
 
-   specifications/data-import
+   specifications/import
 
 
 Design goals

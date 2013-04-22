@@ -6,7 +6,12 @@ from openbudget.commons.mixins.views import FileResponseMixin
 from openbudget.apps.budgets.models import Budget, Actual, BudgetItem, ActualItem
 
 
-class DataImportView(FormView):
+class FileImportView(FormView):
+    """View to import from file, where metadata is in the filename.
+
+    This view is a simple import interface targeted mainly at
+    developers who do not want to work with the full importer form.
+    """
     form_class = FileImportForm
     template_name = 'transport/file_import.html'
 
@@ -27,11 +32,7 @@ class DataImportView(FormView):
             return 'SAVE FAILED'
 
 
-class ImportSuccessView(TemplateView):
-    template_name = 'transport/import_success.html'
-
-
-class DataExportView(FileResponseMixin, View):
+class FileExportView(FileResponseMixin, View):
     """Export Budget or Actual data in a supported format."""
 
     def get_context_data(self, **kwargs):
@@ -50,3 +51,7 @@ class DataExportView(FileResponseMixin, View):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         return self.render_to_response(context)
+
+
+class ImportSuccessView(TemplateView):
+    template_name = 'transport/import_success.html'

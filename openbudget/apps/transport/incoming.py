@@ -28,7 +28,6 @@ class DataImporter(object):
 
     def __init__(self, sourcefile, ignore_unknown_headers=False,
                  ignore_invalid_rows=False, dataset_meta_in_filename=False):
-
         self.sourcefile = sourcefile
         self.ignore_unknown_headers = ignore_unknown_headers
         self.ignore_invalid_rows = ignore_invalid_rows
