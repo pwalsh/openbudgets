@@ -5,11 +5,11 @@ define([
     'uijet_dir/modules/pubsub/eventbox',
     'uijet_dir/modules/promises/q',
     'uijet_dir/modules/engine/mustache',
-    'uijet_dir/modules/xhr/jquery',
     'resources',
     'underscore',
+    'uijet_dir/modules/xhr/jquery',
     'storage'
-], function (uijet, $, Router, Ebox, Q, Mustache, Zepto_again, resources, _) {
+], function (uijet, $, Router, Ebox, Q, Mustache, resources, _) {
     
     var Browser =  {
             BASE_API_URL: window.BASE_API_URL,
