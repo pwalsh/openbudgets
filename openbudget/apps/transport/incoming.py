@@ -244,10 +244,6 @@ class DataImporter(object):
                         else:
                             inverse_key, inverse = _lookup_object(code=inv_code)
 
-                        if not inverse_key:
-                            raise Exception('%s' % inverse_codes)
-                            # raise Exception('The following lookup failed: code %s, alias %s' % (inv_code, aliases[i]))
-
                         if inverse_key in saved_cache:
                             inverses.append(saved_cache[inverse_key])
                         else:
