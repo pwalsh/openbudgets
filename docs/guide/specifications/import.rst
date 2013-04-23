@@ -62,10 +62,10 @@ The headers, and their data requirements, are:
 * Name:          REQUIRED, string
 * Code:          REQUIRED, string
 * Parent:        NOTREQUIRED, string that must match another items Code
-* Parent Alias:  NOTREQUIRED, pipe-separated strings, from left to right, parent's parent to top of tree
+* Parent Scope:  NOTREQUIRED, pipe-separated strings, from left to right, parent's parent to top of tree
 * Direction      REQUIRED: "EXPENDITURE" or "REVENUE"
 * Inverse:       NOTREQUIRED, string that must match another items Code, inverse must have opposite direct to the item
-* Inverse Alias: NOTREQUIRED, pipe-separated strings, from left to right, parent's parent to top of tree
+* Inverse Scope: NOTREQUIRED, pipe-separated strings, from left to right, parent's parent to top of tree
 * Description:   NOTREQUIRED, string
 
 The following values are **the bare minimum requirement** for each item:
@@ -76,7 +76,7 @@ The following values are **the bare minimum requirement** for each item:
 
 The "Description" field is purely optional, dependent on whether your budget template has descriptions for each node in the template.
 
-The additonal fields in the file are for cases where the template is tree-like (Some nodes are parents/children of other nodes), and where some nodes have explicit inverse relations (a given node or group of nodes on one side, say EXPENDITURE, is directly related to a node or group on the other, REVENUE).
+The additional fields in the file are for cases where the template is tree-like (Some nodes are parents/children of other nodes), and where some nodes have explicit inverse relations (a given node or group of nodes on one side, say EXPENDITURE, is directly related to a node or group on the other, REVENUE).
 
 Parent/Child relations then raises a new issue - because some Budget Templates do not adhere to a system where the "code" for a given node is truly unique in the whole template, there are cases where we need a "disambiguation key" to know which parent a child relates to. Hence, we have a "scope" field that puts potentially conflicting nodes in context. "Parent Scope" and "Inverse Scope".
 
@@ -97,7 +97,35 @@ or
 Budget/Actual
 ~~~~~~~~~~~~~
 
-TODO
+For all intents and purposes, the file format for Budgets and Actuals are the same, and we will now refer to importing a "Sheet" to refer to both, and "Sheet Items" to refer to the actual items in a budget or actual.
+
+As with importing a Budget Template, you'll fill out some form fields on import that provide us with other required metadata for the dataset: Name of the entity the budget is for, period of the budget, a description text for the budget, and so on.
+
+All headers are required, even if some columns may be completely empty (because not all **data** is required).
+
+The headers, and their data requirements, are:
+
+* Code:          REQUIRED, string
+* Code Scope:          NOTREQUIRED, string
+* Amount:        REQUIRED, number
+* Description:  NOTREQUIRED, string
+* Custom Code: NOTREQUIRED, TRUE OR FALSE
+* Direction      REQUIRED WITH CUSTOM CODE TRUE: "EXPENDITURE" or "REVENUE"
+* Parent:        NOTREQUIRED, string that must match another items Code
+* Parent Scope:  NOTREQUIRED, pipe-separated strings, from left to right, parent's parent to top of tree
+* Inverse:       NOTREQUIRED, string that must match another items Code, inverse must have opposite direct to the item
+* Inverse Alias: NOTREQUIRED, pipe-separated strings, from left to right, parent's parent to top of tree
+
+The following values are **the bare minimum requirement** for each item:
+
+* Code
+* Amount
+
+The "Description" field is purely optional, dependent on whether your budget items have descriptions.
+
+Other fields depend on the CUSTOM CODE field. If this is FALSE or blank, the other fields are completely ignored.
+
+If this is TRUE, then the other fields are required according to all the logic of the Template importer rules for these fields.
 
 Files
 -----
@@ -116,17 +144,22 @@ Budget Template: Israeli Muni 1994 to Now
 
 https://docs.google.com/spreadsheet/ccc?key=0AoJzAmQXH28mdC12X3FrWi13VjU4bnh4dnZJekNTQXc#gid=4
 
-Budget Template: Broken for Unit Testing
-++++++++++++++++++++++++++++++++++++++++
+Budget Template: Unit Test File
++++++++++++++++++++++++++++++++
 
 https://docs.google.com/spreadsheet/ccc?key=0AoJzAmQXH28mdC0xLXNDQnd4OVN0elIzMW5SYXNkSnc#gid=5
 
 Budget/Actual: Blank
 ++++++++++++++++++++
 
-TODO
+https://docs.google.com/spreadsheet/ccc?key=0AoJzAmQXH28mdHQySzVLLVdTUzhQWnJKdGJnSW11eWc#gid=4
 
 Budget/Actual: Israel Muni Mock
 +++++++++++++++++++++++++++++++
 
-TODO
+https://docs.google.com/spreadsheet/ccc?key=0AoJzAmQXH28mdG44Xzd0NDB3UERvT2gtY2UyUWQxd3c#gid=4
+
+Budget/Actual: Unit Test File
++++++++++++++++++++++++++++++++
+
+https://docs.google.com/spreadsheet/ccc?key=0AoJzAmQXH28mdFFuc0MybjV0cnptT1R3TURrMjlIT0E#gid=4
