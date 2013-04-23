@@ -92,7 +92,7 @@
     "model": "transport.String",
     "pk": 21,
     "fields": {
-        "string": "__parentalias__",
+        "string": "__parentscope__",
         "parent": 9,
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
@@ -103,7 +103,7 @@
     "model": "transport.String",
     "pk": 22,
     "fields": {
-        "string": "__inversealias__",
+        "string": "__inversescope__",
         "parent": 10,
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
