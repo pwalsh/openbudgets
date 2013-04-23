@@ -73,7 +73,7 @@ class Follow(Interaction):
 
 
 class Share(Interaction):
-    """TBD: Objects that are shared by users"""
+    """TODO: Objects that are shared by users"""
 
     class Meta:
         verbose_name = _('Share')

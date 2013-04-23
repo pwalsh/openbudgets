@@ -95,7 +95,7 @@ FileExportView
 
 The current implementation take arguments for model, object and format, and returns a file of the data. model in the current case can only be budget or actual.
 
-TBD: Refactor along the lines of FileImportView, where here, we'll take a DB query and pass it to outgoing.DataExporter, which will be our class for all exporting code.
+TODO: Refactor along the lines of FileImportView, where here, we'll take a DB query and pass it to outgoing.DataExporter, which will be our class for all exporting code.
 
 Forms
 ~~~~~
@@ -127,4 +127,4 @@ Outgoing
 
 Functions and classes to get data out of the system. We currently have data elsewhere to export to CSV and Excel.
 
-TBD: Get all output code to here, and reuse this.
+TODO: Get all output code to here, and reuse this.
