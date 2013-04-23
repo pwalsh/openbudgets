@@ -10,56 +10,7 @@ Open Budget is written in Python and JavaScript. If you develop web apps in thes
 * virtualenv
 * virtualenvwrapper
 
-Please make sure you meet these requirements before moving on to installation.
-
-About virtualenv
-----------------
-
-Virtual environments are an important tool for Python web development.
-
-We have noticed that even Python developers who have not done web app development before are not familiar with virutalenv. The concept behind virtualenv may also seem unfamiliar to developers coming from other languages.
-
-So, if you haven't used virtualenv before, follow these install instructions, and read more about virtualenv via the links below.
-
-**Ubuntu**::
-
-    sudo apt-get install python-pip
-
-    sudo pip install virtualenv
-
-    sudo pip install virtualenvwrapper
-
-
-**Mac OS X (you must have a recent XCode install)**::
-
-    sudo easy_install virtualenv
-
-    sudo pip install virtualenvwrapper
-
-Once virtualenv and virtualenvwrapper are installed, you need to configure your shell.
-
-**Ubuntu ~/.profile**::
-
-    export EDITOR=nano
-    export WORKON_HOME="/srv/environments"
-    export PROJECT_HOME="/srv/projects"
-    source /usr/local/bin/virtualenvwrapper.sh
-    export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
-
-**Mac OS X ~/.bash_profile**::
-
-    export EDITOR=nano
-    export WORKON_HOME="/Users/[YOUR_USER]/Sites/environments"
-    export PROJECT_HOME="/Users/[YOUR_USER]/Sites/projects"
-    source /usr/local/bin/virtualenvwrapper.sh
-    export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
-
-
-
-Read more about virtualenv_ and virtualenvwrapper_.
-
-.. _virtualenv: http://www.virtualenv.org/en/latest/
-.. _virtualenvwrapper: http://www.doughellmann.com/projects/virtualenvwrapper/
+Please make sure you meet these requirements before moving on to installation, and make sure to read the guide/management/dependencies page for more details.
 
 About Node.js
 -------------
@@ -111,7 +62,7 @@ Issue the following commands to create a new virtualenv for the project, and the
 Install volo
 ------------
 
-`volo <http://volojs.org/>`_ is a tool that automates a lot build and project creation related tasks, 
+`volo <http://volojs.org/>`_ is a tool that automates a lot build and project creation related tasks,
 and package management among those.
 
 To install volo Issue the following command::
