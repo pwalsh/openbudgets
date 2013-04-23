@@ -2,7 +2,7 @@
 
 {
     "model": "transport.String",
-    "pk": 11,
+    "pk": 13,
     "fields": {
         "string": "תקבולים",
         "parent": 1,
@@ -13,7 +13,7 @@
 
 {
     "model": "transport.String",
-    "pk": 12,
+    "pk": 14,
     "fields": {
         "string": "תשלומים",
         "parent": 2,
@@ -24,7 +24,7 @@
 
 {
     "model": "transport.String",
-    "pk": 13,
+    "pk": 15,
     "fields": {
         "string": "שם",
         "parent": 3,
@@ -35,7 +35,7 @@
 
 {
     "model": "transport.String",
-    "pk": 14,
+    "pk": 16,
     "fields": {
         "string": "קוד",
         "parent": 4,
@@ -46,7 +46,7 @@
 
 {
     "model": "transport.String",
-    "pk": 15,
+    "pk": 17,
     "fields": {
         "string": "הורה",
         "parent": 5,
@@ -57,7 +57,7 @@
 
 {
     "model": "transport.String",
-    "pk": 16,
+    "pk": 18,
     "fields": {
         "string": "ההפוך",
         "parent": 6,
@@ -68,7 +68,7 @@
 
 {
     "model": "transport.String",
-    "pk": 17,
+    "pk": 19,
     "fields": {
         "string": "__direction__",
         "parent": 7,
@@ -79,7 +79,7 @@
 
 {
     "model": "transport.String",
-    "pk": 18,
+    "pk": 20,
     "fields": {
         "string": "__description__",
         "parent": 8,
@@ -90,7 +90,7 @@
 
 {
     "model": "transport.String",
-    "pk": 19,
+    "pk": 21,
     "fields": {
         "string": "__parentalias__",
         "parent": 9,
@@ -101,10 +101,32 @@
 
 {
     "model": "transport.String",
-    "pk": 20,
+    "pk": 22,
     "fields": {
         "string": "__inversealias__",
         "parent": 10,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "transport.String",
+    "pk": 23,
+    "fields": {
+        "string": "__codescope__",
+        "parent": 11,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "transport.String",
+    "pk": 24,
+    "fields": {
+        "string": "__customcode__",
+        "parent": 12,
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }
