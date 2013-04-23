@@ -4,15 +4,135 @@ Budgets
 Overview
 --------
 
-The Interactions app deals with all functionality related to the way a user can interact with objects in the web app. For example, Star an object, follow and object, contribute to discussion on an object, and so on.
+Open Budget has a lot of features, but it is all for the purpose of working with budgetary data.
+
+We explictly support Budgets and Actuals, where the Budget/Actual applies for a period of time (commonly a year, but we don't enforce any particular period in the data model).
+
+Additionally and importantly, we work with a concept of "Budget Templates".
+
+One of the main goals of Open Budget is **comparative analysis of comparable entities**.
+
+Our approach to handling this reasonably is that comparable entities should share the same Budget Template (we also have flexibility for variation from the template, but more on that later).
+
+So, there are three major models in our implementation: *Budgets*, *Actuals*, and *Budget Templates*.
+
+All code for dealing with budgetary data can be found in the "budgets" app.
+
+Features
+--------
+
+Budget Templates
+~~~~~~~~~~~~~~~~
+
+A BudgetTemplate (which has BudgetTemplateNode children) describes the structure of a given Budget or Actual.
+
+Budgets and Actuals
+~~~~~~~~~~~~~~~~~~~
+
+A Budget or an Actual (which have BudgetItem and ActualItem children respectively) contains all data for a budget or an actual of a given entity for the declared *period*.
+
+Context and Assumptions
+-----------------------
+
+Modeling budget data for comparative analysis presents a bunch of challenges. So, here we will document the context of our decisions, the assumptions that our decisions are based upon, and finally, the use cases we expect to support.
+
+Primary considerations
+~~~~~~~~~~~~~~~~~~~~~~
+
+* Open Budgets is designed for comparative analysis of budgets
+* In order to compare, we have to assume some commonality between budgets of entities we are comparing
+* Even fairly structured budgets will change their structure over time.
+* Change of a budget structure could be that "items" or "nodes" of the budget are added, removed, moved and merged
+* To enter data into the system, the data must first comply with a format specification we define
+
+Israeli Municipality Use Case
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* The current scope of Open Budgets is to serve as a platform for the budgetary data of Israeli municipalities specifically.
+* Budget data must adhere to the offical template for Israel Muni budgets, issues by the Ministry of the Interior
+* The official Template describes a fixed structure, but also allows for "custom" nodes, that are children of "official" nodes, in certain conditions
+
+Supported Use Cases
+~~~~~~~~~~~~~~~~~~~
+
+In order to support the Israeli Muni use case, and with an eye to a generic implementation of budget storage and comparative analysis, we have identified the following use cases we support.
+
+1. Data adheres to a static template
+++++++++++++++++++++++++++++++++++++
+
+The simplest use case, the structure for a budget is known and adhered to exactly.
+
+In this case, each BudgetItem or ActualItem will map exactly to a BudgetTemplateNode that exists in the default BudgetTemplate for that entity.
+
+A workflow for this use case:
+
+* An admin user writes the Budget Template, according to our specifications for import, and imports this template into the system
+* An admin enters a Budget or Actual that conforms to the Budget Template (meaning, each item in the Budget or Actual has a "code" that maps to a node in the Budget Template).
+* Not every node needs to have an item. But, every item shoudl have a node.
+
+2. Data adheres to a static template, scope by period
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Almost exactly the same as the previous use case, but where there are multiple Budget Templates for the given entity, but each one is unique to a specific period of time.
+
+For example, one template could apply for 1980 - 1990, and a another one from 1991 - 2013.
+
+A workflow for this use case:
+
+* Exactly as above, but the Budget or Actual being entered must reflect the structure of the period in which it belongs.
+* So, a Budget for 1990 would be mapped to the first template above, and a budget for 1991 would be mapped to the second template above.
+
+**Mapping across Budget Templates**
+
+TBD: Need to check this further and specify when forwards/backwards is useful, and when it will not be.
+
+Presuming a high degree of commonality between Budget Template 1 and Budget Template 2, the nodes of each template can be mapped to each other, indicating equivalence, so that queries can be made across templates.
+
+3. Data adheres to template, but can also introduce new child nodes
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+This is the main use case we need to support for Israel Municipality budgets.
+
+
+
+This is the Israeli Municipality use case as it currently exists:
+
+There is an official BudgetTemplate that all munis must adhere to. In addition to the "official template", munis can add additional "nodes", *where these nodes are children of an existing node*.
+
+Unsupported Use Cases
+~~~~~~~~~~~~~~~~~~~~~
+
+We'd like to support these use cases, but more conde contributions, refactoring, testing, and so on. Some of these use cases are partially supported but compeltely untested.
+
+4. Relative position of nodes in a tree can change over time
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Meaning and name does not change.
+
+5. Name of a node changes over time, but meaning does not
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+TBD
+
+6. Meaning of a node code changes over time
++++++++++++++++++++++++++++++++++++++++++++
+
+TBD
+
+7. Budget has no obvious consistency, but expert can map nodes
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+TBD
 
 Configuration
 -------------
 
+There are no specific configuration options for budgets.
 
 Dependencies
 ------------
 
+There are no dependencies for budgets.
 
 Project Code
 ------------
@@ -20,96 +140,25 @@ Project Code
 Models
 ~~~~~~
 
-Forms
-~~~~~
+https://github.com/hasadna/omuni-budget/blob/develop/openbudget/apps/budgets/models.py
+
+this
 
 Views
 ~~~~~
 
+https://github.com/hasadna/omuni-budget/blob/develop/openbudget/apps/budgets/views.py
+
+A set of standard views to return all objects in the budgets app to templates.
+
 URLs
 ~~~~
+
+No urls.
 
 Templates
 ~~~~~~~~~
 
-Template Tags
-~~~~~~~~~~~~~
+https://github.com/hasadna/omuni-budget/tree/develop/openbudget/apps/budgets/templates/budgets
 
-
-
-The Budgets app contains all code related to budgets. This means budget templates and their nodes, budgets and their items, and actuals and their items. Budget, Actual and Budget Templates all should be imported by file - see the Transport app for more information on importing datasets, and see the specs for preparing files for import.
-
-Only administrators with access priveledges can add and edit budget data. Any user or visitor can export budget data.
-
-Why?
-~~~~
-
-Modeling budgets for a range of use cases is a difficult problem. Things to consider include how budgets are structured, and how budgets change over time in the way they are classified.
-
-Open Budget provides a platform for comparing budget and actual data of entities that are related. We thus presume some type of consistent order, across entities and over time, and an implementation goal is to provide this type of consistency as appropriate, while still allowing for change in ways that do not break comparative analysis.
-
-How
----
-
-There are three main models: BudgetTemplate, Budget, and Actual.
-
-Each is essentially a container for related nodes: BudgetTemplateNodes in the case of BudgetTemplates, and Items in the case of Budgets and Actuals.
-
-The relations between these models have been designed to suit a number of use cases, as explained below.
-
-Supported use cases
-~~~~~~~~~~~~~~~~~~~
-
-**1. Budgets, and Actuals, are declared according to a static BudgetTemplate**
-
-The simplest use case, the system of classification for a budget is known (the BudgetTemplate). A given Budget or Actual will have items that map exactly to the BudgetTemplateNodes of the BudgetTemplate.
-
-Working with data that fits this use case is a matter of:
-
-* Importing a BudgetTemplate into Open Budget
-* For an Entity that 'has' this BudgetTemplate, enter a new Budget and/or Actual.
-* All the items of the budget or actual should have a 'code' that corresponds to a 'code' in the BudgetTemplate (every node has a code)
-* It is ok for a Budget to not have an entry for every node in a template, but expected that the Budget will not have codes that are not in the template
-
-
-#TODO: EXAMPLE CSV FILE AND AN EXPLICIT TEST FOR THIS
-
-**2. Budgets, and Actuals, are declared according to a static BudgetTemplate, where the Budget Template applies for a given period of time**
-
-This use case is almost identical to the first one, but we want to emphasis it for clarity. A BudgetTemplate has an optional "period_start" attribute, which is a date object. If set, this budget template applies from this date forwards, until it meets the next subseqeunt BudgetTemplate object, or none.
-
-For example, we could have, for "Israeli Municipalities", a BudgetTemplate with a period_start of 1994. If there are no other BudgetTemplates for "Israeli Municipalities", then any Budget or Actual entered into the system with a date of 1994 or after, should comply with this BudgetTemplate.
-
-A Budget with say, a date of 1980, would not be able to be entered - it would have no applicable BudgetTemplate.
-
-Let's say we added another BudgetTemplate to the system for "Israeli Municipalities", with a period_start of 2007. Now, the previous BudgetTemplate would apply for 1994 - 2006. Budgets and Actuals with dates of 2007 and after would use the new template.
-
-* Add logic to check forwards and backwards.
-
-#TODO: EXAMPLE CSV FILE AND AN EXPLICIT TEST FOR THIS
-
-**3. Budgets, and Actuals have a BudgetTemplate, but can also introduce new Nodes that to not exist in the 'official' template**
-
-This is the Israeli Municipality use case as it currently exists:
-
-There is an official BudgetTemplate that all munis must adhere to. In addition to the "official template", munis can add additional "nodes", *where these nodes are children of an existing node*.
-
-#TODO: EXAMPLE CSV FILE AND AN EXPLICIT TEST FOR THIS
-
-**4. Budgets and Actuals have a Template in a way that matches use cases 1, 2, or 3 above, but the relative position of a node changes over time**
-
-TODO
-
-#TODO: EXAMPLE CSV FILE AND AN EXPLICIT TEST FOR THIS
-
-**5. Budgets and Actuals have a Template in a way that matches use cases 1, 2, or 3 above, but the name of a node changes over time**
-
-TODO
-
-#TODO: EXAMPLE CSV FILE AND AN EXPLICIT TEST FOR THIS
-
-**6. Budgets and Actuals have a Template that is barely consistent in structure (at least in a long view over time), and node codes change in *meaning* over time**
-
-TODO
-
-#TODO: EXAMPLE CSV FILE AND AN EXPLICIT TEST FOR THIS
+A set of standard templates for list and detail views of all models in the budgets app.
