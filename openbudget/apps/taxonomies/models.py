@@ -10,7 +10,7 @@ from openbudget.commons.data import OBJECT_STATES
 
 
 # Our models need to implement tags like so:
-# labels = TaggableManager(through=LabeledItem)
+# labels = TaggableManager(through=TaggedNode)
 
 
 class Taxonomy(TimeStampedModel, UUIDModel, models.Model):
@@ -84,6 +84,7 @@ class TagManager(models.Manager):
             taxonomy=taxonomy,
             slug=self.kwargs['taxonomy_slug']
         )
+
 
 class Tag(models.Model):
     """A tag with full unicode support."""
