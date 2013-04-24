@@ -26,9 +26,10 @@ class DataImporter(object):
 
     """
 
-    def __init__(self, sourcefile, ignore_unknown_headers=False,
+    def __init__(self, sourcefile, post_data, ignore_unknown_headers=False,
                  ignore_invalid_rows=False, dataset_meta_in_filename=False):
         self.sourcefile = sourcefile
+        self.post_data = post_data
         self.ignore_unknown_headers = ignore_unknown_headers
         self.ignore_invalid_rows = ignore_invalid_rows
         self.dataset_meta_in_filename = dataset_meta_in_filename
@@ -244,9 +245,8 @@ class DataImporter(object):
                         else:
                             inverse_key, inverse = _lookup_object(code=inv_code)
 
-                        if not inverse_key:
-                            raise Exception('%s' % inverse_codes)
-                            # raise Exception('The following lookup failed: code %s, alias %s' % (inv_code, aliases[i]))
+                        if not inverse_key or not inverse:
+                            raise Exception('Could not locate an inverse, probably you have a syntax error: inverse = %s' % obj['inverse'])
 
                         if inverse_key in saved_cache:
                             inverses.append(saved_cache[inverse_key])
@@ -420,33 +420,66 @@ class DataImporter(object):
         value = None
         # an empty dict to populate with data for our container object
         containerobject_dict = {}
+
         # get our data string from the filename
         keys, ext = os.path.splitext(unicode(self.sourcefile))
+
         # first, split the modelset key from the containerobject keys
         modelset_key, tmp = keys.split('_')
+
         # check the modelset key is valid, otherwise we'll stop here
         try:
             modelset = self.modelsets[modelset_key]
         except AttributeError as e:
             raise e
+
         # now get the keyword arguments for the container object
         containerobject_kwargs = tmp.split(';')
+
         # and split this keyword arguements into attributes and values
         for kwarg in containerobject_kwargs:
             attr, v = kwarg.split('=')
+
             # and make sure each attribute is valid for the container
             try:
                 getattr(modelset['container'], attr)
             except AttributeError as e:
                 raise e
+
             # if the value has commas, it is an m2m related field
             if ',' in v:
                 v = tuple(v.split(','))
+
             containerobject_dict[attr] = v
+
         value = (modelset, containerobject_dict)
         return value
 
     def _get_meta_from_post(self):
-        # TODO: When we have an interactive importer
-        value = None
+        containerobject_dict = {}
+        modelset_key = self.post_data.get('type', 'budget')
+        attributes = self.post_data.get('attributes', None)
+
+        try:
+            modelset = self.modelsets[modelset_key]
+        except AttributeError as e:
+            raise e
+
+        if attributes:
+            attributes = attributes.split(';')
+            for attr in attributes:
+                key, val = attr.split('=')
+
+                try:
+                    getattr(modelset['container'], key)
+                except AttributeError as e:
+                    raise e
+
+                # if the value has commas, it is an m2m related field
+                if ',' in val:
+                    val = tuple(val.split(','))
+
+                containerobject_dict[key] = val
+
+        value = (modelset, containerobject_dict)
         return value

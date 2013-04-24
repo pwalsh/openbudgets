@@ -1,4 +1,4 @@
-NAME,CODE,PARENT,PARENT ALIAS,DIRECTION,INVERSE,INVERSE ALIAS,DESCRIPTION
+NAME,CODE,PARENT,PARENT SCOPE,DIRECTION,INVERSE,INVERSE SCOPE,DESCRIPTION
 הנהלה כללית,6,,,EXPENDITURE,,,
 מינהל כללי,61,6,,EXPENDITURE,,,
 הנהלה ורשות,611,61,,EXPENDITURE,,,
@@ -329,7 +329,7 @@ NAME,CODE,PARENT,PARENT ALIAS,DIRECTION,INVERSE,INVERSE ALIAS,DESCRIPTION
 רזרבה תקציבית (כולל התייקרויות),992,99,,EXPENDITURE,,,
 תשלומים להחזר הכנסות מש . ק .,993,99,,EXPENDITURE,,,
 הוצאות מיוחדות ובלתי נצפות מראש,994,99,,EXPENDITURE,594,,
-הנחות ממיסים לפי חוק או תקנות,995,99,,EXPENDITURE,"115,116,117",,
+הנחות ממיסים לפי חוק או תקנות,995,99,,EXPENDITURE,"115;116;117",,
 העברות לכיסוי גרעון,999,99,,EXPENDITURE,599,,
 העברת מענק לכיסוי גרעון מצטבר,9991,999,,EXPENDITURE,5991,,
 העברת עודף תקציבי לכיסוי גרעון,9992,999,,EXPENDITURE,5992,,

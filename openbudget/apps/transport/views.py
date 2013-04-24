@@ -1,7 +1,10 @@
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse, HttpResponseServerError
 from django.views.generic import View, FormView, TemplateView
 from django.shortcuts import redirect
+from django.shortcuts import render
 from openbudget.apps.transport.forms import FileImportForm
-from openbudget.apps.transport.incoming import DataImporter
+from openbudget.apps.transport.importers import TablibImporter
 from openbudget.commons.mixins.views import FileResponseMixin
 from openbudget.apps.budgets.models import Budget, Actual, BudgetItem, ActualItem
 
@@ -16,20 +19,30 @@ class FileImportView(FormView):
     template_name = 'transport/file_import.html'
 
     def form_valid(self, form, *args, **kwargs):
+        use_filename = True
         sourcefile = self.request.FILES['sourcefile']
-        importer = DataImporter(
+        post_data = self.request.POST.copy()
+
+        if 'type' in post_data and 'attributes' in post_data:
+            use_filename = False
+
+        importer = TablibImporter(
             sourcefile,
-            dataset_meta_in_filename=True
+            post_data,
+            dataset_meta_in_filename=use_filename
         )
-        dataset = importer.dataset()
-        response = importer.validate(dataset)
-        if not response['valid']:
-            return response
-        save = importer.save(dataset)
+        valid = importer.validate()
+        if not valid:
+            #TODO: change it to something more meaningful
+            return HttpResponseServerError('SAVE FAILED')
+        save = importer.save()
         if save:
-            return redirect('import_success')
+            if self.request.is_ajax():
+                return HttpResponse('OK')
+            else:
+                return redirect('import_success')
         else:
-            return 'SAVE FAILED'
+            return HttpResponseServerError('SAVE FAILED')
 
 
 class FileExportView(FileResponseMixin, View):
@@ -55,3 +68,9 @@ class FileExportView(FileResponseMixin, View):
 
 class ImportSuccessView(TemplateView):
     template_name = 'transport/import_success.html'
+
+
+def importer_app(request):
+    return render(request, 'transport/importer.html', {
+        'UPLOAD_URL': reverse('data_import')
+    })

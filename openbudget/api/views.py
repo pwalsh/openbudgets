@@ -16,6 +16,7 @@ def api_root(request, format=None):
         'entities': reverse('entity-list', request=request),
         'budgets': reverse('budget-list', request=request),
         'actuals': reverse('actual-list', request=request),
+        'domain-divisions': reverse('domaindivision-list', request=request),
     })
 
 

@@ -1,0 +1,7 @@
+@import url(/static/lib/uijet/uijet.css);
+
+.uijet_datepicker_list li {
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+}

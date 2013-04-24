@@ -15,7 +15,7 @@ class String(TimeStampedModel, models.Model):
         'self',
         null=True,
         blank=True,
-        related_name='alias_set'
+        related_name='scope_set'
     )
 
     def __unicode__(self):

@@ -26,7 +26,7 @@ urlpatterns = patterns('openbudget.api.views',
     ),
     url(r'^domain-divisions/$',
         views.DomainDivisionList.as_view(),
-        name='domaindivisions-list'
+        name='domaindivision-list'
     ),
     url(r'^domain-division/(?P<pk>\d+)/$',
         views.DomainDivisionDetail.as_view(),
