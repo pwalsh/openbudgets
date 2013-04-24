@@ -1,12 +1,14 @@
 requirejs.config({
     baseUrl : window.BASE_URL + '/lib',
     paths   : {
-        uijet_dir       : 'uijet',
-        importer        : '../src/importer',
-        ui              : '../src/importer/ui'
+        uijet_dir   : 'uijet',
+        composites  : 'uijet/composites',
+        importer    : '../src/importer',
+        ui          : '../src/importer/ui'
     },
     shim    : {
-        rickshaw: ['d3']
+        eventbox                : ['setImmediate'],
+        'composites/Datepicker' : ['importer/app']
     }
 });
 requirejs([

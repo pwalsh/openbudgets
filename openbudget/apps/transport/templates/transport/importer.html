@@ -10,11 +10,20 @@
     <div id="importer" class="uijet_app">
         <h1 id="heading">Welcome to Budget Importer 4000</h1>
         <form id="import_form">
+            <fieldset>
+                <legend>Choose import type:</legend>
+                <label><input type="radio" name="type" value="budgettemplate"/> Budget Template</label>
+                <label><input type="radio" name="type" value="budget" disabled/> Budget</label>
+                <label><input type="radio" name="type" value="actual" disabled/> Actual</label>
+            </fieldset>
+            <fieldset id="import_form_type_ext"></fieldset>
             <label for="sourcefile_input">Source File:</label><input type="file" name="sourcefile" id="sourcefile_input"/>
+            <span id="import_form_submit">Submit</span>
         </form>
     </div>
     <script>
         var BASE_URL = '{{ STATIC_URL }}',
+            UPLOAD_URL = '{{ UPLOAD_URL }}',
             BASE_API_URL = 'http://api.{{ site|safe }}/';
     </script>
     <script src="{{ STATIC_URL }}lib/require.js" data-main="{{ STATIC_URL }}src/importer/main"></script>
