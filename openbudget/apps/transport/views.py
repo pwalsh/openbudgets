@@ -4,7 +4,7 @@ from django.views.generic import View, FormView, TemplateView
 from django.shortcuts import redirect
 from django.shortcuts import render
 from openbudget.apps.transport.forms import FileImportForm
-from openbudget.apps.transport.incoming import DataImporter
+from openbudget.apps.transport.importers import TablibImporter
 from openbudget.commons.mixins.views import FileResponseMixin
 from openbudget.apps.budgets.models import Budget, Actual, BudgetItem, ActualItem
 
@@ -26,16 +26,16 @@ class FileImportView(FormView):
         if 'type' in post_data and 'attributes' in post_data:
             use_filename = False
 
-        importer = DataImporter(
+        importer = TablibImporter(
             sourcefile,
             post_data,
             dataset_meta_in_filename=use_filename
         )
-        dataset = importer.dataset()
-        response = importer.validate(dataset)
-        if not response['valid']:
-            return response
-        save = importer.save(dataset)
+        valid = importer.validate()
+        if not valid:
+            #TODO: change it to something more meaningful
+            return HttpResponseServerError('SAVE FAILED')
+        save = importer.save()
         if save:
             if self.request.is_ajax():
                 return HttpResponse('OK')
