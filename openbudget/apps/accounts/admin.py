@@ -7,16 +7,6 @@ from registration.models import RegistrationProfile
 from openbudget.apps.accounts.models import Account, PublicUserProxy, ContentTeamUserProxy, CoreTeamUserProxy
 
 
-class AccountInline(admin.StackedInline):
-    """Gives an inlineable Account form"""
-
-    model = Account
-    fk_name = 'user'
-    classes = ('grp-collapse grp-open',)
-    inline_classes = ('grp-collapse grp-open',)
-    max_num = 1
-
-
 class UserProxyBaseAdmin(UserAdmin):
     """Defines common settings for all our UserProxy forms"""
 
@@ -34,15 +24,6 @@ class CoreTeamUserProxyAdmin(UserProxyBaseAdmin):
         qs = qs.filter(groups=core_team_user_group)
         return qs
 
-    def add_view(self, request, form_url='', extra_context=None):
-        self.inlines = []
-        return super(CoreTeamUserProxyAdmin, self).add_view(
-            request, form_url, extra_context)
-
-    def change_view(self, request, object_id, form_url='', extra_context=None):
-        self.inlines = [AccountInline]
-        return super(CoreTeamUserProxyAdmin, self).change_view(request, object_id, form_url, extra_context)
-
 
 class ContentTeamUserProxyAdmin(UserProxyBaseAdmin):
     """Admin form for Content Team members"""
@@ -53,15 +34,6 @@ class ContentTeamUserProxyAdmin(UserProxyBaseAdmin):
         qs = qs.filter(groups=content_team_user_group)
         return qs
 
-    def add_view(self, request, form_url='', extra_context=None):
-        self.inlines = []
-        return super(ContentTeamUserProxyAdmin, self).add_view(
-            request, form_url, extra_context)
-
-    def change_view(self, request, object_id, form_url='', extra_context=None):
-        self.inlines = [AccountInline]
-        return super(ContentTeamUserProxyAdmin, self).change_view(request, object_id, form_url, extra_context)
-
 
 class PublicUserProxyAdmin(UserProxyBaseAdmin):
     """Admin form for Public users"""
@@ -71,15 +43,6 @@ class PublicUserProxyAdmin(UserProxyBaseAdmin):
         qs = super(PublicUserProxyAdmin, self).queryset(request)
         qs = qs.filter(groups=public_user_group)
         return qs
-
-    def add_view(self, request, form_url='', extra_context=None):
-        self.inlines = []
-        return super(PublicUserProxyAdmin, self).add_view(
-            request, form_url, extra_context)
-
-    def change_view(self, request, object_id, form_url='', extra_context=None):
-        self.inlines = [AccountInline]
-        return super(PublicUserProxyAdmin, self).change_view(request, object_id, form_url, extra_context)
 
 
 # Django Auth admin config
