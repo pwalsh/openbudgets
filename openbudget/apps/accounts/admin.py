@@ -31,7 +31,7 @@ class CoreTeamUserProxyAdmin(UserProxyBaseAdmin):
     def queryset(self, request):
         core_team_user_group = Group.objects.filter(id=1)
         qs = super(CoreTeamUserProxyAdmin, self).queryset(request)
-        qs = qs.filter(groups__in=core_team_user_group)
+        qs = qs.filter(groups=core_team_user_group)
         return qs
 
     def add_view(self, request, form_url='', extra_context=None):
@@ -50,7 +50,7 @@ class ContentTeamUserProxyAdmin(UserProxyBaseAdmin):
     def queryset(self, request):
         content_team_user_group = Group.objects.filter(id=2)
         qs = super(ContentTeamUserProxyAdmin, self).queryset(request)
-        qs = qs.filter(groups__in=content_team_user_group)
+        qs = qs.filter(groups=content_team_user_group)
         return qs
 
     def add_view(self, request, form_url='', extra_context=None):
@@ -69,7 +69,7 @@ class PublicUserProxyAdmin(UserProxyBaseAdmin):
     def queryset(self, request):
         public_user_group = Group.objects.filter(id=3)
         qs = super(PublicUserProxyAdmin, self).queryset(request)
-        qs = qs.filter(groups__in=public_user_group)
+        qs = qs.filter(groups=public_user_group)
         return qs
 
     def add_view(self, request, form_url='', extra_context=None):
