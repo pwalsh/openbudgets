@@ -4,216 +4,7 @@ import tablib
 from django.core.mail import send_mail
 from openbudget.settings.base import TEMP_FILES_DIR, ADMINS, EMAIL_HOST_USER
 from openbudget.apps.transport.models import String
-from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode,\
-    BudgetTemplateNodeRelation, Budget, BudgetItem, Actual, ActualItem
-from openbudget.apps.entities.models import Entity, DomainDivision
-
-
-class BaseParser(object):
-
-    def __init__(self, container_object_dict):
-        self.container_object_dict = container_object_dict
-
-    ROUTE_SEPARATOR = '|'
-    ITEM_SEPARATOR = ';'
-    saved_cache = {}
-    objects_lookup = {}
-
-    def validate(self, data):
-        self._generate_lookup(data)
-        return True
-
-    def save(self):
-
-        self._create_container()
-
-        for key, obj in self.objects_lookup.iteritems():
-            self._save_object(obj, key)
-
-        return True
-
-
-class BudgetTemplateParser(BaseParser):
-
-    container_model = BudgetTemplate
-    item_model = BudgetTemplateNode
-
-    def _save_object(self, obj, key):
-        inverses = []
-        # check if we already saved this object and have it in cache
-        if key in self.saved_cache:
-            return self.saved_cache[key]
-
-        if 'inverse' in obj:
-            inverse_codes = obj['inverse'].split(self.ITEM_SEPARATOR)
-
-            if len(inverse_codes) and inverse_codes[0]:
-                scopes = []
-
-                if 'inversescope' in obj:
-                    scopes = obj['inversescope'].split(self.ITEM_SEPARATOR)
-                    # clean up
-                    del obj['inversescope']
-
-                for i, inv_code in enumerate(inverse_codes):
-                    if i in scopes:
-                        inverse_key, inverse = self._lookup_object(code=inv_code, scope=scopes[i])
-                    else:
-                        inverse_key, inverse = self._lookup_object(code=inv_code)
-
-                    if not inverse_key or not inverse:
-                        raise Exception('Could not locate an inverse, \
-                                        probably you have a syntax error: inverse = %s' % obj['inverse'])
-
-                    if inverse_key in self.saved_cache:
-                        inverses.append(self.saved_cache[inverse_key])
-                    else:
-                        inverses.append(self._save_object(inverse, inverse_key))
-
-            else:
-                # clean inverse
-                if 'inversescope' in obj:
-                    del obj['inversescope']
-
-            del obj['inverse']
-
-        if 'parent' in obj and obj['parent']:
-
-            if 'parentscope' in obj:
-                scope = obj['parentscope']
-                # clean parentscope
-                del obj['parentscope']
-            else:
-                scope = ''
-
-            parent_key, parent = self._lookup_object(code=obj['parent'], scope=scope)
-
-            if parent_key in self.saved_cache:
-                obj['parent'] = self.saved_cache[parent_key]
-            else:
-                parent = self._save_object(parent, parent_key)
-                obj['parent'] = parent
-
-        elif 'parent' in obj:
-            # clean parent
-            del obj['parent']
-
-            if 'parentscope' in obj:
-                # clean parentscope
-                del obj['parentscope']
-
-        item = self.item_model.objects.create(**obj)
-
-        if len(inverses):
-            for inverse in inverses:
-                item.inverse.add(inverse)
-
-        # cache the saved object
-        self.saved_cache[key] = item
-
-        BudgetTemplateNodeRelation.objects.create(
-            template=self.container_object,
-            node=item
-        )
-
-        return item
-
-    def _create_container(self):
-
-        container = self.container_model.objects.create(
-            name=self.container_object_dict['name'],
-        )
-
-        for division in self.container_object_dict['divisions']:
-            container.divisions.add(division)
-
-        self.container_object = container
-
-    def _generate_lookup(self, objects):
-        conflicting = {}
-        lookup_table = {}
-
-        for obj in objects:
-            code = obj['code']
-
-            if code in lookup_table:
-                if code not in conflicting:
-                    conflicting[code] = []
-                conflicting[code].append(obj)
-            else:
-                lookup_table[code] = obj
-
-        for code, obj_list in conflicting.iteritems():
-            conflicting[code].append(lookup_table.pop(code))
-
-        for code, obj_list in conflicting.iteritems():
-            for obj in obj_list:
-                # assuming there can't be two top level nodes with same code, naturally
-                key = self.ROUTE_SEPARATOR.join((code, obj['parent']))
-                # see if `parent` is also in conflict by looking for a `parentscope`
-                if 'parentscope' in obj and obj['parentscope']:
-                    key = key + self.ROUTE_SEPARATOR + obj['parentscope']
-
-                if key in lookup_table:
-                    raise Exception('Found key: %s of object: %s colliding with: %s' % (key, obj, lookup_table[key]))
-
-                lookup_table[key] = obj
-
-        self.objects_lookup = lookup_table
-
-    def _lookup_object(self, code=None, parent='', scope=''):
-        if code:
-
-            key = ''
-
-            if code in self.objects_lookup:
-                key = code
-
-            elif parent or scope:
-
-                if not parent:
-                    parent = scope.split(self.ROUTE_SEPARATOR)[0]
-
-                key = self.ROUTE_SEPARATOR.join((code, parent))
-
-                if key not in self.objects_lookup:
-                    key = self.ROUTE_SEPARATOR.join((code, scope))
-
-            if key in self.objects_lookup:
-                return key, self.objects_lookup[key]
-
-        return None, None
-
-
-class BudgetParser(BaseParser):
-
-    container_model = Budget
-    item_model = BudgetItem
-
-    def _create_container(self):
-
-        entity = Entity.objects.get(
-            pk=self.container_object_dict['entity']
-        )
-
-        self.container_object = self.container_model.objects.create(
-            entity=entity,
-            period_start=self.container_object_dict['period_start'],
-            period_end=self.container_object_dict['period_end'],
-        )
-
-
-class ActualParser(BudgetParser):
-
-    container_model = Actual
-    item_model = ActualItem
-
-
-PARSERS_MAP = {
-    'budgettemplate': BudgetTemplateParser,
-    'budget': BudgetParser,
-    'actual': ActualParser
-}
+from openbudget.apps.transport.incoming.parsers import PARSERS_MAP
 
 
 class BaseImporter(object):
@@ -244,7 +35,37 @@ class BaseImporter(object):
 
         self.extract()
 
-    def extract_meta(self):
+    def extract(self):
+        """Create a valid dataset from data in the sourcefile.
+
+        We create a tablib.Dataset object.
+
+        We clean up the headers.
+
+        We email ourselves if the source file cannot be converted \
+        to a datset, and we save that sourcefile in a tempoary \
+        location, as well as emailing it, for analysis.
+
+        """
+        self._extract_meta()
+
+        data_stream = self.sourcefile.read()
+        self.data = self.get_data(data_stream)
+
+        return self
+
+    def validate(self):
+        self.parser.validate(self.data)
+        return True
+
+    def save(self):
+        self.parser.save()
+        return True
+
+    def get_data(self, stream):
+        raise NotImplementedError()
+
+    def _extract_meta(self):
         """Get's the meta data for the dataset. \
         The meta data determines the parser class to be used for \
         parsing and saving the data, and the data for creating the \
@@ -279,36 +100,6 @@ class BaseImporter(object):
         self.parser = parser
 
         return self
-
-    def extract(self):
-        """Create a valid dataset from data in the sourcefile.
-
-        We create a tablib.Dataset object.
-
-        We clean up the headers.
-
-        We email ourselves if the source file cannot be converted \
-        to a datset, and we save that sourcefile in a tempoary \
-        location, as well as emailing it, for analysis.
-
-        """
-        self.extract_meta()
-
-        data_stream = self.sourcefile.read()
-        self.data = self.get_data(data_stream)
-
-        return self
-
-    def validate(self):
-        self.parser.validate(self.data)
-        return True
-
-    def save(self):
-        self.parser.save()
-        return True
-
-    def get_data(self, stream):
-        raise NotImplementedError()
 
     def _get_header_scopes(self):
         """
