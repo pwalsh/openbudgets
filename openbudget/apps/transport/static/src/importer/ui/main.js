@@ -19,8 +19,8 @@ define([
                         config  : {
                             element : '#' + datepicker_id
                         }
-                    }]);
-                    this.wakeContained();
+                    }])
+                    .then( this.wakeContained.bind(this) );
                 }
             }
         }
@@ -56,9 +56,8 @@ define([
                     uijet.start({
                         factory : 'import_form_ext',
                         config  : config
-                    });
-
-                    this.wakeContained();
+                    })
+                    .then( this.wakeContained.bind(this) );
                 },
                 'period_start_picker.picked': function (date) {
                     this.$element.find('[name=period_start]').val(date.toLocaleString());
