@@ -42,18 +42,10 @@ class BudgetTemplateNodeFactory(factory.Factory):
 
     @classmethod
     def _prepare(cls, create, **kwargs):
-
-
-        # DO TEMPLATES M2M
-
-
-        #password = kwargs.pop('password', None)
-        #account = super(AccountFactory, cls)._prepare(create, **kwargs)
-        #account.set_password(password)
-        #if create:
-        #    account.save()
-        value = True
-        return value
+        template = BudgetTemplateFactory()
+        btnode = super(BudgetTemplateNodeFactory, cls)._prepare(create, **kwargs)
+        btnode.templates.add(template)
+        return btnode
 
 
 class BudgetTemplateNodeRelationFactory(factory.Factory):

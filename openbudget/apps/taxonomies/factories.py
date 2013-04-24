@@ -8,12 +8,40 @@ from openbudget.apps.taxonomies.models import Taxonomy, Tag, TaggedNode
 
 class TaxonomyFactory(factory.Factory):
 
-    FACTORY_FOR = Account
+    FACTORY_FOR = Taxonomy
 
     user = factory.SubFactory(AccountFactory)
-    template = factory.Subfactory(BudgettemplateFactory)
+    template = factory.Subfactory(BudgetTemplateFactory)
     name = factory.Sequence(lambda n: 'Taxonomy {0}'.format(n))
     description = factory.Sequence(lambda n: 'Taxononmy {0} description text.'.format(n))
+    created_on = factory.Sequence(
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
+    )
+    last_modified = factory.Sequence(
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
+    )
+
+
+class TagFactory(factory.Factory):
+
+    FACTORY_FOR = Tag
+
+    taxonomy = factory.SubFactory(TaxonomyFactory)
+    name = factory.Sequence(lambda n: 'Taxonomy {0}'.format(n))
+    created_on = factory.Sequence(
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
+    )
+    last_modified = factory.Sequence(
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
+    )
+
+
+class TaggedNodeFactory(factory.Factory):
+
+    FACTORY_FOR = TaggedNode
+
+    tag = factory.SubFactory(TagFactory)
+    content_object = factory.SubFactory(BudgetTemplateNode)
     created_on = factory.Sequence(
         lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
     )
