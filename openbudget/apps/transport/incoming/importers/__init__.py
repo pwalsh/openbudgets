@@ -1,5 +1,5 @@
 import os
-import datetime
+from datetime import datetime
 import tablib
 from django.core.mail import send_mail
 from openbudget.settings.base import TEMP_FILES_DIR, ADMINS, EMAIL_HOST_USER
@@ -106,14 +106,14 @@ class BaseImporter(object):
         Hit the DB and get the available strings and scopes.
         """
 
-        value = {}
+        scopes_map = {}
 
         strings = String.objects.filter(parent__isnull=True)
 
         for string in strings:
-            value[string.string] = [scope.string for scope in string.scope_set.all()]
+            scopes_map[string.string] = [scope.string for scope in string.scope_set.all()]
 
-        return value
+        return scopes_map
 
     def _get_parser_from_filename(self):
         """Extract necessary info on the dataset from the filename.
@@ -238,7 +238,6 @@ class TablibImporter(BaseImporter):
 
         """
         #TODO: see if this method can be moved to the BaseImporter in a more generic way
-
         symbols = {
             ord('_'): None,
             ord('-'): None,
@@ -246,18 +245,16 @@ class TablibImporter(BaseImporter):
             ord(' '): None,
             ord("'"): None,
         }
+        scopes_map = self._get_header_scopes()
 
         for index, header in enumerate(dataset.headers):
 
             tmp = unicode(header).translate(symbols).lower()
-            scope_map = self._get_header_scopes()
 
-            for k, v in scope_map.iteritems():
+            for k, v in scopes_map.iteritems():
 
-                if (tmp == k) or (tmp in v):
-
-                    new_header = k
-                    dataset.headers[index] = new_header
+                if tmp == k or tmp in v:
+                    dataset.headers[index] = k
 
         return dataset
 
@@ -266,7 +263,7 @@ class TablibImporter(BaseImporter):
         Handle import exception raised by calling `tablib.import_set`
         """
 
-        dt = datetime.datetime.now().isoformat()
+        dt = datetime.now().isoformat()
 
         this_file = TEMP_FILES_DIR + \
             '/failed_import_{timestamp}_{filename}'.format(
