@@ -26,6 +26,15 @@ class BaseParser(object):
 
         return True
 
+    def _generate_lookup(self, data):
+        raise NotImplementedError
+
+    def _save_object(self, obj, key):
+        raise NotImplementedError
+
+    def _create_container(self):
+        raise NotImplementedError
+
     def _validate_data_structure(self, dataset):
         """Validate the data structure against a template"""
         # get template
