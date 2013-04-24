@@ -260,7 +260,7 @@
     "model": "transport.String",
     "pk": 9,
     "fields": {
-        "string": "parentalias",
+        "string": "parentscope",
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }
@@ -270,7 +270,27 @@
     "model": "transport.String",
     "pk": 10,
     "fields": {
-        "string": "inversealias",
+        "string": "inversescope",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "transport.String",
+    "pk": 11,
+    "fields": {
+        "string": "codescope",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "transport.String",
+    "pk": 12,
+    "fields": {
+        "string": "customcode",
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }

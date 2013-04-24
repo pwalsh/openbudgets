@@ -34,15 +34,15 @@ Follow
 * Following an item adds it to a user's account page, where this is a list of followed items
 * Followed items can be unfollowed from the account page, or the view of the object that is followed
 * Implemented with a generic foreign key, so adding Follows to new models is trivial
-* TBD: Logic to know what events on a given object (or related objects to an object) trigger notifications.
-* TBD: Actually send notifications
-* TBD: The email message for the notifications
+* TODO: Logic to know what events on a given object (or related objects to an object) trigger notifications.
+* TODO: Actually send notifications
+* TODO: The email message for the notifications
 
 Share
 +++++
 
 * Implemented with a generic foreign key, so adding comments to new models is trivial
-* TBD: Everything else. This is a placeholder for a coming feature
+* TODO: Everything else. This is a placeholder for a coming feature
 
 Configuration
 -------------
