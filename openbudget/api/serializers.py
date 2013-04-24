@@ -91,7 +91,7 @@ class EntityDetailLinked(serializers.HyperlinkedModelSerializer):
         model = Entity
 
 
-class DomainDivisionLinked(serializers.HyperlinkedModelSerializer):
+class DomainDivisionLinked(serializers.ModelSerializer):
 
     entities = EntityListLinked()
 
