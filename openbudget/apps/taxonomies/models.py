@@ -13,7 +13,7 @@ from openbudget.commons.data import OBJECT_STATES
 # labels = TaggableManager(through=TaggedNode)
 
 
-class Taxonomy(TimeStampedModel, UUIDModel, models.Model):
+class Taxonomy(TimeStampedModel, UUIDModel):
 
     user = models.ForeignKey(
         AUTH_USER_MODEL,

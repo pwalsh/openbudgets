@@ -8,7 +8,7 @@ from openbudget.apps.sources.models import ReferenceSource, AuxSource
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, PeriodStartModel, PeriodicModel
 
 
-class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel, models.Model):
+class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel):
     """The budget template for a given domain division.
 
     """

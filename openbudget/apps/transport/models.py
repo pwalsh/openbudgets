@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from openbudget.commons.mixins.models import TimeStampedModel
 
 
-class String(TimeStampedModel, models.Model):
+class String(TimeStampedModel):
     """"""
     string = models.CharField(
         _('String'),

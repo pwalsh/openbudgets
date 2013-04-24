@@ -9,7 +9,7 @@ from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
 from openbudget.commons.utilities import get_ultimate_parent
 
 
-class Domain(TimeStampedModel, models.Model):
+class Domain(TimeStampedModel):
     """Describes the domain for a collection of entities.
 
     Through the Domain model, we can derive a relational structure for a set of entities.
@@ -40,7 +40,7 @@ class Domain(TimeStampedModel, models.Model):
         verbose_name_plural = _('entity domains')
 
 
-class DomainDivision(TimeStampedModel, models.Model):
+class DomainDivision(TimeStampedModel):
     """Describes the administrative division for a domain.
 
     Each instance is an administrative division of a domain.
@@ -93,7 +93,7 @@ class DomainDivision(TimeStampedModel, models.Model):
         verbose_name_plural = _('domain divisions')
 
 
-class Entity(TimeStampedModel, UUIDModel, models.Model):
+class Entity(TimeStampedModel, UUIDModel):
     """Describes an entity in a domain.
 
 
