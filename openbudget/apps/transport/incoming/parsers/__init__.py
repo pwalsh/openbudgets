@@ -26,6 +26,12 @@ class BaseParser(object):
 
         return True
 
+    def deferred(self):
+        return {
+            'container': self.container_object_dict,
+            'items': self.objects_lookup
+        }
+
     def _generate_lookup(self, data):
         raise NotImplementedError
 

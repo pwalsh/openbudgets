@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 from openbudget.apps.transport.forms import FileImportForm
 from openbudget.apps.transport.incoming.importers import TablibImporter
+from openbudget.apps.transport.tasks import save_import
 from openbudget.commons.mixins.views import FileResponseMixin
 from openbudget.apps.budgets.models import Budget, Actual, BudgetItem, ActualItem
 
@@ -35,14 +36,17 @@ class FileImportView(FormView):
         if not valid:
             #TODO: change it to something more meaningful
             return HttpResponseServerError('SAVE FAILED')
-        save = importer.save()
-        if save:
-            if self.request.is_ajax():
-                return HttpResponse('OK')
-            else:
-                return redirect('import_success')
+
+        if self.request.is_ajax():
+            #TODO: validate email and also try getting it from filename if there's no POST data
+            save_import.apply_async((importer.deferred(), post_data.get('email')))
+            return HttpResponse('OK')
         else:
-            return HttpResponseServerError('SAVE FAILED')
+            save = importer.save()
+            if save:
+                return redirect('import_success')
+            else:
+                return HttpResponseServerError('SAVE FAILED')
 
 
 class FileExportView(FileResponseMixin, View):
