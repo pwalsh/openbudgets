@@ -26,7 +26,6 @@ define([
 
                         form_data.append('sourcefile', data.file);
                         form_data.append('type', 'budgettemplate');
-                        form_data.append('email', data.email);
                         form_data.append('attributes', attributes);
 
                         Importer.upload(form_data)

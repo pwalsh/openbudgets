@@ -38,8 +38,7 @@ class FileImportView(FormView):
             return HttpResponseServerError('SAVE FAILED')
 
         if self.request.is_ajax():
-            #TODO: validate email and also try getting it from filename if there's no POST data
-            save_import.apply_async((importer.deferred(), post_data.get('email')))
+            save_import.apply_async((importer.deferred(), self.request.user.email))
             return HttpResponse('OK')
         else:
             save = importer.save()
