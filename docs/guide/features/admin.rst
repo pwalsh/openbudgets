@@ -19,7 +19,7 @@ For configuration of the admin, please refer directly to the documentation for t
 
 https://django-grappelli.readthedocs.org/en/latest/
 
-https://docs.djangoproject.com/en/dev/ref/contrib/admin/
+https://docs.djangoproject.com/en/1.5/ref/contrib/admin/
 
 These sources will guide you through the possibilities of the admin interface.
 

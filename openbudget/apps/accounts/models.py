@@ -7,7 +7,7 @@ from openbudget.apps.interactions.models import Star, Follow
 from openbudget.commons.mixins.models import UUIDModel
 
 
-class Account(UUIDModel, AbstractUser, models.Model):
+class Account(UUIDModel, AbstractUser):
     """Extends Django's User with our project specific user fields"""
 
     language = models.CharField(
