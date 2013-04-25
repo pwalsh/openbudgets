@@ -1,5 +1,6 @@
+import json
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseServerError
+from django.http import HttpResponse, HttpResponseServerError, HttpResponseBadRequest
 from django.views.generic import View, FormView, TemplateView
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -32,10 +33,10 @@ class FileImportView(FormView):
             post_data,
             dataset_meta_in_filename=use_filename
         )
-        valid = importer.validate()
+        valid, errors = importer.validate()
         if not valid:
-            #TODO: change it to something more meaningful
-            return HttpResponseServerError('SAVE FAILED')
+            messages = [e.message for e in errors]
+            return HttpResponseBadRequest(json.dumps(messages), content_type='application/json')
 
         if self.request.is_ajax():
             save_import.apply_async((importer.deferred(), self.request.user.email))

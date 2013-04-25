@@ -1,11 +1,14 @@
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode,\
     BudgetTemplateNodeRelation, Budget, BudgetItem, Actual, ActualItem
 from openbudget.apps.entities.models import Entity
+from openbudget.apps.transport.incoming.errors import DataAmbiguityError
 
 
 class BaseParser(object):
 
     def __init__(self, container_object_dict):
+        self.valid = True
+        self.errors = []
         self.container_object_dict = container_object_dict
 
     ROUTE_SEPARATOR = '|'
@@ -15,7 +18,7 @@ class BaseParser(object):
 
     def validate(self, data):
         self._generate_lookup(data)
-        return True
+        return self.valid, self.errors
 
     def save(self):
 
@@ -31,6 +34,11 @@ class BaseParser(object):
             'container': self.container_object_dict,
             'items': self.objects_lookup
         }
+
+    def throw(self, error):
+        self.valid = False
+        self.errors.append(error)
+        return self
 
     def _generate_lookup(self, data):
         raise NotImplementedError
@@ -163,22 +171,24 @@ class BudgetTemplateParser(BaseParser):
     def _generate_lookup(self, objects):
         conflicting = {}
         lookup_table = {}
+        rows_objects_lookup = {}
 
-        for obj in objects:
+        for row_num, obj in enumerate(objects):
             code = obj['code']
 
             if code in lookup_table:
                 if code not in conflicting:
                     conflicting[code] = []
-                conflicting[code].append(obj)
+                conflicting[code].append((row_num, obj))
             else:
                 lookup_table[code] = obj
+                rows_objects_lookup[code] = row_num
 
         for code, obj_list in conflicting.iteritems():
-            conflicting[code].append(lookup_table.pop(code))
+            conflicting[code].append((rows_objects_lookup.pop(code), lookup_table.pop(code)))
 
         for code, obj_list in conflicting.iteritems():
-            for obj in obj_list:
+            for row_num, obj in obj_list:
                 # assuming there can't be two top level nodes with same code, naturally
                 key = self.ROUTE_SEPARATOR.join((code, obj['parent']))
                 # see if `parent` is also in conflict by looking for a `parentscope`
@@ -186,11 +196,16 @@ class BudgetTemplateParser(BaseParser):
                     key = key + self.ROUTE_SEPARATOR + obj['parentscope']
 
                 if key in lookup_table:
-                    raise Exception('Found key: %s of object: %s colliding with: %s' % (key, obj, lookup_table[key]))
+                    self.throw(DataAmbiguityError(
+                        rows=(row_num, rows_objects_lookup[key])
+                    ))
+                    # raise Exception('Found key: %s of object: %s colliding with: %s' % (key, obj, lookup_table[key]))
 
                 lookup_table[key] = obj
+                rows_objects_lookup[key] = row_num
 
         self.objects_lookup = lookup_table
+        # self.rows_objects_lookup = rows_objects_lookup
 
     def _lookup_object(self, code=None, parent='', scope=''):
         if code:

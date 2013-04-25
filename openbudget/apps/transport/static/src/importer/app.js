@@ -31,8 +31,8 @@ define([
                         Importer.upload(form_data)
                             .then(function (value) {
                                 console.log('Upload finished', value);
-                            }, function (reason) {
-                                console.error(reason);
+                            }, function (jqXHR) {
+                                uijet.publish('upload.failed', JSON.parse(jqXHR.responseText));
                             });
                     }
                 });

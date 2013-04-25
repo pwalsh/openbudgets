@@ -9,17 +9,20 @@
 <body>
     <div id="importer" class="uijet_app">
         <h1 id="heading">Welcome to Budget Importer 4000</h1>
-        <form id="import_form">
-            <fieldset>
-                <legend>Choose import type:</legend>
-                <label><input type="radio" name="type" value="budgettemplate"/> Budget Template</label>
-                <label><input type="radio" name="type" value="budget" disabled/> Budget</label>
-                <label><input type="radio" name="type" value="actual" disabled/> Actual</label>
-            </fieldset>
-            <fieldset id="import_form_type_ext"></fieldset>
-            <label for="sourcefile_input">Source File:</label><input type="file" name="sourcefile" id="sourcefile_input"/>
-            <span id="import_form_submit">Submit</span>
-        </form>
+        <div id="form_container">
+            <ul id="import_errors"></ul>
+            <form id="import_form">
+                <fieldset>
+                    <legend>Choose import type:</legend>
+                    <label><input type="radio" name="type" value="budgettemplate"/> Budget Template</label>
+                    <label><input type="radio" name="type" value="budget" disabled/> Budget</label>
+                    <label><input type="radio" name="type" value="actual" disabled/> Actual</label>
+                </fieldset>
+                <fieldset id="import_form_type_ext"></fieldset>
+                <label for="sourcefile_input">Source File:</label><input type="file" name="sourcefile" id="sourcefile_input"/>
+                <span id="import_form_submit">Submit</span>
+            </form>
+        </div>
     </div>
     <script>
         var BASE_URL = '{{ STATIC_URL }}',
