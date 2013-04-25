@@ -24,7 +24,7 @@ class BaseImporter(object):
 
     """
 
-    def __init__(self, sourcefile, post_data, ignore_unknown_headers=False,
+    def __init__(self, sourcefile=None, post_data=None, ignore_unknown_headers=False,
                  ignore_invalid_rows=False, dataset_meta_in_filename=False):
 
         self.sourcefile = sourcefile
@@ -33,7 +33,8 @@ class BaseImporter(object):
         self.ignore_invalid_rows = ignore_invalid_rows
         self.dataset_meta_in_filename = dataset_meta_in_filename
 
-        self.extract()
+        if sourcefile:
+            self.extract()
 
     def extract(self):
         """Create a valid dataset from data in the sourcefile.
@@ -61,6 +62,30 @@ class BaseImporter(object):
     def save(self):
         self.parser.save()
         return True
+
+    def deferred(self):
+        deferred = self.parser.deferred()
+
+        parser_key = ''
+        for key, parser_class in PARSERS_MAP.iteritems():
+            if isinstance(self.parser, parser_class):
+                parser_key = key
+                break
+
+        deferred['parser'] = parser_key
+
+        return deferred
+
+    def resolve(self, deferred):
+        parser_key = deferred['parser']
+        container_dict = deferred['container']
+
+        if not parser_key or not container_dict:
+            raise Exception('Bad deferred object: %s, %s' % (parser_key, container_dict))
+
+        self.parser = PARSERS_MAP[parser_key](container_dict)
+        self.parser.objects_lookup = deferred['items']
+        return self.save()
 
     def get_data(self, stream):
         raise NotImplementedError()
