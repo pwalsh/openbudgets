@@ -65,9 +65,9 @@ class BaseParser(object):
 
         self.container_object = container
 
-    def _dry_clean(self, instance, row_num=None):
+    def _dry_clean(self, instance, row_num=None, exclude=None):
         try:
-            instance.full_clean()
+            instance.full_clean(exclude=exclude)
         except ValidationError as e:
             self.throw(
                 DataValidationError(reasons=e.message_dict, row=row_num)
@@ -190,8 +190,8 @@ class BudgetTemplateParser(BaseParser):
             item = self.item_model(**obj)
             self._dry_clean(item, row_num=self.rows_objects_lookup[key])
 
-            relation = BudgetTemplateNodeRelation(template=self.container_object, node=item)
-            self._dry_clean(relation, row_num=self.rows_objects_lookup[key])
+            relation = BudgetTemplateNodeRelation()
+            self._dry_clean(relation, row_num=self.rows_objects_lookup[key], exclude=('node', 'template'))
 
         if len(inverses) and not dry:
             for inverse in inverses:
