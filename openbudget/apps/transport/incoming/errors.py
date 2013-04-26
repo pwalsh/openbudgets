@@ -92,9 +92,9 @@ class DataValidationError(DataInputError):
         self.reasons = reasons
 
     def __dict__(self):
-        dic = super(DataValidationError, self).__dict__()
-        dic['reasons'] = self.reasons
-        return dict
+        error_dic = super(DataValidationError, self).__dict__()
+        error_dic['reasons'] = self.reasons
+        return error_dic
 
     def __unicode__(self):
         return _('Data Validation Error')
