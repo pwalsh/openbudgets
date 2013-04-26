@@ -73,6 +73,7 @@ class BaseParser(object):
                 DataValidationError(reasons=e.message_dict, row=row_num)
             )
 
+
 class BudgetTemplateParser(BaseParser):
 
     container_model = BudgetTemplate
@@ -85,63 +86,98 @@ class BudgetTemplateParser(BaseParser):
             return self.saved_cache[key]
 
         if 'inverse' in obj:
-            inverse_codes = obj['inverse'].split(self.ITEM_SEPARATOR)
+            inverses = self._save_inverses(obj, key, dry=dry)
 
-            if len(inverse_codes) and inverse_codes[0]:
-                scopes = []
-                inverse_scope = ''
+        if 'parent' in obj:
+            self._save_parent(obj, key, dry=dry)
 
-                if 'inversescope' in obj:
-                    inverse_scope = obj['inversescope']
-                    scopes = inverse_scope.split(self.ITEM_SEPARATOR)
-                    # clean up
-                    del obj['inversescope']
+        if not dry:
+            item = self.item_model.objects.create(**obj)
 
-                for i, inv_code in enumerate(inverse_codes):
-                    if i in scopes:
-                        inverse_key, inverse_obj = self._lookup_object(code=inv_code, scope=scopes[i])
-                    else:
-                        inverse_key, inverse_obj = self._lookup_object(code=inv_code)
+            BudgetTemplateNodeRelation.objects.create(
+                template=self.container_object,
+                node=item
+            )
+        else:
+            item = self.item_model(**obj)
+            self._dry_clean(item, row_num=self.rows_objects_lookup[key])
 
-                    if not inverse_key or not inverse_obj:
-                        if dry:
-                            self.throw(
-                                DataSyntaxError(
-                                    row=self.rows_objects_lookup[key],
-                                    columns=('inverse', 'inversescope'),
-                                    values=(obj['inverse'], inverse_scope)
-                                )
-                            )
-                            # create a dummy node as the parent
-                            inverse = self.item_model(code=obj['inverse'], name='dummy')
-                        else:
-                            raise Exception('Could not locate an inverse, \
-                                            probably you have a syntax error: inverse = %s' % obj['inverse'])
+            relation = BudgetTemplateNodeRelation()
+            self._dry_clean(relation, row_num=self.rows_objects_lookup[key], exclude=('node', 'template'))
 
-                    else:
-                        if inverse_key in self.saved_cache:
-                            inverse = self.saved_cache[inverse_key]
-                        else:
-                            inverse = self._save_object(inverse_obj, inverse_key, dry=dry)
+        if len(inverses) and not dry:
+            for inverse in inverses:
+                item.inverse.add(inverse)
 
-                    inverses.append(inverse)
+        # cache the saved object
+        self.saved_cache[key] = item
 
+        return item
+
+    def _save_inverses(self, obj, key, dry=False):
+        inverses = []
+        inverse_codes = obj['inverse'].split(self.ITEM_SEPARATOR)
+
+        if len(inverse_codes) and inverse_codes[0]:
+            scopes = []
+            scopes_length = 0
+            inverse_scope = ''
+
+            if 'inversescope' in obj:
+                inverse_scope = obj['inversescope']
+                scopes = inverse_scope.split(self.ITEM_SEPARATOR)
+                scopes_length = len(scopes)
+                # clean up
+                del obj['inversescope']
+
+            for i, inv_code in enumerate(inverse_codes):
+                if i < scopes_length:
+                    inverse_key, inverse_obj = self._lookup_object(code=inv_code, scope=scopes[i])
+                else:
+                    inverse_key, inverse_obj = self._lookup_object(code=inv_code)
+
+                if not inverse_key or not inverse_obj:
                     if dry:
-                        if inverse.direction and inverse.direction == obj['direction']:
-                            self.throw(
-                                NodeDirectionError(
-                                    rows=(self.rows_objects_lookup[key], self.rows_objects_lookup[inverse_key])
-                                )
+                        self.throw(
+                            DataSyntaxError(
+                                row=self.rows_objects_lookup[key],
+                                columns=('inverse', 'inversescope'),
+                                values=(obj['inverse'], inverse_scope)
                             )
+                        )
+                        # create a dummy node as the parent
+                        inverse = self.item_model(code=obj['inverse'], name='dummy')
+                    else:
+                        raise Exception('Could not locate an inverse, \
+                                        probably you have a syntax error: inverse = %s' % obj['inverse'])
 
-            else:
-                # clean inverse
-                if 'inversescope' in obj:
-                    del obj['inversescope']
+                else:
+                    if inverse_key in self.saved_cache:
+                        inverse = self.saved_cache[inverse_key]
+                    else:
+                        inverse = self._save_object(inverse_obj, inverse_key, dry=dry)
 
-            del obj['inverse']
+                inverses.append(inverse)
 
-        if 'parent' in obj and obj['parent']:
+                if dry:
+                    if inverse.direction and inverse.direction == obj['direction']:
+                        self.throw(
+                            NodeDirectionError(
+                                rows=(self.rows_objects_lookup[key], self.rows_objects_lookup[inverse_key])
+                            )
+                        )
+
+        else:
+            # clean inverse
+            if 'inversescope' in obj:
+                del obj['inversescope']
+
+        del obj['inverse']
+
+        return inverses
+
+    def _save_parent(self, obj, key, dry=False):
+        if obj['parent']:
 
             if 'parentscope' in obj:
                 scope = obj['parentscope']
@@ -171,36 +207,13 @@ class BudgetTemplateParser(BaseParser):
                     parent = self._save_object(parent, parent_key, dry=dry)
                     obj['parent'] = parent
 
-        elif 'parent' in obj:
+        else:
             # clean parent
             del obj['parent']
 
             if 'parentscope' in obj:
                 # clean parentscope
                 del obj['parentscope']
-
-        if not dry:
-            item = self.item_model.objects.create(**obj)
-
-            BudgetTemplateNodeRelation.objects.create(
-                template=self.container_object,
-                node=item
-            )
-        else:
-            item = self.item_model(**obj)
-            self._dry_clean(item, row_num=self.rows_objects_lookup[key])
-
-            relation = BudgetTemplateNodeRelation()
-            self._dry_clean(relation, row_num=self.rows_objects_lookup[key], exclude=('node', 'template'))
-
-        if len(inverses) and not dry:
-            for inverse in inverses:
-                item.inverse.add(inverse)
-
-        # cache the saved object
-        self.saved_cache[key] = item
-
-        return item
 
     def _create_container(self, container_dict=None, dry=False):
 
