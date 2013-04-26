@@ -2,39 +2,80 @@ from django.core.exceptions import NON_FIELD_ERRORS
 from django.utils.translation import ugettext_lazy as _
 
 
-class DataSyntaxError(object):
+class DataInputError(object):
 
     def __init__(self, row='Unknown', columns=None, values=None):
         self.row = row
-        self.columns = columns or ('Unknown',)
-        self.values = values or ('Unknown',)
+        self.columns = columns or ['Unknown']
+        self.values = values or ['Unknown']
+
+    def __dict__(self):
+        return {
+            'row': self.row,
+            'columns': self.columns,
+            'values': self.values,
+            'message': self.message
+        }
+
+    @property
+    def _message(self):
+        return _('Error found in row: %s; and columns: %s; with values: %s')
+
+    @property
+    def message(self):
+        return self._message % (self.row, ', '.join(self.columns), ', '.join(self.values))
+
+
+class DataCollisionError(object):
+
+    def __init__(self, rows=None):
+        self.rows = rows or ['Unknown', 'Unknown']
+
+    def __dict__(self):
+        return {
+            'rows': self.rows,
+            'message': self.message
+        }
+
+    @property
+    def _message(self):
+        return _('Source data collision error in rows: %s, %s')
+
+    @property
+    def message(self):
+        return self._message % self.rows
+
+
+class DataSyntaxError(DataInputError):
 
     def __unicode__(self):
         return _('Data Syntax Error')
 
     @property
-    def message(self):
-        return _('Syntax error found in row: %s; and columns: %s; with values: %s') %\
-               (self.row, ', '.join(self.columns), ', '.join(self.values))
+    def _message(self):
+        return _('Syntax error found in row: %s; and columns: %s; with values: %s')
 
 
-class DataAmbiguityError(object):
-
-    def __init__(self, rows=None):
-        self.rows = rows or ('Unknown', 'Unknown')
+class DataAmbiguityError(DataCollisionError):
 
     def __unicode__(self):
         return _('Data Ambiguity Error')
 
     @property
-    def message(self):
-        return _('Source contains siblings with same code in rows: %s, %s') % self.rows
+    def _message(self):
+        return _('Source contains siblings with same code in rows: %s, %s')
 
 
 class MetaParsingError(object):
 
     def __init__(self, reason='Unknown'):
         self.reason = reason
+
+    def __dict__(self):
+        return {
+            'reason': self.reason,
+            'message': self.message
+        }
 
     def __unicode__(self):
         return _('Meta Parsing Error')
@@ -44,11 +85,16 @@ class MetaParsingError(object):
         return _('Source meta data invalid for reason: %s') % self.reason
 
 
-class DataValidationError(object):
+class DataValidationError(DataInputError):
 
     def __init__(self, reasons=None, row='Unknown'):
+        super(DataValidationError, self).__init__(row=row)
         self.reasons = reasons
-        self.row = row
+
+    def __dict__(self):
+        dic = super(DataValidationError, self).__dict__()
+        dic['reasons'] = self.reasons
+        return dict
 
     def __unicode__(self):
         return _('Data Validation Error')
@@ -59,36 +105,36 @@ class DataValidationError(object):
 
         if self.reasons:
             reasons = []
-            for key, message in self.reasons.iteritems():
+            for key, messages in self.reasons.iteritems():
                 if key == NON_FIELD_ERRORS:
                     key = 'others'
 
-                reasons.append('%s: %s' % (key, message))
+                reasons.append('%s: %s' % (key, 'and '.join(messages)))
 
-        return _('Source data invalid in row: %s; for reasons: %s') % (self.row, ' AND '.join(reasons))
+            reasons = ' AND '.join(reasons)
+
+        return _('Source data invalid in row: %s; for reasons: %s') % (self.row, reasons)
 
 
-class NodeDirectionError(object):
-
-    def __init__(self, rows=None):
-        self.rows = rows or ('Unknown', 'Unknown')
+class NodeDirectionError(DataCollisionError):
 
     def __unicode__(self):
         return _('Node Direction Error')
 
     @property
-    def message(self):
-        return _("Inverse node's direction is not opposite of item in row: %s; and inverse in row: %s") % self.rows
+    def _message(self):
+        return _("Inverse node's direction is not opposite of item in row: %s; and inverse in row: %s")
 
 
-class ParentScopeError(object):
-
-    def __init__(self, row='Unknown'):
-        self.row = row
+class ParentScopeError(DataInputError):
 
     def __unicode__(self):
         return _('Parent Scope Error')
 
     @property
+    def _message(self):
+        return _("Parent scope is missing or not resolvable in row: %s")
+
+    @property
     def message(self):
-        return _("Parent scope is missing or not resolvable in row: %s") % self.row
+        return self._message % self.row
