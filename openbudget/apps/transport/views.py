@@ -35,8 +35,8 @@ class FileImportView(FormView):
         )
         valid, errors = importer.validate()
         if not valid:
-            messages = [e.message for e in errors]
-            return HttpResponseBadRequest(json.dumps(messages), content_type='application/json')
+            error_dicts = [e.__dict__() for e in errors]
+            return HttpResponseBadRequest(json.dumps(error_dicts), content_type='application/json')
 
         if self.request.is_ajax():
             save_import.apply_async((importer.deferred(), self.request.user.email))
