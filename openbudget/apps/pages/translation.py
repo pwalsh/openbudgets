@@ -3,7 +3,7 @@ from openbudget.apps.pages.models import Page
 
 
 class PageTransOps(TranslationOptions):
-    fields = ('title', 'slug', 'content')
+    fields = ('title', 'content')
 
 
 translator.register(Page, PageTransOps)
