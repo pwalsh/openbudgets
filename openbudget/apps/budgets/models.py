@@ -95,14 +95,6 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
         related_name='children'
     )
 
-    # forwards = models.ManyToManyField(
-    #     'self',
-    #     null=True,
-    #     blank=True,
-    #     symmetrical=False,
-    #     related_name='pasts'
-    # )
-
     backwards = models.ManyToManyField(
         'self',
         null=True,

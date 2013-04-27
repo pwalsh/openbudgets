@@ -11,7 +11,7 @@ def save_import(deferred, email):
     importer = TablibImporter()
     save = importer.resolve(deferred)
 
-    sender = settings.EMAIL_SENDER
+    sender = settings.EMAIL_HOST_USER
     recipient = email
 
     if save:

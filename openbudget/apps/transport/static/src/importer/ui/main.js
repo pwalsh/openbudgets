@@ -33,10 +33,15 @@ define([
             position: 'top:50'
         }
     }, {
+        type    : 'Pane',
+        config  : {
+            element : '#form_container',
+            position: 'fluid'
+        }
+    }, {
         type    : 'Form',
         config  : {
             element     : '#import_form',
-            position    : 'fluid',
             app_events  : {
                 'import_form_type.changed'  : function (data) {
                     var value = data.value,
@@ -60,7 +65,7 @@ define([
                     .then( this.wakeContained.bind(this) );
                 },
                 'period_start_picker.picked': function (date) {
-                    this.$element.find('[name=period_start]').val(date.toLocaleString());
+                    this.$element.find('[name=period_start]').val(date.toLocaleDateString());
                 },
                 'import_form_submit.clicked': function () {
                     this.submit({
@@ -73,6 +78,16 @@ define([
         type    : 'Button',
         config  : {
             element : '#import_form_submit'
+        }
+    }, {
+        type    : 'List',
+        config  : {
+            element     : '#import_errors',
+            mixins      : ['Templated'],
+            dont_wake   : true,
+            app_events  : {
+                'upload.failed' : 'wake+'
+            }
         }
     }]);
 

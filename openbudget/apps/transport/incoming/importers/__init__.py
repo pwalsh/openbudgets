@@ -56,8 +56,7 @@ class BaseImporter(object):
         return self
 
     def validate(self):
-        self.parser.validate(self.data)
-        return True
+        return self.parser.validate(self.data)
 
     def save(self):
         self.parser.save()
