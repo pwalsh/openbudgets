@@ -4,7 +4,7 @@ from django.utils.timezone import utc
 from openbudget.apps.accounts.models import Account
 
 
-class AccountFactory(factory.Factory):
+class AccountFactory(factory.DjangoModelFactory):
 
     FACTORY_FOR = Account
     password = 'letmein'

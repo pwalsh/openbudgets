@@ -27,6 +27,16 @@ class ActualItemDetailView(DetailView):
     slug_field = 'uuid'
 
 
+class BudgetListView(ListView):
+    model = Budget
+    template_name = 'budgets/budget_list.html'
+
+
+class ActualListView(ListView):
+    model = Actual
+    template_name = 'budgets/actual_list.html'
+
+
 class BudgetTemplateListView(ListView):
     model = BudgetTemplate
     template_name = 'budgets/budget_template_list.html'

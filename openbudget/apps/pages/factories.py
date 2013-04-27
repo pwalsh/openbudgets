@@ -4,7 +4,7 @@ from django.utils.timezone import utc
 from openbudget.apps.pages.models import Page
 
 
-class PageFactory(factory.Factory):
+class PageFactory(factory.DjangoModelFactory):
 
     FACTORY_FOR = Page
 

@@ -6,7 +6,7 @@ from openbudget.apps.accounts.factories import AccountFactory
 from openbudget.apps.interactions.models import Star, Follow, Share
 
 
-class InteractionFactory(factory.Factory):
+class InteractionFactory(factory.DjangoModelFactory):
 
     user = factory.SubFactory(AccountFactory)
     content_type = 1

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}
+Budgets in System
+{% endblock title %}
+
+{% block content %}
+
+{% for object in object_list %}
+    <div>
+    name: {{ object.period }} | applies to: {{ object.entity }}
+    <br />
+    <a href="{% url 'actual_detail' object.uuid %}" title="">Go there</a>
+    </div>
+{% endfor %}
+
+{% endblock content %}

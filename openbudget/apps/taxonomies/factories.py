@@ -6,7 +6,7 @@ from openbudget.apps.budgets.factories import BudgetTemplateFactory
 from openbudget.apps.taxonomies.models import Taxonomy, Tag, TaggedNode
 
 
-class TaxonomyFactory(factory.Factory):
+class TaxonomyFactory(factory.DjangoModelFactory):
 
     FACTORY_FOR = Taxonomy
 
@@ -22,7 +22,7 @@ class TaxonomyFactory(factory.Factory):
     )
 
 
-class TagFactory(factory.Factory):
+class TagFactory(factory.DjangoModelFactory):
 
     FACTORY_FOR = Tag
 
@@ -36,7 +36,7 @@ class TagFactory(factory.Factory):
     )
 
 
-class TaggedNodeFactory(factory.Factory):
+class TaggedNodeFactory(factory.DjangoModelFactory):
 
     FACTORY_FOR = TaggedNode
 
