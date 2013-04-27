@@ -93,6 +93,17 @@
                 {% block footer %}
                 <div class="searchbox-container">
                     {% include 'partials/_searchbox.html' %}
+                    <div style="float:left;font-size:0.75em">
+                        <a href="{% url 'budget_template_list' %}">
+                            {% trans 'All Templates' %}
+                        </a>&nbsp;|&nbsp;
+                        <a href="{% url 'budget_list' %}">
+                            {% trans 'All Budgets' %}
+                        </a>&nbsp;|&nbsp;
+                        <a href="{% url 'actual_list' %}">
+                            {% trans 'All Actuals' %}
+                        </a>
+                    </div>
                 </div>
 
                 <div class="footer-links">
