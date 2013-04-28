@@ -73,7 +73,8 @@ class ActualLinked(serializers.HyperlinkedModelSerializer):
         model = Actual
 
 
-class EntityListLinked(serializers.HyperlinkedModelSerializer):
+#TODO: changed from HyperlinkedModelSerializer to ModelSerializer to get the importer app working
+class EntityListLinked(serializers.ModelSerializer):
 
     budgets = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='budget-detail')
     actuals = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='actual-detail')
@@ -91,6 +92,7 @@ class EntityDetailLinked(serializers.HyperlinkedModelSerializer):
         model = Entity
 
 
+#TODO: changed from HyperlinkedModelSerializer to ModelSerializer to get the importer app working
 class DomainDivisionLinked(serializers.ModelSerializer):
 
     entities = EntityListLinked()
