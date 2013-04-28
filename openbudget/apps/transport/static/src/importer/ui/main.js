@@ -60,6 +60,13 @@ define([
                                         }
                                     }])
                                     .then( this.wakeContained.bind(this) );
+                                },
+                                process_data: function (data) {
+                                    //TODO: move this to a controller
+                                    //! Array.prototype.filter
+                                    data.results = data.results.filter(function (item, i) {
+                                        return item.has_budgets;
+                                    });
                                 }
                             };
                             config.data_url = Importer.BASE_API_URL + 'domain-divisions/';
