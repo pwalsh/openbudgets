@@ -20,7 +20,6 @@ class BudgetTemplateFactory(factory.DjangoModelFactory):
 
     @factory.post_generation
     def divisions(self, create, extracted, **kwargs):
-
         if not create:
             return
 

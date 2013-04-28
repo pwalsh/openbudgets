@@ -258,11 +258,21 @@ class TemplateViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue('object_list' in response.context)
 
+    def test_template_detailview(self):
+
+        detailview = reverse('budget_template_detail',
+            args=(self.template.uuid,)
+        )
+        response = self.client.get(detailview)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('object' in response.context)
+
 class SheetViewTestCase(TestCase):
 
     def setUp(self):
-        self.budgets = BudgetFactory.create_batch(2)
-        self.actuals = ActualFactory.create_batch(2)
+        self.budget = BudgetFactory.create()
+        self.actual = ActualFactory.create()
 
     def test_budget_listview(self):
 
@@ -272,41 +282,30 @@ class SheetViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue('object_list' in response.context)
 
-    """
-    #def test_budget_detailview(self):
-    #    for budget in self.budgets:
-    #
-    #        detailview = reverse(
-    #            'budget_detail',
-    #            args=(budget.uuid,)
-    #        )
-
-    #        response = self.client.get(detailview)
-
-    #        self.assertEqual(response.status_code, 200)
-    #        self.assertTrue('object' in response.context)
-
     def test_actual_listview(self):
 
-        listview = reverse(
-            'actual_list'
-        )
-
+        listview = reverse('actual_list')
         response = self.client.get(listview)
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue('object_list' in response.context)
 
-    #def test_actual_detailview(self):
-    #    for actual in self.actuals:
-    #
-    #        detailview = reverse(
-    #            'actual_detail',
-    #            args=(actual.uuid,)
-    #        )
+    def test_budget_detailview(self):
 
-    #        response = self.client.get(detailview)
+        detailview = reverse('budget_detail',
+            args=(self.budget.uuid,)
+        )
+        response = self.client.get(detailview)
 
-    #        self.assertEqual(response.status_code, 200)
-    #        self.assertTrue('object' in response.context)
-    """
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('object' in response.context)
+
+    def test_actual_detailview(self):
+
+        detailview = reverse('actual_detail',
+            args=(self.actual.uuid,)
+        )
+        response = self.client.get(detailview)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('object' in response.context)

@@ -7,7 +7,7 @@ from openbudget.apps.entities.factories import EntityFactory
 class EntityTestCase(TestCase):
 
     def setUp(self):
-        self.entities = EntityFactory.create_batch(5)
+        self.entity = EntityFactory.create()
 
     def test_listview(self):
 
@@ -20,15 +20,12 @@ class EntityTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue('object_list' in response.context)
 
-    #def test_detailview(self):
-    #    for entity in self.entities:
-    #
-    #        detailview = reverse(
-    #            'entity_detail',
-    #            args=(entity.slug,)
-    #        )
+    def test_entity_detailview(self):
 
-    #        response = self.client.get(detailview)
+        detailview = reverse('entity_detail',
+            args=(self.entity.slug,)
+        )
+        response = self.client.get(detailview)
 
-    #        self.assertEqual(response.status_code, 200)
-    #        self.assertTrue('object' in response.context)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('object' in response.context)

@@ -11,17 +11,16 @@ class PageTestCase(TestCase):
     def setUp(self):
         self.page = PageFactory.create()
 
-        self.page_view = reverse(
-                'page',
+    def test_page_detailview(self):
+
+        detailview = reverse('page',
                 args=(self.page.slug,)
             )
 
-    #def test_page(self):
-    #    """Test pages with English slugs, and check template."""
-    #    response = self.client.get(self.page_view)
-    #    self.assertEqual(response.status_code, 200)
-    #    self.assertTrue('page' in response.context)
+        response = self.client.get(detailview)
 
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('page' in response.context)
 
     def test_404_page(self):
         """Does the 404 page work?"""
