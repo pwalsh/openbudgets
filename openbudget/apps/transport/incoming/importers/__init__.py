@@ -67,7 +67,7 @@ class BaseImporter(object):
 
         parser_key = ''
         for key, parser_class in PARSERS_MAP.iteritems():
-            if isinstance(self.parser, parser_class):
+            if self.parser.__class__ is parser_class:
                 parser_key = key
                 break
 
