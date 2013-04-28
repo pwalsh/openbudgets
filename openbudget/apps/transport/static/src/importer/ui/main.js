@@ -12,7 +12,13 @@ define([
             element         : FORM_TYPE_EXT_ID,
             mixins          : ['Templated'],
             template_name   : 'budgettemplate-form',
-            partials_dir    : 'partials/'
+            partials_dir    : 'partials/',
+            app_events      : {
+                destroy_form_ext: function (new_config) {
+                    this.destroy()
+                        .publish('destroyed', new_config);
+                }
+            }
         }
     });
 
@@ -33,14 +39,24 @@ define([
         config  : {
             element     : '#import_form',
             signals     : {
-                post_init   : function () {
+                post_init       : function () {
                     var type_ext = this.$element.find(FORM_TYPE_EXT_ID)[0];
                     this.type_ext_html = type_ext.outerHTML;
                     this.type_ext_position = type_ext.nextElementSibling;
+                },
+                start_form_ext  : function (config) {
+                    uijet.start({
+                        factory : 'import_form_ext',
+                        config  : config
+                    })
+                    .then(function () {
+                        this.has_type_ext = true;
+                        this.wakeContained()
+                    }.bind(this));
                 }
             },
             app_events  : {
-                'import_form_type.changed'  : function (data) {
+                'import_form_type.changed'      : function (data) {
                     var value = data.value,
                         config = {
                             template_name   : value + '-form'
@@ -95,31 +111,29 @@ define([
                     }
 
                     if ( this.has_type_ext ) {
-                        this.destroyContained();
                         var new_el = uijet.$(this.type_ext_html)[0];
                         this.type_ext_position.parentNode.insertBefore(new_el, this.type_ext_position);
+                        uijet.publish('destroy_form_ext', config);
                     }
-
-                    this.has_type_ext = true;
-
-                    uijet.start({
-                        factory : 'import_form_ext',
-                        config  : config
-                    })
-                    .then( this.wakeContained.bind(this) );
+                    else {
+                        this.notify('start_form_ext', config);
+                    }
                 },
-                'period_start_picker.picked': function (date) {
+                'period_start_picker.picked'    : function (date) {
                     var date_str = date.toISOString().replace(/([^T]+)(T.*)/, '$1');
                     this.$element.find('[name=period_start]').val(date_str);
                 },
-                'period_end_picker.picked'  : function (date) {
+                'period_end_picker.picked'      : function (date) {
                     var date_str = date.toISOString().replace(/([^T]+)(T.*)/, '$1');
                     this.$element.find('[name=period_end]').val(date_str);
                 },
-                'import_form_submit.clicked': function () {
+                'import_form_submit.clicked'    : function () {
                     this.submit({
                         file: this.$element.find('[name=sourcefile]')[0].files[0]
                     });
+                },
+                'import_form_type_ext.destroyed': function (config) {
+                    this.notify('start_form_ext', config);
                 }
             }
         }
