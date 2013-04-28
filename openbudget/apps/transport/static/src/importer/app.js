@@ -25,7 +25,7 @@ define([
                             attributes = '';
 
                         switch ( data.type ) {
-                            case 'budgettempalte':
+                            case 'budgettemplate':
                                 attributes += 'name=' + data.name +
                                                 ';divisions=' + data.divisions.join(',');
                                 break;
