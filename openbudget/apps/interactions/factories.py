@@ -3,10 +3,11 @@ import factory
 from django.utils.timezone import utc
 #from django.contrib.contenttypes.models import ContentType
 from openbudget.apps.accounts.factories import AccountFactory
-from openbudget.apps.interactions.models import Star, Follow, Share
+from openbudget.apps.interactions.models import Interaction, Star, Follow, Share
 
 
-class InteractionFactory(factory.Factory):
+class InteractionFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = Interaction
 
     user = factory.SubFactory(AccountFactory)
     content_type = 1

@@ -4,7 +4,7 @@ from django.utils.timezone import utc
 from openbudget.apps.entities.models import Domain, DomainDivision, Entity
 
 
-class DomainFactory(factory.Factory):
+class DomainFactory(factory.DjangoModelFactory):
 
     FACTORY_FOR = Domain
 
@@ -17,7 +17,7 @@ class DomainFactory(factory.Factory):
     )
 
 
-class DomainDivisionFactory(factory.Factory):
+class DomainDivisionFactory(factory.DjangoModelFactory):
 
     FACTORY_FOR = DomainDivision
 
@@ -32,15 +32,15 @@ class DomainDivisionFactory(factory.Factory):
     )
 
 
-class EntityFactory(factory.Factory):
+class EntityFactory(factory.DjangoModelFactory):
 
     FACTORY_FOR = Entity
 
     division = factory.SubFactory(DomainDivisionFactory)
     name = factory.Sequence(lambda n: 'Entity {0}'.format(n))
+    slug = factory.Sequence(lambda n: 'entity-{0}'.format(n))
     description = factory.Sequence(lambda n: 'Entity {0} description text.'.format(n))
     code = factory.Sequence(lambda n: 'CODE{0}'.format(n))
-    parent = factory.SubFactory(EntityFactory)
     created_on = factory.Sequence(
         lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
     )

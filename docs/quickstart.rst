@@ -1,31 +1,30 @@
 Requirements
 ============
 
-Open Budget is written in Python and JavaScript. If you develop web apps in these languages, it is likely that your machine is ready to start work. Check that you meet these requirements:
+Overview
+--------
+
+Open Budget is written in Python and JavaScript.
+
+If you develop web apps in these languages, it is likely that your machine is ready to start work.
+
+Check that you meet these requirements:
 
 * A unix-like OS (We develop on Ubuntu and Mac OS X)
-* `Python 2.7 <http://python.org/download/>`_
-* `Node.js <http://nodejs.org/>`_
-* `Git <http://git-scm.com>`_
-* virtualenv
-* virtualenvwrapper
+* `Python <http://python.org/>`_ (2.7.x)
+* `Node <http://nodejs.org/>`_
+* `Git <http://git-scm.com/>`_
+* `virtualenv <http://virtualenvwrapper.readthedocs.org/en/latest/>`_
+* `virtualenvwrapper <http://virtualenvwrapper.readthedocs.org/en/latest/>`_
 
 Please make sure you meet these requirements before moving on to installation, and make sure to read the guide/management/dependencies page for more details.
 
-About Node.js
--------------
-
-Open Budget is not a Node.js app, but we do make use of node.js tools in our development environments.
-
-Make sure you have version **0.6.5+** installed.
-
-Now we can move on to the project installation.
 
 Installation
-============
+------------
 
 Configure hosts
----------------
+~~~~~~~~~~~~~~~
 
 This project makes use of subdomains to target languages, and for the API. To enable this functionality fully, you'll need to edit your hosts file on your development machine.
 
@@ -108,12 +107,14 @@ TODO
 Tests
 -----
 
-TODO
+We won't accept code that doesn't have tests for it.
 
 Docs
 ----
 
-TODO
+We do not expect contributors to write docs (this guide), but it is great if they do.
+
+However, please try to use doc strings or comments so your code is easy to follow. This, combined with tests, will help us include your code, and write docs for it.
 
 Branching
 ---------

@@ -5,7 +5,7 @@ from openbudget.apps.accounts.factories import AccountFactory
 from openbudget.apps.sources.models import ReferenceSource, AuxSource
 
 
-class DataSourceFactory(factory.Factory):
+class DataSourceFactory(factory.DjangoModelFactory):
 
     added_by = factory.SubFactory(AccountFactory)
     name = factory.Sequence(lambda n: 'Data Source Name {0}'.format(n))

@@ -2,14 +2,13 @@ import datetime
 import factory
 from django.utils.timezone import utc
 from openbudget.apps.entities.factories import EntityFactory, DomainDivisionFactory
-from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, BudgetTemplateNodeRelation, Budget, Actual, BudgetItem, ActualItem
+from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, BudgetTemplateNodeRelation, Sheet, Budget, Actual, SheetItem, BudgetItem, ActualItem
 
 
-class BudgetTemplateFactory(factory.Factory):
+class BudgetTemplateFactory(factory.DjangoModelFactory):
 
     FACTORY_FOR = BudgetTemplate
 
-    division = factory.SubFactory(DomainDivisionFactory)
     name = factory.Sequence(lambda n: 'Budget Template {0}'.format(n))
     description = factory.Sequence(lambda n: 'Budget Template {0} description text.'.format(n))
     created_on = factory.Sequence(
@@ -19,8 +18,17 @@ class BudgetTemplateFactory(factory.Factory):
         lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
     )
 
+    @factory.post_generation
+    def divisions(self, create, extracted, **kwargs):
+        if not create:
+            return
 
-class BudgetTemplateNodeFactory(factory.Factory):
+        if extracted:
+            for division in extracted:
+                self.divisions.add(division)
+
+
+class BudgetTemplateNodeFactory(factory.DjangoModelFactory):
 
     FACTORY_FOR = BudgetTemplateNode
 
@@ -29,7 +37,7 @@ class BudgetTemplateNodeFactory(factory.Factory):
     code = factory.Sequence(lambda n: '{0}'.format(n))
     name = factory.Sequence(lambda n: 'Budget Template Node {0} Name'.format(n))
     description = factory.Sequence(lambda n: 'Budget Template Node {0} description.'.format(n))
-    parent = factory.SubFactory(BudgetTemplateNodeFactory)
+    #parent = factory.SubFactory(BudgetTemplateNodeFactory)
     #backwards =
     direction = directions[0][0]
     #inverse =
@@ -48,7 +56,7 @@ class BudgetTemplateNodeFactory(factory.Factory):
         return btnode
 
 
-class BudgetTemplateNodeRelationFactory(factory.Factory):
+class BudgetTemplateNodeRelationFactory(factory.DjangoModelFactory):
 
     FACTORY_FOR = BudgetTemplateNodeRelation
 
@@ -56,16 +64,18 @@ class BudgetTemplateNodeRelationFactory(factory.Factory):
     node = factory.SubFactory(BudgetTemplateNodeFactory)
 
 
-class SheetFactory(factory.Factory):
+class SheetFactory(factory.DjangoModelFactory):
+
+    FACTORY_FOR = Sheet
 
     entity = factory.SubFactory(EntityFactory)
     template = factory.SubFactory(BudgetTemplateFactory)
     description = factory.Sequence(lambda n: 'Budget Factory {0} description.'.format(n))
     period_start = factory.Sequence(
-        lambda n: datetime.date.utcnow().replace(tzinfo=utc)
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc).date()
     )
     period_end = factory.Sequence(
-        lambda n: datetime.date.utcnow().replace(tzinfo=utc)
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc).date()
     )
     created_on = factory.Sequence(
         lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
@@ -77,7 +87,7 @@ class SheetFactory(factory.Factory):
 
 class BudgetFactory(SheetFactory):
 
-    FACTORY_FOR = Actual
+    FACTORY_FOR = Budget
 
 
 class ActualFactory(SheetFactory):
@@ -86,6 +96,8 @@ class ActualFactory(SheetFactory):
 
 
 class SheetItemFactory(factory.Factory):
+
+    FACTORY_FOR = SheetItem
 
     node = factory.SubFactory(BudgetTemplateNodeFactory)
     description = factory.Sequence(lambda n: 'Budget Factory {0} description.'.format(n))

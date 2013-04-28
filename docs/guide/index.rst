@@ -51,6 +51,7 @@ Management
    management/project
    management/dependencies
    management/repositories
+   management/testing
 
 
 Specifications

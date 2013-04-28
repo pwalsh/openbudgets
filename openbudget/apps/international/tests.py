@@ -56,7 +56,9 @@ class InternationalCase(TestCase):
         response = self.client.get(home)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(template)
+        # TODO: Work out how we can test for "template used", when
+        # the template is loaded via a template tag
+        #self.assertTemplateUsed(response, template)
         for lang in self.languages:
             self.assertContains(response, meta_string.format(lang=lang[0]))
 
@@ -73,7 +75,9 @@ class InternationalCase(TestCase):
         response = self.client.get(self.home)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(template)
+        # TODO: Work out how we can test for "template used", when
+        # the template is loaded via a template tag
+        #self.assertTemplateUsed(response, template)
         for _ in self.languages:
             self.assertContains(response, partial_container)
 
