@@ -114,7 +114,7 @@
     "model": "transport.String",
     "pk": 23,
     "fields": {
-        "string": "__codescope__",
+        "string": "סכום",
         "parent": 11,
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
