@@ -220,7 +220,10 @@ class BaseImporter(object):
                 try:
                     getattr(parser.container_model, key)
                 except AttributeError as e:
-                    raise e
+                    try:
+                        getattr(parser.container_model(), key)
+                    except AttributeError as e:
+                        raise e
 
                 # if the value has commas, it is an m2m related field
                 if ',' in val:
