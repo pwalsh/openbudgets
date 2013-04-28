@@ -22,10 +22,22 @@ define([
                 uijet.subscribe({
                     'import_form.submitted'         : function (data) {
                         var form_data = new FormData(),
-                            attributes = 'name=' + data.name + ';divisions=' + data.divisions.join(',');
+                            attributes = '';
+
+                        switch ( data.type ) {
+                            case 'budgettempalte':
+                                attributes += 'name=' + data.name +
+                                                ';divisions=' + data.divisions.join(',');
+                                break;
+                            case 'budget':
+                                attributes += 'period_start=' + data.period_start +
+                                              ';period_end=' + data.period_end +
+                                              ';entity=' + data.entity;
+                                break;
+                        }
 
                         form_data.append('sourcefile', data.file);
-                        form_data.append('type', 'budgettemplate');
+                        form_data.append('type', data.type);
                         form_data.append('attributes', attributes);
 
                         Importer.upload(form_data)
