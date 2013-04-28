@@ -138,3 +138,10 @@ class ParentScopeError(DataInputError):
     @property
     def message(self):
         return self._message % self.row
+
+
+class NodeNotFoundError(DataInputError):
+
+    @property
+    def _message(self):
+        return _('Budget template node not found for item in row: %s; and columns: %s; with values: %s')
