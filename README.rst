@@ -1,68 +1,50 @@
-Open Budget for Municipalities
-==============================
-
-The Open Budget project is a web app and web API for municipality budgets, and related contextual data.
+Open Budget: A platform for accessible and meaningful budgetary data
+====================================================================
 
 .. image:: https://travis-ci.org/prjts/open-budget.png
 
-Get involved
-------------
+The Open Budget project is a web app and API for the storage, access, and manipulation of budgetary data.
 
-Code: https://github.com/hasadna/omuni-budget
+It is written in Python and JavaScript, using frameworks and libraries such as Django, D3, Backbone, Uijet, and Jquery.
 
-Issues: https://github.com/hasadna/omuni-budget/issues
+Open Budget is especially useful for comparing budgets and actuals over time, and across *related* entities.
 
-Docs: http://open-budget.readthedocs.org/
+V1 of Open Budget has been designed as a platform for the budgets  of municipality governments in Israel, with an eye to wider applicability in budget comparasion for government, commercial, and non-profit entities.
 
-Demo: http://open-budget.prjts.com/
+Open Budget is open source software and licensed under a BSD license.
 
-Discussion: https://groups.google.com/forum/?fromgroups=#!forum/open-muni-dev
+Open Budget is a project of HaSadna (the Public Knowledge Workshop), a non-profit organization in Israel dedicated to data transparency in government.
 
-HaSadna (Public Knowledge Workshop): http://hasadna.org.il/
+Find out more here:
 
-5 min install
--------------
+http://hasadna.org.il/
 
-Make sure you have the latest version of virtualenv installed, and set it up so you have a directory for your envs, and a directory for your projects.
 
-We are using subdomains extensively, for languages and for the API.
+Ways to contribute
+------------------
 
-So first, edit your hosts file and add some aliases for 127.0.0.1::
+You can contribute to the project in a number of ways:
 
-    127.0.0.1 [whatever else you have] he.obudget.dev en.obudget.dev ar.obudget.dev ru.obudget.dev api.obudget.dev obudget.dev www.obudget.dev
+**Write some code**: https://github.com/hasadna/omuni-budget
 
-With virtualenv setup properly on your machine, do something like::
+**Find some issues**: https://github.com/hasadna/omuni-budget/issues
 
-    mkvirtualenv open-muni
+**Read the docs**: http://open-budget.readthedocs.org/
 
-    mkdir /srv/projects/open-muni
+**Try the demo**: http://open-budget.prjts.com/
 
-    setvirtualenvproject /srv/environments/open-muni /srv/projects/open-muni
+**Start a discussion**: https://groups.google.com/forum/?fromgroups=#!forum/open-muni-dev
 
-    cdproject
+**HaSadna (Public Knowledge Workshop)**: http://www.hasadna.org.il/en/
 
-    git clone git@github.com:hasadna/omuni-budget.git .
+Quickstart
+----------
 
-**Important: Note the "." at the end of the git clone directive.**
+If you want to get up and running, go straight to the quickstart:
 
-And continuing::
+http://open-budget.readthedocs.org/en/latest/quickstart.html
 
-    pip install -r requirements.txt
+License
+-------
 
-    python manage.py devstrap -m -t
-
-    python manage.py runserver
-
-Now we'll grab the stuff we need for the front-end:
-
-First, you'll need to install `Node.js <http://nodejs.org/>`_, and then install `volo <http://volojs.org/>`_ as follows::
-
-    npm install -g volo
-
-Now we can simply fetch all our client-side dependencies::
-
-    volo add
-
-Now go to obudget.dev:8000 in your browser
-
-Now see the docs for full documentation.
+https://github.com/hasadna/omuni-budget/blob/develop/LICENSE
