@@ -25,9 +25,10 @@ define([
                             attributes = '';
 
                         switch ( data.type ) {
-                            case 'budgettempalte':
+                            case 'budgettemplate':
                                 attributes += 'name=' + data.name +
-                                                ';divisions=' + data.divisions.join(',');
+                                                ';period_start=' + data.period_start +
+                                                ';divisions=' + uijet.Utils.toArray(data.divisions).join(',');
                                 break;
                             case 'budget':
                                 attributes += 'period_start=' + data.period_start +
@@ -44,7 +45,12 @@ define([
                             .then(function (value) {
                                 console.log('Upload finished', value);
                             }, function (jqXHR) {
-                                uijet.publish('upload.failed', JSON.parse(jqXHR.responseText));
+                                try {
+                                    data = JSON.parse(jqXHR.responseText)
+                                } catch (e) {
+                                    data = {}
+                                }
+                                uijet.publish('upload.failed', data);
                             });
                     }
                 });

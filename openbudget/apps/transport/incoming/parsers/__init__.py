@@ -235,7 +235,7 @@ class BudgetTemplateParser(BaseParser):
             )
         else:
             relation = BudgetTemplateNodeRelation()
-            self._dry_clean(relation, row_num=self.rows_objects_lookup[key], exclude=('node', 'template'))
+            self._dry_clean(relation, row_num=self.rows_objects_lookup[key], exclude=['node', 'template'])
 
     def _create_container(self, container_dict=None, dry=False):
 
@@ -327,19 +327,38 @@ class BudgetParser(BudgetTemplateParser):
     container_model = Budget
     item_model = BudgetItem
 
+    def _save_object(self, obj, key, dry=False):
+        # check if we already saved this object and have it in cache
+        if key in self.saved_cache:
+            return self.saved_cache[key]
+
+        self._add_to_container(obj, key, dry=dry)
+
+        item = self._create_item(obj, key, dry=dry)
+
+        # cache the saved object
+        self.saved_cache[key] = item
+
     def _create_container(self, container_dict=None, dry=False):
 
         data = container_dict or self.container_object_dict
 
-        if not dry:
-            entity = Entity.objects.get(
-                pk=data['entity']
-            )
-        else:
-            entity = Entity(pk=data['entity'])
-            self._dry_clean(entity)
+        try:
+            if not isinstance(data['entity'], Entity):
+                entity = Entity.objects.get(
+                    pk=data['entity']
+                )
+                data['entity'] = entity
+        except Entity.DoesNotExist as e:
+            if dry:
+                self.throw(
+                    MetaParsingError(
+                        reason='Could not find Entity with key: %s' % data['entity']
+                    )
+                )
+            else:
+                raise e
 
-        data['entity'] = entity
         template = self._get_prev_template(data)
         data['template'] = template
 
@@ -350,11 +369,11 @@ class BudgetParser(BudgetTemplateParser):
 
     def _clean_object(self, obj, key, dry=False):
         #TODO: if customcode is important the handle it, or else remove altogether
-        if 'customcode' in obj:
-            del obj['customcode']
         #TODO: first validate direction is compatible with node
-        if 'direction' in obj:
-            del obj['direction']
+        keys = ('customcode', 'direction', 'code', 'parent', 'parentscope', 'inverse', 'inversescope')
+        for key in keys:
+            if key in obj:
+                del obj[key]
 
     def _create_item(self, obj, key, dry=False):
         route = key.split(self.ROUTE_SEPARATOR)
@@ -369,19 +388,28 @@ class BudgetParser(BudgetTemplateParser):
             _filter[filter_key] = route.pop(0)
 
         try:
+            #TODO: to optimize: replace with a cache of all nodes and look up in memory instead of hitting DB
             node = self.container_object.template.nodes.get(**_filter)
             obj['node'] = node
         except BudgetTemplateNode.DoesNotExist as e:
             if dry:
+                # prepare data for the error
+                columns = ['code', 'parent', 'parentscope']
+                values = []
+                for col in columns:
+                    if col not in obj:
+                        columns.remove(col)
+                    else:
+                        values.append(obj[col])
                 self.throw(
                     NodeNotFoundError(
                         row=self.rows_objects_lookup[key],
-                        columns=('code', 'parent', 'parentscope'),
-                        values=(obj['code'], obj['parent'], obj['parentscope'])
+                        columns=columns,
+                        values=values
                     )
                 )
             else:
-                #TODO: handle creation of a new node if necessary 
+                #TODO: handle this error properly, since at this stage there shouldn't be any missing nodes
                 raise e
 
         self._clean_object(obj, key, dry=dry)
@@ -389,13 +417,13 @@ class BudgetParser(BudgetTemplateParser):
             item = self.item_model.objects.create(**obj)
         else:
             item = self.item_model(**obj)
-            self._dry_clean(item, self.rows_objects_lookup[key], exclude=('node',))
+            self._dry_clean(item, self.rows_objects_lookup[key], exclude=['node', 'budget'])
 
         return item
 
-    def _add_to_container(self, item, key, dry=False):
+    def _add_to_container(self, obj, key, dry=False):
         if not dry:
-            self.container_object.items.add(item)
+            obj['budget'] = self.container_object
 
     def _get_prev_template(self, container_dict):
 
