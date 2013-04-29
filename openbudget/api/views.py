@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from openbudget.api import serializers
 from openbudget.apps.entities.models import Entity, Domain, DomainDivision
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
+from openbudget.apps.visualizations.models import Visualization
 
 
 @api_view(['GET'])
@@ -15,18 +16,19 @@ def api_root(request, format=None):
         'entities': reverse('entity-list', request=request),
         'budgets': reverse('budget-list', request=request),
         'actuals': reverse('actual-list', request=request),
+        'domain-divisions': reverse('domaindivision-list', request=request),
     })
 
 
 class EntityList(generics.ListAPIView):
-    """API endpoint that represents a list of geopols"""
+    """API endpoint that represents a list of entities"""
 
     model = Entity
     serializer_class = serializers.EntityListLinked
 
 
 class EntityDetail(generics.RetrieveAPIView):
-    """API endpoint that represents a single geopol"""
+    """API endpoint that represents a single entities"""
 
     model = Entity
     serializer_class = serializers.EntityDetailLinked
@@ -130,15 +132,36 @@ class ActualItemDetail(generics.RetrieveAPIView):
     serializer_class = serializers.ActualItemLinked
 
 
-class NodeBudgetTimeline(generics.ListAPIView):
+class VisualizationCreate(generics.ListCreateAPIView):
+    """API endpoint for creating a visualization object or retrieving a list of them"""
+
+    model = Visualization
+    serializer_class = serializers.VisualizationLinked
+
+
+class VisualizationAct(generics.RetrieveUpdateDestroyAPIView):
+    """API endpoint for getting, updating and deleting a visualization object"""
+
+    model = Visualization
+    serializer_class = serializers.VisualizationLinked
+
+
+class NodeTimeline(generics.ListAPIView):
     """
-    API endpoint that retrieves a timeline of budget items
+    API endpoint that retrieves a timeline of budget items and actual items
     according to a given node, entity and optionally a period
     """
 
     def get(self, request, entity_pk, node_pk, *args, **kwargs):
-        """GET handler for retrieving all budget items of the node's timeline, filtered by entity"""
+        """GET handler for retrieving all budget items and actual items of the node's timeline, filtered by entity"""
 
         budget_items = BudgetItem.objects.timeline(node_pk, entity_pk)
-        serializer = serializers.BudgetItemLinked(budget_items, many=True)
-        return Response(serializer.data)
+        actual_items = ActualItem.objects.timeline(node_pk, entity_pk)
+
+        budget_items_serialized = serializers.BudgetItemLinked(budget_items, many=True).data
+        actual_items_serialized = serializers.ActualItemLinked(actual_items, many=True).data
+
+        return Response({
+            "budget_items": budget_items_serialized,
+            "actual_items": actual_items_serialized
+        })

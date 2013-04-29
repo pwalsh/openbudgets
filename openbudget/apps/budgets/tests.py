@@ -1,13 +1,16 @@
+import random
 from datetime import date
 from django.test import TestCase
+from django.core.urlresolvers import reverse
+from openbudget.apps.budgets.factories import BudgetTemplateFactory,BudgetFactory, ActualFactory
+from openbudget.apps.entities.factories import DomainDivisionFactory, EntityFactory
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, BudgetTemplateNodeRelation, Budget, BudgetItem
-from openbudget.apps.entities.models import Entity
 
 
 class TemplateInheritanceTestCase(TestCase):
     """Testing templates inheritance, dangling template nodes and nodes morphing over time"""
 
-    fixtures = ['demo/objects.json']
+    fixtures = ['tmp_budgets_tests.json']
 
     def setUp(self):
         """
@@ -198,8 +201,10 @@ class TemplateInheritanceTestCase(TestCase):
         node_2_4.backwards.add(backward)
 
         # create new budget based on tempalte_2
+        entity = EntityFactory.create()
+
         budget = Budget.objects.create(
-            entity=Entity.objects.get(pk=7),
+            entity=entity,
             template=self.template_2,
             period_start=date(2013, 1, 1),
             period_end=date(2013, 12, 31)
@@ -236,3 +241,72 @@ class TemplateInheritanceTestCase(TestCase):
 
         self.assertIn(item_2, items)
         self.assertIn(item_2_past, items)
+
+
+class TemplateViewTestCase(TestCase):
+
+    def setUp(self):
+        self.divisions = DomainDivisionFactory.create_batch(3)
+        self.template = BudgetTemplateFactory.create(
+            divisions=self.divisions
+        )
+
+    def test_template_listview(self):
+
+        listview = reverse('budget_template_list')
+        response = self.client.get(listview)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('object_list' in response.context)
+
+    def test_template_detailview(self):
+
+        detailview = reverse('budget_template_detail',
+            args=(self.template.uuid,)
+        )
+        response = self.client.get(detailview)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('object' in response.context)
+
+class SheetViewTestCase(TestCase):
+
+    def setUp(self):
+        self.budget = BudgetFactory.create()
+        self.actual = ActualFactory.create()
+
+    def test_budget_listview(self):
+
+        listview = reverse('budget_list')
+        response = self.client.get(listview)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('object_list' in response.context)
+
+    def test_actual_listview(self):
+
+        listview = reverse('actual_list')
+        response = self.client.get(listview)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('object_list' in response.context)
+
+    def test_budget_detailview(self):
+
+        detailview = reverse('budget_detail',
+            args=(self.budget.uuid,)
+        )
+        response = self.client.get(detailview)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('object' in response.context)
+
+    def test_actual_detailview(self):
+
+        detailview = reverse('actual_detail',
+            args=(self.actual.uuid,)
+        )
+        response = self.client.get(detailview)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('object' in response.context)

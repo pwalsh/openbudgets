@@ -1,8 +1,6 @@
 from __future__ import division
 from django.db import models
-from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.contrib.comments.models import Comment
 from openbudget.apps.entities.models import DomainDivision, Entity
@@ -10,7 +8,7 @@ from openbudget.apps.sources.models import ReferenceSource, AuxSource
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, PeriodStartModel, PeriodicModel
 
 
-class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel, models.Model):
+class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel):
     """The budget template for a given domain division.
 
     """
@@ -96,14 +94,6 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
         blank=True,
         related_name='children'
     )
-
-    # forwards = models.ManyToManyField(
-    #     'self',
-    #     null=True,
-    #     blank=True,
-    #     symmetrical=False,
-    #     related_name='pasts'
-    # )
 
     backwards = models.ManyToManyField(
         'self',
@@ -239,11 +229,6 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel):
         AuxSource
     )
 
-    discussion = generic.GenericRelation(
-        Comment,
-        object_id_field="object_pk"
-    )
-
     @property
     def total(self):
         tmp = [item.amount for item in self.items.all()]
@@ -361,7 +346,7 @@ class SheetItem(TimeStampedModel, UUIDModel):
         AuxSource
     )
 
-    discussion = generic.GenericRelation(
+    comments = generic.GenericRelation(
         Comment,
         object_id_field="object_pk"
     )
@@ -385,8 +370,8 @@ class BudgetItemManager(models.Manager):
     def timeline(self, node_uuid, entity_uuid):
         try:
             node = BudgetTemplateNode.objects.get(uuid=node_uuid)
-        except BudgetTemplateNode.DoesNotExist:
-            raise BudgetTemplateNode.DoesNotExist
+        except BudgetTemplateNode.DoesNotExist as e:
+            raise e
         return BudgetItem.objects.filter(node__in=node.timeline, budget__entity__uuid=entity_uuid)
 
 
@@ -412,8 +397,19 @@ class BudgetItem(SheetItem):
         verbose_name_plural = _('Budget items')
 
 
+class ActualItemManager(models.Manager):
+    def timeline(self, node_uuid, entity_uuid):
+        try:
+            node = BudgetTemplateNode.objects.get(uuid=node_uuid)
+        except BudgetTemplateNode.DoesNotExist as e:
+            raise e
+        return ActualItem.objects.filter(node__in=node.timeline, actual__entity__uuid=entity_uuid)
+
+
 class ActualItem(SheetItem):
     """Describes a single item in an actual"""
+
+    objects = ActualItemManager()
 
     actual = models.ForeignKey(
         Actual,

@@ -1,7 +1,7 @@
-from modeltranslation.translator import translator, TranslationOptions
-from openbudget.apps.accounts.models import UserProfile
+#from modeltranslation.translator import translator, TranslationOptions
+#from openbudget.apps.accounts.models import Account
 
-#class UserProfileTranslationOptions(TranslationOptions):
+#class AccountTranslationOps(TranslationOptions):
 #    fields = ()
 
-#translator.register(UserProfile, UserProfileTranslationOptions)
+#translator.register(Account, AccountTranslationOps)

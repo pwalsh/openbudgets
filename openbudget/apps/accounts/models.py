@@ -1,63 +1,56 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.contrib.comments.models import Comment
 from django.utils.translation import ugettext as _
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from openbudget.settings.base import LANGUAGES
+from openbudget.settings.base import LANGUAGE_CODE, LANGUAGES
 from openbudget.apps.interactions.models import Star, Follow
 from openbudget.commons.mixins.models import UUIDModel
 
 
-class UserProfile(UUIDModel, models.Model):
+class Account(UUIDModel, AbstractUser):
     """Extends Django's User with our project specific user fields"""
 
-    user = models.OneToOneField(
-        User
-    )
     language = models.CharField(
         max_length=2,
         choices=LANGUAGES,
-        default='en',
+        default=LANGUAGE_CODE,
         help_text=_('Set your prefered language for the app')
     )
 
     @property
     def comments(self):
-        value = Comment.objects.filter(user=self.user)
+        value = Comment.objects.filter(user=self)
         return value
 
     @property
     def stars(self):
-        value = Star.objects.filter(user=self.user)
+        value = Star.objects.filter(user=self)
         return value
 
     @property
     def follows(self):
-        value = Follow.objects.filter(user=self.user)
+        value = Follow.objects.filter(user=self)
+        return value
+
+    @classmethod
+    def get_class_name(cls):
+        value = cls.__name__.lower()
         return value
 
     class Meta:
-        ordering = ['user']
+        ordering = ['username', 'email']
         verbose_name = _('User profile')
         verbose_name_plural = _('User profiles')
 
     @models.permalink
     def get_absolute_url(self):
-        return ('user_profile_detail', [self.uuid])
+        return ('account_detail', [self.uuid])
 
     def __unicode__(self):
-        return self.user.username
+        return self.username
 
 
-@receiver(post_save, sender=User, dispatch_uid='create_user_profile')
-def create_user_profile(sender, instance, created, **kwargs):
-    """A new UserProfile is created for every new User created."""
-    if created:
-        UserProfile.objects.create(user=instance)
-
-
-class UserProxyBase(User):
+class UserProxyBase(Account):
     """A proxy object so we can treat different users types distinctly.
 
     Heavily used in the admin to customize how user accounts
@@ -66,18 +59,6 @@ class UserProxyBase(User):
 
     class Meta:
         proxy = True
-
-    @property
-    def uuid(self):
-        tmp = UserProfile.objects.get(user=self)
-        value = tmp.uuid
-        return value
-
-    @property
-    def language(self):
-        tmp = UserProfile.objects.get(user=self)
-        value = tmp.language
-        return value
 
     def __unicode__(self):
         return self.username
@@ -103,7 +84,7 @@ class CoreTeamUserProxy(UserProxyBase):
     def save(self, *args, **kwargs):
         super(CoreTeamUserProxy, self).save(*args, **kwargs)
         self.groups.add(1)
-        profile, created = UserProfile.objects.get_or_create(user=self)
+        profile, created = Account.objects.get_or_create(user=self)
 
 
 class ContentTeamUserManager(models.Manager):
@@ -126,7 +107,7 @@ class ContentTeamUserProxy(UserProxyBase):
     def save(self, *args, **kwargs):
         super(ContentTeamUserProxy, self).save(*args, **kwargs)
         self.groups.add(2)
-        profile, created = UserProfile.objects.get_or_create(user=self)
+        profile, created = Account.objects.get_or_create(user=self)
 
 
 class PublicUserProxyManager(models.Manager):
@@ -149,4 +130,4 @@ class PublicUserProxy(UserProxyBase):
     def save(self, *args, **kwargs):
         super(PublicUserProxy, self).save(*args, **kwargs)
         self.groups.add(3)
-        profile, created = UserProfile.objects.get_or_create(user=self)
+        profile, created = Account.objects.get_or_create(user=self)

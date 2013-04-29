@@ -122,6 +122,7 @@ INSTALLED_APPS = (
     'openbudget.apps.sources',
     'openbudget.apps.taxonomies',
     'openbudget.apps.transport',
+    'openbudget.apps.visualizations',
     'openbudget.api',
     'openbudget.commons',
 )
@@ -170,8 +171,6 @@ FIXTURE_DIRS = (
 )
 
 # LANGUAGE CONF
-LANGUAGE_CODE = 'en'
-MODELTRANSLATION_DEFAULT_LANGUAGE = LANGUAGE_CODE
 gettext = lambda s: s
 LANGUAGES = (
     ('en', gettext('English')),
@@ -179,18 +178,20 @@ LANGUAGES = (
     ('ar', gettext('Arabic')),
     ('ru', gettext('Russian')),
 )
+LANGUAGE_CODE = LANGUAGES[0][0]
+MODELTRANSLATION_DEFAULT_LANGUAGE = LANGUAGE_CODE
 
 # UNICODE SLUG CONF
 AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
 
 # USER ACCOUNT CONF
 ACCOUNT_ACTIVATION_DAYS = 7
-AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+AUTH_USER_MODEL = 'accounts.Account'
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_URL = '/accounts/logout/'
 ABSOLUTE_URL_OVERRIDES = {
-    'auth.user': lambda u: "/accounts/%s/" % u.get_profile.uuid,
+    'auth.user': lambda u: '/accounts/{uuid}/'.format(uuid=u.uuid)
 }
 
 # GRAPPELLI CONF

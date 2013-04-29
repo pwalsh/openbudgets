@@ -4,17 +4,7 @@ from django.contrib.sites.models import Site
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext as _
 from registration.models import RegistrationProfile
-from openbudget.apps.accounts.models import UserProfile, PublicUserProxy, ContentTeamUserProxy, CoreTeamUserProxy
-
-
-class UserProfileInline(admin.StackedInline):
-    """Gives an inlineable UserProfile form"""
-
-    model = UserProfile
-    fk_name = 'user'
-    classes = ('grp-collapse grp-open',)
-    inline_classes = ('grp-collapse grp-open',)
-    max_num = 1
+from openbudget.apps.accounts.models import Account, PublicUserProxy, ContentTeamUserProxy, CoreTeamUserProxy
 
 
 class UserProxyBaseAdmin(UserAdmin):
@@ -31,17 +21,8 @@ class CoreTeamUserProxyAdmin(UserProxyBaseAdmin):
     def queryset(self, request):
         core_team_user_group = Group.objects.filter(id=1)
         qs = super(CoreTeamUserProxyAdmin, self).queryset(request)
-        qs = qs.filter(groups__in=core_team_user_group)
+        qs = qs.filter(groups=core_team_user_group)
         return qs
-
-    def add_view(self, request, form_url='', extra_context=None):
-        self.inlines = []
-        return super(CoreTeamUserProxyAdmin, self).add_view(
-            request, form_url, extra_context)
-
-    def change_view(self, request, object_id, form_url='', extra_context=None):
-        self.inlines = [UserProfileInline]
-        return super(CoreTeamUserProxyAdmin, self).change_view(request, object_id, form_url, extra_context)
 
 
 class ContentTeamUserProxyAdmin(UserProxyBaseAdmin):
@@ -50,17 +31,8 @@ class ContentTeamUserProxyAdmin(UserProxyBaseAdmin):
     def queryset(self, request):
         content_team_user_group = Group.objects.filter(id=2)
         qs = super(ContentTeamUserProxyAdmin, self).queryset(request)
-        qs = qs.filter(groups__in=content_team_user_group)
+        qs = qs.filter(groups=content_team_user_group)
         return qs
-
-    def add_view(self, request, form_url='', extra_context=None):
-        self.inlines = []
-        return super(ContentTeamUserProxyAdmin, self).add_view(
-            request, form_url, extra_context)
-
-    def change_view(self, request, object_id, form_url='', extra_context=None):
-        self.inlines = [UserProfileInline]
-        return super(ContentTeamUserProxyAdmin, self).change_view(request, object_id, form_url, extra_context)
 
 
 class PublicUserProxyAdmin(UserProxyBaseAdmin):
@@ -69,21 +41,11 @@ class PublicUserProxyAdmin(UserProxyBaseAdmin):
     def queryset(self, request):
         public_user_group = Group.objects.filter(id=3)
         qs = super(PublicUserProxyAdmin, self).queryset(request)
-        qs = qs.filter(groups__in=public_user_group)
+        qs = qs.filter(groups=public_user_group)
         return qs
-
-    def add_view(self, request, form_url='', extra_context=None):
-        self.inlines = []
-        return super(PublicUserProxyAdmin, self).add_view(
-            request, form_url, extra_context)
-
-    def change_view(self, request, object_id, form_url='', extra_context=None):
-        self.inlines = [UserProfileInline]
-        return super(PublicUserProxyAdmin, self).change_view(request, object_id, form_url, extra_context)
 
 
 # Django Auth admin config
-admin.site.unregister(User)
 admin.site.unregister(Group)
 
 # Django Sites admin config

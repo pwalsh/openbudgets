@@ -1,24 +1,22 @@
 from django.db import models
-from django.db.models.loading import get_model
-from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
 from taggit.models import ItemBase as TaggitItemBase
 from autoslug import AutoSlugField
-from slugify import slugify as unislugify
+from openbudget.settings.base import AUTH_USER_MODEL
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
 from openbudget.commons.data import OBJECT_STATES
 
 
-# Our models need to impement tags like so:
-# labels = TaggableManager(through=LabeledItem)
+# Our models need to implement tags like so:
+# labels = TaggableManager(through=TaggedNode)
 
 
-class Taxonomy(TimeStampedModel, UUIDModel, models.Model):
+class Taxonomy(TimeStampedModel, UUIDModel):
 
     user = models.ForeignKey(
-        User,
+        AUTH_USER_MODEL,
         related_name='taxonomies'
     )
 
@@ -87,6 +85,7 @@ class TagManager(models.Manager):
             slug=self.kwargs['taxonomy_slug']
         )
 
+
 class Tag(models.Model):
     """A tag with full unicode support."""
 
@@ -133,7 +132,7 @@ class TaggedNode(TaggitItemBase):
 
     @classmethod
     def tags_for(cls, model, instance=None):
-        ct = ContentType.objects.get_for_model(model)
+        ct = generic.ContentType.objects.get_for_model(model)
         kwargs = {
             "%s__content_type" % cls.tag_relname(): ct
         }

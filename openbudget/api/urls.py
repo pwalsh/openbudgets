@@ -26,7 +26,7 @@ urlpatterns = patterns('openbudget.api.views',
     ),
     url(r'^domain-divisions/$',
         views.DomainDivisionList.as_view(),
-        name='domaindivisions-list'
+        name='domaindivision-list'
     ),
     url(r'^domain-division/(?P<pk>\d+)/$',
         views.DomainDivisionDetail.as_view(),
@@ -73,8 +73,16 @@ urlpatterns = patterns('openbudget.api.views',
         name='actualitem-detail'
     ),
     url(r'^(?P<entity_pk>\w+)/timeline/(?P<node_pk>\w+)/$',
-        views.NodeBudgetTimeline.as_view(),
-        name='node-budget-timeline'
+        views.NodeTimeline.as_view(),
+        name='node-timeline'
+    ),
+    url(r'^viz/$',
+        views.VisualizationCreate.as_view(),
+        name='viz-create'
+    ),
+    url(r'^viz/(?P<viz_pk>\w+)/$',
+        views.VisualizationAct.as_view(),
+        name='viz-act'
     ),
 )
 

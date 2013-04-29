@@ -1,13 +1,10 @@
 from django.contrib.syndication.views import Feed
-from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseRedirect
-from django.core.urlresolvers import reverse
+from django.contrib.auth import get_user_model
+from django.http import HttpResponseRedirect
 from django.utils.feedgenerator import Atom1Feed
-from django.utils.translation import ugettext as _
 from django.db.models.loading import get_model
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
-from openbudget.apps.interactions.models import Star
 
 
 class CommentFeed(Feed):
@@ -49,7 +46,7 @@ def toggleable_interaction(request):
     content_type = ContentType.objects.get(
         model=data['content_type']
     )
-    user = User.objects.get(
+    user = get_user_model().objects.get(
         id=data['user']
     )
     interaction = get_model(

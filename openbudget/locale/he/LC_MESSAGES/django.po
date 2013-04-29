@@ -8,15 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-10 18:08+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-04-27 21:40+0300\n"
+"PO-Revision-Date: 2013-04-23 13:17+0000\n"
+"Last-Translator: Paul Walsh <paulywalsh@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Translated-Using: django-rosetta 0.7.1\n"
 
 #: dashboard.py:13
 msgid "User management"
@@ -24,416 +25,1187 @@ msgstr ""
 
 #: dashboard.py:21
 msgid "Government entities"
-msgstr ""
+msgstr "גופים ממשליתיים"
 
 #: dashboard.py:29
 msgid "Budget records"
-msgstr ""
+msgstr "רשומות תקציב"
 
 #: dashboard.py:37
-msgid "Generic pages"
-msgstr ""
+msgid "Budget taxonomies"
+msgstr "טקסומוניות תקציב"
 
 #: dashboard.py:45
-msgid "Media management"
+msgid "Transport"
+msgstr "תחבורה"
+
+#: dashboard.py:53
+msgid "Generic pages"
+msgstr "דפים גנריים"
+
+#: dashboard.py:61
+#, fuzzy
+msgid "File management"
+msgstr "ניהול מדיה"
+
+#: dashboard.py:65
+msgid "Media browser"
 msgstr ""
 
-#: dashboard.py:49
-msgid "FileBrowser"
+#: dashboard.py:70
+#, fuzzy
+msgid "Codebase translations"
+msgstr "תרגומים סטטיים"
+
+#: dashboard.py:78
+msgid "External resources"
 msgstr ""
 
-#: dashboard.py:54
-msgid "Static translations"
+#: dashboard.py:82
+msgid "Open Budget Documentation"
 msgstr ""
 
-#: dashboard.py:62
-msgid "Support"
-msgstr ""
-
-#: dashboard.py:66
+#: dashboard.py:87
 msgid "Django Documentation"
 msgstr ""
 
-#: dashboard.py:71
+#: dashboard.py:92
 msgid "Grappelli Documentation"
 msgstr ""
 
-#: dashboard.py:76
-msgid "Built by prjts"
+#: dashboard.py:97
+#, fuzzy
+msgid "Open Budget Repository"
+msgstr "תיאור תקציב"
+
+#: dashboard.py:105
+msgid "Credits"
 msgstr ""
 
-#: dashboard.py:81
-msgid "Email Paul Walsh (developer)"
+#: dashboard.py:109
+msgid "HaSadna"
 msgstr ""
 
-#: dashboard.py:86
-msgid "Email Yehonatan Daniv (developer)"
+#: dashboard.py:114
+msgid "Developed by prjts"
 msgstr ""
 
-#: dashboard.py:95
+#: dashboard.py:119
+msgid "Email developers"
+msgstr ""
+
+#: dashboard.py:124
+msgid "Designed by bnop"
+msgstr ""
+
+#: dashboard.py:129
+msgid "Email designers"
+msgstr ""
+
+#: dashboard.py:137
 msgid "Recent Actions"
-msgstr ""
+msgstr "פעולות אחרונות"
 
-#: accounts/admin.py:24
+#: apps/accounts/admin.py:14
 msgid "Account credentials"
 msgstr ""
 
-#: accounts/forms.py:13
-msgid "Your username."
-msgstr ""
-
-#: accounts/forms.py:19
-msgid "Your email address."
-msgstr ""
-
-#: accounts/forms.py:25
-msgid "Your first name."
-msgstr ""
-
-#: accounts/forms.py:31
-msgid "Your last name."
-msgstr ""
-
-#: accounts/models.py:23
+#: apps/accounts/models.py:17
 msgid "Set your prefered language for the app"
 msgstr ""
 
-#: accounts/models.py:48
+#: apps/accounts/models.py:42
 msgid "User profile"
-msgstr ""
+msgstr "פרופיל משתמש"
 
-#: accounts/models.py:49
+#: apps/accounts/models.py:43
 msgid "User profiles"
-msgstr ""
+msgstr "פרופילי משתמש"
 
-#: accounts/models.py:106
+#: apps/accounts/models.py:81
 msgid "Core team user"
-msgstr ""
+msgstr "משתמש קבוצת ליבה"
 
-#: accounts/models.py:107
+#: apps/accounts/models.py:82
 msgid "Core team users"
-msgstr ""
+msgstr "משתמשי קבוצת ליבה"
 
-#: accounts/models.py:129
+#: apps/accounts/models.py:104
 msgid "Content team user"
-msgstr ""
+msgstr "משתמש קבוצת תוכן"
 
-#: accounts/models.py:130
+#: apps/accounts/models.py:105
 msgid "Content team users"
-msgstr ""
+msgstr "משתמשי קבוצת תוכן"
 
-#: accounts/models.py:152
+#: apps/accounts/models.py:127
 msgid "Public user"
-msgstr ""
+msgstr "משתמש ציבורי"
 
-#: accounts/models.py:153
+#: apps/accounts/models.py:128
 msgid "Public users"
-msgstr ""
+msgstr "משתמשים ציבוריים"
 
-#: accounts/templates/accounts/user_profile_detail.html:6
-msgid "Your profile"
-msgstr ""
+#: apps/accounts/templates/accounts/account_detail.html:13
+msgid "Your account"
+msgstr "החשבון שלך"
 
-#: accounts/templates/accounts/user_profile_detail.html:16
-msgid "Change password"
-msgstr ""
+#: apps/accounts/templates/accounts/account_detail.html:18
+msgid "Username"
+msgstr "שם משתמש"
 
-#: accounts/templates/accounts/user_profile_detail.html:18
-msgid "Update profile"
-msgstr ""
+#: apps/accounts/templates/accounts/account_detail.html:26
+msgid "Email"
+msgstr "אימייל"
 
-#: accounts/templates/accounts/user_profile_detail.html:21
+#: apps/accounts/templates/accounts/account_detail.html:34
+#: commons/templates/partials/_form_action_update.html:2
+msgid "Update"
+msgstr "עדכון"
+
+#: apps/accounts/templates/accounts/account_detail.html:37
+msgid "Update your profile"
+msgstr "עדכון פרופיל"
+
+#: apps/accounts/templates/accounts/account_detail.html:39
+msgid "Change your password"
+msgstr "שינוי סיסמא"
+
+#: apps/accounts/templates/accounts/account_detail.html:45
+#: apps/taxonomies/models.py:71
+msgid "Taxonomies"
+msgstr "טקסונומיות"
+
+#: apps/accounts/templates/accounts/account_detail.html:50
+msgid "tags"
+msgstr "תגיות"
+
+#: apps/accounts/templates/accounts/account_detail.html:60
 msgid "Starred"
-msgstr ""
+msgstr "מסומן בכוכב"
 
-#: accounts/templates/accounts/user_profile_detail.html:31
+#: apps/accounts/templates/accounts/account_detail.html:69
+msgid "You have not starred any items yet."
+msgstr "עדיין לא סימנת אף פריט בכוכב"
+
+#: apps/accounts/templates/accounts/account_detail.html:74
 msgid "Following"
+msgstr "עוקב"
+
+#: apps/accounts/templates/accounts/account_detail.html:83
+msgid "You are not following any items yet."
+msgstr "אתה עדיין לא עוקב אחר אף פריט"
+
+#: apps/accounts/templates/accounts/account_detail.html:89
+msgid "Commented on"
+msgstr "הגיב על"
+
+#: apps/accounts/templates/accounts/account_detail.html:101
+msgid "You do not have any comments yet."
+msgstr "עדיין לא הגבת"
+
+#: apps/accounts/templates/accounts/account_detail.html:108
+msgid "My files"
+msgstr "הקבצים שלי"
+
+#: apps/accounts/templates/accounts/account_detail.html:113
+msgid "For"
 msgstr ""
 
-#: accounts/templates/accounts/user_profile_detail.html:41
-msgid "Discussion posts"
-msgstr ""
+#: apps/accounts/templates/accounts/account_detail.html:117
+msgid "You have not uploaded any files."
+msgstr "לא העלת אף קובץ"
 
-#: accounts/templates/accounts/user_profile_detail.html:46
-#: accounts/templates/accounts/user_profile_detail.html:69
-msgid "On"
-msgstr ""
+#: apps/accounts/templates/accounts/partials/_account_tools.html:6
+msgid "Account"
+msgstr "חשבון"
 
-#: accounts/templates/accounts/user_profile_detail.html:57
-#: accounts/templates/accounts/user_profile_detail.html:80
-msgid "Submitted"
-msgstr ""
-
-#: accounts/templates/accounts/user_profile_detail.html:64
-msgid "Item Annotations"
-msgstr ""
-
-#: accounts/templates/accounts/partials/_user_account_tools.html:6
-msgid "Profile"
-msgstr ""
-
-#: budgets/models.py:14
-msgid "REVENUE"
-msgstr ""
-
-#: budgets/models.py:15
-msgid "EXPENDITURE"
-msgstr ""
-
-#: budgets/models.py:28
+#: apps/budgets/models.py:22
 msgid "The name of this budget template."
-msgstr ""
+msgstr "שם תבנית התקציב"
 
-#: budgets/models.py:41
-msgid "Budget template"
-msgstr ""
-
-#: budgets/models.py:42
-msgid "Budget templates"
-msgstr ""
-
-#: budgets/models.py:62 budgets/templates/budgets/actual_detail.html:16
-#: budgets/templates/budgets/budget_detail.html:16
-#: budgets/templates/budgets/budget_item_detail.html:6
-msgid "Code"
-msgstr ""
-
-#: budgets/models.py:66
-msgid "Name"
-msgstr ""
-
-#: budgets/models.py:69 entities/models.py:125
+#: apps/budgets/models.py:26 apps/budgets/models.py:86
+#: apps/entities/models.py:110
 msgid "Entry description"
 msgstr ""
 
-#: budgets/models.py:71 budgets/models.py:93
+#: apps/budgets/models.py:28 apps/budgets/models.py:88
+#: apps/budgets/models.py:120
 msgid "Describe for this entry."
+msgstr "תיאור ערך"
+
+#: apps/budgets/models.py:57
+msgid "Budget template"
 msgstr ""
 
-#: budgets/models.py:81
+#: apps/budgets/models.py:58
+msgid "Budget templates"
+msgstr ""
+
+#: apps/budgets/models.py:65
+msgid "REVENUE"
+msgstr "הכנסה"
+
+#: apps/budgets/models.py:66
+msgid "EXPENDITURE"
+msgstr "הוצאה"
+
+#: apps/budgets/models.py:77
+#: apps/budgets/templates/budgets/budget_item_detail.html:6
+#: commons/templates/search/search.html:65
+#: commons/templates/search/search.html:80
+msgid "Code"
+msgstr "קוד"
+
+#: apps/budgets/models.py:82 apps/taxonomies/models.py:98
+msgid "Name"
+msgstr "שם"
+
+#: apps/budgets/models.py:107
 msgid "REVENUE/EXPENDITURE"
-msgstr ""
+msgstr "הכנסה/הוצאה"
 
-#: budgets/models.py:83
+#: apps/budgets/models.py:110
 msgid "Indicates whether this node is for revenue or expenditure"
 msgstr ""
 
-#: budgets/models.py:112
+#: apps/budgets/models.py:176
 msgid "Budget template node"
 msgstr ""
 
-#: budgets/models.py:113
+#: apps/budgets/models.py:177
 msgid "Budget template nodes"
 msgstr ""
 
-#: budgets/models.py:130
-msgid "Period start"
+#: apps/budgets/models.py:199
+msgid "Budget Template/Node Relation"
 msgstr ""
 
-#: budgets/models.py:131
-#, python-format
-msgid "The start date for this %(class)s"
+#: apps/budgets/models.py:200
+msgid "Budget Template/Node Relations"
 msgstr ""
 
-#: budgets/models.py:134
-msgid "Period end"
-msgstr ""
-
-#: budgets/models.py:135
-#, python-format
-msgid "The end date for this %(class)s"
-msgstr ""
-
-#: budgets/models.py:138
+#: apps/budgets/models.py:219
 msgid "Budget description"
-msgstr ""
+msgstr "תיאור תקציב"
 
-#: budgets/models.py:140
+#: apps/budgets/models.py:221
 #, python-format
 msgid "Descriptive text for this %(class)s"
 msgstr ""
 
-#: budgets/models.py:195
+#: apps/budgets/models.py:273
+#: apps/budgets/templates/budgets/budget_detail.html:6
 msgid "Budget"
-msgstr ""
+msgstr "תקציב"
 
-#: budgets/models.py:196
+#: apps/budgets/models.py:274
+#: apps/taxonomies/templates/taxonomies/tag_detail.html:27
 msgid "Budgets"
-msgstr ""
+msgstr "תקציבים"
 
-#: budgets/models.py:251
+#: apps/budgets/models.py:319
 msgid "Actual"
 msgstr ""
 
-#: budgets/models.py:252
+#: apps/budgets/models.py:320
+#: apps/budgets/templates/budgets/actual_detail.html:6
+#: apps/taxonomies/templates/taxonomies/tag_detail.html:30
 msgid "Actuals"
 msgstr ""
 
-#: budgets/models.py:269
-msgid "note"
-msgstr ""
-
-#: budgets/models.py:271
-msgid "This note."
-msgstr ""
-
-#: budgets/models.py:285
-msgid "Annotation"
-msgstr ""
-
-#: budgets/models.py:286
-msgid "Annotations"
-msgstr ""
-
-#: budgets/models.py:296
+#: apps/budgets/models.py:331
 msgid "Item description"
-msgstr ""
+msgstr "תיאור פריט"
 
-#: budgets/models.py:298
+#: apps/budgets/models.py:333
 msgid "Description that appears for this entry."
 msgstr ""
 
-#: budgets/models.py:301 budgets/templates/budgets/actual_detail.html:20
-#: budgets/templates/budgets/budget_detail.html:20
-#: budgets/templates/budgets/budget_item_detail.html:15
+#: apps/budgets/models.py:337
+#: apps/budgets/templates/budgets/budget_item_detail.html:15
 msgid "Amount"
-msgstr ""
+msgstr "סכום"
 
-#: budgets/models.py:302
+#: apps/budgets/models.py:338
 msgid "The amount of this entry. The node determines REVENUE or EXPENDITURE"
 msgstr ""
 
-#: budgets/models.py:336
+#: apps/budgets/models.py:396
 msgid "Budget item"
-msgstr ""
+msgstr "פריט תקציב"
 
-#: budgets/models.py:337
+#: apps/budgets/models.py:397
 msgid "Budget items"
-msgstr ""
+msgstr "פריטי תקציב"
 
-#: budgets/models.py:355
+#: apps/budgets/models.py:427
 msgid "Actual item"
 msgstr ""
 
-#: budgets/models.py:356
+#: apps/budgets/models.py:428
 msgid "Actual items"
 msgstr ""
 
-#: budgets/templates/budgets/actual_detail.html:6
-#: budgets/templates/budgets/actual_item_detail.html:6
-#: budgets/templates/budgets/budget_detail.html:6
-#: budgets/templates/budgets/budget_item_detail.html:12
-msgid "budget"
+#: apps/budgets/templates/budgets/actual_detail.html:23
+#: apps/budgets/templates/budgets/actual_detail.html:39
+#: apps/budgets/templates/budgets/budget_detail.html:23
+#: apps/budgets/templates/budgets/budget_detail.html:39
+msgid "NIS"
+msgstr "ש\"ח"
+
+#: apps/budgets/templates/budgets/actual_detail.html:32
+#: apps/budgets/templates/budgets/budget_detail.html:32
+msgid "Items"
+msgstr "פריטים"
+
+#: apps/budgets/templates/budgets/actual_detail.html:32
+#: apps/budgets/templates/budgets/budget_detail.html:32
+msgid "in total"
+msgstr "סך הכל"
+
+#: apps/budgets/templates/budgets/actual_detail.html:42
+#: apps/budgets/templates/budgets/budget_detail.html:42
+msgid "View"
 msgstr ""
 
-#: budgets/templates/budgets/actual_detail.html:11
-#: budgets/templates/budgets/budget_detail.html:11
-msgid "Back to the entity"
+#: apps/budgets/templates/budgets/actual_detail.html:51
+#: apps/budgets/templates/budgets/budget_detail.html:51
+msgid "According to the"
+msgstr "לפי ה"
+
+#: apps/budgets/templates/budgets/actual_detail.html:54
+#: apps/budgets/templates/budgets/budget_detail.html:54
+msgid "The official classificatory scheme, in effect since"
 msgstr ""
 
-#: budgets/templates/budgets/actual_detail.html:18
-#: budgets/templates/budgets/budget_detail.html:18
-msgid "Explanation"
+#: apps/budgets/templates/budgets/actual_detail.html:59
+#: apps/budgets/templates/budgets/budget_detail.html:59
+msgid "See all budget data"
+msgstr "הצג את כל נתוני התקציב"
+
+#: apps/budgets/templates/budgets/actual_detail.html:64
+#: apps/budgets/templates/budgets/actual_detail.html:94
+#: apps/budgets/templates/budgets/budget_detail.html:64
+#: apps/budgets/templates/budgets/budget_detail.html:94
+#: apps/entities/templates/entities/entity_detail.html:27
+#: apps/sources/templates/sources/auxsource_detail.html:22
+#: apps/sources/templates/sources/referencesource_detail.html:22
+#: commons/templates/base.html:101
+msgid "About"
+msgstr "על"
+
+#: apps/budgets/templates/budgets/actual_detail.html:72
+#: apps/budgets/templates/budgets/budget_detail.html:72
+msgid "Alternative taxonomies"
+msgstr "טקסונומיות אלטרנטיביות"
+
+#: apps/budgets/templates/budgets/actual_detail.html:81
+#: apps/budgets/templates/budgets/budget_detail.html:81
+msgid "By"
+msgstr "מאת"
+
+#: apps/budgets/templates/budgets/actual_detail.html:89
+#: apps/budgets/templates/budgets/budget_detail.html:89
+msgid "View through this taxonomy"
 msgstr ""
 
-#: budgets/templates/budgets/actual_detail.html:23
-#: budgets/templates/budgets/budget_detail.html:23
-msgid "View this item"
+#: apps/budgets/templates/budgets/actual_detail.html:101
+#: apps/budgets/templates/budgets/budget_detail.html:101
+msgid "There are no taxonomies currently available."
+msgstr "אין כרגע טקסונומיות זמינות"
+
+#: apps/budgets/templates/budgets/actual_detail.html:109
+msgid "Export this Actual"
 msgstr ""
 
-#: budgets/templates/budgets/actual_item_detail.html:6
+#: apps/budgets/templates/budgets/actual_detail.html:113
+#: apps/budgets/templates/budgets/budget_detail.html:113
+msgid "CSV"
+msgstr ""
+
+#: apps/budgets/templates/budgets/actual_detail.html:117
+#: apps/budgets/templates/budgets/budget_detail.html:117
+msgid "XLS"
+msgstr ""
+
+#: apps/budgets/templates/budgets/actual_detail.html:121
+#: apps/budgets/templates/budgets/budget_detail.html:121
+msgid "XLSX"
+msgstr ""
+
+#: apps/budgets/templates/budgets/actual_detail.html:127
+#: apps/budgets/templates/budgets/budget_detail.html:181
+msgid "See something else"
+msgstr ""
+
+#: apps/budgets/templates/budgets/actual_detail.html:137
+#: apps/budgets/templates/budgets/budget_detail.html:191
+msgid "All municipalities"
+msgstr "כל הרשויות"
+
+#: apps/budgets/templates/budgets/actual_item_detail.html:6
 msgid "for the"
+msgstr "בשביל ה"
+
+#: apps/budgets/templates/budgets/actual_item_detail.html:6
+#: apps/budgets/templates/budgets/budget_item_detail.html:12
+#: apps/entities/templates/entities/entity_list.html:38
+msgid "budget"
+msgstr "תקציב"
+
+#: apps/budgets/templates/budgets/budget_detail.html:109
+msgid "Export this Budget"
+msgstr "ייצא תקציב זה"
+
+#: apps/budgets/templates/budgets/budget_detail.html:127
+msgid "Related files"
+msgstr "קבצים קשורים"
+
+#: apps/budgets/templates/budgets/budget_detail.html:131
+msgid "Reference files"
 msgstr ""
 
-#: budgets/templates/budgets/budget_item_detail.html:20
+#: apps/budgets/templates/budgets/budget_detail.html:134
+msgid "The source files used to enter this data into the system."
+msgstr ""
+
+#: apps/budgets/templates/budgets/budget_detail.html:141
+#: apps/budgets/templates/budgets/budget_detail.html:166
+msgid "View info"
+msgstr "צפה במידע"
+
+#: apps/budgets/templates/budgets/budget_detail.html:145
+#: apps/budgets/templates/budgets/budget_detail.html:170
+msgid "Download file"
+msgstr "הורד קובץ"
+
+#: apps/budgets/templates/budgets/budget_detail.html:149
+#: apps/budgets/templates/budgets/budget_detail.html:174
+msgid "We have no stored reference sources."
+msgstr ""
+
+#: apps/budgets/templates/budgets/budget_detail.html:154
+msgid "Auxiliary files"
+msgstr ""
+
+#: apps/budgets/templates/budgets/budget_detail.html:157
+msgid "Files uploaded by other users."
+msgstr "קבצים שהועלו על ידי משתמשים אחרים"
+
+#: apps/budgets/templates/budgets/budget_detail.html:163
+msgid "added by"
+msgstr "נוסף על ידי"
+
+#: apps/budgets/templates/budgets/budget_item_detail.html:20
 msgid "Back to the Budget"
-msgstr ""
+msgstr "בחזרה לתקציב"
 
-#: budgets/templates/budgets/budget_item_detail.html:22
+#: apps/budgets/templates/budgets/budget_item_detail.html:22
 msgid "Back to the Entity"
+msgstr "בחזרה לרשות"
+
+#: apps/contexts/models.py:19
+msgid "Square Meters"
+msgstr "מטרים רבועים"
+
+#: apps/contexts/models.py:22
+msgid "The square meterage for this entity"
 msgstr ""
 
-#: commons/models.py:17
+#: apps/contexts/models.py:29
+#: apps/entities/templates/entities/entity_detail.html:51
+msgid "Population"
+msgstr "אוכלוסיה"
+
+#: apps/contexts/models.py:32
+msgid "The population of this entity"
+msgstr "אוכלוסית הרשות"
+
+#: apps/contexts/models.py:39
+msgid "High School Count"
+msgstr "מספר בתי ספר תיכוניים"
+
+#: apps/contexts/models.py:42 apps/contexts/models.py:48
+#: apps/contexts/models.py:54
+msgid "_"
+msgstr ""
+
+#: apps/contexts/models.py:45
+msgid "Primary School Count"
+msgstr "מספר בתי ספר יסודיים"
+
+#: apps/contexts/models.py:51
+msgid "Pre-School Count"
+msgstr "מספר גנים"
+
+#: apps/entities/models.py:26
+msgid "The name of this entity domain."
+msgstr ""
+
+#: apps/entities/models.py:39
+msgid "entity domain"
+msgstr "כתובת הרשות"
+
+#: apps/entities/models.py:40
+msgid "entity domains"
+msgstr ""
+
+#: apps/entities/models.py:68 apps/pages/models.py:30
+msgid "Index"
+msgstr "אינדקס"
+
+#: apps/entities/models.py:69
+msgid "Position this division in relation to others"
+msgstr ""
+
+#: apps/entities/models.py:74
+msgid "The name of this division"
+msgstr "שם המחלקה"
+
+#: apps/entities/models.py:77
+msgid "has budgets"
+msgstr ""
+
+#: apps/entities/models.py:79
+msgid "Must be true if this division directly presents budgets"
+msgstr ""
+
+#: apps/entities/models.py:92
+msgid "domain division"
+msgstr ""
+
+#: apps/entities/models.py:93
+msgid "domain divisions"
+msgstr ""
+
+#: apps/entities/models.py:107
+msgid "The name of this entity"
+msgstr "שם הרשות"
+
+#: apps/entities/models.py:112
+msgid "Describe."
+msgstr "תאר"
+
+#: apps/entities/models.py:118
+msgid "The official abbreviated code for this entity."
+msgstr "קוד מקוצר רשמי של הרשות"
+
+#: apps/entities/models.py:199
+msgid "entity"
+msgstr "רשות"
+
+#: apps/entities/models.py:200
+#: apps/entities/templates/entities/entity_detail.html:32
+msgid "entities"
+msgstr "רשויות"
+
+#: apps/entities/templates/entities/entity_detail.html:21
+msgid "Back to all entities"
+msgstr "בחזרה לכל הרשויות"
+
+#: apps/entities/templates/entities/entity_detail.html:32
+msgid "is one of "
+msgstr "אחד מ"
+
+#: apps/entities/templates/entities/entity_detail.html:32
+msgid "in "
+msgstr "ב"
+
+#: apps/entities/templates/entities/entity_detail.html:40
+msgid "Contextual data"
+msgstr ""
+
+#: apps/entities/templates/entities/entity_detail.html:42
+msgid "GeoSpatial"
+msgstr ""
+
+#: apps/entities/templates/entities/entity_detail.html:44
+msgid "Square meters"
+msgstr "מטרים רבועים"
+
+#: apps/entities/templates/entities/entity_detail.html:49
+msgid "Demographic"
+msgstr "דמוגרפי"
+
+#: apps/entities/templates/entities/entity_detail.html:56
+msgid "Education"
+msgstr "חינוך"
+
+#: apps/entities/templates/entities/entity_detail.html:58
+msgid "High schools"
+msgstr "בתי ספר תיכוניים"
+
+#: apps/entities/templates/entities/entity_detail.html:60
+msgid "Primary schools"
+msgstr "בתי ספר יסודיים "
+
+#: apps/entities/templates/entities/entity_detail.html:62
+msgid "Pre-schools"
+msgstr "גנים"
+
+#: apps/entities/templates/entities/entity_detail.html:72
+msgid "Budgeting entities of"
+msgstr ""
+
+#: apps/entities/templates/entities/entity_detail.html:74
+msgid "Related"
+msgstr "באותו נושא"
+
+#: apps/entities/templates/entities/entity_detail.html:74
+msgid "budgeting entities"
+msgstr ""
+
+#: apps/entities/templates/entities/entity_detail.html:80
+msgid "has no related entities that declare budgets"
+msgstr ""
+
+#: apps/entities/templates/entities/entity_detail.html:84
+msgid "We have the following related entities with budgets in the system"
+msgstr ""
+
+#: apps/entities/templates/entities/entity_detail.html:98
+msgid "Budgets and Actuals"
+msgstr ""
+
+#: apps/entities/templates/entities/entity_detail.html:103
+msgid "is a"
+msgstr ""
+
+#: apps/entities/templates/entities/entity_detail.html:103
+#: commons/templates/partials/_pagination.html:11
+#: commons/templates/search/search.html:22
+msgid "of"
+msgstr ""
+
+#: apps/entities/templates/entities/entity_detail.html:103
+msgid ""
+"and therefore does not declare budgets. It serves a purely administrative "
+"function."
+msgstr ""
+
+#: apps/entities/templates/entities/entity_detail.html:109
+msgid "There are no Budgets or Actuals for this entity"
+msgstr ""
+
+#: apps/entities/templates/entities/entity_detail.html:114
+msgid "Budgets available"
+msgstr "תקציבים זמינים"
+
+#: apps/entities/templates/entities/entity_detail.html:118
+msgid "There are no Budgets this entity"
+msgstr "אין תקציבים לרשות זו"
+
+#: apps/entities/templates/entities/entity_detail.html:135
+msgid "Actuals available"
+msgstr ""
+
+#: apps/entities/templates/entities/entity_detail.html:139
+msgid "There are no Actuals this entity"
+msgstr ""
+
+#: apps/entities/templates/entities/entity_list.html:6
+msgid "Opening Israeli Budgets"
+msgstr ""
+
+#: apps/entities/templates/entities/entity_list.html:11
+msgid "State of Israel"
+msgstr "מדינת ישראל"
+
+#: apps/entities/templates/entities/entity_list.html:14
+msgid ""
+"We do not currently store budgets for the State of Israel, but please browse "
+"the Israel municipality budget and actuals data below."
+msgstr ""
+
+#: apps/entities/templates/entities/entity_list.html:17
+msgid ""
+"If there is missing data that you know how to source, or that you&apos;d "
+"like to see here, please"
+msgstr ""
+
+#: apps/entities/templates/entities/entity_list.html:17
+msgid "contact us"
+msgstr "צור קשר"
+
+#: apps/entities/templates/entities/entity_list.html:27
+msgid "More"
+msgstr "עוד"
+
+#: apps/entities/templates/entities/entity_list.html:36
+msgid "No available budget data."
+msgstr ""
+
+#: apps/interactions/models.py:63
+#: apps/interactions/templatetags/interactions.py:40
+msgid "Star"
+msgstr "כוכב"
+
+#: apps/interactions/models.py:64
+msgid "Stars"
+msgstr "כוכבים"
+
+#: apps/interactions/models.py:71
+#: apps/interactions/templatetags/interactions.py:76
+msgid "Follow"
+msgstr "עקוב"
+
+#: apps/interactions/models.py:72
+msgid "Follows"
+msgstr "עוקב"
+
+#: apps/interactions/models.py:79
+msgid "Share"
+msgstr ""
+
+#: apps/interactions/models.py:80
+msgid "Shares"
+msgstr ""
+
+#: apps/interactions/templates/interactions/partials/_comment_form.html:11
+#: commons/templates/partials/_form_action_login.html:2
+msgid "Login"
+msgstr "שם משתמש"
+
+#: apps/interactions/templates/interactions/partials/_comment_form.html:11
+msgid "or"
+msgstr "או"
+
+#: apps/interactions/templates/interactions/partials/_comment_form.html:11
+msgid "Register"
+msgstr "הרשם"
+
+#: apps/interactions/templates/interactions/partials/_comment_form.html:11
+msgid "to comment"
+msgstr "להגיב"
+
+#: apps/interactions/templates/interactions/partials/_discussion.html:5
+msgid "Discussion"
+msgstr "דיון"
+
+#: apps/interactions/templatetags/interactions.py:34
+msgid "Unstar"
+msgstr "בטל סימון כוכב"
+
+#: apps/interactions/templatetags/interactions.py:35
+msgid "Unstar this item"
+msgstr "בטל סימון כוכב לפריט זה"
+
+#: apps/interactions/templatetags/interactions.py:41
+msgid "Add this item to your starred items for future reference."
+msgstr " "
+
+#: apps/interactions/templatetags/interactions.py:70
+msgid "Unfollow"
+msgstr ""
+
+#: apps/interactions/templatetags/interactions.py:71
+msgid "Unfollow this item"
+msgstr ""
+
+#: apps/interactions/templatetags/interactions.py:77
+msgid ""
+"Add this item to your followed items. You will receive email for any updates "
+"or discussion on the item."
+msgstr ""
+
+#: apps/pages/forms.py:6
+msgid "We need your name to respond nicely!"
+msgstr ""
+
+#: apps/pages/forms.py:7
+msgid "We can&apos;t get back to you without it."
+msgstr ""
+
+#: apps/pages/forms.py:8
+msgid "What is it about"
+msgstr ""
+
+#: apps/pages/forms.py:9
+msgid "What do you want to tell us"
+msgstr "מה ברצונך לספר לנו"
+
+#: apps/pages/models.py:11 apps/taxonomies/models.py:41
+msgid "Publication status"
+msgstr "סטטוס פרסום"
+
+#: apps/pages/models.py:14
+msgid "Determines whether the page is publically accessible or not."
+msgstr ""
+
+#: apps/pages/models.py:17
+msgid "Page title"
+msgstr "כותרת עמוד"
+
+#: apps/pages/models.py:19
+msgid "The main heading for your page."
+msgstr ""
+
+#: apps/pages/models.py:26
+msgid "Content"
+msgstr "תוכן"
+
+#: apps/pages/models.py:27
+msgid "The main content for this page."
+msgstr "התוכן העיקרי לעמוד זה"
+
+#: apps/pages/models.py:32
+msgid ""
+"A number used to order pages in indexes, as an alternative to date-based "
+"ordering."
+msgstr ""
+
+#: apps/pages/models.py:35
+msgid "Show in navigation"
+msgstr "הראה בניווט"
+
+#: apps/pages/models.py:37
+msgid ""
+"A hook to control whether the page will be displayed in main navigation "
+"lists."
+msgstr ""
+
+#: apps/pages/models.py:54
+msgid "page"
+msgstr "עמוד"
+
+#: apps/pages/models.py:55
+msgid "pages"
+msgstr "עמודים"
+
+#: apps/pages/templates/pages/home.html:9
+msgid "Welcome to Open Budget"
+msgstr "ברוכים הבאים לתקציב הפתוח"
+
+#: apps/pages/templates/pages/home.html:12
+msgid ""
+"\n"
+"            This is the demo site. Please have a look around. There is some "
+"test data that should give a basic overview of the current featureset.\n"
+"            "
+msgstr ""
+
+#: apps/pages/templates/pages/home.html:17
+msgid ""
+"\n"
+"            Some features are only visible to loggedin users. To login, use "
+"the following credentials:\n"
+"            "
+msgstr ""
+"\n"
+"חלק מהאפיונים גלויים רק למשתמשים מחוברים. כדי להתחבר, יש למלא את השדות הבאים:"
+
+#: apps/sources/models.py:24
 msgid "Source Name"
-msgstr ""
+msgstr "שם המקור"
 
-#: commons/models.py:19
+#: apps/sources/models.py:26
 msgid "The name of this data source"
-msgstr ""
+msgstr "שם מקור הנתונים"
 
-#: commons/models.py:22
+#: apps/sources/models.py:30
+msgid "Source data file"
+msgstr "מקור קובץ נתונים"
+
+#: apps/sources/models.py:33
+msgid "The source file."
+msgstr "קובץ המקור"
+
+#: apps/sources/models.py:37
 msgid "Source URL"
 msgstr ""
 
-#: commons/models.py:24
+#: apps/sources/models.py:39
 msgid "The URL the data was retrieved from"
 msgstr ""
 
-#: commons/models.py:27
+#: apps/sources/models.py:43
 msgid "Data retrieval date"
-msgstr ""
+msgstr "תאריך משיכת הנתונים"
 
-#: commons/models.py:28
+#: apps/sources/models.py:44
 msgid "The date this data was retrieved from the source"
-msgstr ""
+msgstr "התאריך בו נתונים אלה נלקחו מהמקור"
 
-#: commons/models.py:31
+#: apps/sources/models.py:48
 msgid "Notes"
-msgstr ""
+msgstr "הערות"
 
-#: commons/models.py:32
+#: apps/sources/models.py:49
 msgid "Write any additional notes about the sourcing of this dataset"
 msgstr ""
 
-#: commons/models.py:47
-msgid "Data source"
+#: apps/sources/models.py:80
+msgid "Reference source"
 msgstr ""
 
-#: commons/models.py:48
-msgid "Data sources"
+#: apps/sources/models.py:81
+msgid "Reference sources"
+msgstr ""
+
+#: apps/sources/models.py:91
+msgid "Auxilliary source"
+msgstr ""
+
+#: apps/sources/models.py:92
+msgid "Auxilliary sources"
+msgstr ""
+
+#: apps/sources/templates/sources/auxsource_detail.html:5
+msgid "auxiliary source"
+msgstr ""
+
+#: apps/sources/templates/sources/auxsource_detail.html:15
+#: apps/sources/templates/sources/referencesource_detail.html:15
+msgid "Uploaded by"
+msgstr "הועלה על ידי"
+
+#: apps/sources/templates/sources/auxsource_detail.html:25
+#: apps/sources/templates/sources/referencesource_detail.html:25
+msgid "Retreived from"
+msgstr ""
+
+#: apps/sources/templates/sources/auxsource_detail.html:26
+#: apps/sources/templates/sources/referencesource_detail.html:26
+msgid "Retreival date"
+msgstr ""
+
+#: apps/sources/templates/sources/auxsource_detail.html:37
+#: apps/sources/templates/sources/referencesource_detail.html:37
+msgid "Download"
+msgstr "הורדה"
+
+#: apps/sources/templates/sources/referencesource_detail.html:5
+msgid "reference source"
+msgstr ""
+
+#: apps/taxonomies/models.py:31
+msgid "The name of this taxonomy."
+msgstr "שם הטקסונומיה"
+
+#: apps/taxonomies/models.py:35
+msgid "Taxonomy description"
+msgstr "תיאור הטקסונומיה"
+
+#: apps/taxonomies/models.py:37
+msgid "Describe the purpose and goals of this taxonomy."
+msgstr "תיאור התכלית והמטרות של טקסונומיה זו "
+
+#: apps/taxonomies/models.py:44
+msgid "Determines whether the taxonomy is publically viewable."
+msgstr ""
+
+#: apps/taxonomies/models.py:70
+msgid "Taxonomy"
+msgstr "טקסונומיה"
+
+#: apps/taxonomies/models.py:115
+msgid "Tag"
+msgstr "תג "
+
+#: apps/taxonomies/models.py:116
+#: apps/taxonomies/templates/taxonomies/taxonomy_detail.html:18
+msgid "Tags"
+msgstr "תגיות"
+
+#: apps/taxonomies/models.py:144
+msgid "Tagged node"
+msgstr ""
+
+#: apps/taxonomies/models.py:145
+msgid "Tagged nodes"
+msgstr ""
+
+#: apps/taxonomies/views.py:26
+msgid "No {verbose_name} found matching the query"
+msgstr "לא נמצא רישום התואם לשאילתה"
+
+#: apps/taxonomies/templates/taxonomies/tag_detail.html:12
+msgid "A tag in the"
+msgstr ""
+
+#: apps/taxonomies/templates/taxonomies/tag_detail.html:12
+msgid "taxonomy by"
+msgstr "טקסונומיה על ידי"
+
+#: apps/taxonomies/templates/taxonomies/tag_detail.html:15
+msgid "Tagged Nodes"
+msgstr ""
+
+#: apps/taxonomies/templates/taxonomies/tag_detail.html:24
+msgid "Budgetary data with this tag"
+msgstr "נתוני תקציב עם תג"
+
+#: apps/taxonomies/templates/taxonomies/taxonomy_detail.html:12
+msgid "A Taxonomy by"
+msgstr ""
+
+#: apps/transport/forms.py:7
+msgid "Browse your file."
+msgstr "עיין בקובץ שלך"
+
+#: apps/transport/models.py:9
+msgid "String"
+msgstr ""
+
+#: apps/transport/models.py:12
+msgid "A word or some such."
+msgstr ""
+
+#: apps/transport/incoming/errors.py:22
+#, python-format
+msgid "Error found in row: %s; and columns: %s; with values: %s"
+msgstr ""
+
+#: apps/transport/incoming/errors.py:42
+#, python-format
+msgid "Source data collision error in rows: %s, %s"
+msgstr ""
+
+#: apps/transport/incoming/errors.py:52
+msgid "Data Syntax Error"
+msgstr ""
+
+#: apps/transport/incoming/errors.py:56
+#, python-format
+msgid "Syntax error found in row: %s; and columns: %s; with values: %s"
+msgstr ""
+
+#: apps/transport/incoming/errors.py:62
+msgid "Data Ambiguity Error"
+msgstr ""
+
+#: apps/transport/incoming/errors.py:66
+#, python-format
+msgid "Source contains siblings with same code in rows: %s, %s"
+msgstr ""
+
+#: apps/transport/incoming/errors.py:81
+msgid "Meta Parsing Error"
+msgstr ""
+
+#: apps/transport/incoming/errors.py:85
+#, python-format
+msgid "Source meta data invalid for reason: %s"
+msgstr ""
+
+#: apps/transport/incoming/errors.py:100
+msgid "Data Validation Error"
+msgstr ""
+
+#: apps/transport/incoming/errors.py:116
+#, python-format
+msgid "Source data invalid in row: %s; for reasons: %s"
+msgstr ""
+
+#: apps/transport/incoming/errors.py:122
+msgid "Node Direction Error"
+msgstr ""
+
+#: apps/transport/incoming/errors.py:126
+#, python-format
+msgid ""
+"Inverse node's direction is not opposite of item in row: %s; and inverse in "
+"row: %s"
+msgstr ""
+
+#: apps/transport/incoming/errors.py:132
+msgid "Parent Scope Error"
+msgstr ""
+
+#: apps/transport/incoming/errors.py:136
+#, python-format
+msgid "Parent scope is missing or not resolvable in row: %s"
+msgstr ""
+
+#: apps/transport/incoming/parsers/__init__.py:235
+#, python-format
+msgid "DomainDivision with pk %s does not exist"
+msgstr ""
+
+#: apps/transport/templates/transport/file_import.html:6
+msgid "Import data"
+msgstr "יבוא נתונים"
+
+#: apps/transport/templates/transport/import_success.html:6
+msgid "Import success"
+msgstr ""
+
+#: apps/visualizations/models.py:13
+msgid "Data and configuration"
+msgstr ""
+
+#: apps/visualizations/models.py:14
+msgid "JSON serialized configuration object of the visualization."
+msgstr ""
+
+#: apps/visualizations/models.py:25
+#, fuzzy
+msgid "Visualization"
+msgstr "אוכלוסיה"
+
+#: apps/visualizations/models.py:26
+msgid "Visualizations"
 msgstr ""
 
 #: commons/mixins/models.py:13
 msgid "Created on"
-msgstr ""
+msgstr "נוצר ב"
 
 #: commons/mixins/models.py:18
 msgid "Last modified"
+msgstr "שונה לאחרונה"
+
+#: commons/mixins/models.py:40
+msgid "Period start"
 msgstr ""
 
-#: commons/templates/base.html:44
+#: commons/mixins/models.py:41
+#, python-format
+msgid "The start date for this %(class)s"
+msgstr ""
+
+#: commons/mixins/models.py:57
+msgid "Period end"
+msgstr "תאריך סיום"
+
+#: commons/mixins/models.py:58
+#, python-format
+msgid "The end date for this %(class)s"
+msgstr ""
+
+#: commons/templates/base.html:43
 msgid "Home"
+msgstr "בית"
+
+#: commons/templates/base.html:46
+msgid "Municipalities"
+msgstr "רשויות מקומיות"
+
+#: commons/templates/base.html:49
+msgid "Budget Browser"
 msgstr ""
 
-#: commons/templates/base.html:47
-msgid "Entities"
-msgstr ""
-
-#: commons/templates/base.html:50
+#: commons/templates/base.html:52
 msgid "API"
 msgstr ""
 
-#: commons/templates/base.html:87
-#: entities/templates/entities/entity_detail.html:19
-msgid "About"
-msgstr ""
-
-#: commons/templates/base.html:90
+#: commons/templates/base.html:104
 msgid "Privacy"
-msgstr ""
+msgstr "פרטיות"
 
-#: commons/templates/base.html:93
+#: commons/templates/base.html:107
 msgid "Terms"
-msgstr ""
+msgstr "תנאים"
 
-#: commons/templates/base.html:96
+#: commons/templates/base.html:110
 msgid "Contact"
-msgstr ""
+msgstr "צור קשר"
 
 #: commons/templates/comments/_preview.html:4
 #: commons/templates/comments/_preview.html:13
 msgid "Preview your comment"
-msgstr ""
+msgstr "הצג תגובה"
 
 #: commons/templates/comments/_preview.html:11
 msgid "Please correct the error below"
@@ -443,61 +1215,68 @@ msgstr[1] ""
 
 #: commons/templates/comments/_preview.html:16
 msgid "and"
-msgstr ""
+msgstr "ו"
 
 #: commons/templates/comments/_preview.html:16
 msgid "Post your comment"
-msgstr ""
+msgstr "פרסם תגובה"
 
 #: commons/templates/comments/_preview.html:16
 msgid "or make changes"
-msgstr ""
+msgstr "או עשה שינויים"
 
 #: commons/templates/comments/_preview.html:32
 #: commons/templates/partials/_form_action_post.html:2
 msgid "Post"
-msgstr ""
+msgstr "פרסם"
 
 #: commons/templates/comments/_preview.html:33
 msgid "Preview"
-msgstr ""
+msgstr "הצג "
 
 #: commons/templates/comments/list.html:7
 msgid "This discussion has"
-msgstr ""
+msgstr "הדיון"
 
 #: commons/templates/comments/list.html:7
 msgid "comments"
-msgstr ""
+msgstr "תגובות"
 
 #: commons/templates/comments/list.html:7
 msgid "What do you have to say"
-msgstr ""
+msgstr "מה יש לך להגיד"
 
 #: commons/templates/partials/_form_action_change.html:2
 msgid "Change"
-msgstr ""
+msgstr "שנה"
 
 #: commons/templates/partials/_form_action_create.html:2
 msgid "Create"
-msgstr ""
+msgstr "צור"
 
 #: commons/templates/partials/_form_action_delete.html:2
 msgid "Delete"
-msgstr ""
+msgstr "מחק"
 
-#: commons/templates/partials/_form_action_login.html:2
-#: interactions/templates/interactions/partials/_comment_form.html:11
-msgid "Login"
-msgstr ""
+#: commons/templates/partials/_form_action_search.html:2
+msgid "Search"
+msgstr "חיפוש"
 
 #: commons/templates/partials/_form_action_submit.html:2
 msgid "Submit"
 msgstr ""
 
-#: commons/templates/partials/_form_action_update.html:2
-msgid "Update"
-msgstr ""
+#: commons/templates/partials/_pagination.html:5
+msgid "Previous"
+msgstr "הקודם"
+
+#: commons/templates/partials/_pagination.html:11
+msgid "Page"
+msgstr "עמוד"
+
+#: commons/templates/partials/_pagination.html:14
+msgid "Next"
+msgstr "הבא"
 
 #: commons/templates/registration/activate.html:6
 #: commons/templates/registration/activation_complete.html:6
@@ -514,7 +1293,7 @@ msgstr ""
 
 #: commons/templates/registration/activate.html:15
 msgid "Thanks"
-msgstr ""
+msgstr "תודה"
 
 #: commons/templates/registration/activate.html:15
 msgid "activation complete!  You may now"
@@ -523,7 +1302,7 @@ msgstr ""
 #: commons/templates/registration/activate.html:15
 #: commons/templates/registration/activation_complete.html:12
 msgid "login"
-msgstr ""
+msgstr "התחבר"
 
 #: commons/templates/registration/activate.html:15
 #: commons/templates/registration/activation_complete.html:12
@@ -542,27 +1321,27 @@ msgstr ""
 
 #: commons/templates/registration/login.html:6
 msgid "Log in to your account"
-msgstr ""
+msgstr "התחבר לחשבון שלך"
 
 #: commons/templates/registration/login.html:25
 msgid "Forgot password"
-msgstr ""
+msgstr "שכחת סיסמא"
 
 #: commons/templates/registration/login.html:27
 msgid "Register for free"
-msgstr ""
+msgstr "הרשם בחינם"
 
 #: commons/templates/registration/logout.html:6
 msgid "Thanks for using the app"
-msgstr ""
+msgstr "תודה שהשתמשת באפליקציה"
 
 #: commons/templates/registration/logout.html:12
 msgid "If you logged out by mistake, you can log back in again below"
-msgstr ""
+msgstr "אם התנתקת בטעות, אפשר להתחבר שוב למטה"
 
 #: commons/templates/registration/logout.html:15
 msgid "Log in"
-msgstr ""
+msgstr "התחבר"
 
 #: commons/templates/registration/password_change_done.html:6
 msgid "Done"
@@ -578,15 +1357,15 @@ msgstr ""
 
 #: commons/templates/registration/password_change_done.html:19
 msgid "Go back to your profile"
-msgstr ""
+msgstr "חזור לפרופיל"
 
 #: commons/templates/registration/password_change_form.html:6
 msgid "Update password"
-msgstr ""
+msgstr "עדכון סיסמא"
 
 #: commons/templates/registration/password_reset_complete.html:6
 msgid "Password reset complete"
-msgstr ""
+msgstr "איפוס סיסמא הסתיים"
 
 #: commons/templates/registration/password_reset_complete.html:11
 msgid "Glad we got all that sorted out"
@@ -594,7 +1373,7 @@ msgstr ""
 
 #: commons/templates/registration/password_reset_complete.html:14
 msgid "Your password has been reset successfully"
-msgstr ""
+msgstr "הסיסמא שלך אופסה מחדש בהצלחה"
 
 #: commons/templates/registration/password_reset_complete.html:16
 msgid "Please use your new credentials to"
@@ -602,11 +1381,11 @@ msgstr ""
 
 #: commons/templates/registration/password_reset_complete.html:16
 msgid "login to your account now"
-msgstr ""
+msgstr "התחבר לחשבון עכשיו"
 
 #: commons/templates/registration/password_reset_confirm.html:6
 msgid "Enter your new password"
-msgstr ""
+msgstr "הזן את הסיסמא החדשה שלך"
 
 #: commons/templates/registration/password_reset_confirm.html:10
 msgid "Make sure it is hard for someone else, but easy for you, to remember"
@@ -615,11 +1394,11 @@ msgstr ""
 #: commons/templates/registration/password_reset_confirm.html:13
 #: commons/templates/registration/password_reset_form.html:12
 msgid "There was an error in the form. Try again"
-msgstr ""
+msgstr "היתה שגיאה בטופס, נסה שוב"
 
 #: commons/templates/registration/password_reset_done.html:6
 msgid "Reset password mail sent"
-msgstr ""
+msgstr "מייל איפוס סיסמא נשלח"
 
 #: commons/templates/registration/password_reset_done.html:11
 msgid "Check your inbox and we&apos;ll get moving right along"
@@ -632,10 +1411,12 @@ msgid ""
 "the address you supplied with further instructions.\n"
 "        "
 msgstr ""
+"\n"
+"תודה על אישור כתובת האימייל. נשלחה הודעה עם הוראות נוספות לכתובת שנתת "
 
 #: commons/templates/registration/password_reset_form.html:6
 msgid "Reset your password"
-msgstr ""
+msgstr "איפוס סיסמא"
 
 #: commons/templates/registration/password_reset_form.html:17
 msgid ""
@@ -645,7 +1426,7 @@ msgstr ""
 
 #: commons/templates/registration/registration_complete.html:6
 msgid "Thanks for registering"
-msgstr ""
+msgstr "תודה שנרשמת"
 
 #: commons/templates/registration/registration_complete.html:12
 msgid ""
@@ -654,10 +1435,13 @@ msgid ""
 "Please check your email and click on the link to activate your account.\n"
 "        "
 msgstr ""
+"\n"
+"אימייל הפעלת חשבון נשלח לכתובת שנתת. בדוק את האימייל שלך ולחץ על הקישור כדי "
+"להפעיל את החשבון שלך."
 
 #: commons/templates/registration/registration_form.html:6
-msgid "Create an account today."
-msgstr ""
+msgid "Create an account today"
+msgstr "צור חשבון היום"
 
 #: commons/templates/rest_framework/api.html:6
 #: commons/templates/rest_framework/api.html:12
@@ -668,256 +1452,104 @@ msgstr ""
 msgid "App Home"
 msgstr ""
 
-#: entities/models.py:26
-msgid "The name of this entity domain."
+#: commons/templates/search/search.html:10
+msgid "Your search returned..."
 msgstr ""
 
-#: entities/models.py:44
-msgid "entity domain"
+#: commons/templates/search/search.html:22
+msgid "A"
 msgstr ""
 
-#: entities/models.py:45
-msgid "entity domains"
+#: commons/templates/search/search.html:28
+#: commons/templates/search/search.html:43
+#: commons/templates/search/search.html:58
+#: commons/templates/search/search.html:73
+#: commons/templates/search/search.html:88
+msgid "See record"
 msgstr ""
 
-#: entities/models.py:72 pages/models.py:30
-msgid "Index"
+#: commons/templates/search/search.html:37
+msgid "A budget for the period of"
+msgstr "תקציב לתקופה"
+
+#: commons/templates/search/search.html:52
+msgid "An actual for the period of"
 msgstr ""
 
-#: entities/models.py:73
-msgid "Position this division in relation to others"
+#: commons/templates/search/search.html:67
+msgid "An item in the Actuals for "
 msgstr ""
 
-#: entities/models.py:78
-msgid "The name of this division"
-msgstr ""
+#: commons/templates/search/search.html:67
+#: commons/templates/search/search.html:82
+msgid "in"
+msgstr "ב"
 
-#: entities/models.py:81
-msgid "has budgets"
-msgstr ""
+#: commons/templates/search/search.html:82
+msgid "An item in the Budget for "
+msgstr "פריט בתקציב ל"
 
-#: entities/models.py:83
-msgid "Must be true if this division directly presents budgets"
-msgstr ""
-
-#: entities/models.py:101
-msgid "domain division"
-msgstr ""
-
-#: entities/models.py:102
-msgid "domain divisions"
-msgstr ""
-
-#: entities/models.py:122
-msgid "The name of this entity"
-msgstr ""
-
-#: entities/models.py:127
-msgid "Describe."
-msgstr ""
-
-#: entities/models.py:133
-msgid "The official abbreviated code for this entity."
-msgstr ""
-
-#: entities/models.py:212
-msgid "entity"
-msgstr ""
-
-#: entities/models.py:213 entities/templates/entities/entity_detail.html:24
-msgid "entities"
-msgstr ""
-
-#: entities/templates/entities/entity_detail.html:13
-msgid "Back to all geopols"
-msgstr ""
-
-#: entities/templates/entities/entity_detail.html:24
-msgid "is one of "
-msgstr ""
-
-#: entities/templates/entities/entity_detail.html:24
-msgid "in "
-msgstr ""
-
-#: entities/templates/entities/entity_detail.html:36
-msgid "Budgeting entities of"
-msgstr ""
-
-#: entities/templates/entities/entity_detail.html:38
-msgid "Related"
-msgstr ""
-
-#: entities/templates/entities/entity_detail.html:38
-msgid "budgeting entities"
-msgstr ""
-
-#: entities/templates/entities/entity_detail.html:44
-msgid "has no related entities that declare budgets"
-msgstr ""
-
-#: entities/templates/entities/entity_detail.html:48
-msgid "We have the following related entities with budgets in the system"
-msgstr ""
-
-#: entities/templates/entities/entity_detail.html:62
-msgid "Budgets and Actuals"
-msgstr ""
-
-#: entities/templates/entities/entity_detail.html:67
-msgid "is a"
-msgstr ""
-
-#: entities/templates/entities/entity_detail.html:67
-msgid "of"
-msgstr ""
-
-#: entities/templates/entities/entity_detail.html:67
+#: commons/templates/search/search.html:96
 msgid ""
-"and therefore does not declare budgets. It serves a purely administrative "
-"function."
+"\n"
+"            Sorry, we have no records that match your search term.\n"
+"            "
+msgstr ""
+"\n"
+"מצטערים, אין לנו רשומים התואמים למילות החיפוש"
+
+#: commons/templates/search/search.html:100
+msgid "Search again..."
+msgstr "חפש שוב"
+
+#: commons/templates/search/search.html:102
+msgid "Search again for anything related to budgets."
 msgstr ""
 
-#: entities/templates/entities/entity_detail.html:73
-msgid "There are no Budgets or Actuals for this entity"
-msgstr ""
+#: commons/templates/search/search.html:105
+#: commons/templates/search/search.html:124
+msgid "Search for ..."
+msgstr "חפש"
 
-#: entities/templates/entities/entity_detail.html:78
-msgid "Budgets available"
-msgstr ""
+#: commons/templates/search/search.html:117
+msgid "Search for anything related to budgets"
+msgstr "חפש כל דבר הקשור לתקציבים"
 
-#: entities/templates/entities/entity_detail.html:82
-msgid "There are no Budgets this entity"
-msgstr ""
-
-#: entities/templates/entities/entity_detail.html:98
-msgid "Actuals available"
-msgstr ""
-
-#: entities/templates/entities/entity_detail.html:102
-msgid "There are no Actuals this entity"
-msgstr ""
-
-#: entities/templates/entities/entity_list.html:6
-msgid "All Entities"
-msgstr ""
-
-#: interactions/models.py:61
-msgid "Star"
-msgstr ""
-
-#: interactions/models.py:62
-msgid "Stars"
-msgstr ""
-
-#: interactions/models.py:69 interactions/models.py:70
-msgid "Follow"
-msgstr ""
-
-#: interactions/templates/interactions/partials/_annotations.html:5
-msgid "My Annotations"
-msgstr ""
-
-#: interactions/templates/interactions/partials/_comment_form.html:11
-msgid "or"
-msgstr ""
-
-#: interactions/templates/interactions/partials/_comment_form.html:11
-msgid "Register"
-msgstr ""
-
-#: interactions/templates/interactions/partials/_comment_form.html:11
-msgid "to comment"
-msgstr ""
-
-#: interactions/templates/interactions/partials/_discussion.html:5
-msgid "Discussion"
-msgstr ""
-
-#: interactions/templatetags/interactions.py:28
-msgid "Unstar this item"
-msgstr ""
-
-#: interactions/templatetags/interactions.py:33
-msgid "Star this item"
-msgstr ""
-
-#: pages/forms.py:6
-msgid "We need your name to respond nicely!"
-msgstr ""
-
-#: pages/forms.py:7
-msgid "We can&apos;t get back to you without it."
-msgstr ""
-
-#: pages/forms.py:8
-msgid "What is it about"
-msgstr ""
-
-#: pages/forms.py:9
-msgid "What do you want to tell us"
-msgstr ""
-
-#: pages/models.py:11
-msgid "Publication status"
-msgstr ""
-
-#: pages/models.py:14
-msgid "Determines whether the page is publically accessible or not."
-msgstr ""
-
-#: pages/models.py:17
-msgid "Page title"
-msgstr ""
-
-#: pages/models.py:19
-msgid "The main heading for your page."
-msgstr ""
-
-#: pages/models.py:26
-msgid "Content"
-msgstr ""
-
-#: pages/models.py:27
-msgid "The main content for this page."
-msgstr ""
-
-#: pages/models.py:32
+#: commons/templates/search/search.html:119
 msgid ""
-"A number used to order pages in indexes, as an alternative to date-based "
-"ordering."
+"\n"
+"            Enter any budget-related keywords, and we'll retreive the "
+"matching records for you.\n"
+"            "
 msgstr ""
 
-#: pages/models.py:35
-msgid "Show in navigation"
-msgstr ""
-
-#: pages/models.py:37
-msgid ""
-"A hook to control whether the page will be displayed in main navigation "
-"lists."
-msgstr ""
-
-#: pages/models.py:54
-msgid "page"
-msgstr ""
-
-#: pages/models.py:55
-msgid "pages"
-msgstr ""
-
-#: settings/base.py:165
+#: settings/base.py:176
 msgid "English"
-msgstr ""
+msgstr "אנגלית"
 
-#: settings/base.py:166
+#: settings/base.py:177
 msgid "Hebrew"
-msgstr ""
+msgstr "עברית"
 
-#: settings/base.py:167
+#: settings/base.py:178
 msgid "Arabic"
-msgstr ""
+msgstr "ערבית"
 
-#: settings/base.py:168
+#: settings/base.py:179
 msgid "Russian"
-msgstr ""
+msgstr "רוסית"
+
+#~ msgid "Support"
+#~ msgstr "תמיכה"
+
+#~ msgid "Your username."
+#~ msgstr "שם משתמש"
+
+#~ msgid "Your email address."
+#~ msgstr "אימייל"
+
+#~ msgid "Your first name."
+#~ msgstr "שם פרטי"
+
+#~ msgid "Your last name."
+#~ msgstr "שם משפחה"

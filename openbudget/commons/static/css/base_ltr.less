@@ -1,0 +1,235 @@
+@import "../lib/adaptabl/adaptabl.mock";
+
+
+textarea {
+    height: 5em;
+    min-height: 5em;
+}
+
+nav a {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+#home {
+
+    .demo {
+        .box(50%);
+        .float;
+    }
+}
+
+.user-widget {
+    .-float;
+    .-alignment;
+}
+
+footer nav {
+    font-size: 0.875em;
+}
+
+.langs {
+    margin-right: 2em;
+    font-size: 0.75em;
+}
+
+.searchbox-container {
+    .box(50%);
+    .float;
+}
+
+.searchbox {
+    .layout-object(450px);
+    display: inline-block;
+    padding-top: 1em;
+}
+
+.footer-links {
+    .box(50%);
+    .float;
+    .-alignment;
+}
+
+.searchbox input[type="text"] {
+    .layout-object(65%);
+    display: inline-block;
+    height: 2.875em;
+    line-height: 2.875em;
+    padding-left: 0.75em;
+}
+
+.searchbox input[type="submit"] {
+    .box(30%);
+    .-float;
+    display: inline-block;
+}
+
+.search-result-object {
+    float: left;
+    width: 20%;
+    margin: 2.5%;
+}
+
+.search-result-object .label {
+    padding: 0.25em;
+    margin: 0.5em 0;
+}
+
+.interactions {
+    display: inline-block;
+    .-float;
+    .-alignment;
+    .height(2em);
+}
+
+.interaction {
+    display: inline-block;
+    width: 90px;
+    font-size: 0.5em;
+    line-height: 1em;
+    height: 1em;
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+}
+
+.box-2 {
+    .layout-object(50%);
+}
+
+.box-3 {
+    .layout-object(33%);
+}
+
+.context {
+    .layout-object(33%);
+}
+
+.budget-actions, .actual-actions {
+    .layout-object(33%);
+}
+
+.budget-info, .actual-info {
+    .box(67%);
+    .float;
+}
+
+.interaction input[type="submit"] {
+    /*background-color: @yellow;*/
+}
+
+.interaction:hover input[type="submit"] {
+    /*background-color: darken(@yellow, 10%);*/
+}
+
+.discussion {
+    .float;
+    .box(50%);
+    background-color: lighten(@grey, 45%);
+    margin: 1em 0;
+    padding: 0.5em;
+
+    label {
+        background-color: lighten(@grey, 45%);
+    }
+}
+
+.account {
+
+    .star, .follow, .comment, .taxonomy, .file {
+        background-color: lighten(@grey, 40%);
+        margin-right: 1.5em;
+        margin-bottom: 0.5em;
+        padding: 0.5em;
+        font-size: 0.875em;
+    }
+
+    .star:before {
+        content: "\2605";
+    }
+
+    .follow:before {
+        content: "\274A";
+    }
+
+    .comment:before {
+        content: "\27A6";
+    }
+
+    .taxonomy:before {
+        content: "\2744";
+    }
+
+    .comment-quote {
+        font-size: 0.875em;
+    }
+}
+
+.entity-preview {
+    .layout-object(23%);
+    .background-color(lighten(@grey, 40%));
+    .margin-horizontal(1%);
+    margin-bottom: 0.5em;
+    padding: 0.25em 0.25em 0 0.25em;
+
+    .more {
+        .box(25%);
+        .-float;
+        .-alignment;
+    }
+
+    h3 span {
+        font-size: 0.75em;
+    }
+
+    .context {
+        .layout-object;
+        .-float;
+        .-alignment;
+        font-size: 0.825em;
+        background-color: lighten(@grey, 35%);
+        padding: 0.125em 0.5em 0.125em 0.125em;
+        margin-left: -1%;
+    }
+
+    .data-status {
+        font-size: 0.825em;
+    }
+}
+
+.taxonomy-status {
+    .box(25%);
+    .display-inline-block;
+    .align-center;
+    .-float;
+    color: white;
+
+    &.published {
+        .green-bg;
+    }
+
+    &.draft {
+        .orange-bg;
+    }
+}
+
+.tagged-sheet {
+    text-decoration: none;
+    padding: 0.25em;
+    background-color: lighten(@blue, 10%);
+    color: @white;
+    font-size: 0.875em;
+
+    &:hover {
+        color: darken(@white, 4%);
+    }
+}
+
+.budget-item {
+    .layout-object;
+    .float;
+    width: 24%;
+    background-color: lighten(@grey, 45%);
+    margin: 0.5%;
+    padding: 0.5%;
+    font-size: 0.75em;
+}

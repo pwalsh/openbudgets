@@ -12,11 +12,11 @@ whoosh
 redis
 celery
 django-celery
+factory_boy
 git+https://github.com/toastdriven/django-haystack.git
 django-autoslug
 git+https://github.com/mozilla/unicode-slugify
-hg+https://bitbucket.org/alper/django-registration
-#hg+https://bitbucket.org/ubernostrum/django-registration
+hg+https://bitbucket.org/prjts/django-registration
 django-taggit
 django-uuidfield
 django-debug-toolbar
@@ -28,3 +28,4 @@ django-rosetta
 git+https://github.com/prjts/django-rosetta-grappelli.git
 djangorestframework
 django-subdomains
+jsonfield

@@ -9,7 +9,7 @@ from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
 from openbudget.commons.utilities import get_ultimate_parent
 
 
-class Domain(TimeStampedModel, models.Model):
+class Domain(TimeStampedModel):
     """Describes the domain for a collection of entities.
 
     Through the Domain model, we can derive a relational structure for a set of entities.
@@ -40,7 +40,7 @@ class Domain(TimeStampedModel, models.Model):
         verbose_name_plural = _('entity domains')
 
 
-class DomainDivision(TimeStampedModel, models.Model):
+class DomainDivision(TimeStampedModel):
     """Describes the administrative division for a domain.
 
     Each instance is an administrative division of a domain.
@@ -93,7 +93,7 @@ class DomainDivision(TimeStampedModel, models.Model):
         verbose_name_plural = _('domain divisions')
 
 
-class Entity(TimeStampedModel, UUIDModel, models.Model):
+class Entity(TimeStampedModel, UUIDModel):
     """Describes an entity in a domain.
 
 
@@ -104,7 +104,6 @@ class Entity(TimeStampedModel, UUIDModel, models.Model):
     )
     name = models.CharField(
         max_length=255,
-        unique=True,
         help_text=_('The name of this entity')
     )
     description = models.TextField(
@@ -118,11 +117,6 @@ class Entity(TimeStampedModel, UUIDModel, models.Model):
         blank=True,
         help_text=_('The official abbreviated code for this entity.')
     )
-    discussion = generic.GenericRelation(
-        Comment,
-        object_id_field="object_pk"
-    )
-    # TODO: parent choices conditional on division choice?
     parent = models.ForeignKey(
         'self',
         null=True,
@@ -204,3 +198,6 @@ class Entity(TimeStampedModel, UUIDModel, models.Model):
         ordering = ['division__index', 'name']
         verbose_name = _('entity')
         verbose_name_plural = _('entities')
+        unique_together = (
+            ('name', 'parent'),
+        )

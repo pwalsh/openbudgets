@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from openbudget.commons.mixins.models import TimeStampedModel
 
 
-class String(TimeStampedModel, models.Model):
+class String(TimeStampedModel):
     """"""
     string = models.CharField(
         _('String'),
@@ -15,7 +15,7 @@ class String(TimeStampedModel, models.Model):
         'self',
         null=True,
         blank=True,
-        related_name='alias_set'
+        related_name='scope_set'
     )
 
     def __unicode__(self):

@@ -17,7 +17,7 @@
 
 {% block content %}
 
-<div class="box-23 _float-left">
+<div class="actual-info">
     <section>
         <h2>
             {{ object.total }} {% trans 'NIS' %}
@@ -103,7 +103,7 @@
     </section>
 </div>
 
-<div class="box-3 _float-left">
+<div class="actual-actions">
     <section>
         <h2>
             {% trans 'Export this Actual' %}
@@ -143,7 +143,4 @@
     </p>
     </section>
 </div>
-
-{% include 'interactions/partials/_discussion.html' %}
-
 {% endblock content %}

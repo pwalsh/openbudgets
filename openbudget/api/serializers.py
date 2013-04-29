@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from openbudget.apps.entities.models import Entity, Domain, DomainDivision
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
+from openbudget.apps.visualizations.models import Visualization
 
 
 class BudgetTemplateNodeLinked(serializers.HyperlinkedModelSerializer):
@@ -72,7 +73,8 @@ class ActualLinked(serializers.HyperlinkedModelSerializer):
         model = Actual
 
 
-class EntityListLinked(serializers.HyperlinkedModelSerializer):
+#TODO: changed from HyperlinkedModelSerializer to ModelSerializer to get the importer app working
+class EntityListLinked(serializers.ModelSerializer):
 
     budgets = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='budget-detail')
     actuals = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='actual-detail')
@@ -90,7 +92,8 @@ class EntityDetailLinked(serializers.HyperlinkedModelSerializer):
         model = Entity
 
 
-class DomainDivisionLinked(serializers.HyperlinkedModelSerializer):
+#TODO: changed from HyperlinkedModelSerializer to ModelSerializer to get the importer app working
+class DomainDivisionLinked(serializers.ModelSerializer):
 
     entities = EntityListLinked()
 
@@ -105,3 +108,9 @@ class DomainLinked(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Domain
+
+
+class VisualizationLinked(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Visualization

@@ -58,16 +58,16 @@ class OpenBudgetDashboard(Dashboard):
         ))
 
         self.children.append(modules.LinkList(
-            _('Media management'),
+            _('File management'),
             column=2,
             children=[
                 {
-                    'title': _('FileBrowser'),
+                    'title': _('Media browser'),
                     'url': '/admin/filebrowser/browse/',
                     'external': False,
                 },
                 {
-                    'title': _('Static translations'),
+                    'title': _('Codebase translations'),
                     'url': '/rosetta/',
                     'external': False,
                 },
@@ -75,9 +75,14 @@ class OpenBudgetDashboard(Dashboard):
         ))
 
         self.children.append(modules.LinkList(
-            _('Support'),
+            _('External resources'),
             column=2,
             children=[
+                {
+                    'title': _('Open Budget Documentation'),
+                    'url': 'http://open-budget.readthedocs.org/en/latest/',
+                    'external': True,
+                },
                 {
                     'title': _('Django Documentation'),
                     'url': 'http://docs.djangoproject.com/',
@@ -89,23 +94,44 @@ class OpenBudgetDashboard(Dashboard):
                     'external': True,
                 },
                 {
-                    'title': _('Built by prjts'),
-                    'url': 'http://prjts.com/',
-                    'external': True,
-                },
-                {
-                    'title': _('Email Paul Walsh (developer)'),
-                    'url': 'mailto:paulywalsh@gmail.com',
-                    'external': True,
-                },
-                {
-                    'title': _('Email Yehonatan Daniv (developer)'),
-                    'url': 'mailto:maggotfish@gmail.com',
+                    'title': _('Open Budget Repository'),
+                    'url': 'https://github.com/prjts/open-budget',
                     'external': True,
                 },
             ]
         ))
 
+        self.children.append(modules.LinkList(
+            _('Credits'),
+            column=2,
+            children=[
+                {
+                    'title': _('HaSadna'),
+                    'url': 'http://hasadna.org.il/en/',
+                    'external': True,
+                },
+                {
+                    'title': _('Developed by prjts'),
+                    'url': 'http://prjts.com/',
+                    'external': True,
+                },
+                {
+                    'title': _('Email developers'),
+                    'url': 'mailto:hello@prjts.com',
+                    'external': True,
+                },
+                {
+                    'title': _('Designed by bnop'),
+                    'url': 'http://bnop.co/',
+                    'external': True,
+                },
+                {
+                    'title': _('Email designers'),
+                    'url': 'mailto:',
+                    'external': True,
+                },
+            ]
+        ))
         # append a recent actions module
         self.children.append(modules.RecentActions(
             _('Recent Actions'),

@@ -36,7 +36,7 @@ DEVSTRAP = {
     'FIXTURES': (
         'dev/sites',
         'demo/objects',
-        'israel/strings'
+        'locale/he/strings'
     ),
     'TESTS': (
         'accounts',
