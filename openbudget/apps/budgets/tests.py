@@ -3,15 +3,14 @@ from datetime import date
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from openbudget.apps.budgets.factories import BudgetTemplateFactory,BudgetFactory, ActualFactory
-from openbudget.apps.entities.factories import DomainDivisionFactory
+from openbudget.apps.entities.factories import DomainDivisionFactory, EntityFactory
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, BudgetTemplateNodeRelation, Budget, BudgetItem
-from openbudget.apps.entities.models import Entity
 
 
 class TemplateInheritanceTestCase(TestCase):
     """Testing templates inheritance, dangling template nodes and nodes morphing over time"""
 
-    fixtures = ['demo/objects.json']
+    fixtures = ['tmp_budgets_tests.json']
 
     def setUp(self):
         """
@@ -202,8 +201,10 @@ class TemplateInheritanceTestCase(TestCase):
         node_2_4.backwards.add(backward)
 
         # create new budget based on tempalte_2
+        entity = EntityFactory.create()
+
         budget = Budget.objects.create(
-            entity=Entity.objects.get(pk=7),
+            entity=entity,
             template=self.template_2,
             period_start=date(2013, 1, 1),
             period_end=date(2013, 12, 31)
