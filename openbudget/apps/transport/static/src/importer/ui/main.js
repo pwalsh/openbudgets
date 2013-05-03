@@ -87,6 +87,8 @@ define([
                             };
                             config.data_url = Importer.BASE_API_URL + 'domain-divisions/';
                             break;
+                        case 'actual':
+                            config.template_name = 'budget-form';
                         case 'budget':
                             config.partials = {
                                 entities: 'entities'
@@ -108,6 +110,7 @@ define([
                                 }
                             };
                             config.data_url = Importer.BASE_API_URL + 'entities/';
+                            break;
                     }
 
                     if ( this.has_type_ext ) {
@@ -120,11 +123,11 @@ define([
                     }
                 },
                 'period_start_picker.picked'    : function (date) {
-                    var date_str = date.toISOString().replace(/([^T]+)(T.*)/, '$1');
+                    var date_str = date.toLocaleDateString().replace(/\\/g, '-');
                     this.$element.find('[name=period_start]').val(date_str);
                 },
                 'period_end_picker.picked'      : function (date) {
-                    var date_str = date.toISOString().replace(/([^T]+)(T.*)/, '$1');
+                    var date_str = date.toLocaleDateString().replace(/\\/g, '-');
                     this.$element.find('[name=period_end]').val(date_str);
                 },
                 'import_form_submit.clicked'    : function () {
