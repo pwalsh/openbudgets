@@ -1,5 +1,5 @@
 requirejs.config({
-    baseUrl : window.BASE_URL + '/lib',
+    baseUrl : window.BASE_URL + 'lib',
     paths   : {
         uijet_dir   : 'uijet',
         composites  : 'uijet/composites',
