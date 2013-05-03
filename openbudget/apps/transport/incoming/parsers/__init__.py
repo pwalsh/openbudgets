@@ -11,6 +11,7 @@ class BaseParser(object):
 
     def __init__(self, container_object_dict):
         self.valid = True
+        self.dry = False
         self.errors = []
         self.container_object_dict = container_object_dict
 
@@ -26,7 +27,9 @@ class BaseParser(object):
 
     def save(self, dry=False):
 
-        self._create_container(dry=dry)
+        self.dry = dry
+
+        self._create_container()
 
         if dry:
             from copy import deepcopy
@@ -34,12 +37,14 @@ class BaseParser(object):
             lookup_table_copy = deepcopy(self.objects_lookup)
 
         for key, obj in self.objects_lookup.iteritems():
-            self._save_object(obj, key, dry=dry)
+            self._save_object(obj, key)
 
         if dry:
             self.saved_cache.clear()
             # clear all changes by replacing the lookup with the old copy
             self.objects_lookup = lookup_table_copy
+
+        self.dry = False
 
         return True
 
@@ -57,14 +62,14 @@ class BaseParser(object):
     def _generate_lookup(self, data):
         raise NotImplementedError
 
-    def _save_object(self, obj, key, dry=False):
+    def _save_object(self, obj, key):
         raise NotImplementedError
 
-    def _create_container(self, container_dict=None, dry=False):
+    def _create_container(self, container_dict=None):
 
         data = container_dict or self.container_object_dict
 
-        if not dry:
+        if not self.dry:
             container = self.container_model.objects.create(**data)
         else:
             container = self.container_model(**data)
@@ -86,23 +91,23 @@ class BudgetTemplateParser(BaseParser):
     container_model = BudgetTemplate
     item_model = BudgetTemplateNode
 
-    def _save_object(self, obj, key, dry=False):
+    def _save_object(self, obj, key):
         inverses = []
         # check if we already saved this object and have it in cache
         if key in self.saved_cache:
             return self.saved_cache[key]
 
         if 'inverse' in obj:
-            inverses = self._save_inverses(obj, key, dry=dry)
+            inverses = self._save_inverses(obj, key)
 
         if 'parent' in obj:
-            self._save_parent(obj, key, dry=dry)
+            self._save_parent(obj, key)
 
-        item = self._create_item(obj, key, dry=dry)
+        item = self._create_item(obj, key)
 
-        self._add_to_container(item, key, dry=dry)
+        self._add_to_container(item, key)
 
-        if len(inverses) and not dry:
+        if len(inverses) and not self.dry:
             for inverse in inverses:
                 item.inverse.add(inverse)
 
@@ -111,7 +116,7 @@ class BudgetTemplateParser(BaseParser):
 
         return item
 
-    def _save_inverses(self, obj, key, dry=False):
+    def _save_inverses(self, obj, key):
         inverses = []
         inverse_codes = obj['inverse'].split(self.ITEM_SEPARATOR)
 
@@ -134,7 +139,7 @@ class BudgetTemplateParser(BaseParser):
                     inverse_key, inverse_obj = self._lookup_object(code=inv_code)
 
                 if not inverse_key or not inverse_obj:
-                    if dry:
+                    if self.dry:
                         self.throw(
                             DataSyntaxError(
                                 row=self.rows_objects_lookup[key],
@@ -152,11 +157,11 @@ class BudgetTemplateParser(BaseParser):
                     if inverse_key in self.saved_cache:
                         inverse = self.saved_cache[inverse_key]
                     else:
-                        inverse = self._save_object(inverse_obj, inverse_key, dry=dry)
+                        inverse = self._save_object(inverse_obj, inverse_key)
 
                 inverses.append(inverse)
 
-                if dry:
+                if self.dry:
                     if inverse.direction and inverse.direction == obj['direction']:
                         self.throw(
                             NodeDirectionError(
@@ -173,7 +178,7 @@ class BudgetTemplateParser(BaseParser):
 
         return inverses
 
-    def _save_parent(self, obj, key, dry=False):
+    def _save_parent(self, obj, key):
         if obj['parent']:
 
             if 'parentscope' in obj:
@@ -186,7 +191,7 @@ class BudgetTemplateParser(BaseParser):
             parent_key, parent = self._lookup_object(code=obj['parent'], scope=scope)
 
             if not parent or not parent_key:
-                if dry:
+                if self.dry:
                     self.throw(
                         ParentScopeError(
                             row=self.rows_objects_lookup[key]
@@ -204,7 +209,7 @@ class BudgetTemplateParser(BaseParser):
                 if parent_key in self.saved_cache:
                     obj['parent'] = self.saved_cache[parent_key]
                 else:
-                    parent = self._save_object(parent, parent_key, dry=dry)
+                    parent = self._save_object(parent, parent_key)
                     obj['parent'] = parent
 
         else:
@@ -215,20 +220,20 @@ class BudgetTemplateParser(BaseParser):
                 # clean parentscope
                 del obj['parentscope']
 
-    def _clean_object(self, obj, key, dry=False):
+    def _clean_object(self, obj, key):
         pass
 
-    def _create_item(self, obj, key, dry=False):
-        self._clean_object(obj, key, dry=dry)
-        if not dry:
+    def _create_item(self, obj, key):
+        self._clean_object(obj, key)
+        if not self.dry:
             item = self.item_model.objects.create(**obj)
         else:
             item = self.item_model(**obj)
             self._dry_clean(item, row_num=self.rows_objects_lookup[key])
         return item
 
-    def _add_to_container(self, item, key, dry=False):
-        if not dry:
+    def _add_to_container(self, item, key):
+        if not self.dry:
             BudgetTemplateNodeRelation.objects.create(
                 template=self.container_object,
                 node=item
@@ -237,17 +242,17 @@ class BudgetTemplateParser(BaseParser):
             relation = BudgetTemplateNodeRelation()
             self._dry_clean(relation, row_num=self.rows_objects_lookup[key], exclude=['node', 'template'])
 
-    def _create_container(self, container_dict=None, dry=False):
+    def _create_container(self, container_dict=None):
 
         data = container_dict or self.container_object_dict
 
         dict_copy = data.copy()
         divisions = dict_copy.pop('divisions')
 
-        super(BudgetTemplateParser, self)._create_container(container_dict=dict_copy, dry=dry)
+        super(BudgetTemplateParser, self)._create_container(container_dict=dict_copy)
 
         for division in divisions:
-            if not dry:
+            if not self.dry:
                 self.container_object.divisions.add(division)
             else:
                 try:
@@ -327,19 +332,19 @@ class BudgetParser(BudgetTemplateParser):
     container_model = Budget
     item_model = BudgetItem
 
-    def _save_object(self, obj, key, dry=False):
+    def _save_object(self, obj, key):
         # check if we already saved this object and have it in cache
         if key in self.saved_cache:
             return self.saved_cache[key]
 
-        self._add_to_container(obj, key, dry=dry)
+        self._add_to_container(obj, key)
 
-        item = self._create_item(obj, key, dry=dry)
+        item = self._create_item(obj, key)
 
         # cache the saved object
         self.saved_cache[key] = item
 
-    def _create_container(self, container_dict=None, dry=False):
+    def _create_container(self, container_dict=None):
 
         data = container_dict or self.container_object_dict
 
@@ -350,7 +355,7 @@ class BudgetParser(BudgetTemplateParser):
                 )
                 data['entity'] = entity
         except Entity.DoesNotExist as e:
-            if dry:
+            if self.dry:
                 self.throw(
                     MetaParsingError(
                         reason='Could not find Entity with key: %s' % data['entity']
@@ -360,14 +365,14 @@ class BudgetParser(BudgetTemplateParser):
                 raise e
 
         template = self._get_prev_template(data)
-        data['template'] = template
-
         #TODO: complete implementation of `_diff_template`
         # self._diff_template(template)
 
-        super(BudgetTemplateParser, self)._create_container(container_dict=data, dry=dry)
+        data['template'] = template
 
-    def _clean_object(self, obj, key, dry=False):
+        super(BudgetTemplateParser, self)._create_container(container_dict=data)
+
+    def _clean_object(self, obj, key):
         #TODO: if customcode is important the handle it, or else remove altogether
         #TODO: first validate direction is compatible with node
         keys = ('customcode', 'direction', 'code', 'parent', 'parentscope', 'inverse', 'inversescope')
@@ -375,7 +380,7 @@ class BudgetParser(BudgetTemplateParser):
             if key in obj:
                 del obj[key]
 
-    def _create_item(self, obj, key, dry=False):
+    def _create_item(self, obj, key):
         route = key.split(self.ROUTE_SEPARATOR)
         filter_key = 'code'
 
@@ -392,7 +397,7 @@ class BudgetParser(BudgetTemplateParser):
             node = self.container_object.template.nodes.get(**_filter)
             obj['node'] = node
         except BudgetTemplateNode.DoesNotExist as e:
-            if dry:
+            if self.dry:
                 # prepare data for the error
                 columns = ['code', 'parent', 'parentscope']
                 values = []
@@ -412,8 +417,8 @@ class BudgetParser(BudgetTemplateParser):
                 #TODO: handle this error properly, since at this stage there shouldn't be any missing nodes
                 raise e
 
-        self._clean_object(obj, key, dry=dry)
-        if not dry:
+        self._clean_object(obj, key)
+        if not self.dry:
             item = self.item_model.objects.create(**obj)
         else:
             item = self.item_model(**obj)
@@ -421,8 +426,8 @@ class BudgetParser(BudgetTemplateParser):
 
         return item
 
-    def _add_to_container(self, obj, key, dry=False):
-        if not dry:
+    def _add_to_container(self, obj, key):
+        if not self.dry:
             obj['budget'] = self.container_object
 
     def _get_prev_template(self, container_dict):
