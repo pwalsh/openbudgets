@@ -1,7 +1,20 @@
 @import url(/static/lib/uijet/uijet.css);
 
+.uijet_datepicker {
+    width: auto;
+}
+.uijet_datepickerinput_wrapper {
+    overflow: visible;
+}
+.uijet_datepicker_list {
+    width: 175px;
+}
 .uijet_datepicker_list li {
     width: 25px;
     height: 25px;
     line-height: 25px;
+}
+
+#import_message {
+    height: auto;
 }

@@ -1,10 +1,13 @@
 define([
     'uijet_dir/uijet',
     'importer/app',
-    'composites/Datepicker'
-], function (uijet, Importer) {
+    'controllers/ImportForm',
+    'importer/widgets/DatepickerInput'
+], function (uijet, Importer, ImportFormController) {
 
     var FORM_TYPE_EXT_ID = '#import_form_type_ext';
+
+    uijet.Adapter('ImportForm', ImportFormController);
 
     uijet.Factory('import_form_ext', {
         type    : 'Pane',
@@ -38,6 +41,7 @@ define([
         type    : 'Form',
         config  : {
             element     : '#import_form',
+            adapters    : ['Spin', 'ImportForm'],
             signals     : {
                 post_init       : function () {
                     var type_ext = this.$element.find(FORM_TYPE_EXT_ID)[0];
@@ -51,67 +55,13 @@ define([
                     })
                     .then(function () {
                         this.has_type_ext = true;
-                        this.wakeContained()
+                        this.wakeContained();
                     }.bind(this));
                 }
             },
             app_events  : {
                 'import_form_type.changed'      : function (data) {
-                    var value = data.value,
-                        config = {
-                            template_name   : value + '-form'
-                        };
-
-                    switch ( value ) {
-                        case 'budgettemplate':
-                            config.partials = {
-                                divisions   : 'divisions'
-                            };
-                            config.signals = {
-                                post_render : function () {
-                                    uijet.start([{
-                                        type    : 'Datepicker',
-                                        config  : {
-                                            element : '#period_start_picker'
-                                        }
-                                    }])
-                                    .then( this.wakeContained.bind(this) );
-                                },
-                                process_data: function (data) {
-                                    //TODO: move this to a controller
-                                    //! Array.prototype.filter
-                                    data.results = data.results.filter(function (item, i) {
-                                        return item.has_budgets;
-                                    });
-                                }
-                            };
-                            config.data_url = Importer.BASE_API_URL + 'domain-divisions/';
-                            break;
-                        case 'actual':
-                            config.template_name = 'budget-form';
-                        case 'budget':
-                            config.partials = {
-                                entities: 'entities'
-                            };
-                            config.signals = {
-                                post_render : function () {
-                                    uijet.start([{
-                                        type    : 'Datepicker',
-                                        config  : {
-                                            element : '#period_start_picker'
-                                        }
-                                    }, {
-                                        type    : 'Datepicker',
-                                        config  : {
-                                            element : '#period_end_picker'
-                                        }
-                                    }])
-                                    .then( this.wakeContained.bind(this) );
-                                }
-                            };
-                            config.data_url = Importer.BASE_API_URL + 'entities/';
-                            break;
-                    }
+                    var config = this.formExtConfigByType(data.value);
 
                     if ( this.has_type_ext ) {
                         var new_el = uijet.$(this.type_ext_html)[0];
@@ -123,27 +73,53 @@ define([
                     }
                 },
                 'period_start_picker.picked'    : function (date) {
-                    var date_str = date.toLocaleDateString().replace(/\\/g, '-');
-                    this.$element.find('[name=period_start]').val(date_str);
+                    this.$element.find('[name=period_start]').val(this.parseDate(date));
                 },
                 'period_end_picker.picked'      : function (date) {
-                    var date_str = date.toLocaleDateString().replace(/\\/g, '-');
-                    this.$element.find('[name=period_end]').val(date_str);
+                    this.$element.find('[name=period_end]').val(this.parseDate(date));
                 },
                 'import_form_submit.clicked'    : function () {
-                    this.submit({
-                        file: this.$element.find('[name=sourcefile]')[0].files[0]
-                    });
+                    this.spin()
+                        .submit({
+                            file: this.$element.find('[name=sourcefile]')[0].files[0]
+                        });
                 },
                 'import_form_type_ext.destroyed': function (config) {
                     this.notify('start_form_ext', config);
-                }
+                },
+                'upload.failed'                 : 'spinOff',
+                'upload.done'                   : 'spinOff'
             }
         }
     }, {
         type    : 'Button',
         config  : {
-            element : '#import_form_submit'
+            element     : '#import_form_submit',
+            signals     : {
+                pre_click   : function () {
+                    this.disable();
+                }
+            },
+            app_events  : {
+                'upload.failed' : 'enable',
+                'upload.done'   : 'enable'
+            }
+        }
+    }, {
+        type    : 'Pane',
+        config  : {
+            element : '#import_message',
+            dont_wake   : true,
+            app_events  : {
+                'upload.failed' : function () {
+                    this.$element.text('Import failed due to:');
+                    this.wake(true);
+                },
+                'upload.done'   : function () {
+                    this.$element.text('Import succeeded!');
+                    this.wake(true);
+                }
+            }
         }
     }, {
         type    : 'List',
