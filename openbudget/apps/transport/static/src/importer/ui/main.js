@@ -110,14 +110,24 @@ define([
         config  : {
             element : '#import_message',
             dont_wake   : true,
+            signals     : {
+                post_init   : function () {
+                    this.$import_message_exp = uijet.$('#import_message_exp');
+                }
+            },
             app_events  : {
-                'upload.failed' : function () {
+                'upload.failed'             : function () {
                     this.$element.text('Import failed due to:');
                     this.wake(true);
                 },
-                'upload.done'   : function () {
+                'upload.done'               : function () {
                     this.$element.text('Import succeeded!');
+                    this.$import_message_exp.removeClass('hide');
                     this.wake(true);
+                },
+                'import_form_submit.clicked': function () {
+                    this.$import_message_exp.addClass('hide');
+                    this.sleep();
                 }
             }
         }
@@ -128,7 +138,11 @@ define([
             mixins      : ['Templated'],
             dont_wake   : true,
             app_events  : {
-                'upload.failed' : 'wake+'
+                'upload.failed'             : 'wake+',
+                'import_form_submit.clicked': function () {
+                    this.sleep()
+                        .$element.empty();
+                }
             }
         }
     }]);
