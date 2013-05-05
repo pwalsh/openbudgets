@@ -8,8 +8,7 @@ requirejs.config({
         controllers : '../src/importer/controllers'
     },
     shim    : {
-        eventbox                : ['setImmediate'],
-        'composites/Datepicker' : ['importer/app']
+        eventbox: ['setImmediate']
     }
 });
 requirejs([
