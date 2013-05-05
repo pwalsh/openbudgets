@@ -6,6 +6,18 @@ define([
         parseDate           : function (date) {
             return date.toLocaleDateString().split('/').reverse().join('-');
         },
+        processDivisions    : function (data) {
+            //! Array.prototype.filter
+            data.results = data.results.filter(function (item, i) {
+                return item.has_budgets;
+            });
+        },
+        processEntities     : function (data) {
+            //! Array.prototype.filter
+            data.results = data.results.filter(function (item, i) {
+                return item.division.has_budgets;
+            });
+        },
         formExtConfigByType : function (type) {
             var config = {
                     template_name   : type + '-form'
@@ -32,13 +44,7 @@ define([
                             })
                             .then( this.wakeContained.bind(this) );
                         },
-                        process_data: function (data) {
-                            //TODO: move this to a controller
-                            //! Array.prototype.filter
-                            data.results = data.results.filter(function (item, i) {
-                                return item.has_budgets;
-                            });
-                        }
+                        process_data: this.processDivisions
                     };
                     config.data_url = Importer.BASE_API_URL + 'domain-divisions/';
                     break;
@@ -49,6 +55,7 @@ define([
                         entities: 'entities'
                     };
                     config.signals = {
+                        process_data: this.processEntities,
                         post_render : function () {
                             uijet.start([{
                                 type    : 'DatepickerInput',

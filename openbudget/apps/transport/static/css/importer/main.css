@@ -2,7 +2,7 @@
 
 .uijet_datepicker {
     width: auto;
-    background-color: whitesmoke;
+    background-color: seashell;
 }
 .uijet_datepicker_arrow {
     display: inline-block;
@@ -34,6 +34,16 @@
     line-height: 25px;
 }
 
+#importer {
+    background-color: whitesmoke;
+}
+#import_form_submit {
+    background-color: mediumseagreen;
+}
+#import_form_submit.disabled {
+    background-color: darkseagreen;
+    color: lightgray;
+}
 #import_message {
     height: auto;
 }
