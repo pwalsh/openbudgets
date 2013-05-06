@@ -20,10 +20,44 @@ class Domain(TimeStampedModel):
     from its parts.
 
     """
+    MEASUREMENT_SYSTEMS = (
+        ('metric', _('Metric')),
+        ('imperial', _('Imperial'))
+    )
+    GROUND_SURFACE_UNITS = (
+        ('default', _('Default')),
+        ('dunams', _('Dunams')),
+    )
+    CURRENCIES = (
+        ('usd', _('&#36;')),
+        ('nis', _('&#8362;'))
+    )
+
     name = models.CharField(
         max_length=255,
         unique=True,
         help_text=_('The name of this entity domain.')
+    )
+    measurement_system = models.CharField(
+        _('Measurement System'),
+        choices=MEASUREMENT_SYSTEMS,
+        max_length=8,
+        default=0,
+        help_text=_('The applicable measurement unit for this domain.')
+    )
+    ground_surface_unit = models.CharField(
+        _('Ground Surface Unit'),
+        choices=GROUND_SURFACE_UNITS,
+        max_length=25,
+        default=0,
+        help_text=_('The unit for measurement of ground. Should be default, except in cases like Israel which use units that do not belong to the measurement system.')
+    )
+    currency = models.CharField(
+        _('Currency'),
+        choices=CURRENCIES,
+        max_length=3,
+        default=0,
+        help_text=_('The applicable currency for this domain.')
     )
 
     @property

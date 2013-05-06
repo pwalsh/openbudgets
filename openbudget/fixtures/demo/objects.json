@@ -5,6 +5,8 @@
     "pk": 1,
     "fields": {
         "name": "Government",
+        "ground_surface_unit": 2,
+        "currency": 2,
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }
