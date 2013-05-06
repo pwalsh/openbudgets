@@ -4,7 +4,7 @@ define([
 ], function (uijet, Importer) {
     return {
         parseDate           : function (date) {
-            return date.toLocaleDateString().split('/').reverse().join('-');
+            return [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-');
         },
         processDivisions    : function (data) {
             //! Array.prototype.filter
