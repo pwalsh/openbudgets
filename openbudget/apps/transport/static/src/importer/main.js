@@ -1,6 +1,7 @@
 requirejs.config({
     baseUrl : window.BASE_URL + 'lib',
     paths   : {
+        jqscroll    : 'jqScroll/jqscroll',
         uijet_dir   : 'uijet',
         composites  : 'uijet/composites',
         importer    : '../src/importer',

@@ -1,4 +1,5 @@
 @import url(/static/lib/uijet/uijet.css);
+@import url(/static/lib/jqScroll/jqscroll.css);
 
 .uijet_datepicker {
     width: auto;
@@ -36,6 +37,10 @@
 
 #importer {
     background-color: whitesmoke;
+}
+#import_errors_wrapper {
+    height: auto;
+    max-height: 300px;
 }
 #import_form_submit {
     background-color: mediumseagreen;

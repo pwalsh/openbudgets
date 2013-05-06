@@ -135,7 +135,8 @@ define([
         type    : 'List',
         config  : {
             element     : '#import_errors',
-            mixins      : ['Templated'],
+            mixins      : ['Templated', 'Scrolled'],
+            adapters    : 'jqWheelScroll',
             dont_wake   : true,
             app_events  : {
                 'upload.failed'             : 'wake+',
