@@ -1,7 +1,8 @@
+from copy import deepcopy
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode,\
-    BudgetTemplateNodeRelation, Budget, BudgetItem, Actual, ActualItem
+    BudgetTemplateNodeRelation, Budget, BudgetItem, Actual, ActualItem, PATH_SEPARATOR
 from openbudget.apps.entities.models import Entity, DomainDivision
 from openbudget.apps.transport.incoming.errors import DataAmbiguityError, DataSyntaxError, ParentScopeError,\
     MetaParsingError, DataValidationError, NodeDirectionError, NodeNotFoundError
@@ -15,7 +16,7 @@ class BaseParser(object):
         self.errors = []
         self.container_object_dict = container_object_dict
 
-    ROUTE_SEPARATOR = '|'
+    ROUTE_SEPARATOR = PATH_SEPARATOR
     ITEM_SEPARATOR = ';'
     saved_cache = {}
     objects_lookup = {}
@@ -32,12 +33,11 @@ class BaseParser(object):
         self._create_container()
 
         if dry:
-            from copy import deepcopy
             # save an untempered copy
             lookup_table_copy = deepcopy(self.objects_lookup)
 
         for key, obj in self.objects_lookup.iteritems():
-            self._save_object(obj, key)
+            self._save_item(obj, key)
 
         if dry:
             self.saved_cache.clear()
@@ -62,8 +62,13 @@ class BaseParser(object):
     def _generate_lookup(self, data):
         raise NotImplementedError
 
-    def _save_object(self, obj, key):
+    def _save_item(self, obj, key):
         raise NotImplementedError
+
+    def _clean_object(self, obj, key):
+        for attr in obj:
+            if attr not in self.ITEM_ATTRIBUTES:
+                del obj[attr]
 
     def _create_container(self, container_dict=None):
 
@@ -90,26 +95,55 @@ class BudgetTemplateParser(BaseParser):
 
     container_model = BudgetTemplate
     item_model = BudgetTemplateNode
+    ITEM_ATTRIBUTES = ('name', 'code', 'parent', 'path', 'templates', 'inverse', 'direction', 'description')
 
-    def _save_object(self, obj, key):
+    def __init__(self, container_object_dict, extends=None, fill_in_parents=None):
+        super(BudgetTemplateParser, self).__init__(container_object_dict)
+        self.parent = extends
+
+        if extends:
+            if fill_in_parents is None:
+                self.fill_in_parents = True
+            else:
+                self.fill_in_parents = fill_in_parents
+        else:
+            self.fill_in_parents = False
+
+    def diff(self, template):
+        nodes = template.nodes
+        for key, obj in self.objects_lookup.iteritems():
+            route = key.split(self.ROUTE_SEPARATOR)
+            self._lookup_node(route=route, nodes=nodes)
+
+    def _save_item(self, obj, key, is_node=False):
         inverses = []
         # check if we already saved this object and have it in cache
         if key in self.saved_cache:
             return self.saved_cache[key]
 
-        if 'inverse' in obj:
-            inverses = self._save_inverses(obj, key)
+        # if it's a saved node it's already well connected
+        if not is_node:
+            if 'inverse' in obj:
+                inverses = self._save_inverses(obj, key)
 
-        if 'parent' in obj:
-            self._save_parent(obj, key)
+            if 'parent' in obj:
+                self._save_parent(obj, key)
 
-        item = self._create_item(obj, key)
+            self._set_path(obj)
 
-        self._add_to_container(item, key)
+            item = self._create_item(obj, key)
 
-        if len(inverses) and not self.dry:
-            for inverse in inverses:
-                item.inverse.add(inverse)
+            if len(inverses) and not self.dry:
+                for inverse in inverses:
+                    item.inverse.add(inverse)
+
+        else:
+            if obj.parent:
+                self._save_item(obj.parent, obj.parent.path, is_node=True)
+
+            item = obj
+
+        self._add_to_container(item, key, is_node=is_node)
 
         # cache the saved object
         self.saved_cache[key] = item
@@ -157,7 +191,7 @@ class BudgetTemplateParser(BaseParser):
                     if inverse_key in self.saved_cache:
                         inverse = self.saved_cache[inverse_key]
                     else:
-                        inverse = self._save_object(inverse_obj, inverse_key)
+                        inverse = self._save_item(inverse_obj, inverse_key)
 
                 inverses.append(inverse)
 
@@ -191,26 +225,41 @@ class BudgetTemplateParser(BaseParser):
             parent_key, parent = self._lookup_object(code=obj['parent'], scope=scope)
 
             if not parent or not parent_key:
-                if self.dry:
-                    self.throw(
-                        ParentScopeError(
-                            row=self.rows_objects_lookup[key]
-                        )
-                    )
-                    # create a dummy node as the parent
-                    obj['parent'] = self.item_model(code=obj['parent'], name='dummy', direction=obj['direction'])
+
+                if self.fill_in_parents:
+                    # we're going to get the parent node from the parent template
+                    # generate a path for lookup
+                    route = [obj['parent']] + scope.split(self.ROUTE_SEPARATOR)
+                    # look up the node in the parent template
+                    parent = self._lookup_node(route=route, nodes=self.parent.nodes)
+                    # save the node as if it was another object in the lookup
+                    return self._save_item(parent, self.ROUTE_SEPARATOR.join(route), is_node=True)
+
                 else:
-                    raise Exception(
-                        'Could not locate parent of node: %s; with parent: %s; and scope: %s' %
-                        (obj['code'], obj['parent'], scope)
-                    )
+                    if self.dry:
+                        self.throw(
+                            ParentScopeError(
+                                row=self.rows_objects_lookup[key]
+                            )
+                        )
+                        # create a dummy node as the parent
+                        obj['parent'] = self.item_model(code=obj['parent'], name='dummy', direction=obj['direction'])
+                        return obj['parent']
+                    else:
+                        raise Exception(
+                            'Could not locate parent of node: %s; with parent: %s; and scope: %s' %
+                            (obj['code'], obj['parent'], scope)
+                        )
 
             else:
                 if parent_key in self.saved_cache:
-                    obj['parent'] = self.saved_cache[parent_key]
+                    parent = self.saved_cache[parent_key]
                 else:
-                    parent = self._save_object(parent, parent_key)
-                    obj['parent'] = parent
+                    parent = self._save_item(parent, parent_key)
+
+                obj['parent'] = parent
+
+                return parent
 
         else:
             # clean parent
@@ -220,8 +269,17 @@ class BudgetTemplateParser(BaseParser):
                 # clean parentscope
                 del obj['parentscope']
 
-    def _clean_object(self, obj, key):
-        pass
+            return None
+
+    def _set_path(self, obj, key=None):
+        parent = obj['parent'] if 'parent' in obj else None
+        path = [obj['code']]
+
+        if parent:
+            print parent.path
+            path.append(parent.path)
+
+        obj['path'] = self.ROUTE_SEPARATOR.join(path)
 
     def _create_item(self, obj, key):
         self._clean_object(obj, key)
@@ -232,13 +290,13 @@ class BudgetTemplateParser(BaseParser):
             self._dry_clean(item, row_num=self.rows_objects_lookup[key])
         return item
 
-    def _add_to_container(self, item, key):
+    def _add_to_container(self, item, key, is_node=False):
         if not self.dry:
             BudgetTemplateNodeRelation.objects.create(
                 template=self.container_object,
                 node=item
             )
-        else:
+        elif not is_node:
             relation = BudgetTemplateNodeRelation()
             self._dry_clean(relation, row_num=self.rows_objects_lookup[key], exclude=['node', 'template'])
 
@@ -247,7 +305,7 @@ class BudgetTemplateParser(BaseParser):
         data = container_dict or self.container_object_dict
 
         dict_copy = data.copy()
-        divisions = dict_copy.pop('divisions')
+        divisions = dict_copy.pop('divisions') if 'divisions' in dict_copy else []
 
         super(BudgetTemplateParser, self)._create_container(container_dict=dict_copy)
 
@@ -326,13 +384,59 @@ class BudgetTemplateParser(BaseParser):
 
         return None, None
 
+    def _lookup_node(self, route, nodes, nodes_filter='code'):
+        #TODO: replace with creating a path attribute for each object and using it to look up nodes by path
+        _filter = {
+            nodes_filter: route.pop(0)
+        }
+        matches = nodes.filter(**_filter)
+        count = matches.count()
+        if count == 1:
+            # bingo!
+            return matches[0]
+        elif count > 1:
+            # continue filtering matches
+            if len(route):
+                return self._lookup_node(route, matches, nodes_filter='parent__' + nodes_filter)
+            else:
+                # there was a code ambiguity in previous template but not in current one
+                # probably some of the nodes with same code were removed
+                #TODO: handle nodes removal
+                pass
+        else:
+            #TODO: handle node with new code
+            pass
+
 
 class BudgetParser(BudgetTemplateParser):
 
     container_model = Budget
     item_model = BudgetItem
+    ITEM_ATTRIBUTES = ('amount', 'node', 'description', 'budget')
 
-    def _save_object(self, obj, key):
+    def __init__(self, container_object_dict):
+        super(BudgetTemplateParser, self).__init__(container_object_dict)
+
+    def validate(self, data):
+        initialized = self._init_template_parser()
+        if initialized:
+            template_valid, template_errors = self.template_parser.validate(deepcopy(data))
+        else:
+            template_valid = False
+            template_errors = []
+
+        valid, budget_errors = super(BudgetParser, self).validate(data)
+
+        return template_valid and valid, budget_errors + template_errors
+
+    def save(self, dry=False):
+        template_saved = self.template_parser.save(dry)
+        if template_saved:
+            return super(BudgetParser, self).save(dry)
+
+        return False
+
+    def _save_item(self, obj, key, is_node=False):
         # check if we already saved this object and have it in cache
         if key in self.saved_cache:
             return self.saved_cache[key]
@@ -347,75 +451,39 @@ class BudgetParser(BudgetTemplateParser):
     def _create_container(self, container_dict=None):
 
         data = container_dict or self.container_object_dict
-
-        try:
-            if not isinstance(data['entity'], Entity):
-                entity = Entity.objects.get(
-                    pk=data['entity']
-                )
-                data['entity'] = entity
-        except Entity.DoesNotExist as e:
-            if self.dry:
-                self.throw(
-                    MetaParsingError(
-                        reason='Could not find Entity with key: %s' % data['entity']
-                    )
-                )
-            else:
-                raise e
-
-        template = self._get_prev_template(data)
-        #TODO: complete implementation of `_diff_template`
-        # self._diff_template(template)
-
-        data['template'] = template
+        data['template'] = self.template_parser.container_object
 
         super(BudgetTemplateParser, self)._create_container(container_dict=data)
 
     def _clean_object(self, obj, key):
-        #TODO: if customcode is important the handle it, or else remove altogether
+        #TODO: if customcode is important then handle it, or else remove altogether
         #TODO: first validate direction is compatible with node
-        keys = ('customcode', 'direction', 'code', 'parent', 'parentscope', 'inverse', 'inversescope')
-        for key in keys:
-            if key in obj:
-                del obj[key]
+        super(BudgetParser, self)._clean_object(obj, key)
 
     def _create_item(self, obj, key):
-        route = key.split(self.ROUTE_SEPARATOR)
-        filter_key = 'code'
 
-        _filter = {
-            filter_key: route.pop(0)
-        }
+        if key in self.template_parser.saved_cache:
+            obj['node'] = self.template_parser.saved_cache[key]
 
-        while len(route):
-            filter_key = 'parent__' + filter_key
-            _filter[filter_key] = route.pop(0)
-
-        try:
-            #TODO: to optimize: replace with a cache of all nodes and look up in memory instead of hitting DB
-            node = self.container_object.template.nodes.get(**_filter)
-            obj['node'] = node
-        except BudgetTemplateNode.DoesNotExist as e:
-            if self.dry:
-                # prepare data for the error
-                columns = ['code', 'parent', 'parentscope']
-                values = []
-                for col in columns:
-                    if col not in obj:
-                        columns.remove(col)
-                    else:
-                        values.append(obj[col])
-                self.throw(
-                    NodeNotFoundError(
-                        row=self.rows_objects_lookup[key],
-                        columns=columns,
-                        values=values
-                    )
+        elif self.dry:
+            # prepare data for the error
+            columns = ['code', 'parent', 'parentscope']
+            values = []
+            for col in columns:
+                if col not in obj:
+                    columns.remove(col)
+                else:
+                    values.append(obj[col])
+            self.throw(
+                NodeNotFoundError(
+                    row=self.rows_objects_lookup[key],
+                    columns=columns,
+                    values=values
                 )
-            else:
-                #TODO: handle this error properly, since at this stage there shouldn't be any missing nodes
-                raise e
+            )
+        else:
+            #TODO: handle this error properly, since at this stage there shouldn't be any missing nodes
+            raise Exception()
 
         self._clean_object(obj, key)
         if not self.dry:
@@ -426,64 +494,86 @@ class BudgetParser(BudgetTemplateParser):
 
         return item
 
-    def _add_to_container(self, obj, key):
+    def _add_to_container(self, obj, key, is_node=False):
         if not self.dry:
             obj['budget'] = self.container_object
 
+    def _init_template_parser(self):
+        container_dict_copy = deepcopy(self.container_object_dict)
+
+        #TODO: refactor this into a proper cleanup method
+        if 'entity' in container_dict_copy:
+            del container_dict_copy['entity']
+        if 'period_end' in container_dict_copy:
+            del container_dict_copy['period_end']
+
+        parent_template = self._get_prev_template(container_dict_copy)
+
+        if parent_template:
+            self.template_parser = BudgetTemplateParser(container_dict_copy, extends=parent_template)
+            return True
+
+        return False
+
     def _get_prev_template(self, container_dict):
 
-        entity = container_dict['entity']
+        entity = self._set_entity()
 
-        qs = self.container_model.objects.filter(
-            entity=entity,
-            period_end__lte=container_dict['period_start']
-        ).order_by('-period_end')[:1]
+        if entity:
+            qs = self.container_model.objects.filter(
+                entity=entity,
+                period_end__lte=container_dict['period_start']
+            ).order_by('-period_end')[:1]
 
-        if qs.count():
-            return qs[0].template
-        else:
-            # try getting the standard template for this entity's division
-            qs = BudgetTemplate.objects.filter(divisions=entity.division).order_by('-period_start')[:1]
             if qs.count():
-                return qs[0]
+                return qs[0].template
             else:
-                #TODO: handle this case of no previous template found
-                raise Exception
+                # try getting the standard template for this entity's division
+                qs = BudgetTemplate.objects.filter(divisions=entity.division).order_by('-period_start')[:1]
+                if qs.count():
+                    return qs[0]
+                else:
+                    #TODO: handle this case of no previous template found
+                    raise Exception
+
+    def _set_entity(self):
+
+        container_dict = self.container_object_dict
+
+        try:
+            if not isinstance(container_dict['entity'], Entity):
+                entity = Entity.objects.get(
+                    pk=container_dict['entity']
+                )
+                container_dict['entity'] = entity
+
+                return entity
+
+            else:
+                return container_dict['entity']
+
+        except Entity.DoesNotExist as e:
+            if self.dry:
+                self.throw(
+                    MetaParsingError(
+                        reason='Could not find Entity with key: %s' % container_dict['entity']
+                    )
+                )
+            else:
+                raise e
 
     def _diff_template(self, template):
         self.nodes = template.nodes
         for key, obj in self.objects_lookup.iteritems():
             route = key.split(self.ROUTE_SEPARATOR)
-            self._lookup_node(obj=obj, route=route, nodes=self.nodes)
-
-    def _lookup_node(self, obj, route, nodes, nodes_filter='code'):
-        #TODO: probably need to replace the use of QuerySets and hitting the DB with plain in-memory lookups
-        _filter = {
-            nodes_filter: route.pop(0)
-        }
-        matches = nodes.filter(**_filter)
-        count = matches.count()
-        if count == 1:
-            # bingo!
-            return matches[0]
-        elif count > 1:
-            # continue filtering matches
-            if len(route):
-                return self._lookup_node(obj, route, matches, nodes_filter='parent__' + nodes_filter)
-            else:
-                # there was a code ambiguity in previous template but not in current one
-                # probably some of the nodes with same code were removed
-                #TODO: handle nodes removal
-                pass
-        else:
-            #TODO: handle node with new code
-            pass
+            self._lookup_node(route=route, nodes=self.nodes)
 
 
 class ActualParser(BudgetParser):
 
     container_model = Actual
     item_model = ActualItem
+    ITEM_ATTRIBUTES = ('amount', 'node', 'description', 'actual')
 
 
 PARSERS_MAP = {
