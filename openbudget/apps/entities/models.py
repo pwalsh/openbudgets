@@ -10,6 +10,7 @@ from openbudget.commons.utilities import get_ultimate_parent
 
 
 class Domain(TimeStampedModel):
+
     """Describes the domain for a collection of entities.
 
     Through the Domain model, we can derive a relational structure for a set of entities.
@@ -20,6 +21,7 @@ class Domain(TimeStampedModel):
     from its parts.
 
     """
+
     MEASUREMENT_SYSTEMS = (
         ('metric', _('Metric')),
         ('imperial', _('Imperial'))
@@ -30,7 +32,7 @@ class Domain(TimeStampedModel):
     )
     CURRENCIES = (
         ('usd', _('&#36;')),
-        ('nis', _('&#8362;'))
+        ('ils', _('&#8362;'))
     )
 
     name = models.CharField(
