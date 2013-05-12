@@ -1,3 +1,4 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,13 +11,18 @@
     <div id="importer" class="uijet_app">
         <h1 id="heading">Welcome to Budget Importer 4000</h1>
         <div id="form_container">
+            <h2 id="import_message"></h2>
+            <p id="import_message_exp" class="hide">{% blocktrans %}
+                File has been uploaded and validated, and will now be saved to the database.
+                You will receive an email once saving process is complete.
+            {% endblocktrans %}</p>
             <ul id="import_errors"></ul>
             <form id="import_form">
                 <fieldset>
                     <legend>Choose import type:</legend>
                     <label><input type="radio" name="type" value="budgettemplate"/> Budget Template</label>
                     <label><input type="radio" name="type" value="budget"/> Budget</label>
-                    <label><input type="radio" name="type" value="actual" disabled/> Actual</label>
+                    <label><input type="radio" name="type" value="actual"/> Actual</label>
                 </fieldset>
                 <fieldset id="import_form_type_ext"></fieldset>
                 <label for="sourcefile_input">Source File:</label><input type="file" name="sourcefile" id="sourcefile_input"/>

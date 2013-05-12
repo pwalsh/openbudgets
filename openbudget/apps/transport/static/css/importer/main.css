@@ -1,7 +1,54 @@
 @import url(/static/lib/uijet/uijet.css);
+@import url(/static/lib/jqScroll/jqscroll.css);
 
+.uijet_datepicker {
+    width: auto;
+    background-color: seashell;
+}
+.uijet_datepicker_arrow {
+    display: inline-block;
+    position: relative;
+}
+.uijet_datepicker_arrow:before {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.uijet_datepicker_prev:before {
+    content: "<";
+}
+.uijet_datepicker_next:before {
+    content: ">";
+    left: auto;
+    right: 0;
+}
+.uijet_datepickerinput_wrapper {
+    overflow: visible;
+}
+.uijet_datepicker_list {
+    width: 175px;
+}
 .uijet_datepicker_list li {
     width: 25px;
     height: 25px;
     line-height: 25px;
+}
+
+#importer {
+    background-color: whitesmoke;
+}
+#import_errors_wrapper {
+    height: auto;
+    max-height: 300px;
+}
+#import_form_submit {
+    background-color: mediumseagreen;
+}
+#import_form_submit.disabled {
+    background-color: darkseagreen;
+    color: lightgray;
+}
+#import_message {
+    height: auto;
 }

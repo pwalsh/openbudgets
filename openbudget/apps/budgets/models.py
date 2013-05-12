@@ -1,11 +1,15 @@
 from __future__ import division
 from django.db import models
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
 from django.contrib.comments.models import Comment
 from openbudget.apps.entities.models import DomainDivision, Entity
 from openbudget.apps.sources.models import ReferenceSource, AuxSource
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, PeriodStartModel, PeriodicModel
+
+
+PATH_SEPARATOR = '|'
 
 
 class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel):
@@ -39,6 +43,10 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel):
     @property
     def nodes(self):
         return BudgetTemplateNode.objects.filter(templates=self)
+
+    @property
+    def has_budgets(self):
+        return bool(self.budgets.count())
 
     @classmethod
     def get_class_name(cls):
@@ -75,6 +83,13 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
     code = models.CharField(
         max_length=50,
         help_text=_('Code')
+    )
+
+    path = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text=_('Codes path to root.')
     )
 
     name = models.CharField(
@@ -128,6 +143,27 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
         AuxSource
     )
 
+    def save(self, *args, **kwargs):
+        # only handle creation of a new instance for now
+        if not self.id:
+            # set the `path` property if not set and needed
+            if not self.path:
+                self.path = PATH_SEPARATOR.join(self._path_to_root)
+
+        #TODO: perhaps handle updates too?
+
+        return super(BudgetTemplateNode, self).save(*args, **kwargs)
+
+    @property
+    def _path_to_root(self):
+        path = [self.code]
+        if self.parent:
+            parent_path = self.parent._path_to_root
+            if parent_path:
+                path = path + parent_path
+
+        return path
+
     @property
     def budget_items(self):
         return BudgetItem.objects.filter(node=self)
@@ -175,13 +211,22 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
         ordering = ['name']
         verbose_name = _('Budget template node')
         verbose_name_plural = _('Budget template nodes')
-        unique_together = (
-            ('code', 'parent', 'name'),
-        )
+
+
+class BudgetTemplateNodeRelationManager(models.Manager):
+    def has_same_node(self, node, template):
+        return self.filter(
+            node__code=node.code,
+            node__name=node.name,
+            node__parent=node.parent,
+            template=template
+        ).count()
 
 
 class BudgetTemplateNodeRelation(models.Model):
     """A relation between a node and a template"""
+
+    objects = BudgetTemplateNodeRelationManager()
 
     template = models.ForeignKey(
         BudgetTemplate
@@ -190,6 +235,15 @@ class BudgetTemplateNodeRelation(models.Model):
     node = models.ForeignKey(
         BudgetTemplateNode
     )
+
+    def validate_unique(self, exclude=None):
+        node = self.node
+        super(BudgetTemplateNodeRelation, self).validate_unique(exclude)
+        if not bool(self.__class__.objects.has_same_node(node, self.template)):
+            raise ValidationError(
+                _('Node with name: %s; code: %s; parent: %s; already exists in template: %s' %
+                  (node.name, node.code, node.parent, self.template))
+            )
 
     def __unicode__(self):
         return '%s -> %s' % (self.template, self.node)
@@ -213,6 +267,7 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel):
 
     template = models.ForeignKey(
         BudgetTemplate,
+        related_name='%(class)s'
     )
 
     description = models.TextField(

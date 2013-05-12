@@ -1,3 +1,3 @@
-<input type="text" name="period_start"/><span id="period_start_picker">Date</span>
-<input type="text" name="period_end"/><span id="period_end_picker">Date</span>
+<input type="text" name="period_start" id="period_start" placeholder="Period start"/>
+<input type="text" name="period_end" id="period_end" placeholder="Period end"/>
 <select id="entities" name="entity">{{>entities}}</select>
