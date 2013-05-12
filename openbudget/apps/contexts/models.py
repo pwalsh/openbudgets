@@ -1,55 +1,38 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from jsonfield import JSONField
 from openbudget.apps.entities.models import Entity
 from openbudget.commons.mixins.models import PeriodicModel, TimeStampedModel
 
 
 class Context(TimeStampedModel, PeriodicModel):
+    """A JSON object with contextual data for the given Entity/Time Period.
 
-    class Meta:
-        abstract = True
+    We store contextual data only for the purpose of normalizing comparative
+    queries over budget data. Future, or alternate, implementations could take
+    contextual data from another source, such as a dedicated API for statistics
+    on municipalities, or some other open CBS-type data source.
+
+    No particular keys are required at the data level.
+
+    Currently, Open Budget *expects* to find at least the following keys for use
+    on Entity detail pages, and the web API for visualizations:
+
+    * population
+    * ground_surface
+
+    """
 
     entity = models.ForeignKey(
         Entity
     )
-
-class GeoSpatial(Context):
-    """data for geospatial mapping of the entity"""
-    sqm = models.PositiveIntegerField(
-        _('Square Meters'),
-        null=True,
-        blank=True,
-        help_text=_('The square meterage for this entity')
+    data = JSONField(
+        _('Data object'),
+        help_text=_('Contextual data as JSON for the Entity/Time Period.')
     )
 
+    # TODO: Enforce some period
 
-class Population(Context):
-    """data on the population of the entity"""
-    count = models.PositiveIntegerField(
-        _('Population'),
-        null=True,
-        blank=True,
-        help_text=_('The population of this entity')
-    )
-
-
-class Education(Context):
-    """"""
-    high_school_count = models.PositiveIntegerField(
-        _('High School Count'),
-        null=True,
-        blank=True,
-        help_text=_('_')
-    )
-    primary_school_count = models.PositiveIntegerField(
-        _('Primary School Count'),
-        null=True,
-        blank=True,
-        help_text=_('_')
-    )
-    pre_school_count = models.PositiveIntegerField(
-        _('Pre-School Count'),
-        null=True,
-        blank=True,
-        help_text=_('_')
-    )
+    def __unicode__(self):
+        return 'Contextual data for {entity} in {period}'.format(
+            entity=self.entity.name, period=self.period)
