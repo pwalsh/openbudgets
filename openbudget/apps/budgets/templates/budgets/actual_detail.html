@@ -20,7 +20,7 @@
 <div class="actual-info">
     <section>
         <h2>
-            {{ object.total }} {% trans 'NIS' %}
+            {{ object.total }} {{ object.division.domain.get_currency_display }}
         </h2>
         <p>
             {{ object.description }}
