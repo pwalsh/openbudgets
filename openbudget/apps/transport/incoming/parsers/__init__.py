@@ -468,11 +468,6 @@ class BudgetParser(BudgetTemplateParser):
 
         super(BudgetTemplateParser, self)._create_container(container_dict=data, exclude=fields_to_exclude)
 
-    def _clean_object(self, obj, key):
-        #TODO: if customcode is important then handle it, or else remove altogether
-        #TODO: first validate direction is compatible with node
-        super(BudgetParser, self)._clean_object(obj, key)
-
     def _create_item(self, obj, key):
 
         if key in self.template_parser.saved_cache:
