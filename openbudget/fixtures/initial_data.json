@@ -153,6 +153,44 @@
 },
 
 {
+    "model": "accounts.Account",
+    "pk": 9,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf18",
+        "username": "amire80",
+        "first_name": "Amir",
+        "last_name": "Aharoni",
+        "email": "",
+        "password": "sha1$d0ac3$d37cb4b152d98c9727f7d696795f2d6ad9438ee4",
+        "is_staff": 1,
+        "is_active": 1,
+        "is_superuser": 1,
+        "groups": [2],
+        "last_login": "2013-01-01T09:00:00+02:00",
+        "date_joined": "2013-01-01T09:00:00+02:00"
+    }
+},
+
+{
+    "model": "accounts.Account",
+    "pk": 10,
+    "fields": {
+        "uuid": "6cd238ac63974392834ad62699c1cf19",
+        "username": "ramezrach",
+        "first_name": "Ram",
+        "last_name": "Ezrach",
+        "email": "",
+        "password": "sha1$d0ac3$d37cb4b152d98c9727f7d696795f2d6ad9438ee4",
+        "is_staff": 1,
+        "is_active": 1,
+        "is_superuser": 1,
+        "groups": [2],
+        "last_login": "2013-01-01T09:00:00+02:00",
+        "date_joined": "2013-01-01T09:00:00+02:00"
+    }
+},
+
+{
     "model": "auth.Group",
     "pk": 1,
     "fields": {

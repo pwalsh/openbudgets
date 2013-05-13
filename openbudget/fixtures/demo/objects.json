@@ -5,6 +5,8 @@
     "pk": 1,
     "fields": {
         "name": "Government",
+        "ground_surface_unit": 2,
+        "currency": 2,
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }
@@ -252,7 +254,7 @@
         "entity": 7,
         "period_start": "1967-01-01",
         "period_end": "1989-12-31",
-        "sqm": 1030000000,
+        "ground_surface": 1030000000,
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }
@@ -265,7 +267,7 @@
         "entity": 7,
         "period_start": "1990-01-01",
         "period_end": "2013-01-01",
-        "sqm": 1234567890,
+        "ground_surface": 1234567890,
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }
@@ -278,7 +280,7 @@
         "entity": 7,
         "period_start": "1967-01-01",
         "period_end": "1989-12-31",
-        "count": 329000,
+        "person_count": 329000,
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }
@@ -291,7 +293,7 @@
         "entity": 7,
         "period_start": "1990-01-01",
         "period_end": "2013-01-01",
-        "count": 732000,
+        "person_count": 732000,
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }
@@ -306,7 +308,7 @@
         "period_end": "1989-12-31",
         "high_school_count": 31,
         "primary_school_count": 66,
-        "pre_school_count": 72,
+        "infant_school_count": 72,
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }
@@ -321,7 +323,7 @@
         "period_end": "2013-01-01",
         "high_school_count": 42,
         "primary_school_count": 73,
-        "pre_school_count": 100,
+        "infant_school_count": 100,
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }
