@@ -21,9 +21,12 @@ class BaseParser(object):
     saved_cache = {}
     objects_lookup = {}
 
-    def validate(self, data):
+    def validate(self, data, keep_cache=False):
         self._generate_lookup(data)
+
+        self.keep_cache = keep_cache
         self.save(dry=True)
+
         return self.valid, self.errors
 
     def save(self, dry=False):
@@ -40,7 +43,8 @@ class BaseParser(object):
             self._save_item(obj, key)
 
         if dry:
-            self.saved_cache.clear()
+            if not self.keep_cache:
+                self._clear_cache()
             # clear all changes by replacing the lookup with the old copy
             self.objects_lookup = lookup_table_copy
 
@@ -70,7 +74,7 @@ class BaseParser(object):
             if attr not in self.ITEM_ATTRIBUTES:
                 del obj[attr]
 
-    def _create_container(self, container_dict=None):
+    def _create_container(self, container_dict=None, exclude=None):
 
         data = container_dict or self.container_object_dict
 
@@ -78,7 +82,7 @@ class BaseParser(object):
             container = self.container_model.objects.create(**data)
         else:
             container = self.container_model(**data)
-            self._dry_clean(container)
+            self._dry_clean(container, exclude=exclude)
 
         self.container_object = container
 
@@ -89,6 +93,9 @@ class BaseParser(object):
             self.throw(
                 DataValidationError(reasons=e.message_dict, row=row_num)
             )
+
+    def _clear_cache(self):
+        self.saved_cache.clear()
 
 
 class BudgetTemplateParser(BaseParser):
@@ -143,7 +150,7 @@ class BudgetTemplateParser(BaseParser):
 
             item = obj
 
-        self._add_to_container(item, key, is_node=is_node)
+        self._add_to_container(item, key)
 
         # cache the saved object
         self.saved_cache[key] = item
@@ -276,7 +283,6 @@ class BudgetTemplateParser(BaseParser):
         path = [obj['code']]
 
         if parent:
-            print parent.path
             path.append(parent.path)
 
         obj['path'] = self.ROUTE_SEPARATOR.join(path)
@@ -290,24 +296,21 @@ class BudgetTemplateParser(BaseParser):
             self._dry_clean(item, row_num=self.rows_objects_lookup[key])
         return item
 
-    def _add_to_container(self, item, key, is_node=False):
+    def _add_to_container(self, item, key):
         if not self.dry:
             BudgetTemplateNodeRelation.objects.create(
                 template=self.container_object,
                 node=item
             )
-        elif not is_node:
-            relation = BudgetTemplateNodeRelation()
-            self._dry_clean(relation, row_num=self.rows_objects_lookup[key], exclude=['node', 'template'])
 
-    def _create_container(self, container_dict=None):
+    def _create_container(self, container_dict=None, exclude=None):
 
         data = container_dict or self.container_object_dict
 
         dict_copy = data.copy()
         divisions = dict_copy.pop('divisions') if 'divisions' in dict_copy else []
 
-        super(BudgetTemplateParser, self)._create_container(container_dict=dict_copy)
+        super(BudgetTemplateParser, self)._create_container(container_dict=dict_copy, exclude=exclude)
 
         for division in divisions:
             if not self.dry:
@@ -417,20 +420,26 @@ class BudgetParser(BudgetTemplateParser):
     def __init__(self, container_object_dict):
         super(BudgetTemplateParser, self).__init__(container_object_dict)
 
-    def validate(self, data):
+    def validate(self, data, keep_cache=False):
         initialized = self._init_template_parser()
         if initialized:
-            template_valid, template_errors = self.template_parser.validate(deepcopy(data))
+            template_valid, template_errors = self.template_parser.validate(data=deepcopy(data), keep_cache=True)
         else:
             template_valid = False
             template_errors = []
 
         valid, budget_errors = super(BudgetParser, self).validate(data)
 
+        self.template_parser._clear_cache()
+
         return template_valid and valid, budget_errors + template_errors
 
     def save(self, dry=False):
-        template_saved = self.template_parser.save(dry)
+        template_saved = True
+
+        if not dry:
+            template_saved = self.template_parser.save()
+
         if template_saved:
             return super(BudgetParser, self).save(dry)
 
@@ -448,12 +457,16 @@ class BudgetParser(BudgetTemplateParser):
         # cache the saved object
         self.saved_cache[key] = item
 
-    def _create_container(self, container_dict=None):
+    def _create_container(self, container_dict=None, exclude=None):
 
         data = container_dict or self.container_object_dict
         data['template'] = self.template_parser.container_object
 
-        super(BudgetTemplateParser, self)._create_container(container_dict=data)
+        fields_to_exclude = ['template']
+        if exclude:
+            fields_to_exclude += exclude
+
+        super(BudgetTemplateParser, self)._create_container(container_dict=data, exclude=fields_to_exclude)
 
     def _clean_object(self, obj, key):
         #TODO: if customcode is important then handle it, or else remove altogether
@@ -494,7 +507,7 @@ class BudgetParser(BudgetTemplateParser):
 
         return item
 
-    def _add_to_container(self, obj, key, is_node=False):
+    def _add_to_container(self, obj, key):
         if not self.dry:
             obj['budget'] = self.container_object
 
@@ -574,6 +587,10 @@ class ActualParser(BudgetParser):
     container_model = Actual
     item_model = ActualItem
     ITEM_ATTRIBUTES = ('amount', 'node', 'description', 'actual')
+
+    def _add_to_container(self, obj, key):
+        if not self.dry:
+            obj['actual'] = self.container_object
 
 
 PARSERS_MAP = {
