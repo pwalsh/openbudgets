@@ -125,8 +125,6 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
         help_text=_('Indicates whether this node is for revenue or expenditure')
     )
 
-    #TODO: validate that never points to itself
-    #TODO: validate that it always points to the opposite `direction`
     inverse = models.ManyToManyField(
         'self',
         symmetrical=True,
@@ -142,6 +140,15 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
     auxsources = generic.GenericRelation(
         AuxSource
     )
+
+    def clean(self):
+        inverses = self.inverse
+        # validate that inverse never points to self
+        if inverses.filter(pk=self.pk).count():
+            raise ValidationError(_('Inverse node can not point to self.'))
+        # validate that it always points to the opposite `direction`
+        if inverses.filter(direction=self.direction).count():
+            raise ValidationError(_("Inverse node's direction can not be the same as self direction."))
 
     def save(self, *args, **kwargs):
         # only handle creation of a new instance for now
