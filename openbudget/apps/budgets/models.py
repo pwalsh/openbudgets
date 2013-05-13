@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
 from django.contrib.comments.models import Comment
+from django.db.models.signals import m2m_changed
 from openbudget.apps.entities.models import DomainDivision, Entity
 from openbudget.apps.sources.models import ReferenceSource, AuxSource
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, PeriodStartModel, PeriodicModel
@@ -141,15 +142,6 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
         AuxSource
     )
 
-    def clean(self):
-        inverses = self.inverse
-        # validate that inverse never points to self
-        if inverses.filter(pk=self.pk).count():
-            raise ValidationError(_('Inverse node can not point to self.'))
-        # validate that it always points to the opposite `direction`
-        if inverses.filter(direction=self.direction).count():
-            raise ValidationError(_("Inverse node's direction can not be the same as self direction."))
-
     def save(self, *args, **kwargs):
         # only handle creation of a new instance for now
         if not self.id:
@@ -218,6 +210,18 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
         ordering = ['name']
         verbose_name = _('Budget template node')
         verbose_name_plural = _('Budget template nodes')
+
+
+def inverse_changed(sender, instance, action, reverse, model, pk_set, **kwargs):
+    if action == 'pre_add':
+        # validate that inverse never points to self
+        if instance.pk in pk_set:
+            raise ValidationError(_('Inverse node can not point to self.'))
+        # validate that it always points to the opposite `direction`
+        if model.objects.filter(pk__in=pk_set, direction=instance.direction).count():
+            raise ValidationError(_("Inverse node's direction can not be the same as self direction."))
+
+m2m_changed.connect(inverse_changed, sender=BudgetTemplateNode.inverse.through)
 
 
 class BudgetTemplateNodeRelationManager(models.Manager):
