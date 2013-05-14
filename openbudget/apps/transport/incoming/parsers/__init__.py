@@ -1,6 +1,7 @@
+from datetime import datetime
 from copy import deepcopy
 from django.core.exceptions import ValidationError
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, gettext as __
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode,\
     BudgetTemplateNodeRelation, Budget, BudgetItem, Actual, ActualItem, PATH_SEPARATOR
 from openbudget.apps.entities.models import Entity, DomainDivision
@@ -305,12 +306,14 @@ class BudgetTemplateParser(BaseParser):
 
     def _create_container(self, container_dict=None, exclude=None):
 
-        data = container_dict or self.container_object_dict
+        data = (container_dict or self.container_object_dict).copy()
 
-        dict_copy = data.copy()
-        divisions = dict_copy.pop('divisions') if 'divisions' in dict_copy else []
+        if 'name' not in data:
+            self._generate_container_name(container_dict=data)
 
-        super(BudgetTemplateParser, self)._create_container(container_dict=dict_copy, exclude=exclude)
+        divisions = data.pop('divisions') if 'divisions' in data else []
+
+        super(BudgetTemplateParser, self)._create_container(container_dict=data, exclude=exclude)
 
         for division in divisions:
             if not self.dry:
@@ -409,6 +412,27 @@ class BudgetTemplateParser(BaseParser):
         else:
             #TODO: handle node with new code
             pass
+
+    def _generate_container_name(self, container_dict):
+        name = _('Template of %(entity)s since %(year)s')
+        year = str(datetime.strptime(container_dict['period_start'], '%Y-%m-%d').year)
+
+        if 'entity' in container_dict and container_dict['entity']:
+            entity = container_dict['entity']
+            name = name % {'entity': entity.name, 'year': year}
+            del container_dict['entity']
+
+        elif 'divisions' in container_dict:
+            name = _('Official Template since %(year)') % {'year': year}
+
+        else:
+            self.throw(
+                DataValidationError(
+                    reasons={'template': [__('Trying to create a template but no entity nor divisions found.')]}
+                )
+            )
+
+        container_dict['name'] = name
 
 
 class BudgetParser(BudgetTemplateParser):
@@ -510,8 +534,6 @@ class BudgetParser(BudgetTemplateParser):
         container_dict_copy = deepcopy(self.container_object_dict)
 
         #TODO: refactor this into a proper cleanup method
-        if 'entity' in container_dict_copy:
-            del container_dict_copy['entity']
         if 'period_end' in container_dict_copy:
             del container_dict_copy['period_end']
 
@@ -526,6 +548,9 @@ class BudgetParser(BudgetTemplateParser):
     def _get_prev_template(self, container_dict):
 
         entity = self._set_entity()
+        # set the entity also on the template container object
+        # it will be used for generating a name and cleaned later
+        container_dict['entity'] = entity
 
         if entity:
             qs = self.container_model.objects.filter(
