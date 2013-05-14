@@ -59,8 +59,7 @@ class BaseImporter(object):
         return self.parser.validate(self.data)
 
     def save(self):
-        self.parser.save()
-        return True
+        return self.parser.save()
 
     def deferred(self):
         deferred = self.parser.deferred()
@@ -71,20 +70,18 @@ class BaseImporter(object):
                 parser_key = key
                 break
 
-        deferred['parser'] = parser_key
+        deferred['class'] = parser_key
 
         return deferred
 
     def resolve(self, deferred):
-        parser_key = deferred['parser']
-        container_dict = deferred['container']
+        klass = deferred['class']
 
-        if not parser_key or not container_dict:
-            raise Exception('Bad deferred object: %s, %s' % (parser_key, container_dict))
+        if not klass:
+            raise Exception('Deferred object missing class key: %s' % klass)
 
-        self.parser = PARSERS_MAP[parser_key](container_dict)
-        self.parser.objects_lookup = deferred['items']
-        return self.save()
+        self.parser = PARSERS_MAP[klass].resolve(deferred)
+        return self
 
     def get_data(self, stream):
         raise NotImplementedError()

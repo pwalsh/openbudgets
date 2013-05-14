@@ -11,16 +11,28 @@ from openbudget.apps.transport.incoming.errors import DataAmbiguityError, DataSy
 
 class BaseParser(object):
 
+    ROUTE_SEPARATOR = PATH_SEPARATOR
+    ITEM_SEPARATOR = ';'
+
     def __init__(self, container_object_dict):
         self.valid = True
         self.dry = False
         self.errors = []
+        self.saved_cache = {}
+        self.objects_lookup = {}
         self.container_object_dict = container_object_dict
 
-    ROUTE_SEPARATOR = PATH_SEPARATOR
-    ITEM_SEPARATOR = ';'
-    saved_cache = {}
-    objects_lookup = {}
+    @classmethod
+    def resolve(cls, deferred):
+        container_dict = deferred['container']
+
+        if not container_dict:
+            raise Exception('Deferred object missing container dict: %s' % container_dict)
+
+        instance = cls(container_dict)
+        instance.objects_lookup = deferred['items']
+
+        return instance
 
     def validate(self, data, keep_cache=False):
         self._generate_lookup(data)
@@ -131,6 +143,22 @@ class BudgetTemplateParser(BaseParser):
 
         # if it's a saved node it's already well connected
         if not is_node:
+            # if inheriting another template then look up this node there
+            if self.parent:
+                scope = None
+                route = []
+                if 'parent' in obj and obj['parent']:
+                    route = [obj['parent']]
+                    if 'parentscope' in obj and obj['parentscope']:
+                        scope = obj['parentscope'].split(self.ROUTE_SEPARATOR)
+                    if scope:
+                        route += scope
+                route = [obj['code']] + route
+                item = self._lookup_node(route=list(route), nodes=self.parent.nodes)
+                if item:
+                    # in case we found the item, cache the saved node
+                    return self._save_item(item, self.ROUTE_SEPARATOR.join(route), is_node=True)
+
             if 'inverse' in obj:
                 inverses = self._save_inverses(obj, key)
 
@@ -443,10 +471,24 @@ class BudgetParser(BudgetTemplateParser):
 
     def __init__(self, container_object_dict):
         super(BudgetTemplateParser, self).__init__(container_object_dict)
+        self.template_parser = self._init_template_parser()
+
+    @classmethod
+    def resolve(cls, deferred):
+        container_dict = deferred['container']
+
+        if not container_dict:
+            raise Exception('Deferred object missing container dict: %s' % container_dict)
+
+        instance = cls(container_dict)
+        instance.objects_lookup = deferred['items']
+
+        instance.template_parser.objects_lookup = deferred['template_parser']['items']
+
+        return instance
 
     def validate(self, data, keep_cache=False):
-        initialized = self._init_template_parser()
-        if initialized:
+        if self.template_parser:
             template_valid, template_errors = self.template_parser.validate(data=deepcopy(data), keep_cache=True)
         else:
             template_valid = False
@@ -454,7 +496,8 @@ class BudgetParser(BudgetTemplateParser):
 
         valid, budget_errors = super(BudgetParser, self).validate(data)
 
-        self.template_parser._clear_cache()
+        if self.template_parser:
+            self.template_parser._clear_cache()
 
         return template_valid and valid, budget_errors + template_errors
 
@@ -468,6 +511,11 @@ class BudgetParser(BudgetTemplateParser):
             return super(BudgetParser, self).save(dry)
 
         return False
+
+    def deferred(self):
+        deferred = super(BudgetParser, self).deferred()
+        deferred['template_parser'] = self.template_parser.deferred()
+        return deferred
 
     def _save_item(self, obj, key, is_node=False):
         # check if we already saved this object and have it in cache
@@ -536,12 +584,13 @@ class BudgetParser(BudgetTemplateParser):
         #TODO: refactor this into a proper cleanup method
         if 'period_end' in container_dict_copy:
             del container_dict_copy['period_end']
+        if 'template' in container_dict_copy:
+            del container_dict_copy['template']
 
         parent_template = self._get_prev_template(container_dict_copy)
 
         if parent_template:
-            self.template_parser = BudgetTemplateParser(container_dict_copy, extends=parent_template)
-            return True
+            return BudgetTemplateParser(container_dict_copy, extends=parent_template)
 
         return False
 
