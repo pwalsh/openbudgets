@@ -1,6 +1,7 @@
 from datetime import datetime
 from copy import deepcopy
 from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 from django.utils.translation import ugettext_lazy as _, gettext as __
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode,\
     BudgetTemplateNodeRelation, Budget, BudgetItem, Actual, ActualItem, PATH_SEPARATOR
@@ -154,10 +155,10 @@ class BudgetTemplateParser(BaseParser):
                     if scope:
                         route += scope
                 route = [obj['code']] + route
-                item = self._lookup_node(route=list(route), nodes=self.parent.nodes)
+                item = self._lookup_node(route=route, nodes=self.parent.nodes)
                 if item:
                     # in case we found the item, cache the saved node
-                    return self._save_item(item, self.ROUTE_SEPARATOR.join(route), is_node=True)
+                    return self._save_item(item, key, is_node=True)
 
             if 'inverse' in obj:
                 inverses = self._save_inverses(obj, key)
@@ -267,7 +268,7 @@ class BudgetTemplateParser(BaseParser):
                     # generate a path for lookup
                     route = [obj['parent']] + scope.split(self.ROUTE_SEPARATOR)
                     # look up the node in the parent template
-                    parent = self._lookup_node(route=route, nodes=self.parent.nodes)
+                    parent = self._lookup_node(route=list(route), nodes=self.parent.nodes)
                     # save the node as if it was another object in the lookup
                     return self._save_item(parent, self.ROUTE_SEPARATOR.join(route), is_node=True)
 
@@ -327,10 +328,14 @@ class BudgetTemplateParser(BaseParser):
 
     def _add_to_container(self, item, key):
         if not self.dry:
-            BudgetTemplateNodeRelation.objects.create(
-                template=self.container_object,
-                node=item
-            )
+            try:
+                BudgetTemplateNodeRelation.objects.create(
+                    template=self.container_object,
+                    node=item
+                )
+            except IntegrityError as e:
+                #TODO: assuming here it's only the "columns node_id, template_id are not unique" error
+                pass
 
     def _create_container(self, container_dict=None, exclude=None):
 
