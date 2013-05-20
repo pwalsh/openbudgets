@@ -29,8 +29,7 @@ class BudgetTemplateParser(BaseParser):
     def diff(self, template):
         nodes = template.nodes
         for key, obj in self.objects_lookup.iteritems():
-            route = key.split(self.ROUTE_SEPARATOR)
-            self._lookup_node(route=route, nodes=nodes)
+            self._lookup_node(path=key)
 
     def _save_item(self, obj, key, is_node=False):
         inverses = []
@@ -42,16 +41,13 @@ class BudgetTemplateParser(BaseParser):
         if not is_node:
             # if inheriting another template then look up this node there
             if self.parent:
-                scope = None
-                route = []
+                path = obj['code']
                 if 'parent' in obj and obj['parent']:
-                    route = [obj['parent']]
+                    path += self.ROUTE_SEPARATOR + obj['parent']
                     if 'parentscope' in obj and obj['parentscope']:
-                        scope = obj['parentscope'].split(self.ROUTE_SEPARATOR)
-                    if scope:
-                        route += scope
-                route = [obj['code']] + route
-                item = self._lookup_node(route=route, nodes=self.parent.nodes)
+                        path += self.ROUTE_SEPARATOR + obj['parentscope']
+
+                item = self._lookup_node(path=path)
                 if item:
                     # in case we found the item, cache the saved node
                     return self._save_item(item, key, is_node=True)
@@ -165,38 +161,18 @@ class BudgetTemplateParser(BaseParser):
 
                 if self.fill_in_parents:
                     # we're going to get the parent node from the parent template
+                    route = [obj['parent']]
                     # generate a path for lookup
-                    route = [obj['parent']] + scope.split(self.ROUTE_SEPARATOR)
+                    if scope:
+                        route += scope.split(self.ROUTE_SEPARATOR)
                     # look up the node in the parent template
-                    parent = self._lookup_node(route=list(route), nodes=self.parent.nodes)
+                    parent = self._lookup_node(path=self.ROUTE_SEPARATOR.join(route))
                     if parent:
                         # save the node as if it was another object in the lookup
                         return self._save_item(parent, self.ROUTE_SEPARATOR.join(route), is_node=True)
 
                     elif self.interpolate:
-                        ancestors_routes = [list(route)]
-
-                        while len(route):
-                            route.pop(0)
-                            ancestor = self._lookup_node(route=route, nodes=self.parent.nodes)
-
-                            if ancestor:
-                                self._save_item(ancestor, self.ROUTE_SEPARATOR.join(route), is_node=True)
-                                break
-                            else:
-                                ancestors_routes.append(list(route))
-
-                        else:
-                            #TODO: handle this error
-                            raise Exception('Interpolation failed, no ancestor found.')
-
-                        # we managed to find an ancestor and saved it
-                        # need to interpolate, i.e. create a node per route in `ancestors_routes`
-                        while len(ancestors_routes):
-                            ancestor_route = ancestors_routes.pop()
-                            ancestor = self._insert_item(ancestor_route, ancestor)
-
-                        return ancestor
+                        return self._interpolate(route=route)
 
                     else:
                         #TODO: handle missing parent node and interpolate=False
@@ -237,6 +213,34 @@ class BudgetTemplateParser(BaseParser):
                 del obj['parentscope']
 
             return None
+
+    def _interpolate(self, route):
+        ancestors_routes = [list(route)]
+
+        # first we'll try finding the other end
+        while len(route):
+            route.pop(0)
+            ancestor = self._lookup_node(path=self.ROUTE_SEPARATOR.join(route))
+
+            if ancestor:
+                # connected!
+                self._save_item(ancestor, self.ROUTE_SEPARATOR.join(route), is_node=True)
+                break
+
+            ancestors_routes.append(list(route))
+
+        else:
+            #TODO: handle interpolation error?
+            raise Exception('Interpolation failed, no ancestor found.')
+
+        # we managed to find an ancestor and saved it
+        # now to connect the dots together,
+        # i.e. create a node per route in `ancestors_routes`
+        while len(ancestors_routes):
+            ancestor_route = ancestors_routes.pop()
+            ancestor = self._insert_item(ancestor_route, ancestor)
+
+        return ancestor
 
     def _insert_item(self, route, parent, row_num=None):
         """
@@ -389,29 +393,14 @@ class BudgetTemplateParser(BaseParser):
 
         return None, None
 
-    def _lookup_node(self, route, nodes, nodes_filter='code'):
-        #TODO: replace with creating a path attribute for each object and using it to look up nodes by path
-        #TODO: this will fail in case we need to interpolate a new path and this node has a code that exists
-        _filter = {
-            nodes_filter: route.pop(0)
-        }
-        matches = nodes.filter(**_filter)
-        count = matches.count()
-        if count == 1:
-            # bingo!
-            return matches[0]
-        elif count > 1:
-            # continue filtering matches
-            if len(route):
-                return self._lookup_node(route, matches, nodes_filter='parent__' + nodes_filter)
-            else:
-                # there was a code ambiguity in previous template but not in current one
-                # probably some of the nodes with same code were removed
-                #TODO: handle nodes removal
-                pass
-        else:
-            #TODO: handle node with new code
-            pass
+    def _lookup_node(self, path):
+        try:
+            # there can be one or none
+            # more then one means something went wrong before we even started
+            return self.parent.nodes.get(path=path)
+        except BudgetTemplateNode.DoesNotExist as e:
+            return None
+
 
     def _generate_container_name(self, container_dict):
         name = _('Template of %(entity)s since %(year)s')
