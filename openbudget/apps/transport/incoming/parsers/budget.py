@@ -188,11 +188,5 @@ class BudgetParser(BudgetTemplateParser):
             else:
                 raise e
 
-    def _diff_template(self, template):
-        self.nodes = template.nodes
-        for key, obj in self.objects_lookup.iteritems():
-            route = key.split(self.ROUTE_SEPARATOR)
-            self._lookup_node(route=route, nodes=self.nodes)
-
 
 register('budget', BudgetParser)
