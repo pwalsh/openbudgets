@@ -127,3 +127,11 @@ def get_parser_key(cls):
             return key
     else:
         raise Exception(_('Given parser is not registered: %s' % unicode(cls)))
+
+
+def autodiscover():
+    # we just load all the other parser modules
+    from openbudget.apps.transport.incoming.parsers import budgettemplate, budget, actual
+
+
+autodiscover()
