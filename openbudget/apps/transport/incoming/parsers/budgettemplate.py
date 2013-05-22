@@ -5,8 +5,14 @@ from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, B
 from openbudget.apps.entities.models import DomainDivision
 from openbudget.apps.transport.incoming.parsers import BaseParser, register
 from openbudget.apps.transport.incoming.errors import DataAmbiguityError, DataSyntaxError, ParentScopeError,\
-    MetaParsingError, DataValidationError, NodeDirectionError, PathInterpolationError
+    MetaParsingError, DataValidationError, NodeDirectionError, PathInterpolationError, ParentNodeNotFoundError
 
+
+def _raise_parent_not_found(code, parent, scope):
+    raise Exception(
+        __('Could not locate parent of node: %s; with parent: %s; and scope: %s') %
+        (code, parent, scope)
+    )
 
 class BudgetTemplateParser(BaseParser):
 
@@ -183,34 +189,34 @@ class BudgetTemplateParser(BaseParser):
                             # create a dummy node as the parent
                             return self._create_dummy_parent(obj)
                         else:
-                            raise Exception(
-                                'Could not locate parent of node: %s; with parent: %s; and scope: %s' %
-                                (obj['code'], obj['parent'], scope)
-                            )
+                            _raise_parent_not_found(obj['code'], obj['parent'], scope)
 
                     elif self.interpolate:
                         parent = self._interpolate(route=route, key=key)
-                        obj['parent'] = parent
-                        return parent
+                        return parent or self._create_dummy_parent(obj)
 
                     else:
-                        #TODO: handle missing parent node and interpolate=False
-                        raise Exception()
+                        if self.dry:
+                            self.throw(
+                                ParentScopeError(
+                                    row=self.rows_objects_lookup.get(key, None)
+                                )
+                            )
+                            return self._create_dummy_parent(obj)
+                        else:
+                            _raise_parent_not_found(obj['code'], obj['parent'], scope)
 
                 else:
                     if self.dry:
                         self.throw(
-                            ParentScopeError(
+                            ParentNodeNotFoundError(
                                 row=self.rows_objects_lookup.get(key, None)
                             )
                         )
                         # create a dummy node as the parent
                         return self._create_dummy_parent(obj)
                     else:
-                        raise Exception(
-                            'Could not locate parent of node: %s; with parent: %s; and scope: %s' %
-                            (obj['code'], obj['parent'], scope)
-                        )
+                        _raise_parent_not_found(obj['code'], obj['parent'], scope)
 
             else:
                 if parent_key in self.saved_cache:
@@ -270,14 +276,16 @@ class BudgetTemplateParser(BaseParser):
             ancestors_routes.append(list(route))
 
         else:
-            #TODO: handle interpolation error? but returning None here will break the rest
-            # self.throw(
-            #     PathInterpolationError(
-            #         row=self.rows_objects_lookup[key]
-            #     )
-            # )
-            # return None
-            raise Exception(_('Interpolation failed, no ancestor found for path: %s') % self.ROUTE_SEPARATOR.join(route_copy))
+            if self.dry:
+                self.throw(
+                    PathInterpolationError(
+                        row=self.rows_objects_lookup[key]
+                    )
+                )
+                return None
+            else:
+                raise Exception(_('Interpolation failed, no ancestor found for path: %s') %
+                                self.ROUTE_SEPARATOR.join(route_copy))
 
         # we managed to find an ancestor and saved it
         # now to connect the dots together,
