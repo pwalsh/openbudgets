@@ -4,7 +4,9 @@ from django.utils.translation import ugettext_lazy as _
 
 class DataInputError(object):
 
-    def __init__(self, row='Unknown', columns=None, values=None):
+    def __init__(self, row=None, columns=None, values=None):
+        if row is None:
+            row = 'Unknown'
         self.row = row
         self.columns = columns or ['Unknown']
         self.values = values or ['Unknown']
