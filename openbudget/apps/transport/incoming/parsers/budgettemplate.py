@@ -71,6 +71,11 @@ class BudgetTemplateParser(BaseParser):
 
             if 'parent' in obj:
                 parent = self._save_parent(obj, key)
+                if parent:
+                    obj['parent'] = parent
+                else:
+                    # clean up parent
+                    del obj['parent']
 
             self._set_path(obj, parent)
             self._set_direction(obj, parent)
@@ -179,7 +184,6 @@ class BudgetTemplateParser(BaseParser):
                     # look up the node in the parent template
                     parent = self._lookup_node(route=route, key=key)
                     if parent:
-                        obj['parent'] = parent
                         # save the node as if it was another object in the lookup
                         return self._save_item(parent, self.ROUTE_SEPARATOR.join(route), is_node=True)
 
@@ -191,9 +195,12 @@ class BudgetTemplateParser(BaseParser):
                         else:
                             _raise_parent_not_found(obj['code'], obj['parent'], scope)
 
-                    elif self.interpolate:
+                    elif self.interpolate and scope:
                         parent = self._interpolate(route=route, key=key)
-                        return parent or self._create_dummy_parent(obj)
+                        if parent:
+                            return parent
+                        else:
+                            return self._create_dummy_parent(obj)
 
                     else:
                         if self.dry:
@@ -224,14 +231,9 @@ class BudgetTemplateParser(BaseParser):
                 else:
                     parent = self._save_item(parent, parent_key)
 
-                obj['parent'] = parent
-
                 return parent
 
         else:
-            # clean parent
-            del obj['parent']
-
             if 'parentscope' in obj:
                 # clean parentscope
                 del obj['parentscope']
@@ -401,10 +403,12 @@ class BudgetTemplateParser(BaseParser):
             if code in lookup_table:
                 if code not in conflicting:
                     conflicting[code] = []
-                conflicting[code].append((row_num, obj))
+                # +1 for heading row +1 for 0-based to 1-based
+                conflicting[code].append((row_num + 2, obj))
             else:
                 lookup_table[code] = obj
-                rows_objects_lookup[code] = row_num
+                # +1 for heading row +1 for 0-based to 1-based
+                rows_objects_lookup[code] = row_num + 2
 
         for code, obj_list in conflicting.iteritems():
             conflicting[code].append((rows_objects_lookup.pop(code), lookup_table.pop(code)))
