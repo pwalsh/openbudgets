@@ -5,7 +5,7 @@ from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, B
 from openbudget.apps.entities.models import DomainDivision
 from openbudget.apps.transport.incoming.parsers import BaseParser, register
 from openbudget.apps.transport.incoming.errors import DataAmbiguityError, DataSyntaxError, ParentScopeError,\
-    MetaParsingError, DataValidationError, NodeDirectionError
+    MetaParsingError, DataValidationError, NodeDirectionError, PathInterpolationError
 
 
 class BudgetTemplateParser(BaseParser):
@@ -26,13 +26,12 @@ class BudgetTemplateParser(BaseParser):
             self.fill_in_parents = False
             self.interpolate = False
 
-    def diff(self, template):
-        nodes = template.nodes
-        for key, obj in self.objects_lookup.iteritems():
-            self._lookup_node(path=key)
+        if self.interpolate:
+            self.interpolated_lookup = {}
 
     def _save_item(self, obj, key, is_node=False):
         inverses = []
+        parent = None
         # check if we already saved this object and have it in cache
         if key in self.saved_cache:
             return self.saved_cache[key]
@@ -43,14 +42,19 @@ class BudgetTemplateParser(BaseParser):
             if self.parent:
                 path = obj['code']
                 if 'parent' in obj and obj['parent']:
-                    path += self.ROUTE_SEPARATOR + obj['parent']
+                    path += self.ROUTE_SEPARATOR + unicode(obj['parent'])
                     if 'parentscope' in obj and obj['parentscope']:
                         path += self.ROUTE_SEPARATOR + obj['parentscope']
 
-                item = self._lookup_node(path=path)
+                item = self._lookup_node(path=path, key=key)
                 if item:
                     # in case we found the item, cache the saved node
                     return self._save_item(item, key, is_node=True)
+
+                elif item is False:
+                    # there's an ambiguity here that was caught
+                    #TODO: handle case of ambiguity here
+                    pass
 
                 else:
                     # here we could note there's a delta between the templates
@@ -60,9 +64,10 @@ class BudgetTemplateParser(BaseParser):
                 inverses = self._save_inverses(obj, key)
 
             if 'parent' in obj:
-                self._save_parent(obj, key)
+                parent = self._save_parent(obj, key)
 
-            self._set_path(obj)
+            self._set_path(obj, parent)
+            self._set_direction(obj, parent)
 
             item = self._create_item(obj, key)
 
@@ -109,7 +114,7 @@ class BudgetTemplateParser(BaseParser):
                     if self.dry:
                         self.throw(
                             DataSyntaxError(
-                                row=self.rows_objects_lookup[key],
+                                row=self.rows_objects_lookup.get(key, None),
                                 columns=('inverse', 'inversescope'),
                                 values=(obj['inverse'], inverse_scope)
                             )
@@ -132,7 +137,7 @@ class BudgetTemplateParser(BaseParser):
                     if inverse.direction and inverse.direction == obj['direction']:
                         self.throw(
                             NodeDirectionError(
-                                rows=(self.rows_objects_lookup[key], self.rows_objects_lookup[inverse_key])
+                                rows=(self.rows_objects_lookup.get(key, None), self.rows_objects_lookup.get(inverse_key, None))
                             )
                         )
 
@@ -155,24 +160,38 @@ class BudgetTemplateParser(BaseParser):
             else:
                 scope = ''
 
-            parent_key, parent = self._lookup_object(code=obj['parent'], scope=scope)
+            parent_key, parent = self._lookup_object(code=unicode(obj['parent']), scope=scope)
 
             if not parent or not parent_key:
 
                 if self.fill_in_parents:
                     # we're going to get the parent node from the parent template
-                    route = [obj['parent']]
+                    route = [unicode(obj['parent'])]
                     # generate a path for lookup
                     if scope:
                         route += scope.split(self.ROUTE_SEPARATOR)
                     # look up the node in the parent template
-                    parent = self._lookup_node(path=self.ROUTE_SEPARATOR.join(route))
+                    parent = self._lookup_node(route=route, key=key)
                     if parent:
+                        obj['parent'] = parent
                         # save the node as if it was another object in the lookup
                         return self._save_item(parent, self.ROUTE_SEPARATOR.join(route), is_node=True)
 
+                    elif parent is False:
+                        # there's an ambiguity here that was caught
+                        if self.dry:
+                            # create a dummy node as the parent
+                            return self._create_dummy_parent(obj)
+                        else:
+                            raise Exception(
+                                'Could not locate parent of node: %s; with parent: %s; and scope: %s' %
+                                (obj['code'], obj['parent'], scope)
+                            )
+
                     elif self.interpolate:
-                        return self._interpolate(route=route)
+                        parent = self._interpolate(route=route, key=key)
+                        obj['parent'] = parent
+                        return parent
 
                     else:
                         #TODO: handle missing parent node and interpolate=False
@@ -182,12 +201,11 @@ class BudgetTemplateParser(BaseParser):
                     if self.dry:
                         self.throw(
                             ParentScopeError(
-                                row=self.rows_objects_lookup[key]
+                                row=self.rows_objects_lookup.get(key, None)
                             )
                         )
                         # create a dummy node as the parent
-                        obj['parent'] = self.item_model(code=obj['parent'], name='dummy', direction=obj['direction'])
-                        return obj['parent']
+                        return self._create_dummy_parent(obj)
                     else:
                         raise Exception(
                             'Could not locate parent of node: %s; with parent: %s; and scope: %s' %
@@ -214,13 +232,35 @@ class BudgetTemplateParser(BaseParser):
 
             return None
 
-    def _interpolate(self, route):
-        ancestors_routes = [list(route)]
+    def _create_dummy_parent(self, obj):
+        code = obj['parent']
+        attrs = {
+            'code': code,
+            'name': 'dummy',
+        }
+
+        direction = obj.get('direction', None)
+        scope = obj.get('parentscope', None)
+        path = code
+
+        attrs['direction'] = direction or 'REVENUE'
+
+        if scope:
+            path = self.ROUTE_SEPARATOR.join((code, scope))
+
+        attrs['path'] = path
+
+        obj['parent'] = self.item_model(**attrs)
+        return obj['parent']
+
+    def _interpolate(self, route, key=None):
+        route_copy = list(route)
+        ancestors_routes = [route_copy]
 
         # first we'll try finding the other end
         while len(route):
             route.pop(0)
-            ancestor = self._lookup_node(path=self.ROUTE_SEPARATOR.join(route))
+            ancestor = self._lookup_node(route=route, key=key)
 
             if ancestor:
                 # connected!
@@ -230,8 +270,14 @@ class BudgetTemplateParser(BaseParser):
             ancestors_routes.append(list(route))
 
         else:
-            #TODO: handle interpolation error?
-            raise Exception('Interpolation failed, no ancestor found.')
+            #TODO: handle interpolation error? but returning None here will break the rest
+            # self.throw(
+            #     PathInterpolationError(
+            #         row=self.rows_objects_lookup[key]
+            #     )
+            # )
+            # return None
+            raise Exception(_('Interpolation failed, no ancestor found for path: %s') % self.ROUTE_SEPARATOR.join(route_copy))
 
         # we managed to find an ancestor and saved it
         # now to connect the dots together,
@@ -265,11 +311,13 @@ class BudgetTemplateParser(BaseParser):
             'parent': parent,
             'code': code,
             'parentscope': parent_scope,
-            'direction': parent.direction
+            'direction': parent.direction,
+            'name': parent.name
         }
 
-        if key not in self.objects_lookup:
-            self.objects_lookup = obj
+        _key, _obj = self._lookup_object(key=key)
+        if not _key:
+            # self.objects_lookup[key] = obj
             if row_num is not None:
                 self.rows_objects_lookup[key] = row_num
 
@@ -278,8 +326,8 @@ class BudgetTemplateParser(BaseParser):
 
         return self._save_item(obj, key)
 
-    def _set_path(self, obj, key=None):
-        parent = obj['parent'] if 'parent' in obj else None
+    def _set_path(self, obj, parent=None):
+        parent = parent or obj['parent'] if 'parent' in obj else None
         path = [obj['code']]
 
         if parent:
@@ -287,13 +335,18 @@ class BudgetTemplateParser(BaseParser):
 
         obj['path'] = self.ROUTE_SEPARATOR.join(path)
 
+    def _set_direction(self, obj, parent):
+        if 'direction' not in obj or not obj['direction']:
+            obj['direction'] = parent.direction
+
     def _create_item(self, obj, key):
         self._clean_object(obj, key)
         if not self.dry:
             item = self.item_model.objects.create(**obj)
         else:
             item = self.item_model(**obj)
-            self._dry_clean(item, row_num=self.rows_objects_lookup[key])
+            row_num = self.rows_objects_lookup.get(key, None)
+            self._dry_clean(item, row_num=row_num)
         return item
 
     def _add_to_container(self, item, key):
@@ -370,7 +423,7 @@ class BudgetTemplateParser(BaseParser):
         self.objects_lookup = lookup_table
         self.rows_objects_lookup = rows_objects_lookup
 
-    def _lookup_object(self, code=None, parent='', scope=''):
+    def _lookup_object(self, code=None, parent='', scope='', key=None):
         if code:
 
             key = ''
@@ -388,19 +441,64 @@ class BudgetTemplateParser(BaseParser):
                 if key not in self.objects_lookup:
                     key = self.ROUTE_SEPARATOR.join((code, scope))
 
+        if key:
             if key in self.objects_lookup:
                 return key, self.objects_lookup[key]
 
         return None, None
 
-    def _lookup_node(self, path):
+    def _lookup_node(self, route=None, path=None, key=None):
+        if path is None:
+            if route and len(route):
+                path = self.ROUTE_SEPARATOR.join(route)
+
+            else:
+                raise Exception(
+                    __('Did not get neither route nor path for looking up node, for row: %s') %
+                    self.rows_objects_lookup.get(key, None)
+                )
+
         try:
             # there can be one or none
-            # more then one means something went wrong before we even started
             return self.parent.nodes.get(path=path)
-        except BudgetTemplateNode.DoesNotExist as e:
-            return None
 
+        except BudgetTemplateNode.DoesNotExist as e:
+            # none found
+            try:
+                if route is None and path:
+                    route = path.split(self.ROUTE_SEPARATOR)
+                _filter = {
+                    'code': route[0]
+                }
+                if len(route) > 1:
+                    _filter['parent__code'] = route[1]
+
+                return self.parent.nodes.get(**_filter)
+
+            except BudgetTemplateNode.DoesNotExist as e:
+                return None
+            except BudgetTemplateNode.MultipleObjectsReturned as e:
+                if self.dry:
+                    self.throw(
+                        ParentScopeError(
+                            row=self.rows_objects_lookup.get(key, None)
+                        )
+                    )
+                    return False
+                else:
+                    raise e
+
+        except BudgetTemplateNode.MultipleObjectsReturned as e:
+            if self.dry:
+                # more then one probably means there's PARENT_SCOPE missing
+                self.throw(
+                    ParentScopeError(
+                        row=self.rows_objects_lookup.get(key, None)
+                    )
+                )
+                return False
+            else:
+                raise e
 
     def _generate_container_name(self, container_dict):
         name = _('Template of %(entity)s since %(year)s')
