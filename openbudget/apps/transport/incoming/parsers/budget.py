@@ -11,6 +11,7 @@ class BudgetParser(BudgetTemplateParser):
     container_model = Budget
     item_model = BudgetItem
     ITEM_ATTRIBUTES = ('amount', 'node', 'description', 'budget')
+    ITEM_CLEANING_EXCLUDE = ['node', 'budget']
 
     def __init__(self, container_object_dict):
         super(BudgetTemplateParser, self).__init__(container_object_dict)
@@ -113,7 +114,7 @@ class BudgetParser(BudgetTemplateParser):
             item = self.item_model.objects.create(**obj)
         else:
             item = self.item_model(**obj)
-            self._dry_clean(item, self.rows_objects_lookup[key], exclude=['node', 'budget'])
+            self._dry_clean(item, self.rows_objects_lookup[key], exclude=self.ITEM_CLEANING_EXCLUDE)
 
         return item
 
@@ -125,12 +126,13 @@ class BudgetParser(BudgetTemplateParser):
         container_dict_copy = deepcopy(self.container_object_dict)
 
         #TODO: refactor this into a proper cleanup method
-        if 'period_end' in container_dict_copy:
-            del container_dict_copy['period_end']
         if 'template' in container_dict_copy:
             del container_dict_copy['template']
 
         parent_template = self._get_parent_template(container_dict_copy)
+
+        if 'period_end' in container_dict_copy:
+            del container_dict_copy['period_end']
 
         if parent_template:
             return BudgetTemplateParser(container_dict_copy, extends=parent_template)
