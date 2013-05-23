@@ -4,20 +4,24 @@ CSV file imports
 Overview
 --------
 
-Open Budget can import several datasets in bulk, provided the data can be presented in the file formats we support, and the data structure in the file can be recognized.
+Open Budget can import most of its core datasets in bulk, and this is certainly an area we'd like to see the community help develop even further.
 
-At this stage, we support import from CSV file for the following datasets:
+Importing datasets requires preparation. The data needs to be in a *file type* we support (CSV only at this stage), and follow our *file format* for the dataset being imported.
+
+The following datasets can be imported in bulk:
 
 * Budget Templates
 * Budgets
 * Actuals
+* Entities
+* Contexts
 
-Here, we describe the specifications for importing data by file. For more informatio about the importing mechanisms, please see the "Import" page of the "Features" section of the guide.
+This section of the documentation deals with the file formats we specify for each importable dataset. For more information on the importing mechanisms, please see the "Import" page of the "Features" section of the guide.
 
 Dependencies
 ------------
 
-To create a file for importing, you need any spreadhseet software that is capable outputting CSV files in UTF-8.
+To create an importable file of the correct type, you'll need to use any spreadsheet app that can output as CSV in UTF-8 encoding. We work with Google Docs, which is a great choice for creating and collaborating on the files before importing.
 
 Specifications
 --------------
@@ -30,7 +34,7 @@ Basic Requirements
 
 * a compliant CSV file that is UTF-8 encoded
 * data that matches the exact expected input for the dataset you want to import
-*one single datapoint per cell - no overloading of cells for multiple data points
+* one single datapoint per cell - no overloading of cells for multiple data points
 
 Header Requirements
 +++++++++++++++++++

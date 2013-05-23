@@ -44,21 +44,21 @@ class Domain(TimeStampedModel):
         _('Measurement System'),
         choices=MEASUREMENT_SYSTEMS,
         max_length=8,
-        default=0,
+        default=MEASUREMENT_SYSTEMS[0][0],
         help_text=_('The applicable measurement unit for this domain.')
     )
     ground_surface_unit = models.CharField(
         _('Ground Surface Unit'),
         choices=GROUND_SURFACE_UNITS,
         max_length=25,
-        default=0,
+        default=GROUND_SURFACE_UNITS[0][0],
         help_text=_('The unit for measurement of ground. Should be default, except in cases like Israel which use units that do not belong to the measurement system.')
     )
     currency = models.CharField(
         _('Currency'),
         choices=CURRENCIES,
         max_length=3,
-        default=0,
+        default=CURRENCIES[0][0],
         help_text=_('The applicable currency for this domain.')
     )
 

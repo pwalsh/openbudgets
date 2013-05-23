@@ -1,0 +1,70 @@
+[
+
+{
+    "model": "interactions.star",
+    "pk": 1,
+    "fields": {
+        "created_on": "2013-03-28T11:27:38.158Z",
+        "last_modified": "2013-03-28T11:27:38.158Z",
+        "user": ["democitizen"],
+        "content_type": ["budgets", "budget"],
+        "object_id": 1
+    }
+},
+
+{
+    "model": "interactions.star",
+    "pk": 2,
+    "fields": {
+        "created_on": "2013-03-28T11:27:48.571Z",
+        "last_modified": "2013-03-28T11:27:48.571Z",
+        "user": ["democitizen"],
+        "content_type": ["budgets", "budget"],
+        "object_id": 2
+    }
+},
+
+{
+    "model": "interactions.star",
+    "pk": 3,
+    "fields": {
+        "created_on": "2013-03-28T11:28:06.439Z",
+        "last_modified": "2013-03-28T11:28:06.439Z",
+        "user": ["democitizen"],
+        "content_type": ["budgets", "actual"],
+        "object_id": 3
+    }
+},
+
+{
+    "model": "interactions.follow",
+    "pk": 1,
+    "fields": {
+        "created_on": "2013-03-28T11:27:19.943Z",
+        "last_modified": "2013-03-28T11:27:19.943Z",
+        "user": ["democitizen"],
+        "content_type": ["entities", "entity"],
+        "object_id": 7
+    }
+},
+
+{
+    "model": "comments.comment",
+    "pk": 1,
+    "fields": {
+        "comment": "The actuals for this item are huge compared to (a), the budget, and (b) the actuals for the preceding and subsequent years. I wonder if some non-standard expenses have been hidden away here. If anyone has any insights, I'd be grateful to hear them.",
+        "user_url": "",
+        "submit_date": "2013-03-28T11:30:17.687Z",
+        "ip_address": "127.0.0.1",
+        "object_pk": "5",
+        "site": 1,
+        "is_removed": false,
+        "user": ["democitizen"],
+        "content_type": ["budgets", "actualitem"],
+        "is_public": true,
+        "user_name": "Concerned Citizen",
+        "user_email": "citizen@example.com"
+    }
+}
+
+]

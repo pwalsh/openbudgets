@@ -1,0 +1,79 @@
+[
+
+    {
+    "model": "entities.DomainDivision",
+    "pk": 1,
+    "fields": {
+        "domain": 1,
+        "index": 0,
+        "name": "State",
+        "has_budgets": true,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.DomainDivision",
+    "pk": 2,
+    "fields": {
+        "domain": 1,
+        "index": 1,
+        "name": "District",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.DomainDivision",
+    "pk": 3,
+    "fields": {
+        "domain": 1,
+        "index": 2,
+        "name": "Sub-District",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.DomainDivision",
+    "pk": 4,
+    "fields": {
+        "domain": 1,
+        "index": 3,
+        "name": "City Municipality",
+        "has_budgets": true,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.DomainDivision",
+    "pk": 5,
+    "fields": {
+        "domain": 1,
+        "index": 3,
+        "name": "Local Municipality",
+        "has_budgets": true,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "entities.DomainDivision",
+    "pk": 6,
+    "fields": {
+        "domain": 1,
+        "index": 3,
+        "name": "Regional Municipality",
+        "has_budgets": true,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+}
+
+]

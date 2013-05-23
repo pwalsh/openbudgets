@@ -1,0 +1,39 @@
+[
+
+    {
+    "model": "sources.referencesource",
+    "pk": 1,
+    "fields": {
+        "object_id": 1,
+        "content_type": ["budgets", "budget"],
+        "added_by": ["pwalsh"],
+        "uuid": "de79ce65b9494405a3473843c6a71b52",
+        "name": "Offically released budget PDF",
+        "url": "http://somesourceurl.com/",
+        "data": "/static/media/referencesource/example_reference.pdf",
+        "retrieval_date": "2013-03-21",
+        "notes": "some notes aout this data source file.",
+        "created_on": "2013-03-28T11:12:22.105Z",
+        "last_modified": "2013-03-28T11:12:22.105Z"
+    }
+},
+
+{
+    "model": "sources.auxsource",
+    "pk": 1,
+    "fields": {
+        "object_id": 1,
+        "content_type": ["budgets", "budget"],
+        "added_by": ["democitizen"],
+        "uuid": "01b8905001224b449f35a6e09d97d184",
+        "name": "Additional data from Muni Leaks",
+        "url": "http://somesourceurlforthis.org/",
+        "data": "/static/media/auxsource/example_aux.csv",
+        "retrieval_date": "2013-03-01",
+        "notes": "My specific notes about this data source.",
+        "created_on": "2013-03-28T11:12:22.116Z",
+        "last_modified": "2013-03-28T11:12:22.116Z"
+    }
+}
+
+]

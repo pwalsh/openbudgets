@@ -35,8 +35,12 @@ DEBUG_TOOLBAR_CONFIG = {
 DEVSTRAP = {
     'FIXTURES': (
         'dev/sites',
-        'demo/objects',
-        'locale/he/strings'
+        'israel/domains',
+        'israel/divisions',
+        'israel/entities',
+        'locale/he/strings',
+        'dev/interactions',
+        'dev/sources'
     ),
     'TESTS': (
         'accounts',
