@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
+from django.utils.translation import ugettext_lazy as _
 from openbudget.settings.base import TEMP_FILES_DIR, ADMINS, EMAIL_HOST_USER
 from openbudget.apps.transport.models import String
 from openbudget.apps.transport.incoming.parsers import get_parser, get_parser_key
@@ -142,11 +143,14 @@ class BaseImporter(object):
         return normalized_headers
 
     def import_error(self):
+        """If a file is not validly formed, we can't open it.
+
+        In this case, we send a copy of the file by email to the site admins.
+
+        We want to site admins to be able to see the file, and understand what \
+        was invalid - perhaps it is a problem that can be solved in code - \
+        file import is part science, part art.
         """
-        Handle import exceptions by sending an email to admins
-        with the file attached.
-        """
-        #TODO: need to attach the file to the sent email
         dt = datetime.now().isoformat()
 
         this_file = TEMP_FILES_DIR + \
@@ -159,13 +163,14 @@ class BaseImporter(object):
             for chunk in self.sourcefile.chunks():
                 tmp_file.write(chunk)
 
-        # email ourselves that we have a file to check
-        subject = 'Open Budget: Failed File Import'
-        message = 'The file is attached.'
+        subject = _('Open Budget: Failed File Import')
+        message = _('The file is attached.')
         sender = EMAIL_HOST_USER
         recipients = [ADMINS]
-
-        send_mail(subject, message, sender, recipients)
+        attachment = this_file
+        mail = EmailMessage(subject, message, sender, recipients)
+        mail.attach_file(attachment)
+        mail.send()
 
     def _extract_meta(self):
         """Get's the meta data for the dataset. \
