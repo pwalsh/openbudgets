@@ -1,10 +1,15 @@
 import os
+from datetime import datetime
+from django.core.mail import send_mail
+from openbudget.settings.base import TEMP_FILES_DIR, ADMINS, EMAIL_HOST_USER
 from openbudget.apps.transport.models import String
 from openbudget.apps.transport.incoming.parsers import get_parser, get_parser_key
 
 
 class BaseImporter(object):
     """Gets data out of files and into the database.
+
+    This class is abstract and does not implement the `get_data` method.
 
     This class can handle any of the supported datasets for importing.
 
@@ -52,28 +57,79 @@ class BaseImporter(object):
         return self
 
     def validate(self):
+        """
+        Runs validation on the extracted data using the parser's
+        validation.
+        """
         return self.parser.validate(self.data)
 
     def save(self):
+        """
+        Delegates to the parser's save method.
+        """
         return self.parser.save()
 
     def deferred(self):
+        """
+        Gets a deferred object from the parser, adding to it
+        the parser's class key.
+
+        Returns the deferred object which can be later serialized
+        and sent to queue, for later resolving it.
+        """
         deferred = self.parser.deferred()
         deferred['class'] = get_parser_key(self.parser.__class__)
 
         return deferred
 
     def resolve(self, deferred):
+        """
+        Takes a deferred importer object which sets the appropriate
+        parser and delegates to it's resolve method.
+        """
+        # get the parser class key
         klass = deferred['class']
 
         if not klass:
             raise Exception('Deferred object missing class key: %s' % klass)
 
+        # get the parser class and resolve the deferred object
         self.parser = get_parser(klass).resolve(deferred)
+        # return self for fluency's sake
         return self
 
     def get_data(self, stream):
+        """
+        Takes a data stream read from the source file, extracts a
+        dataset from it and stores it in `self.data`.
+        """
         raise NotImplementedError()
+
+    def import_error(self):
+        """
+        Handle import exceptions by sending an email to admins
+        with the file attached.
+        """
+        #TODO: need to attach the file to the sent email
+        dt = datetime.now().isoformat()
+
+        this_file = TEMP_FILES_DIR + \
+            '/failed_import_{timestamp}_{filename}'.format(
+                timestamp=dt,
+                filename=unicode(self.sourcefile)
+            )
+
+        with open(this_file, 'wb+') as tmp_file:
+            for chunk in self.sourcefile.chunks():
+                tmp_file.write(chunk)
+
+        # email ourselves that we have a file to check
+        subject = 'Open Budget: Failed File Import'
+        message = 'The file is attached.'
+        sender = EMAIL_HOST_USER
+        recipients = [ADMINS]
+
+        send_mail(subject, message, sender, recipients)
 
     def _extract_meta(self):
         """Get's the meta data for the dataset. \
@@ -113,7 +169,8 @@ class BaseImporter(object):
 
     def _get_header_scopes(self):
         """
-        Hit the DB and get the available strings and scopes.
+        Gets the available strings and scopes which are used
+        for normalizing the headers.
         """
 
         scopes_map = {}
@@ -124,6 +181,42 @@ class BaseImporter(object):
             scopes_map[string.string] = [scope.string for scope in string.scope_set.all()]
 
         return scopes_map
+
+    def _normalize_headers(self, headers):
+        """Clean the headers of the dataset.
+
+        We replace the existing headers with new ones that \
+        have been cleaned and normalized.
+
+        To clean, we strip white space and common joining \
+        symbols, and we convert all to lowercase.
+
+        To normalize, we match the header to strings in a \
+        string scope map, and convert to the string in the \
+        map when our key is either the string or in the scope \
+        list.
+
+        """
+        symbols = {
+            ord('_'): None,
+            ord('-'): None,
+            ord('"'): None,
+            ord(' '): None,
+            ord("'"): None,
+        }
+        scopes_map = self._get_header_scopes()
+        normalized_headers = []
+
+        for index, header in enumerate(headers):
+
+            tmp = unicode(header).translate(symbols).lower()
+
+            for k, v in scopes_map.iteritems():
+
+                if tmp == k or tmp in v:
+                    normalized_headers[index] = k
+
+        return normalized_headers
 
     def _get_parser_from_filename(self):
         """Extract necessary info on the dataset from the filename.
