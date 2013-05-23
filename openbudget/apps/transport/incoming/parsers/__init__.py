@@ -170,6 +170,11 @@ class BaseParser(object):
         self.container_object = container
 
     def _dry_clean(self, instance, row_num=None, exclude=None):
+        """
+        Calls a given `instance`'s `full_clean()` method for validating it.
+        Validation errors are caught and exchanged for errors thrown to the
+        parser using `throw()`.
+        """
         try:
             instance.full_clean(exclude=exclude)
         except ValidationError as e:
@@ -178,6 +183,9 @@ class BaseParser(object):
             )
 
     def _clear_cache(self):
+        """
+        Clears the `saved_cache` dict.
+        """
         self.saved_cache.clear()
 
 
@@ -185,10 +193,16 @@ PARSERS_MAP = {}
 
 
 def register(key, parser_class):
+    """
+    Registers a parser class in the system.
+    """
     PARSERS_MAP[key] = parser_class
 
 
 def get_parser(key):
+    """
+    Gets a parser class from the registry using a string key.
+    """
     if key in PARSERS_MAP:
         return PARSERS_MAP[key]
     else:
@@ -196,6 +210,10 @@ def get_parser(key):
 
 
 def get_parser_key(cls):
+    """
+    Gets the key from the registry under which this parser class
+    is stored, mostly for deferring that parser for later use.
+    """
     for key, parser_class in PARSERS_MAP.iteritems():
         if cls is parser_class:
             return key
