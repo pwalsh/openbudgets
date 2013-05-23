@@ -17,7 +17,7 @@ class TablibImporter(BaseImporter):
             raise e
 
         # `_normalize_headers` may transform the headers and returns the same data object
-        raw_dataset.headers = self._normalize_headers(raw_dataset.headers)
+        raw_dataset.headers = self.normalize_headers(raw_dataset.headers)
 
         # we then return the dict view of the data
         return raw_dataset.dict

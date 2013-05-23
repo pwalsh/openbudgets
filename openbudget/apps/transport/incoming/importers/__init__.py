@@ -105,6 +105,42 @@ class BaseImporter(object):
         """
         raise NotImplementedError()
 
+    def normalize_headers(self, headers):
+        """Clean the headers of the dataset.
+
+        We replace the existing headers with new ones that \
+        have been cleaned and normalized.
+
+        To clean, we strip white space and common joining \
+        symbols, and we convert all to lowercase.
+
+        To normalize, we match the header to strings in a \
+        string scope map, and convert to the string in the \
+        map when our key is either the string or in the scope \
+        list.
+
+        """
+        symbols = {
+            ord('_'): None,
+            ord('-'): None,
+            ord('"'): None,
+            ord(' '): None,
+            ord("'"): None,
+        }
+        scopes_map = self._get_header_scopes()
+        normalized_headers = []
+
+        for index, header in enumerate(headers):
+
+            tmp = unicode(header).translate(symbols).lower()
+
+            for k, v in scopes_map.iteritems():
+
+                if tmp == k or tmp in v:
+                    normalized_headers[index] = k
+
+        return normalized_headers
+
     def import_error(self):
         """
         Handle import exceptions by sending an email to admins
@@ -181,42 +217,6 @@ class BaseImporter(object):
             scopes_map[string.string] = [scope.string for scope in string.scope_set.all()]
 
         return scopes_map
-
-    def _normalize_headers(self, headers):
-        """Clean the headers of the dataset.
-
-        We replace the existing headers with new ones that \
-        have been cleaned and normalized.
-
-        To clean, we strip white space and common joining \
-        symbols, and we convert all to lowercase.
-
-        To normalize, we match the header to strings in a \
-        string scope map, and convert to the string in the \
-        map when our key is either the string or in the scope \
-        list.
-
-        """
-        symbols = {
-            ord('_'): None,
-            ord('-'): None,
-            ord('"'): None,
-            ord(' '): None,
-            ord("'"): None,
-        }
-        scopes_map = self._get_header_scopes()
-        normalized_headers = []
-
-        for index, header in enumerate(headers):
-
-            tmp = unicode(header).translate(symbols).lower()
-
-            for k, v in scopes_map.iteritems():
-
-                if tmp == k or tmp in v:
-                    normalized_headers[index] = k
-
-        return normalized_headers
 
     def _get_parser_from_filename(self):
         """Extract necessary info on the dataset from the filename.
