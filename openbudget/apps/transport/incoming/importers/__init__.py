@@ -129,7 +129,7 @@ class BaseImporter(object):
             ord("'"): None,
         }
         scopes_map = self._get_header_scopes()
-        normalized_headers = []
+        normalized_headers = list(headers)
 
         for index, header in enumerate(headers):
 
