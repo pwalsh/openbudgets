@@ -399,8 +399,10 @@ class SheetItem(TimeStampedModel, UUIDModel):
         help_text=_('Description that appears for this entry.')
     )
 
-    amount = models.IntegerField(
+    amount = models.DecimalField(
         _('Amount'),
+        max_digits=26,
+        decimal_places=2,
         help_text=_('The amount of this entry. The node determines REVENUE or EXPENDITURE')
     )
 
