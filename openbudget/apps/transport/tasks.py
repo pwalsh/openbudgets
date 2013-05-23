@@ -9,12 +9,12 @@ def save_import(deferred, email):
     from openbudget.apps.transport.incoming.importers import TablibImporter
 
     importer = TablibImporter()
-    save = importer.resolve(deferred)
+    saved = importer.resolve(deferred).save()
 
     sender = settings.EMAIL_HOST_USER
     recipient = email
 
-    if save:
+    if saved:
         subject = 'IMPORT SAVED'
         message = 'HOORAH!'
 

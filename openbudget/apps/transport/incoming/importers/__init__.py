@@ -4,7 +4,7 @@ import tablib
 from django.core.mail import send_mail
 from openbudget.settings.base import TEMP_FILES_DIR, ADMINS, EMAIL_HOST_USER
 from openbudget.apps.transport.models import String
-from openbudget.apps.transport.incoming.parsers import PARSERS_MAP
+from openbudget.apps.transport.incoming.parsers import get_parser, get_parser_key
 
 
 class BaseImporter(object):
@@ -59,32 +59,22 @@ class BaseImporter(object):
         return self.parser.validate(self.data)
 
     def save(self):
-        self.parser.save()
-        return True
+        return self.parser.save()
 
     def deferred(self):
         deferred = self.parser.deferred()
-
-        parser_key = ''
-        for key, parser_class in PARSERS_MAP.iteritems():
-            if self.parser.__class__ is parser_class:
-                parser_key = key
-                break
-
-        deferred['parser'] = parser_key
+        deferred['class'] = get_parser_key(self.parser.__class__)
 
         return deferred
 
     def resolve(self, deferred):
-        parser_key = deferred['parser']
-        container_dict = deferred['container']
+        klass = deferred['class']
 
-        if not parser_key or not container_dict:
-            raise Exception('Bad deferred object: %s, %s' % (parser_key, container_dict))
+        if not klass:
+            raise Exception('Deferred object missing class key: %s' % klass)
 
-        self.parser = PARSERS_MAP[parser_key](container_dict)
-        self.parser.objects_lookup = deferred['items']
-        return self.save()
+        self.parser = get_parser(klass).resolve(deferred)
+        return self
 
     def get_data(self, stream):
         raise NotImplementedError()
@@ -167,11 +157,7 @@ class BaseImporter(object):
         # first, split the parser key from the container_object keys
         parser_key, tmp = keys.split('_')
 
-        # check the parser key is valid, otherwise we'll stop here
-        try:
-            parser = PARSERS_MAP[parser_key]
-        except AttributeError as e:
-            raise e
+        parser = get_parser(parser_key)
 
         # now get the keyword arguments for the container object
         container_object_kwargs = tmp.split(';')
@@ -207,10 +193,7 @@ class BaseImporter(object):
         parser_key = self.post_data.get('type', 'budget')
         attributes = self.post_data.get('attributes', None)
 
-        try:
-            parser = PARSERS_MAP[parser_key]
-        except AttributeError as e:
-            raise e
+        parser = get_parser(parser_key)
 
         if attributes:
             attributes = attributes.split(';')

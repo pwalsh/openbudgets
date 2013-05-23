@@ -145,3 +145,20 @@ class NodeNotFoundError(DataInputError):
     @property
     def _message(self):
         return _('Budget template node not found for item in row: %s; and columns: %s; with values: %s')
+
+
+class ParentNodeNotFoundError(DataInputError):
+
+    @property
+    def _message(self):
+        return _('Parent node not found for item in row: %s; and columns: %s; with values: %s')
+
+
+class PathInterpolationError(DataInputError):
+
+    def __unicode__(self):
+        return _('Nodes Path Interpolation Error')
+
+    @property
+    def _message(self):
+        return _('Interpolation failed, no ancestor found for row: %s')

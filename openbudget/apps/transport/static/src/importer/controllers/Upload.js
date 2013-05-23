@@ -39,7 +39,7 @@ define([
                     try {
                         data = JSON.parse(jqXHR.responseText)
                     } catch (e) {
-                        data = {}
+                        data = [{ message : 'Disturbance in the force.' }]
                     }
                     uijet.publish('upload.failed', data);
                 });
