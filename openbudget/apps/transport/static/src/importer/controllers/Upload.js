@@ -21,6 +21,7 @@ define([
                                     ';divisions=' + uijet.Utils.toArray(data.divisions).join(',');
                     break;
                 case 'budget':
+                case 'actual':
                     attributes += 'period_start=' + data.period_start +
                                   ';period_end=' + data.period_end +
                                   ';entity=' + data.entity;
@@ -37,7 +38,18 @@ define([
                     uijet.publish('upload.done', message);
                 }, function (jqXHR) {
                     try {
-                        data = JSON.parse(jqXHR.responseText)
+                        var messages = [];
+                        data = JSON.parse(jqXHR.responseText);
+                        // make messages unique
+                        data = data.filter(function (item) {
+                            if ( ~ messages.indexOf(item.message) ) {
+                                return false;
+                            }
+                            else {
+                                messages.push(item.message);
+                                return true;
+                            }
+                        });
                     } catch (e) {
                         data = [{ message : 'Disturbance in the force.' }]
                     }
