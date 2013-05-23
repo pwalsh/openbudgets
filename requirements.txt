@@ -13,6 +13,7 @@ redis
 celery
 django-celery
 factory_boy
+gdata
 git+https://github.com/toastdriven/django-haystack.git
 django-autoslug
 git+https://github.com/mozilla/unicode-slugify
