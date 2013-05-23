@@ -6,6 +6,16 @@ from openbudget.apps.transport.incoming.errors import DataValidationError
 
 
 class BaseParser(object):
+    """
+    Parsers take a raw dataset, usually from an importer, and transform
+    it ultimately to persisted data in the datastore.
+
+    This process is combined from 2 steps: validate and save.
+
+    If the two steps are to be divided asynchronously then it's possible to
+    get a serializable deferred object after validation, which can later be
+    resolved and saved by the same parser class.
+    """
 
     ROUTE_SEPARATOR = PATH_SEPARATOR
     ITEM_SEPARATOR = ';'
@@ -16,10 +26,16 @@ class BaseParser(object):
         self.errors = []
         self.saved_cache = {}
         self.objects_lookup = {}
+        # we usually get this from the importer
         self.container_object_dict = container_object_dict
 
     @classmethod
     def resolve(cls, deferred):
+        """
+        Resolve a deferred representation of a parser's data.
+        Instantiates the class and returns an instance that
+        should be ready for saving.
+        """
         container_dict = deferred['container']
 
         if not container_dict:
@@ -28,26 +44,58 @@ class BaseParser(object):
         instance = cls(container_dict)
         instance.objects_lookup = deferred['items']
 
+        # basically we're only sure the objects lookup is generated but this
+        # should have been side effect of validating the data
         return instance
 
     def validate(self, data, keep_cache=False):
+        """
+        Takes a dataset, cleans it, prepares it for saving
+        and runs all possible validations to make sure
+        that a consecutive call on this prepared data
+        sends it straight to the datastore without any exceptions.
+
+        It generate a lookup dictionary of the dataset that will later be
+        iterated upon when saving.
+
+        If the `keep_cache` argument is `True` then the parser's `saved_cache`
+        property, used for storing item instances created from the dataset, is
+        not cleared at the end of the validation.
+        You'll have to explicitly call `_clear_cache()` after that when you
+        need to.
+
+        Returns a boolean if validation is successful and a list of errors that
+        were thrown during validation.
+        """
+        # generate a lookup table with each item uniquely identified
         self._generate_lookup(data)
 
         self.keep_cache = keep_cache
+        # run a dry save of the data
         self.save(dry=True)
 
         return self.valid, self.errors
 
     def save(self, dry=False):
+        """
+        Saves the pre-stored objects in the `objects_lookup` dict, as items.
+        Also creates the container from the data given on instantiation.
 
+        When running in dry mode nothing is actually saved to the datastore
+        and nothing is persisted.
+        All the generated model instances are stored in the `saved_cache` dict
+        and never saved to datastore.
+        """
         self.dry = dry
 
+        # create an instance of the container
         self._create_container()
 
         if dry:
             # save an untempered copy
             lookup_table_copy = deepcopy(self.objects_lookup)
 
+        # loop the lookup table and save every item
         for key, obj in self.objects_lookup.iteritems():
             self._save_item(obj, key)
 
@@ -62,29 +110,55 @@ class BaseParser(object):
         return True
 
     def deferred(self):
+        """
+        Generates and returns a deferredable representation of the
+        parser.
+        """
         return {
             'container': self.container_object_dict,
             'items': self.objects_lookup
         }
 
     def throw(self, error):
+        """
+        Takes an error instance from the `incoming.errors` module and
+        appends it to the list of errors.
+        Also makes sure `valid` is `False`.
+        """
         self.valid = False
         self.errors.append(error)
         return self
 
     def _generate_lookup(self, data):
+        """
+        Generates the data's objects lookup table for saving them later.
+
+        This method needs to be implemented by non-abstract implementations.
+        """
         raise NotImplementedError
 
     def _save_item(self, obj, key):
+        """
+        Saves a given object as an item - as in instance of `item_model` attribute.
+
+        This method needs to be implemented by non-abstract implementations.
+        """
         raise NotImplementedError
 
     def _clean_object(self, obj, key):
+        """
+        Cleans an object before it's used as attributes for an item's
+        model instance creation.
+        Removes every attribute that is not in the `ITEM_ATTRIBUTES` dict.
+        """
         for attr in obj:
             if attr not in self.ITEM_ATTRIBUTES:
                 del obj[attr]
 
     def _create_container(self, container_dict=None, exclude=None):
-
+        """
+        Creates a model instance of the `container_model`.
+        """
         data = container_dict or self.container_object_dict
 
         if not self.dry:
