@@ -13,10 +13,12 @@ MANAGERS = ADMINS
 MIDDLEWARE_CLASSES += (
     'openbudget.api.middleware.XsSharing',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django_pdb.middleware.PdbMiddleware',
 )
 
 INSTALLED_APPS += (
     'debug_toolbar',
+    'django_pdb',
 )
 
 EMAIL_USE_TLS = True

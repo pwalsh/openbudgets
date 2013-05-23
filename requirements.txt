@@ -16,6 +16,7 @@ factory_boy
 gdata
 git+https://github.com/toastdriven/django-haystack.git
 django-autoslug
+django-pdb
 git+https://github.com/mozilla/unicode-slugify
 hg+https://bitbucket.org/prjts/django-registration
 django-taggit
