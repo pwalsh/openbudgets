@@ -37,6 +37,7 @@ class BudgetTemplateParser(BaseParser):
 
     def _save_item(self, obj, key, is_node=False):
         inverses = []
+        item = None
         parent = None
         # check if we already saved this object and have it in cache
         if key in self.saved_cache:
@@ -76,6 +77,18 @@ class BudgetTemplateParser(BaseParser):
                 else:
                     # clean up parent
                     del obj['parent']
+
+            # if inheriting another template AND got no parent AND didn't find
+            # the item in the parent template then it has to be an error
+            # unless we allow new parentless dangling nodes
+            if self.dry and self.parent and not item and not parent:
+                self.throw(
+                    ParentNodeNotFoundError(
+                        row=self.rows_objects_lookup.get(key, None),
+                        columns=['code'],
+                        values=[obj['code']]
+                    )
+                )
 
             self._set_path(obj, parent)
             self._set_direction(obj, parent)
@@ -346,7 +359,7 @@ class BudgetTemplateParser(BaseParser):
         obj['path'] = self.ROUTE_SEPARATOR.join(path)
 
     def _set_direction(self, obj, parent):
-        if 'direction' not in obj or not obj['direction']:
+        if parent and ('direction' not in obj or not obj['direction']):
             obj['direction'] = parent.direction
 
     def _create_item(self, obj, key):
