@@ -22,6 +22,8 @@ class ActualParser(BudgetParser):
         container_dict['entity'] = entity
 
         if entity:
+            #TODO: validate the assumption below is correct
+            # assuming here there's only one budget tha contains this actual
             qs = Budget.objects.filter(
                 entity=entity,
                 period_start__lte=container_dict['period_start'],
@@ -31,8 +33,8 @@ class ActualParser(BudgetParser):
             if qs.count():
                 return qs[0].template
             else:
-                #TODO: implement forward looking for budgets with a template to inherit
-                qs = self.container_model.objects.filter(
+                # try getting the latest budget prior to this actual
+                qs = Budget.objects.filter(
                     entity=entity,
                     period_end__lte=container_dict['period_start']
                 ).order_by('-period_end')[:1]
@@ -40,6 +42,16 @@ class ActualParser(BudgetParser):
                 if qs.count():
                     return qs[0].template
                 else:
-                    return super(ActualParser, self)._get_parent_template(container_dict)
+                    # try getting the earliest budget later then this actual
+                    qs = Budget.objects.filter(
+                        entity=entity,
+                        period_start__gte=container_dict['period_end']
+                    ).order_by('period_start')[:1]
+
+                    if qs.count():
+                        return qs[0].template
+                    else:
+                        # check for actuals and fallback to standard template
+                        return super(ActualParser, self)._get_parent_template(container_dict)
 
 register('actual', ActualParser)
