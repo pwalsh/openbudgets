@@ -14,6 +14,7 @@ def _raise_parent_not_found(code, parent, scope):
         (code, parent, scope)
     )
 
+
 class BudgetTemplateParser(BaseParser):
 
     container_model = BudgetTemplate
@@ -156,7 +157,10 @@ class BudgetTemplateParser(BaseParser):
                     if inverse.direction and inverse.direction == obj['direction']:
                         self.throw(
                             NodeDirectionError(
-                                rows=(self.rows_objects_lookup.get(key, None), self.rows_objects_lookup.get(inverse_key, None))
+                                rows=(
+                                    self.rows_objects_lookup.get(key, None),
+                                    self.rows_objects_lookup.get(inverse_key, None)
+                                )
                             )
                         )
 
