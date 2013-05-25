@@ -15,6 +15,7 @@ class BudgetParser(BudgetTemplateParser):
 
     def __init__(self, container_object_dict):
         super(BudgetTemplateParser, self).__init__(container_object_dict)
+        self.skipped_rows = {}
         self.template_parser = self._init_template_parser()
 
     @classmethod
@@ -83,6 +84,18 @@ class BudgetParser(BudgetTemplateParser):
             fields_to_exclude += exclude
 
         super(BudgetTemplateParser, self)._create_container(container_dict=data, exclude=fields_to_exclude)
+
+    def _rows_filter(self, obj, row_num):
+        if 'amount' in obj:
+            try:
+                float(obj['amount'])
+                return True
+            except (ValueError, TypeError):
+                pass
+        return False
+
+    def _skipped_row(self, obj, row_num):
+        self.skipped_rows[row_num] = obj
 
     def _create_item(self, obj, key):
 

@@ -409,22 +409,32 @@ class BudgetTemplateParser(BaseParser):
         rows_objects_lookup = {}
 
         for row_num, obj in enumerate(data):
-            path = self._get_path(obj)
+            keep_row = self._rows_filter(obj, row_num)
+            if keep_row:
+                path = self._get_path(obj)
 
-            if path in lookup_table:
-                self.throw(
-                    DataAmbiguityError(
-                        # +1 for heading row +1 for 0-based to 1-based
-                        rows=(row_num + 2, rows_objects_lookup[path])
+                if path in lookup_table:
+                    self.throw(
+                        DataAmbiguityError(
+                            # +1 for heading row +1 for 0-based to 1-based
+                            rows=(row_num + 2, rows_objects_lookup[path])
+                        )
                     )
-                )
+                else:
+                    lookup_table[path] = obj
+                    # +1 for heading row +1 for 0-based to 1-based
+                    rows_objects_lookup[path] = row_num + 2
             else:
-                lookup_table[path] = obj
-                # +1 for heading row +1 for 0-based to 1-based
-                rows_objects_lookup[path] = row_num + 2
+                self._skipped_row(obj, row_num)
 
         self.objects_lookup = lookup_table
         self.rows_objects_lookup = rows_objects_lookup
+
+    def _rows_filter(self, obj, row_num):
+        return True
+
+    def _skipped_row(self, obj, row_num):
+        pass
 
     def _get_path(self, obj, as_list=False):
         code = obj.get('code', None)
