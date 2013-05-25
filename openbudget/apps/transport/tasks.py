@@ -6,7 +6,7 @@ from openbudget.settings import local as settings
 @task(name='tasks.save_import')
 def save_import(deferred, email):
 
-    from openbudget.apps.transport.incoming.importers import TablibImporter
+    from openbudget.apps.transport.incoming.importers.tablibimporter import TablibImporter
 
     importer = TablibImporter()
     saved = importer.resolve(deferred).save()

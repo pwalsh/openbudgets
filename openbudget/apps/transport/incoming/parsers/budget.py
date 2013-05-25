@@ -147,7 +147,7 @@ class BudgetParser(BudgetTemplateParser):
         container_dict['entity'] = entity
 
         if entity:
-            #TODO: implement forward looking for budgets with a template to inherit
+            # try getting the latest container model prior to this one
             qs = self.container_model.objects.filter(
                 entity=entity,
                 period_end__lte=container_dict['period_start']
@@ -156,13 +156,26 @@ class BudgetParser(BudgetTemplateParser):
             if qs.count():
                 return qs[0].template
             else:
-                # try getting the standard template for this entity's division
-                qs = BudgetTemplate.objects.filter(divisions=entity.division).order_by('-period_start')[:1]
+                # try getting the earliest container model later then this one
+                qs = self.container_model.objects.filter(
+                    entity=entity,
+                    period_start__gte=container_dict['period_end']
+                ).order_by('period_start')[:1]
+
                 if qs.count():
-                    return qs[0]
+                    return qs[0].template
                 else:
-                    #TODO: handle this case of no previous template found
-                    raise Exception
+                    # try getting the standard template for this entity's division
+                    qs = BudgetTemplate.objects.filter(
+                        divisions=entity.division,
+                        period_start__lte=container_dict['period_start']
+                    ).order_by('-period_start')[:1]
+
+                    if qs.count():
+                        return qs[0]
+                    else:
+                        #TODO: handle this case of no previous template found
+                        raise Exception
 
     def _set_entity(self):
 

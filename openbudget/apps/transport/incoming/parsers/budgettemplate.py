@@ -14,6 +14,7 @@ def _raise_parent_not_found(code, parent, scope):
         (code, parent, scope)
     )
 
+
 class BudgetTemplateParser(BaseParser):
 
     container_model = BudgetTemplate
@@ -37,6 +38,7 @@ class BudgetTemplateParser(BaseParser):
 
     def _save_item(self, obj, key, is_node=False):
         inverses = []
+        item = None
         parent = None
         # check if we already saved this object and have it in cache
         if key in self.saved_cache:
@@ -46,12 +48,7 @@ class BudgetTemplateParser(BaseParser):
         if not is_node:
             # if inheriting another template then look up this node there
             if self.parent:
-                path = obj['code']
-                if 'parent' in obj and obj['parent']:
-                    path += self.ROUTE_SEPARATOR + unicode(obj['parent'])
-                    if 'parentscope' in obj and obj['parentscope']:
-                        path += self.ROUTE_SEPARATOR + obj['parentscope']
-
+                path = self._get_path(obj)
                 item = self._lookup_node(path=path, key=key)
                 if item:
                     # in case we found the item, cache the saved node
@@ -76,6 +73,18 @@ class BudgetTemplateParser(BaseParser):
                 else:
                     # clean up parent
                     del obj['parent']
+
+            # if inheriting another template AND got no parent AND didn't find
+            # the item in the parent template then it has to be an error
+            # unless we allow new parentless dangling nodes
+            if self.dry and self.parent and not item and not parent:
+                self.throw(
+                    ParentNodeNotFoundError(
+                        row=self.rows_objects_lookup.get(key, None),
+                        columns=['code'],
+                        values=[obj['code']]
+                    )
+                )
 
             self._set_path(obj, parent)
             self._set_direction(obj, parent)
@@ -148,7 +157,10 @@ class BudgetTemplateParser(BaseParser):
                     if inverse.direction and inverse.direction == obj['direction']:
                         self.throw(
                             NodeDirectionError(
-                                rows=(self.rows_objects_lookup.get(key, None), self.rows_objects_lookup.get(inverse_key, None))
+                                rows=(
+                                    self.rows_objects_lookup.get(key, None),
+                                    self.rows_objects_lookup.get(inverse_key, None)
+                                )
                             )
                         )
 
@@ -346,7 +358,7 @@ class BudgetTemplateParser(BaseParser):
         obj['path'] = self.ROUTE_SEPARATOR.join(path)
 
     def _set_direction(self, obj, parent):
-        if 'direction' not in obj or not obj['direction']:
+        if parent and ('direction' not in obj or not obj['direction']):
             obj['direction'] = parent.direction
 
     def _create_item(self, obj, key):
@@ -393,47 +405,46 @@ class BudgetTemplateParser(BaseParser):
                     )
 
     def _generate_lookup(self, data):
-        conflicting = {}
         lookup_table = {}
         rows_objects_lookup = {}
 
         for row_num, obj in enumerate(data):
-            code = obj['code']
+            path = self._get_path(obj)
 
-            if code in lookup_table:
-                if code not in conflicting:
-                    conflicting[code] = []
-                # +1 for heading row +1 for 0-based to 1-based
-                conflicting[code].append((row_num + 2, obj))
-            else:
-                lookup_table[code] = obj
-                # +1 for heading row +1 for 0-based to 1-based
-                rows_objects_lookup[code] = row_num + 2
-
-        for code, obj_list in conflicting.iteritems():
-            conflicting[code].append((rows_objects_lookup.pop(code), lookup_table.pop(code)))
-
-        for code, obj_list in conflicting.iteritems():
-            for row_num, obj in obj_list:
-                # assuming there can't be two top level nodes with same code, naturally
-                key = self.ROUTE_SEPARATOR.join((code, obj['parent']))
-                # see if `parent` is also in conflict by looking for a `parentscope`
-                if 'parentscope' in obj and obj['parentscope']:
-                    key = key + self.ROUTE_SEPARATOR + obj['parentscope']
-
-                if key in lookup_table:
-                    self.throw(
-                        DataAmbiguityError(
-                            rows=(row_num, rows_objects_lookup[key])
-                        )
+            if path in lookup_table:
+                self.throw(
+                    DataAmbiguityError(
+                        # +1 for heading row +1 for 0-based to 1-based
+                        rows=(row_num + 2, rows_objects_lookup[path])
                     )
-                    # raise Exception('Found key: %s of object: %s colliding with: %s' % (key, obj, lookup_table[key]))
-
-                lookup_table[key] = obj
-                rows_objects_lookup[key] = row_num
+                )
+            else:
+                lookup_table[path] = obj
+                # +1 for heading row +1 for 0-based to 1-based
+                rows_objects_lookup[path] = row_num + 2
 
         self.objects_lookup = lookup_table
         self.rows_objects_lookup = rows_objects_lookup
+
+    def _get_path(self, obj, as_list=False):
+        code = obj.get('code', None)
+        parent = None
+        # obj and parent could both be a BudgetTemplateNode instance
+        if 'parent' in obj and obj['parent']:
+            parent = unicode(obj['parent'])
+        scope = obj.get('parentscope', None)
+
+        if as_list and scope:
+            scope = scope.split(self.ROUTE_SEPARATOR)
+
+        path = [code]
+
+        if parent:
+            path.append(parent)
+        if scope:
+            path.append(scope)
+
+        return path if as_list else self.ROUTE_SEPARATOR.join(path)
 
     def _lookup_object(self, code=None, parent='', scope='', key=None):
         if code:
