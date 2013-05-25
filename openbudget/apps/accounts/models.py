@@ -14,7 +14,7 @@ class Account(UUIDModel, AbstractUser):
         max_length=2,
         choices=LANGUAGES,
         default=LANGUAGE_CODE,
-        help_text=_('Set your prefered language for the app')
+        help_text=_('Set your preferred language for the app')
     )
 
     @property
