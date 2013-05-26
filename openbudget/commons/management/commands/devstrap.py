@@ -57,9 +57,12 @@ class Command(BaseCommand):
             raise CommandError('syncdb failed')
 
         # load fixtures
-        self.stdout.write("### Loading fixtures\n")
+        self.stdout.write("### Loading standard fixture data\n")
         for fixture in settings.DEVSTRAP['FIXTURES']:
             call_command('loaddata', fixture)
+
+        self.stdout.write("### Loading fixtures from CSV\n")
+        call_command('loadcsv')
 
         # run tests
         if options['test']:
