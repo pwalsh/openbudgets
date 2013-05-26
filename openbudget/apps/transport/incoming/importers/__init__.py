@@ -153,21 +153,20 @@ class BaseImporter(object):
         """
         dt = datetime.now().isoformat()
 
-        this_file = TEMP_FILES_DIR + \
+        attachment = TEMP_FILES_DIR + \
             '/failed_import_{timestamp}_{filename}'.format(
                 timestamp=dt,
                 filename=unicode(self.sourcefile)
             )
 
-        with open(this_file, 'wb+') as tmp_file:
+        with open(attachment, 'wb+') as tmp_file:
             for chunk in self.sourcefile.chunks():
                 tmp_file.write(chunk)
 
-        subject = _('Open Budget: Failed File Import')
-        message = _('The file is attached.')
+        subject = 'Open Budget: Failed File Import'
+        message = 'The file is attached.'
         sender = EMAIL_HOST_USER
         recipients = [ADMINS]
-        attachment = this_file
         mail = EmailMessage(subject, message, sender, recipients)
         mail.attach_file(attachment)
         mail.send()
@@ -224,21 +223,54 @@ class BaseImporter(object):
         return scopes_map
 
     def _get_parser_from_filename(self):
-        """Extract necessary info on the dataset from the filename.
+        """Extract required metadata for a dataset from the filename.
+
+        This is used for importing datasets from files non-interactively.
+
+        It is specifically intended for use during development - there is no
+        fancy error checking - if you know your dataset is valid, and the DB
+        already has any required dependencies for your dataset, then all will be
+        peachy.
+
+        The filename must follow a particular format, otherwise we'll get
+        an exception and never get to the data inside.
 
         FILENAME FORMAT:
         |PARSER|_|CONTAINEROBJECT-ATTRS|.extension
 
+        A keyword argument-like pattern is used for the attributes of the
+        container object. Each keyword argument is separated by a semi-colon.
+        Multiple values for a keyword (eg: m2m fields) are comma separated.
         Arguments for object attributes are keywords.
-        For object attributes, each attribute is separated by a \
-        semi-colon. Multiple values for an attribute (i.e: m2m), \
-        are comma separated.
 
-        EXAMPLE - BUDGET TEMPLATE:
+        EXAMPLES:
+
+        BUDGET TEMPLATE FILENAME:
         budgettemplate_name=israel-municipality;divisions=4,5,6;period_start=2001-01-10.csv
+        Each row in the file is a node in the template.
 
-        EXAMPLE - BUDGET OR ACTUAL:
+
+        BUDGET FILENAME:
         budget_entity=1,period_start=2001-01-01;period_end=2001-12-31.csv
+        Each row in the file is an item in the budget.
+
+        ACTUAL FILENAME:
+        budget_entity=1,period_start=2001-01-01;period_end=2001-12-31.csv
+        Each row in the file is an item in the actual.
+
+        DOMAIN FILENAME:
+        budget_entity=1,period_start=2001-01-01;period_end=2001-12-31.csv
+        Each row in the file is an item in the actual.
+
+        DOMAIN DIVISIONS FILENAME:
+        budget_entity=1,period_start=2001-01-01;period_end=2001-12-31.csv
+        Each row in the file is an item in the actual.
+
+        ENTITY FILENAME
+        entity.csv
+        Each row in the file is an item in the actual.
+        * doesn't require parsing the filename, just requires that the domain
+        and divisions are in the DB.
 
         """
 
