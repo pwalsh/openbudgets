@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-27 21:40+0300\n"
+"POT-Creation-Date: 2013-05-26 20:15+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -108,7 +107,7 @@ msgid "Account credentials"
 msgstr ""
 
 #: apps/accounts/models.py:17
-msgid "Set your prefered language for the app"
+msgid "Set your preferred language for the app"
 msgstr ""
 
 #: apps/accounts/models.py:42
@@ -217,138 +216,149 @@ msgstr ""
 msgid "Account"
 msgstr ""
 
-#: apps/budgets/models.py:22
+#: apps/budgets/models.py:27
 msgid "The name of this budget template."
 msgstr ""
 
-#: apps/budgets/models.py:26 apps/budgets/models.py:86
-#: apps/entities/models.py:110
+#: apps/budgets/models.py:31 apps/budgets/models.py:102
+#: apps/entities/models.py:146
 msgid "Entry description"
 msgstr ""
 
-#: apps/budgets/models.py:28 apps/budgets/models.py:88
-#: apps/budgets/models.py:120
+#: apps/budgets/models.py:33 apps/budgets/models.py:104
+#: apps/budgets/models.py:134
 msgid "Describe for this entry."
 msgstr ""
 
-#: apps/budgets/models.py:57
+#: apps/budgets/models.py:66
 msgid "Budget template"
 msgstr ""
 
-#: apps/budgets/models.py:58
+#: apps/budgets/models.py:67
 msgid "Budget templates"
 msgstr ""
 
-#: apps/budgets/models.py:65
+#: apps/budgets/models.py:74
 msgid "REVENUE"
 msgstr ""
 
-#: apps/budgets/models.py:66
+#: apps/budgets/models.py:75
 msgid "EXPENDITURE"
 msgstr ""
 
-#: apps/budgets/models.py:77
+#: apps/budgets/models.py:86
 #: apps/budgets/templates/budgets/budget_item_detail.html:6
 #: commons/templates/search/search.html:65
 #: commons/templates/search/search.html:80
 msgid "Code"
 msgstr ""
 
-#: apps/budgets/models.py:82 apps/taxonomies/models.py:98
+#: apps/budgets/models.py:93
+msgid "Codes path to root."
+msgstr ""
+
+#: apps/budgets/models.py:98 apps/taxonomies/models.py:98
 msgid "Name"
 msgstr ""
 
-#: apps/budgets/models.py:107
+#: apps/budgets/models.py:123
 msgid "REVENUE/EXPENDITURE"
 msgstr ""
 
-#: apps/budgets/models.py:110
+#: apps/budgets/models.py:126
 msgid "Indicates whether this node is for revenue or expenditure"
 msgstr ""
 
-#: apps/budgets/models.py:176
+#: apps/budgets/models.py:211
 msgid "Budget template node"
 msgstr ""
 
-#: apps/budgets/models.py:177
+#: apps/budgets/models.py:212
 msgid "Budget template nodes"
 msgstr ""
 
-#: apps/budgets/models.py:199
+#: apps/budgets/models.py:219
+msgid "Inverse node can not point to self."
+msgstr ""
+
+#: apps/budgets/models.py:222
+msgid "Inverse node's direction can not be the same as self direction."
+msgstr ""
+
+#: apps/budgets/models.py:255
+msgid ""
+"Node with name: {name}; code: {code}; parent: {parent}; already exists in "
+"template: {template}"
+msgstr ""
+
+#: apps/budgets/models.py:266
 msgid "Budget Template/Node Relation"
 msgstr ""
 
-#: apps/budgets/models.py:200
+#: apps/budgets/models.py:267
 msgid "Budget Template/Node Relations"
 msgstr ""
 
-#: apps/budgets/models.py:219
+#: apps/budgets/models.py:287
 msgid "Budget description"
 msgstr ""
 
-#: apps/budgets/models.py:221
+#: apps/budgets/models.py:289
 #, python-format
 msgid "Descriptive text for this %(class)s"
 msgstr ""
 
-#: apps/budgets/models.py:273
+#: apps/budgets/models.py:341
 #: apps/budgets/templates/budgets/budget_detail.html:6
 msgid "Budget"
 msgstr ""
 
-#: apps/budgets/models.py:274
+#: apps/budgets/models.py:342
 #: apps/taxonomies/templates/taxonomies/tag_detail.html:27
 msgid "Budgets"
 msgstr ""
 
-#: apps/budgets/models.py:319
+#: apps/budgets/models.py:387
 msgid "Actual"
 msgstr ""
 
-#: apps/budgets/models.py:320
+#: apps/budgets/models.py:388
 #: apps/budgets/templates/budgets/actual_detail.html:6
 #: apps/taxonomies/templates/taxonomies/tag_detail.html:30
 msgid "Actuals"
 msgstr ""
 
-#: apps/budgets/models.py:331
+#: apps/budgets/models.py:399
 msgid "Item description"
 msgstr ""
 
-#: apps/budgets/models.py:333
+#: apps/budgets/models.py:401
 msgid "Description that appears for this entry."
 msgstr ""
 
-#: apps/budgets/models.py:337
+#: apps/budgets/models.py:405
 #: apps/budgets/templates/budgets/budget_item_detail.html:15
 msgid "Amount"
 msgstr ""
 
-#: apps/budgets/models.py:338
+#: apps/budgets/models.py:408
 msgid "The amount of this entry. The node determines REVENUE or EXPENDITURE"
 msgstr ""
 
-#: apps/budgets/models.py:396
+#: apps/budgets/models.py:466
 msgid "Budget item"
 msgstr ""
 
-#: apps/budgets/models.py:397
+#: apps/budgets/models.py:467
 msgid "Budget items"
 msgstr ""
 
-#: apps/budgets/models.py:427
+#: apps/budgets/models.py:497
 msgid "Actual item"
 msgstr ""
 
-#: apps/budgets/models.py:428
+#: apps/budgets/models.py:498
 msgid "Actual items"
-msgstr ""
-
-#: apps/budgets/templates/budgets/actual_detail.html:23
-#: apps/budgets/templates/budgets/actual_detail.html:39
-#: apps/budgets/templates/budgets/budget_detail.html:23
-#: apps/budgets/templates/budgets/budget_detail.html:39
-msgid "NIS"
 msgstr ""
 
 #: apps/budgets/templates/budgets/actual_detail.html:32
@@ -359,6 +369,11 @@ msgstr ""
 #: apps/budgets/templates/budgets/actual_detail.html:32
 #: apps/budgets/templates/budgets/budget_detail.html:32
 msgid "in total"
+msgstr ""
+
+#: apps/budgets/templates/budgets/actual_detail.html:39
+#: apps/budgets/templates/budgets/budget_detail.html:39
+msgid "NIS"
 msgstr ""
 
 #: apps/budgets/templates/budgets/actual_detail.html:42
@@ -388,7 +403,7 @@ msgstr ""
 #: apps/entities/templates/entities/entity_detail.html:27
 #: apps/sources/templates/sources/auxsource_detail.html:22
 #: apps/sources/templates/sources/referencesource_detail.html:22
-#: commons/templates/base.html:101
+#: commons/templates/base.html:112
 msgid "About"
 msgstr ""
 
@@ -502,97 +517,121 @@ msgstr ""
 msgid "Back to the Entity"
 msgstr ""
 
-#: apps/contexts/models.py:19
-msgid "Square Meters"
+#: apps/contexts/models.py:30
+msgid "Data object"
 msgstr ""
 
-#: apps/contexts/models.py:22
-msgid "The square meterage for this entity"
-msgstr ""
-
-#: apps/contexts/models.py:29
-#: apps/entities/templates/entities/entity_detail.html:51
-msgid "Population"
-msgstr ""
-
-#: apps/contexts/models.py:32
-msgid "The population of this entity"
-msgstr ""
-
-#: apps/contexts/models.py:39
-msgid "High School Count"
-msgstr ""
-
-#: apps/contexts/models.py:42 apps/contexts/models.py:48
-#: apps/contexts/models.py:54
-msgid "_"
-msgstr ""
-
-#: apps/contexts/models.py:45
-msgid "Primary School Count"
-msgstr ""
-
-#: apps/contexts/models.py:51
-msgid "Pre-School Count"
+#: apps/contexts/models.py:31
+msgid "Contextual data as JSON for the Entity/Time Period."
 msgstr ""
 
 #: apps/entities/models.py:26
+msgid "Metric"
+msgstr ""
+
+#: apps/entities/models.py:27
+msgid "Imperial"
+msgstr ""
+
+#: apps/entities/models.py:30
+msgid "Default"
+msgstr ""
+
+#: apps/entities/models.py:31
+msgid "Dunams"
+msgstr ""
+
+#: apps/entities/models.py:34
+msgid "&#36;"
+msgstr ""
+
+#: apps/entities/models.py:35
+msgid "&#8362;"
+msgstr ""
+
+#: apps/entities/models.py:41
 msgid "The name of this entity domain."
 msgstr ""
 
-#: apps/entities/models.py:39
+#: apps/entities/models.py:44
+msgid "Measurement System"
+msgstr ""
+
+#: apps/entities/models.py:48
+msgid "The applicable measurement unit for this domain."
+msgstr ""
+
+#: apps/entities/models.py:51
+msgid "Ground Surface Unit"
+msgstr ""
+
+#: apps/entities/models.py:55
+msgid ""
+"The unit for measurement of ground. Should be default, except in cases like "
+"Israel which use units that do not belong to the measurement system."
+msgstr ""
+
+#: apps/entities/models.py:58
+msgid "Currency"
+msgstr ""
+
+#: apps/entities/models.py:62
+msgid "The applicable currency for this domain."
+msgstr ""
+
+#: apps/entities/models.py:75
 msgid "entity domain"
 msgstr ""
 
-#: apps/entities/models.py:40
+#: apps/entities/models.py:76
 msgid "entity domains"
 msgstr ""
 
-#: apps/entities/models.py:68 apps/pages/models.py:30
+#: apps/entities/models.py:104 apps/pages/models.py:30
 msgid "Index"
 msgstr ""
 
-#: apps/entities/models.py:69
+#: apps/entities/models.py:105
 msgid "Position this division in relation to others"
 msgstr ""
 
-#: apps/entities/models.py:74
+#: apps/entities/models.py:110
 msgid "The name of this division"
 msgstr ""
 
-#: apps/entities/models.py:77
+#: apps/entities/models.py:113
 msgid "has budgets"
 msgstr ""
 
-#: apps/entities/models.py:79
+#: apps/entities/models.py:115
 msgid "Must be true if this division directly presents budgets"
 msgstr ""
 
-#: apps/entities/models.py:92
+#: apps/entities/models.py:128
 msgid "domain division"
 msgstr ""
 
-#: apps/entities/models.py:93
+#: apps/entities/models.py:129
 msgid "domain divisions"
 msgstr ""
 
-#: apps/entities/models.py:107
+#: apps/entities/models.py:143
 msgid "The name of this entity"
 msgstr ""
 
-#: apps/entities/models.py:112
+#: apps/entities/models.py:148
 msgid "Describe."
 msgstr ""
 
-#: apps/entities/models.py:118
+#: apps/entities/models.py:153
 msgid "The official abbreviated code for this entity."
 msgstr ""
 
-#: apps/entities/models.py:199
+#: apps/entities/models.py:234
 msgid "entity"
 msgstr ""
 
-#: apps/entities/models.py:200
+#: apps/entities/models.py:235
 #: apps/entities/templates/entities/entity_detail.html:32
 msgid "entities"
 msgstr ""
@@ -623,6 +662,10 @@ msgstr ""
 
 #: apps/entities/templates/entities/entity_detail.html:49
 msgid "Demographic"
+msgstr ""
+
+#: apps/entities/templates/entities/entity_detail.html:51
+msgid "Population"
 msgstr ""
 
 #: apps/entities/templates/entities/entity_detail.html:56
@@ -1047,75 +1090,126 @@ msgstr ""
 msgid "A word or some such."
 msgstr ""
 
-#: apps/transport/incoming/errors.py:22
+#: apps/transport/incoming/errors.py:24
 #, python-format
 msgid "Error found in row: %s; and columns: %s; with values: %s"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:42
+#: apps/transport/incoming/errors.py:44
 #, python-format
 msgid "Source data collision error in rows: %s, %s"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:52
+#: apps/transport/incoming/errors.py:54
 msgid "Data Syntax Error"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:56
+#: apps/transport/incoming/errors.py:58
 #, python-format
 msgid "Syntax error found in row: %s; and columns: %s; with values: %s"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:62
+#: apps/transport/incoming/errors.py:64
 msgid "Data Ambiguity Error"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:66
+#: apps/transport/incoming/errors.py:68
 #, python-format
 msgid "Source contains siblings with same code in rows: %s, %s"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:81
+#: apps/transport/incoming/errors.py:83
 msgid "Meta Parsing Error"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:85
+#: apps/transport/incoming/errors.py:87
 #, python-format
 msgid "Source meta data invalid for reason: %s"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:100
+#: apps/transport/incoming/errors.py:102
 msgid "Data Validation Error"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:116
+#: apps/transport/incoming/errors.py:118
 #, python-format
 msgid "Source data invalid in row: %s; for reasons: %s"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:122
+#: apps/transport/incoming/errors.py:124
 msgid "Node Direction Error"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:126
+#: apps/transport/incoming/errors.py:128
 #, python-format
 msgid ""
 "Inverse node's direction is not opposite of item in row: %s; and inverse in "
 "row: %s"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:132
+#: apps/transport/incoming/errors.py:134
 msgid "Parent Scope Error"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:136
+#: apps/transport/incoming/errors.py:138
 #, python-format
 msgid "Parent scope is missing or not resolvable in row: %s"
 msgstr ""
 
-#: apps/transport/incoming/parsers/__init__.py:235
+#: apps/transport/incoming/errors.py:149
+#, python-format
+msgid ""
+"Budget template node not found for item in row: %s; and columns: %s; with "
+"values: %s"
+msgstr ""
+
+#: apps/transport/incoming/errors.py:156
+#, python-format
+msgid ""
+"Parent node not found for item in row: %s; and columns: %s; with values: %s"
+msgstr ""
+
+#: apps/transport/incoming/errors.py:162
+msgid "Nodes Path Interpolation Error"
+msgstr ""
+
+#: apps/transport/incoming/errors.py:166
+#, python-format
+msgid "Interpolation failed, no ancestor found for row: %s"
+msgstr ""
+
+#: apps/transport/incoming/parsers/__init__.py:209
+#, python-format
+msgid "Parser for key: \"%s\" does not exist"
+msgstr ""
+
+#: apps/transport/incoming/parsers/__init__.py:221
+#, python-format
+msgid "Given parser is not registered: %s"
+msgstr ""
+
+#: apps/transport/incoming/parsers/budgettemplate.py:301
+#, python-format
+msgid "Interpolation failed, no ancestor found for path: %s"
+msgstr ""
+
+#: apps/transport/incoming/parsers/budgettemplate.py:347
+#, python-format
+msgid "You are trying to insert an item that already exists at: %s"
+msgstr ""
+
+#: apps/transport/incoming/parsers/budgettemplate.py:404
 #, python-format
 msgid "DomainDivision with pk %s does not exist"
+msgstr ""
+
+#: apps/transport/incoming/parsers/budgettemplate.py:527
+#, python-format
+msgid "Template of %(entity)s since %(year)s"
+msgstr ""
+
+#: apps/transport/incoming/parsers/budgettemplate.py:536
+msgid "Official Template since %(year)"
 msgstr ""
 
 #: apps/transport/templates/transport/file_import.html:6
@@ -1124,6 +1218,15 @@ msgstr ""
 
 #: apps/transport/templates/transport/import_success.html:6
 msgid "Import success"
+msgstr ""
+
+#: apps/transport/templates/transport/importer.html:15
+msgid ""
+"\n"
+"                File has been uploaded and validated, and will now be saved "
+"to the database.\n"
+"                You will receive an email once saving process is complete.\n"
+"            "
 msgstr ""
 
 #: apps/visualizations/models.py:13
@@ -1184,15 +1287,27 @@ msgstr ""
 msgid "API"
 msgstr ""
 
+#: commons/templates/base.html:98
+msgid "All Templates"
+msgstr ""
+
+#: commons/templates/base.html:101
+msgid "All Budgets"
+msgstr ""
+
 #: commons/templates/base.html:104
+msgid "All Actuals"
+msgstr ""
+
+#: commons/templates/base.html:115
 msgid "Privacy"
 msgstr ""
 
-#: commons/templates/base.html:107
+#: commons/templates/base.html:118
 msgid "Terms"
 msgstr ""
 
-#: commons/templates/base.html:110
+#: commons/templates/base.html:121
 msgid "Contact"
 msgstr ""
 
@@ -1514,18 +1629,18 @@ msgid ""
 "            "
 msgstr ""
 
-#: settings/base.py:176
-msgid "English"
-msgstr ""
-
-#: settings/base.py:177
+#: settings/base.py:190
 msgid "Hebrew"
 msgstr ""
 
-#: settings/base.py:178
+#: settings/base.py:191
+msgid "English"
+msgstr ""
+
+#: settings/base.py:192
 msgid "Arabic"
 msgstr ""
 
-#: settings/base.py:179
+#: settings/base.py:193
 msgid "Russian"
 msgstr ""
