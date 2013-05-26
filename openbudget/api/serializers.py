@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from openbudget.apps.entities.models import Entity, Domain, DomainDivision
+from openbudget.apps.entities.models import Entity, Domain, Division
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
 from openbudget.apps.visualizations.models import Visualization
 
@@ -76,7 +76,7 @@ class ActualLinked(serializers.HyperlinkedModelSerializer):
 class DomainDivisionBase(serializers.ModelSerializer):
 
     class Meta:
-        model = DomainDivision
+        model = Division
 
 #TODO: changed from HyperlinkedModelSerializer to ModelSerializer to get the importer app working
 class EntityListLinked(serializers.ModelSerializer):
@@ -104,7 +104,7 @@ class DomainDivisionLinked(DomainDivisionBase):
     entities = EntityListLinked()
 
     class Meta:
-        model = DomainDivision
+        model = Division
 
 
 class DomainLinked(serializers.HyperlinkedModelSerializer):

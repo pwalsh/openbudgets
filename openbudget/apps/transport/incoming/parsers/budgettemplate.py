@@ -2,7 +2,7 @@ from datetime import datetime
 from django.db import IntegrityError
 from django.utils.translation import ugettext_lazy as _, gettext as __
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, BudgetTemplateNodeRelation
-from openbudget.apps.entities.models import DomainDivision
+from openbudget.apps.entities.models import Division
 from openbudget.apps.transport.incoming.parsers import BaseParser, register
 from openbudget.apps.transport.incoming.errors import DataAmbiguityError, DataSyntaxError, ParentScopeError,\
     MetaParsingError, DataValidationError, NodeDirectionError, PathInterpolationError, ParentNodeNotFoundError
@@ -398,8 +398,8 @@ class BudgetTemplateParser(BaseParser):
                 self.container_object.divisions.add(division)
             else:
                 try:
-                    DomainDivision.objects.get(pk=division)
-                except DomainDivision.DoesNotExist as e:
+                    Division.objects.get(pk=division)
+                except Division.DoesNotExist as e:
                     self.throw(
                         MetaParsingError(reason=_('DomainDivision with pk %s does not exist') % division)
                     )

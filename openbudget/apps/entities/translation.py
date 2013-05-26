@@ -1,5 +1,5 @@
 from modeltranslation.translator import translator, TranslationOptions
-from openbudget.apps.entities.models import Domain, DomainDivision, Entity
+from openbudget.apps.entities.models import Domain, Division, Entity
 
 
 class DomainTransOps(TranslationOptions):
@@ -14,5 +14,5 @@ class EntityTransOps(TranslationOptions):
     fields = ('name', 'description')
 
 translator.register(Domain, DomainTransOps)
-translator.register(DomainDivision, DomainDivisionTransOps)
+translator.register(Division, DomainDivisionTransOps)
 translator.register(Entity, EntityTransOps)

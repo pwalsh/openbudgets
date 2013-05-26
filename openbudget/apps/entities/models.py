@@ -76,7 +76,7 @@ class Domain(TimeStampedModel):
         verbose_name_plural = _('entity domains')
 
 
-class DomainDivision(TimeStampedModel):
+class Division(TimeStampedModel):
     """Describes the administrative division for a domain.
 
     Each instance is an administrative division of a domain.
@@ -135,7 +135,7 @@ class Entity(TimeStampedModel, UUIDModel):
 
     """
     division = models.ForeignKey(
-        DomainDivision,
+        Division,
         related_name='entities'
     )
     name = models.CharField(
@@ -149,7 +149,6 @@ class Entity(TimeStampedModel, UUIDModel):
     )
     code = models.CharField(
         max_length=10,
-        unique=True,
         blank=True,
         help_text=_('The official abbreviated code for this entity.')
     )
@@ -235,5 +234,5 @@ class Entity(TimeStampedModel, UUIDModel):
         verbose_name = _('entity')
         verbose_name_plural = _('entities')
         unique_together = (
-            ('name', 'parent'),
+            ('name', 'parent', 'division'),
         )

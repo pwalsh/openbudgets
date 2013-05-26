@@ -6,4 +6,5 @@ from openbudget.apps.entities.models import Entity
 class EntityAdmin(TranslationAdmin):
     pass
 
+
 admin.site.register(Entity, EntityAdmin)

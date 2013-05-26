@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
 from django.contrib.comments.models import Comment
 from django.db.models.signals import m2m_changed
-from openbudget.apps.entities.models import DomainDivision, Entity
+from openbudget.apps.entities.models import Division, Entity
 from openbudget.apps.sources.models import ReferenceSource, AuxSource
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, PeriodStartModel, PeriodicModel
 
@@ -19,7 +19,7 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel):
     """
 
     divisions = models.ManyToManyField(
-        DomainDivision,
+        Division,
     )
 
     name = models.CharField(
@@ -252,8 +252,10 @@ class BudgetTemplateNodeRelation(models.Model):
         super(BudgetTemplateNodeRelation, self).validate_unique(exclude)
         if not bool(self.__class__.objects.has_same_node(node, self.template)):
             raise ValidationError(
-                _('Node with name: %s; code: %s; parent: %s; already exists in template: %s' %
-                  (node.name, node.code, node.parent, self.template))
+                _('Node with name: {name}; code: {code}; parent: {parent}; '
+                  'already exists in template: {template}'.format(
+                    name=node.name, code=node.code, parent=node.parent,
+                    template=self.template))
             )
 
     def __unicode__(self):

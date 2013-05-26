@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from openbudget.api import serializers
-from openbudget.apps.entities.models import Entity, Domain, DomainDivision
+from openbudget.apps.entities.models import Entity, Domain, Division
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
 from openbudget.apps.visualizations.models import Visualization
 
@@ -51,14 +51,14 @@ class DomainDetail(generics.RetrieveAPIView):
 class DomainDivisionList(generics.ListAPIView):
     """API endpoint that represents a list of domain divisions"""
 
-    model = DomainDivision
+    model = Division
     serializer_class = serializers.DomainDivisionLinked
 
 
 class DomainDivisionDetail(generics.RetrieveAPIView):
     """API endpoint that represents a single domain division"""
 
-    model = DomainDivision
+    model = Division
     serializer_class = serializers.DomainDivisionLinked
 
 
