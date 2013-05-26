@@ -1,29 +1,23 @@
 import os
 
+DEBUG = False
 
-DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+MODELTRANSLATION_DEBUG = DEBUG
+
 SECRET_KEY = 'pvh9d)+7aui4=evh$yv!qgbr3oyz-4=^oj_%6g8+v57b=de5)7'
+
 SETTINGS_ROOT = os.path.abspath(os.path.dirname(__file__))
+
 PROJECT_ROOT = os.path.abspath(os.path.dirname(SETTINGS_ROOT))
+
 WSGI_APPLICATION = 'openbudget.wsgi.application'
 
-ROOT_URLCONF = 'openbudget.ui.urls'
-SUBDOMAIN_URLCONFS = {
-    '': 'openbudget.ui.urls',
-    'www': 'openbudget.ui.urls',
-    'he': 'openbudget.ui.urls',
-    'en': 'openbudget.ui.urls',
-    'ru': 'openbudget.ui.urls',
-    'ar': 'openbudget.ui.urls',
-    'api': 'openbudget.api.urls',
-}
-
 SITE_ID = 1
+
 TIME_ZONE = 'UTC'
-USE_I18N = True
-USE_L10N = True
+
 USE_TZ = True
 
 DATABASES = {
@@ -165,37 +159,68 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 # FIXTURE CONF
 FIXTURE_DIRS = (
-    os.path.abspath(
-        os.path.join(PROJECT_ROOT, 'fixtures')
-    ),
+    os.path.abspath(os.path.join(PROJECT_ROOT, 'fixtures')),
 )
 
-# LANGUAGE CONF
+# URL CONF
+ROOT_URLCONF = 'openbudget.ui.urls'
+
+SUBDOMAIN_URLCONFS = {
+    '': 'openbudget.ui.urls',
+    'www': 'openbudget.ui.urls',
+    'he': 'openbudget.ui.urls',
+    'en': 'openbudget.ui.urls',
+    'ru': 'openbudget.ui.urls',
+    'ar': 'openbudget.ui.urls',
+    'api': 'openbudget.api.urls',
+}
+
+# INTERNATIONALIZATION CONF
+USE_I18N = True
+
+USE_L10N = True
+
+LOCALE_PATHS = (
+    os.path.abspath(os.path.join(PROJECT_ROOT, 'locale')),
+)
+
 gettext = lambda s: s
+
 LANGUAGES = (
-    ('en', gettext('English')),
     ('he', gettext('Hebrew')),
+    ('en', gettext('English')),
     ('ar', gettext('Arabic')),
     ('ru', gettext('Russian')),
 )
+
 LANGUAGE_CODE = LANGUAGES[0][0]
+
 MODELTRANSLATION_DEFAULT_LANGUAGE = LANGUAGE_CODE
+
+MODELTRANSLATION_FALLBACK_LANGUAGES = (LANGUAGES[0][0], LANGUAGES[1][0],
+                                       LANGUAGES[2][0], LANGUAGES[3][0])
 
 # UNICODE SLUG CONF
 AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
 
 # USER ACCOUNT CONF
 ACCOUNT_ACTIVATION_DAYS = 7
+
 AUTH_USER_MODEL = 'accounts.Account'
+
 LOGIN_URL = '/accounts/login/'
+
 LOGIN_REDIRECT_URL = '/'
+
 LOGOUT_URL = '/accounts/logout/'
+
 ABSOLUTE_URL_OVERRIDES = {
     'auth.user': lambda u: '/accounts/{uuid}/'.format(uuid=u.uuid)
 }
 
 # GRAPPELLI CONF
 GRAPPELLI_ADMIN_TITLE = 'Open Budget'
+
 GRAPPELLI_INDEX_DASHBOARD = 'openbudget.dashboard.OpenBudgetDashboard'
 
 # DJANGO REST FRAMEWORK CONF
@@ -207,7 +232,6 @@ REST_FRAMEWORK = {
 }
 
 # HAYSTACK CONF
-
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
@@ -218,8 +242,11 @@ HAYSTACK_CONNECTIONS = {
 # CELERY CONF
 from celery.schedules import crontab
 import djcelery
+
 djcelery.setup_loader()
+
 BROKER_URL = 'redis://127.0.0.1:6379/'
+
 CELERYBEAT_SCHEDULE = {
     "update_index": {
         "task": "tasks.update_index",
@@ -240,9 +267,13 @@ CELERYBEAT_SCHEDULE = {
 
 # EMAIL CONF
 EMAIL_USE_TLS = True
+
 EMAIL_HOST = 'smtp.gmail.com'
+
 EMAIL_PORT = 587
+
 EMAIL_HOST_USER = ''
+
 EMAIL_HOST_PASSWORD = ''
 
 # SENTRY CONF

@@ -1,11 +1,16 @@
 from openbudget.settings.base import *
 
+DEBUG = True
+
+TEMPLATE_DEBUG = DEBUG
+
+MODELTRANSLATION_DEBUG = DEBUG
 
 SESSION_COOKIE_DOMAIN = 'obudget.dev'
 
 ADMINS = (
-    ('', ''),
-    ('', ''),
+    ('Paul Walsh', 'paulywalsh@gmail.com'),
+    #('', ''),
 )
 
 MANAGERS = ADMINS
@@ -22,14 +27,20 @@ INSTALLED_APPS += (
 )
 
 EMAIL_USE_TLS = True
+
 EMAIL_HOST = 'smtp.gmail.com'
+
 EMAIL_PORT = 587
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+
+EMAIL_HOST_USER = 'hello@prjts.com'
+
+EMAIL_HOST_PASSWORD = 'wer74qPAL'
 
 SENTRY_DSN = ''
 
+
 INTERNAL_IPS = ('127.0.0.1',)
+
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
 }
@@ -37,9 +48,6 @@ DEBUG_TOOLBAR_CONFIG = {
 DEVSTRAP = {
     'FIXTURES': (
         'dev/sites',
-        'israel/domains',
-        'israel/divisions',
-        'israel/entities',
         'locale/he/strings',
         'dev/interactions',
         'dev/sources'
