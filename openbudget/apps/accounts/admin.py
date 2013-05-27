@@ -1,47 +1,53 @@
 from django.contrib import admin
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
 from django.contrib.sites.models import Site
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext as _
 from registration.models import RegistrationProfile
-from openbudget.apps.accounts.models import Account, PublicUserProxy, ContentTeamUserProxy, CoreTeamUserProxy
+from openbudget.settings import base as settings
+from openbudget.apps.accounts.models import Account, PublicAccount, ContentTeamAccount, \
+    CoreTeamAccount
+from openbudget.apps.accounts.forms import AccountCreationForm, \
+    AccountChangeForm
 
 
-class UserProxyBaseAdmin(UserAdmin):
+class AccountAdmin(UserAdmin):
     """Defines common settings for all our UserProxy forms"""
 
+    form = AccountChangeForm
+    add_form = AccountCreationForm
     fieldsets = (
         (_('Account credentials'), {'fields': ('username', 'password', 'email', 'first_name', 'last_name', 'is_active')}),
     )
 
 
-class CoreTeamUserProxyAdmin(UserProxyBaseAdmin):
+class CoreTeamAccountAdmin(AccountAdmin):
     """Admin form for Core Team members"""
 
     def queryset(self, request):
-        core_team_user_group = Group.objects.filter(id=1)
-        qs = super(CoreTeamUserProxyAdmin, self).queryset(request)
-        qs = qs.filter(groups=core_team_user_group)
+        core_team_users = Group.objects.filter(id=settings.OPENBUDGET_CORE_TEAM_ID)
+        qs = super(CoreTeamAccountAdmin, self).queryset(request)
+        qs = qs.filter(groups=core_team_users)
         return qs
 
 
-class ContentTeamUserProxyAdmin(UserProxyBaseAdmin):
+class ContentTeamAccountAdmin(AccountAdmin):
     """Admin form for Content Team members"""
 
     def queryset(self, request):
-        content_team_user_group = Group.objects.filter(id=2)
-        qs = super(ContentTeamUserProxyAdmin, self).queryset(request)
-        qs = qs.filter(groups=content_team_user_group)
+        content_team_users = Group.objects.filter(id=settings.OPENBUDGET_CONTENT_TEAM_ID)
+        qs = super(ContentTeamAccountAdmin, self).queryset(request)
+        qs = qs.filter(groups=content_team_users)
         return qs
 
 
-class PublicUserProxyAdmin(UserProxyBaseAdmin):
+class PublicAccountAdmin(AccountAdmin):
     """Admin form for Public users"""
 
     def queryset(self, request):
-        public_user_group = Group.objects.filter(id=3)
-        qs = super(PublicUserProxyAdmin, self).queryset(request)
-        qs = qs.filter(groups=public_user_group)
+        public_users = Group.objects.filter(id=settings.OPENBUDGET_PUBLIC_ID)
+        qs = super(PublicAccountAdmin, self).queryset(request)
+        qs = qs.filter(groups=public_users)
         return qs
 
 
@@ -55,6 +61,6 @@ admin.site.unregister(Site)
 admin.site.unregister(RegistrationProfile)
 
 # Open Budget Accounts admin config
-admin.site.register(CoreTeamUserProxy, CoreTeamUserProxyAdmin)
-admin.site.register(ContentTeamUserProxy, ContentTeamUserProxyAdmin)
-admin.site.register(PublicUserProxy, PublicUserProxyAdmin)
+admin.site.register(CoreTeamAccount, CoreTeamAccountAdmin)
+admin.site.register(ContentTeamAccount, ContentTeamAccountAdmin)
+admin.site.register(PublicAccount, PublicAccountAdmin)

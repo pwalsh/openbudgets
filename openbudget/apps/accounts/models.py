@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.comments.models import Comment
 from django.utils.translation import ugettext as _
-from openbudget.settings.base import LANGUAGE_CODE, LANGUAGES
+from openbudget.settings import base as settings
 from openbudget.apps.interactions.models import Star, Follow
 from openbudget.commons.mixins.models import UUIDModel
 
@@ -12,8 +12,8 @@ class Account(UUIDModel, AbstractUser):
 
     language = models.CharField(
         max_length=2,
-        choices=LANGUAGES,
-        default=LANGUAGE_CODE,
+        choices=settings.LANGUAGES,
+        default=settings.LANGUAGE_CODE,
         help_text=_('Set your preferred language for the app')
     )
 
@@ -50,7 +50,7 @@ class Account(UUIDModel, AbstractUser):
         return self.username
 
 
-class UserProxyBase(Account):
+class AccountProxyBase(Account):
     """A proxy object so we can treat different users types distinctly.
 
     Heavily used in the admin to customize how user accounts
@@ -64,17 +64,18 @@ class UserProxyBase(Account):
         return self.username
 
 
-class CoreTeamUserProxyManager(models.Manager):
+class CoreTeamAccountManager(models.Manager):
     """Filter core team user proxy queries correctly"""
 
     def get_query_set(self):
-        return super(CoreTeamUserProxyManager, self).get_query_set().filter(groups__in=[1])
+        return super(CoreTeamAccountManager, self).get_query_set().filter(
+            groups=settings.OPENBUDGET_CORE_TEAM_ID)
 
 
-class CoreTeamUserProxy(UserProxyBase):
+class CoreTeamAccount(AccountProxyBase):
     """Provides a proxy interface to users on the core team"""
 
-    objects = CoreTeamUserProxyManager()
+    objects = CoreTeamAccountManager()
 
     class Meta:
         proxy = True
@@ -82,22 +83,22 @@ class CoreTeamUserProxy(UserProxyBase):
         verbose_name_plural = _('Core team users')
 
     def save(self, *args, **kwargs):
-        super(CoreTeamUserProxy, self).save(*args, **kwargs)
-        self.groups.add(1)
-        profile, created = Account.objects.get_or_create(user=self)
+        super(CoreTeamAccount, self).save(*args, **kwargs)
+        self.groups.add(settings.OPENBUDGET_CORE_TEAM_ID)
 
 
-class ContentTeamUserManager(models.Manager):
+class ContentTeamAccountManager(models.Manager):
     """Filter content team user proxy queries correctly"""
 
     def get_query_set(self):
-        return super(ContentTeamUserManager, self).get_query_set().filter(groups__in=[2])
+        return super(ContentTeamAccountManager, self).get_query_set().filter(
+            groups=settings.OPENBUDGET_CONTENT_TEAM_ID)
 
 
-class ContentTeamUserProxy(UserProxyBase):
+class ContentTeamAccount(AccountProxyBase):
     """Provides a proxy interface to users on the content team"""
 
-    objects = ContentTeamUserManager()
+    objects = ContentTeamAccountManager()
 
     class Meta:
         proxy = True
@@ -105,22 +106,22 @@ class ContentTeamUserProxy(UserProxyBase):
         verbose_name_plural = _('Content team users')
 
     def save(self, *args, **kwargs):
-        super(ContentTeamUserProxy, self).save(*args, **kwargs)
-        self.groups.add(2)
-        profile, created = Account.objects.get_or_create(user=self)
+        super(ContentTeamAccount, self).save(*args, **kwargs)
+        self.groups.add(settings.OPENBUDGET_CONTENT_TEAM_ID)
 
 
-class PublicUserProxyManager(models.Manager):
+class PublicAccountManager(models.Manager):
     """Filter public user proxy queries correctly"""
 
     def get_query_set(self):
-        return super(PublicUserProxyManager, self).get_query_set().filter(groups__in=[3])
+        return super(PublicAccountManager, self).get_query_set().filter(
+            groups=settings.OPENBUDGET_PUBLIC_ID)
 
 
-class PublicUserProxy(UserProxyBase):
+class PublicAccount(AccountProxyBase):
     """Provides a proxy interface to public users"""
 
-    objects = PublicUserProxyManager()
+    objects = PublicAccountManager()
 
     class Meta:
         proxy = True
@@ -128,6 +129,5 @@ class PublicUserProxy(UserProxyBase):
         verbose_name_plural = _('Public users')
 
     def save(self, *args, **kwargs):
-        super(PublicUserProxy, self).save(*args, **kwargs)
-        self.groups.add(3)
-        profile, created = Account.objects.get_or_create(user=self)
+        super(PublicAccount, self).save(*args, **kwargs)
+        self.groups.add(settings.OPENBUDGET_PUBLIC_ID)
