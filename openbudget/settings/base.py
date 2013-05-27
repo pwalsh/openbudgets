@@ -102,6 +102,8 @@ INSTALLED_APPS = (
     'subdomains',
     'registration',
     'rest_framework',
+    'provider',
+    'provider.oauth2',
     'rosetta_grappelli',
     'rosetta',
     'modeltranslation',

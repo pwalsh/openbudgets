@@ -29,5 +29,6 @@ grappelli-modeltranslation
 django-rosetta
 git+https://github.com/prjts/django-rosetta-grappelli.git
 djangorestframework
+django-oauth2-provider
 django-subdomains
 jsonfield
