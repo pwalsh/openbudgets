@@ -1,0 +1,22 @@
+{% extends 'projects/project_list.html' %}
+{% load i18n interactions %}
+{% load url from future %}
+
+{% block title %}
+{{ object.name }}
+{% endblock title %}
+
+{% block interactions %}
+<span class="interactions">
+{% if user.is_authenticated %}
+{% follow object user %}
+{% star object user %}
+{% endif %}
+</span>
+{% endblock interactions %}
+
+{% block content %}
+<section>
+{{ object }}
+</section>
+{% endblock content %}

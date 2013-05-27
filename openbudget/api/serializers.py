@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from openbudget.apps.entities.models import Entity, Domain, Division
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
-from openbudget.apps.visualizations.models import Visualization
+from openbudget.apps.projects.models import Project
 
 
 class BudgetTemplateNodeLinked(serializers.HyperlinkedModelSerializer):
@@ -116,7 +116,7 @@ class DomainLinked(serializers.HyperlinkedModelSerializer):
         model = Domain
 
 
-class VisualizationLinked(serializers.HyperlinkedModelSerializer):
+class ProjectLinked(serializers.HyperlinkedModelSerializer):
 
     class Meta:
-        model = Visualization
+        model = Project

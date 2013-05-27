@@ -38,24 +38,19 @@
                 <div class="wrapper">
                 {% block header %}
                     <nav>
+                        {% spaceless %}
                         {% block nav %}
-                        <a href="{% url 'home' %}">
-                            {% trans 'Home' %}
-                        </a>
-                        <a href="{% url 'entity_list' %}">
-                            {% trans 'Municipalities' %}
-                        </a>
-                        <a href="{% url 'budget_browser' %}">
-                            {% trans 'Budget Browser' %}
-                        </a>
-                        <a href="{% url 'api' subdomain='api' %}">
-                            {% trans 'API' %}
-                        </a>
+                        <a href="{% url 'home' %}">{% trans 'Home' %}</a>
+                        <a href="{% url 'page' slug='about' %}">{% trans 'About' %}</a>
+                        <a href="{% url 'project_list' %}">{% trans 'Projects' %}</a>
+                        <a href="{% url 'entity_list' %}">{% trans 'Municipalities' %}</a>
+                        <a href="{% url 'api' subdomain='api' %}">{% trans 'API' %}</a>
                         {% endblock nav %}
                         <span class="user-widget">
                             {% language_switch request.get_full_path %}
                             {% include 'accounts/partials/_account_tools.html' %}
                         </span>
+                        {% endspaceless %}
                     </nav>
                 {% endblock header %}
                 </div>
@@ -93,33 +88,13 @@
                 {% block footer %}
                 <div class="searchbox-container">
                     {% include 'partials/_searchbox.html' %}
-                    <div style="float:left;font-size:0.75em">
-                        <a href="{% url 'budget_template_list' %}">
-                            {% trans 'All Templates' %}
-                        </a>&nbsp;|&nbsp;
-                        <a href="{% url 'budget_list' %}">
-                            {% trans 'All Budgets' %}
-                        </a>&nbsp;|&nbsp;
-                        <a href="{% url 'actual_list' %}">
-                            {% trans 'All Actuals' %}
-                        </a>
-                    </div>
                 </div>
 
                 <div class="footer-links">
                     <nav>
-                        <a href="{% url 'page' slug='about' %}">
-                            {% trans 'About' %}
-                        </a>
-                        <a href="{% url 'page' slug='privacy' %}">
-                            {% trans 'Privacy' %}
-                        </a>
-                        <a href="{% url 'page' slug='terms' %}">
-                            {% trans 'Terms' %}
-                        </a>
-                        <a href="{% url 'contact' %}">
-                            {% trans 'Contact' %}
-                        </a>
+                        <a href="{% url 'page' slug='privacy' %}">{% trans 'Privacy' %}</a>
+                        <a href="{% url 'page' slug='terms' %}">{% trans 'Terms' %}</a>
+                        <a href="{% url 'contact' %}">{% trans 'Contact' %}</a>
                     </nav>
                 </div>
                 {% endblock footer %}

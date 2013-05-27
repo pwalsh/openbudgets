@@ -116,7 +116,7 @@ INSTALLED_APPS = (
     'openbudget.apps.sources',
     'openbudget.apps.taxonomies',
     'openbudget.apps.transport',
-    'openbudget.apps.visualizations',
+    'openbudget.apps.projects',
     'openbudget.api',
     'openbudget.commons',
 )
@@ -228,7 +228,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
     ),
-    'PAGINATE_BY': 10
+    'PAGINATE_BY': 250
 }
 
 # HAYSTACK CONF

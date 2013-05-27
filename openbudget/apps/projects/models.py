@@ -4,7 +4,7 @@ from jsonfield import JSONField
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
 
 
-class Visualization(TimeStampedModel, UUIDModel):
+class Project(TimeStampedModel, UUIDModel):
     """
     Visualization state object comprised of configuration, data input and some meta data.
     """
@@ -16,12 +16,12 @@ class Visualization(TimeStampedModel, UUIDModel):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('viz', [self.uuid])
+        return ('project_detail', [self.uuid])
 
     def __unicode__(self):
-        return '<Visualization: %s>' % self.uuid
+        return '<Project: %s>' % self.uuid
 
     class Meta:
-        verbose_name = _('Visualization')
-        verbose_name_plural = _('Visualizations')
+        verbose_name = _('Project')
+        verbose_name_plural = _('Projects')
 
