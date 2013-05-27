@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-26 20:15+0300\n"
+"POT-Creation-Date: 2013-05-27 16:45+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,7 +102,7 @@ msgstr ""
 msgid "Recent Actions"
 msgstr ""
 
-#: apps/accounts/admin.py:14
+#: apps/accounts/admin.py:20
 msgid "Account credentials"
 msgstr ""
 
@@ -118,27 +118,27 @@ msgstr ""
 msgid "User profiles"
 msgstr ""
 
-#: apps/accounts/models.py:81
+#: apps/accounts/models.py:82
 msgid "Core team user"
 msgstr ""
 
-#: apps/accounts/models.py:82
+#: apps/accounts/models.py:83
 msgid "Core team users"
 msgstr ""
 
-#: apps/accounts/models.py:104
+#: apps/accounts/models.py:105
 msgid "Content team user"
 msgstr ""
 
-#: apps/accounts/models.py:105
+#: apps/accounts/models.py:106
 msgid "Content team users"
 msgstr ""
 
-#: apps/accounts/models.py:127
+#: apps/accounts/models.py:128
 msgid "Public user"
 msgstr ""
 
-#: apps/accounts/models.py:128
+#: apps/accounts/models.py:129
 msgid "Public users"
 msgstr ""
 
@@ -214,6 +214,16 @@ msgstr ""
 
 #: apps/accounts/templates/accounts/partials/_account_tools.html:6
 msgid "Account"
+msgstr ""
+
+#: apps/accounts/templates/accounts/partials/_account_tools.html:6
+msgid "Logout"
+msgstr ""
+
+#: apps/accounts/templates/accounts/partials/_account_tools.html:10
+#: apps/interactions/templates/interactions/partials/_comment_form.html:11
+#: commons/templates/partials/_form_action_login.html:2
+msgid "Login"
 msgstr ""
 
 #: apps/budgets/models.py:27
@@ -403,7 +413,7 @@ msgstr ""
 #: apps/entities/templates/entities/entity_detail.html:27
 #: apps/sources/templates/sources/auxsource_detail.html:22
 #: apps/sources/templates/sources/referencesource_detail.html:22
-#: commons/templates/base.html:112
+#: commons/templates/base.html:44
 msgid "About"
 msgstr ""
 
@@ -803,11 +813,6 @@ msgid "Shares"
 msgstr ""
 
 #: apps/interactions/templates/interactions/partials/_comment_form.html:11
-#: commons/templates/partials/_form_action_login.html:2
-msgid "Login"
-msgstr ""
-
-#: apps/interactions/templates/interactions/partials/_comment_form.html:11
 msgid "or"
 msgstr ""
 
@@ -931,6 +936,24 @@ msgid ""
 "            Some features are only visible to loggedin users. To login, use "
 "the following credentials:\n"
 "            "
+msgstr ""
+
+#: apps/projects/models.py:13
+msgid "Data and configuration"
+msgstr ""
+
+#: apps/projects/models.py:14
+msgid "JSON serialized configuration object of the visualization."
+msgstr ""
+
+#: apps/projects/models.py:25
+msgid "Project"
+msgstr ""
+
+#: apps/projects/models.py:26
+#: apps/projects/templates/projects/project_list.html:6
+#: commons/templates/base.html:45
+msgid "Projects"
 msgstr ""
 
 #: apps/sources/models.py:24
@@ -1229,22 +1252,6 @@ msgid ""
 "            "
 msgstr ""
 
-#: apps/visualizations/models.py:13
-msgid "Data and configuration"
-msgstr ""
-
-#: apps/visualizations/models.py:14
-msgid "JSON serialized configuration object of the visualization."
-msgstr ""
-
-#: apps/visualizations/models.py:25
-msgid "Visualization"
-msgstr ""
-
-#: apps/visualizations/models.py:26
-msgid "Visualizations"
-msgstr ""
-
 #: commons/mixins/models.py:13
 msgid "Created on"
 msgstr ""
@@ -1279,35 +1286,19 @@ msgstr ""
 msgid "Municipalities"
 msgstr ""
 
-#: commons/templates/base.html:49
-msgid "Budget Browser"
-msgstr ""
-
-#: commons/templates/base.html:52
+#: commons/templates/base.html:47
 msgid "API"
 msgstr ""
 
-#: commons/templates/base.html:98
-msgid "All Templates"
-msgstr ""
-
-#: commons/templates/base.html:101
-msgid "All Budgets"
-msgstr ""
-
-#: commons/templates/base.html:104
-msgid "All Actuals"
-msgstr ""
-
-#: commons/templates/base.html:115
+#: commons/templates/base.html:95
 msgid "Privacy"
 msgstr ""
 
-#: commons/templates/base.html:118
+#: commons/templates/base.html:96
 msgid "Terms"
 msgstr ""
 
-#: commons/templates/base.html:121
+#: commons/templates/base.html:97
 msgid "Contact"
 msgstr ""
 

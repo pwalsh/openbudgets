@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-26 20:15+0300\n"
+"POT-Creation-Date: 2013-05-27 16:45+0300\n"
 "PO-Revision-Date: 2013-05-12 14:49+0000\n"
 "Last-Translator: Amir Aharoni <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -103,7 +103,7 @@ msgstr "Послать письмо оформителям"
 msgid "Recent Actions"
 msgstr "Последние действия"
 
-#: apps/accounts/admin.py:14
+#: apps/accounts/admin.py:20
 msgid "Account credentials"
 msgstr "Мандат счёта"
 
@@ -119,27 +119,27 @@ msgstr "Профиль пользователя"
 msgid "User profiles"
 msgstr "Профили пользователей"
 
-#: apps/accounts/models.py:81
+#: apps/accounts/models.py:82
 msgid "Core team user"
 msgstr "Пользователь из основной группы"
 
-#: apps/accounts/models.py:82
+#: apps/accounts/models.py:83
 msgid "Core team users"
 msgstr "Пользователи из основной группы"
 
-#: apps/accounts/models.py:104
+#: apps/accounts/models.py:105
 msgid "Content team user"
 msgstr "Пользователь из группы содержания"
 
-#: apps/accounts/models.py:105
+#: apps/accounts/models.py:106
 msgid "Content team users"
 msgstr "Пользователи из группы содержания"
 
-#: apps/accounts/models.py:127
+#: apps/accounts/models.py:128
 msgid "Public user"
 msgstr "Общественный пользователь"
 
-#: apps/accounts/models.py:128
+#: apps/accounts/models.py:129
 msgid "Public users"
 msgstr "Общественные пользователи"
 
@@ -216,6 +216,16 @@ msgstr "Вы не загрузили ни одного файла."
 #: apps/accounts/templates/accounts/partials/_account_tools.html:6
 msgid "Account"
 msgstr "Счёт"
+
+#: apps/accounts/templates/accounts/partials/_account_tools.html:6
+msgid "Logout"
+msgstr ""
+
+#: apps/accounts/templates/accounts/partials/_account_tools.html:10
+#: apps/interactions/templates/interactions/partials/_comment_form.html:11
+#: commons/templates/partials/_form_action_login.html:2
+msgid "Login"
+msgstr ""
 
 #: apps/budgets/models.py:27
 msgid "The name of this budget template."
@@ -404,7 +414,7 @@ msgstr "Показать все данные о бюджете"
 #: apps/entities/templates/entities/entity_detail.html:27
 #: apps/sources/templates/sources/auxsource_detail.html:22
 #: apps/sources/templates/sources/referencesource_detail.html:22
-#: commons/templates/base.html:112
+#: commons/templates/base.html:44
 msgid "About"
 msgstr "Об этом"
 
@@ -804,11 +814,6 @@ msgid "Shares"
 msgstr ""
 
 #: apps/interactions/templates/interactions/partials/_comment_form.html:11
-#: commons/templates/partials/_form_action_login.html:2
-msgid "Login"
-msgstr ""
-
-#: apps/interactions/templates/interactions/partials/_comment_form.html:11
 msgid "or"
 msgstr ""
 
@@ -932,6 +937,24 @@ msgid ""
 "            Some features are only visible to loggedin users. To login, use "
 "the following credentials:\n"
 "            "
+msgstr ""
+
+#: apps/projects/models.py:13
+msgid "Data and configuration"
+msgstr ""
+
+#: apps/projects/models.py:14
+msgid "JSON serialized configuration object of the visualization."
+msgstr ""
+
+#: apps/projects/models.py:25
+msgid "Project"
+msgstr ""
+
+#: apps/projects/models.py:26
+#: apps/projects/templates/projects/project_list.html:6
+#: commons/templates/base.html:45
+msgid "Projects"
 msgstr ""
 
 #: apps/sources/models.py:24
@@ -1230,22 +1253,6 @@ msgid ""
 "            "
 msgstr ""
 
-#: apps/visualizations/models.py:13
-msgid "Data and configuration"
-msgstr ""
-
-#: apps/visualizations/models.py:14
-msgid "JSON serialized configuration object of the visualization."
-msgstr ""
-
-#: apps/visualizations/models.py:25
-msgid "Visualization"
-msgstr ""
-
-#: apps/visualizations/models.py:26
-msgid "Visualizations"
-msgstr ""
-
 #: commons/mixins/models.py:13
 msgid "Created on"
 msgstr ""
@@ -1280,35 +1287,19 @@ msgstr ""
 msgid "Municipalities"
 msgstr ""
 
-#: commons/templates/base.html:49
-msgid "Budget Browser"
-msgstr ""
-
-#: commons/templates/base.html:52
+#: commons/templates/base.html:47
 msgid "API"
 msgstr ""
 
-#: commons/templates/base.html:98
-msgid "All Templates"
-msgstr "Все муниципалитеты"
-
-#: commons/templates/base.html:101
-msgid "All Budgets"
-msgstr "Бюджеты"
-
-#: commons/templates/base.html:104
-msgid "All Actuals"
-msgstr "Нынешние"
-
-#: commons/templates/base.html:115
+#: commons/templates/base.html:95
 msgid "Privacy"
 msgstr ""
 
-#: commons/templates/base.html:118
+#: commons/templates/base.html:96
 msgid "Terms"
 msgstr ""
 
-#: commons/templates/base.html:121
+#: commons/templates/base.html:97
 msgid "Contact"
 msgstr ""
 
@@ -1642,3 +1633,12 @@ msgstr ""
 #: settings/base.py:193
 msgid "Russian"
 msgstr ""
+
+#~ msgid "All Templates"
+#~ msgstr "Все муниципалитеты"
+
+#~ msgid "All Budgets"
+#~ msgstr "Бюджеты"
+
+#~ msgid "All Actuals"
+#~ msgstr "Нынешние"

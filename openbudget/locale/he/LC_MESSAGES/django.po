@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-26 20:15+0300\n"
+"POT-Creation-Date: 2013-05-27 16:45+0300\n"
 "PO-Revision-Date: 2013-05-23 17:58+0000\n"
 "Last-Translator: Ram Ezrach <ram.ezrach@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,7 +102,7 @@ msgstr "מעצבי דוא\"ל"
 msgid "Recent Actions"
 msgstr "פעולות אחרונות"
 
-#: apps/accounts/admin.py:14
+#: apps/accounts/admin.py:20
 msgid "Account credentials"
 msgstr "אישורי חשבון"
 
@@ -118,27 +118,27 @@ msgstr "פרופיל משתמש"
 msgid "User profiles"
 msgstr "פרופילי משתמש"
 
-#: apps/accounts/models.py:81
+#: apps/accounts/models.py:82
 msgid "Core team user"
 msgstr "משתמש קבוצת ליבה"
 
-#: apps/accounts/models.py:82
+#: apps/accounts/models.py:83
 msgid "Core team users"
 msgstr "משתמשי קבוצת ליבה"
 
-#: apps/accounts/models.py:104
+#: apps/accounts/models.py:105
 msgid "Content team user"
 msgstr "משתמש קבוצת תוכן"
 
-#: apps/accounts/models.py:105
+#: apps/accounts/models.py:106
 msgid "Content team users"
 msgstr "משתמשי קבוצת תוכן"
 
-#: apps/accounts/models.py:127
+#: apps/accounts/models.py:128
 msgid "Public user"
 msgstr "משתמש ציבורי"
 
-#: apps/accounts/models.py:128
+#: apps/accounts/models.py:129
 msgid "Public users"
 msgstr "משתמשים ציבוריים"
 
@@ -215,6 +215,16 @@ msgstr "לא העלת אף קובץ"
 #: apps/accounts/templates/accounts/partials/_account_tools.html:6
 msgid "Account"
 msgstr "חשבון"
+
+#: apps/accounts/templates/accounts/partials/_account_tools.html:6
+msgid "Logout"
+msgstr "צא"
+
+#: apps/accounts/templates/accounts/partials/_account_tools.html:10
+#: apps/interactions/templates/interactions/partials/_comment_form.html:11
+#: commons/templates/partials/_form_action_login.html:2
+msgid "Login"
+msgstr "כניסה"
 
 #: apps/budgets/models.py:27
 msgid "The name of this budget template."
@@ -403,9 +413,9 @@ msgstr "הצג את כל נתוני התקציב"
 #: apps/entities/templates/entities/entity_detail.html:27
 #: apps/sources/templates/sources/auxsource_detail.html:22
 #: apps/sources/templates/sources/referencesource_detail.html:22
-#: commons/templates/base.html:112
+#: commons/templates/base.html:44
 msgid "About"
-msgstr "על"
+msgstr "אודות"
 
 #: apps/budgets/templates/budgets/actual_detail.html:72
 #: apps/budgets/templates/budgets/budget_detail.html:72
@@ -803,11 +813,6 @@ msgid "Shares"
 msgstr ""
 
 #: apps/interactions/templates/interactions/partials/_comment_form.html:11
-#: commons/templates/partials/_form_action_login.html:2
-msgid "Login"
-msgstr "שם משתמש"
-
-#: apps/interactions/templates/interactions/partials/_comment_form.html:11
 msgid "or"
 msgstr "או"
 
@@ -934,6 +939,25 @@ msgid ""
 msgstr ""
 "\n"
 "חלק מהאפיונים גלויים רק למשתמשים מחוברים. כדי להתחבר, יש למלא את השדות הבאים:"
+
+#: apps/projects/models.py:13
+msgid "Data and configuration"
+msgstr ""
+
+#: apps/projects/models.py:14
+msgid "JSON serialized configuration object of the visualization."
+msgstr ""
+
+#: apps/projects/models.py:25
+#, fuzzy
+msgid "Project"
+msgstr "פרויקטים"
+
+#: apps/projects/models.py:26
+#: apps/projects/templates/projects/project_list.html:6
+#: commons/templates/base.html:45
+msgid "Projects"
+msgstr "פרויקטים"
 
 #: apps/sources/models.py:24
 msgid "Source Name"
@@ -1231,22 +1255,6 @@ msgid ""
 "            "
 msgstr ""
 
-#: apps/visualizations/models.py:13
-msgid "Data and configuration"
-msgstr ""
-
-#: apps/visualizations/models.py:14
-msgid "JSON serialized configuration object of the visualization."
-msgstr ""
-
-#: apps/visualizations/models.py:25
-msgid "Visualization"
-msgstr ""
-
-#: apps/visualizations/models.py:26
-msgid "Visualizations"
-msgstr ""
-
 #: commons/mixins/models.py:13
 msgid "Created on"
 msgstr "נוצר ב"
@@ -1279,37 +1287,21 @@ msgstr "בית"
 
 #: commons/templates/base.html:46
 msgid "Municipalities"
-msgstr "רשויות מקומיות"
+msgstr "רשיוית"
 
-#: commons/templates/base.html:49
-msgid "Budget Browser"
-msgstr ""
-
-#: commons/templates/base.html:52
+#: commons/templates/base.html:47
 msgid "API"
 msgstr ""
 
-#: commons/templates/base.html:98
-msgid "All Templates"
-msgstr ""
-
-#: commons/templates/base.html:101
-msgid "All Budgets"
-msgstr "תקציבים"
-
-#: commons/templates/base.html:104
-msgid "All Actuals"
-msgstr ""
-
-#: commons/templates/base.html:115
+#: commons/templates/base.html:95
 msgid "Privacy"
 msgstr "פרטיות"
 
-#: commons/templates/base.html:118
+#: commons/templates/base.html:96
 msgid "Terms"
 msgstr "תנאים"
 
-#: commons/templates/base.html:121
+#: commons/templates/base.html:97
 msgid "Contact"
 msgstr "צור קשר"
 
@@ -1649,6 +1641,9 @@ msgstr "ערבית"
 #: settings/base.py:193
 msgid "Russian"
 msgstr "רוסית"
+
+#~ msgid "All Budgets"
+#~ msgstr "תקציבים"
 
 #~ msgid "Square Meters"
 #~ msgstr "מטרים רבועים"
