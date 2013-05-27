@@ -27,6 +27,7 @@ Features
    features/pages
    features/query-builder
    features/search
+   features/settings
    features/sources
    features/taxonomies
    features/vizualizations
