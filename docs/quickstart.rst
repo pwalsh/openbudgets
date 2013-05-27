@@ -19,6 +19,15 @@ Check that you meet these requirements:
 
 Please make sure you meet these requirements before moving on to installation, and make sure to read the guide/management/dependencies page for more details.
 
+If you want to get more information on current best practices for developing web apps in Python, Kenneth Reitz has an excellent guide right here:
+
+http://docs.python-guide.org/en/latest/
+
+We highly recommend it, and in general, we try to follow the best practices there.
+
+*Note*: Node.js on Ubuntu 12.10 or greater: the node executable was renamed to nodejs, so add this symbolic link which will help with some of our dependencies::
+
+    ln -s /usr/bin/nodejs /usr/bin/node
 
 Installation
 ------------
@@ -62,7 +71,7 @@ Install volo
 ------------
 
 `volo <http://volojs.org/>`_ is a tool that automates a lot build and project creation related tasks,
-and package management among those.
+and package management among those. Volo runs on Node.js
 
 To install volo Issue the following command::
 
