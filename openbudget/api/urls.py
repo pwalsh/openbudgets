@@ -8,6 +8,9 @@ urlpatterns = patterns('openbudget.api.views',
         'api_root',
         name='api'
     ),
+    url(r'^auth/',
+        include('provider.oauth2.urls', namespace='oauth2')
+    ),
     url(r'^entities/$',
         views.EntityList.as_view(),
         name='entity-list'

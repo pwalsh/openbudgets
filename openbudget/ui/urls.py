@@ -45,9 +45,6 @@ urlpatterns = patterns('',
     url(r'^comments/',
         include('django.contrib.comments.urls')
     ),
-    url(r'^oauth2/',
-        include('provider.oauth2.urls', namespace='oauth2')
-    ),
     url(r'^robots\.txt',
         TemplateView.as_view(template_name='robots.txt')
     ),
