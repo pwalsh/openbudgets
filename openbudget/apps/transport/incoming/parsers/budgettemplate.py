@@ -25,6 +25,7 @@ class BudgetTemplateParser(BaseParser):
     def __init__(self, container_object_dict, extends=None, fill_in_parents=None, interpolate=None):
         super(BudgetTemplateParser, self).__init__(container_object_dict)
         self.parent = extends
+        self.skipped_rows = []
 
         #TODO: this assumes there's always a base template to inherit from, might need to support parents filling w/o parent template
         if extends:
@@ -427,17 +428,29 @@ class BudgetTemplateParser(BaseParser):
         self.objects_lookup = lookup_table
         self.rows_objects_lookup = rows_objects_lookup
 
-    def _rows_filter(self, obj, row_num):
+    def _rows_filter(self, obj, row_num=None):
         return True
 
     def _skipped_row(self, obj, row_num):
-        pass
+        # +1 for heading row +1 for 0-based to 1-based
+        self.skipped_rows.append((row_num + 2, obj))
 
     def _generate_scopes(self, raw_data):
         resolved_lookup = {}
         first_run = []
         resolved_rows_by_code = {}
         unresolved_rows_by_code = {}
+        parent_nodes_by_code = {}
+        has_parent_template = False
+
+        if self.parent:
+            has_parent_template = True
+            parent_nodes = self.parent.nodes.all()
+            for node in parent_nodes:
+                code = node.code
+                if code not in parent_nodes_by_code:
+                    parent_nodes_by_code[code] = []
+                parent_nodes_by_code[code].append(node)
 
         for row_num, obj in enumerate(raw_data):
             first_run.append((row_num, obj))
@@ -522,8 +535,12 @@ class BudgetTemplateParser(BaseParser):
                     if len(inverse_scopes):
                         obj['inversescope'] = self.ITEM_SEPARATOR.join(inverse_scopes)
 
-        def _get_scope_by_code(code):
-            return resolved_rows_by_code[code][0][1]['path'].split(self.ROUTE_SEPARATOR)[1:]
+        def _get_scope_by_code(code, is_parent_node=False):
+            if is_parent_node:
+                parent_path = parent_nodes_by_code[code][0].path
+            else:
+                parent_path = resolved_rows_by_code[code][0][1]['path']
+            return parent_path.split(self.ROUTE_SEPARATOR)[1:]
 
         def _resolve_paths(data, first_run=True):
             #TODO: see where we lost the recognition of a DataAmbiguity along the way and throw it where needed
@@ -545,18 +562,34 @@ class BudgetTemplateParser(BaseParser):
                         # defer for next run
                         _defer(code, row, next_run)
                 else:
-                    if parent in resolved_rows_by_code:
-                        has_unresolved_parents = parent in unresolved_rows_by_code
-                        has_single_resolved_parent = len(resolved_rows_by_code[parent]) == 1
-
-                        if has_single_resolved_parent and not has_unresolved_parents:
-                            scope = _get_scope_by_code(parent)
-                            route = [code, parent]
-                            if scope:
-                                route += scope
-                            key = self.ROUTE_SEPARATOR.join(route)
-                            _resolve(key, row, self.ROUTE_SEPARATOR.join(scope))
-                        else:
+                    has_unresolved_parents = parent in unresolved_rows_by_code
+                    if has_parent_template:
+                        is_in_parent = parent in parent_nodes_by_code
+                        is_in_resolved = parent in resolved_rows_by_code
+                        if is_in_parent != is_in_resolved and not has_unresolved_parents:
+                            if is_in_parent and len(parent_nodes_by_code[parent]) == 1:
+                                scope = _get_scope_by_code(parent, True)
+                                route = [code, parent]
+                                if scope:
+                                    route += scope
+                                key = self.ROUTE_SEPARATOR.join(route)
+                                _resolve(key, row, self.ROUTE_SEPARATOR.join(scope))
+                            elif is_in_resolved and len(resolved_rows_by_code[parent]) == 1:
+                                scope = _get_scope_by_code(parent)
+                                route = [code, parent]
+                                if scope:
+                                    route += scope
+                                key = self.ROUTE_SEPARATOR.join(route)
+                                _resolve(key, row, self.ROUTE_SEPARATOR.join(scope))
+                            else:
+                                self.throw(
+                                    ParentScopeError(
+                                        row=row_num + 2,
+                                        columns=['code', 'parent'],
+                                        values=[code, parent]
+                                    )
+                                )
+                        elif is_in_parent:
                             self.throw(
                                 ParentScopeError(
                                     row=row_num + 2,
@@ -564,9 +597,30 @@ class BudgetTemplateParser(BaseParser):
                                     values=[code, parent]
                                 )
                             )
+                        else:
+                            # defer for next run
+                            _defer(code, row, next_run)
                     else:
-                        # defer for next run
-                        _defer(code, row, next_run)
+                        if parent in resolved_rows_by_code:
+                            has_single_resolved_parent = len(resolved_rows_by_code[parent]) == 1
+                            if has_single_resolved_parent and not has_unresolved_parents:
+                                scope = _get_scope_by_code(parent)
+                                route = [code, parent]
+                                if scope:
+                                    route += scope
+                                key = self.ROUTE_SEPARATOR.join(route)
+                                _resolve(key, row, self.ROUTE_SEPARATOR.join(scope))
+                            else:
+                                self.throw(
+                                    ParentScopeError(
+                                        row=row_num + 2,
+                                        columns=['code', 'parent'],
+                                        values=[code, parent]
+                                    )
+                                )
+                        else:
+                            # defer for next run
+                            _defer(code, row, next_run)
 
             return next_run if len(next_run) < len(data) else []
 
@@ -578,7 +632,16 @@ class BudgetTemplateParser(BaseParser):
         for key, row in resolved_lookup.iteritems():
             _set_inverse_scope(row)
 
-        #TODO: throw a ParentNodeNotFoundError if still have unresolved rows
+        if len(unresolved_rows_by_code):
+            for code, rows in unresolved_rows_by_code.iteritems():
+                for i, (row_num, obj) in enumerate(rows):
+                    self.throw(
+                        ParentScopeError(
+                            row=row_num + 2,
+                            columns=['code', 'parent'],
+                            values=[obj['code'], obj.get('parent', '')]
+                        )
+                    )
 
         return resolved_lookup
 
