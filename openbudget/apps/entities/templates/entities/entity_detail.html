@@ -68,33 +68,6 @@
 
 <section>
     <h2>
-        {% if object.ultimate_parent == object %}
-        {% trans 'Budgeting entities of' %} {{ object.name }}
-        {% else %}
-        {% trans 'Related' %} {% trans 'budgeting entities' %}
-        {% endif %}
-    </h2>
-    <div>
-        {% if not object.related_entities %}
-        <p>
-            {{ object.name }} {% trans 'has no related entities that declare budgets' %}.</a>
-        </p>
-        {% else %}
-        <p>
-            {% trans 'We have the following related entities with budgets in the system' %}.
-        </p>
-        {% for related_entity in object.related_entities %}
-        <a href="{% url 'entity_detail' related_entity.slug %}">
-            {{ related_entity.name }}
-        </a> ({{ related_entity.division.name }})
-        <br />
-        {% endfor %}
-        {% endif %}
-    </div>
-</section>
-
-<section>
-    <h2>
         {% trans 'Budgets and Actuals' %}
     </h2>
 

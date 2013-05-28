@@ -8,8 +8,8 @@
         "redirect_uri": "http://obudget.dev:8000/",
         "url": "http://obudget.dev:8000/",
         "client_type": 1,
-        "client_id": "32e2j32rh23irhi34rh34iur34",
-        "client_secret": "3d23dj23dkj23ndk2j3nfk4nf3kj4fn3"
+        "client_id": "751be246011e8a6198d7",
+        "client_secret": "c62cb3b66fcbe46b82ecda2ed146b7bfe24fdea4"
     }
 },
 
@@ -37,8 +37,8 @@
         "redirect_uri": "http://obudget.dev:8000/",
         "url": "http://obudget.dev:8000/",
         "client_type": 1,
-        "client_id": "32e2j3ddsd2rh23irhi34rh34iur34",
-        "client_secret": "3d23dsdsdsdj23dkj23ndk2j3nfk4nf3kj4fn3"
+        "client_id": "28f7398679208b953942",
+        "client_secret": "f277c89393d5a937e89b65ab0d62a1e2aecc5b6b"
     }
 },
 
@@ -66,8 +66,8 @@
         "redirect_uri": "http://obudget.dev:8000/",
         "url": "http://obudget.dev:8000/",
         "client_type": 1,
-        "client_id": "32e2j3ddsd2rh23irhi34rh34iur34",
-        "client_secret": "3d23dsdsdsdj23dkj23ndk2j3nfk4nf3kj4fn3"
+        "client_id": "5102099e2549f54823a6",
+        "client_secret": "c55a5671bad59d6bbb0f7ed97d9d637313191366"
     }
 },
 
