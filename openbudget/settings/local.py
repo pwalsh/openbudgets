@@ -36,6 +36,8 @@ EMAIL_HOST_USER = ''
 
 EMAIL_HOST_PASSWORD = ''
 
+OAUTH_ENFORCE_SECURE = False
+
 SENTRY_DSN = ''
 
 
@@ -50,7 +52,8 @@ DEVSTRAP = {
         'dev/sites',
         'locale/he/strings',
         'dev/interactions',
-        'dev/sources'
+        'dev/sources',
+        'dev/projects'
     ),
     'TESTS': (
         'accounts',

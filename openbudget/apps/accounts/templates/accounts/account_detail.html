@@ -119,4 +119,20 @@
         </div>
     </div>
 </section>
+<section class="row account">
+    <div class="box-3">
+        <h3>{% trans 'My API projects' %}</h3>
+        <div class="files">
+            {% if user.owner_projects.all %}
+            {% for project in user.owner_projects.all %}
+            <div class="">
+            <a href="{% url 'project_detail' project.uuid %}">{{ project.name }}</a>
+            </div>
+            {% endfor %}
+            {% else %}
+            {% trans 'You do not have any API projects.' %}
+            {% endif %}
+        </div>
+    </div>
+</section>
 {% endblock content %}

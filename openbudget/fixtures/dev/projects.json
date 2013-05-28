@@ -1,0 +1,90 @@
+[
+
+{
+    "model": "oauth2.Client",
+    "pk": 1,
+    "fields": {
+        "name": "obudget.dev:8000",
+        "redirect_uri": "http://obudget.dev:8000/",
+        "url": "http://obudget.dev:8000/",
+        "client_type": 1,
+        "client_id": "32e2j32rh23irhi34rh34iur34",
+        "client_secret": "3d23dj23dkj23ndk2j3nfk4nf3kj4fn3"
+    }
+},
+
+{
+    "model": "projects.Project",
+    "pk": 1,
+    "fields": {
+        "auth": 1,
+        "owner": 4,
+        "author": 4,
+        "name": "Cat Health: An Inquiry",
+        "description": "we love cats.",
+        "featured": true,
+        "uuid": "de79ce65b9494405a3473843c6a71b52",
+        "created_on": "2013-03-28T11:27:48.571Z",
+        "last_modified": "2013-03-28T11:27:48.571Z"
+    }
+},
+
+{
+    "model": "oauth2.Client",
+    "pk": 2,
+    "fields": {
+        "name": "obudget.dev:8000",
+        "redirect_uri": "http://obudget.dev:8000/",
+        "url": "http://obudget.dev:8000/",
+        "client_type": 1,
+        "client_id": "32e2j3ddsd2rh23irhi34rh34iur34",
+        "client_secret": "3d23dsdsdsdj23dkj23ndk2j3nfk4nf3kj4fn3"
+    }
+},
+
+{
+    "model": "projects.Project",
+    "pk": 2,
+    "fields": {
+        "auth": 2,
+        "owner": 4,
+        "author": 4,
+        "name": "Flowers or Food?",
+        "description": "Cities spend a lot amount of money on flowers and gardens. How much food could we grow with the same budget?",
+        "featured": true,
+        "uuid": "de79ce65b9494405a3473843c6a71b51",
+        "created_on": "2013-03-28T11:27:48.571Z",
+        "last_modified": "2013-03-28T11:27:48.571Z"
+    }
+},
+
+{
+    "model": "oauth2.Client",
+    "pk": 3,
+    "fields": {
+        "name": "obudget.dev:8000",
+        "redirect_uri": "http://obudget.dev:8000/",
+        "url": "http://obudget.dev:8000/",
+        "client_type": 1,
+        "client_id": "32e2j3ddsd2rh23irhi34rh34iur34",
+        "client_secret": "3d23dsdsdsdj23dkj23ndk2j3nfk4nf3kj4fn3"
+    }
+},
+
+{
+    "model": "projects.Project",
+    "pk": 3,
+    "fields": {
+        "auth": 3,
+        "owner": 4,
+        "author": 4,
+        "name": "Hookin' Up by City",
+        "description": "Based on the population age and city expenditure on social infrastructure, what are are chances of hooking up?.",
+        "featured": true,
+        "uuid": "de79ce65b9494405a3473843c6a71b54",
+        "created_on": "2013-03-28T11:27:48.571Z",
+        "last_modified": "2013-03-28T11:27:48.571Z"
+    }
+}
+
+]
