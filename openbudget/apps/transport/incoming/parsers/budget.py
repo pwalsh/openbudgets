@@ -85,7 +85,19 @@ class BudgetParser(BudgetTemplateParser):
 
         super(BudgetTemplateParser, self)._create_container(container_dict=data, exclude=fields_to_exclude)
 
-    def _rows_filter(self, obj, row_num):
+    def _generate_lookup(self, data):
+        resolved = deepcopy(self.template_parser.objects_lookup)
+        self.rows_objects_lookup = self.template_parser.rows_objects_lookup
+
+        for key, obj in self.template_parser.objects_lookup.iteritems():
+            keep_row = self._rows_filter(obj)
+            if not keep_row:
+                del resolved[key]
+                self._skipped_row(obj, self.rows_objects_lookup[key])
+
+        self.objects_lookup = resolved
+
+    def _rows_filter(self, obj, row_num=None):
         if 'amount' in obj:
             try:
                 float(obj['amount'])
