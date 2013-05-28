@@ -30,22 +30,26 @@ class DataInputError(object):
 
 class DataCollisionError(object):
 
-    def __init__(self, rows=None):
+    def __init__(self, rows=None, columns=None, values=None):
         self.rows = rows or ['Unknown', 'Unknown']
+        self.columns = columns or ['Unknown']
+        self.values = values or ['Unknown']
 
     def __dict__(self):
         return {
             'rows': self.rows,
+            'columns': self.columns,
+            'values': self.values,
             'message': self.message
         }
 
     @property
     def _message(self):
-        return _('Source data collision error in rows: %s, %s')
+        return _('Source data collision error in rows: %s, %s; and columns: %s; with values: %s')
 
     @property
     def message(self):
-        return self._message % self.rows
+        return self._message % (self.rows[0], self.rows[1], self.columns, self.values)
 
 
 class DataSyntaxError(DataInputError):
@@ -65,7 +69,7 @@ class DataAmbiguityError(DataCollisionError):
 
     @property
     def _message(self):
-        return _('Source contains siblings with same code in rows: %s, %s')
+        return _('Source contains siblings with same code in rows: %s, %s; and columns: %s; with values: %s')
 
 
 class MetaParsingError(object):
@@ -164,3 +168,20 @@ class PathInterpolationError(DataInputError):
     @property
     def _message(self):
         return _('Interpolation failed, no ancestor found for row: %s')
+
+
+class InverseScopesError(DataInputError):
+
+    def __unicode__(self):
+        return _('Inverse Scopes Error')
+
+    @property
+    def _message(self):
+        return _('Inverse scopes not matching inverses in row: %s; and columns: %s; with values: %s')
+
+
+class InverseNodeNotFoundError(DataInputError):
+
+    @property
+    def _message(self):
+        return _('Inverse node not found for item in row: %s; and columns: %s; with values: %s')
