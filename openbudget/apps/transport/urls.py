@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, url
-from openbudget.apps.transport.views import FileImportView, ImportSuccessView, FileExportView, importer_app
+from openbudget.apps.transport.views import FileImportView, ImportSuccessView, \
+    FileExportView, ImportAppView
 
 
 urlpatterns = patterns('',
@@ -16,7 +17,7 @@ urlpatterns = patterns('',
         name='data_export'
     ),
     url(r'^importer/$',
-        importer_app,
+        ImportAppView.as_view(),
         name='importer_app'
     ),
 )

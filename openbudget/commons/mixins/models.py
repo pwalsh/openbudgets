@@ -3,6 +3,15 @@ from django.utils.translation import ugettext_lazy as _
 from uuidfield import UUIDField
 
 
+class ClassMethodMixin(object):
+    """Mixin for commonly used class methods on models"""
+
+    @classmethod
+    def get_class_name(cls):
+        value = cls.__name__.lower()
+        return value
+
+
 class TimeStampedModel(models.Model):
     """A simple mixin to timestamp models that inherit from it"""
 
@@ -16,6 +25,7 @@ class TimeStampedModel(models.Model):
     )
     last_modified = models.DateTimeField(
         _('Last modified'),
+        db_index=True,
         auto_now=True,
         editable=False
     )
@@ -28,6 +38,7 @@ class UUIDModel(models.Model):
         abstract = True
 
     uuid = UUIDField(
+        db_index=True,
         auto=True
     )
 

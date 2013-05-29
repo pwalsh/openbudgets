@@ -210,11 +210,11 @@ ACCOUNT_ACTIVATION_DAYS = 7
 
 AUTH_USER_MODEL = 'accounts.Account'
 
-LOGIN_URL = '/accounts/login/'
+LOGIN_URL = '/accounts/auth/login/'
 
 LOGIN_REDIRECT_URL = '/'
 
-LOGOUT_URL = '/accounts/logout/'
+LOGOUT_URL = '/accounts/auth/logout/'
 
 ABSOLUTE_URL_OVERRIDES = {
     'auth.user': lambda u: '/accounts/{uuid}/'.format(uuid=u.uuid)
@@ -234,7 +234,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
     ),
-    'PAGINATE_BY': 250
+    'PAGINATE_BY': 50
 }
 
 # OAUTH2 PROVIDER CONF

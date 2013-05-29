@@ -7,13 +7,15 @@ from django.contrib.comments.models import Comment
 from django.db.models.signals import m2m_changed
 from openbudget.apps.entities.models import Division, Entity
 from openbudget.apps.sources.models import ReferenceSource, AuxSource
-from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, PeriodStartModel, PeriodicModel
+from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, \
+    PeriodStartModel, PeriodicModel, ClassMethodMixin
 
 
 PATH_SEPARATOR = '|'
 
 
-class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel):
+class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel,
+                     ClassMethodMixin):
     """The budget template for a given domain division.
 
     """
@@ -21,22 +23,21 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel):
     divisions = models.ManyToManyField(
         Division,
     )
-
     name = models.CharField(
+        _('Name'),
+        db_index=True,
         max_length=255,
         help_text=_('The name of this budget template.')
     )
-
     description = models.TextField(
         _('Entry description'),
+        db_index=True,
         blank=True,
         help_text=_('Describe for this entry.')
     )
-
     referencesources = generic.GenericRelation(
         ReferenceSource
     )
-
     auxsources = generic.GenericRelation(
         AuxSource
     )
@@ -49,14 +50,9 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel):
     def has_budgets(self):
         return bool(self.budgets.count())
 
-    @classmethod
-    def get_class_name(cls):
-        value = cls.__name__.lower()
-        return value
-
     @models.permalink
     def get_absolute_url(self):
-        return ('budget_template_detail', [self.uuid])
+        return 'budget_template_detail', [self.uuid]
 
     def __unicode__(self):
         return self.name
@@ -82,11 +78,15 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
     )
 
     code = models.CharField(
+        _('Code'),
+        db_index=True,
         max_length=50,
         help_text=_('Code')
     )
 
     path = models.CharField(
+        _('Path'),
+        db_index=True,
         max_length=255,
         null=True,
         blank=True,
@@ -94,6 +94,8 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
     )
 
     name = models.CharField(
+        _('Name'),
+        db_index=True,
         max_length=255,
         help_text=_('Name')
     )
@@ -121,6 +123,7 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
 
     direction = models.CharField(
         _('REVENUE/EXPENDITURE'),
+        db_index=True,
         max_length=15,
         choices=NODE_DIRECTIONS,
         help_text=_('Indicates whether this node is for revenue or expenditure')
@@ -201,7 +204,7 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('budget_template_node', [self.uuid])
+        return 'budget_template_node', [self.uuid]
 
     def __unicode__(self):
         return self.code
@@ -218,8 +221,10 @@ def inverse_changed(sender, instance, action, reverse, model, pk_set, **kwargs):
         if instance.pk in pk_set:
             raise ValidationError(_('Inverse node can not point to self.'))
         # validate that it always points to the opposite `direction`
-        if model.objects.filter(pk__in=pk_set, direction=instance.direction).count():
-            raise ValidationError(_("Inverse node's direction can not be the same as self direction."))
+        if model.objects.filter(pk__in=pk_set, direction=instance.direction)\
+            .count():
+            raise ValidationError(_("Inverse node's direction can not be the "
+                                    "same as self direction."))
 
 m2m_changed.connect(inverse_changed, sender=BudgetTemplateNode.inverse.through)
 
@@ -255,8 +260,7 @@ class BudgetTemplateNodeRelation(models.Model):
                 _('Node with name: {name}; code: {code}; parent: {parent}; '
                   'already exists in template: {template}'.format(
                     name=node.name, code=node.code, parent=node.parent,
-                    template=self.template))
-            )
+                    template=self.template)))
 
     def __unicode__(self):
         return '%s -> %s' % (self.template, self.node)
@@ -270,7 +274,7 @@ class BudgetTemplateNodeRelation(models.Model):
         )
 
 
-class Sheet(PeriodicModel, TimeStampedModel, UUIDModel):
+class Sheet(PeriodicModel, TimeStampedModel, UUIDModel, ClassMethodMixin):
     """An abstract class for common Budget and Actual data"""
 
     entity = models.ForeignKey(
@@ -285,6 +289,7 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel):
 
     description = models.TextField(
         _('Budget description'),
+        db_index=True,
         blank=True,
         help_text=_('Descriptive text for this %(class)s')
     )
@@ -308,13 +313,10 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel):
         value = self.items.all().count()
         return value
 
-    @classmethod
-    def get_class_name(cls):
-        value = cls.__name__.lower()
-        return value
-
     def __unicode__(self):
-        return unicode(self.period) + ' ' + self.__class__.__name__ + ' for ' + self.entity.name
+        value = unicode(self.period) + ' ' + self.get_class_name() + ' for ' + \
+            self.entity.name
+        return value
 
     class Meta:
         abstract = True
@@ -326,7 +328,10 @@ class Budget(Sheet):
 
     @property
     def actuals(self):
-       return Actual.objects.filter(entity=self.entity, period_start=self.period_start, period_end=self.period_end)
+        value = Actual.objects.filter(entity=self.entity,
+                                      period_start=self.period_start,
+                                      period_end=self.period_end)
+        return value
 
     @property
     def has_actuals(self):
@@ -335,7 +340,7 @@ class Budget(Sheet):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('budget_detail', [self.uuid])
+        return 'budget_detail', [self.uuid]
 
     class Meta:
         verbose_name = _('Budget')
@@ -358,7 +363,10 @@ class Actual(Sheet):
 
     @property
     def budgets(self):
-        return Budget.objects.filter(entity=self.entity, period_start=self.period_start, period_end=self.period_end)
+        value = Budget.objects.filter(entity=self.entity,
+                                      period_start=self.period_start,
+                                      period_end=self.period_end)
+        return value
 
     @property
     def has_budgets(self):
@@ -367,7 +375,7 @@ class Actual(Sheet):
 
     @property
     def variance(self):
-        """If this actual has one or more associated budgets in the system, calculate the variance"""
+        """If this actual has associated budgets, calculate the variance"""
         value = None
         tmp = []
         # TODO: This is a test POC. need much more robust way
@@ -381,14 +389,14 @@ class Actual(Sheet):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('actual_detail', [self.uuid])
+        return 'actual_detail', [self.uuid]
 
     class Meta:
         verbose_name = _('Actual')
         verbose_name_plural = _('Actuals')
 
 
-class SheetItem(TimeStampedModel, UUIDModel):
+class SheetItem(TimeStampedModel, UUIDModel, ClassMethodMixin):
     """Abstract class for common BudgetItem and ActualItem data"""
 
     node = models.ForeignKey(
@@ -397,38 +405,31 @@ class SheetItem(TimeStampedModel, UUIDModel):
 
     description = models.TextField(
         _('Item description'),
+        db_index=True,
         blank=True,
         help_text=_('Description that appears for this entry.')
     )
 
     amount = models.DecimalField(
         _('Amount'),
+        db_index=True,
         max_digits=26,
         decimal_places=2,
-        help_text=_('The amount of this entry. The node determines REVENUE or EXPENDITURE')
+        help_text=_('The total amount of this entry.')
     )
 
-    referencesources = generic.GenericRelation(
-        ReferenceSource
-    )
-
-    auxsources = generic.GenericRelation(
-        AuxSource
-    )
-
-    comments = generic.GenericRelation(
+    discussion = generic.GenericRelation(
         Comment,
         object_id_field="object_pk"
     )
 
+    referencesources = generic.GenericRelation(ReferenceSource)
+
+    auxsources = generic.GenericRelation(AuxSource)
+
     @property
     def name(self):
         value = self.node.name
-        return value
-
-    @classmethod
-    def get_class_name(cls):
-        value = cls.__name__.lower()
         return value
 
     class Meta:
@@ -442,7 +443,9 @@ class BudgetItemManager(models.Manager):
             node = BudgetTemplateNode.objects.get(uuid=node_uuid)
         except BudgetTemplateNode.DoesNotExist as e:
             raise e
-        return BudgetItem.objects.filter(node__in=node.timeline, budget__entity__uuid=entity_uuid)
+        value = BudgetItem.objects.filter(node__in=node.timeline,
+                                          budget__entity__uuid=entity_uuid)
+        return value
 
 
 class BudgetItem(SheetItem):
@@ -457,7 +460,7 @@ class BudgetItem(SheetItem):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('budget_item_detail', [self.uuid])
+        return 'budget_item_detail', [self.uuid]
 
     def __unicode__(self):
         return self.node.code
@@ -468,12 +471,15 @@ class BudgetItem(SheetItem):
 
 
 class ActualItemManager(models.Manager):
+
     def timeline(self, node_uuid, entity_uuid):
         try:
             node = BudgetTemplateNode.objects.get(uuid=node_uuid)
         except BudgetTemplateNode.DoesNotExist as e:
             raise e
-        return ActualItem.objects.filter(node__in=node.timeline, actual__entity__uuid=entity_uuid)
+        value = ActualItem.objects.filter(node__in=node.timeline,
+                                          actual__entity__uuid=entity_uuid)
+        return value
 
 
 class ActualItem(SheetItem):
@@ -488,7 +494,7 @@ class ActualItem(SheetItem):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('actual_item_detail', [self.uuid])
+        return 'actual_item_detail', [self.uuid]
 
     def __unicode__(self):
         return self.node.code

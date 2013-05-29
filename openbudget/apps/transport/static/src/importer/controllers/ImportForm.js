@@ -46,7 +46,7 @@ define([
                         },
                         process_data: this.processDivisions
                     };
-                    config.data_url = Importer.BASE_API_URL + 'domain-divisions/';
+                    config.data_url = Importer.BASE_API_URL + 'division/';
                     break;
                 case 'actual':
                     config.template_name = 'budget-form';
@@ -85,7 +85,7 @@ define([
                             .then( this.wakeContained.bind(this) );
                         }
                     };
-                    config.data_url = Importer.BASE_API_URL + 'entities/';
+                    config.data_url = Importer.BASE_API_URL + 'entity/';
                     break;
             }
 
