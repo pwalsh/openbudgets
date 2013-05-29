@@ -441,16 +441,19 @@ class BudgetTemplateParser(BaseParser):
         resolved_rows_by_code = {}
         unresolved_rows_by_code = {}
         parent_nodes_by_code = {}
+        root_nodes_lookup = {}
         has_parent_template = False
 
         if self.parent:
             has_parent_template = True
-            parent_nodes = self.parent.nodes.all()
+            parent_nodes = self.parent.nodes.values('code', 'parent', 'path')
             for node in parent_nodes:
-                code = node.code
+                code = node['code']
                 if code not in parent_nodes_by_code:
                     parent_nodes_by_code[code] = []
                 parent_nodes_by_code[code].append(node)
+                if not node['parent']:
+                    root_nodes_lookup[code] = node
 
         for row_num, obj in enumerate(raw_data):
             first_run.append((row_num, obj))
@@ -458,6 +461,8 @@ class BudgetTemplateParser(BaseParser):
         def _resolve(key, row, scope=None):
             row_num, obj = row
             code = obj['code']
+            if has_parent_template:
+                _remove_overridden_from_lookup(code, key)
             if scope:
                 obj['parentscope'] = scope
             obj['path'] = key
@@ -474,6 +479,21 @@ class BudgetTemplateParser(BaseParser):
                         # remove that code from the lookup if it's not containing any rows
                         if not len(unresolved_rows_by_code[code]):
                             del unresolved_rows_by_code[code]
+                            break
+
+        def _lookup_path_in_parent(code, key, callback=None):
+            if code in parent_nodes_by_code:
+                for i, node in enumerate(parent_nodes_by_code[code]):
+                    if node['path'] == key:
+                        if callback:
+                            callback(i, node)
+                        return True
+            return False
+
+        def _remove_overridden_from_lookup(code, key):
+            def _remove_node(i, node):
+                parent_nodes_by_code[code].pop(i)
+            _lookup_path_in_parent(code, key, _remove_node)
 
         def _defer(code, row, next_run):
             next_run.append(row)
@@ -482,6 +502,7 @@ class BudgetTemplateParser(BaseParser):
             unresolved_rows_by_code[code].append(row)
 
         def _set_inverse_scope(row):
+            #TODO: add support for lookup in roots as in path resolving
             row_num, obj = row
             inverse_codes = obj.get('inverse', None)
             inverse_scopes = obj.get('inversescope', None)
@@ -502,7 +523,7 @@ class BudgetTemplateParser(BaseParser):
 
                     for i, inv_code in enumerate(inverses):
                         key = self.ROUTE_SEPARATOR.join((inv_code, inverse_scopes[i]))
-                        if key not in resolved_lookup:
+                        if key not in resolved_lookup and not _lookup_path_in_parent(inv_code, key):
                             InverseNodeNotFoundError(
                                 row=row_num,
                                 columns=['inverse', 'inversescope'],
@@ -524,6 +545,9 @@ class BudgetTemplateParser(BaseParser):
                                         values=[obj.get('inverse'), obj.get('inversescope')]
                                     )
                                 )
+                        elif inv_code in parent_nodes_by_code and len(parent_nodes_by_code[inv_code]) == 1:
+                            scope = self.ROUTE_SEPARATOR.join(_get_scope_by_code(inv_code, True))
+                            inverse_scopes.append(scope)
                         else:
                             self.throw(
                                 InverseNodeNotFoundError(
@@ -537,7 +561,7 @@ class BudgetTemplateParser(BaseParser):
 
         def _get_scope_by_code(code, is_parent_node=False):
             if is_parent_node:
-                parent_path = parent_nodes_by_code[code][0].path
+                parent_path = parent_nodes_by_code[code][0]['path']
             else:
                 parent_path = resolved_rows_by_code[code][0][1]['path']
             return parent_path.split(self.ROUTE_SEPARATOR)[1:]
@@ -558,29 +582,44 @@ class BudgetTemplateParser(BaseParser):
                     elif not parent:
                         # top level node - resolve
                         _resolve(code, row)
+                        root_nodes_lookup[code] = obj
+                    elif parent in root_nodes_lookup:
+                        key = self.ROUTE_SEPARATOR.join((code, root_nodes_lookup[parent]['code']))
+                        _resolve(key, row)
                     else:
                         # defer for next run
                         _defer(code, row, next_run)
                 else:
                     has_unresolved_parents = parent in unresolved_rows_by_code
-                    if has_parent_template:
+                    if parent in root_nodes_lookup:
+                        key = self.ROUTE_SEPARATOR.join((code, root_nodes_lookup[parent]['code']))
+                        _resolve(key, row)
+                    elif has_parent_template:
                         is_in_parent = parent in parent_nodes_by_code
                         is_in_resolved = parent in resolved_rows_by_code
                         if is_in_parent != is_in_resolved and not has_unresolved_parents:
-                            if is_in_parent and len(parent_nodes_by_code[parent]) == 1:
-                                scope = _get_scope_by_code(parent, True)
-                                route = [code, parent]
-                                if scope:
-                                    route += scope
-                                key = self.ROUTE_SEPARATOR.join(route)
-                                _resolve(key, row, self.ROUTE_SEPARATOR.join(scope))
-                            elif is_in_resolved and len(resolved_rows_by_code[parent]) == 1:
+                            if is_in_resolved and len(resolved_rows_by_code[parent]) == 1:
                                 scope = _get_scope_by_code(parent)
                                 route = [code, parent]
                                 if scope:
                                     route += scope
                                 key = self.ROUTE_SEPARATOR.join(route)
                                 _resolve(key, row, self.ROUTE_SEPARATOR.join(scope))
+                            elif is_in_parent and len(parent_nodes_by_code[parent]) == 1:
+                                scope = _get_scope_by_code(parent, True)
+                                route = [code, parent]
+                                if scope:
+                                    route += scope
+                                key = self.ROUTE_SEPARATOR.join(route)
+                                _resolve(key, row, self.ROUTE_SEPARATOR.join(scope))
+                            elif is_in_parent:
+                                self.throw(
+                                    ParentScopeError(
+                                        row=row_num + 2,
+                                        columns=['code', 'parent'],
+                                        values=[code, parent]
+                                    )
+                                )
                             else:
                                 self.throw(
                                     ParentScopeError(
