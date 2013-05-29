@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseServerError, HttpResponseBadRe
 from django.views.generic import View, FormView, TemplateView
 from django.shortcuts import redirect
 from django.shortcuts import render
+from braces.views import LoginRequiredMixin
 from openbudget.apps.transport.forms import FileImportForm
 from openbudget.apps.transport.incoming.importers.tablibimporter import TablibImporter
 from openbudget.apps.transport.tasks import save_import
@@ -11,7 +12,7 @@ from openbudget.commons.mixins.views import FileResponseMixin
 from openbudget.apps.budgets.models import Budget, Actual, BudgetItem, ActualItem
 
 
-class FileImportView(FormView):
+class FileImportView(LoginRequiredMixin, FormView):
     """View to import from file, where metadata is in the filename.
 
     This view is a simple import interface targeted mainly at
@@ -74,7 +75,11 @@ class ImportSuccessView(TemplateView):
     template_name = 'transport/import_success.html'
 
 
-def importer_app(request):
-    return render(request, 'transport/importer.html', {
-        'UPLOAD_URL': reverse('data_import')
-    })
+class ImportAppView(LoginRequiredMixin, TemplateView):
+    template_name = 'transport/importer.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ImportAppView, self).get_context_data(**kwargs)
+        context['UPLOAD_URL'] = reverse('data_import')
+
+        return context
