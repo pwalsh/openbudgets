@@ -19,8 +19,6 @@ class Command(BaseCommand):
         # https://groups.google.com/forum/?fromgroups#!topic/django-modeltranslation/JBgEBfWZZ9A
 
         translation.activate(settings.MODELTRANSLATION_DEFAULT_LANGUAGE)
-        print 'COMMAND INIT'
-        print translation.get_language()
         super(Command, self).__init__()
 
     def handle(self, *args, **options):
