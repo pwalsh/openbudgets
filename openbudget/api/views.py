@@ -2,6 +2,7 @@ from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
+from django.contrib.comments.models import Comment
 from openbudget.api import serializers
 from openbudget.apps.entities.models import Entity, Domain, Division
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
@@ -18,6 +19,18 @@ def api_root(request, format=None):
         'actuals': reverse('actual-list', request=request),
         'domain-divisions': reverse('domaindivision-list', request=request),
     })
+
+
+#class CommentList(generics.ListAPIView):
+#
+#    model = Comment
+#    serialier_class = serializers.CommentSerializer
+
+
+#class CommentDetail(generics.RetrieveAPIView):
+#
+#    model = Comment
+#    serialier_class = serializers.CommentSerializer
 
 
 class EntityList(generics.ListAPIView):

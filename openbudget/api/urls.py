@@ -11,7 +11,7 @@ urlpatterns = patterns('openbudget.api.views',
     url(r'^auth/',
         include('provider.oauth2.urls', namespace='oauth2')
     ),
-    url(r'^entities/$',
+    url(r'^entity/$',
         views.EntityList.as_view(),
         name='entity-list'
     ),
@@ -19,7 +19,7 @@ urlpatterns = patterns('openbudget.api.views',
         views.EntityDetail.as_view(),
         name='entity-detail'
     ),
-    url(r'^domains/$',
+    url(r'^domain/$',
         views.DomainList.as_view(),
         name='domain-list'
     ),
@@ -27,15 +27,15 @@ urlpatterns = patterns('openbudget.api.views',
         views.DomainDetail.as_view(),
         name='domain-detail'
     ),
-    url(r'^domain-divisions/$',
+    url(r'^division/$',
         views.DomainDivisionList.as_view(),
         name='domaindivision-list'
     ),
-    url(r'^domain-division/(?P<pk>\d+)/$',
+    url(r'^division/(?P<pk>\d+)/$',
         views.DomainDivisionDetail.as_view(),
         name='domaindivision-detail'
     ),
-    url(r'^budget/template/(?P<pk>\d+)/$',
+    url(r'^template/(?P<pk>\d+)/$',
         views.BudgetTemplateDetail.as_view(),
         name='budgettemplate-detail'
     ),
@@ -43,7 +43,7 @@ urlpatterns = patterns('openbudget.api.views',
         views.BudgetTemplateNodeDetail.as_view(),
         name='budgettemplatenode-detail'
     ),
-    url(r'^budgets/$',
+    url(r'^budget/$',
         views.BudgetList.as_view(),
         name='budget-list'
     ),
@@ -51,7 +51,7 @@ urlpatterns = patterns('openbudget.api.views',
         views.BudgetDetail.as_view(),
         name='budget-detail'
     ),
-    url(r'^budgetitems/$',
+    url(r'^budgetitem/$',
         views.BudgetItemList.as_view(),
         name='budgetitem-list'
     ),
@@ -59,7 +59,7 @@ urlpatterns = patterns('openbudget.api.views',
         views.BudgetItemDetail.as_view(),
         name='budgetitem-detail'
     ),
-    url(r'^actuals/$',
+    url(r'^actual/$',
         views.ActualList.as_view(),
         name='actual-list'
     ),
@@ -67,7 +67,7 @@ urlpatterns = patterns('openbudget.api.views',
         views.ActualDetail.as_view(),
         name='actual-detail'
     ),
-    url(r'^actualitems/$',
+    url(r'^actualitem/$',
         views.ActualItemList.as_view(),
         name='actualitem-list'
     ),

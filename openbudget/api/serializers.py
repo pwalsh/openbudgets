@@ -1,4 +1,7 @@
 from rest_framework import serializers
+from rest_framework.fields import get_component
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.comments.models import Comment
 from openbudget.apps.entities.models import Entity, Domain, Division
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
 from openbudget.apps.projects.models import Project
@@ -39,6 +42,41 @@ class PeriodField(serializers.RelatedField):
             'period_end': value.period_end
         }
 
+
+class CommentField(serializers.RelatedField):
+
+    many = True
+
+    def to_native(self, value):
+        """."""
+        return {'comment': value.comment}
+
+    def field_to_native(self, obj, field_name):
+        try:
+            if self.source == '*':
+                return self.to_native(obj)
+
+            source = self.source or field_name
+            value = obj
+
+            for component in source.split('.'):
+                value = get_component(value, component)
+                if value is None:
+                    break
+        except ObjectDoesNotExist:
+            return None
+
+        if value is None:
+            return None
+
+        if self.many:
+            return [self.to_native(item) for item in value.all()]
+        return self.to_native(value)
+
+    class Meta:
+        model = Comment
+
+
 class BudgetItemLinked(serializers.HyperlinkedModelSerializer):
 
     node = BudgetTemplateNodeModel()
@@ -60,6 +98,7 @@ class ActualItemLinked(serializers.HyperlinkedModelSerializer):
 
     node = BudgetTemplateNodeModel()
     actual = PeriodField()
+    discussion = CommentField(many=True)
 
     class Meta:
         model = ActualItem
