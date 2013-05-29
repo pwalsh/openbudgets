@@ -46,7 +46,7 @@ define([
                         },
                         process_data: this.processDivisions
                     };
-                    config.data_url = Importer.BASE_API_URL + 'domain-divisions/';
+                    config.data_url = Importer.BASE_API_URL + 'divisions/';
                     break;
                 case 'actual':
                     config.template_name = 'budget-form';
