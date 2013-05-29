@@ -5,7 +5,8 @@ from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, B
 from openbudget.apps.entities.models import Division
 from openbudget.apps.transport.incoming.parsers import BaseParser, register
 from openbudget.apps.transport.incoming.errors import DataAmbiguityError, DataSyntaxError, ParentScopeError,\
-    MetaParsingError, DataValidationError, NodeDirectionError, PathInterpolationError, ParentNodeNotFoundError
+    MetaParsingError, DataValidationError, NodeDirectionError, PathInterpolationError, ParentNodeNotFoundError,\
+    InverseScopesError, InverseNodeNotFoundError
 
 
 def _raise_parent_not_found(code, parent, scope):
@@ -24,6 +25,7 @@ class BudgetTemplateParser(BaseParser):
     def __init__(self, container_object_dict, extends=None, fill_in_parents=None, interpolate=None):
         super(BudgetTemplateParser, self).__init__(container_object_dict)
         self.parent = extends
+        self.skipped_rows = []
 
         #TODO: this assumes there's always a base template to inherit from, might need to support parents filling w/o parent template
         if extends:
@@ -109,17 +111,21 @@ class BudgetTemplateParser(BaseParser):
         return item
 
     def _save_inverses(self, obj, key):
+        #TODO: clean up and refactor stuff that's already done in _set_inverse_scope()
         inverses = []
-        inverse_codes = obj['inverse'].split(self.ITEM_SEPARATOR)
+        inverse_codes = obj.get('inverse', None)
+        scopes = obj.get('inversescope', None)
 
-        if len(inverse_codes) and inverse_codes[0]:
-            scopes = []
+        if inverse_codes:
+            inverse_codes = obj['inverse'].split(self.ITEM_SEPARATOR)
+        else:
+            inverse_codes = []
+
+        if len(inverse_codes):
+
             scopes_length = 0
-            inverse_scope = ''
-
-            if 'inversescope' in obj:
-                inverse_scope = obj['inversescope']
-                scopes = inverse_scope.split(self.ITEM_SEPARATOR)
+            if scopes:
+                scopes = scopes.split(self.ITEM_SEPARATOR)
                 scopes_length = len(scopes)
                 # clean up
                 del obj['inversescope']
@@ -136,7 +142,7 @@ class BudgetTemplateParser(BaseParser):
                             DataSyntaxError(
                                 row=self.rows_objects_lookup.get(key, None),
                                 columns=('inverse', 'inversescope'),
-                                values=(obj['inverse'], inverse_scope)
+                                values=(obj['inverse'], scopes)
                             )
                         )
                         # create a dummy node as the parent
@@ -405,26 +411,239 @@ class BudgetTemplateParser(BaseParser):
                     )
 
     def _generate_lookup(self, data):
+        resolved = self._generate_scopes(data)
+
         lookup_table = {}
         rows_objects_lookup = {}
 
-        for row_num, obj in enumerate(data):
-            path = self._get_path(obj)
-
-            if path in lookup_table:
-                self.throw(
-                    DataAmbiguityError(
-                        # +1 for heading row +1 for 0-based to 1-based
-                        rows=(row_num + 2, rows_objects_lookup[path])
-                    )
-                )
-            else:
-                lookup_table[path] = obj
+        for key, (row_num, obj) in resolved.iteritems():
+            keep_row = self._rows_filter(obj, row_num)
+            if keep_row:
+                lookup_table[key] = obj
                 # +1 for heading row +1 for 0-based to 1-based
-                rows_objects_lookup[path] = row_num + 2
+                rows_objects_lookup[key] = row_num + 2
+            else:
+                self._skipped_row(obj, row_num)
 
         self.objects_lookup = lookup_table
         self.rows_objects_lookup = rows_objects_lookup
+
+    def _rows_filter(self, obj, row_num=None):
+        return True
+
+    def _skipped_row(self, obj, row_num):
+        # +1 for heading row +1 for 0-based to 1-based
+        self.skipped_rows.append((row_num + 2, obj))
+
+    def _generate_scopes(self, raw_data):
+        resolved_lookup = {}
+        first_run = []
+        resolved_rows_by_code = {}
+        unresolved_rows_by_code = {}
+        parent_nodes_by_code = {}
+        has_parent_template = False
+
+        if self.parent:
+            has_parent_template = True
+            parent_nodes = self.parent.nodes.all()
+            for node in parent_nodes:
+                code = node.code
+                if code not in parent_nodes_by_code:
+                    parent_nodes_by_code[code] = []
+                parent_nodes_by_code[code].append(node)
+
+        for row_num, obj in enumerate(raw_data):
+            first_run.append((row_num, obj))
+
+        def _resolve(key, row, scope=None):
+            row_num, obj = row
+            code = obj['code']
+            if scope:
+                obj['parentscope'] = scope
+            obj['path'] = key
+            resolved_lookup[key] = row
+            if code not in resolved_rows_by_code:
+                resolved_rows_by_code[code] = []
+            resolved_rows_by_code[code].append(row)
+            # remove row from unresolved lookup
+            if code in unresolved_rows_by_code:
+                list_copy = list(unresolved_rows_by_code[code])
+                for i, (_row_num, _obj) in enumerate(list_copy):
+                    if _row_num == row_num:
+                        unresolved_rows_by_code[code].pop(i)
+                        # remove that code from the lookup if it's not containing any rows
+                        if not len(unresolved_rows_by_code[code]):
+                            del unresolved_rows_by_code[code]
+
+        def _defer(code, row, next_run):
+            next_run.append(row)
+            if code not in unresolved_rows_by_code:
+                unresolved_rows_by_code[code] = []
+            unresolved_rows_by_code[code].append(row)
+
+        def _set_inverse_scope(row):
+            row_num, obj = row
+            inverse_codes = obj.get('inverse', None)
+            inverse_scopes = obj.get('inversescope', None)
+            if inverse_codes:
+                inverses = inverse_codes.split(self.ITEM_SEPARATOR)
+
+                if inverse_scopes:
+                    inverse_scopes = inverse_scopes.split(self.ITEM_SEPARATOR)
+
+                    if len(inverse_scopes) != len(inverses):
+                        return self.throw(
+                            InverseScopesError(
+                                row=row_num,
+                                columns=('inverse', 'inversescope'),
+                                values=(inverse_codes, inverse_scopes)
+                            )
+                        )
+
+                    for i, inv_code in enumerate(inverses):
+                        key = self.ROUTE_SEPARATOR.join((inv_code, inverse_scopes[i]))
+                        if key not in resolved_lookup:
+                            InverseNodeNotFoundError(
+                                row=row_num,
+                                columns=['inverse', 'inversescope'],
+                                values=[obj.get('inverse'), obj.get('inversescope')]
+                            )
+
+                else:
+                    inverse_scopes = []
+                    for i, inv_code in enumerate(inverses):
+                        if inv_code in resolved_rows_by_code:
+                            if len(resolved_rows_by_code[inv_code]) == 1:
+                                scope = self.ROUTE_SEPARATOR.join(_get_scope_by_code(inv_code))
+                                inverse_scopes.append(scope)
+                            else:
+                                self.throw(
+                                    InverseNodeNotFoundError(
+                                        row=row_num,
+                                        columns=['inverse', 'inversescope'],
+                                        values=[obj.get('inverse'), obj.get('inversescope')]
+                                    )
+                                )
+                        else:
+                            self.throw(
+                                InverseNodeNotFoundError(
+                                    row=row_num,
+                                    columns=['inverse', 'inversescope'],
+                                    values=[obj.get('inverse'), obj.get('inversescope')]
+                                )
+                            )
+                    if len(inverse_scopes):
+                        obj['inversescope'] = self.ITEM_SEPARATOR.join(inverse_scopes)
+
+        def _get_scope_by_code(code, is_parent_node=False):
+            if is_parent_node:
+                parent_path = parent_nodes_by_code[code][0].path
+            else:
+                parent_path = resolved_rows_by_code[code][0][1]['path']
+            return parent_path.split(self.ROUTE_SEPARATOR)[1:]
+
+        def _resolve_paths(data, first_run=True):
+            #TODO: see where we lost the recognition of a DataAmbiguity along the way and throw it where needed
+            next_run = []
+            for row in data:
+                row_num, obj = row
+                code = obj.get('code', None)
+                parent = obj.get('parent', None)
+                if first_run:
+                    scope = obj.get('parentscope', None)
+                    if scope:
+                        # we have scope so we can resolve immediately
+                        key = self.ROUTE_SEPARATOR.join((code, parent, scope))
+                        _resolve(key, row)
+                    elif not parent:
+                        # top level node - resolve
+                        _resolve(code, row)
+                    else:
+                        # defer for next run
+                        _defer(code, row, next_run)
+                else:
+                    has_unresolved_parents = parent in unresolved_rows_by_code
+                    if has_parent_template:
+                        is_in_parent = parent in parent_nodes_by_code
+                        is_in_resolved = parent in resolved_rows_by_code
+                        if is_in_parent != is_in_resolved and not has_unresolved_parents:
+                            if is_in_parent and len(parent_nodes_by_code[parent]) == 1:
+                                scope = _get_scope_by_code(parent, True)
+                                route = [code, parent]
+                                if scope:
+                                    route += scope
+                                key = self.ROUTE_SEPARATOR.join(route)
+                                _resolve(key, row, self.ROUTE_SEPARATOR.join(scope))
+                            elif is_in_resolved and len(resolved_rows_by_code[parent]) == 1:
+                                scope = _get_scope_by_code(parent)
+                                route = [code, parent]
+                                if scope:
+                                    route += scope
+                                key = self.ROUTE_SEPARATOR.join(route)
+                                _resolve(key, row, self.ROUTE_SEPARATOR.join(scope))
+                            else:
+                                self.throw(
+                                    ParentScopeError(
+                                        row=row_num + 2,
+                                        columns=['code', 'parent'],
+                                        values=[code, parent]
+                                    )
+                                )
+                        elif is_in_parent:
+                            self.throw(
+                                ParentScopeError(
+                                    row=row_num + 2,
+                                    columns=['code', 'parent'],
+                                    values=[code, parent]
+                                )
+                            )
+                        else:
+                            # defer for next run
+                            _defer(code, row, next_run)
+                    else:
+                        if parent in resolved_rows_by_code:
+                            has_single_resolved_parent = len(resolved_rows_by_code[parent]) == 1
+                            if has_single_resolved_parent and not has_unresolved_parents:
+                                scope = _get_scope_by_code(parent)
+                                route = [code, parent]
+                                if scope:
+                                    route += scope
+                                key = self.ROUTE_SEPARATOR.join(route)
+                                _resolve(key, row, self.ROUTE_SEPARATOR.join(scope))
+                            else:
+                                self.throw(
+                                    ParentScopeError(
+                                        row=row_num + 2,
+                                        columns=['code', 'parent'],
+                                        values=[code, parent]
+                                    )
+                                )
+                        else:
+                            # defer for next run
+                            _defer(code, row, next_run)
+
+            return next_run if len(next_run) < len(data) else []
+
+        next_run = _resolve_paths(first_run)
+        while len(next_run):
+            next_run = _resolve_paths(next_run, False)
+
+        # one extra run for resolving inverses
+        for key, row in resolved_lookup.iteritems():
+            _set_inverse_scope(row)
+
+        if len(unresolved_rows_by_code):
+            for code, rows in unresolved_rows_by_code.iteritems():
+                for i, (row_num, obj) in enumerate(rows):
+                    self.throw(
+                        ParentScopeError(
+                            row=row_num + 2,
+                            columns=['code', 'parent'],
+                            values=[obj['code'], obj.get('parent', '')]
+                        )
+                    )
+
+        return resolved_lookup
 
     def _get_path(self, obj, as_list=False):
         code = obj.get('code', None)
