@@ -71,7 +71,7 @@ class FileExportView(FileResponseMixin, View):
         return self.render_to_response(context)
 
 
-class ImportSuccessView(TemplateView):
+class ImportSuccessView(LoginRequiredMixin, TemplateView):
     template_name = 'transport/import_success.html'
 
 
