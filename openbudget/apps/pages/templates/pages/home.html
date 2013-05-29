@@ -15,12 +15,12 @@
         </p>
         <p>
             {% blocktrans %}
-            Some features are only visible to loggedin users. To login, use the following credentials:
+            Some features are only visible to logged in users. To login, use the following credentials:
             {% endblocktrans %}
             <br /><br />
-            <strong>Username:</strong> democitizen
+            <strong>{% trans 'Username' %}:</strong> democitizen
             <br />
-            <strong>Password:</strong> morelove!
+            <strong>{% trans 'Password' %}:</strong> morelove!
             <br /><br />
             <a class="button blue" href="{% url 'auth_login' %}?next=/">
                 Login now
@@ -29,7 +29,7 @@
 
         {% if user.is_authenticated %}
         <h3>
-            Now that you are logged in...
+            {% trans 'Now that you are logged in...' %}
         </h3>
         <p>
             You should make sure to see your <a href="{% url 'account_detail' user.uuid %}" title="">user account page</a> and follow some of the links there too.
