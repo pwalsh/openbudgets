@@ -16,6 +16,7 @@ class TimeStampedModel(models.Model):
     )
     last_modified = models.DateTimeField(
         _('Last modified'),
+        db_index=True,
         auto_now=True,
         editable=False
     )
@@ -28,6 +29,7 @@ class UUIDModel(models.Model):
         abstract = True
 
     uuid = UUIDField(
+        db_index=True,
         auto=True
     )
 

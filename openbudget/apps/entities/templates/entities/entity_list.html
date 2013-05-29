@@ -18,7 +18,6 @@
 </p>
 
 {% for entity in object_list %}
-{% if entity.division.index == 3 %}
 <div class="entity-preview">
     <h3>
         {{ entity.name }}
@@ -39,12 +38,11 @@
             {% endif %}
         </div>
         <div class="context">
-            {{ entity.division.name }}
+            {{ entity.division__name }}
         </div>
     </div>
 </div>
 
-{% endif %}
 {% endfor %}
 
 {% endblock content %}

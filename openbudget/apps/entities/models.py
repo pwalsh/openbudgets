@@ -36,6 +36,7 @@ class Domain(TimeStampedModel):
     )
 
     name = models.CharField(
+        db_index=True,
         max_length=255,
         unique=True,
         help_text=_('The name of this entity domain.')
@@ -102,15 +103,19 @@ class Division(TimeStampedModel):
     )
     index = models.PositiveSmallIntegerField(
         _('Index'),
+        db_index=True,
         help_text=_('Position this division in relation to others')
     )
     name = models.CharField(
+        _('Name'),
+        db_index=True,
         max_length=255,
         unique=True,
         help_text=_('The name of this division')
     )
     has_budgets = models.BooleanField(
         _('has budgets'),
+        db_index=True,
         default=False,
         help_text=_('Must be true if this division directly presents budgets')
     )
@@ -139,6 +144,7 @@ class Entity(TimeStampedModel, UUIDModel):
         related_name='entities'
     )
     name = models.CharField(
+        db_index=True,
         max_length=255,
         help_text=_('The name of this entity')
     )
@@ -159,6 +165,7 @@ class Entity(TimeStampedModel, UUIDModel):
         related_name='children'
     )
     slug = AutoSlugField(
+        db_index=True,
         populate_from='name',
         unique=True
     )
