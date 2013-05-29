@@ -11,14 +11,6 @@ urlpatterns = patterns('openbudget.api.views',
     url(r'^auth/',
         include('provider.oauth2.urls', namespace='oauth2')
     ),
-    url(r'^entity/$',
-        views.EntityList.as_view(),
-        name='entity-list'
-    ),
-    url(r'^entity/(?P<pk>\d+)/$',
-        views.EntityDetail.as_view(),
-        name='entity-detail'
-    ),
     url(r'^domain/$',
         views.DomainList.as_view(),
         name='domain-list'
@@ -28,20 +20,28 @@ urlpatterns = patterns('openbudget.api.views',
         name='domain-detail'
     ),
     url(r'^division/$',
-        views.DomainDivisionList.as_view(),
-        name='domaindivision-list'
+        views.DivisionList.as_view(),
+        name='division-list'
     ),
     url(r'^division/(?P<pk>\d+)/$',
-        views.DomainDivisionDetail.as_view(),
-        name='domaindivision-detail'
+        views.DivisionDetail.as_view(),
+        name='division-detail'
+    ),
+    url(r'^entity/$',
+        views.EntityList.as_view(),
+        name='entity-list'
+    ),
+    url(r'^entity/(?P<pk>\d+)/$',
+        views.EntityDetail.as_view(),
+        name='entity-detail'
     ),
     url(r'^template/(?P<pk>\d+)/$',
-        views.BudgetTemplateDetail.as_view(),
-        name='budgettemplate-detail'
+        views.TemplateDetail.as_view(),
+        name='template-detail'
     ),
     url(r'^budget/template/node/(?P<pk>\d+)/$',
-        views.BudgetTemplateNodeDetail.as_view(),
-        name='budgettemplatenode-detail'
+        views.TemplateNodeDetail.as_view(),
+        name='templatenode-detail'
     ),
     url(r'^budget/$',
         views.BudgetList.as_view(),

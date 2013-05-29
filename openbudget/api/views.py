@@ -2,7 +2,6 @@ from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
-from django.contrib.comments.models import Comment
 from openbudget.api import serializers
 from openbudget.apps.entities.models import Entity, Domain, Division
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, Budget, BudgetItem, Actual, ActualItem
@@ -14,37 +13,12 @@ def api_root(request, format=None):
     """The entry endpoint of our API"""
 
     return Response({
+        'domains': reverse('domain-list', request=request),
+        'divisions': reverse('division-list', request=request),
         'entities': reverse('entity-list', request=request),
         'budgets': reverse('budget-list', request=request),
         'actuals': reverse('actual-list', request=request),
-        'domain-divisions': reverse('domaindivision-list', request=request),
     })
-
-
-#class CommentList(generics.ListAPIView):
-#
-#    model = Comment
-#    serialier_class = serializers.CommentSerializer
-
-
-#class CommentDetail(generics.RetrieveAPIView):
-#
-#    model = Comment
-#    serialier_class = serializers.CommentSerializer
-
-
-class EntityList(generics.ListAPIView):
-    """API endpoint that represents a list of entities"""
-
-    model = Entity
-    serializer_class = serializers.EntityListLinked
-
-
-class EntityDetail(generics.RetrieveAPIView):
-    """API endpoint that represents a single entities"""
-
-    model = Entity
-    serializer_class = serializers.EntityDetailLinked
 
 
 class DomainList(generics.ListAPIView):
@@ -61,32 +35,46 @@ class DomainDetail(generics.RetrieveAPIView):
     serializer_class = serializers.DomainLinked
 
 
-class DomainDivisionList(generics.ListAPIView):
+class DivisionList(generics.ListAPIView):
     """API endpoint that represents a list of domain divisions"""
 
     model = Division
-    serializer_class = serializers.DomainDivisionLinked
+    serializer_class = serializers.DivisionLinked
 
 
-class DomainDivisionDetail(generics.RetrieveAPIView):
+class DivisionDetail(generics.RetrieveAPIView):
     """API endpoint that represents a single domain division"""
 
     model = Division
-    serializer_class = serializers.DomainDivisionLinked
+    serializer_class = serializers.DivisionLinked
 
 
-class BudgetTemplateDetail(generics.RetrieveAPIView):
+class EntityList(generics.ListAPIView):
+    """API endpoint that represents a list of entities"""
+
+    model = Entity
+    serializer_class = serializers.EntityListLinked
+
+
+class EntityDetail(generics.RetrieveAPIView):
+    """API endpoint that represents a single entities"""
+
+    model = Entity
+    serializer_class = serializers.EntityDetailLinked
+
+
+class TemplateDetail(generics.RetrieveAPIView):
     """API endpoint that represents a single budget template"""
 
     model = BudgetTemplate
-    serializer_class = serializers.BudgetTemplateLinked
+    serializer_class = serializers.TemplateLinked
 
 
-class BudgetTemplateNodeDetail(generics.RetrieveAPIView):
+class TemplateNodeDetail(generics.RetrieveAPIView):
     """API endpoint that represents a single budget template node"""
 
     model = BudgetTemplateNode
-    serializer_class = serializers.BudgetTemplateNodeLinked
+    serializer_class = serializers.TemplateNodeLinked
 
 
 class BudgetList(generics.ListAPIView):
