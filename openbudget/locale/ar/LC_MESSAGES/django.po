@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-30 11:37+0300\n"
+"POT-Creation-Date: 2013-05-30 12:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -335,6 +335,7 @@ msgstr ""
 
 #: apps/budgets/models.py:346
 #: apps/budgets/templates/budgets/budget_detail.html:6
+#: apps/transport/templates/transport/importer.html:21
 msgid "Budget"
 msgstr ""
 
@@ -344,6 +345,7 @@ msgid "Budgets"
 msgstr ""
 
 #: apps/budgets/models.py:395
+#: apps/transport/templates/transport/importer.html:22
 msgid "Actual"
 msgstr ""
 
@@ -1260,12 +1262,12 @@ msgid ""
 "Inverse node not found for item in row: %s; and columns: %s; with values: %s"
 msgstr ""
 
-#: apps/transport/incoming/parsers/__init__.py:209
+#: apps/transport/incoming/parsers/__init__.py:212
 #, python-format
 msgid "Parser for key: \"%s\" does not exist"
 msgstr ""
 
-#: apps/transport/incoming/parsers/__init__.py:221
+#: apps/transport/incoming/parsers/__init__.py:224
 #, python-format
 msgid "Given parser is not registered: %s"
 msgstr ""
@@ -1285,12 +1287,12 @@ msgstr ""
 msgid "DomainDivision with pk %s does not exist"
 msgstr ""
 
-#: apps/transport/incoming/parsers/budgettemplate.py:785
+#: apps/transport/incoming/parsers/budgettemplate.py:538
 #, python-format
 msgid "Template of %(entity)s since %(year)s"
 msgstr ""
 
-#: apps/transport/incoming/parsers/budgettemplate.py:794
+#: apps/transport/incoming/parsers/budgettemplate.py:547
 msgid "Official Template since %(year)"
 msgstr ""
 
@@ -1309,6 +1311,23 @@ msgid ""
 "the database.\n"
 "            You will receive an email once saving process is complete.\n"
 "        "
+msgstr ""
+
+#: apps/transport/templates/transport/importer.html:19
+msgid "Choose the data type for import"
+msgstr ""
+
+#: apps/transport/templates/transport/importer.html:20
+msgid "Budget Template"
+msgstr ""
+
+#: apps/transport/templates/transport/importer.html:25
+msgid "Source file"
+msgstr ""
+
+#: apps/transport/templates/transport/importer.html:26
+#: commons/templates/partials/_form_action_submit.html:2
+msgid "Submit"
 msgstr ""
 
 #: commons/mixins/models.py:22
@@ -1415,10 +1434,6 @@ msgstr ""
 
 #: commons/templates/partials/_form_action_search.html:2
 msgid "Search"
-msgstr ""
-
-#: commons/templates/partials/_form_action_submit.html:2
-msgid "Submit"
 msgstr ""
 
 #: commons/templates/partials/_pagination.html:5
