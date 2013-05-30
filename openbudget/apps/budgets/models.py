@@ -279,12 +279,12 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel, ClassMethodMixin):
 
     entity = models.ForeignKey(
         Entity,
-        related_name='%(class)s'
+        related_name='%(class)ss'
     )
 
     template = models.ForeignKey(
         BudgetTemplate,
-        related_name='%(class)s'
+        related_name='%(class)ss'
     )
 
     description = models.TextField(

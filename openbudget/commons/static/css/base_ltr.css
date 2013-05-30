@@ -1003,8 +1003,8 @@ footer nav {
   float: right;
   text-align: right;
 }
-.entity-preview h3 span {
-  font-size: 0.75em;
+.entity-preview h3 {
+  font-size: 0.875em;
 }
 .entity-preview .context {
   -webkit-box-sizing: border-box;
@@ -1015,8 +1015,8 @@ footer nav {
   float: right;
   text-align: right;
   font-size: 0.825em;
-  background-color: #d9d9d9;
   padding: 0.125em 0.5em 0.125em 0.125em;
+  margin-top: 0.25em;
   margin-left: -1%;
 }
 .entity-preview .data-status {

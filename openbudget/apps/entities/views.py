@@ -1,5 +1,6 @@
 from django.views.generic import DetailView, ListView
 from openbudget.apps.entities.models import Domain, Entity
+from openbudget.apps.budgets.models import Budget
 
 
 class EntityListView(ListView):

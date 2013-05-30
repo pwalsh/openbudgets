@@ -202,18 +202,6 @@ class Entity(TimeStampedModel, UUIDModel):
         value = Entity.objects.filter(division__domain=self.division.domain, division__has_budgets=True).exclude(id=self.id)
         return value
 
-    @property
-    def budgets(self):
-        Budget = get_model('budgets', 'Budget')
-        value = Budget.objects.filter(entity=self)
-        return value
-
-    @property
-    def actuals(self):
-        Actual = get_model('budgets', 'Actual')
-        value = Actual.objects.filter(entity=self)
-        return value
-
     # TODO: see my notes in entities.views
     # want to build better slugs for SEO (bots and humans)
     #@property
