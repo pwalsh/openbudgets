@@ -234,7 +234,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
     ),
-    'PAGINATE_BY': 50
+    'PAGINATE_BY': 1000
 }
 
 # OAUTH2 PROVIDER CONF
