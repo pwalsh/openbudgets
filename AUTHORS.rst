@@ -38,4 +38,4 @@ Gladis Batshon
 Ido Ivri
 Paul Walsh
 Hanna Kaminski
-Osnat
+Osnat Friedman

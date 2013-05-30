@@ -4,10 +4,10 @@ from jsonfield import JSONField
 from provider.oauth2.models import Client
 from openbudget.settings import base as settings
 from openbudget.apps.accounts.models import Account
-from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
+from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, ClassMethodMixin
 
 
-class Project(TimeStampedModel, UUIDModel):
+class Project(TimeStampedModel, UUIDModel, ClassMethodMixin):
     """
     Visualization state object comprised of configuration, data input and some meta data.
     """
@@ -49,11 +49,6 @@ class Project(TimeStampedModel, UUIDModel):
         null=True,
         help_text=_('JSON serialized configuration object of the visualization.')
     )
-
-    @classmethod
-    def get_class_name(cls):
-        value = cls.__name__.lower()
-        return value
 
     @models.permalink
     def get_absolute_url(self):
