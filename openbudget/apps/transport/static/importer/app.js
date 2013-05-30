@@ -22,7 +22,7 @@ define([
                  */
                 uijet.init({
                     element             : '#importer',
-                    templates_path      : '/static/src/importer/templates/',
+                    templates_path      : '/static/importer/templates/',
                     templates_extension : 'ms'
                 });
             }

@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block stylesheets %}
-<link rel="stylesheet" href="{{ STATIC_URL }}css/importer/main.css"/>
+<link rel="stylesheet" href="{{ STATIC_URL }}importer/main.css"/>
 {% endblock stylesheets %}
 
 {% block main %}
@@ -36,5 +36,5 @@
         UPLOAD_URL = '{{ UPLOAD_URL }}',
         BASE_API_URL = 'http://api.{{ site|safe }}/';
 </script>
-<script src="{{ STATIC_URL }}lib/require.js" data-main="{{ STATIC_URL }}src/importer/main"></script>
+<script src="{{ STATIC_URL }}lib/require.js" data-main="{{ STATIC_URL }}importer/main"></script>
 {% endblock js_body %}
