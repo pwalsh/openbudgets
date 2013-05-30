@@ -49,13 +49,7 @@ class PathResolver(object):
         if len(self.unresolved_rows_by_code):
             for code, rows in self.unresolved_rows_by_code.iteritems():
                 for i, (row_num, obj) in enumerate(rows):
-                    self.throw(
-                        ParentScopeError(
-                            row=row_num + 2,
-                            columns=['code', 'parent'],
-                            values=[obj['code'], obj.get('parent', '')]
-                        )
-                    )
+                    self._throw_parent_scope_error(obj['code'], obj.get('parent', ''), row_num)
 
         return self.resolved_lookup
 
