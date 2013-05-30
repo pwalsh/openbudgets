@@ -502,7 +502,6 @@ class BudgetTemplateParser(BaseParser):
             unresolved_rows_by_code[code].append(row)
 
         def _set_inverse_scope(row):
-            #TODO: add support for lookup in roots as in path resolving
             row_num, obj = row
             inverse_codes = obj.get('inverse', None)
             inverse_scopes = obj.get('inversescope', None)
@@ -533,6 +532,8 @@ class BudgetTemplateParser(BaseParser):
                 else:
                     inverse_scopes = []
                     for i, inv_code in enumerate(inverses):
+                        if inv_code in root_nodes_lookup:
+                            inverse_scopes.append('')
                         if inv_code in resolved_rows_by_code:
                             if len(resolved_rows_by_code[inv_code]) == 1:
                                 scope = self.ROUTE_SEPARATOR.join(_get_scope_by_code(inv_code))
