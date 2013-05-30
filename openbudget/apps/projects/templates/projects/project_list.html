@@ -7,12 +7,7 @@
 {% endblock title %}
 
 {% block interactions %}
-<span class="interactions">
-{% if user.is_authenticated %}
-{% follow object user %}
-{% star object user %}
-{% endif %}
-</span>
+
 {% endblock interactions %}
 
 {% block content %}
