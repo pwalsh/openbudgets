@@ -17,6 +17,7 @@ class UUIDField(serializers.RelatedField):
     def to_native(self, value):
         return str(value.uuid)
 
+
 class TemplateNodeModel(serializers.ModelSerializer):
 
     backwards = UUIDField(many=True)
@@ -87,8 +88,6 @@ class BudgetItemLinked(serializers.HyperlinkedModelSerializer):
 
 
 class BudgetLinked(serializers.HyperlinkedModelSerializer):
-
-    items = BudgetItemLinked()
 
     class Meta:
         model = Budget
