@@ -28,14 +28,7 @@ define([
     uijet.declare([{
         type    : 'Pane',
         config  : {
-            element : '#heading',
-            position: 'top:50'
-        }
-    }, {
-        type    : 'Pane',
-        config  : {
-            element : '#form_container',
-            position: 'fluid'
+            element : '#form_container'
         }
     }, {
         type    : 'Form',
