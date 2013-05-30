@@ -16,14 +16,14 @@
         <ul id="import_errors"></ul>
         <form id="import_form">
             <fieldset>
-                <legend>Choose import type:</legend>
-                <label><input type="radio" name="type" value="budgettemplate"/> Budget Template</label>
-                <label><input type="radio" name="type" value="budget"/> Budget</label>
-                <label><input type="radio" name="type" value="actual"/> Actual</label>
+                <legend>{% trans 'Choose the data type for import' %}:</legend>
+                <label><input type="radio" name="type" value="budgettemplate"/>{% trans 'Budget Template' %}</label>
+                <label><input type="radio" name="type" value="budget"/>{% trans 'Budget' %}</label>
+                <label><input type="radio" name="type" value="actual"/>{% trans 'Actual' %}</label>
             </fieldset>
             <fieldset id="import_form_type_ext"></fieldset>
-            <label for="sourcefile_input">Source File:</label><input type="file" name="sourcefile" id="sourcefile_input"/>
-            <span id="import_form_submit">Submit</span>
+            <label for="sourcefile_input">{% trans 'Source file' %}:</label><input type="file" name="sourcefile" id="sourcefile_input"/>
+            <span id="import_form_submit">{% trans 'Submit' %}</span>
         </form>
     </div>
 </div>

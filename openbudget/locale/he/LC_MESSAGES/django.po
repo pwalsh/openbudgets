@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-30 11:37+0300\n"
+"POT-Creation-Date: 2013-05-30 11:54+0300\n"
 "PO-Revision-Date: 2013-05-23 17:58+0000\n"
 "Last-Translator: Ram Ezrach <ram.ezrach@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -337,6 +337,7 @@ msgstr ""
 
 #: apps/budgets/models.py:346
 #: apps/budgets/templates/budgets/budget_detail.html:6
+#: apps/transport/templates/transport/importer.html:21
 msgid "Budget"
 msgstr "תקציב"
 
@@ -346,6 +347,7 @@ msgid "Budgets"
 msgstr "תקציבים"
 
 #: apps/budgets/models.py:395
+#: apps/transport/templates/transport/importer.html:22
 msgid "Actual"
 msgstr ""
 
@@ -1321,6 +1323,25 @@ msgid ""
 "        "
 msgstr ""
 
+#: apps/transport/templates/transport/importer.html:19
+msgid "Choose the data type for import"
+msgstr ""
+
+#: apps/transport/templates/transport/importer.html:20
+#, fuzzy
+msgid "Budget Template"
+msgstr "תצורת התקציב"
+
+#: apps/transport/templates/transport/importer.html:25
+#, fuzzy
+msgid "Source file"
+msgstr "מקור קובץ נתונים"
+
+#: apps/transport/templates/transport/importer.html:26
+#: commons/templates/partials/_form_action_submit.html:2
+msgid "Submit"
+msgstr ""
+
 #: commons/mixins/models.py:22
 msgid "Created on"
 msgstr "נוצר ב"
@@ -1422,10 +1443,6 @@ msgstr "מחק"
 #: commons/templates/partials/_form_action_search.html:2
 msgid "Search"
 msgstr "חיפוש"
-
-#: commons/templates/partials/_form_action_submit.html:2
-msgid "Submit"
-msgstr ""
 
 #: commons/templates/partials/_pagination.html:5
 msgid "Previous"

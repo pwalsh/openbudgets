@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-30 11:37+0300\n"
+"POT-Creation-Date: 2013-05-30 11:54+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -335,6 +335,7 @@ msgstr ""
 
 #: apps/budgets/models.py:346
 #: apps/budgets/templates/budgets/budget_detail.html:6
+#: apps/transport/templates/transport/importer.html:21
 msgid "Budget"
 msgstr ""
 
@@ -344,6 +345,7 @@ msgid "Budgets"
 msgstr ""
 
 #: apps/budgets/models.py:395
+#: apps/transport/templates/transport/importer.html:22
 msgid "Actual"
 msgstr ""
 
@@ -1311,6 +1313,23 @@ msgid ""
 "        "
 msgstr ""
 
+#: apps/transport/templates/transport/importer.html:19
+msgid "Choose the data type for import"
+msgstr ""
+
+#: apps/transport/templates/transport/importer.html:20
+msgid "Budget Template"
+msgstr ""
+
+#: apps/transport/templates/transport/importer.html:25
+msgid "Source file"
+msgstr ""
+
+#: apps/transport/templates/transport/importer.html:26
+#: commons/templates/partials/_form_action_submit.html:2
+msgid "Submit"
+msgstr ""
+
 #: commons/mixins/models.py:22
 msgid "Created on"
 msgstr ""
@@ -1415,10 +1434,6 @@ msgstr ""
 
 #: commons/templates/partials/_form_action_search.html:2
 msgid "Search"
-msgstr ""
-
-#: commons/templates/partials/_form_action_submit.html:2
-msgid "Submit"
 msgstr ""
 
 #: commons/templates/partials/_pagination.html:5
