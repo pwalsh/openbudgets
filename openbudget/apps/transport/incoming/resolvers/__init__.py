@@ -63,101 +63,89 @@ class PathResolver(object):
         self.parser.throw(error)
 
     def _resolve_paths(self, data, first_run=True):
-            #TODO: see where we lost the recognition of a DataAmbiguity along the way and throw it where needed
-            next_run = []
-            for row in data:
-                row_num, obj = row
-                code = obj.get('code', None)
-                parent = obj.get('parent', None)
-                if first_run:
-                    scope = obj.get('parentscope', None)
-                    if scope:
-                        # we have scope so we can resolve immediately
-                        key = self.ROUTE_SEPARATOR.join((code, parent, scope))
-                        self._resolve_row(key, row)
-                    elif not parent:
-                        # top level node - resolve
-                        self._resolve_row(code, row)
-                        self.root_nodes_lookup[code] = obj
-                    elif parent in self.root_nodes_lookup:
-                        key = self.ROUTE_SEPARATOR.join((code, self.root_nodes_lookup[parent]['code']))
-                        self._resolve_row(key, row)
+        #TODO: see where we lost the recognition of a DataAmbiguity along the way and throw it where needed
+        next_run = []
+        for row in data:
+            row_num, obj = row
+            code = obj.get('code', None)
+            parent = obj.get('parent', None)
+            if first_run:
+                scope = obj.get('parentscope', None)
+                if scope:
+                    # we have scope so we can resolve immediately
+                    key = self.ROUTE_SEPARATOR.join((code, parent, scope))
+                    self._resolve_row(key, row)
+                elif not parent:
+                    # top level node - resolve
+                    self._resolve_row(code, row)
+                    self.root_nodes_lookup[code] = obj
+                elif parent in self.root_nodes_lookup:
+                    key = self.ROUTE_SEPARATOR.join((code, self.root_nodes_lookup[parent]['code']))
+                    self._resolve_row(key, row)
+                else:
+                    # defer for next run
+                    self._defer_row(code, row, next_run)
+            else:
+                has_unresolved_parents = parent in self.unresolved_rows_by_code
+                if parent in self.root_nodes_lookup:
+                    key = self.ROUTE_SEPARATOR.join((code, self.root_nodes_lookup[parent]['code']))
+                    self._resolve_row(key, row)
+
+                elif self.has_parent_template:
+                    is_in_parent = parent in self.parent_nodes_by_code
+                    is_in_resolved = parent in self.resolved_rows_by_code
+
+                    if is_in_parent != is_in_resolved and not has_unresolved_parents:
+                        if is_in_resolved and len(self.resolved_rows_by_code[parent]) == 1:
+                            scope = self._get_scope_by_code(parent)
+                            route = [code, parent]
+                            if scope:
+                                route += scope
+                            key = self.ROUTE_SEPARATOR.join(route)
+                            self._resolve_row(key, row, self.ROUTE_SEPARATOR.join(scope))
+                        elif is_in_parent and len(self.parent_nodes_by_code[parent]) == 1:
+                            scope = self._get_scope_by_code(parent, True)
+                            route = [code, parent]
+                            if scope:
+                                route += scope
+                            key = self.ROUTE_SEPARATOR.join(route)
+                            self._resolve_row(key, row, self.ROUTE_SEPARATOR.join(scope))
+                        else:
+                            self._throw_parent_scope_error(code, parent, row_num)
+
+                    elif is_in_parent:
+                        self._throw_parent_scope_error(code, parent, row_num)
+
                     else:
                         # defer for next run
                         self._defer_row(code, row, next_run)
-                else:
-                    has_unresolved_parents = parent in self.unresolved_rows_by_code
-                    if parent in self.root_nodes_lookup:
-                        key = self.ROUTE_SEPARATOR.join((code, self.root_nodes_lookup[parent]['code']))
-                        self._resolve_row(key, row)
-                    elif self.has_parent_template:
-                        is_in_parent = parent in self.parent_nodes_by_code
-                        is_in_resolved = parent in self.resolved_rows_by_code
-                        if is_in_parent != is_in_resolved and not has_unresolved_parents:
-                            if is_in_resolved and len(self.resolved_rows_by_code[parent]) == 1:
-                                scope = self._get_scope_by_code(parent)
-                                route = [code, parent]
-                                if scope:
-                                    route += scope
-                                key = self.ROUTE_SEPARATOR.join(route)
-                                self._resolve_row(key, row, self.ROUTE_SEPARATOR.join(scope))
-                            elif is_in_parent and len(self.parent_nodes_by_code[parent]) == 1:
-                                scope = self._get_scope_by_code(parent, True)
-                                route = [code, parent]
-                                if scope:
-                                    route += scope
-                                key = self.ROUTE_SEPARATOR.join(route)
-                                self._resolve_row(key, row, self.ROUTE_SEPARATOR.join(scope))
-                            elif is_in_parent:
-                                self.throw(
-                                    ParentScopeError(
-                                        row=row_num + 2,
-                                        columns=['code', 'parent'],
-                                        values=[code, parent]
-                                    )
-                                )
-                            else:
-                                self.throw(
-                                    ParentScopeError(
-                                        row=row_num + 2,
-                                        columns=['code', 'parent'],
-                                        values=[code, parent]
-                                    )
-                                )
-                        elif is_in_parent:
-                            self.throw(
-                                ParentScopeError(
-                                    row=row_num + 2,
-                                    columns=['code', 'parent'],
-                                    values=[code, parent]
-                                )
-                            )
-                        else:
-                            # defer for next run
-                            self._defer_row(code, row, next_run)
-                    else:
-                        if parent in self.resolved_rows_by_code:
-                            has_single_resolved_parent = len(self.resolved_rows_by_code[parent]) == 1
-                            if has_single_resolved_parent and not has_unresolved_parents:
-                                scope = self._get_scope_by_code(parent)
-                                route = [code, parent]
-                                if scope:
-                                    route += scope
-                                key = self.ROUTE_SEPARATOR.join(route)
-                                self._resolve_row(key, row, self.ROUTE_SEPARATOR.join(scope))
-                            else:
-                                self.throw(
-                                    ParentScopeError(
-                                        row=row_num + 2,
-                                        columns=['code', 'parent'],
-                                        values=[code, parent]
-                                    )
-                                )
-                        else:
-                            # defer for next run
-                            self._defer_row(code, row, next_run)
 
-            return next_run if len(next_run) < len(data) else []
+                else:
+                    if parent in self.resolved_rows_by_code:
+                        has_single_resolved_parent = len(self.resolved_rows_by_code[parent]) == 1
+                        if has_single_resolved_parent and not has_unresolved_parents:
+                            scope = self._get_scope_by_code(parent)
+                            route = [code, parent]
+                            if scope:
+                                route += scope
+                            key = self.ROUTE_SEPARATOR.join(route)
+                            self._resolve_row(key, row, self.ROUTE_SEPARATOR.join(scope))
+                        else:
+                            self._throw_parent_scope_error(code, parent, row_num)
+                    else:
+                        # defer for next run
+                        self._defer_row(code, row, next_run)
+
+        return next_run if len(next_run) < len(data) else []
+
+    def _throw_parent_scope_error(self, code, parent, row_num):
+        self.throw(
+            ParentScopeError(
+                row=row_num + 2,
+                columns=['code', 'parent'],
+                values=[code, parent]
+            )
+        )
 
     def _resolve_row(self, key, row, scope=None):
         row_num, obj = row
