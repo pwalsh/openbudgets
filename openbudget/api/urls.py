@@ -37,7 +37,7 @@ urlpatterns = patterns('openbudget.api.views',
     ),
     url(r'^template/(?P<pk>\d+)/$',
         views.TemplateDetail.as_view(),
-        name='template-detail'
+        name='budgettemplate-detail'
     ),
     url(r'^budget/template/node/(?P<pk>\d+)/$',
         views.TemplateNodeDetail.as_view(),
