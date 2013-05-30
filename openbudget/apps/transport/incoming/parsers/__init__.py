@@ -5,6 +5,9 @@ from openbudget.apps.budgets.models import PATH_SEPARATOR
 from openbudget.apps.transport.incoming.errors import DataValidationError
 
 
+ITEM_SEPARATOR = ';'
+
+
 class BaseParser(object):
     """
     Parsers take a raw dataset, usually from an importer, and transform
@@ -18,7 +21,7 @@ class BaseParser(object):
     """
 
     ROUTE_SEPARATOR = PATH_SEPARATOR
-    ITEM_SEPARATOR = ';'
+    ITEM_SEPARATOR = ITEM_SEPARATOR
 
     def __init__(self, container_object_dict):
         self.valid = True
