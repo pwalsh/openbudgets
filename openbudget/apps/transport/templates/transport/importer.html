@@ -2,12 +2,11 @@
 {% load i18n %}
 
 {% block stylesheets %}
-<link rel="stylesheet" href="{{ STATIC_URL }}css/importer/main.css"/>
+<link rel="stylesheet" href="{{ STATIC_URL }}importer/main.css"/>
 {% endblock stylesheets %}
 
 {% block main %}
 <div id="importer" class="uijet_app">
-    <h1 id="heading">Welcome to Budget Importer 4000</h1>
     <div id="form_container">
         <h2 id="import_message"></h2>
         <p id="import_message_exp" class="hide">{% blocktrans %}
@@ -36,5 +35,5 @@
         UPLOAD_URL = '{{ UPLOAD_URL }}',
         BASE_API_URL = 'http://api.{{ site|safe }}/';
 </script>
-<script src="{{ STATIC_URL }}lib/require.js" data-main="{{ STATIC_URL }}src/importer/main"></script>
+<script src="{{ STATIC_URL }}lib/require.js" data-main="{{ STATIC_URL }}importer/main"></script>
 {% endblock js_body %}
