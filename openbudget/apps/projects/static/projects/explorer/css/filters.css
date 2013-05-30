@@ -1,0 +1,13 @@
+#entity_filter_close {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#entities_list {
+    text-align: right;
+}
+#entities_list li {
+    padding: .6rem;
+    border-bottom: 1px solid lightslategray;
+}

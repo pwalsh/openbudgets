@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <link rel="stylesheet" href="/static/projects/explorer/css/main.css"/>
+    <title>Open Muni Budget | Budget Importer</title>
+</head>
+<body>
+    <div id="explorer" class="uijet_app">
+        <div id="filters">
+            <span id="add_filter">Add</span>
+            <ul id="filters_list"></ul>
+            <div id="entity_filter">
+                <span id="entity_filter_close">X</span>
+                <!--input type="text" name="entity" id="entity_field"/-->
+                <ul id="entities_list"></ul>
+            </div>
+        </div>
+        <div id="nodes_picker"></div>
+    </div>
+    <script>
+        var API_URL = 'http://api.obudget.dev:8000/',
+            AUTH_URL = API_URL + 'auth/access_token/';
+    </script>
+    <script src="/static/lib/require.js" data-main="/static/projects/explorer/main"></script>
+</body>
+</html>

@@ -21,6 +21,11 @@ MIDDLEWARE_CLASSES += (
     'django_pdb.middleware.PdbMiddleware',
 )
 
+XS_SHARING_ALLOWED_ORIGINS = '*'
+XS_SHARING_ALLOWED_METHODS = ['POST', 'GET', 'OPTIONS', 'PUT', 'DELETE']
+XS_SHARING_ALLOWED_HEADERS = ['Content-Type', 'Authorization', '*']
+XS_SHARING_ALLOWED_CREDENTIALS = 'true'
+
 INSTALLED_APPS += (
     'debug_toolbar',
     'django_pdb',
