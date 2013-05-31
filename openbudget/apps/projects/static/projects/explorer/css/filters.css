@@ -2,6 +2,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 1;
 }
 
 #entities_list {
@@ -10,4 +11,8 @@
 #entities_list li {
     padding: .6rem;
     border-bottom: 1px solid lightslategray;
+}
+
+#entity_filter {
+    background-color: lightgray;
 }

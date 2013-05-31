@@ -1,3 +1,11 @@
 @charset "UTF-8";
 @import url('/static/lib/uijet/uijet.css');
 @import url('filters.css');
+
+.uijet_button {
+    border: 1px solid lightslategray;
+    background-color: darkgray;
+}
+.uijet_button:hover {
+    background-color: lightslategray;
+}
