@@ -8,6 +8,10 @@ from openbudget.apps.transport.incoming.errors import DataValidationError
 ITEM_SEPARATOR = ';'
 
 
+class ParsingError(Exception):
+    pass
+
+
 class BaseParser(object):
     """
     Parsers take a raw dataset, usually from an importer, and transform

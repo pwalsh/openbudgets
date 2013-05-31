@@ -3,14 +3,14 @@ from django.db import IntegrityError
 from django.utils.translation import ugettext_lazy as _, gettext as __
 from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, BudgetTemplateNodeRelation
 from openbudget.apps.entities.models import Division
-from openbudget.apps.transport.incoming.parsers import BaseParser, register
+from openbudget.apps.transport.incoming.parsers import BaseParser, register, ParsingError
 from openbudget.apps.transport.incoming.resolvers import PathResolver
 from openbudget.apps.transport.incoming.errors import DataSyntaxError, ParentScopeError,\
     MetaParsingError, DataValidationError, NodeDirectionError, PathInterpolationError, ParentNodeNotFoundError
 
 
 def _raise_parent_not_found(code, parent, scope):
-    raise Exception(
+    raise ParsingError(
         __('Could not locate parent of node: %s; with parent: %s; and scope: %s') %
         (code, parent, scope)
     )
@@ -147,7 +147,7 @@ class BudgetTemplateParser(BaseParser):
                         # create a dummy node as the parent
                         inverse = self.item_model(code=obj['inverse'], name='dummy')
                     else:
-                        raise Exception('Could not locate an inverse, \
+                        raise ParsingError('Could not locate an inverse, \
                                         probably you have a syntax error: inverse = %s' % obj['inverse'])
 
                 else:
@@ -306,8 +306,8 @@ class BudgetTemplateParser(BaseParser):
                 )
                 return None
             else:
-                raise Exception(_('Interpolation failed, no ancestor found for path: %s') %
-                                self.ROUTE_SEPARATOR.join(route_copy))
+                raise ParsingError(_('Interpolation failed, no ancestor found for path: %s') %
+                                   self.ROUTE_SEPARATOR.join(route_copy))
 
         # we managed to find an ancestor and saved it
         # now to connect the dots together,
@@ -353,7 +353,7 @@ class BudgetTemplateParser(BaseParser):
                 self.rows_objects_lookup[key] = row_num
 
         else:
-            raise Exception(_('You are trying to insert an item that already exists at: %s') % key)
+            raise ParsingError(_('You are trying to insert an item that already exists at: %s') % key)
 
         return self._save_item(obj, key)
 
@@ -465,7 +465,7 @@ class BudgetTemplateParser(BaseParser):
                 path = self.ROUTE_SEPARATOR.join(route)
 
             else:
-                raise Exception(
+                raise ParsingError(
                     __('Did not get neither route nor path for looking up node, for row: %s') %
                     self.rows_objects_lookup.get(key, None)
                 )

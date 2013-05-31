@@ -1,7 +1,8 @@
 from copy import deepcopy
+from django.utils.translation import gettext as __
 from openbudget.apps.budgets.models import BudgetTemplate, Budget, BudgetItem
 from openbudget.apps.entities.models import Entity
-from openbudget.apps.transport.incoming.parsers import register
+from openbudget.apps.transport.incoming.parsers import register, ParsingError
 from openbudget.apps.transport.incoming.parsers.budgettemplate import BudgetTemplateParser
 from openbudget.apps.transport.incoming.errors import MetaParsingError, NodeNotFoundError
 
@@ -131,8 +132,7 @@ class BudgetParser(BudgetTemplateParser):
                 )
             )
         else:
-            #TODO: handle this error properly, since at this stage there shouldn't be any missing nodes
-            raise Exception()
+            raise ParsingError(__('Did not find a node for the item in row: %s') % self.rows_objects_lookup[key])
 
         self._clean_object(obj, key)
         if not self.dry:
@@ -200,7 +200,7 @@ class BudgetParser(BudgetTemplateParser):
                         return qs[0]
                     else:
                         #TODO: handle this case of no previous template found
-                        raise Exception
+                        raise ParsingError(__('Could not find a parent template for input: %s') % container_dict)
 
     def _set_entity(self):
 
