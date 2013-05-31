@@ -35,6 +35,10 @@ urlpatterns = patterns('openbudget.api.views',
         views.EntityDetail.as_view(),
         name='entity-detail'
     ),
+    url(r'^template/$',
+        views.TemplateList.as_view(),
+        name='budgettemplate-list'
+    ),
     url(r'^template/(?P<pk>\d+)/$',
         views.TemplateDetail.as_view(),
         name='budgettemplate-detail'

@@ -28,7 +28,13 @@ class TemplateNodeModel(serializers.ModelSerializer):
         model = BudgetTemplateNode
 
 
-class TemplateLinked(serializers.HyperlinkedModelSerializer):
+class TemplateListLinked(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = BudgetTemplate
+
+
+class TemplateDetailModel(serializers.ModelSerializer):
 
     node_set = TemplateNodeModel()
 

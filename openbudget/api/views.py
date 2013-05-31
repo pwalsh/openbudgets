@@ -16,6 +16,7 @@ def api_root(request, format=None):
         'domains': reverse('domain-list', request=request),
         'divisions': reverse('division-list', request=request),
         'entities': reverse('entity-list', request=request),
+        'templates': reverse('budgettemplate-list', request=request),
         'budgets': reverse('budget-list', request=request),
         'actuals': reverse('actual-list', request=request),
     })
@@ -63,11 +64,18 @@ class EntityDetail(generics.RetrieveAPIView):
     serializer_class = serializers.EntityDetailLinked
 
 
+class TemplateList(generics.ListAPIView):
+    """API endpoint that represents a list of budget templates"""
+
+    model = BudgetTemplate
+    serializer_class = serializers.TemplateListLinked
+
+
 class TemplateDetail(generics.RetrieveAPIView):
     """API endpoint that represents a single budget template"""
 
     model = BudgetTemplate
-    serializer_class = serializers.TemplateLinked
+    serializer_class = serializers.TemplateDetailModel
 
 
 class TemplateNodeDetail(generics.RetrieveAPIView):
