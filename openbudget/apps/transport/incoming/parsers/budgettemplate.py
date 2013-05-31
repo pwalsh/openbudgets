@@ -20,7 +20,7 @@ class BudgetTemplateParser(BaseParser):
 
     container_model = BudgetTemplate
     item_model = BudgetTemplateNode
-    ITEM_ATTRIBUTES = ('name', 'code', 'parent', 'path', 'templates', 'inverse', 'direction', 'description')
+    ITEM_ATTRIBUTES = ('name', 'code', 'parent', 'path', 'templates', 'direction', 'description')
 
     def __init__(self, container_object_dict, extends=None, fill_in_parents=None, interpolate=None):
         super(BudgetTemplateParser, self).__init__(container_object_dict)
@@ -50,7 +50,7 @@ class BudgetTemplateParser(BaseParser):
         if not is_node:
             # if inheriting another template then look up this node there
             if self.parent:
-                path = self._get_path(obj)
+                path = obj['path']
                 item = self._lookup_node(path=path, key=key)
                 if item:
                     # in case we found the item, cache the saved node
@@ -88,7 +88,6 @@ class BudgetTemplateParser(BaseParser):
                     )
                 )
 
-            self._set_path(obj, parent)
             self._set_direction(obj, parent)
 
             item = self._create_item(obj, key)
@@ -111,13 +110,12 @@ class BudgetTemplateParser(BaseParser):
         return item
 
     def _save_inverses(self, obj, key):
-        #TODO: clean up and refactor stuff that's already done in _set_inverse_scope()
         inverses = []
         inverse_codes = obj.get('inverse', None)
         scopes = obj.get('inversescope', None)
 
         if inverse_codes:
-            inverse_codes = obj['inverse'].split(self.ITEM_SEPARATOR)
+            inverse_codes = inverse_codes.split(self.ITEM_SEPARATOR)
         else:
             inverse_codes = []
 
@@ -127,8 +125,9 @@ class BudgetTemplateParser(BaseParser):
             if scopes:
                 scopes = scopes.split(self.ITEM_SEPARATOR)
                 scopes_length = len(scopes)
-                # clean up
-                del obj['inversescope']
+                if not scopes_length:
+                    # clean up
+                    del obj['inversescope']
 
             for i, inv_code in enumerate(inverse_codes):
                 if i < scopes_length:
@@ -142,7 +141,7 @@ class BudgetTemplateParser(BaseParser):
                             DataSyntaxError(
                                 row=self.rows_objects_lookup.get(key, None),
                                 columns=('inverse', 'inversescope'),
-                                values=(obj['inverse'], scopes)
+                                values=(obj['inverse'], obj.get('inversescope', None))
                             )
                         )
                         # create a dummy node as the parent
@@ -175,7 +174,7 @@ class BudgetTemplateParser(BaseParser):
             if 'inversescope' in obj:
                 del obj['inversescope']
 
-        del obj['inverse']
+            del obj['inverse']
 
         return inverses
 
@@ -184,26 +183,29 @@ class BudgetTemplateParser(BaseParser):
 
             if 'parentscope' in obj:
                 scope = obj['parentscope']
-                # clean parentscope
-                del obj['parentscope']
+                if not scope:
+                    # clean parentscope
+                    del obj['parentscope']
             else:
                 scope = ''
 
-            parent_key, parent = self._lookup_object(code=unicode(obj['parent']), scope=scope)
+            # generate a lookup key for the parent
+            route = [unicode(obj['parent'])]
+            if scope:
+                route += scope.split(self.ROUTE_SEPARATOR)
+            parent_path = self.ROUTE_SEPARATOR.join(route)
+
+            # first look it up in the input from the source file
+            parent_key, parent = self._lookup_object(key=parent_path)
 
             if not parent or not parent_key:
 
                 if self.fill_in_parents:
-                    # we're going to get the parent node from the parent template
-                    route = [unicode(obj['parent'])]
-                    # generate a path for lookup
-                    if scope:
-                        route += scope.split(self.ROUTE_SEPARATOR)
                     # look up the node in the parent template
-                    parent = self._lookup_node(route=route, key=key)
+                    parent = self._lookup_node(path=parent_path, route=route, key=key)
                     if parent:
                         # save the node as if it was another object in the lookup
-                        return self._save_item(parent, self.ROUTE_SEPARATOR.join(route), is_node=True)
+                        return self._save_item(parent, parent_path, is_node=True)
 
                     elif parent is False:
                         # there's an ambiguity here that was caught
@@ -340,7 +342,8 @@ class BudgetTemplateParser(BaseParser):
             'code': code,
             'parentscope': parent_scope,
             'direction': parent.direction,
-            'name': parent.name
+            'name': parent.name,
+            'path': key
         }
 
         _key, _obj = self._lookup_object(key=key)
@@ -354,27 +357,23 @@ class BudgetTemplateParser(BaseParser):
 
         return self._save_item(obj, key)
 
-    def _set_path(self, obj, parent=None):
-        parent = parent or obj['parent'] if 'parent' in obj else None
-        path = [obj['code']]
-
-        if parent:
-            path.append(parent.path)
-
-        obj['path'] = self.ROUTE_SEPARATOR.join(path)
-
     def _set_direction(self, obj, parent):
         if parent and ('direction' not in obj or not obj['direction']):
             obj['direction'] = parent.direction
 
     def _create_item(self, obj, key):
+        # work with a clone so we always keep the source input
+        obj = obj.copy()
+
         self._clean_object(obj, key)
+
         if not self.dry:
             item = self.item_model.objects.create(**obj)
         else:
             item = self.item_model(**obj)
             row_num = self.rows_objects_lookup.get(key, None)
             self._dry_clean(item, row_num=row_num)
+
         return item
 
     def _add_to_container(self, item, key):
@@ -435,26 +434,6 @@ class BudgetTemplateParser(BaseParser):
     def _skipped_row(self, obj, row_num):
         # +1 for heading row +1 for 0-based to 1-based
         self.skipped_rows.append((row_num + 2, obj))
-
-    def _get_path(self, obj, as_list=False):
-        code = obj.get('code', None)
-        parent = None
-        # obj and parent could both be a BudgetTemplateNode instance
-        if 'parent' in obj and obj['parent']:
-            parent = unicode(obj['parent'])
-        scope = obj.get('parentscope', None)
-
-        if as_list and scope:
-            scope = scope.split(self.ROUTE_SEPARATOR)
-
-        path = [code]
-
-        if parent:
-            path.append(parent)
-        if scope:
-            path.append(scope)
-
-        return path if as_list else self.ROUTE_SEPARATOR.join(path)
 
     def _lookup_object(self, code=None, parent='', scope='', key=None):
         if code:
