@@ -25,49 +25,43 @@ define([
             }
         }),
         /*
-         * Budget Model
+         * BudgetTemplateNode Model
          */
-        Budget = uijet.Model({
+        Node = uijet.Model({
             idAttribute : 'uuid'
         }),
         /*
-         * Budgets Collection
+         * BudgetTemplateNodes Collection
          */
-        Budgets = uijet.Collection({
-            model   : Budget,
-            parse   : function (response) {
-                var budgets = response.budgets;
-                uijet.publish('budgets_updated', {
-                    collection  : this,
-                    budgets     : budgets
-                });
-                return budgets;
+        Nodes = uijet.Collection({
+            model   : Node,
+            past    : function (node_id, past) {
+                var node = this.get(node_id),
+                    backwards = node.get('backwards');
+                past = past || [];
+                _.each(backwards, function (id) {
+                    past.push(id);
+                    this.past(id, past);
+                }, this);
+                return past;
             },
-            setUrl  : function (entity_url) {
-                this.url = entity_url;
-            }
-        }),
-
-        /*
-         * Actual Model
-         */
-        Actual = uijet.Model({
-            idAttribute : 'uuid'
-        }),
-        /*
-         * Actuals Collection
-         */
-        Actuals = uijet.Collection({
-            model   : Actual,
-            parse   : function (response) {
-                return response.actuals;
+            future  : function (node_id, future) {
+                var node = this.get(node_id),
+                    forwards = node.get('forwards');
+                future = future || [];
+                _.each(forwards, function (id) {
+                    future.push(id);
+                    this.future(id, future);
+                }, this);
+                return future;
             },
-            setUrl  : function (entity_url) {
-                this.url = entity_url;
+            timeline: function (node_id) {
+                return[node_id].concat(this.future(node_id), this.past(node_id));
             }
         });
 
     return {
-        Munis   : Munis
+        Munis   : Munis,
+        Nodes   : Nodes
     };
 });

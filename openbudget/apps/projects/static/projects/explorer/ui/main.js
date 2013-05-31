@@ -59,24 +59,37 @@ define([
             element : '#nodes_picker',
             position: 'fluid'
         }
-//    }, {
-//        type    : 'List',
-//        config  : {
-//            element     : '#nodes_list',
-//            dont_wake   : true,
-//            mixins      : ['Templated', 'Scrolled'],
-//            adapters    : ['jqWheelScroll', 'Spin'],
-//            resource    : 'Nodes',
-//            signals     : {
-//                pre_update      : 'spin',
-//                post_fetch_data : 'spinOff'
-//            },
-//            app_events  : {
-//                'entities_list.selected'    : function ($selected) {
-//                    var entity_id = $selected.attr('data-id');
-//                }
-//            }
-//        }
+    }, {
+        type    : 'List',
+        config  : {
+            element     : '#nodes_list',
+            dont_wake   : true,
+            mixins      : ['Templated', 'Scrolled'],
+            adapters    : ['jqWheelScroll', 'Spin'],
+            resource    : 'LatestTemplate',
+            signals     : {
+                pre_wake        : function () {
+                    return this.changed;
+                },
+                pre_update      : 'spin',
+                post_fetch_data : 'spinOff'
+            },
+            app_events  : {
+                'entities_list.selected'    : function ($selected) {
+                    var entity_id = $selected.attr('data-id');
+                    if ( this.latest_entity_id !== entity_id ) {
+                        this.latest_entity_id = entity_id;
+                        this.changed = true;
+                        this.resource.url = API_URL + 'nodes/latest/' + entity_id + '/';
+                        this.wake(true);
+                    }
+                    else {
+                        this.changed = false;
+                        this.wake();
+                    }
+                }
+            }
+        }
     }]);
 
     return Explorer;

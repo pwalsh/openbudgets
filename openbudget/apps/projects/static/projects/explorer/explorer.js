@@ -25,6 +25,7 @@ define([
              * Register resources
              */
             uijet.Resource('Munis', resources.Munis);
+            uijet.Resource('LatestTemplate', resources.Nodes);
             /*
              * Starting uijet
              */

@@ -1,0 +1,10 @@
+#nodes_picker {
+    background-color: lightblue;
+}
+#nodes_list {
+    text-align: right;
+}
+#nodes_list li {
+    padding: .6rem;
+    border-bottom: 1px solid lightslategray;
+}
