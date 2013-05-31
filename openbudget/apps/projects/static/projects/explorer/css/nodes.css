@@ -1,3 +1,8 @@
+.node-cell-code {
+    float: right;
+    padding-left: 1rem;
+}
+
 #nodes_picker {
     background-color: lightblue;
 }
