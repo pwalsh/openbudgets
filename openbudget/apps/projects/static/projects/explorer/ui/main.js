@@ -13,7 +13,7 @@ define([
         type    : 'Button',
         config  : {
             element : '#add_filter',
-            position: 'top:50px'
+            position: 'top:50px fluid'
         }
     }, {
         type    : 'List',
