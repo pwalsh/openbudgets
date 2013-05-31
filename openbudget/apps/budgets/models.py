@@ -14,11 +14,19 @@ from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, \
 PATH_SEPARATOR = '|'
 
 
+class BudgetTemplateManager(models.Manager):
+
+    def latest_of(self, entity):
+        return self.filter(budgets__entity=entity).latest('period_start')
+
+
 class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel,
                      ClassMethodMixin):
     """The budget template for a given domain division.
 
     """
+
+    objects = BudgetTemplateManager()
 
     divisions = models.ManyToManyField(
         Division,
@@ -230,6 +238,7 @@ m2m_changed.connect(inverse_changed, sender=BudgetTemplateNode.inverse.through)
 
 
 class BudgetTemplateNodeRelationManager(models.Manager):
+
     def has_same_node(self, node, template):
         return self.filter(
             node__code=node.code,
@@ -274,8 +283,16 @@ class BudgetTemplateNodeRelation(models.Model):
         )
 
 
+class SheetManager(models.Manager):
+
+    def latest_of(self, entity):
+        return self.filter(entity=entity).latest('period_start')
+
+
 class Sheet(PeriodicModel, TimeStampedModel, UUIDModel, ClassMethodMixin):
     """An abstract class for common Budget and Actual data"""
+
+    objects = SheetManager()
 
     entity = models.ForeignKey(
         Entity,

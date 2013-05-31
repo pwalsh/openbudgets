@@ -1,3 +1,4 @@
+import django_filters
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
@@ -80,6 +81,21 @@ class TemplateDetail(generics.RetrieveAPIView):
     serializer_class = serializers.TemplateDetailModel
 
 
+class TemplateNodeFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = BudgetTemplateNode
+        fields = ['templates']
+
+
+class TemplateNodeList(generics.ListAPIView):
+    """API endpoint that represents a list of template nodes"""
+
+    model = BudgetTemplateNode
+    serializer_class = serializers.TemplateNodeModel
+    filter_class = TemplateNodeFilter
+
+
 class TemplateNodeDetail(generics.RetrieveAPIView):
     """API endpoint that represents a single budget template node"""
 
@@ -155,6 +171,16 @@ class ProjectAct(generics.RetrieveUpdateDestroyAPIView):
 
     model = Project
     serializer_class = serializers.ProjectLinked
+
+
+class TemplateNodesListLatest(generics.ListAPIView):
+
+    def get(self, request, entity_pk, *args, **kwargs):
+
+        nodes = BudgetTemplate.objects.latest_of(entity=entity_pk).nodes
+        serialized_nodes = serializers.TemplateNodeModel(nodes, many=True).data
+
+        return Response(serialized_nodes)
 
 
 class NodeTimeline(generics.ListAPIView):

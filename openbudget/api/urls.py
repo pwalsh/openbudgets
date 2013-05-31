@@ -79,6 +79,10 @@ urlpatterns = patterns('openbudget.api.views',
         views.ActualItemDetail.as_view(),
         name='actualitem-detail'
     ),
+    url(r'^nodes/latest/(?P<entity_pk>\w+)/$',
+        views.TemplateNodesListLatest.as_view(),
+        name='node-list-latest'
+    ),
     url(r'^(?P<entity_pk>\w+)/timeline/(?P<node_pk>\w+)/$',
         views.NodeTimeline.as_view(),
         name='node-timeline'
