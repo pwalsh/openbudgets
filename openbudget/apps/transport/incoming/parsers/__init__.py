@@ -154,8 +154,12 @@ class BaseParser(object):
         model instance creation.
         Removes every attribute that is not in the `ITEM_ATTRIBUTES` dict.
         """
+        attrs_to_clean = []
         for attr in obj:
             if attr not in self.ITEM_ATTRIBUTES:
+                attrs_to_clean.append(attr)
+        if len(attrs_to_clean):
+            for attr in attrs_to_clean:
                 del obj[attr]
 
     def _create_container(self, container_dict=None, exclude=None):
