@@ -55,6 +55,7 @@ class EntityList(generics.ListAPIView):
 
     model = Entity
     serializer_class = serializers.EntityListLinked
+    filter_fields = ('budgets', 'actuals')
 
 
 class EntityDetail(generics.RetrieveAPIView):
@@ -69,6 +70,7 @@ class TemplateList(generics.ListAPIView):
 
     model = BudgetTemplate
     serializer_class = serializers.TemplateListLinked
+    filter_fields = ('divisions', 'budgets', 'actuals')
 
 
 class TemplateDetail(generics.RetrieveAPIView):
