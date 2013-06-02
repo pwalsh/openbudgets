@@ -40,12 +40,18 @@ define([
             element : '#entity_filter_close'
         }
     }, {
+        type    : 'ClearableTextInput',
+        config  : {
+            element : '#entity_field'
+        }
+    }, {
         type    : 'List',
         config  : {
             element     : '#entities_list',
             mixins      : ['Templated', 'Scrolled'],
             adapters    : ['jqWheelScroll', 'Spin'],
             resource    : 'Munis',
+            position    : 'top|50 fluid',
             signals     : {
                 pre_update      : 'spin',
                 post_fetch_data : 'spinOff',
