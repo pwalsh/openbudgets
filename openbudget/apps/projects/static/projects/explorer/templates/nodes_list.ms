@@ -1,8 +1,8 @@
 {{#.}}
-<li data-id="{{id}}">
+<li data-id="{{attributes.id}}">
     <span class="selectbox"></span>
     <span class="node-cell node-cell-code">
-        {{code}}</span><span class="node-cell node-cell-name">
-        {{name}}</span>
+        {{attributes.code}}</span><span class="node-cell node-cell-name">
+        {{attributes.name}}</span>
 </li>
 {{/.}}

@@ -9,7 +9,9 @@ requirejs.config({
         explorer            : '../projects/explorer/explorer',
         ui                  : '../projects/explorer/ui',
         resources           : '../projects/explorer/resources',
-        controllers         : '../projects/explorer/controllers'
+        controllers         : '../projects/explorer/controllers',
+        project_modules     : '../projects/explorer/modules',
+        project_widgets     : '../projects/explorer/widgets'
     },
     shim    : {
         eventbox: ['setImmediate']
