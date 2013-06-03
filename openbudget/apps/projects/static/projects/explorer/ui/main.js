@@ -42,7 +42,17 @@ define([
     }, {
         type    : 'ClearableTextInput',
         config  : {
-            element : '#entity_field'
+            element     : '#entity_field',
+            button      : {
+                signals : {
+                    pre_click   : '-entity_field.changed'
+                }
+            },
+            dom_events  : {
+                keyup   : function (e) {
+                    this.publish('changed', e.target.value);
+                }
+            }
         }
     }, {
         type    : 'List',
@@ -52,12 +62,55 @@ define([
             adapters    : ['jqWheelScroll', 'Spin'],
             resource    : 'Munis',
             position    : 'top|50 fluid',
+            search      : {
+                fields  : {
+                    code    : 20,
+                    name    : 10,
+                    name_en : 10,
+                    name_ru : 10
+                }
+            },
             signals     : {
                 pre_update      : 'spin',
-                post_fetch_data : 'spinOff',
+                post_fetch_data : function () {
+                    this.spinOff()
+                        .index().search_index.add( this.resource.toJSON() );
+                },
                 pre_wake        : function () {
                     return ! this.has_content;
+                },
+                post_render     : function () {
+                    this.$children = this.$element.children();
+                    this.publish('rendered');
                 }
+            },
+            app_events  : {
+                'entity_field.changed'  : function (value) {
+                    if ( this.has_data && this.$children ) {
+                        var results = this.search(value),
+                            filter = function (i, item) {
+                                return ~ results.indexOf(+uijet.$(item).attr('data-id'));
+                            };
+                        this.$children.filter(filter).removeClass('removed');
+                        this.$children.not(filter).addClass('removed');
+                        this.publish('filtered');
+                    }
+                    else {
+                        var _self = arguments.callee;
+                        if ( 'cached_value' in this ) {
+                            this.cached_value = value;
+                        }
+                        else {
+                            this.cached_value = value;
+                            this.subscribe('entities_list.rendered', function () {
+                                this.unsubscribe('entities_list.rendered');
+                                _self.call(this, this.cached_value);
+                                delete this.cached_value;
+                            });
+                        }
+                    }
+                },
+                'entities_list.filtered': 'scroll'
             }
         }
     }, {
@@ -97,6 +150,13 @@ define([
             mixins      : ['Templated', 'Scrolled'],
             adapters    : ['jqWheelScroll', 'Spin'],
             resource    : 'LatestTemplate',
+            search      : {
+                fields  : {
+                    name        : 10,
+                    description : 1,
+                    code        : 20
+                }
+            },
             signals     : {
                 pre_wake        : function () {
                     return this.changed;
@@ -105,20 +165,12 @@ define([
                 post_fetch_data : 'spinOff',
                 post_wake       : function () {
                     if ( this.changed ) {
-
-                        var models = this.getData({
-                            parent  : null
-                        }).map(function (model) {
-                            return model.attributes;
-                        });
-
-                        this.search_index = uijet.search.Index({
-                            fields  : {
-                                name        : 10,
-                                description : 1,
-                                code        : 20
-                            }
-                        }).add(models);
+                        this.index().search_index.add(this.getData(this.context)
+                            //! Array.prototype.map
+                            .map(function (model) {
+                                return model.attributes;
+                            })
+                        );
                         this.publish('ready', this.context);
                     }
                 }
