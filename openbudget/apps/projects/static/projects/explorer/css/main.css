@@ -4,6 +4,10 @@
 @import url('nodes.css');
 
 
+input {
+    direction: rtl;
+}
+
 .ui-v-scroller {
     position: absolute;
     top: 1px;
