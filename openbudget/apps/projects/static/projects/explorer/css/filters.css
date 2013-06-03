@@ -20,6 +20,15 @@
 #entities_list li {
     padding: .6rem;
     border-bottom: 1px solid lightslategray;
+    overflow: hidden;
+}
+#entities_list li:first-child {
+    border-top: 1px solid lightslategray;
+}
+#entities_list li.removed {
+    height: 0;
+    padding: 0;
+    border-bottom: none;
 }
 
 #entity_field_wrapper {
