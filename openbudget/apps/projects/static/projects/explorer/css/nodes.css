@@ -22,18 +22,40 @@
     padding: .2rem;
 }
 
-.node-cell-code {
+.node_cell_code {
     float: right;
     padding-left: 1rem;
+}
+
+#filters_done {
+    float: left;
+}
+#filters_search {
+    float: left;
+}
+
+#nodes_breadcrumbs {
+    display: inline-block;
+    height: auto;
 }
 
 #nodes_picker {
     background-color: lightblue;
 }
+
 #nodes_list {
     text-align: right;
 }
 #nodes_list li {
     padding: .6rem;
     border-bottom: 1px solid lightslategray;
+    overflow: hidden;
+}
+#nodes_list li:first-child {
+    border-top: 1px solid lightslategray;
+}
+#nodes_list li.removed {
+    height: 0;
+    padding: 0;
+    border-bottom: none;
 }

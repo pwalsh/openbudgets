@@ -18,8 +18,14 @@
             </div>
         </div>
         <div id="nodes_picker">
-            <div id="nodes_filters">
-                <!--ul id="nodes_breadcrumbs"></ul-->
+            <div id="nodes_filters_pane" class="nodes_picker_pane">
+                <h3 class="nodes_picker_pane_heading">Choose budget items for this legend item</h3>
+                <ul id="nodes_breadcrumbs"><span class="node_breadcrumb node_breadcrumb_main">Main</span></ul>
+                <span id="filters_done">Done</span>
+                <span id="filters_search">Search</span>
+            </div>
+            <div id="nodes_search_pane" class="nodes_picker_pane">
+                <h3 class="nodes_picker_pane_heading">Filter only items' names and descriptions that contain:</h3>
                 <input type="text" name="nodes_search" id="nodes_search"/>
             </div>
             <ul id="nodes_list"></ul>
