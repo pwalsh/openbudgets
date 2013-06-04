@@ -27,7 +27,7 @@ define([
             return ret;
         },
         clear           : function () {
-            this.$element.val('');
+            this.$element.val('').focus();
             return this;
         }
     })
