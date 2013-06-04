@@ -4,8 +4,9 @@
 @import url('nodes.css');
 
 
-input {
+body, html {
     direction: rtl;
+    text-align: right;
 }
 
 .ui-v-scroller {
