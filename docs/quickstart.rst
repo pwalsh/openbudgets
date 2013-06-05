@@ -99,7 +99,7 @@ And continuing, we'll install all the project requirements into our virtualenv, 
 
     pip install -r requirements.txt
 
-    volo add
+    volo add -noprompt
 
     python manage.py devstrap -m -t
 
