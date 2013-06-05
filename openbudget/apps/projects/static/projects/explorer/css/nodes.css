@@ -36,6 +36,8 @@
 
 #nodes_breadcrumbs {
     display: inline-block;
+}
+#nodes_breadcrumbs_wrapper {
     height: auto;
 }
 

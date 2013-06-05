@@ -9,7 +9,7 @@ define([
          * Muni (Entity) Model
          */
         Muni = uijet.Model({
-            idAttribute : 'uuid'
+            idAttribute : 'id'
         }),
         /*
          * Munis (Entities) Collection
@@ -29,20 +29,56 @@ define([
          * BudgetTemplateNode Model
          */
         Node = uijet.Model({
-            idAttribute : 'uuid'
+            idAttribute : 'id'
         }),
         /*
          * BudgetTemplateNodes Collection
          */
         Nodes = uijet.Collection({
             model           : Node,
+            /**
+             * Setting `ancestors` array of `id`s, `leaf_node` boolean flag and
+             * `level` - a Number representing the level of the node in the tree.
+             * 
+             * @param {Object|Array} response
+             * @returns {Object|Array} response
+             */
             parse           : function (response) {
-                this._setAncestors(response);
+                var last = response.length - 1,
+                    paths_lookup = {},
+                    parent_ids = {},
+                    node, n, route, path;
+                for ( n = last; node = response[n]; n-- ) {
+                    node.ancestors = [];
+                    paths_lookup[node.path] = node;
+                    if ( node.parent ) {
+                        parent_ids[node.parent] = true;
+                    }
+                }
+                for ( n = last; node = response[n]; n-- ) {
+                    if ( ! parent_ids[node.id] ) {
+                        node.leaf_node = true;
+                    }
+                    route = node.path.split('|').slice(1);
+                    node.level = route.length;
+                    while ( route.length ) {
+                        path = route.join('|');
+                        if ( path in paths_lookup ) {
+                            node.ancestors.push(paths_lookup[path].id);
+                        }
+                        route.shift();
+                    }
+                }
+                paths_lookup = null;
+
                 return response;
             },
             roots           : function () {
+                return this.byParent(null);
+            },
+            byParent        : function (parent_id) {
                 return this.where({
-                    parent  : null
+                    parent  : parent_id
                 });
             },
             byAncestor      : function (ancestor_id) {
@@ -56,6 +92,16 @@ define([
                 else {
                     return this.toJSON();
                 }
+            },
+            branch          : function (node_id) {
+                //! Array.prototype.map
+                return this.get(node_id).get('ancestors')
+                    .map( function (ancestor_id) {
+                        return this.get(ancestor_id).attributes;
+                    }, this )
+                    .sort( function (a, b) {
+                        return a.level - b.level;
+                    } );
             },
             past            : function (node_id, past) {
                 var node = this.get(node_id),
@@ -79,27 +125,6 @@ define([
             },
             timeline        : function (node_id) {
                 return[node_id].concat(this.future(node_id), this.past(node_id));
-            },
-            _setAncestors   : function (response) {
-                var len = response.length,
-                    paths_lookup = {},
-                    node, n, route, path;
-                for ( n = len; node = response[n]; n-- ) {
-                    node.ancestors = [];
-                    paths_lookup[node.path] = node;
-                }
-                for ( n = len; node = response[n]; n-- ) {
-                    route = node.path.split('|').slice(1);
-                    node.level = route.length;
-                    while ( route.length ) {
-                        path = route.join('|');
-                        if ( path in paths_lookup ) {
-                            node.ancestors.push(paths_lookup[path].id);
-                        }
-                        route.shift();
-                    }
-                }
-                paths_lookup = null;
             }
         });
 

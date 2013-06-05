@@ -1,7 +1,8 @@
 define([
     'uijet_dir/uijet',
     'explorer',
-    'project_widgets/ClearableTextInput'
+    'project_widgets/ClearableTextInput',
+    'project_widgets/Breadcrumbs'
 ], function (uijet, Explorer) {
 
     var listSearchHandler = function (value) {
@@ -176,13 +177,16 @@ define([
             }
         }
     }, {
-        type    : 'List',
+        type    : 'Breadcrumbs',
         config  : {
             element     : '#nodes_breadcrumbs',
-//            adapters    : ['Breadcrumbs'],
+            resource    : 'LatestTemplate',
             horizontal  : true,
             app_events  : {
-                'nodes_list.ready'  : function () {}
+                'nodes_list.ready'      : function () {},
+                'nodes_list.selected'   : function (selected) {
+                    this.setCrumbs( this.resource.branch(selected) );
+                }
             }
         }
     }, {
@@ -214,9 +218,20 @@ define([
                 post_wake       : function () {
                     if ( this.changed ) {
                         this.index()
-                            .search_index.add( this.resource.byAncestor() );
+                            .search_index.add( this.resource.byAncestor(this.ancestor || null) );
                         this.publish('ready', this.context);
                     }
+                },
+                pre_select      : function ($selected) {
+                    return ! $selected[0].hasAttribute('data-leaf') && +$selected.attr('data-id');
+                },
+                post_select     : function ($selected) {
+                    var node_id = +$selected.attr('data-id') || null;
+                    // make sure we rebuild index and re-render
+                    this.changed = true;
+                    this.ancestor = node_id;
+                    this.filter(this.resource.byParent, node_id)
+                        .wake(true);
                 }
             },
             app_events  : {
@@ -224,7 +239,10 @@ define([
                     var entity_id = $selected.attr('data-id');
                     if ( this.latest_entity_id !== entity_id ) {
                         this.latest_entity_id = entity_id;
+                        // this makes sure search index is rebuilt and view is re-rendered
                         this.changed = true;
+                        // this makes sure the resource will execute fetch to sync with remote server
+                        this.has_data = false;
                         this.resource.url = API_URL + 'nodes/latest/' + entity_id + '/';
                         this.wake('roots');
                     }
@@ -233,8 +251,9 @@ define([
                         this.wake();
                     }
                 },
-                'nodes_search.changed'  : listSearchHandler,
-                'nodes_list.filtered'   : 'scroll'
+                'nodes_search.changed'                      : listSearchHandler,
+                'nodes_list.filtered'                       : 'scroll',
+                'nodes_breadcrumbs_history_menu.selected'   : 'post_select+'
             }
         }
     }]);
