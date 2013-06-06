@@ -21,6 +21,9 @@
     height: 100%;
     padding: .2rem;
 }
+.uijet_menu li {
+    white-space: nowrap;
+}
 
 .node_cell_code {
     float: right;
@@ -34,11 +37,20 @@
     float: left;
 }
 
-#nodes_breadcrumbs {
-    display: inline-block;
+#node_breadcrumb_back:before {
+    content: '> ';
 }
-#nodes_breadcrumbs_wrapper {
+#nodes_breadcrumbs, #nodes_breadcrumbs_wrapper {
+    display: inline-block;
     height: auto;
+    overflow: visible;
+}
+#nodes_breadcrumbs .uijet_button {
+    padding: 0;
+}
+#nodes_breadcrumbs_history_wrapper {
+    display: inline-block;
+    width: auto;
 }
 
 #nodes_picker {
@@ -60,4 +72,8 @@
     height: 0;
     padding: 0;
     border-bottom: none;
+}
+
+#nodes_filters_pane_wrapper {
+    overflow: visible;
 }
