@@ -14,6 +14,7 @@ Check that you meet these requirements:
 * `Python <http://python.org/>`_ (2.7.x)
 * `Node <http://nodejs.org/>`_
 * `Git <http://git-scm.com/>`_
+* `Mercurial <http://mercurial.selenic.com/>`_
 * `virtualenv <http://virtualenvwrapper.readthedocs.org/en/latest/>`_
 * `virtualenvwrapper <http://virtualenvwrapper.readthedocs.org/en/latest/>`_
 
@@ -31,6 +32,21 @@ We highly recommend it, and in general, we try to follow the best practices ther
 
 Installation
 ------------
+
+Install required packages
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Ubuntu**::
+
+    sudo apt-get install python-dev mercurial
+
+**Fedora**::
+
+    sudo yum install python-devel mercurial
+
+**Mac OS X**
+
+Download from http://mercurial.selenic.com/mac/
 
 Configure hosts
 ~~~~~~~~~~~~~~~
@@ -83,7 +99,7 @@ And continuing, we'll install all the project requirements into our virtualenv, 
 
     pip install -r requirements.txt
 
-    volo add
+    volo add -noprompt
 
     python manage.py devstrap -m -t
 
