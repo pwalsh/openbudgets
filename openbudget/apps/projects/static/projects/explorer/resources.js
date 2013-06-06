@@ -94,14 +94,20 @@ define([
                 }
             },
             branch          : function (node_id) {
-                //! Array.prototype.map
-                return this.get(node_id).get('ancestors')
-                    .map( function (ancestor_id) {
-                        return this.get(ancestor_id).attributes;
-                    }, this )
-                    .sort( function (a, b) {
-                        return a.level - b.level;
-                    } );
+                var tip_node, branch;
+                if ( node_id ) {
+                    tip_node = this.get(node_id);
+                    //! Array.prototype.map
+                    branch = tip_node.get('ancestors')
+                        .map( function (ancestor_id) {
+                            return this.get(ancestor_id).attributes;
+                        }, this )
+                        .sort( function (a, b) {
+                            return a.level - b.level;
+                        } );
+                    branch.push(tip_node.attributes);
+                }
+                return branch || [];
             },
             past            : function (node_id, past) {
                 var node = this.get(node_id),
@@ -130,6 +136,7 @@ define([
 
     return {
         Munis   : Munis,
+        Node    : Node,
         Nodes   : Nodes
     };
 });

@@ -1,9 +1,14 @@
 define([
     'uijet_dir/uijet',
+    'resources',
     'project_widgets/ClearableTextInput',
     'project_widgets/Breadcrumbs',
     'controllers/SearchedList'
-], function (uijet) {
+], function (uijet, resources) {
+
+    uijet.Resource('Breadcrumbs', uijet.Collection({
+        model   : resources.Node
+    }));
 
     uijet.declare([{
         type    : 'Pane',
@@ -78,12 +83,17 @@ define([
         type    : 'Breadcrumbs',
         config  : {
             element     : '#nodes_breadcrumbs',
-            resource    : 'LatestTemplate',
-            horizontal  : true,
+            resource    : 'Breadcrumbs',
+            data_events : {
+                change  : 'render',
+                reset   : 'render'
+            },
             app_events  : {
                 'nodes_list.ready'      : function () {},
                 'nodes_list.selected'   : function (selected) {
-                    this.setCrumbs( this.resource.branch(selected) );
+                    this.resource.reset(
+                        uijet.Resource('LatestTemplate').branch(selected)
+                    );
                 }
             }
         }
@@ -166,6 +176,18 @@ define([
                     this.filter(this.resource.byAncestor, this.scope)
                         .wake(true);
                 },
+                'node_breadcrumb_main.clicked'              : function () {
+                    this.changed = true;
+                    this.wake('roots');
+                },
+                'node_breadcrumb_back.clicked'              : function (data) {
+                    var scope = data.context.id;
+                    this.changed = true;
+                    this.scope = scope;
+                    this.filter(this.resource.byParent, scope)
+                        .wake(true);
+                },
+                'nodes_breadcrumbs.selected'                : 'post_select+',
                 'nodes_breadcrumbs_history_menu.selected'   : 'post_select+'
             }
         }
