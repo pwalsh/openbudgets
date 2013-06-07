@@ -50,7 +50,7 @@ How to import::
 
 Example implementation:
 
-https://github.com/hasadna/omuni-budget/blob/develop/openbudget/apps/transport/incoming.py
+https://github.com/hasadna/omuni-budget/blob/develop/openbudget/apps/transport/incoming/importers/tablibimporter.py
 
 Project Code
 ------------
