@@ -9,7 +9,7 @@ It is written in Python and JavaScript, using frameworks and libraries such as D
 
 Open Budget is especially useful for comparing budgets and actuals over time, and across *related* entities.
 
-V1 of Open Budget has been designed as a platform for the budgets  of municipality governments in Israel, with an eye to wider applicability in budget comparasion for government, commercial, and non-profit entities.
+V1 of Open Budget has been designed as a platform for the budgets  of municipality governments in Israel, with an eye to wider applicability in budget comparison for government, commercial, and non-profit entities.
 
 Open Budget is open source software and licensed under a BSD license.
 

@@ -97,7 +97,7 @@ For more details see `<https://github.com/volojs/volo#volo>`_
 
 And continuing, we'll install all the project requirements into our virtualenv, populate our initial database, load some development data, run some tests, and run a server for the project::
 
-    pip install -r requirements.txt
+    pip install -r requirements.txt --use-mirrors
 
     volo add -noprompt
 
