@@ -4,6 +4,14 @@ define([
     'underscore'
 ], function (uijet, Backbone, _) {
 
+    uijet.use({
+        prop: function (property) {
+            return function (obj) {
+                return obj[property];
+            };
+        }
+    }, uijet.Utils);
+
     var
         /*
          * Muni (Entity) Model
@@ -85,9 +93,7 @@ define([
                 if ( ancestor_id ) {
                     return this.filter(function (node) {
                         return ~ node.attributes.ancestors.indexOf(ancestor_id);
-                    }).map(function (model) {
-                        return model.attributes;
-                    });
+                    }).map(uijet.Utils.prop('attributes'));
                 }
                 else {
                     return this.toJSON();

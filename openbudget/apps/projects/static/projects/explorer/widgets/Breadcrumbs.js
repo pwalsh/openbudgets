@@ -159,9 +159,7 @@ define([
                     break;
             }
             if ( length ) {
-                history = this.resource.slice(0, -2).map(function (crumb) {
-                    return crumb.attributes;
-                });
+                history = this.resource.slice(0, -2).map(uijet.Utils.prop('attributes'));
                 this.publish('updated', history);
             }
             return this;
