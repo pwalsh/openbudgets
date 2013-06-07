@@ -3,12 +3,10 @@
 @import url('filters.css');
 @import url('nodes.css');
 
-.uijet_button {
-    border: 1px solid lightslategray;
-    background-color: darkgray;
-}
-.uijet_button:hover {
-    background-color: lightslategray;
+
+body, html {
+    direction: rtl;
+    text-align: right;
 }
 
 .ui-v-scroller {

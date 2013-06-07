@@ -6,7 +6,8 @@ define([
     'modules/promises/q',
     'modules/engine/mustache',
     'modules/xhr/jquery',
-    'modules/animation/uijet-transit'
+    'modules/animation/uijet-transit',
+    'project_modules/uijet-search'
 ], function (uijet, resources, $, Ebox, Q, Mustache) {
     var Explorer = {
         start       : function (options) {

@@ -9,7 +9,7 @@ define([
          * Muni (Entity) Model
          */
         Muni = uijet.Model({
-            idAttribute : 'uuid'
+            idAttribute : 'id'
         }),
         /*
          * Munis (Entities) Collection
@@ -20,7 +20,8 @@ define([
             parse   : function (response) {
                 //! Array.prototype.filter
                 return response.results.filter(function (item) {
-                    return item.division.index === 3 && (item.budgets.length || item.actuals.length);
+//                    return item.division.index === 3 && (item.budgets.length || item.actuals.length);
+                    return item.division.index === 3;
                 });
             }
         }),
@@ -28,14 +29,87 @@ define([
          * BudgetTemplateNode Model
          */
         Node = uijet.Model({
-            idAttribute : 'uuid'
+            idAttribute : 'id'
         }),
         /*
          * BudgetTemplateNodes Collection
          */
         Nodes = uijet.Collection({
-            model   : Node,
-            past    : function (node_id, past) {
+            model           : Node,
+            /**
+             * Setting `ancestors` array of `id`s, `leaf_node` boolean flag and
+             * `level` - a Number representing the level of the node in the tree.
+             * 
+             * @param {Object|Array} response
+             * @returns {Object|Array} response
+             */
+            parse           : function (response) {
+                var last = response.length - 1,
+                    paths_lookup = {},
+                    parent_ids = {},
+                    node, n, route, path;
+                for ( n = last; node = response[n]; n-- ) {
+                    node.ancestors = [];
+                    paths_lookup[node.path] = node;
+                    if ( node.parent ) {
+                        parent_ids[node.parent] = true;
+                    }
+                }
+                for ( n = last; node = response[n]; n-- ) {
+                    if ( ! parent_ids[node.id] ) {
+                        node.leaf_node = true;
+                    }
+                    route = node.path.split('|').slice(1);
+                    node.level = route.length;
+                    while ( route.length ) {
+                        path = route.join('|');
+                        if ( path in paths_lookup ) {
+                            node.ancestors.push(paths_lookup[path].id);
+                        }
+                        route.shift();
+                    }
+                }
+                paths_lookup = null;
+
+                return response;
+            },
+            roots           : function () {
+                return this.byParent(null);
+            },
+            byParent        : function (parent_id) {
+                return this.where({
+                    parent  : parent_id
+                });
+            },
+            byAncestor      : function (ancestor_id) {
+                if ( ancestor_id ) {
+                    return this.filter(function (node) {
+                        return ~ node.attributes.ancestors.indexOf(ancestor_id);
+                    }).map(function (model) {
+                        return model.attributes;
+                    });
+                }
+                else {
+                    return this.toJSON();
+                }
+            },
+            branch          : function (node_id) {
+                var tip_node, branch;
+                if ( node_id ) {
+                    tip_node = this.get(node_id);
+                    //! Array.prototype.map
+                    branch = tip_node.get('ancestors')
+                        .map( function (ancestor_id) {
+                            return this.get(ancestor_id).attributes;
+                        }, this )
+                        .sort( function (a, b) {
+                            return a.level - b.level;
+                        } );
+                    branch.push(tip_node.attributes);
+                }
+                return branch || [];
+            },
+            past            : function (node_id, past) {
                 var node = this.get(node_id),
                     backwards = node.get('backwards');
                 past = past || [];
@@ -45,7 +119,7 @@ define([
                 }, this);
                 return past;
             },
-            future  : function (node_id, future) {
+            future          : function (node_id, future) {
                 var node = this.get(node_id),
                     forwards = node.get('forwards');
                 future = future || [];
@@ -55,13 +129,14 @@ define([
                 }, this);
                 return future;
             },
-            timeline: function (node_id) {
+            timeline        : function (node_id) {
                 return[node_id].concat(this.future(node_id), this.past(node_id));
             }
         });
 
     return {
         Munis   : Munis,
+        Node    : Node,
         Nodes   : Nodes
     };
 });

@@ -8,16 +8,30 @@
 </head>
 <body>
     <div id="explorer" class="uijet_app">
-        <div id="filters">
-            <span id="add_filter">Add legend item</span>
-            <ul id="filters_list"></ul>
+        <div id="legends">
+            <span id="add_legend">Add legend item</span>
+            <ul id="legends_list"></ul>
             <div id="entity_filter">
                 <span id="entity_filter_close">X</span>
-                <!--input type="text" name="entity" id="entity_field"/-->
+                <input type="text" name="entity" id="entity_field"/>
                 <ul id="entities_list"></ul>
             </div>
         </div>
         <div id="nodes_picker">
+            <div id="nodes_filters_pane" class="nodes_picker_pane">
+                <h3 class="nodes_picker_pane_heading">Choose budget items for this legend item</h3>
+                <div id="nodes_breadcrumbs">
+                    <span id="nodes_breadcrumbs_history">...</span>
+                    <span id="node_breadcrumb_main">Main</span>
+                    <span id="node_breadcrumb_back"></span>
+                </div>
+                <span id="filters_done">Done</span>
+                <span id="filters_search">Search</span>
+            </div>
+            <div id="nodes_search_pane" class="nodes_picker_pane">
+                <h3 class="nodes_picker_pane_heading">Filter only items' names and descriptions that contain:</h3>
+                <input type="text" name="nodes_search" id="nodes_search"/>
+            </div>
             <ul id="nodes_list"></ul>
         </div>
     </div>
