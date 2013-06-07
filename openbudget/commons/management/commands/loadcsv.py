@@ -25,7 +25,7 @@ class Command(BaseCommand):
         self.stdout.write('Loading initial data from CSV sources.')
 
         fixtures =  os.listdir(settings.FIXTURE_DIRS[0])
-        csvs = [filename for filename in fixtures if filename.endswith('.csv')]
+        csvs = sorted([filename for filename in fixtures if filename.endswith('.csv')])
 
         for csv in csvs:
             self.stdout.write('Writing data from ' + csv + ' ...')
