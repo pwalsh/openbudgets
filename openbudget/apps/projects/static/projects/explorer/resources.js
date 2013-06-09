@@ -44,6 +44,20 @@ define([
          */
         Nodes = uijet.Collection({
             model           : Node,
+            comparator      : function (a, b) {
+                var a_attrs = a.attributes,
+                    b_attrs = b.attributes,
+                    diff = a_attrs.level - b_attrs.level;
+                if ( ! diff ) {
+                    diff = a_attrs.code < b_attrs.code;
+                    return diff ?
+                        -1 :
+                        a_attrs.code > b_attrs.code ?
+                            1 :
+                            0;
+                }
+                return diff > 0 ? 1 : -1;
+            },
             /**
              * Setting `ancestors` array of `id`s, `leaf_node` boolean flag and
              * `level` - a Number representing the level of the node in the tree.

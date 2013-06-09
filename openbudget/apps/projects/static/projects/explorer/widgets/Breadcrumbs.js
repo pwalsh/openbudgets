@@ -98,7 +98,7 @@ define([
                     },
                     app_events  : {
                         'nodes_breadcrumbs.updated' : function (crumbs) {
-                            if ( crumbs.length ) {
+                            if ( crumbs && crumbs.length ) {
                                 this.wake(crumbs);
                             }
                             else {
@@ -160,8 +160,8 @@ define([
             }
             if ( length ) {
                 history = this.resource.slice(0, -2).map(uijet.Utils.prop('attributes'));
-                this.publish('updated', history);
             }
+            this.publish('updated', history);
             return this;
         }
     });

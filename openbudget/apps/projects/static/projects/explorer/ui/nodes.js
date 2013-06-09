@@ -98,14 +98,31 @@ define([
             }
         }
     }, {
+        type    : 'Pane',
+        config  : {
+            element     : '#nodes_list_container',
+            dont_wake   : true,
+            app_events  : {
+                'entities_list.selected': function ($selected) {
+                    this.wake({ entity_id : $selected.attr('data-id') });
+                }
+            }
+        }
+    }, {
+        type    : 'List',
+        config  : {
+            element     : '#nodes_list_header',
+            horizontal  : true,
+            position    : 'top:2rem fluid'
+        }
+    }, {
         type    : 'List',
         config  : {
             element     : '#nodes_list',
-            dont_wake   : true,
-            position    : 'fluid',
             mixins      : ['Templated', 'Scrolled'],
             adapters    : ['jqWheelScroll', 'Spin', 'SearchedList'],
             resource    : 'LatestTemplate',
+            position    : 'fluid',
             search      : {
                 fields  : {
                     name        : 10,
@@ -118,6 +135,22 @@ define([
                     this.scope = null;
                 },
                 pre_wake        : function () {
+                    var entity_id = this.context.entity_id;
+                    if ( entity_id ) {
+                        if ( this.latest_entity_id !== entity_id ) {
+                            this.latest_entity_id = entity_id;
+                            // this makes sure search index is rebuilt and view is re-rendered
+                            this.changed = true;
+                            // this makes sure the resource will execute fetch to sync with remote server
+                            this.has_data = false;
+                            this.scope = null;
+                            this.resource.url = API_URL + 'nodes/latest/' + entity_id + '/';
+                            this.filter(this.resource.roots);
+                        }
+                        else {
+                            this.changed = false;
+                        }
+                    }
                     return this.changed;
                 },
                 pre_update      : 'spin',
@@ -146,22 +179,6 @@ define([
                 }
             },
             app_events  : {
-                'entities_list.selected': function ($selected) {
-                    var entity_id = $selected.attr('data-id');
-                    if ( this.latest_entity_id !== entity_id ) {
-                        this.latest_entity_id = entity_id;
-                        // this makes sure search index is rebuilt and view is re-rendered
-                        this.changed = true;
-                        // this makes sure the resource will execute fetch to sync with remote server
-                        this.has_data = false;
-                        this.resource.url = API_URL + 'nodes/latest/' + entity_id + '/';
-                        this.wake('roots');
-                    }
-                    else {
-                        this.changed = false;
-                        this.wake();
-                    }
-                },
                 'nodes_search.changed'                      : 'filterItems+',
                 'nodes_search.exited'                       : function (query) {
                     if ( ! query ) {
@@ -178,6 +195,7 @@ define([
                 },
                 'node_breadcrumb_main.clicked'              : function () {
                     this.changed = true;
+                    this.scope = null;
                     this.wake('roots');
                 },
                 'node_breadcrumb_back.clicked'              : function (data) {

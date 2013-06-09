@@ -32,7 +32,14 @@
                 <h3 class="nodes_picker_pane_heading">Filter only items' names and descriptions that contain:</h3>
                 <input type="text" name="nodes_search" id="nodes_search"/>
             </div>
-            <ul id="nodes_list"></ul>
+            <section id="nodes_list_container">
+                <ul id="nodes_list_header">
+                    <li class="nodes_list_header_item" data-column="code">Code</li>
+                    <li class="nodes_list_header_item" data-column="direction">Type</li>
+                    <li class="nodes_list_header_item" data-column="name">Name</li>
+                </ul>
+                <ul id="nodes_list"></ul>
+            </section>
         </div>
     </div>
     <script>
