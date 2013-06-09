@@ -11,38 +11,48 @@ System Requirements
 
 Make sure your development and/or production server meets these minimal requirements:
 
-* A unix-like OS (We develop and test on Ubuntu and Mac OS X)
-* `Python 2.7 <http://python.org/download/>`_
-* `Node.js <http://nodejs.org/>`_
-* `Git <http://git-scm.com>`_
-* virtualenv
-* virtualenvwrapper
+* A unix-like OS (We develop on Ubuntu and Mac OS X)
+* `Python <http://python.org/>`_ (2.7.x)
+* `Node <http://nodejs.org/>`_
+* `Git <http://git-scm.com/>`_
+* `Mercurial <http://mercurial.selenic.com/>`_
+* The necessary tools to build Python packages (eg: python-dev on Debian systems)
+* `virtualenv <http://virtualenvwrapper.readthedocs.org/en/latest/>`_
+* `virtualenvwrapper <http://virtualenvwrapper.readthedocs.org/en/latest/>`_
+* `volojs <http://volojs.org/>`_
 
-Python Virtual Environments
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Virtual environments are an important tool for Python web development.
-
-We have noticed that even Python developers who have not done web app development before are not familiar with virutalenv. The concept behind virtualenv may also seem unfamiliar to developers coming from other languages.
-
-So, if you haven't used virtualenv before, follow these install instructions, and read more about virtualenv via the links below.
+Install required packages
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Ubuntu**::
 
-    sudo apt-get install python-pip
+    sudo apt-get install python-dev mercurial git-core nodejs python-pip
+    sudo pip install virtualenv virtualenvwrapper
+    npm install volo -g
 
-    sudo pip install virtualenv
+**Fedora**::
+?
 
-    sudo pip install virtualenvwrapper
+    sudo yum install python-devel mercurial
 
+**Mac OS X**::
 
-**Mac OS X (you must have a recent XCode install)**::
+    # requires homebrew: http://mxcl.github.io/homebrew/
 
+    brew install mercurial git node
     sudo easy_install virtualenv
-
     sudo pip install virtualenvwrapper
+    npm install volo -g
 
-Once virtualenv and virtualenvwrapper are installed, you need to configure your shell.
+    # OR, ADVANCED, ONLY if you want to use homebrew python
+    brew install mercurial git node python
+    pip install virtualenv virtualenvwrapper
+    npm install volo -g
+
+
+Configure virtualenvwrapper
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Ubuntu ~/.profile**::
 
@@ -72,25 +82,16 @@ About Node.js
 
 Open Budget is not a Node.js app, but we do make use of node.js tools in our development environments.
 
-Make sure you have version **0.8+** installed.
+Make sure you have version **0.8+** or higher installed.
 
-Project Requirements
---------------------
+*Note*: Node.js on Ubuntu 12.10 or greater: the node executable was renamed to nodejs, so add this symbolic link which will help with some of our dependencies::
 
-Python
-~~~~~~
+    ln -s /usr/bin/nodejs /usr/bin/node
 
-Python dependencies are managed with pip.
+About volo
+----------
 
-pip install -r requirements.txt
+`volo <http://volojs.org/>`_ is a tool that automates a lot build and project creation related tasks,
+and package management among those. Volo runs on Node.js
 
-will read the file and install the required dependencies.
-
-Javascript
-~~~~~~~~~~
-
-JavaScript dependencies are managed with volo. packages.json in the root of the repository described the package dependencies.
-
-volo add
-
-will read the file and install the required dependencies.
+For more details see `<https://github.com/volojs/volo#volo>`_

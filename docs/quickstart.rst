@@ -8,26 +8,38 @@ Open Budget is written in Python and JavaScript.
 
 If you develop web apps in these languages, it is likely that your machine is ready to start work.
 
-Check that you meet these requirements:
+Check that you meet these requirements on your machine.
+
+System
+~~~~~~
 
 * A unix-like OS (We develop on Ubuntu and Mac OS X)
 * `Python <http://python.org/>`_ (2.7.x)
 * `Node <http://nodejs.org/>`_
 * `Git <http://git-scm.com/>`_
+* `Mercurial <http://mercurial.selenic.com/>`_
+
+Python
+~~~~~~
+
+* The necessary tools to build Python packages (eg: python-dev on Debian systems)
 * `virtualenv <http://virtualenvwrapper.readthedocs.org/en/latest/>`_
 * `virtualenvwrapper <http://virtualenvwrapper.readthedocs.org/en/latest/>`_
 
-Please make sure you meet these requirements before moving on to installation, and make sure to read the guide/management/dependencies page for more details.
+Node
+~~~~
 
-If you want to get more information on current best practices for developing web apps in Python, Kenneth Reitz has an excellent guide right here:
+* `volojs <http://volojs.org/>`_
+
+
+**Please make sure you meet these requirements before moving on to installation.**
+
+If you need instructions on setting up these requirements, see the `dependencies page <http://open-budget.readthedocs.org/en/latest/guide/management/dependencies.html>`_.
+
+Additionally, if you are new to web development with Python, we also recommend Kenneth Reitz's excellent best practices guide, which we attempt to follow:
 
 http://docs.python-guide.org/en/latest/
 
-We highly recommend it, and in general, we try to follow the best practices there.
-
-*Note*: Node.js on Ubuntu 12.10 or greater: the node executable was renamed to nodejs, so add this symbolic link which will help with some of our dependencies::
-
-    ln -s /usr/bin/nodejs /usr/bin/node
 
 Installation
 ------------
@@ -35,7 +47,7 @@ Installation
 Configure hosts
 ~~~~~~~~~~~~~~~
 
-This project makes use of subdomains to target languages, and for the API. To enable this functionality fully, you'll need to edit your hosts file on your development machine.
+This project makes use of subdomains to target languages, and for API requests. To enable this functionality fully, you'll need to edit your hosts file on your development machine.
 
 **Ubuntu**::
 
@@ -47,43 +59,50 @@ This project makes use of subdomains to target languages, and for the API. To en
 
 Add the following domain mappings for localhost::
 
-    127.0.0.1 [whatever else you have]  obudget.dev www.obudget.dev api.obudget.dev en.obudget.dev he.obudget.dev ar.obudget.dev ru.obudget.dev
+    127.0.0.1 obudget.dev www.obudget.dev api.obudget.dev en.obudget.dev he.obudget.dev ar.obudget.dev ru.obudget.dev
 
 
 Make a virtualenv
------------------
+~~~~~~~~~~~~~~~~~
+
+**Remember:** See the `dependencies page <http://open-budget.readthedocs.org/en/latest/guide/management/dependencies.html>`_ for more information on using virtualenv and virtualenvwrapper.
 
 Issue the following commands to create a new virtualenv for the project, and then clone the git repository into your virtualenv project directory::
 
+    # create the virtual environment
     mkvirtualenv open-budget
 
+    # create a directory for our project code
     mkdir /srv/projects/open-budget
 
+    # link our project code directory to our virtual environment
     setvirtualenvproject /srv/environments/open-budget /srv/projects/open-budget
 
+    # move to the root of our project code directory
     cdproject
+
+Clone the project repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Now we have an environment setup, and we are at the root of our project directory, we need to clone the project from Github::
 
     git clone git@github.com:hasadna/omuni-budget.git .
 
 **Important: Note the "." at the end of the git clone command.**
 
-Install volo
-------------
+Install project requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-`volo <http://volojs.org/>`_ is a tool that automates a lot build and project creation related tasks,
-and package management among those. Volo runs on Node.js
+And continuing, we'll install all the project requirements, the Python requirements via pip, and the Javascript requirements via volo::
 
-To install volo Issue the following command::
+    pip install -r requirements.txt --use-mirrors
 
-    npm install -g volo
+    volo add -noprompt
 
-For more details see `<https://github.com/volojs/volo#volo>`_
+Bootstrap the project
+~~~~~~~~~~~~~~~~~~~~~
 
-And continuing, we'll install all the project requirements into our virtualenv, populate our initial database, load some development data, run some tests, and run a server for the project::
-
-    pip install -r requirements.txt
-
-    volo add
+Now we have almost everything we need. We can populate the database with our initial data, run our tests, and run a development server::
 
     python manage.py devstrap -m -t
 
@@ -94,8 +113,17 @@ Right now you can see the app at the following address in your browser::
     http://obudget.dev:8000/
 
 
+The easy way to working data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The project bootstrap loads quite a chunk of the data the app requires - but not everything. Notably, it does not load budget data at this point. The easiest way to add the latest budget data we have is to now, replace your development database with one that is completely populated. We have a set of populated databases here:
+
+https://drive.google.com/#folders/0B4JzAmQXH28mdUpST3lkSzluWnc
+
+Simply grab the latest one by date, download it, rename it local.db and replace the existing local.db in your repo root.
+
 Contributions
-=============
+-------------
 
 You can contribute to the project with code, content and ideas. If you have any ideas or suggestions for content, please open a ticket on the issue tracker, or post a topic on the developer discussion group (links on home page of the docs).
 

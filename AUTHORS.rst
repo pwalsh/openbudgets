@@ -8,13 +8,14 @@ Yehonatan Daniv
 Dani Bacon
 
 
-**Code**
+**Code & Docs**
 
 Paul Walsh
 Yehonatan Daniv
 Shai Berger
 Michael Doron
 Adi Erteschik
+Guy Sheffer
 
 
 **UX/Design**
