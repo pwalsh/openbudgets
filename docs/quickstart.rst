@@ -113,6 +113,15 @@ Right now you can see the app at the following address in your browser::
     http://obudget.dev:8000/
 
 
+The easy way to working data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The project bootstrap loads quite a chunk of the data the app requires - but not everything. Notably, it does not load budget data at this point. The easiest way to add the latest budget data we have is to now, replace your development database with one that is completely populated. We have a set of populated databases here:
+
+https://drive.google.com/#folders/0B4JzAmQXH28mdUpST3lkSzluWnc
+
+Simply grab the latest one by date, download it, rename it local.db and replace the existing local.db in your repo root.
+
 Contributions
 -------------
 
