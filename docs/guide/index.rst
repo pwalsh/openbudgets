@@ -50,7 +50,6 @@ Management
    :maxdepth: 1
 
    management/project
-   management/dependencies
    management/repositories
    management/testing
 

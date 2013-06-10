@@ -8,41 +8,103 @@ Open Budget is written in Python and JavaScript.
 
 If you develop web apps in these languages, it is likely that your machine is ready to start work.
 
-Check that you meet these requirements on your machine.
+Below we walk you through setting up an environment. First, the system requirements to work on the project, and second, the setup of the project itself.
 
-System
-~~~~~~
+System requirements
+-------------------
 
-* A unix-like OS (We develop on Ubuntu and Mac OS X)
+You system will need to have **Python** (and some system-wide Python packages), **Node.js** (and some system-wide Node.js modules), **Git**, and **Mercurial** (for working with code repositories).
+
+* A unix-like OS
 * `Python <http://python.org/>`_ (2.7.x)
-* `Node <http://nodejs.org/>`_
+* `Node <http://nodejs.org/>`_ (0.8.x)
 * `Git <http://git-scm.com/>`_
 * `Mercurial <http://mercurial.selenic.com/>`_
-
-Python
-~~~~~~
-
+* `virtualenv <http://virtualenvwrapper.readthedocs.org/en/latest/>`_ (a Python package for working with multiple dev. environments)
+* `virtualenvwrapper <http://virtualenvwrapper.readthedocs.org/en/latest/>`_ (some sugar for virtualenv)
 * The necessary tools to build Python packages (eg: python-dev on Debian systems)
-* `virtualenv <http://virtualenvwrapper.readthedocs.org/en/latest/>`_
-* `virtualenvwrapper <http://virtualenvwrapper.readthedocs.org/en/latest/>`_
+* `volojs <http://volojs.org/>`_ (a package manager for client-side resources)
 
-Node
-~~~~
+We develop on Ubuntu and Mac OS X. If you use other operating systems with any success, please make a pull request on this file, with any required additions, to support those operating systems.
 
-* `volojs <http://volojs.org/>`_
+All setup instructions are tested on Ubuntu and Mac OS X only.
 
-
-**Please make sure you meet these requirements before moving on to installation.**
-
-If you need instructions on setting up these requirements, see the `dependencies page <http://open-budget.readthedocs.org/en/latest/guide/management/dependencies.html>`_.
+**IMPORTANT: Please make sure you meet these requirements before moving on to the installation of the project.**
 
 Additionally, if you are new to web development with Python, we also recommend Kenneth Reitz's excellent best practices guide, which we attempt to follow:
 
 http://docs.python-guide.org/en/latest/
 
+Installing system requirements
+------------------------------
 
-Installation
-------------
+Ubuntu
+~~~~~~
+
+Here we go::
+
+    sudo apt-get install python-dev mercurial git-core nodejs python-pip
+    sudo pip install virtualenv virtualenvwrapper
+    npm install volo -g
+
+Now we'll setup virutalenvwrapper, in our user's .bash_profile file::
+
+    # this goes in ~/.bash_profile
+    export WORKON_HOME="/srv/environments"
+    export PROJECT_HOME="/srv/projects"
+    source /usr/local/bin/virtualenvwrapper.sh
+    export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
+
+Fedora
+~~~~~~
+
+Here we go::
+
+    sudo yum install python-devel mercurial
+
+Mac OS X
+~~~~~~~~
+
+First, make sure you have XCode installed, **and** Command Line Tools. See here for more info about this:
+
+https://python-guide.readthedocs.org/en/latest/starting/install/osx.html
+
+Secondly, install Homebrew, which is a great package manager for all the *nix goodies you need to develop:
+
+http://mxcl.github.io/homebrew/
+
+To ensure you are ready, try::
+
+    brew
+
+You should see a list of arguments the brew command accepts.
+
+Next, you can choose to use the version of Python that comes with OS X, or you can use a Homebrew managed Python. If you are not sure, just stick with system Python for now::
+
+    # using system Python
+    brew install mercurial git node
+    sudo easy_install virtualenv
+    sudo pip install virtualenvwrapper
+    npm install volo -g
+
+    # alternatively, using homebrew Python
+    brew install mercurial git node python
+    pip install virtualenv virtualenvwrapper
+    npm install volo -g
+
+Now we'll setup virutalenvwrapper, in our user's .bash_profile file::
+
+    # this goes in ~/.bash_profile
+    export WORKON_HOME="/Users/[YOUR_USER]/Sites/environments"
+    export PROJECT_HOME="/Users/[YOUR_USER]/Sites/projects"
+    source /usr/local/bin/virtualenvwrapper.sh
+    export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
+
+
+Installing the project
+----------------------
+
+As long as you have met the system requirements above, we're ready to install the project.
 
 Configure hosts
 ~~~~~~~~~~~~~~~
