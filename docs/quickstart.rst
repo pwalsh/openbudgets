@@ -47,9 +47,9 @@ Here we go::
     sudo pip install virtualenv virtualenvwrapper
     npm install volo -g
 
-Now we'll setup virutalenvwrapper, in our user's .bash_profile file::
+Now we'll setup virutalenvwrapper, in our user's .profile file::
 
-    # this goes in ~/.bash_profile
+    # this goes in ~/.profile
     export WORKON_HOME="/srv/environments"
     export PROJECT_HOME="/srv/projects"
     source /usr/local/bin/virtualenvwrapper.sh
