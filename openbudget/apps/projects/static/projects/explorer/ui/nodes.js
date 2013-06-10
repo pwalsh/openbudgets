@@ -7,13 +7,18 @@ define([
 
     uijet.Resource('Breadcrumbs', uijet.Collection({
         model   : resources.Node
-    }));
+    }))
+    .Resource('NodesListState', uijet.Model());
 
     uijet.declare([{
         type    : 'Pane',
         config  : {
-            element : '#nodes_picker',
-            position: 'fluid'
+            element     : '#nodes_picker',
+            position    : 'fluid',
+            resource    : 'NodesListState',
+            data_events : {
+                'change:search' : '-search.changed'
+            }
         }
     }, {
         type    : 'Pane',
@@ -22,7 +27,8 @@ define([
             mixins      : ['Layered'],
             position    : 'top:100 fluid',
             app_events  : {
-                'nodes_search.exited'   : 'wake+'
+                'nodes_search.entered'  : 'wake',
+                'nodes_search.cancelled': 'wake'
             }
         }
     }, {
@@ -49,32 +55,35 @@ define([
     }, {
         type    : 'ClearableTextInput',
         config  : {
-            element : '#nodes_search',
-            button      : {
-                signals : {
-                    pre_click   : '-nodes_search.changed'
-                }
-            },
+            element     : '#nodes_search',
+            resource    : 'NodesListState',
             dom_events  : {
                 keyup   : function (e) {
                     var code = e.keyCode || e.which,
                         value = e.target.value;
                     // enter key
                     if ( code === 13 ) {
-                        this.publish('exited', value)
+                        this.publish('entered')
                     }
                     // esc key
                     else if ( code === 27 ) {
-                        this.publish('exited', '');
+                        this.resource.set({ search : '' });
+                        this.$element.val('');
+                        this.publish('cancelled');
                     }
                     else {
-                        this.publish('changed', value);
+                        this.resource.set({ search : value });
                     }
                 }
             },
             signals     : {
                 post_wake   : function () {
                     this.$element.focus();
+                }
+            },
+            app_events  : {
+                'nodes_search_clear.clicked': function () {
+                    this.resource.set({ search : '' });
                 }
             }
         }
@@ -88,11 +97,20 @@ define([
                 reset   : 'render'
             },
             app_events  : {
-                'nodes_list.ready'      : function () {},
                 'nodes_list.selected'   : function (selected) {
                     this.resource.reset(
                         uijet.Resource('LatestTemplate').branch(selected)
                     );
+                }
+            }
+        }
+    }, {
+        type    : 'Button',
+        config  : {
+            element     : '#search_crumb',
+            app_events  : {
+                'search.changed': function (data) {
+                    this.$element.text(data.args[1]);
                 }
             }
         }

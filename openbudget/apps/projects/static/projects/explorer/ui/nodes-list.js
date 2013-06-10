@@ -81,62 +81,84 @@ define([
                 },
                 pre_update      : 'spin',
                 post_fetch_data : 'spinOff',
+                pre_render      : function () {
+                    this.has_content && this.$element.addClass('invisible');
+                },
                 post_render     : function () {
                     this.$children = this.$element.children();
-                    this.publish('rendered');
-                },
-                post_wake       : function () {
+                    var query = uijet.Resource('NodesListState').get('search');
                     if ( this.changed ) {
                         this.index()
                             .search_index.add( this.resource.byAncestor(this.scope) );
-                        this.publish('ready', this.context);
                     }
+                    if ( query ) {
+                        this.filterItems(query);
+                    }
+                    else {
+                        this.scroll()
+                            .$element.removeClass('invisible');
+                    }
+                    this._finally();
                 },
                 pre_select      : function ($selected) {
                     return ! $selected[0].hasAttribute('data-leaf') && +$selected.attr('data-id');
                 },
                 post_select     : function ($selected) {
-                    var node_id = +$selected.attr('data-id') || null;
+                    var node_id = +$selected.attr('data-id') || null,
+                        filter = this.search_active ?
+                            this.resource.byAncestor :
+                            this.resource.byParent;
                     // make sure we rebuild index and re-render
                     this.changed = true;
                     this.scope = node_id || null;
-                    this.filter(this.resource.byParent, node_id)
-                        .wake(true);
+                    this.filter(filter, node_id)
+                        .render();
                 }
             },
             app_events  : {
-                'nodes_search.changed'                      : 'filterItems+',
-                'nodes_search.exited'                       : function (query) {
-                    if ( ! query ) {
-                        this.changed = true;
-                        this.filter(this.resource.byParent, this.scope)
-                            .wake(true);
-                    }
+                'search.changed'                            : function (data) {
+                    this.filterItems(data.args[1]);
                 },
-                'nodes_list.filtered'                       : 'scroll',
+                'nodes_list.filtered'                       : function () {
+                    this.scroll()
+                        .$element.removeClass('invisible');
+                },
+                'nodes_search.entered'                      : function () {
+                    this.search_active = uijet.Resource('NodesListState').get('search');
+                },
+                'nodes_search.cancelled'                    : function () {
+                    this.search_active = false;
+                    this.changed = true;
+                    this.filter(this.resource.byParent, this.scope)
+                        .render();
+                },
                 'filters_search.clicked'                    : function () {
+                    this.search_active = true;
                     this.changed = true;
                     this.filter(this.resource.byAncestor, this.scope)
-                        .wake(true);
+                        .render();
                 },
                 'node_breadcrumb_main.clicked'              : function () {
                     this.changed = true;
                     this.scope = null;
-                    this.wake('roots');
+                    this.filter(this.resource.roots)
+                        .render();
                 },
                 'node_breadcrumb_back.clicked'              : function (data) {
-                    var scope = data.context.id;
+                    var scope = data.context.id,
+                        filter = this.search_active ?
+                            this.resource.byAncestor :
+                            this.resource.byParent; 
                     this.changed = true;
                     this.scope = scope;
-                    this.filter(this.resource.byParent, scope)
-                        .wake(true);
+                    this.filter(filter, scope)
+                        .render();
                 },
                 'nodes_breadcrumbs.selected'                : 'post_select+',
                 'nodes_breadcrumbs_history_menu.selected'   : 'post_select+',
                 'nodes_list_header.selected'                : function (data) {
-                    this.changed = true;
                     this.sort((data.desc ? '-' : '') + data.column)
-                        .wake(true);
+                        .render();
                 }
             }
         }
