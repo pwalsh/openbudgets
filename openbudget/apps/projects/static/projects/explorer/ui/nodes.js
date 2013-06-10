@@ -10,6 +10,18 @@ define([
         model   : resources.Node
     }));
 
+    var reverseSorting = function (field) {
+        return function (a, b) {
+            var a_val = a.get(field),
+                b_val = b.get(field);
+            return a_val < b_val ?
+                1 :
+                a_val > b_val ?
+                    -1 :
+                    0;
+        };
+    };
+
     uijet.declare([{
         type    : 'Pane',
         config  : {
@@ -113,7 +125,18 @@ define([
         config  : {
             element     : '#nodes_list_header',
             horizontal  : true,
-            position    : 'top:2rem fluid'
+            position    : 'top:2rem fluid',
+            signals     : {
+                pre_select  : function ($selected) {
+                    if ( this.$selected && $selected[0] === this.$selected[0] ) {
+                        this.$selected.toggleClass('desc');
+                    }
+                    return {
+                        column  : $selected.attr('data-column'),
+                        desc    : $selected.hasClass('desc')
+                    };
+                }
+            }
         }
     }, {
         type    : 'List',
@@ -129,6 +152,14 @@ define([
                     description : 1,
                     code        : 20
                 }
+            },
+            sorting     : {
+                name        : 'name',
+                '-name'     : reverseSorting('name'),
+                code        : 'code',
+                '-code'     : reverseSorting('code'),
+                direction   : 'direction',
+                '-direction': reverseSorting('direction')
             },
             signals     : {
                 post_init       : function () {
@@ -206,7 +237,12 @@ define([
                         .wake(true);
                 },
                 'nodes_breadcrumbs.selected'                : 'post_select+',
-                'nodes_breadcrumbs_history_menu.selected'   : 'post_select+'
+                'nodes_breadcrumbs_history_menu.selected'   : 'post_select+',
+                'nodes_list_header.selected'                : function (data) {
+                    this.sort((data.desc ? '-' : '') + data.column);
+                    this.changed = true;
+                    this.wake(true);
+                }
             }
         }
     }]);

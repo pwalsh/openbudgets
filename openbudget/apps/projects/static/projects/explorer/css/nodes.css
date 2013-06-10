@@ -88,6 +88,12 @@
     float: none;
     padding: .6rem;
 }
+#nodes_list_header li.selected:after {
+    content: '\25B2';
+}
+#nodes_list_header li.selected.desc:after {
+    content: '\25BC';
+}
 
 #nodes_filters_pane_wrapper {
     overflow: visible;
