@@ -1,0 +1,42 @@
+.node_cell_code {
+    float: right;
+    padding-left: 1rem;
+}
+
+#nodes_list {
+    text-align: right;
+}
+#nodes_list li {
+    padding: .6rem;
+    border-bottom: 1px solid lightslategray;
+    overflow: hidden;
+}
+#nodes_list li:first-child {
+    border-top: 1px solid lightslategray;
+}
+#nodes_list li.removed {
+    height: 0;
+    padding: 0;
+    border-bottom: none;
+}
+#nodes_list_container {
+    position: absolute;
+    top: 100px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+}
+#nodes_list_header {
+    border-top: 1px solid lightslategray;
+}
+#nodes_list_header li {
+    float: none;
+    padding: .6rem;
+}
+#nodes_list_header li.selected:after {
+    content: '\25B2';
+}
+#nodes_list_header li.selected.desc:after {
+    content: '\25BC';
+}
