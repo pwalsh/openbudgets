@@ -134,9 +134,9 @@ define([
                 'nodes_breadcrumbs.selected'                : 'post_select+',
                 'nodes_breadcrumbs_history_menu.selected'   : 'post_select+',
                 'nodes_list_header.selected'                : function (data) {
-                    this.sort((data.desc ? '-' : '') + data.column);
                     this.changed = true;
-                    this.wake(true);
+                    this.sort((data.desc ? '-' : '') + data.column)
+                        .wake(true);
                 }
             }
         }
