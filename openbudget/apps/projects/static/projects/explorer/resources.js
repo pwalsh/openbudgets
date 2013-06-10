@@ -13,6 +13,17 @@ define([
     }, uijet.Utils);
 
     var
+        reverseSorting = function (field) {
+            return function (a, b) {
+                var a_val = a.get(field),
+                    b_val = b.get(field);
+                return a_val < b_val ?
+                    1 :
+                    a_val > b_val ?
+                        -1 :
+                        0;
+            };
+        },
         /*
          * Muni (Entity) Model
          */
@@ -157,6 +168,9 @@ define([
     return {
         Munis   : Munis,
         Node    : Node,
-        Nodes   : Nodes
+        Nodes   : Nodes,
+        utils   : {
+            reverseSorting  : reverseSorting
+        }
     };
 });

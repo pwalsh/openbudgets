@@ -10,18 +10,6 @@ define([
         model   : resources.Node
     }));
 
-    var reverseSorting = function (field) {
-        return function (a, b) {
-            var a_val = a.get(field),
-                b_val = b.get(field);
-            return a_val < b_val ?
-                1 :
-                a_val > b_val ?
-                    -1 :
-                    0;
-        };
-    };
-
     uijet.declare([{
         type    : 'Pane',
         config  : {
@@ -155,11 +143,11 @@ define([
             },
             sorting     : {
                 name        : 'name',
-                '-name'     : reverseSorting('name'),
+                '-name'     : resources.utils.reverseSorting('name'),
                 code        : 'code',
-                '-code'     : reverseSorting('code'),
+                '-code'     : resources.utils.reverseSorting('code'),
                 direction   : 'direction',
-                '-direction': reverseSorting('direction')
+                '-direction': resources.utils.reverseSorting('direction')
             },
             signals     : {
                 post_init       : function () {
