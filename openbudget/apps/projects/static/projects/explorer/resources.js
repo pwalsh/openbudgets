@@ -13,6 +13,17 @@ define([
     }, uijet.Utils);
 
     var
+        reverseSorting = function (field) {
+            return function (a, b) {
+                var a_val = a.get(field),
+                    b_val = b.get(field);
+                return a_val < b_val ?
+                    1 :
+                    a_val > b_val ?
+                        -1 :
+                        0;
+            };
+        },
         /*
          * Muni (Entity) Model
          */
@@ -74,11 +85,17 @@ define([
                     node.ancestors = [];
                     paths_lookup[node.path] = node;
                     if ( node.parent ) {
-                        parent_ids[node.parent] = true;
+                        if ( ! parent_ids[node.parent] ) {
+                            parent_ids[node.parent] = [];
+                        }
+                        parent_ids[node.parent].push(node.id);
                     }
                 }
                 for ( n = last; node = response[n]; n-- ) {
-                    if ( ! parent_ids[node.id] ) {
+                    if ( parent_ids[node.id] ) {
+                        node.children = parent_ids[node.id];
+                    }
+                    else {
                         node.leaf_node = true;
                     }
                     route = node.path.split('|').slice(1);
@@ -92,6 +109,7 @@ define([
                     }
                 }
                 paths_lookup = null;
+                parent_ids = null;
 
                 return response;
             },
@@ -107,10 +125,10 @@ define([
                 if ( ancestor_id ) {
                     return this.filter(function (node) {
                         return ~ node.attributes.ancestors.indexOf(ancestor_id);
-                    }).map(uijet.Utils.prop('attributes'));
+                    });
                 }
                 else {
-                    return this.toJSON();
+                    return this.models;
                 }
             },
             branch          : function (node_id) {
@@ -120,12 +138,12 @@ define([
                     //! Array.prototype.map
                     branch = tip_node.get('ancestors')
                         .map( function (ancestor_id) {
-                            return this.get(ancestor_id).attributes;
+                            return this.get(ancestor_id);
                         }, this )
                         .sort( function (a, b) {
-                            return a.level - b.level;
+                            return a.attributes.level - b.attributes.level;
                         } );
-                    branch.push(tip_node.attributes);
+                    branch.push(tip_node);
                 }
                 return branch || [];
             },
@@ -157,6 +175,9 @@ define([
     return {
         Munis   : Munis,
         Node    : Node,
-        Nodes   : Nodes
+        Nodes   : Nodes,
+        utils   : {
+            reverseSorting  : reverseSorting
+        }
     };
 });

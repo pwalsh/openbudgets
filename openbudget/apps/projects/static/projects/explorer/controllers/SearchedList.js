@@ -28,6 +28,7 @@ define([
                     });
                 }
             }
+            return this;
         }
     });
 
