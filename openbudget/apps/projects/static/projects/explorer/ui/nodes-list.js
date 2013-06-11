@@ -88,8 +88,12 @@ define([
                     this.$children = this.$element.children();
                     var query = uijet.Resource('NodesListState').get('search');
                     if ( this.changed ) {
+                        this.changed = false;
                         this.index()
-                            .search_index.add( this.resource.byAncestor(this.scope) );
+                            .search_index.add(
+                                this.resource.byAncestor(this.scope)
+                                    .map(uijet.Utils.prop('attributes'))
+                            );
                     }
                     if ( query ) {
                         this.filterItems(query);
@@ -157,8 +161,14 @@ define([
                 'nodes_breadcrumbs.selected'                : 'post_select+',
                 'nodes_breadcrumbs_history_menu.selected'   : 'post_select+',
                 'nodes_list_header.selected'                : function (data) {
-                    this.sort((data.desc ? '-' : '') + data.column)
-                        .render();
+                    this.sort((data.desc ? '-' : '') + data.column);
+                    if ( this.filtered && ! uijet.Utils.isFunc(this.filtered) ) {
+                        this.filtered = Array.prototype.sort.call(this.filtered, resources.utils.reverseSorting(data.column));
+                        if ( ! data.desc ) {
+                            this.filtered.reverse();
+                        }
+                    }
+                    this.render();
                 }
             }
         }

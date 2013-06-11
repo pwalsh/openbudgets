@@ -118,10 +118,10 @@ define([
                 if ( ancestor_id ) {
                     return this.filter(function (node) {
                         return ~ node.attributes.ancestors.indexOf(ancestor_id);
-                    }).map(uijet.Utils.prop('attributes'));
+                    });
                 }
                 else {
-                    return this.toJSON();
+                    return this.models;
                 }
             },
             branch          : function (node_id) {
@@ -131,12 +131,12 @@ define([
                     //! Array.prototype.map
                     branch = tip_node.get('ancestors')
                         .map( function (ancestor_id) {
-                            return this.get(ancestor_id).attributes;
+                            return this.get(ancestor_id);
                         }, this )
                         .sort( function (a, b) {
-                            return a.level - b.level;
+                            return a.attributes.level - b.attributes.level;
                         } );
-                    branch.push(tip_node.attributes);
+                    branch.push(tip_node);
                 }
                 return branch || [];
             },
