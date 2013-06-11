@@ -66,7 +66,7 @@ define([
                         if ( this.latest_entity_id !== entity_id ) {
                             this.latest_entity_id = entity_id;
                             // this makes sure search index is rebuilt and view is re-rendered
-                            this.changed = true;
+                            this.scope_changed = true;
                             // this makes sure the resource will execute fetch to sync with remote server
                             this.has_data = false;
                             this.scope = null;
@@ -74,10 +74,10 @@ define([
                             this.filter(this.resource.roots);
                         }
                         else {
-                            this.changed = false;
+                            this.scope_changed = false;
                         }
                     }
-                    return this.changed;
+                    return this.scope_changed;
                 },
                 pre_update      : 'spin',
                 post_fetch_data : 'spinOff',
@@ -87,8 +87,8 @@ define([
                 post_render     : function () {
                     this.$children = this.$element.children();
                     var query = uijet.Resource('NodesListState').get('search');
-                    if ( this.changed ) {
-                        this.changed = false;
+                    if ( this.scope_changed ) {
+                        this.scope_changed = false;
                         this.index()
                             .search_index.add(
                                 this.resource.byAncestor(this.scope)
@@ -113,7 +113,7 @@ define([
                             this.resource.byAncestor :
                             this.resource.byParent;
                     // make sure we rebuild index and re-render
-                    this.changed = true;
+                    this.scope_changed = true;
                     this.scope = node_id || null;
                     this.filter(filter, node_id)
                         .render();
@@ -121,29 +121,28 @@ define([
             },
             app_events  : {
                 'search.changed'                            : function (data) {
-                    this.filterItems(data.args[1]);
+                    var query = data.args[1];
+                    if ( query === null ) {
+                        this.search_active = false;
+                        this.filter(this.resource.byParent, this.scope)
+                            .render();
+                    } else {
+                        if ( ! this.search_active ) {
+                            this.search_active = true;
+                            this.filter(this.resource.byAncestor, this.scope)
+                                .render();
+                        }
+                        else {
+                            this.filterItems(query);
+                        }
+                    }
                 },
                 'nodes_list.filtered'                       : function () {
                     this.scroll()
                         .$element.removeClass('invisible');
                 },
-                'nodes_search.entered'                      : function () {
-                    this.search_active = uijet.Resource('NodesListState').get('search');
-                },
-                'nodes_search.cancelled'                    : function () {
-                    this.search_active = false;
-                    this.changed = true;
-                    this.filter(this.resource.byParent, this.scope)
-                        .render();
-                },
-                'filters_search.clicked'                    : function () {
-                    this.search_active = true;
-                    this.changed = true;
-                    this.filter(this.resource.byAncestor, this.scope)
-                        .render();
-                },
                 'node_breadcrumb_main.clicked'              : function () {
-                    this.changed = true;
+                    this.scope_changed = true;
                     this.scope = null;
                     this.filter(this.resource.roots)
                         .render();
@@ -153,7 +152,7 @@ define([
                         filter = this.search_active ?
                             this.resource.byAncestor :
                             this.resource.byParent; 
-                    this.changed = true;
+                    this.scope_changed = true;
                     this.scope = scope;
                     this.filter(filter, scope)
                         .render();

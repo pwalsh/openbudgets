@@ -8,7 +8,13 @@ define([
     uijet.Resource('Breadcrumbs', uijet.Collection({
         model   : resources.Node
     }))
-    .Resource('NodesListState', uijet.Model());
+    .Resource('NodesListState', uijet.Model(), {
+        search  : null
+    });
+
+    var nullifySearchQuery = function () {
+        this.resource.set({ search : null });
+    };
 
     uijet.declare([{
         type    : 'Pane',
@@ -18,6 +24,9 @@ define([
             resource    : 'NodesListState',
             data_events : {
                 'change:search' : '-search.changed'
+            },
+            app_events  : {
+                'search_crumb_remove.clicked'   : nullifySearchQuery
             }
         }
     }, {
@@ -63,12 +72,12 @@ define([
                         value = e.target.value;
                     // enter key
                     if ( code === 13 ) {
-                        this.publish('entered')
+                        value || nullifySearchQuery.call(this);
+                        this.publish('entered', value || null);
                     }
                     // esc key
                     else if ( code === 27 ) {
-                        this.resource.set({ search : '' });
-                        this.$element.val('');
+                        nullifySearchQuery.call(this);
                         this.publish('cancelled');
                     }
                     else {
@@ -77,6 +86,14 @@ define([
                 }
             },
             signals     : {
+                pre_wake    : function () {
+                    var initial = this.resource.get('search');
+                    if ( initial === null ) {
+                        initial = '';
+                        this.resource.set({ search : '' });
+                    }
+                    this.$element.val(initial);
+                },
                 post_wake   : function () {
                     this.$element.focus();
                 }
@@ -105,14 +122,37 @@ define([
             }
         }
     }, {
-        type    : 'Button',
+        type    : 'Pane',
         config  : {
             element     : '#search_crumb',
+            dont_wake   : true,
+            dom_events  : {
+                click   : function () {
+                    uijet.publish('filters_search.clicked');
+                    this.sleep();
+                }
+            },
+            signals     : {
+                post_init   : function () {
+                    this.$content = uijet.$('#search_crumb_content');
+                }
+            },
             app_events  : {
-                'search.changed': function (data) {
-                    this.$element.text(data.args[1]);
+                'nodes_search.entered'  : function (query) {
+                    query !== null && this.wake();
+                },
+                'filters_search.clicked': 'sleep',
+                'search.changed'        : function (data) {
+                    var query = data.args[1];
+                    this.$content.text(query || '');
+                    query === null && this.sleep();
                 }
             }
+        }
+    }, {
+        type    : 'Button',
+        config  : {
+            element     : '#search_crumb_remove'
         }
     }]);
     
