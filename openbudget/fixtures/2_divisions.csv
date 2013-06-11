@@ -1,4 +1,4 @@
-DOMAIN,NAME,NAME_EN,NAME_AR,NAME_RU,INDEX,HAS_BUDGETS
+DOMAIN,NAME,NAME_EN,NAME_AR,NAME_RU,INDEX,BUDGETING
 ממשלה,מדינה,State,,Государство,0,TRUE
 ממשלה,מחוז,District,,Округ,1,FALSE
 ממשלה,נפה,Sub-District,,Подокруг,2,FALSE

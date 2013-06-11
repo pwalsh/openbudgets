@@ -1,6 +1,6 @@
 from django.views.generic import DetailView, ListView
 from django.shortcuts import render
-from openbudget.apps.budgets.models import Budget, BudgetItem, Actual, ActualItem, BudgetTemplate
+from openbudget.apps.budgets.models import Budget, BudgetItem, Actual, ActualItem, Template
 
 
 class BudgetDetailView(DetailView):
@@ -38,13 +38,13 @@ class ActualListView(ListView):
 
 
 class BudgetTemplateListView(ListView):
-    model = BudgetTemplate
-    template_name = 'budgets/budget_template_list.html'
+    model = Template
+    template_name = 'budgets/template_list.html'
 
 
 class BudgetTemplateDetailView(DetailView):
-    model = BudgetTemplate
-    template_name = 'budgets/budget_template_detail.html'
+    model = Template
+    template_name = 'budgets/template_detail.html'
     slug_field = 'uuid'
 
 

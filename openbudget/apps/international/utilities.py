@@ -33,3 +33,20 @@ def get_language_key(host, domain, user):
             value = current_subdomain
 
     return value
+
+
+def translated_fields(*args, **kwargs):
+    """Given field names, returns a list of related translated field names.
+
+    TODO: use the translation registry files to *ensure* that the passed field
+     is actually registered for translation, using model=None kwarg.
+    """
+
+    target_codes = [lang[0] for lang in settings.LANGUAGES]
+    target_codes.remove(settings.MODELTRANSLATION_DEFAULT_LANGUAGE)
+
+    value = []
+    for field in args:
+        value.extend([field + '_' + code for code in target_codes])
+
+    return value

@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from openbudget.apps.budgets.views import BudgetTemplateListView, BudgetTemplateDetailView, BudgetListView, BudgetDetailView, ActualListView, ActualDetailView, BudgetItemDetailView, ActualItemDetailView, budget_browser
+from openbudget.apps.budgets.views.ui import BudgetTemplateListView, BudgetTemplateDetailView, BudgetListView, BudgetDetailView, ActualListView, ActualDetailView, BudgetItemDetailView, ActualItemDetailView, budget_browser
 
 
 urlpatterns = patterns('',
@@ -10,11 +10,11 @@ urlpatterns = patterns('',
     ),
     url(r'^templates/$',
         BudgetTemplateListView.as_view(),
-        name='budget_template_list'
+        name='template_list'
     ),
     url(r'^template/(?P<slug>[-\w]+)/$',
         BudgetTemplateDetailView.as_view(),
-        name='budget_template_detail'
+        name='template_detail'
     ),
     url(r'^budgets/$',
         BudgetListView.as_view(),

@@ -14,19 +14,18 @@ from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, \
 PATH_SEPARATOR = '|'
 
 
-class BudgetTemplateManager(models.Manager):
+class TemplateManager(models.Manager):
 
     def latest_of(self, entity):
         return self.filter(budgets__entity=entity).latest('period_start')
 
 
-class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel,
-                     ClassMethodMixin):
+class Template(TimeStampedModel, UUIDModel, PeriodStartModel, ClassMethodMixin):
     """The budget template for a given domain division.
 
     """
 
-    objects = BudgetTemplateManager()
+    objects = TemplateManager()
 
     divisions = models.ManyToManyField(
         Division,
@@ -52,7 +51,7 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel,
 
     @property
     def nodes(self):
-        return BudgetTemplateNode.objects.filter(templates=self)
+        return TemplateNode.objects.filter(templates=self)
 
     @property
     def has_budgets(self):
@@ -60,7 +59,7 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel,
 
     @models.permalink
     def get_absolute_url(self):
-        return 'budget_template_detail', [self.uuid]
+        return 'template_detail', [self.uuid]
 
     def __unicode__(self):
         return self.name
@@ -71,7 +70,7 @@ class BudgetTemplate(TimeStampedModel, UUIDModel, PeriodStartModel,
         verbose_name_plural = _('Budget templates')
 
 
-class BudgetTemplateNode(TimeStampedModel, UUIDModel):
+class TemplateNode(TimeStampedModel, UUIDModel):
     """The individual nodes in a budget template"""
 
     NODE_DIRECTIONS = (
@@ -80,8 +79,8 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
     )
 
     templates = models.ManyToManyField(
-        BudgetTemplate,
-        through='BudgetTemplateNodeRelation',
+        Template,
+        through='TemplateNodeRelation',
         related_name='node_set'
     )
 
@@ -162,7 +161,7 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
 
         #TODO: perhaps handle updates too?
 
-        return super(BudgetTemplateNode, self).save(*args, **kwargs)
+        return super(TemplateNode, self).save(*args, **kwargs)
 
     @property
     def _path_to_root(self):
@@ -212,7 +211,7 @@ class BudgetTemplateNode(TimeStampedModel, UUIDModel):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'budget_template_node', [self.uuid]
+        return 'template_node', [self.uuid]
 
     def __unicode__(self):
         return self.code
@@ -234,10 +233,10 @@ def inverse_changed(sender, instance, action, reverse, model, pk_set, **kwargs):
             raise ValidationError(_("Inverse node's direction can not be the "
                                     "same as self direction."))
 
-m2m_changed.connect(inverse_changed, sender=BudgetTemplateNode.inverse.through)
+m2m_changed.connect(inverse_changed, sender=TemplateNode.inverse.through)
 
 
-class BudgetTemplateNodeRelationManager(models.Manager):
+class TemplateNodeRelationManager(models.Manager):
 
     def has_same_node(self, node, template):
         return self.filter(
@@ -248,22 +247,22 @@ class BudgetTemplateNodeRelationManager(models.Manager):
         ).count()
 
 
-class BudgetTemplateNodeRelation(models.Model):
+class TemplateNodeRelation(models.Model):
     """A relation between a node and a template"""
 
-    objects = BudgetTemplateNodeRelationManager()
+    objects = TemplateNodeRelationManager()
 
     template = models.ForeignKey(
-        BudgetTemplate
+        Template
     )
 
     node = models.ForeignKey(
-        BudgetTemplateNode
+        TemplateNode
     )
 
     def validate_unique(self, exclude=None):
         node = self.node
-        super(BudgetTemplateNodeRelation, self).validate_unique(exclude)
+        super(TemplateNodeRelation, self).validate_unique(exclude)
         if not bool(self.__class__.objects.has_same_node(node, self.template)):
             raise ValidationError(
                 _('Node with name: {name}; code: {code}; parent: {parent}; '
@@ -300,7 +299,7 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel, ClassMethodMixin):
     )
 
     template = models.ForeignKey(
-        BudgetTemplate,
+        Template,
         related_name='%(class)ss'
     )
 
@@ -417,7 +416,7 @@ class SheetItem(TimeStampedModel, UUIDModel, ClassMethodMixin):
     """Abstract class for common BudgetItem and ActualItem data"""
 
     node = models.ForeignKey(
-        BudgetTemplateNode
+        TemplateNode
     )
 
     description = models.TextField(
@@ -457,8 +456,8 @@ class SheetItem(TimeStampedModel, UUIDModel, ClassMethodMixin):
 class BudgetItemManager(models.Manager):
     def timeline(self, node_uuid, entity_uuid):
         try:
-            node = BudgetTemplateNode.objects.get(uuid=node_uuid)
-        except BudgetTemplateNode.DoesNotExist as e:
+            node = TemplateNode.objects.get(uuid=node_uuid)
+        except TemplateNode.DoesNotExist as e:
             raise e
         value = BudgetItem.objects.filter(node__in=node.timeline,
                                           budget__entity__uuid=entity_uuid)
@@ -491,8 +490,8 @@ class ActualItemManager(models.Manager):
 
     def timeline(self, node_uuid, entity_uuid):
         try:
-            node = BudgetTemplateNode.objects.get(uuid=node_uuid)
-        except BudgetTemplateNode.DoesNotExist as e:
+            node = TemplateNode.objects.get(uuid=node_uuid)
+        except TemplateNode.DoesNotExist as e:
             raise e
         value = ActualItem.objects.filter(node__in=node.timeline,
                                           actual__entity__uuid=entity_uuid)

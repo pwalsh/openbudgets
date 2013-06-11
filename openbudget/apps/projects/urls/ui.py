@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from openbudget.apps.projects.views import ProjectListView, ProjectDetailView
+from openbudget.apps.projects.views.ui import ProjectListView, ProjectDetailView
 
 
 urlpatterns = patterns('',

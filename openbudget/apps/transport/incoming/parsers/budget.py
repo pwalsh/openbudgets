@@ -1,6 +1,6 @@
 from copy import deepcopy
 from django.utils.translation import gettext as __
-from openbudget.apps.budgets.models import BudgetTemplate, Budget, BudgetItem
+from openbudget.apps.budgets.models import Template, Budget, BudgetItem
 from openbudget.apps.entities.models import Entity
 from openbudget.apps.transport.incoming.parsers import register, ParsingError
 from openbudget.apps.transport.incoming.parsers.budgettemplate import BudgetTemplateParser
@@ -191,7 +191,7 @@ class BudgetParser(BudgetTemplateParser):
                     return qs[0].template
                 else:
                     # try getting the standard template for this entity's division
-                    qs = BudgetTemplate.objects.filter(
+                    qs = Template.objects.filter(
                         divisions=entity.division,
                         period_start__lte=container_dict['period_start']
                     ).order_by('-period_start')[:1]

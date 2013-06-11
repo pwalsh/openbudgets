@@ -6,7 +6,7 @@ class DomainTransOps(TranslationOptions):
     fields = ('name',)
 
 
-class DomainDivisionTransOps(TranslationOptions):
+class DivisionTransOps(TranslationOptions):
     fields = ('name',)
 
 
@@ -14,5 +14,5 @@ class EntityTransOps(TranslationOptions):
     fields = ('name', 'description')
 
 translator.register(Domain, DomainTransOps)
-translator.register(Division, DomainDivisionTransOps)
+translator.register(Division, DivisionTransOps)
 translator.register(Entity, EntityTransOps)

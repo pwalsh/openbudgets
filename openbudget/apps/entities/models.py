@@ -1,25 +1,25 @@
 from django.db import models
-from django.db.models import Q
-from django.db.models.loading import get_model
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.contenttypes import generic
-from django.contrib.comments.models import Comment
 from autoslug import AutoSlugField
-from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
+from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, \
+    ClassMethodMixin
 from openbudget.commons.utilities import get_ultimate_parent
 
 
-class Domain(TimeStampedModel):
+class DomainManager(models.Manager):
+    """Exposes the related_map method for more efficient bulk select queries."""
 
-    """Describes the domain for a collection of entities.
+    def related_map(self):
+        return self.select_related().prefetch_related('divisions')
 
-    Through the Domain model, we can derive a relational structure for a set of entities.
 
-    We want the domain structure so that we can acheive the
-    important goal of comparision across comparable entities,
-    and so we can create meta data on the domain as a whole
-    from its parts.
+class Domain(TimeStampedModel, ClassMethodMixin):
+    """Domain is the base context for our relational model of entities.
 
+    Entities always belong to a domain, and are structured via Divisions.
+
+    The ability to have multiple domains allows an Open Budget instance to
+    support adjacent or even unrelated data sets. See the docs for more info.
     """
 
     MEASUREMENT_SYSTEMS = (
@@ -28,135 +28,148 @@ class Domain(TimeStampedModel):
     )
     GROUND_SURFACE_UNITS = (
         ('default', _('Default')),
-        ('dunams', _('Dunams')),
+        ('dunams', _('Dunams'))
     )
     CURRENCIES = (
         ('usd', _('&#36;')),
         ('ils', _('&#8362;'))
     )
 
-    name = models.CharField(
-        db_index=True,
-        max_length=255,
-        unique=True,
-        help_text=_('The name of this entity domain.')
-    )
-    measurement_system = models.CharField(
-        _('Measurement System'),
-        choices=MEASUREMENT_SYSTEMS,
-        max_length=8,
-        default=MEASUREMENT_SYSTEMS[0][0],
-        help_text=_('The applicable measurement unit for this domain.')
-    )
-    ground_surface_unit = models.CharField(
-        _('Ground Surface Unit'),
-        choices=GROUND_SURFACE_UNITS,
-        max_length=25,
-        default=GROUND_SURFACE_UNITS[0][0],
-        help_text=_('The unit for measurement of ground. Should be default, except in cases like Israel which use units that do not belong to the measurement system.')
-    )
-    currency = models.CharField(
-        _('Currency'),
-        choices=CURRENCIES,
-        max_length=3,
-        default=CURRENCIES[0][0],
-        help_text=_('The applicable currency for this domain.')
-    )
+    objects = DomainManager()
 
-    @property
-    def entities(self):
-        value = Entity.objects.filter(division__domain=self)
-        return value
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        ordering = ['name']
-        verbose_name = _('entity domain')
-        verbose_name_plural = _('entity domains')
-
-
-class Division(TimeStampedModel):
-    """Describes the administrative division for a domain.
-
-    Each instance is an administrative division of a domain.
-
-    The position of the DomainDivision in the administrative
-    structure can be derived from the index attribute. Many
-    administrative structures are tree-like, but there are often
-    exceptions:
-    (eg: muni > sub-division > division for Tel Aviv and Jerusalem)
-
-    And seemingly arbitrary designations (in terms of modeling data)
-    at the same "level" of a tree:
-    (eg: city, local and regional munis in Israel)
-
-    Also, not all Admnistrative levels present budgets:
-    (eg: divisons and sb-divisions in Israeli government)
-    Hence the has_budgets flag.
-
-    """
-    domain = models.ForeignKey(
-        Domain,
-        related_name='divisions'
-    )
-    index = models.PositiveSmallIntegerField(
-        _('Index'),
-        db_index=True,
-        help_text=_('Position this division in relation to others')
-    )
     name = models.CharField(
         _('Name'),
         db_index=True,
         max_length=255,
         unique=True,
-        help_text=_('The name of this division')
+        help_text=_('The name of this domain.')
     )
-    has_budgets = models.BooleanField(
-        _('has budgets'),
-        db_index=True,
-        default=False,
-        help_text=_('Must be true if this division directly presents budgets')
+    measurement_system = models.CharField(
+        _('Measurement System'),
+        max_length=8,
+        choices=MEASUREMENT_SYSTEMS,
+        default=MEASUREMENT_SYSTEMS[0][0],
+        help_text=_('The applicable measurement unit for this domain.')
+    )
+    ground_surface_unit = models.CharField(
+        _('Ground Surface Unit'),
+        max_length=25,
+        choices=GROUND_SURFACE_UNITS,
+        default=GROUND_SURFACE_UNITS[0][0],
+        help_text=_('Rarely to be touched, this field is for countries, like '
+                    'Israel, that use special units for measuring ground.')
+    )
+    currency = models.CharField(
+        _('Currency'),
+        max_length=3,
+        choices=CURRENCIES,
+        default=CURRENCIES[0][0],
+        help_text=_('The currency used for budgeting in this domain.')
     )
 
     @property
-    def count(self):
-        value = Entity.objects.filter(division=self).count()
+    def entities(self):
+        value = Entity.objects.related_map().filter(division__domain=self)
         return value
 
+    class Meta:
+        ordering = ['name']
+        verbose_name = _('domain')
+        verbose_name_plural = _('domains')
+
     def __unicode__(self):
-        return self.domain.name + ' > ' + self.name
+        return self.name
+
+
+class DivisionManager(models.Manager):
+    """Exposes the related_map method for more efficient bulk select queries."""
+
+    def related_map(self):
+        return self.select_related().prefetch_related('entities')
+
+
+class Division(TimeStampedModel, ClassMethodMixin):
+    """Division divides the domain into logical groupings to model structure."""
+
+    objects = DivisionManager()
+
+    domain = models.ForeignKey(
+        Domain,
+        related_name='divisions',
+        help_text=_('The domain that this division belongs to.')
+    )
+    index = models.PositiveSmallIntegerField(
+        _('Index'),
+        db_index=True,
+        help_text=_('Model the domain structure by positioning this division '
+                    'relative to others. 0 is the highest level. Divisions of '
+                    'equivalent level  should have an equal value.')
+    )
+    name = models.CharField(
+        _('Name'),
+        db_index=True,
+        max_length=255,
+        help_text=_('The name of this division. Divisions under the same Domain'
+                    ' must be named uniquely.')
+    )
+    budgeting = models.BooleanField(
+        _('Budgeting'),
+        db_index=True,
+        default=False,
+        help_text=_('Indicates whether entities that belong to this division '
+                    'are budgeting entities.')
+    )
+
+    @property
+    def entity_count(self):
+        return Entity.objects.related_map().filter(division=self).count()
 
     class Meta:
         ordering = ['index', 'name']
-        verbose_name = _('domain division')
-        verbose_name_plural = _('domain divisions')
+        verbose_name = _('division')
+        verbose_name_plural = _('divisions')
+        unique_together = (
+            ('name', 'domain'),
+        )
+
+    def __unicode__(self):
+        return self.name
 
 
-class Entity(TimeStampedModel, UUIDModel):
-    """Describes an entity in a domain.
+class EntityManager(models.Manager):
+    """Exposes the related_map method for more efficient bulk select queries."""
+
+    def related_map(self):
+        return self.select_related().prefetch_related('budgets', 'actuals',
+                                                      'parent')
 
 
-    """
+class Entity(TimeStampedModel, UUIDModel, ClassMethodMixin):
+    """Entity describes the actual units in our organizational structure."""
+
+    objects = EntityManager()
+
     division = models.ForeignKey(
         Division,
-        related_name='entities'
+        related_name='entities',
+        help_text=_('The division that this entity belongs to.')
     )
     name = models.CharField(
+        _('Name'),
         db_index=True,
         max_length=255,
-        help_text=_('The name of this entity')
+        help_text=_('The name of this entity.')
     )
     description = models.TextField(
-        _('Entry description'),
+        _('Description'),
         blank=True,
-        help_text=_('Describe.')
+        help_text=_('A short text for this entity, useful as an overview.')
     )
     code = models.CharField(
-        max_length=10,
+        _('Code'),
+        max_length=25,
         blank=True,
-        help_text=_('The official abbreviated code for this entity.')
+        help_text=_('An identifying code for this entity.')
     )
     parent = models.ForeignKey(
         'self',
@@ -172,62 +185,28 @@ class Entity(TimeStampedModel, UUIDModel):
 
     @property
     def ultimate_parent(self):
-        """Returns the ultimate parent entity for this entity.
+        """Returns the ultimate parent of this object. If none, returns self."""
 
-        Gets the ultimate parent with this logic:
-
-        * if divison.index is 0, then return self
-        * if divison.index is not 0, then recurse
-        parents until encounter the ultimate parent
-        * and ensure that the ultimate parent's
-        divison.index is 0 before returning it.
-        """
-        value = None
-        if self.division.index == 0:
-            value = self
-        else:
-            ultimate_parent = get_ultimate_parent(self.parent)
-            #if ultimate_parent.divison.index == 0:
-            value = ultimate_parent
-        return value
+        return get_ultimate_parent(self.parent)
 
     @property
-    def related_entities(self):
-        """Returns all related entities for this entity.
+    def siblings(self):
+        """Returns all other entities in the same division."""
 
-        Relation is determined by Domain, and whether the entity
-        is a budgeting entity.
+        return Entity.objects.related_map().filter(division=self.division).\
+            exclude(id=self.id)
 
-        """
-        value = Entity.objects.filter(division__domain=self.division.domain, division__has_budgets=True).exclude(id=self.id)
-        return value
-
-    # TODO: see my notes in entities.views
-    # want to build better slugs for SEO (bots and humans)
-    #@property
-    #def extended_slug(self):
-    #    return unicode(self.state.slug) + ',' + unicode(self.slug)
+    class Meta:
+        ordering = ('division__domain', 'division__index', 'name')
+        verbose_name = _('entity')
+        verbose_name_plural = _('entities')
+        unique_together = (
+            ('name', 'parent', 'division'),
+        )
 
     def __unicode__(self):
         return self.name
 
     @models.permalink
     def get_absolute_url(self):
-        return ('entity_detail', [self.slug])
-
-    @classmethod
-    def get_class_name(cls):
-        value = cls.__name__.lower()
-        return value
-
-    # TODO: clean method
-    # 1. divison.index of 0 CAN'T have parent
-    # 2. other division.index values MUST have parent
-
-    class Meta:
-        ordering = ['division__index', 'name']
-        verbose_name = _('entity')
-        verbose_name_plural = _('entities')
-        unique_together = (
-            ('name', 'parent', 'division'),
-        )
+        return 'entity_detail', [self.slug]
