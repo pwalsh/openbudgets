@@ -85,11 +85,17 @@ define([
                     node.ancestors = [];
                     paths_lookup[node.path] = node;
                     if ( node.parent ) {
-                        parent_ids[node.parent] = true;
+                        if ( ! parent_ids[node.parent] ) {
+                            parent_ids[node.parent] = [];
+                        }
+                        parent_ids[node.parent].push(node.id);
                     }
                 }
                 for ( n = last; node = response[n]; n-- ) {
-                    if ( ! parent_ids[node.id] ) {
+                    if ( parent_ids[node.id] ) {
+                        node.children = parent_ids[node.id];
+                    }
+                    else {
                         node.leaf_node = true;
                     }
                     route = node.path.split('|').slice(1);
@@ -103,6 +109,7 @@ define([
                     }
                 }
                 paths_lookup = null;
+                parent_ids = null;
 
                 return response;
             },
