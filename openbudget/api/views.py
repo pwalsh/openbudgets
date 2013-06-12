@@ -4,16 +4,7 @@ from rest_framework.response import Response
 
 
 @api_view(['GET'])
-def api_root(request):
-    """The entry endpoint of our API"""
+def api_index(request):
+    """API Index"""
 
-    return Response({
-        'domains': reverse('domain-list', request=request),
-        'divisions': reverse('division-list', request=request),
-        'entities': reverse('entity-list', request=request),
-        'templates': reverse('template-list', request=request),
-        'budgets': reverse('budget-list', request=request),
-        'actuals': reverse('actual-list', request=request),
-        'contexts': reverse('context-list', request=request),
-        'projects': reverse('project-list', request=request),
-    })
+    return Response({'v1': reverse('api_v1', request=request)})
