@@ -57,6 +57,7 @@ define([
                 direction   : 'direction',
                 '-direction': resources.utils.reverseSorting('direction')
             },
+            data_events : {},
             signals     : {
                 post_init       : function () {
                     this.scope = null;
@@ -102,7 +103,6 @@ define([
                     this._finally();
                 },
                 pre_select      : function ($selected, e) {
-                    //TODO: refactor me!!!
                     var id = +$selected.attr('data-id');
                     if ( uijet.$(e.target).hasClass('selectbox') ) {
                         this.updateSelection(id)
