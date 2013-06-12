@@ -13,7 +13,7 @@ class DomainBaseSerializer(HyperlinkedModelSerializer):
 
     class Meta:
         model = Domain
-        fields = ['url', 'name', 'measurement_system', 'ground_surface_unit',
+        fields = ['url', 'id', 'name', 'measurement_system', 'ground_surface_unit',
                   'currency', 'created_on', 'last_modified', 'divisions']\
                  + translated_fields('name')
 
@@ -41,7 +41,7 @@ class DivisionBaseSerializer(HyperlinkedModelSerializer):
 
     class Meta:
         model = Division
-        fields = ['url', 'name', 'index', 'budgeting', 'domain', 'created_on',
+        fields = ['url', 'id', 'name', 'index', 'budgeting', 'domain', 'created_on',
                   'last_modified'] + translated_fields('name')
 
 
@@ -70,7 +70,7 @@ class EntityBaseSerializer(HyperlinkedModelSerializer):
 
     class Meta:
         model = Entity
-        fields = ['url', 'name', 'description', 'code', 'parent', 'division',
+        fields = ['url', 'id', 'name', 'description', 'code', 'parent', 'division',
                   'budgets', 'actuals', 'created_on','last_modified']\
                  + translated_fields('name')
 
