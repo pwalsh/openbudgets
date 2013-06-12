@@ -234,7 +234,7 @@ def get_parser_key(cls):
 
 def autodiscover():
     # we just load all the other parser modules
-    from openbudget.apps.transport.incoming.parsers import budgettemplate, budget, actual
+    from openbudget.apps.transport.incoming.parsers import template, budget, actual
 
 
 autodiscover()

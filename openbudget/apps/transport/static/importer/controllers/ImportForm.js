@@ -9,13 +9,13 @@ define([
         processDivisions    : function (data) {
             //! Array.prototype.filter
             data.results = data.results.filter(function (item, i) {
-                return item.has_budgets;
+                return item.budgeting;
             });
         },
         processEntities     : function (data) {
             //! Array.prototype.filter
             data.results = data.results.filter(function (item, i) {
-                return item.division.has_budgets;
+                return item.division.budgeting;
             });
         },
         formExtConfigByType : function (type) {
@@ -24,7 +24,7 @@ define([
                 };
 
             switch ( type ) {
-                case 'budgettemplate':
+                case 'template':
                     config.partials = {
                         divisions   : 'divisions'
                     };
@@ -46,7 +46,7 @@ define([
                         },
                         process_data: this.processDivisions
                     };
-                    config.data_url = Importer.BASE_API_URL + 'division/';
+                    config.data_url = Importer.BASE_API_URL + 'divisions/';
                     break;
                 case 'actual':
                     config.template_name = 'budget-form';
@@ -85,7 +85,7 @@ define([
                             .then( this.wakeContained.bind(this) );
                         }
                     };
-                    config.data_url = Importer.BASE_API_URL + 'entity/';
+                    config.data_url = Importer.BASE_API_URL + 'entities/';
                     break;
             }
 

@@ -3,11 +3,11 @@ from django.utils.translation import gettext as __
 from openbudget.apps.budgets.models import Template, Budget, BudgetItem
 from openbudget.apps.entities.models import Entity
 from openbudget.apps.transport.incoming.parsers import register, ParsingError
-from openbudget.apps.transport.incoming.parsers.budgettemplate import BudgetTemplateParser
+from openbudget.apps.transport.incoming.parsers.template import TemplateParser
 from openbudget.apps.transport.incoming.errors import MetaParsingError, NodeNotFoundError
 
 
-class BudgetParser(BudgetTemplateParser):
+class BudgetParser(TemplateParser):
 
     container_model = Budget
     item_model = BudgetItem
