@@ -33,7 +33,8 @@
 <script>
     var BASE_URL = '{{ STATIC_URL }}',
         UPLOAD_URL = '{{ UPLOAD_URL }}',
-        BASE_API_URL = 'http://api.{{ site|safe }}/';
+        API_INDEX = 'http://api.{{ site|safe }}/',
+        API_VERSION = 'v1';
 </script>
 <script src="{{ STATIC_URL }}lib/require.js" data-main="{{ STATIC_URL }}importer/main"></script>
 {% endblock js_body %}

@@ -15,7 +15,8 @@ define([
         processEntities     : function (data) {
             //! Array.prototype.filter
             data.results = data.results.filter(function (item, i) {
-                return item.division.budgeting;
+                //return item.division.budgeting;
+                return true;
             });
         },
         formExtConfigByType : function (type) {
