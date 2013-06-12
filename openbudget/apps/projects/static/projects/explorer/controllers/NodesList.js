@@ -12,8 +12,8 @@ define([
                     this.resource.byParent; 
             this.scope_changed = true;
             this.scope = scope || null;
-            this.filter(filter, this.scope)
-                .render();
+            return this.filter(filter, this.scope)
+                       .render();
         },
         sortItems       : function (data) {
             this.desc = data.desc;
@@ -24,7 +24,7 @@ define([
                     this.filtered.reverse();
                 }
             }
-            this.render();
+            return this.render();
         },
         searchFilter    : function (query) {
             if ( query === null ) {
@@ -41,6 +41,7 @@ define([
                     this.filterItems(query);
                 }
             }
+            return this;
         },
         buildIndex      : function () {
             this.index()
@@ -48,6 +49,7 @@ define([
                     this.resource.byAncestor(this.scope)
                         .map(uijet.Utils.prop('attributes'))
                 );
+            return this;
         },
         updateSelection : function (id) {
             var model = this.resource.get(id),
@@ -55,101 +57,75 @@ define([
                 new_state = { selected : '' },
                 resource = this.resource,
                 previous_id = id,
-                branch, is_partial;
-            switch ( old_state ) {
-                case 'selected':
-                    // unselecting
-                    model.set(new_state);
-                    //! Array.prototype.forEach
-                    this.resource.byAncestor(id).forEach(function (model) {
-                        model.set(new_state);
-                    });
-                    branch = this.resource.branch(id);
-                    // remove this model from the branch
-                    branch.pop();
-                    //! Array.prototype.forEach
-                    branch.reverse().forEach(function (model) {
-                        var old_branch_state = model.get('selected'),
-                            children = model.get('children'),
-                            new_branch_state = { selected : '' };
-                        if ( is_partial ) {
-                            model.set({ selected : 'partial' });
-                            return;
-                        }
-                        switch ( old_branch_state ) {
-                            case 'selected':
-                                if ( children.length > 1 ) {
-                                    new_branch_state.selected = 'partial';
-                                    is_partial = true;
-                                }
-                                model.set(new_branch_state);
-                                break;
-                            case 'partial':
-                                if ( children.length > 1 ) {
-                                    //! Array.prototype.some
-                                    is_partial = children.some(function (child_id) {
-                                        if ( child_id !== previous_id ) {
-                                            return resource.get(child_id).get('selected') === 'selected';
-                                        }
-                                    });
-                                    if ( is_partial ) {
-                                        new_branch_state.selected = 'partial';
-                                    }
-                                }
-                                model.set(new_branch_state);
-                                break;
-                        }
-                        previous_id = model.id;
-                    });
-                    break;
-                case 'partial':
-                default:
-                    // selecting
-                    new_state.selected = 'selected';
-                    model.set(new_state);
-                    //! Array.prototype.forEach
-                    this.resource.byAncestor(id).forEach(function (model) {
-                        model.set(new_state);
-                    });
-                    branch = this.resource.branch(id);
-                    // remove this model from the branch
-                    branch.pop();
-                    //! Array.prototype.forEach
-                    branch.reverse().forEach(function (model) {
-                        var old_branch_state = model.get('selected'),
-                            children = model.get('children'),
-                            new_branch_state = { selected : 'selected' };
-                        if ( is_partial ) {
-                            model.set({ selected : 'partial' });
-                            return;
-                        }
-                        switch ( old_branch_state ) {
-                            case 'partial':
-                                if ( children.length > 1 ) {
-                                    //! Array.prototype.some
-                                    is_partial = children.some(function (child_id) {
-                                        if ( child_id !== previous_id ) {
-                                            return resource.get(child_id).get('selected') !== 'selected';
-                                        }
-                                    });
-                                    if ( is_partial ) {
-                                        new_branch_state.selected = 'partial';
-                                    }
-                                }
-                                model.set(new_branch_state);
-                                break;
-                            default:
-                                if ( children.length > 1 ) {
-                                    new_branch_state.selected = 'partial';
-                                    is_partial = true;
-                                }
-                                model.set(new_branch_state);
-                                break;
-                        }
-                        previous_id = model.id;
-                    });
-                    break;
+                branch, is_partial, target_selected;
+            if ( old_state !== 'selected' ) {
+                new_state.selected = 'selected';
             }
+
+            /*
+             * Update the clicked row's model
+             */
+            model.set(new_state);
+
+            target_selected = new_state.selected === 'selected';
+
+            /*
+             * Update all descendants
+             */
+            //! Array.prototype.forEach
+            this.resource.byAncestor(id).forEach(function (model) {
+                model.set(new_state);
+            });
+
+            /*
+             * Update all ancestors
+             */
+            branch = this.resource.branch(id);
+            // remove this model from the branch
+            branch.pop();
+            //! Array.prototype.forEach
+            branch.reverse().forEach(function (model) {
+                if ( is_partial ) {
+                    model.set(new_state);
+                    return;
+                }
+                var old_branch_state = model.get('selected'),
+                    children = model.get('children');
+                switch ( old_branch_state ) {
+                    case 'selected':
+                        if ( children.length > 1 ) {
+                            new_state.selected = 'partial';
+                            is_partial = true;
+                        }
+                        model.set(new_state);
+                        break;
+                    case 'partial':
+                        if ( children.length > 1 ) {
+                            //! Array.prototype.some
+                            is_partial = children.some(function (child_id) {
+                                if ( child_id !== previous_id ) {
+                                    var _state = resource.get(child_id).get('selected');
+                                    return target_selected ?
+                                        _state !== 'selected' :
+                                        _state === 'selected';
+                                }
+                            });
+                            if ( is_partial ) {
+                                new_state.selected = 'partial';
+                            }
+                        }
+                        model.set(new_state);
+                        break;
+                    default:
+                        if ( children.length > 1 ) {
+                            new_state.selected = 'partial';
+                            is_partial = true;
+                        }
+                        model.set(new_state);
+                }
+                previous_id = model.id;
+            });
+            return this;
         }
     });
 
