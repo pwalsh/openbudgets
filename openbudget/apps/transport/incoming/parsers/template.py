@@ -23,7 +23,7 @@ class TemplateParser(BaseParser):
     ITEM_ATTRIBUTES = ('name', 'code', 'parent', 'path', 'templates', 'direction', 'description')
 
     def __init__(self, container_object_dict, extends=None, fill_in_parents=None, interpolate=None):
-        super(BudgetTemplateParser, self).__init__(container_object_dict)
+        super(TemplateParser, self).__init__(container_object_dict)
         self.parent = extends
         self.skipped_rows = []
 
@@ -396,7 +396,7 @@ class TemplateParser(BaseParser):
 
         divisions = data.pop('divisions') if 'divisions' in data else []
 
-        super(BudgetTemplateParser, self)._create_container(container_dict=data, exclude=exclude)
+        super(TemplateParser, self)._create_container(container_dict=data, exclude=exclude)
 
         for division in divisions:
             if not self.dry:
