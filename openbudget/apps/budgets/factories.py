@@ -32,7 +32,7 @@ class BudgetTemplateNodeFactory(factory.DjangoModelFactory):
 
     FACTORY_FOR = TemplateNode
 
-    directions = TemplateNode.NODE_DIRECTIONS
+    directions = TemplateNode.DIRECTIONS
 
     code = factory.Sequence(lambda n: '{0}'.format(n))
     name = factory.Sequence(lambda n: 'Budget Template Node {0} Name'.format(n))

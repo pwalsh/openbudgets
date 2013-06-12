@@ -15,15 +15,17 @@ PATH_SEPARATOR = '|'
 
 
 class TemplateManager(models.Manager):
+    """Exposes the related_map method for more efficient bulk select queries."""
+
+    def related_map(self):
+        return self.select_related().prefetch_related('divisions')
 
     def latest_of(self, entity):
         return self.filter(budgets__entity=entity).latest('period_start')
 
 
 class Template(TimeStampedModel, UUIDModel, PeriodStartModel, ClassMethodMixin):
-    """The budget template for a given domain division.
-
-    """
+    """Templates describe the structure of a Budget or an Actual."""
 
     objects = TemplateManager()
 
@@ -34,14 +36,15 @@ class Template(TimeStampedModel, UUIDModel, PeriodStartModel, ClassMethodMixin):
         _('Name'),
         db_index=True,
         max_length=255,
-        help_text=_('The name of this budget template.')
+        help_text=_('The name of this template.')
     )
     description = models.TextField(
-        _('Entry description'),
+        _('Description'),
         db_index=True,
         blank=True,
-        help_text=_('Describe for this entry.')
+        help_text=_('An overview text for this template.')
     )
+
     referencesources = generic.GenericRelation(
         ReferenceSource
     )
@@ -50,12 +53,13 @@ class Template(TimeStampedModel, UUIDModel, PeriodStartModel, ClassMethodMixin):
     )
 
     @property
-    def nodes(self):
-        return TemplateNode.objects.filter(templates=self)
-
-    @property
     def has_budgets(self):
         return bool(self.budgets.count())
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = _('template')
+        verbose_name_plural = _('templates')
 
     @models.permalink
     def get_absolute_url(self):
@@ -64,16 +68,11 @@ class Template(TimeStampedModel, UUIDModel, PeriodStartModel, ClassMethodMixin):
     def __unicode__(self):
         return self.name
 
-    class Meta:
-        ordering = ['name']
-        verbose_name = _('Budget template')
-        verbose_name_plural = _('Budget templates')
-
 
 class TemplateNode(TimeStampedModel, UUIDModel):
-    """The individual nodes in a budget template"""
+    """The nodes that make up a template."""
 
-    NODE_DIRECTIONS = (
+    DIRECTIONS = (
         ('REVENUE', _('REVENUE')),
         ('EXPENDITURE', _('EXPENDITURE'))
     )
@@ -81,45 +80,57 @@ class TemplateNode(TimeStampedModel, UUIDModel):
     templates = models.ManyToManyField(
         Template,
         through='TemplateNodeRelation',
-        related_name='node_set'
+        related_name='nodes'
     )
-
-    code = models.CharField(
-        _('Code'),
-        db_index=True,
-        max_length=50,
-        help_text=_('Code')
-    )
-
-    path = models.CharField(
-        _('Path'),
-        db_index=True,
-        max_length=255,
-        null=True,
-        blank=True,
-        help_text=_('Codes path to root.')
-    )
-
     name = models.CharField(
         _('Name'),
         db_index=True,
         max_length=255,
-        help_text=_('Name')
+        help_text=_('The name of this template node.')
     )
-
     description = models.TextField(
         _('Entry description'),
         blank=True,
-        help_text=_('Describe for this entry.')
+        help_text=_('A descriptive text for this template node.')
     )
-
+    code = models.CharField(
+        _('Code'),
+        db_index=True,
+        max_length=50,
+        help_text=_('An identifying code for this template node.')
+    )
+    direction = models.CharField(
+        _('REVENUE/EXPENDITURE'),
+        db_index=True,
+        max_length=15,
+        choices=DIRECTIONS,
+        default=DIRECTIONS[0][0],
+        help_text=_('Every node must be either a revenue or expenditure node.')
+    )
     parent = models.ForeignKey(
         'self',
         null=True,
         blank=True,
         related_name='children'
     )
-
+    inverse = models.ManyToManyField(
+        'self',
+        symmetrical=True,
+        null=True,
+        blank=True,
+        related_name='inverses',
+        help_text=_('Inverse relations across revenue and expenditure nodes.')
+    )
+    path = models.CharField(
+        _('Path'),
+        db_index=True,
+        max_length=255,
+        null=True,
+        blank=True,
+        editable=False,
+        help_text=_('A representation of the path to the root of the template '
+                    'from this template node.')
+    )
     backwards = models.ManyToManyField(
         'self',
         null=True,
@@ -128,58 +139,12 @@ class TemplateNode(TimeStampedModel, UUIDModel):
         related_name='forwards'
     )
 
-    direction = models.CharField(
-        _('REVENUE/EXPENDITURE'),
-        db_index=True,
-        max_length=15,
-        choices=NODE_DIRECTIONS,
-        help_text=_('Indicates whether this node is for revenue or expenditure')
-    )
-
-    inverse = models.ManyToManyField(
-        'self',
-        symmetrical=True,
-        null=True,
-        blank=True,
-        help_text=_('Describe for this entry.')
-    )
-
     referencesources = generic.GenericRelation(
         ReferenceSource
     )
-
     auxsources = generic.GenericRelation(
         AuxSource
     )
-
-    def save(self, *args, **kwargs):
-        # only handle creation of a new instance for now
-        if not self.id:
-            # set the `path` property if not set and needed
-            if not self.path:
-                self.path = PATH_SEPARATOR.join(self._path_to_root)
-
-        #TODO: perhaps handle updates too?
-
-        return super(TemplateNode, self).save(*args, **kwargs)
-
-    @property
-    def _path_to_root(self):
-        path = [self.code]
-        if self.parent:
-            parent_path = self.parent._path_to_root
-            if parent_path:
-                path = path + parent_path
-
-        return path
-
-    @property
-    def budget_items(self):
-        return BudgetItem.objects.filter(node=self)
-
-    @property
-    def actual_items(self):
-        return ActualItem.objects.filter(node=self)
 
     @property
     def past(self):
@@ -209,17 +174,34 @@ class TemplateNode(TimeStampedModel, UUIDModel):
     def timeline(self):
         return self.with_past + self.future
 
+    def _get_path_to_root(self):
+        path = [self.code]
+        if self.parent:
+            parent_path = self.parent._get_path_to_root()
+            if parent_path:
+                path = path + parent_path
+        return path
+
+    def save(self, *args, **kwargs):
+        # TODO: Also need to handle path creation on updates, not only created.
+        if not self.id:
+            # set the `path` property if not set and needed
+            if not self.path:
+                self.path = PATH_SEPARATOR.join(self._get_path_to_root())
+
+        return super(TemplateNode, self).save(*args, **kwargs)
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = _('template node')
+        verbose_name_plural = _('template nodes')
+
     @models.permalink
     def get_absolute_url(self):
         return 'template_node', [self.uuid]
 
     def __unicode__(self):
         return self.code
-
-    class Meta:
-        ordering = ['name']
-        verbose_name = _('Budget template node')
-        verbose_name_plural = _('Budget template nodes')
 
 
 def inverse_changed(sender, instance, action, reverse, model, pk_set, **kwargs):
@@ -233,10 +215,15 @@ def inverse_changed(sender, instance, action, reverse, model, pk_set, **kwargs):
             raise ValidationError(_("Inverse node's direction can not be the "
                                     "same as self direction."))
 
+
 m2m_changed.connect(inverse_changed, sender=TemplateNode.inverse.through)
 
 
 class TemplateNodeRelationManager(models.Manager):
+    """Exposes the related_map method for more efficient bulk select queries."""
+
+    def related_map(self):
+        return self.select_related()
 
     def has_same_node(self, node, template):
         return self.filter(
@@ -255,34 +242,41 @@ class TemplateNodeRelation(models.Model):
     template = models.ForeignKey(
         Template
     )
-
     node = models.ForeignKey(
         TemplateNode
     )
 
     def validate_unique(self, exclude=None):
-        node = self.node
-        super(TemplateNodeRelation, self).validate_unique(exclude)
-        if not bool(self.__class__.objects.has_same_node(node, self.template)):
-            raise ValidationError(
-                _('Node with name: {name}; code: {code}; parent: {parent}; '
-                  'already exists in template: {template}'.format(
-                    name=node.name, code=node.code, parent=node.parent,
-                    template=self.template)))
+        """Custom validation for our use case."""
 
-    def __unicode__(self):
-        return '%s -> %s' % (self.template, self.node)
+        super(TemplateNodeRelation, self).validate_unique(exclude)
+
+        if not bool(self.__class__.objects.has_same_node(self.node, self.template)):
+            raise ValidationError(_('Node with name: {name}; code: {code}; '
+                                    'parent: {parent}; already exists in '
+                                    'template: {template}'.format(
+                                  name=self.node.name, code=self.node.code,
+                                  parent=self.node.parent,
+                                  template=self.template)))
 
     class Meta:
         ordering = ['template__name', 'node__name']
-        verbose_name = _('Budget Template/Node Relation')
-        verbose_name = _('Budget Template/Node Relations')
+        verbose_name = _('template/node relation')
+        verbose_name = _('template/node relations')
         unique_together = (
             ('node', 'template')
         )
 
+    def __unicode__(self):
+        return '{template} -> {node}'.format(template=self.template,
+                                             node=self.node)
+
 
 class SheetManager(models.Manager):
+    """Exposes the related_map method for more efficient bulk select queries."""
+
+    def related_map(self):
+        return self.select_related().prefetch_related('items')
 
     def latest_of(self, entity):
         return self.filter(entity=entity).latest('period_start')
@@ -297,26 +291,19 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel, ClassMethodMixin):
         Entity,
         related_name='%(class)ss'
     )
-
     template = models.ForeignKey(
         Template,
         related_name='%(class)ss'
     )
-
     description = models.TextField(
-        _('Budget description'),
+        _('Description'),
         db_index=True,
         blank=True,
         help_text=_('Descriptive text for this %(class)s')
     )
 
-    referencesources = generic.GenericRelation(
-        ReferenceSource
-    )
-
-    auxsources = generic.GenericRelation(
-        AuxSource
-    )
+    referencesources = generic.GenericRelation(ReferenceSource)
+    auxsources = generic.GenericRelation(AuxSource)
 
     @property
     def total(self):
@@ -329,103 +316,94 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel, ClassMethodMixin):
         value = self.items.all().count()
         return value
 
+    class Meta:
+        abstract = True
+
     def __unicode__(self):
         value = unicode(self.period) + ' ' + self.get_class_name() + ' for ' + \
             self.entity.name
         return value
 
-    class Meta:
-        abstract = True
-        ordering = ['entity']
-
 
 class Budget(Sheet):
-    """Budget for the given entity and period"""
+    """The budget sheet for the given entity/period."""
 
     @property
-    def actuals(self):
-        value = Actual.objects.filter(entity=self.entity,
-                                      period_start=self.period_start,
-                                      period_end=self.period_end)
+    def related_actuals(self):
+        tmp = Actual.objects.filter(entity=self.entity)
+        value = [actual for actual in tmp if actual.period == self.period]
         return value
 
-    @property
-    def has_actuals(self):
-        # TODO: This is a test POC. need much more robust way
-        return bool(len(self.actuals))
+    class Meta:
+        ordering = ['entity']
+        verbose_name = _('Budget')
+        verbose_name_plural = _('Budgets')
 
     @models.permalink
     def get_absolute_url(self):
         return 'budget_detail', [self.uuid]
 
-    class Meta:
-        verbose_name = _('Budget')
-        verbose_name_plural = _('Budgets')
-
 
 class Actual(Sheet):
-    """Actual for the given entity and period"""
-
-    # Actuals is designed here in parallel to budget for
-    # the possible scenarios of:
-    # actual report availability, but no budget availability
-    # actual report that spans more than one budget, or
-    # less than one budget
-
-    # TODO: implement a save method that checks period range,
-    # and compares match with budget/actual. Actual periods
-    # should smartly map over budget periods, and not fall
-    # inconveniently like, an actual for 10 months, but a budget for 12.
+    """The actuals sheet for the given entity/period."""
 
     @property
-    def budgets(self):
-        value = Budget.objects.filter(entity=self.entity,
-                                      period_start=self.period_start,
-                                      period_end=self.period_end)
+    def related_budgets(self):
+        tmp = Budget.objects.filter(entity=self.entity)
+        value = [budget for budget in tmp if budget.period == self.period]
         return value
-
-    @property
-    def has_budgets(self):
-        # TODO: This is a test POC. need much more robust way
-        return bool(len(self.budgets))
 
     @property
     def variance(self):
-        """If this actual has associated budgets, calculate the variance"""
-        value = None
-        tmp = []
-        # TODO: This is a test POC. need much more robust way
-        for budget in self.budgets:
-            tmp.append(budget.total)
-
-        budget_sum = sum(tmp)
-        # We are using python division from future
-        value = round(self.total / budget_sum * 100, 2)
+        totals = None
+        if self.related_budgets:
+            totals = [budget.total for budget in self.related_budgets]
+        total_sum = sum(totals)
+        # Note: we imported division from __future__
+        value = round(self.total / total_sum * 100, 2)
         return value
+
+    class Meta:
+        ordering = ['entity']
+        verbose_name = _('actual')
+        verbose_name_plural = _('actuals')
 
     @models.permalink
     def get_absolute_url(self):
         return 'actual_detail', [self.uuid]
 
-    class Meta:
-        verbose_name = _('Actual')
-        verbose_name_plural = _('Actuals')
+
+class SheetItemManager(models.Manager):
+    """Exposes the related_map method for more efficient bulk select queries."""
+
+    def related_map(self):
+        return self.select_related().prefetch_related('discussion')
+
+    def timeline(self, node_uuid, entity_uuid):
+        try:
+            node = TemplateNode.objects.get(uuid=node_uuid)
+        except TemplateNode.DoesNotExist as e:
+            raise e
+        value = self.model.objects.filter(node__in=node.timeline,
+                                          budget__entity__uuid=entity_uuid)
+        return value
 
 
 class SheetItem(TimeStampedModel, UUIDModel, ClassMethodMixin):
     """Abstract class for common BudgetItem and ActualItem data"""
 
-    node = models.ForeignKey(
-        TemplateNode
-    )
+    objects = SheetItemManager()
 
+    node = models.ForeignKey(
+        TemplateNode,
+        related_name='%(class)ss',
+    )
     description = models.TextField(
-        _('Item description'),
+        _('Description'),
         db_index=True,
         blank=True,
         help_text=_('Description that appears for this entry.')
     )
-
     amount = models.DecimalField(
         _('Amount'),
         db_index=True,
@@ -433,14 +411,12 @@ class SheetItem(TimeStampedModel, UUIDModel, ClassMethodMixin):
         decimal_places=2,
         help_text=_('The total amount of this entry.')
     )
-
     discussion = generic.GenericRelation(
         Comment,
         object_id_field="object_pk"
     )
 
     referencesources = generic.GenericRelation(ReferenceSource)
-
     auxsources = generic.GenericRelation(AuxSource)
 
     @property
@@ -450,71 +426,42 @@ class SheetItem(TimeStampedModel, UUIDModel, ClassMethodMixin):
 
     class Meta:
         abstract = True
-        ordering = ['node']
 
-
-class BudgetItemManager(models.Manager):
-    def timeline(self, node_uuid, entity_uuid):
-        try:
-            node = TemplateNode.objects.get(uuid=node_uuid)
-        except TemplateNode.DoesNotExist as e:
-            raise e
-        value = BudgetItem.objects.filter(node__in=node.timeline,
-                                          budget__entity__uuid=entity_uuid)
-        return value
+    def __unicode__(self):
+        return self.node.code
 
 
 class BudgetItem(SheetItem):
-    """Describes a single item in a budget"""
-
-    objects = BudgetItemManager()
+    """A single item in a given budget sheet."""
 
     budget = models.ForeignKey(
         Budget,
         related_name='items'
     )
 
+    class Meta:
+        ordering = ['node']
+        verbose_name = _('budget item')
+        verbose_name_plural = _('budget items')
+
     @models.permalink
     def get_absolute_url(self):
         return 'budget_item_detail', [self.uuid]
 
-    def __unicode__(self):
-        return self.node.code
-
-    class Meta:
-        verbose_name = _('Budget item')
-        verbose_name_plural = _('Budget items')
-
-
-class ActualItemManager(models.Manager):
-
-    def timeline(self, node_uuid, entity_uuid):
-        try:
-            node = TemplateNode.objects.get(uuid=node_uuid)
-        except TemplateNode.DoesNotExist as e:
-            raise e
-        value = ActualItem.objects.filter(node__in=node.timeline,
-                                          actual__entity__uuid=entity_uuid)
-        return value
-
 
 class ActualItem(SheetItem):
-    """Describes a single item in an actual"""
-
-    objects = ActualItemManager()
+    """A single item in a given actuals sheet."""
 
     actual = models.ForeignKey(
         Actual,
         related_name='items'
     )
 
+    class Meta:
+        ordering = ['node']
+        verbose_name = _('actual item')
+        verbose_name_plural = _('actual items')
+
     @models.permalink
     def get_absolute_url(self):
         return 'actual_item_detail', [self.uuid]
-
-    def __unicode__(self):
-        return self.node.code
-
-    class Meta:
-        verbose_name = _('Actual item')
-        verbose_name_plural = _('Actual items')

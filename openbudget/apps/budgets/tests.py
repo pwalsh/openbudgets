@@ -23,7 +23,7 @@ class TemplateInheritanceTestCase(TestCase):
         base = Template.objects.get(pk=1)
         self.base = base
 
-        base_nodes = base.nodes
+        base_nodes = base.nodes.all()
         self.codes = [node.code for node in base_nodes]
 
         # create a new template: template_1 inherits base
@@ -80,7 +80,7 @@ class TemplateInheritanceTestCase(TestCase):
         self.template_2 = Template.objects.create(
             name=self.template_1.name + "'s child"
         )
-        for node in self.template_1.nodes:
+        for node in self.template_1.nodes.all():
             TemplateNodeRelation.objects.create(
                 template=self.template_2,
                 node=node
@@ -124,8 +124,8 @@ class TemplateInheritanceTestCase(TestCase):
         """
 
         # set up level 1
-        nodes = self.template_1.nodes
-        base_nodes = self.base.nodes
+        nodes = self.template_1.nodes.all()
+        base_nodes = self.base.nodes.all()
 
         # test level 1
         self.assertIn(self.node_1_1, nodes)
@@ -138,8 +138,8 @@ class TemplateInheritanceTestCase(TestCase):
         self.assertEqual(len(nodes), len(base_nodes) + 3)
 
         # set up level 2
-        nodes = self.template_2.nodes
-        base_nodes = self.template_1.nodes
+        nodes = self.template_2.nodes.all()
+        base_nodes = self.template_1.nodes.all()
 
         # test level 2
         self.assertIn(self.node_2_1, nodes)
@@ -182,7 +182,7 @@ class TemplateInheritanceTestCase(TestCase):
         )
         node_2_3.backwards.add(backward)
 
-        backward = self.base.nodes[0]
+        backward = self.base.nodes.all()[0]
         backward_code = backward.code
         node_2_4 = TemplateNode.objects.create(
             name=backward.name + "'s future",
