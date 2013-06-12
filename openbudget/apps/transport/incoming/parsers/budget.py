@@ -15,7 +15,7 @@ class BudgetParser(TemplateParser):
     ITEM_CLEANING_EXCLUDE = ['node', 'budget']
 
     def __init__(self, container_object_dict):
-        super(BudgetTemplateParser, self).__init__(container_object_dict)
+        super(BudgetParser, self).__init__(container_object_dict)
         self.skipped_rows = {}
         self.template_parser = self._init_template_parser()
 
@@ -84,7 +84,7 @@ class BudgetParser(TemplateParser):
         if exclude:
             fields_to_exclude += exclude
 
-        super(BudgetTemplateParser, self)._create_container(container_dict=data, exclude=fields_to_exclude)
+        super(BudgetParser, self)._create_container(container_dict=data, exclude=fields_to_exclude)
 
     def _generate_lookup(self, data):
         resolved = deepcopy(self.template_parser.objects_lookup)
@@ -160,7 +160,7 @@ class BudgetParser(TemplateParser):
             del container_dict_copy['period_end']
 
         if parent_template:
-            return BudgetTemplateParser(container_dict_copy, extends=parent_template)
+            return TemplateParser(container_dict_copy, extends=parent_template)
 
         return False
 
