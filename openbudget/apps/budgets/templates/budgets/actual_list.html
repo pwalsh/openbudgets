@@ -12,7 +12,7 @@ Budgets in System
     <div>
     name: {{ object.period }} | applies to: {{ object.entity }}
     <br />
-    <a href="{% url 'actual_detail' object.uuid %}" title="">Go there</a>
+    <a href="{% url 'actual_detail' object.entity.slug object.period %}" title="">Go there</a>
     </div>
 {% endfor %}
 

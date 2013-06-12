@@ -294,7 +294,7 @@ class SheetViewTestCase(TestCase):
     def test_budget_detailview(self):
 
         detailview = reverse('budget_detail',
-            args=(self.budget.uuid,)
+            args=(self.budget.entity.slug, self.budget.period)
         )
         response = self.client.get(detailview)
 
@@ -304,7 +304,7 @@ class SheetViewTestCase(TestCase):
     def test_actual_detailview(self):
 
         detailview = reverse('actual_detail',
-            args=(self.actual.uuid,)
+            args=(self.actual.entity.slug, self.actual.period)
         )
         response = self.client.get(detailview)
 

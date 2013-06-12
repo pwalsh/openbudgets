@@ -25,11 +25,11 @@ class InteractionTestCase(TestCase):
         )
         self.budgetview = reverse(
                 'budget_detail',
-                args=(self.budget.uuid,)
+                args=(self.budget.entity.slug, self.budget.period)
         )
         self.actualview = reverse(
                 'actual_detail',
-                args=(self.actual.uuid,)
+                args=(self.actual.entity.slug, self.actual.period)
         )
 
     def test_auth_user_can_star_or_follow(self):
