@@ -5,6 +5,7 @@
 
 .selectbox {
     display: inline-block;
+    float: right;
     width: 1rem;
     height: 1rem;
     border-radius: 50%;
