@@ -5,10 +5,10 @@
     "pk": 1,
     "fields": {
         "uuid": "6cd238ac63974392834ad62699c1cf10",
-        "username": "demosuperadmin",
-        "first_name": "Super",
+        "username": "administrator",
+        "first_name": "Open Budget",
         "last_name": "Administrator",
-        "email": "superadmin@example.com",
+        "email": "adminstrator@example.com",
         "password": "sha1$d0ac3$d37cb4b152d98c9727f7d696795f2d6ad9438ee4",
         "is_staff": 1,
         "is_active": 1,
