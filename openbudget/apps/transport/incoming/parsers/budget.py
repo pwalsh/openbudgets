@@ -84,7 +84,7 @@ class BudgetParser(TemplateParser):
         if exclude:
             fields_to_exclude += exclude
 
-        super(BudgetParser, self)._create_container(container_dict=data, exclude=fields_to_exclude)
+        super(TemplateParser, self)._create_container(container_dict=data, exclude=fields_to_exclude)
 
     def _generate_lookup(self, data):
         resolved = deepcopy(self.template_parser.objects_lookup)
