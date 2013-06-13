@@ -1,113 +1,129 @@
-import django_filters
 from rest_framework import generics
 from rest_framework.response import Response
-from openbudget.apps.budgets.serializers import TemplateBaseSerializer, \
-    TemplateNodeBaseSerializer, BudgetBaseSerializer, BudgetItemBaseSerializer,\
-    ActualBaseSerializer, ActualItemBaseSerializer
-from openbudget.apps.budgets.models import Template, TemplateNode, Budget, \
-    BudgetItem, Actual, ActualItem
+from openbudget.apps.international.utilities import translated_fields
+from openbudget.apps.budgets import serializers
+from openbudget.apps.budgets import models
+from openbudget.apps.budgets import filters
 
 
 class TemplateList(generics.ListAPIView):
-    """API endpoint that represents a list of budget templates"""
+    """API endpoint that represents a list of templates."""
 
-    model = Template
-    serializer_class = TemplateBaseSerializer
-    filter_fields = ('divisions', 'budgets', 'actuals')
+    model = models.Template
+    queryset = model.objects.related_map_min()
+    serializer_class = serializers.TemplateBase
+    filter_class = filters.TemplateFilter
+    search_fields = ['uuid', 'name', 'description'] + translated_fields(model)
 
 
 class TemplateDetail(generics.RetrieveAPIView):
-    """API endpoint that represents a single budget template"""
+    """API endpoint that represents a single template."""
 
-    model = Template
-    serializer_class = TemplateBaseSerializer
-
-
-class TemplateNodeFilter(django_filters.FilterSet):
-
-    class Meta:
-        model = TemplateNode
-        fields = ['templates']
+    model = models.Template
+    queryset = model.objects.related_map()
+    serializer_class = serializers.TemplateDetail
 
 
 class TemplateNodeList(generics.ListAPIView):
-    """API endpoint that represents a list of template nodes"""
+    """API endpoint that represents a list of template nodes."""
 
-    model = TemplateNode
-    serializer_class = TemplateNodeBaseSerializer
-    filter_class = TemplateNodeFilter
+    model = models.TemplateNode
+    queryset = model.objects.related_map()
+    serializer_class = serializers.TemplateNodeBase
+    filter_class = filters.TemplateNodeFilter
+    search_fields = ['name', 'description'] + translated_fields(model)
 
 
 class TemplateNodeDetail(generics.RetrieveAPIView):
-    """API endpoint that represents a single budget template node"""
+    """API endpoint that represents a single template node."""
 
-    model = TemplateNode
-    serializer_class = TemplateNodeBaseSerializer
+    model = models.TemplateNode
+    queryset = model.objects.related_map()
+    serializer_class = serializers.TemplateNodeBase
 
 
 class BudgetList(generics.ListAPIView):
-    """API endpoint that represents a list of budgets"""
+    """API endpoint that represents a list of budget sheets."""
 
-    model = Budget
-    serializer_class = BudgetBaseSerializer
+    model = models.Budget
+    queryset = model.objects.related_map_min()
+    serializer_class = serializers.BudgetBase
+    search_fields = ['entity__name', 'description', 'period_start',
+                     'period_end'] + translated_fields(model)
 
 
 class BudgetDetail(generics.RetrieveAPIView):
-    """API endpoint that represents a single budget"""
+    """API endpoint that represents a single budget."""
 
-    model = Budget
-    serializer_class = BudgetBaseSerializer
+    model = models.Budget
+    queryset = model.objects.related_map()
+    serializer_class = serializers.BudgetDetail
 
 
 class BudgetItemList(generics.ListAPIView):
-    """API endpoint that represents a list of bitems"""
+    """API endpoint that represents a list of budget items."""
 
-    model = BudgetItem
-    serializer_class = BudgetItemBaseSerializer
+    model = models.BudgetItem
+    queryset = model.objects.related_map()
+    serializer_class = serializers.BudgetItemBase
+    search_fields = ['budget__entity__name', 'node__code', 'node__name',
+                     'node__description', 'description', 'period_start',
+                     'period_end'] + translated_fields(model) + \
+                    translated_fields(models.TemplateNode)
 
 
 class BudgetItemDetail(generics.RetrieveAPIView):
-    """API endpoint that represents a single bitem"""
+    """API endpoint that represents a single budget item."""
 
-    model = BudgetItem
-    serializer_class = BudgetItemBaseSerializer
+    model = models.BudgetItem
+    queryset = model.objects.related_map()
+    serializer_class = serializers.BudgetItemBase
 
 
 class ActualList(generics.ListAPIView):
-    """API endpoint that represents a list of actuals"""
+    """API endpoint that represents a list of actuals sheets."""
 
-    model = Actual
-    serializer_class = ActualBaseSerializer
+    model = models.Actual
+    queryset = model.objects.related_map_min()
+    serializer_class = serializers.ActualBase
+    search_fields = ['entity__name', 'description', 'period_start',
+                     'period_end'] + translated_fields(model)
 
 
 class ActualDetail(generics.RetrieveAPIView):
-    """API endpoint that represents a single actual"""
+    """API endpoint that represents a single actuals sheet."""
 
-    model = Actual
-    serializer_class = ActualBaseSerializer
+    model = models.Actual
+    queryset = model.objects.related_map()
+    serializer_class = serializers.ActualBase
 
 
 class ActualItemList(generics.ListAPIView):
     """API endpoint that represents a list of actual items"""
 
-    model = ActualItem
-    serializer_class = ActualItemBaseSerializer
+    model = models.ActualItem
+    queryset = model.objects.related_map()
+    serializer_class = serializers.ActualItemBase
+    search_fields = ['uuid', 'actual__entity__name', 'node__code', 'node__name',
+                     'node__description', 'description', 'period_start',
+                     'period_end'] + translated_fields(model) + \
+                    translated_fields(models.TemplateNode)
 
 
 class ActualItemDetail(generics.RetrieveAPIView):
-    """API endpoint that represents a single actual item"""
+    """API endpoint that represents a single actuals item."""
 
-    model = ActualItem
-    serializer_class = ActualItemBaseSerializer
-
+    model = models.ActualItem
+    queryset = model.objects.related_map()
+    serializer_class = serializers.ActualItemBase
 
 
 class TemplateNodesListLatest(generics.ListAPIView):
 
     def get(self, request, entity_pk, *args, **kwargs):
 
-        nodes = Template.objects.latest_of(entity=entity_pk).nodes
-        serialized_nodes = TemplateNodeBaseSerializer(nodes, many=True).data
+        nodes = models.Template.objects.latest_of(entity=entity_pk).nodes
+        serialized_nodes = serializers.TemplateNodeBase(nodes, many=True).data
 
         return Response(serialized_nodes)
 
@@ -121,14 +137,13 @@ class NodeTimeline(generics.ListAPIView):
     def get(self, request, entity_pk, node_pk, *args, **kwargs):
         """GET handler for retrieving all budget items and actual items of the node's timeline, filtered by entity"""
 
-        budget_items = BudgetItem.objects.timeline(node_pk, entity_pk)
-        actual_items = ActualItem.objects.timeline(node_pk, entity_pk)
+        budget_items = models.BudgetItem.objects.timeline(node_pk, entity_pk)
+        actual_items = models.ActualItem.objects.timeline(node_pk, entity_pk)
 
-        budget_items_serialized = BudgetItemBaseSerializer(budget_items, many=True).data
-        actual_items_serialized = ActualItemBaseSerializer(actual_items, many=True).data
+        budget_items_serialized = serializers.BudgetItemBase(budget_items, many=True).data
+        actual_items_serialized = serializers.ActualItemBase(actual_items, many=True).data
 
         return Response({
             "budget_items": budget_items_serialized,
             "actual_items": actual_items_serialized
         })
-
