@@ -1,171 +1,110 @@
-from rest_framework.serializers import HyperlinkedModelSerializer, \
-    HyperlinkedRelatedField, RelatedField, Field, DecimalField, IntegerField
-from rest_framework.fields import get_component
-from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.comments.models import Comment
+from rest_framework import serializers
 from openbudget.apps.international.utilities import translated_fields
-from openbudget.apps.budgets.models import Template, TemplateNode, Budget, \
-    BudgetItem, Actual, ActualItem
+from openbudget.apps.budgets import models
 
 
-class TemplateBaseSerializer(HyperlinkedModelSerializer):
-    """Base Domain serializer, exposing our defaults for templates."""
+class TemplateBase(serializers.HyperlinkedModelSerializer):
+    """The default serialized representation of templates."""
 
-    divisions = HyperlinkedRelatedField(many=True, read_only=True, view_name='division-detail')
-
-    class Meta:
-        model = Template
-        fields = ['url', 'name', 'description', 'divisions', 'period_start',
-                  'created_on','last_modified']\
-                 + translated_fields('name', 'description')
-
-
-class TemplateDetailSerializer(TemplateBaseSerializer):
-    """Used to represent a full relational map of a template."""
+    period = serializers.Field(source='period')
 
     class Meta:
-        model = Template
+        model = models.Template
+        fields = ['id', 'url', 'name', 'description', 'divisions', 'period',
+                  'created_on', 'last_modified'] + translated_fields(model)
 
 
-class TemplateNodeBaseSerializer(HyperlinkedModelSerializer):
-    """."""
-
-    #divisions = HyperlinkedRelatedField(many=True, read_only=True, view_name='division-detail')
-
-    class Meta:
-        model = TemplateNode
-
-
-class BudgetBaseSerializer(HyperlinkedModelSerializer):
-    """Base Budget serializer, exposing our defaults for budgets."""
-
-    period = Field(source='period')
-    total = DecimalField(source='total')
-    item_count = IntegerField(source='item_count')
+class TemplateNodeBase(serializers.HyperlinkedModelSerializer):
+    """The default serialized representation of template nodes."""
 
     class Meta:
-        model = Budget
-        fields = ['url', 'entity', 'template', 'description', 'period',
-                  'total', 'item_count', 'created_on', 'last_modified']\
-                 + translated_fields('description')
+        model = models.TemplateNode
+        fields = ['id', 'url', 'code', 'name', 'description', 'direction',
+                  'templates', 'direction', 'parent', 'children', 'inverse',
+                  'path', 'backwards', 'created_on',
+                  'last_modified'] + translated_fields(model)
 
 
-class BudgetNestedSerializer(BudgetBaseSerializer):
-    """Used to represent divisions when nested in other objects."""
+class BudgetBase(serializers.HyperlinkedModelSerializer):
+    """The default serialized representation of budgets."""
 
-    class Meta(BudgetBaseSerializer.Meta):
-        fields = ('url', 'description', 'period', 'total', 'item_count')
-
-
-class BudgetItemBaseSerializer(HyperlinkedModelSerializer):
-    """Base BudgetItem serializer, exposing our defaults for budget items."""
+    period = serializers.Field(source='period')
 
     class Meta:
-        model = BudgetItem
+        model = models.Budget
+        fields = ['id', 'url', 'entity', 'description', 'period',
+                  'created_on', 'last_modified'] + translated_fields(model)
 
 
-class ActualBaseSerializer(HyperlinkedModelSerializer):
-    """Base Actual serializer, exposing our defaults for actuals."""
-
-    period = Field(source='period')
-    total = DecimalField(source='total')
-    item_count = IntegerField(source='item_count')
-    variance = DecimalField(source='variance')
+class BudgetItemBase(serializers.HyperlinkedModelSerializer):
+    """The default serialized representation of budget items."""
 
     class Meta:
-        model = Actual
-        fields = ['url', 'entity', 'template', 'description', 'period',
-                  'total', 'item_count', 'variance', 'created_on',
-                  'last_modified'] + translated_fields('description')
+        model = models.BudgetItem
+        fields = ['id', 'url', 'node', 'amount', 'description', 'created_on',
+                  'last_modified'] + translated_fields(model)
 
 
-class ActualNestedSerializer(ActualBaseSerializer):
-    """Used to represent divisions when nested in other objects."""
+class ActualBase(serializers.HyperlinkedModelSerializer):
+    """The default serialized representation of budgets."""
 
-    class Meta(ActualBaseSerializer.Meta):
-        fields = ('url', 'description', 'period', 'total', 'item_count',
-                  'variance')
-
-
-class ActualItemBaseSerializer(HyperlinkedModelSerializer):
-    """Base ActualItem serializer, exposing our defaults for actual items."""
+    period = serializers.Field(source='period')
 
     class Meta:
-        model = ActualItem
+        model = models.Actual
+        fields = ['id', 'url', 'entity', 'description', 'period', 'created_on',
+                  'last_modified'] + translated_fields(model)
 
 
-class BudgetItemLinked(HyperlinkedModelSerializer):
-
-    #node = TemplateNodeModel()
-    #budget = PeriodField()
-
-    class Meta:
-        model = BudgetItem
-
-
-class BudgetLinked(HyperlinkedModelSerializer):
+class ActualItemBase(serializers.HyperlinkedModelSerializer):
+    """The default serialized representation of actuals items."""
 
     class Meta:
-        model = Budget
+        model = models.ActualItem
+        fields = ['id', 'url', 'node', 'amount', 'description', 'created_on',
+                  'last_modified'] + translated_fields(model)
 
 
-class ActualItemLinked(HyperlinkedModelSerializer):
+class TemplateDetail(TemplateBase):
+    """A detailed, related representation of templates."""
 
-    #node = TemplateNodeModel()
-    #actual = PeriodField()
-    #discussion = CommentField(many=True)
+    nodes = TemplateNodeBase()
 
-    class Meta:
-        model = ActualItem
-
-
-class ActualLinked(HyperlinkedModelSerializer):
-
-    #items = ActualItemLinked()
-
-    class Meta:
-        model = Actual
+    class Meta(TemplateBase.Meta):
+        TemplateBase.Meta.fields += ['nodes']
 
 
+class BudgetDetail(BudgetBase):
+    """A detailed, related representation of budgets."""
 
-class TemplateNodeLinked(HyperlinkedModelSerializer):
+    #entity = EntityBase
+    #total = serializers.DecimalField(source='total')
+    items = BudgetItemBase()
 
-    class Meta:
-        model = TemplateNode
-
-
-
-class CommentField(RelatedField):
-
-    many = True
-
-    def to_native(self, value):
-        """."""
-        return {'comment': value.comment}
-
-    def field_to_native(self, obj, field_name):
-        try:
-            if self.source == '*':
-                return self.to_native(obj)
-
-            source = self.source or field_name
-            value = obj
-
-            for component in source.split('.'):
-                value = get_component(value, component)
-                if value is None:
-                    break
-        except ObjectDoesNotExist:
-            return None
-
-        if value is None:
-            return None
-
-        if self.many:
-            return [self.to_native(item) for item in value.all()]
-        return self.to_native(value)
-
-    class Meta:
-        model = Comment
+    class Meta(BudgetBase.Meta):
+        BudgetBase.Meta.fields += ['items']
 
 
+class BudgetItemDetail(BudgetBase):
+    """A detailed, related representation of budget items."""
+
+    class Meta(BudgetItemBase.Meta):
+        BudgetItemBase.Meta.fields += ['discussion']
+
+
+class ActualDetail(BudgetBase):
+    """A detailed, related representation of actuals."""
+
+    #entity = EntityBase
+    #total = serializers.DecimalField(source='total')
+    items = ActualItemBase()
+
+    class Meta(ActualBase.Meta):
+        ActualBase.Meta.fields += ['items']
+
+
+class ActualItemDetail(BudgetBase):
+    """A detailed, related representation of actuals items."""
+
+    class Meta(ActualItemBase.Meta):
+        ActualItemBase.Meta.fields += ['discussion']
