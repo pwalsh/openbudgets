@@ -25,6 +25,14 @@
     white-space: nowrap;
 }
 
+.filtercrumb_remove {
+    padding: 0;
+}
+.filtercrumb_remove:before {
+    content: 'X';
+    padding-right: .3rem;
+}
+
 #filters_done {
     float: left;
 }
