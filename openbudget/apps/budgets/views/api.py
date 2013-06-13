@@ -64,7 +64,7 @@ class BudgetItemList(generics.ListAPIView):
     """API endpoint that represents a list of budget items."""
 
     model = models.BudgetItem
-    queryset = model.objects.related_map()
+    queryset = model.objects.related_map_min()
     serializer_class = serializers.BudgetItemBase
     search_fields = ['budget__entity__name', 'node__code', 'node__name',
                      'node__description', 'description', 'period_start',
@@ -84,7 +84,7 @@ class ActualList(generics.ListAPIView):
     """API endpoint that represents a list of actuals sheets."""
 
     model = models.Actual
-    queryset = model.objects.related_map_min()
+    #queryset = model.objects.related_map_min()
     serializer_class = serializers.ActualBase
     search_fields = ['entity__name', 'description', 'period_start',
                      'period_end'] + translated_fields(model)
@@ -95,7 +95,7 @@ class ActualDetail(generics.RetrieveAPIView):
 
     model = models.Actual
     queryset = model.objects.related_map()
-    serializer_class = serializers.ActualBase
+    serializer_class = serializers.ActualDetail
 
 
 class ActualItemList(generics.ListAPIView):

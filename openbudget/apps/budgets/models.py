@@ -109,12 +109,17 @@ class Template(TimeStampedModel, UUIDModel, PeriodStartModel, ClassMethodMixin):
 class TemplateNodeManager(models.Manager):
     """Exposes the related_map methods for more efficient bulk select queries."""
 
+    def get_queryset(self):
+        return super(TemplateNodeManager, self).select_related('parent')
+
     def related_map_min(self):
-        return self.prefetch_related('parent', 'children')
+        return self.select_related('parent')
 
     def related_map(self):
-        return self.prefetch_related('parent', 'children', 'templates',
-                                     'inverse', 'backwards')
+        return self.select_related('parent').prefetch_related('children',
+                                                              'templates',
+                                                              'inverse',
+                                                              'backwards')
 
 
 class TemplateNode(TimeStampedModel, UUIDModel):
@@ -430,6 +435,9 @@ class Actual(Sheet):
 
 class SheetItemManager(models.Manager):
     """Exposes the related_map method for more efficient bulk select queries."""
+
+    def get_queryset(self):
+        return super(SheetItemManager, self).select_related('node')
 
     def related_map_min(self):
         return self.select_related()

@@ -71,7 +71,7 @@ class TemplateDetail(TemplateBase):
     nodes = TemplateNodeBase()
 
     class Meta(TemplateBase.Meta):
-        TemplateBase.Meta.fields += ['nodes']
+        fields = TemplateBase.Meta.fields + ['nodes']
 
 
 class BudgetDetail(BudgetBase):
@@ -82,14 +82,14 @@ class BudgetDetail(BudgetBase):
     items = BudgetItemBase()
 
     class Meta(BudgetBase.Meta):
-        BudgetBase.Meta.fields += ['items']
+        fields = BudgetBase.Meta.fields + ['items']
 
 
 class BudgetItemDetail(BudgetBase):
     """A detailed, related representation of budget items."""
 
     class Meta(BudgetItemBase.Meta):
-        BudgetItemBase.Meta.fields += ['discussion']
+        fields = BudgetItemBase.Meta.fields + ['discussion']
 
 
 class ActualDetail(BudgetBase):
@@ -100,11 +100,11 @@ class ActualDetail(BudgetBase):
     items = ActualItemBase()
 
     class Meta(ActualBase.Meta):
-        ActualBase.Meta.fields += ['items']
+        fields = ActualBase.Meta.fields + ['items']
 
 
 class ActualItemDetail(BudgetBase):
     """A detailed, related representation of actuals items."""
 
     class Meta(ActualItemBase.Meta):
-        ActualItemBase.Meta.fields += ['discussion']
+        fields = ActualItemBase.Meta.fields + ['discussion']

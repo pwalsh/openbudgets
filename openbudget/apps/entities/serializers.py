@@ -45,7 +45,7 @@ class DivisionDetail(DivisionBase):
     domain = DomainBase(DomainBase.Meta.fields.remove('divisions'))
 
     class Meta(DivisionBase.Meta):
-        DivisionBase.Meta.fields += ['entities']
+        fields = DivisionBase.Meta.fields + ['entities']
 
 
 class EntityDetail(EntityBase):
