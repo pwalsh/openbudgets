@@ -1,20 +1,50 @@
 from django.conf.urls import patterns, url
-from openbudget.apps.entities.views.api import DomainList, DomainDetail,\
-    DivisionList, DivisionDetail, EntityList, EntityDetail
+from openbudget.apps.entities.views import api
 
 
-urlpatterns = patterns('',
+def entities():
+    urlpatterns = patterns('',
+        url(
+            r'^$',
+            api.EntityList.as_view(),
+            name='entity-list'
+        ),
+        url(
+            r'^(?P<pk>\d+)/$',
+            api.EntityDetail.as_view(),
+            name='entity-detail'
+        ),
+    )
+    return urlpatterns
 
-    url(r'^domains/$', DomainList.as_view(), name='domain-list'),
 
-    url(r'^domains/(?P<pk>\d+)/$', DomainDetail.as_view(), name='domain-detail'),
+def divisions():
+    urlpatterns = patterns('',
+        url(
+            r'^$',
+            api.DivisionList.as_view(),
+            name='division-list'
+        ),
+        url(
+            r'^(?P<pk>\d+)/$',
+            api.DivisionDetail.as_view(),
+            name='division-detail'
+        ),
+    )
+    return urlpatterns
 
-    url(r'^divisions/$', DivisionList.as_view(), name='division-list'),
 
-    url(r'^divisions/(?P<pk>\d+)/$', DivisionDetail.as_view(), name='division-detail'),
-
-    url(r'^entities/$', EntityList.as_view(), name='entity-list'),
-
-    url(r'^entities/(?P<pk>\d+)/$', EntityDetail.as_view(), name='entity-detail'),
-
-)
+def domains():
+    urlpatterns = patterns('',
+        url(
+            r'^$',
+            api.DomainList.as_view(),
+            name='domain-list'
+        ),
+        url(
+            r'^(?P<pk>\d+)/$',
+            api.DomainDetail.as_view(),
+            name='domain-detail'
+        ),
+    )
+    return urlpatterns
