@@ -13,7 +13,7 @@ class ProjectList(ListAPIView):
     serializer_class = ProjectBaseSerializer
     filter_class = ProjectFilter
     search_fields = ['name', 'description', 'owner', 'author']\
-                    + translated_fields('name', 'description')
+                    + translated_fields(model)
 
 
 class ProjectDetail(RetrieveAPIView):

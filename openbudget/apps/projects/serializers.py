@@ -13,4 +13,4 @@ class ProjectBaseSerializer(HyperlinkedModelSerializer):
         model = Project
         fields = ['url', 'owner', 'author', 'name', 'description', 'featured',
                   'preview', 'created_on', 'last_modified'] +\
-                 translated_fields('name', 'description')
+                 translated_fields(model)
