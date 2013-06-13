@@ -1,3 +1,4 @@
+from modeltranslation.translator import translator
 from openbudget.settings import base as settings
 
 
@@ -35,18 +36,18 @@ def get_language_key(host, domain, user):
     return value
 
 
-def translated_fields(*args, **kwargs):
-    """Given field names, returns a list of related translated field names.
+def translated_fields(model):
+    """Given a model, returns a list of translated field names for it.
 
-    TODO: use the translation registry files to *ensure* that the passed field
-     is actually registered for translation, using model=None kwarg.
+    The returned list excludes the extra field created for the default language.
+
     """
 
-    target_codes = [lang[0] for lang in settings.LANGUAGES]
-    target_codes.remove(settings.MODELTRANSLATION_DEFAULT_LANGUAGE)
+    options = translator.get_options_for_model(model)
+    fields = [f.name for l in options.fields.values() for f in l]
 
-    value = []
-    for field in args:
-        value.extend([field + '_' + code for code in target_codes])
+    for i, f in enumerate(fields):
+        if f.endswith(settings.MODELTRANSLATION_DEFAULT_LANGUAGE):
+            del fields[i]
 
-    return value
+    return fields
