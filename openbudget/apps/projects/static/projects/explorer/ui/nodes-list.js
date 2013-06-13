@@ -1,7 +1,7 @@
 define([
     'uijet_dir/uijet',
     'resources',
-    'controllers/SearchedList',
+    'project_widgets/FilteredList',
     'controllers/NodesList'
 ], function (uijet, resources) {
 
@@ -35,11 +35,11 @@ define([
             }
         }
     }, {
-        type    : 'List',
+        type    : 'FilteredList',
         config  : {
             element     : '#nodes_list',
             mixins      : ['Templated', 'Scrolled'],
-            adapters    : ['jqWheelScroll', 'Spin', 'SearchedList', 'NodesList'],
+            adapters    : ['jqWheelScroll', 'Spin', 'NodesList'],
             resource    : 'LatestTemplate',
             position    : 'fluid',
             search      : {
@@ -47,6 +47,16 @@ define([
                     name        : 10,
                     description : 1,
                     code        : 20
+                }
+            },
+            filters     : {
+                search  : 'search',
+                selected: function (state) {
+                    if ( state !== null )
+                        return this.resource.where({ selected : 'selected' })
+                                            .map(uijet.Utils.prop('id'));
+                    else
+                        return null;
                 }
             },
             sorting     : {
@@ -61,6 +71,7 @@ define([
             signals     : {
                 post_init       : function () {
                     this.scope = null;
+                    this.active_filters = 0;
                 },
                 pre_wake        : function () {
                     var entity_id = this.context.entity_id;
@@ -84,17 +95,18 @@ define([
                 pre_update      : 'spin',
                 post_fetch_data : 'spinOff',
                 pre_render      : function () {
+                    if ( this.scope_changed ) {
+                        if ( this.has_data ) {
+                            this.scope_changed = false;
+                            this.buildIndex();
+                        }
+                    }
                     this.has_content && this.$element.addClass('invisible');
                 },
                 post_render     : function () {
                     this.$children = this.$element.children();
-                    var query = uijet.Resource('NodesListState').get('search');
-                    if ( this.scope_changed ) {
-                        this.scope_changed = false;
-                        this.buildIndex();
-                    }
-                    if ( query ) {
-                        this.filterItems(query);
+                    if ( this.active_filters ) {
+                        this.filterItems();
                     }
                     else {
                         this.scroll()
@@ -119,9 +131,8 @@ define([
                 }
             },
             app_events  : {
-                'search.changed'                            : function (data) {
-                    this.searchFilter(data.args[1]);
-                },
+                'search.changed'                            : 'updateSearchFilter+',
+                'selected.changed'                          : 'updateSelectedFilter+',
                 'nodes_list.filtered'                       : function () {
                     this.scroll()
                         .$element.removeClass('invisible');
@@ -135,7 +146,7 @@ define([
                 'nodes_list_header.selected'                : 'sortItems+',
                 'nodes_list.selection'                      : function () {
                     var resource = this.resource,
-                        filter = this.search_active ?
+                        filter = this.active_filters ?
                             this.resource.byAncestor :
                             this.resource.byParent; 
                     this.filter(filter.call(this.resource, this.scope));
@@ -148,6 +159,9 @@ define([
                             state = resource.get(id).get('selected');
                         $item.attr('data-selected', state);
                     });
+                    if ( this.selected_active ) {
+                        this.filterBySelected(uijet.Resource('NodesListState').get('selected'));
+                    }
                 }
             }
         }

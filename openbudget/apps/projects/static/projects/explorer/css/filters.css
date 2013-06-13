@@ -25,7 +25,7 @@
 #entities_list li:first-child {
     border-top: 1px solid lightslategray;
 }
-#entities_list li.removed {
+#entities_list li.search_removed {
     height: 0;
     padding: 0;
     border-bottom: none;

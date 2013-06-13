@@ -30,7 +30,7 @@
 #nodes_list li:first-child {
     border-top: 1px solid lightslategray;
 }
-#nodes_list li.removed {
+#nodes_list li.search_removed, #nodes_list li.selected_removed {
     height: 0;
     padding: 0;
     border-bottom: none;

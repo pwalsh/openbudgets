@@ -1,7 +1,7 @@
 define([
     'uijet_dir/uijet',
     'project_widgets/ClearableTextInput',
-    'controllers/SearchedList'
+    'project_widgets/FilteredList'
 ], function (uijet) {
 
     uijet.declare([{
@@ -60,11 +60,11 @@ define([
             }
         }
     }, {
-        type    : 'List',
+        type    : 'FilteredList',
         config  : {
             element     : '#entities_list',
             mixins      : ['Templated', 'Scrolled'],
-            adapters    : ['jqWheelScroll', 'Spin', 'SearchedList'],
+            adapters    : ['jqWheelScroll', 'Spin'],
             resource    : 'Munis',
             position    : 'top|50 fluid',
             search      : {
@@ -74,6 +74,9 @@ define([
                     name_en : 10,
                     name_ru : 10
                 }
+            },
+            filters     : {
+                search  : 'search'
             },
             signals     : {
                 pre_update      : 'spin',
@@ -90,7 +93,7 @@ define([
                 }
             },
             app_events  : {
-                'entity_field.changed'  : 'filterItems+',
+                'entity_field.changed'  : 'filterBySearch+',
                 'entities_list.filtered': 'scroll'
             }
         }
