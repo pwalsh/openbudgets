@@ -4,8 +4,8 @@ from rest_framework.response import Response
 
 
 @api_view(['GET'])
-def api_root(request):
-    """The entry endpoint of our API"""
+def api_v1(request):
+    """The entry endpoint of our v1 API"""
 
     return Response({
         'domains': reverse('domain-list', request=request),

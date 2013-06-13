@@ -7,7 +7,7 @@ from openbudget.apps.budgets.urls.api import templates, budgets, actuals
 urlpatterns = patterns('openbudget.api.v1.views',
     url(
         r'^$',
-        'api_root',
+        'api_v1',
         name='api_v1'
     ),
     url(
