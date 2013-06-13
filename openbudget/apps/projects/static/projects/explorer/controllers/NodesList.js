@@ -6,8 +6,8 @@ define([
     var arraySort = Array.prototype.sort;
 
     uijet.Adapter('NodesList', {
-        redraw          : function (scope) {
-            var filter = this.search_active ?
+        redraw              : function (scope) {
+            var filter = this.active_filters ?
                     this.resource.byAncestor :
                     this.resource.byParent; 
             this.scope_changed = true;
@@ -15,7 +15,15 @@ define([
             return this.filter(filter, this.scope)
                        .render();
         },
-        sortItems       : function (data) {
+        buildIndex          : function () {
+            this.index()
+                .search_index.add(
+                    this.resource.byAncestor(this.scope)
+                        .map(uijet.Utils.prop('attributes'))
+                );
+            return this;
+        },
+        sortItems           : function (data) {
             this.desc = data.desc;
             this.sort((data.desc ? '-' : '') + data.column);
             if ( this.filtered && ! uijet.Utils.isFunc(this.filtered) ) {
@@ -26,32 +34,50 @@ define([
             }
             return this.render();
         },
-        searchFilter    : function (query) {
+        updateSearchFilter  : function (data) {
+            var query = data.args[1];
             if ( query === null ) {
                 this.search_active = false;
-                this.filter(this.resource.byParent, this.scope)
-                    .render();
-            } else {
-                if ( ! this.search_active ) {
-                    this.search_active = true;
-                    this.filter(this.resource.byAncestor, this.scope)
+                this.active_filters--;
+
+                if ( ! this.active_filters ) {
+                    this.filter(this.resource.byParent, this.scope)
                         .render();
                 }
-                else {
-                    this.filterItems(query);
+            }
+            else {
+                if ( ! this.search_active ) {
+                    this.search_active = true;
+                    this.active_filters++;
+
+                    if ( this.active_filters === 1 ) {
+                        this.filter(this.resource.byAncestor, this.scope)
+                            .render();
+                    }
                 }
             }
+            this.filterBySearch(query);
             return this;
         },
-        buildIndex      : function () {
-            this.index()
-                .search_index.add(
-                    this.resource.byAncestor(this.scope)
-                        .map(uijet.Utils.prop('attributes'))
-                );
+        updateSelectedFilter: function (data) {
+            var state = data.args[1];
+            if ( state === null ) {
+                this.selected_active = false;
+                this.active_filters--;
+
+                if ( ! this.active_filters ) {
+                    this.filter(this.resource.byParent, this.scope)
+                        .render();
+                }
+            }
+            else if ( state ) {
+                this.selected_active = true;
+                this.active_filters++;
+            }
+            this.filterBySelected(state);
             return this;
         },
-        updateSelection : function (id) {
+        updateSelection     : function (id) {
             var model = this.resource.get(id),
                 old_state = model.get('selected'),
                 new_state = { selected : '' },
