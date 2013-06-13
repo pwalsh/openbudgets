@@ -2,19 +2,26 @@ define([
     'uijet_dir/uijet',
     'resources',
     'project_widgets/ClearableTextInput',
-    'project_widgets/Breadcrumbs'
+    'project_widgets/Breadcrumbs',
+    'project_widgets/FilterCrumb'
 ], function (uijet, resources) {
 
     uijet.Resource('Breadcrumbs', uijet.Collection({
         model   : resources.Node
     }))
     .Resource('NodesListState', uijet.Model(), {
-        search  : null
+        search  : null,
+        selected: null
     });
 
-    var nullifySearchQuery = function () {
-        this.resource.set({ search : null });
-    };
+    var attributeNullifier = function (attr) {
+            return function () {
+                var obj = {};
+                obj[attr] = null;
+                this.resource.set(obj);
+            };
+        },
+        nullifySearchQuery = attributeNullifier('search');
 
     uijet.declare([{
         type    : 'Pane',
@@ -23,10 +30,15 @@ define([
             position    : 'fluid',
             resource    : 'NodesListState',
             data_events : {
-                'change:search' : '-search.changed'
+                'change:search'     : '-search.changed',
+                'change:selected'   : '-selected.changed'
             },
             app_events  : {
-                'search_crumb_remove.clicked'   : nullifySearchQuery
+                'search_crumb_remove.clicked'   : nullifySearchQuery,
+                'selected_crumb_remove.clicked' : attributeNullifier('selected'),
+                'filter_selected.clicked'       : function () {
+                    this.resource.set({ selected : true });
+                }
             }
         }
     }, {
@@ -122,7 +134,7 @@ define([
             }
         }
     }, {
-        type    : 'Pane',
+        type    : 'FilterCrumb',
         config  : {
             element     : '#search_crumb',
             dont_wake   : true,
@@ -132,11 +144,6 @@ define([
                     this.sleep();
                 }
             },
-            signals     : {
-                post_init   : function () {
-                    this.$content = uijet.$('#search_crumb_content');
-                }
-            },
             app_events  : {
                 'nodes_search.entered'  : function (query) {
                     query !== null && this.wake();
@@ -144,7 +151,7 @@ define([
                 'filters_search.clicked': 'sleep',
                 'search.changed'        : function (data) {
                     var query = data.args[1];
-                    this.$content.text(query || '');
+                    this.setContent(query || '');
                     query === null && this.sleep();
                 }
             }
@@ -152,8 +159,40 @@ define([
     }, {
         type    : 'Button',
         config  : {
-            element     : '#search_crumb_remove'
+            element     : '#filter_selected',
+            app_events  : {
+                'selected.changed'  : function (data) {
+                    var state = data.args[1];
+                    if ( state !== null ) {
+                        this.options.dont_wake = true;
+                        this.sleep();
+                    }
+                    else {
+                        this.options.dont_wake = false;
+                        this.wake();
+                    }
+                }
+            }
+        }
+    }, {
+        type    : 'FilterCrumb',
+        config  : {
+            element     : '#selected_crumb',
+            dont_wake   : true,
+            content     : 'Selected',
+            app_events  : {
+                'selected.changed'  : function (data) {
+                    var state = data.args[1];
+                    if ( state === null ) {
+                        this.options.dont_wake = true;
+                        this.sleep();
+                    }
+                    else {
+                        this.options.dont_wake = false;
+                        this.wake();
+                    }
+                }
+            }
         }
     }]);
-    
 });
