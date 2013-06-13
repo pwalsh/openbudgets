@@ -1,82 +1,55 @@
-from rest_framework.serializers import HyperlinkedModelSerializer, \
-    HyperlinkedRelatedField, Field
+from rest_framework import serializers
 from openbudget.apps.international.utilities import translated_fields
-from openbudget.apps.entities.models import Entity, Domain, Division
-from openbudget.apps.budgets.serializers import BudgetNestedSerializer, \
-    ActualNestedSerializer
+from openbudget.apps.entities import models
+from openbudget.apps.budgets import serializers as budget_serializers
 
 
-class DomainBaseSerializer(HyperlinkedModelSerializer):
-    """Base Domain serializer, exposing our defaults for domains."""
-
-    divisions = HyperlinkedRelatedField(many=True, read_only=True, view_name='division-detail')
+class EntityBase(serializers.HyperlinkedModelSerializer):
+    """The default serialized representation of entities."""
 
     class Meta:
-        model = Domain
-        fields = ['url', 'id', 'name', 'measurement_system', 'ground_surface_unit',
-                  'currency', 'created_on', 'last_modified', 'divisions']\
-                 + translated_fields('name')
+        model = models.Entity
+        fields = ['id', 'url', 'name', 'description', 'code', 'parent',
+                  'division', 'budgets', 'actuals', 'created_on',
+                  'last_modified'] + translated_fields(model)
 
 
-class DomainDetailSerializer(DomainBaseSerializer):
-    """Used to represent a full relational map of a domain."""
-    # TODO: Make the below work
-    # divisions = DivisionBaseSerializer()
+class DivisionBase(serializers.HyperlinkedModelSerializer):
+    """The default serialized representation of divisions."""
 
     class Meta:
-        model = Domain
+        model = models.Division
+        fields = ['id', 'url', 'name', 'index', 'budgeting', 'domain',
+                  'created_on', 'last_modified'] + translated_fields(model)
 
 
-class DomainNestedSerializer(DomainBaseSerializer):
-    """Used to represent domains when nested in other objects."""
-
-    class Meta(DomainBaseSerializer.Meta):
-        fields = ('url', 'name')
-
-
-class DivisionBaseSerializer(HyperlinkedModelSerializer):
-    """Base Division serializer, exposing our defaults for divisions."""
-
-    domain = DomainNestedSerializer()
+class DomainBase(serializers.HyperlinkedModelSerializer):
+    """The default serialized representation of domains."""
 
     class Meta:
-        model = Division
-        fields = ['url', 'id', 'name', 'index', 'budgeting', 'domain', 'created_on',
-                  'last_modified'] + translated_fields('name')
+        model = models.Domain
+        fields = ['id', 'url', 'name', 'measurement_system',
+                  'ground_surface_unit', 'currency', 'created_on',
+                  'last_modified', 'divisions'] + translated_fields(model)
 
 
-class DivisionDetailSerializer(DivisionBaseSerializer):
+class DomainDetail(DomainBase):
+    """A detailed, related representation of domain."""
+
+    divisions = DivisionBase()
+
+
+class DivisionDetail(DivisionBase):
     """Used to represent a full relational map of a division."""
 
-    domain = DomainNestedSerializer()
-    entities = HyperlinkedRelatedField(many=True, read_only=True, view_name='entity-detail')
+    domain = DomainBase(DomainBase.Meta.fields.remove('divisions'))
+
+    class Meta(DivisionBase.Meta):
+        DivisionBase.Meta.fields += ['entities']
 
 
-class DivisionNestedSerializer(DivisionBaseSerializer):
-    """Used to represent divisions when nested in other objects."""
+class EntityDetail(EntityBase):
+    """A detailed, related representation of entities."""
 
-    domain = Field(source='domain')
-
-    class Meta(DivisionBaseSerializer.Meta):
-        fields = ('url', 'name', 'domain')
-
-
-class EntityBaseSerializer(HyperlinkedModelSerializer):
-    """Base Entity serializer, exposing our defaults for entities."""
-
-    division = DivisionNestedSerializer()
-    budgets = HyperlinkedRelatedField(many=True, read_only=True, view_name='budget-detail')
-    actuals = HyperlinkedRelatedField(many=True, read_only=True, view_name='actual-detail')
-
-    class Meta:
-        model = Entity
-        fields = ['url', 'id', 'name', 'description', 'code', 'parent', 'division',
-                  'budgets', 'actuals', 'created_on','last_modified']\
-                 + translated_fields('name')
-
-
-class EntityDetailSerializer(EntityBaseSerializer):
-    """Used to represent a full relational map of an entity."""
-
-    budgets = BudgetNestedSerializer()
-    actuals = ActualNestedSerializer()
+    budgets = budget_serializers.BudgetBase()
+    actuals = budget_serializers.ActualBase()

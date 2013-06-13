@@ -1,62 +1,59 @@
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework import generics
 from openbudget.apps.international.utilities import translated_fields
-from openbudget.apps.entities.serializers import DomainBaseSerializer,\
-    DivisionBaseSerializer, DivisionDetailSerializer, EntityBaseSerializer,\
-    EntityDetailSerializer
-from openbudget.apps.entities.filters import DomainFilter, DivisionFilter,\
-    EntityFilter
-from openbudget.apps.entities.models import Entity, Domain, Division
+from openbudget.apps.entities import serializers
+from openbudget.apps.entities import filters
+from openbudget.apps.entities import models
 
 
-class DomainList(ListAPIView):
-    """Called via an API endpoint that represents a list of domain objects."""
+class DomainList(generics.ListAPIView):
+    """Called via an API endpoint that represents a list of domains."""
 
-    model = Domain
-    queryset = Domain.objects.related_map()
-    serializer_class = DomainBaseSerializer
-    filter_class = DomainFilter
-    search_fields = ['name'] + translated_fields('name')
-
-
-class DomainDetail(RetrieveAPIView):
-    """Called via an API endpoint that represents a single domain object."""
-
-    model = Domain
-    queryset = Domain.objects.related_map()
-    serializer_class = DomainBaseSerializer
+    model = models.Domain
+    queryset = model.objects.related_map()
+    serializer_class = serializers.DomainBase
+    filter_class = filters.DomainFilter
+    search_fields = ['name'] + translated_fields(model)
 
 
-class DivisionList(ListAPIView):
-    """Called via an API endpoint that represents a list of division objects."""
+class DomainDetail(generics.RetrieveAPIView):
+    """Called via an API endpoint that represents a single domain."""
 
-    model = Division
-    queryset = Division.objects.related_map()
-    serializer_class = DivisionBaseSerializer
-    filter_class = DivisionFilter
-    search_fields = ['name'] + translated_fields('name')
+    model = models.Domain
+    queryset = model.objects.related_map()
+    serializer_class = serializers.DomainDetail
 
 
-class DivisionDetail(RetrieveAPIView):
-    """Called via an API endpoint that represents a single division object."""
+class DivisionList(generics.ListAPIView):
+    """Called via an API endpoint that represents a list of divisions."""
 
-    model = Division
-    queryset = Division.objects.related_map()
-    serializer_class = DivisionDetailSerializer
-
-
-class EntityList(ListAPIView):
-    """Called via an API endpoint that represents a list of entity objects."""
-
-    model = Entity
-    queryset = Entity.objects.related_map()
-    serializer_class = EntityBaseSerializer
-    filter_class = EntityFilter
-    search_fields = ['name', 'description'] + translated_fields('name', 'description')
+    model = models.Division
+    queryset = model.objects.related_map()
+    serializer_class = serializers.DivisionBase
+    filter_class = filters.DivisionFilter
+    search_fields = ['name'] + translated_fields(model)
 
 
-class EntityDetail(RetrieveAPIView):
-    """Called via an API endpoint that represents a single entity object."""
+class DivisionDetail(generics.RetrieveAPIView):
+    """Called via an API endpoint that represents a single division."""
 
-    model = Entity
-    queryset = Entity.objects.related_map()
-    serializer_class = EntityDetailSerializer
+    model = models.Division
+    queryset = model.objects.related_map()
+    serializer_class = serializers.DivisionDetail
+
+
+class EntityList(generics.ListAPIView):
+    """Called via an API endpoint that represents a list of entities."""
+
+    model = models.Entity
+    queryset = model.objects.related_map()
+    serializer_class = serializers.EntityBase
+    filter_class = filters.EntityFilter
+    search_fields = ['name', 'description'] + translated_fields(model)
+
+
+class EntityDetail(generics.RetrieveAPIView):
+    """Called via an API endpoint that represents a single entity."""
+
+    model = models.Entity
+    queryset = model.objects.related_map()
+    serializer_class = serializers.EntityDetail
