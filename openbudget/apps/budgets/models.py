@@ -1,4 +1,5 @@
 from __future__ import division
+import datetime
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
@@ -9,6 +10,7 @@ from openbudget.apps.entities.models import Division, Entity
 from openbudget.apps.sources.models import ReferenceSource, AuxSource
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, \
     PeriodStartModel, PeriodicModel, ClassMethodMixin
+from openbudget.settings import base as settings
 
 
 PATH_SEPARATOR = '|'
@@ -55,6 +57,37 @@ class Template(TimeStampedModel, UUIDModel, PeriodStartModel, ClassMethodMixin):
     auxsources = generic.GenericRelation(
         AuxSource
     )
+
+    @property
+    def period(self):
+        """Get the applicable period for this object.
+
+        Objects are valid until the next object with a period_start in the
+        future from this one, or, until 'now' if there is no future object.
+
+        In the current case of multi-period ranges, returns a tuple of
+        datetime.year objects.
+        """
+
+        # TODO: Support ranges other than yearly, including multiple ranges.
+        # TODO: Refactor to work with non-division templates.
+
+        start, end = None, None
+        ranges = settings.OPENBUDGET_PERIOD_RANGES
+
+        if len(ranges) == 1 and 'yearly' in ranges:
+            start = self.period_start.year
+            qs = self.__class__.objects.filter(divisions=self.divisions.all())
+            for obj in qs:
+                if obj.period_start.year > self.period_start.year:
+                    end = obj.period_start.year
+            else:
+                end = datetime.datetime.now().year
+        else:
+            # TODO: Verify - in the current codebase, we should never get here.
+            pass
+
+        return start, end
 
     @property
     def has_budgets(self):

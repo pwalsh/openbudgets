@@ -68,9 +68,6 @@ class PeriodStartModel(models.Model):
     class Meta:
         abstract = True
 
-    # TODO: Implement a period method here.
-    # However, we do not currently have a use case for it.
-
 
 class PeriodicModel(PeriodStartModel):
     """A mixin to add a defined period of validity to models that inherit it."""
@@ -85,7 +82,10 @@ class PeriodicModel(PeriodStartModel):
 
     @property
     def period(self):
-        """Get the applicable period for this object."""
+        """Get the applicable period for this object.
+
+        In the current case of yearly ranges, returns datetime.year object.
+        """
 
         # TODO: Support ranges other than yearly, including multiple ranges.
 
