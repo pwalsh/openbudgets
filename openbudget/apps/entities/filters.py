@@ -10,10 +10,10 @@ class DomainFilter(FilterSet):
 class DivisionFilter(FilterSet):
     class Meta:
         model = Division
-        fields = ('budgeting', 'index')
+        fields = ['budgeting', 'index']
 
 
 class EntityFilter(FilterSet):
     class Meta:
         model = Entity
-        fields = ('division__budgeting', 'parent')
+        fields = ['division__budgeting', 'parent']

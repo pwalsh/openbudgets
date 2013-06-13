@@ -15,10 +15,14 @@ PATH_SEPARATOR = '|'
 
 
 class TemplateManager(models.Manager):
-    """Exposes the related_map method for more efficient bulk select queries."""
+    """Exposes the related_map methods for more efficient bulk select queries."""
+
+    def related_map_min(self):
+        return self.select_related().prefetch_related('divisions')
 
     def related_map(self):
-        return self.select_related().prefetch_related('divisions')
+        return self.select_related().prefetch_related('divisions', 'nodes',
+                                                      'budgets', 'actuals')
 
     def latest_of(self, entity):
         return self.filter(budgets__entity=entity).latest('period_start')
@@ -69,6 +73,17 @@ class Template(TimeStampedModel, UUIDModel, PeriodStartModel, ClassMethodMixin):
         return self.name
 
 
+class TemplateNodeManager(models.Manager):
+    """Exposes the related_map methods for more efficient bulk select queries."""
+
+    def related_map_min(self):
+        return self.prefetch_related('parent', 'children')
+
+    def related_map(self):
+        return self.prefetch_related('parent', 'children', 'templates',
+                                     'inverse', 'backwards')
+
+
 class TemplateNode(TimeStampedModel, UUIDModel):
     """The nodes that make up a template."""
 
@@ -76,6 +91,8 @@ class TemplateNode(TimeStampedModel, UUIDModel):
         ('REVENUE', _('REVENUE')),
         ('EXPENDITURE', _('EXPENDITURE'))
     )
+
+    objects = TemplateNodeManager()
 
     templates = models.ManyToManyField(
         Template,
@@ -275,6 +292,9 @@ class TemplateNodeRelation(models.Model):
 class SheetManager(models.Manager):
     """Exposes the related_map method for more efficient bulk select queries."""
 
+    def related_map_min(self):
+        return self.select_related('entity')
+
     def related_map(self):
         return self.select_related().prefetch_related('items')
 
@@ -302,8 +322,12 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel, ClassMethodMixin):
         help_text=_('Descriptive text for this %(class)s')
     )
 
-    referencesources = generic.GenericRelation(ReferenceSource)
-    auxsources = generic.GenericRelation(AuxSource)
+    referencesources = generic.GenericRelation(
+        ReferenceSource
+    )
+    auxsources = generic.GenericRelation(
+        AuxSource
+    )
 
     @property
     def total(self):
@@ -320,9 +344,7 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel, ClassMethodMixin):
         abstract = True
 
     def __unicode__(self):
-        value = unicode(self.period) + ' ' + self.get_class_name() + ' for ' + \
-            self.entity.name
-        return value
+        return unicode(self.period)
 
 
 class Budget(Sheet):
@@ -336,8 +358,8 @@ class Budget(Sheet):
 
     class Meta:
         ordering = ['entity']
-        verbose_name = _('Budget')
-        verbose_name_plural = _('Budgets')
+        verbose_name = _('budget')
+        verbose_name_plural = _('budgets')
 
     @models.permalink
     def get_absolute_url(self):
@@ -375,6 +397,9 @@ class Actual(Sheet):
 
 class SheetItemManager(models.Manager):
     """Exposes the related_map method for more efficient bulk select queries."""
+
+    def related_map_min(self):
+        return self.select_related()
 
     def related_map(self):
         return self.select_related().prefetch_related('discussion')
@@ -416,8 +441,12 @@ class SheetItem(TimeStampedModel, UUIDModel, ClassMethodMixin):
         object_id_field="object_pk"
     )
 
-    referencesources = generic.GenericRelation(ReferenceSource)
-    auxsources = generic.GenericRelation(AuxSource)
+    referencesources = generic.GenericRelation(
+        ReferenceSource
+    )
+    auxsources = generic.GenericRelation(
+        AuxSource
+    )
 
     @property
     def name(self):

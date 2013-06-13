@@ -139,12 +139,15 @@ class Division(TimeStampedModel, ClassMethodMixin):
 class EntityManager(models.Manager):
     """Exposes the related_map method for more efficient bulk select queries."""
 
+    def related_map_min(self):
+        return self.select_related()
+
     def related_map(self):
         return self.select_related().prefetch_related('budgets', 'actuals',
                                                       'parent')
 
 
-class Entity(TimeStampedModel, UUIDModel, ClassMethodMixin):
+class Entity(TimeStampedModel, ClassMethodMixin):
     """Entity describes the actual units in our organizational structure."""
 
     objects = EntityManager()
