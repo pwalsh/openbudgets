@@ -17,16 +17,22 @@ define([
             uijet.xhr(options.AUTH_URL, {
                 type    : 'POST',
                 data    : options.auth
-            }).then(function (response) {
-                    Explorer.setToken(response.access_token);
-                }, function (xhr) {
-                    console.error('Auth failed!', xhr);
-                });
+            })
+            .then(function (response) {
+                Explorer.setToken(response.access_token);
+            }, function (xhr) {
+                console.error('Auth failed!', xhr);
+            });
             /*
              * Register resources
              */
             uijet.Resource('Munis', resources.Munis);
             uijet.Resource('LatestTemplate', resources.Nodes);
+
+            this.LegendItem = uijet.Model();
+            uijet.Resource('LegendItems', uijet.Collection({
+                model   : this.LegendItem
+            }));
             /*
              * Starting uijet
              */

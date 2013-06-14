@@ -1,8 +1,17 @@
 define([
     'uijet_dir/uijet',
+    'explorer',
     'project_widgets/ClearableTextInput',
     'project_widgets/FilteredList'
-], function (uijet) {
+], function (uijet, Explorer) {
+
+    uijet.Factory('LegendItem', {
+        type    : 'Pane',
+        config  : {
+            extra_class : 'legend_item'
+        }
+    });
+
 
     uijet.declare([{
         type    : 'Pane',
@@ -17,10 +26,39 @@ define([
             position: 'top:50px fluid'
         }
     }, {
-        type    : 'List',
+        type    : 'Pane',
         config  : {
-            element : '#legends_list',
-            position: 'fluid'
+            element     : '#legends_list',
+            position    : 'fluid',
+            resource    : 'LegendItems',
+            app_events  : {
+                'add_legend.clicked'    : function () {
+                    var model = new Explorer.LegendItem({
+                        title       : 'Title me',
+                        description : 'Describe me',
+                        nodes       : []
+                    });
+                    this.current_index = this.resource.add(model).length - 1;
+
+                    uijet.start({
+                        factory : 'LegendItem',
+                        config  : {
+                            element : uijet.$('<li>', {
+                                id  : this.id + '_item_' + this.current_index
+                            }).appendTo(this.$element),
+                            resource: model
+                        }
+                    }, true);
+                },
+                'nodes_list.selection'  : function () {
+                    var nodes = uijet.Resource('LatestTemplate')
+                                        .where({ selected : 'selected' })
+                                        .map(uijet.Utils.prop('id'));
+                    this.resource.at(this.current_index).set({
+                        nodes   : nodes
+                    });
+                }
+            }
         }
     }, {
         type    : 'Pane',

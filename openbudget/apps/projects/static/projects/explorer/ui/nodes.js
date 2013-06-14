@@ -55,7 +55,7 @@ define([
     }, {
         type    : 'Button',
         config  : {
-            element : '#filters_done'
+            element : '#picker_done'
         }
     }, {
         type    : 'Button',
