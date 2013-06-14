@@ -1,6 +1,7 @@
 define([
     'uijet_dir/uijet',
     'resources',
+    'ui/filters',
     'project_widgets/ClearableTextInput',
     'project_widgets/Breadcrumbs',
     'project_widgets/FilterCrumb'
