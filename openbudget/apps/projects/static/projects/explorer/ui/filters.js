@@ -8,7 +8,19 @@ define([
     uijet.Factory('LegendItem', {
         type    : 'Pane',
         config  : {
-            extra_class : 'legend_item'
+            mixins          : ['Templated'],
+            template_name   : 'legend_item',
+            extra_class     : 'legend_item',
+            signals         : {
+                post_init   : 'wake'
+            },
+            app_events      : {
+                'entities_list.selected': function (id) {
+                    this.resource.set({
+                        muni : uijet.Resource('Munis').get(id)
+                    });
+                }
+            }
         }
     });
 
@@ -36,6 +48,7 @@ define([
                     var model = new Explorer.LegendItem({
                         title       : 'Title me',
                         description : 'Describe me',
+                        muni        : '',
                         nodes       : []
                     });
                     this.current_index = this.resource.add(model).length - 1;
@@ -128,6 +141,9 @@ define([
                 post_render     : function () {
                     this.$children = this.$element.children();
                     this.publish('rendered');
+                },
+                pre_select      : function ($selected) {
+                    return +$selected.attr('data-id');
                 }
             },
             app_events  : {

@@ -12,8 +12,8 @@ define([
             element     : '#nodes_list_container',
             dont_wake   : true,
             app_events  : {
-                'entities_list.selected': function ($selected) {
-                    this.wake({ entity_id : $selected.attr('data-id') });
+                'entities_list.selected': function (id) {
+                    this.wake({ entity_id : id });
                 }
             }
         }
