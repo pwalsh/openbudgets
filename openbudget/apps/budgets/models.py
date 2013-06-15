@@ -23,8 +23,7 @@ class TemplateManager(models.Manager):
         return self.select_related().prefetch_related('divisions')
 
     def related_map(self):
-        return self.select_related().prefetch_related('divisions', 'nodes',
-                                                      'budgets', 'actuals')
+        return self.select_related().prefetch_related('divisions', 'nodes')
 
     def latest_of(self, entity):
         return self.filter(budgets__entity=entity).latest('period_start')
@@ -108,9 +107,6 @@ class Template(TimeStampedModel, UUIDModel, PeriodStartModel, ClassMethodMixin):
 
 class TemplateNodeManager(models.Manager):
     """Exposes the related_map methods for more efficient bulk select queries."""
-
-    def get_queryset(self):
-        return super(TemplateNodeManager, self).select_related('parent')
 
     def related_map_min(self):
         return self.select_related('parent')

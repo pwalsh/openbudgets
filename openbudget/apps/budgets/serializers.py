@@ -20,9 +20,15 @@ class TemplateNodeBase(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.TemplateNode
         fields = ['id', 'url', 'code', 'name', 'description', 'direction',
-                  'templates', 'direction', 'parent', 'children', 'inverse',
-                  'path', 'backwards', 'created_on',
+                  'templates', 'direction', 'parent', 'created_on',
                   'last_modified'] + translated_fields(model)
+
+
+class TemplateNodeMin(TemplateNodeBase):
+    """A more efficient serialized representation of template nodes."""
+
+    class Meta(TemplateNodeBase.Meta):
+        fields = TemplateNodeBase.Meta.fields.remove('templates')
 
 
 class BudgetBase(serializers.HyperlinkedModelSerializer):
@@ -77,9 +83,9 @@ class TemplateDetail(TemplateBase):
 class BudgetDetail(BudgetBase):
     """A detailed, related representation of budgets."""
 
-    #entity = EntityBase
+    #entity = EntityBase()
     #total = serializers.DecimalField(source='total')
-    items = BudgetItemBase()
+    #items = BudgetItemBase()
 
     class Meta(BudgetBase.Meta):
         fields = BudgetBase.Meta.fields + ['items']
@@ -97,7 +103,7 @@ class ActualDetail(BudgetBase):
 
     #entity = EntityBase
     #total = serializers.DecimalField(source='total')
-    items = ActualItemBase()
+    #items = ActualItemBase()
 
     class Meta(ActualBase.Meta):
         fields = ActualBase.Meta.fields + ['items']

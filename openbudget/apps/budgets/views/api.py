@@ -28,8 +28,8 @@ class TemplateNodeList(generics.ListAPIView):
     """API endpoint that represents a list of template nodes."""
 
     model = models.TemplateNode
-    queryset = model.objects.related_map()
-    serializer_class = serializers.TemplateNodeBase
+    queryset = model.objects.related_map_min()
+    serializer_class = serializers.TemplateNodeMin
     filter_class = filters.TemplateNodeFilter
     search_fields = ['name', 'description'] + translated_fields(model)
 
@@ -102,9 +102,9 @@ class ActualItemList(generics.ListAPIView):
     """API endpoint that represents a list of actual items"""
 
     model = models.ActualItem
-    queryset = model.objects.related_map()
+    queryset = model.objects.related_map_min()
     serializer_class = serializers.ActualItemBase
-    search_fields = ['uuid', 'actual__entity__name', 'node__code', 'node__name',
+    search_fields = ['actual__entity__name', 'node__code', 'node__name',
                      'node__description', 'description', 'period_start',
                      'period_end'] + translated_fields(model) + \
                     translated_fields(models.TemplateNode)

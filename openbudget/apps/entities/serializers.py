@@ -42,7 +42,9 @@ class DomainDetail(DomainBase):
 class DivisionDetail(DivisionBase):
     """Used to represent a full relational map of a division."""
 
-    domain = DomainBase(DomainBase.Meta.fields.remove('divisions'))
+    domain = DomainBase()
+    # don't show self again on nested objects
+    del domain.fields['divisions']
 
     class Meta(DivisionBase.Meta):
         fields = DivisionBase.Meta.fields + ['entities']

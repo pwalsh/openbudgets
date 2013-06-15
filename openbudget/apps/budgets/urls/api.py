@@ -16,7 +16,7 @@ def templates():
         ),
         url(
             r'^nodes/$',
-            api.TemplateNodeDetail.as_view(),
+            api.TemplateNodeList.as_view(),
             name='templatenode-list'
         ),
         url(
