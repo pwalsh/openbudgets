@@ -29,9 +29,9 @@ define([
             uijet.Resource('Munis', resources.Munis);
             uijet.Resource('LatestTemplate', resources.Nodes);
 
-            this.LegendItem = uijet.Model();
+            this.LegendItemModel = uijet.Model();
             uijet.Resource('LegendItems', uijet.Collection({
-                model   : this.LegendItem
+                model   : this.LegendItemModel
             }));
             /*
              * Starting uijet

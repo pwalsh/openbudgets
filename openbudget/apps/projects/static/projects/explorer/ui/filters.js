@@ -2,17 +2,18 @@ define([
     'uijet_dir/uijet',
     'explorer',
     'project_widgets/ClearableTextInput',
-    'project_widgets/FilteredList'
+    'project_widgets/FilteredList',
+    'project_widgets/LegendItem'
 ], function (uijet, Explorer) {
 
     uijet.Factory('LegendItem', {
-        type    : 'Pane',
+        type    : 'LegendItem',
         config  : {
             mixins          : ['Templated'],
             template_name   : 'legend_item',
-            extra_class     : 'legend_item',
             signals         : {
-                post_init   : 'wake'
+                post_init   : 'wake',
+                pre_update  : function () { return false; }
             },
             app_events      : {
                 'entities_list.selected': function (id) {
@@ -45,7 +46,7 @@ define([
             resource    : 'LegendItems',
             app_events  : {
                 'add_legend.clicked'    : function () {
-                    var model = new Explorer.LegendItem({
+                    var model = new Explorer.LegendItemModel({
                         title       : 'Title me',
                         description : 'Describe me',
                         muni        : '',
@@ -123,7 +124,8 @@ define([
                     code    : 20,
                     name    : 10,
                     name_en : 10,
-                    name_ru : 10
+                    name_ru : 10,
+                    name_ar : 10
                 }
             },
             filters     : {
