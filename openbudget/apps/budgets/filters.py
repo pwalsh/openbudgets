@@ -28,8 +28,8 @@ class BudgetItemFilter(FilterSet):
 
     class Meta:
         model = BudgetItem
-        fields = ['budget', 'budget__entity', 'node', 'node__code', 'node__direction',
-                  'node__parent', 'node__children']
+        fields = ['budget', 'budget__entity', 'node', 'node__code',
+                  'node__direction', 'node__parent', 'node__children']
 
 
 class ActualFilter(FilterSet):
@@ -43,5 +43,5 @@ class ActualItemFilter(FilterSet):
 
     class Meta:
         model = ActualItem
-        fields = ['actual', 'node', 'node__code', 'node__direction',
-                  'node__parent', 'node__children']
+        fields = ['actual', 'actual__entity', 'node', 'node__code',
+                  'node__direction', 'node__parent', 'node__children']

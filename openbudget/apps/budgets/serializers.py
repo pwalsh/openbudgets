@@ -38,7 +38,7 @@ class BudgetBase(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.Budget
-        fields = ['id', 'url', 'entity', 'description', 'period',
+        fields = ['id', 'url', 'template', 'entity', 'description', 'period',
                   'created_on', 'last_modified'] + translated_fields(model)
 
 
