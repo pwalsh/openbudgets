@@ -91,9 +91,9 @@ All endpoints are relative to the API subdomain of the instance domain.
 
 For example, if an Open Budget instance is installed on openmuni.org.il:
 
-* The API root is https://api.openmuni.org.il/
-* API versions are like so: https://api.openmuni.org.il/v1/
-* and all endpoints are scoped by version, like so: https://api.openmuni.org.il/v1/budgets/
+* API root: https://api.openmuni.org.il/
+* API version: https://api.openmuni.org.il/v1/
+* API endpoint: https://api.openmuni.org.il/v1/budgets/
 
 RESTful
 -------
