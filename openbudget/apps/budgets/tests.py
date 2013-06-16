@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from openbudget.apps.budgets.factories import BudgetTemplateFactory,BudgetFactory, ActualFactory
 from openbudget.apps.entities.factories import DomainDivisionFactory, EntityFactory
-from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, BudgetTemplateNodeRelation, Budget, BudgetItem
+from openbudget.apps.budgets.models import Template, TemplateNode, TemplateNodeRelation, Budget, BudgetItem
 
 
 class TemplateInheritanceTestCase(TestCase):
@@ -20,18 +20,18 @@ class TemplateInheritanceTestCase(TestCase):
 
         Creating 3 additional, dangling nodes on template_1 and 2 on template_2.
         """
-        base = BudgetTemplate.objects.get(pk=1)
+        base = Template.objects.get(pk=1)
         self.base = base
 
-        base_nodes = base.nodes
+        base_nodes = base.nodes.all()
         self.codes = [node.code for node in base_nodes]
 
         # create a new template: template_1 inherits base
-        self.template_1 = BudgetTemplate.objects.create(
+        self.template_1 = Template.objects.create(
             name=base.name + "'s child"
         )
         for node in base_nodes:
-            BudgetTemplateNodeRelation.objects.create(
+            TemplateNodeRelation.objects.create(
                 template=self.template_1,
                 node=node
             )
@@ -39,75 +39,75 @@ class TemplateInheritanceTestCase(TestCase):
         # creating dangling nodes
         parent = base_nodes[5]
         parent_code = parent.code
-        self.node_1_1 = BudgetTemplateNode.objects.create(
+        self.node_1_1 = TemplateNode.objects.create(
             name=parent.name + "'s child",
             code=parent_code + '-1',
             parent=parent,
             direction=parent.direction
         )
-        BudgetTemplateNodeRelation.objects.create(
+        TemplateNodeRelation.objects.create(
             template=self.template_1,
             node=self.node_1_1
         )
 
         parent = base_nodes[4]
         parent_code = parent.code
-        self.node_1_2 = BudgetTemplateNode.objects.create(
+        self.node_1_2 = TemplateNode.objects.create(
             name=parent.name + "'s child",
             code=parent_code + '-1',
             parent=parent,
             direction=parent.direction
         )
-        BudgetTemplateNodeRelation.objects.create(
+        TemplateNodeRelation.objects.create(
             template=self.template_1,
             node=self.node_1_2
         )
 
         parent = self.node_1_2
         parent_code = parent.code
-        self.node_1_2_1 = BudgetTemplateNode.objects.create(
+        self.node_1_2_1 = TemplateNode.objects.create(
             name=parent.name + "'s child",
             code=parent_code + '-1',
             parent=parent,
             direction=parent.direction
         )
-        BudgetTemplateNodeRelation.objects.create(
+        TemplateNodeRelation.objects.create(
             template=self.template_1,
             node=self.node_1_2_1
         )
 
         # create a new template: template_2 inherits template_1
-        self.template_2 = BudgetTemplate.objects.create(
+        self.template_2 = Template.objects.create(
             name=self.template_1.name + "'s child"
         )
-        for node in self.template_1.nodes:
-            BudgetTemplateNodeRelation.objects.create(
+        for node in self.template_1.nodes.all():
+            TemplateNodeRelation.objects.create(
                 template=self.template_2,
                 node=node
             )
 
         parent = self.node_1_1
         parent_code = parent.code
-        self.node_2_1 = BudgetTemplateNode.objects.create(
+        self.node_2_1 = TemplateNode.objects.create(
             name=parent.name + "'s child",
             code=parent_code + '-1',
             parent=parent,
             direction=parent.direction
         )
-        BudgetTemplateNodeRelation.objects.create(
+        TemplateNodeRelation.objects.create(
             template=self.template_2,
             node=self.node_2_1
         )
 
         parent = self.node_1_2_1
         parent_code = parent.code
-        self.node_2_2 = BudgetTemplateNode.objects.create(
+        self.node_2_2 = TemplateNode.objects.create(
             name=parent.name + "'s child",
             code=parent_code + '-1',
             parent=parent,
             direction=parent.direction
         )
-        BudgetTemplateNodeRelation.objects.create(
+        TemplateNodeRelation.objects.create(
             template=self.template_2,
             node=self.node_2_2
         )
@@ -124,8 +124,8 @@ class TemplateInheritanceTestCase(TestCase):
         """
 
         # set up level 1
-        nodes = self.template_1.nodes
-        base_nodes = self.base.nodes
+        nodes = self.template_1.nodes.all()
+        base_nodes = self.base.nodes.all()
 
         # test level 1
         self.assertIn(self.node_1_1, nodes)
@@ -138,8 +138,8 @@ class TemplateInheritanceTestCase(TestCase):
         self.assertEqual(len(nodes), len(base_nodes) + 3)
 
         # set up level 2
-        nodes = self.template_2.nodes
-        base_nodes = self.template_1.nodes
+        nodes = self.template_2.nodes.all()
+        base_nodes = self.template_1.nodes.all()
 
         # test level 2
         self.assertIn(self.node_2_1, nodes)
@@ -166,35 +166,35 @@ class TemplateInheritanceTestCase(TestCase):
 
         backward = self.node_1_2_1
         backward_code = backward.code
-        node_2_3 = BudgetTemplateNode.objects.create(
+        node_2_3 = TemplateNode.objects.create(
             name=backward.name + "'s future",
             code=backward_code,
             parent=backward.parent,
             direction=backward.direction
         )
-        BudgetTemplateNodeRelation.objects.get(
+        TemplateNodeRelation.objects.get(
             template=self.template_2,
             node=backward
         ).delete()
-        BudgetTemplateNodeRelation.objects.create(
+        TemplateNodeRelation.objects.create(
             template=self.template_2,
             node=node_2_3
         )
         node_2_3.backwards.add(backward)
 
-        backward = self.base.nodes[0]
+        backward = self.base.nodes.all()[0]
         backward_code = backward.code
-        node_2_4 = BudgetTemplateNode.objects.create(
+        node_2_4 = TemplateNode.objects.create(
             name=backward.name + "'s future",
             code=backward_code,
             parent=backward.parent,
             direction=backward.direction
         )
-        BudgetTemplateNodeRelation.objects.get(
+        TemplateNodeRelation.objects.get(
             template=self.template_2,
             node=backward
         ).delete()
-        BudgetTemplateNodeRelation.objects.create(
+        TemplateNodeRelation.objects.create(
             template=self.template_2,
             node=node_2_4
         )
@@ -253,7 +253,7 @@ class TemplateViewTestCase(TestCase):
 
     def test_template_listview(self):
 
-        listview = reverse('budget_template_list')
+        listview = reverse('template_list')
         response = self.client.get(listview)
 
         self.assertEqual(response.status_code, 200)
@@ -261,7 +261,7 @@ class TemplateViewTestCase(TestCase):
 
     def test_template_detailview(self):
 
-        detailview = reverse('budget_template_detail',
+        detailview = reverse('template_detail',
             args=(self.template.uuid,)
         )
         response = self.client.get(detailview)
@@ -294,7 +294,7 @@ class SheetViewTestCase(TestCase):
     def test_budget_detailview(self):
 
         detailview = reverse('budget_detail',
-            args=(self.budget.uuid,)
+            args=(self.budget.entity.slug, self.budget.period)
         )
         response = self.client.get(detailview)
 
@@ -304,7 +304,7 @@ class SheetViewTestCase(TestCase):
     def test_actual_detailview(self):
 
         detailview = reverse('actual_detail',
-            args=(self.actual.uuid,)
+            args=(self.actual.entity.slug, self.actual.period)
         )
         response = self.client.get(detailview)
 

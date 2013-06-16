@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from openbudget.apps.budgets.views import BudgetTemplateListView, BudgetTemplateDetailView, BudgetListView, BudgetDetailView, ActualListView, ActualDetailView, BudgetItemDetailView, ActualItemDetailView, budget_browser
+from openbudget.apps.budgets.views.ui import BudgetTemplateListView, BudgetTemplateDetailView, BudgetListView, BudgetDetailView, ActualListView, ActualDetailView, BudgetItemDetailView, ActualItemDetailView, budget_browser
 
 
 urlpatterns = patterns('',
@@ -10,17 +10,17 @@ urlpatterns = patterns('',
     ),
     url(r'^templates/$',
         BudgetTemplateListView.as_view(),
-        name='budget_template_list'
+        name='template_list'
     ),
-    url(r'^template/(?P<slug>[-\w]+)/$',
+    url(r'^templates/(?P<slug>[-\w]+)/$',
         BudgetTemplateDetailView.as_view(),
-        name='budget_template_detail'
+        name='template_detail'
     ),
     url(r'^budgets/$',
         BudgetListView.as_view(),
         name='budget_list'
     ),
-    url(r'^budget/(?P<slug>[-\w]+)/$',
+    url(r'^budgets/(?P<entity_slug>[-\w]+)/(?P<period>[-\w]+)/$',
         BudgetDetailView.as_view(),
         name='budget_detail'
     ),
@@ -28,7 +28,7 @@ urlpatterns = patterns('',
         ActualListView.as_view(),
         name='actual_list'
     ),
-    url(r'^actual/(?P<slug>[-\w]+)/$',
+    url(r'^actuals/(?P<entity_slug>[-\w]+)/(?P<period>[-\w]+)/$',
         ActualDetailView.as_view(),
         name='actual_detail'
     ),

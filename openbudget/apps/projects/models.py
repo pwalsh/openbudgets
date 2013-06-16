@@ -7,10 +7,20 @@ from openbudget.apps.accounts.models import Account
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, ClassMethodMixin
 
 
+class ProjectManager(models.Manager):
+    """Exposes the related_map method for more efficient bulk select queries."""
+
+    def related_map(self):
+        return self.select_related()
+
+
 class Project(TimeStampedModel, UUIDModel, ClassMethodMixin):
     """
     Visualization state object comprised of configuration, data input and some meta data.
     """
+
+    objects = ProjectManager()
+
     auth = models.OneToOneField(
         Client,
     )

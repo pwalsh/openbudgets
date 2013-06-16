@@ -2,12 +2,12 @@ import datetime
 import factory
 from django.utils.timezone import utc
 from openbudget.apps.entities.factories import EntityFactory, DomainDivisionFactory
-from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, BudgetTemplateNodeRelation, Sheet, Budget, Actual, SheetItem, BudgetItem, ActualItem
+from openbudget.apps.budgets.models import Template, TemplateNode, TemplateNodeRelation, Sheet, Budget, Actual, SheetItem, BudgetItem, ActualItem
 
 
 class BudgetTemplateFactory(factory.DjangoModelFactory):
 
-    FACTORY_FOR = BudgetTemplate
+    FACTORY_FOR = Template
 
     name = factory.Sequence(lambda n: 'Budget Template {0}'.format(n))
     description = factory.Sequence(lambda n: 'Budget Template {0} description text.'.format(n))
@@ -30,9 +30,9 @@ class BudgetTemplateFactory(factory.DjangoModelFactory):
 
 class BudgetTemplateNodeFactory(factory.DjangoModelFactory):
 
-    FACTORY_FOR = BudgetTemplateNode
+    FACTORY_FOR = TemplateNode
 
-    directions = BudgetTemplateNode.NODE_DIRECTIONS
+    directions = TemplateNode.DIRECTIONS
 
     code = factory.Sequence(lambda n: '{0}'.format(n))
     name = factory.Sequence(lambda n: 'Budget Template Node {0} Name'.format(n))
@@ -58,7 +58,7 @@ class BudgetTemplateNodeFactory(factory.DjangoModelFactory):
 
 class BudgetTemplateNodeRelationFactory(factory.DjangoModelFactory):
 
-    FACTORY_FOR = BudgetTemplateNodeRelation
+    FACTORY_FOR = TemplateNodeRelation
 
     template = factory.SubFactory(BudgetTemplateFactory)
     node = factory.SubFactory(BudgetTemplateNodeFactory)

@@ -4,7 +4,7 @@ from django.contrib.contenttypes import generic
 from taggit.models import ItemBase as TaggitItemBase
 from autoslug import AutoSlugField
 from openbudget.settings.base import AUTH_USER_MODEL
-from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode
+from openbudget.apps.budgets.models import Template, TemplateNode
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
 from openbudget.commons.data import OBJECT_STATES
 
@@ -21,7 +21,7 @@ class Taxonomy(TimeStampedModel, UUIDModel):
     )
 
     template = models.ForeignKey(
-        BudgetTemplate,
+        Template,
         related_name='taxonomies'
     )
 
@@ -126,7 +126,7 @@ class TaggedNode(TaggitItemBase):
         related_name='nodetags'
     )
     content_object = models.ForeignKey(
-        BudgetTemplateNode,
+        TemplateNode,
         related_name='nodetags'
     )
 

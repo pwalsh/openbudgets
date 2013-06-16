@@ -18,16 +18,16 @@ urlpatterns = patterns('',
         include('openbudget.apps.accounts.urls')
     ),
     url(r'^entities/',
-        include('openbudget.apps.entities.urls')
+        include('openbudget.apps.entities.urls.ui')
     ),
     url(r'^budgets/',
-        include('openbudget.apps.budgets.urls')
+        include('openbudget.apps.budgets.urls.ui')
     ),
     url(r'^interactions/',
         include('openbudget.apps.interactions.urls')
     ),
     url(r'^projects/',
-        include('openbudget.apps.projects.urls'),
+        include('openbudget.apps.projects.urls.ui'),
     ),
     url(r'^taxonomies/',
         include('openbudget.apps.taxonomies.urls')

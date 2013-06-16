@@ -14,7 +14,7 @@ define([
         config  : {
             element         : FORM_TYPE_EXT_ID,
             mixins          : ['Templated'],
-            template_name   : 'budgettemplate-form',
+            template_name   : 'template-form',
             partials_dir    : 'partials/',
             app_events      : {
                 destroy_form_ext: function (new_config) {

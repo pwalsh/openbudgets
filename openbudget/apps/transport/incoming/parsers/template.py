@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.db import IntegrityError
 from django.utils.translation import ugettext_lazy as _, gettext as __
-from openbudget.apps.budgets.models import BudgetTemplate, BudgetTemplateNode, BudgetTemplateNodeRelation
+from openbudget.apps.budgets.models import Template, TemplateNode, TemplateNodeRelation
 from openbudget.apps.entities.models import Division
 from openbudget.apps.transport.incoming.parsers import BaseParser, register, ParsingError
 from openbudget.apps.transport.incoming.resolvers import PathResolver
@@ -16,14 +16,14 @@ def _raise_parent_not_found(code, parent, scope):
     )
 
 
-class BudgetTemplateParser(BaseParser):
+class TemplateParser(BaseParser):
 
-    container_model = BudgetTemplate
-    item_model = BudgetTemplateNode
+    container_model = Template
+    item_model = TemplateNode
     ITEM_ATTRIBUTES = ('name', 'code', 'parent', 'path', 'templates', 'direction', 'description')
 
     def __init__(self, container_object_dict, extends=None, fill_in_parents=None, interpolate=None):
-        super(BudgetTemplateParser, self).__init__(container_object_dict)
+        super(TemplateParser, self).__init__(container_object_dict)
         self.parent = extends
         self.skipped_rows = []
 
@@ -379,7 +379,7 @@ class BudgetTemplateParser(BaseParser):
     def _add_to_container(self, item, key):
         if not self.dry:
             try:
-                BudgetTemplateNodeRelation.objects.create(
+                TemplateNodeRelation.objects.create(
                     template=self.container_object,
                     node=item
                 )
@@ -396,7 +396,7 @@ class BudgetTemplateParser(BaseParser):
 
         divisions = data.pop('divisions') if 'divisions' in data else []
 
-        super(BudgetTemplateParser, self)._create_container(container_dict=data, exclude=exclude)
+        super(TemplateParser, self)._create_container(container_dict=data, exclude=exclude)
 
         for division in divisions:
             if not self.dry:
@@ -474,7 +474,7 @@ class BudgetTemplateParser(BaseParser):
             # there can be one or none
             return self.parent.nodes.get(path=path)
 
-        except BudgetTemplateNode.DoesNotExist as e:
+        except TemplateNode.DoesNotExist as e:
             # none found
             try:
                 if route is None and path:
@@ -487,9 +487,9 @@ class BudgetTemplateParser(BaseParser):
 
                 return self.parent.nodes.get(**_filter)
 
-            except BudgetTemplateNode.DoesNotExist as e:
+            except TemplateNode.DoesNotExist as e:
                 return None
-            except BudgetTemplateNode.MultipleObjectsReturned as e:
+            except TemplateNode.MultipleObjectsReturned as e:
                 if self.dry:
                     self.throw(
                         ParentScopeError(
@@ -500,7 +500,7 @@ class BudgetTemplateParser(BaseParser):
                 else:
                     raise e
 
-        except BudgetTemplateNode.MultipleObjectsReturned as e:
+        except TemplateNode.MultipleObjectsReturned as e:
             #TODO: this indicates that the data is corrupted, need to handle better
             if self.dry:
                 # more then one probably means there's PARENT_SCOPE missing
@@ -535,4 +535,4 @@ class BudgetTemplateParser(BaseParser):
         container_dict['name'] = name
 
 
-register('budgettemplate', BudgetTemplateParser)
+register('template', TemplateParser)

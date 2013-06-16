@@ -1,13 +1,13 @@
 from copy import deepcopy
 from django.utils.translation import gettext as __
-from openbudget.apps.budgets.models import BudgetTemplate, Budget, BudgetItem
+from openbudget.apps.budgets.models import Template, Budget, BudgetItem
 from openbudget.apps.entities.models import Entity
 from openbudget.apps.transport.incoming.parsers import register, ParsingError
-from openbudget.apps.transport.incoming.parsers.budgettemplate import BudgetTemplateParser
+from openbudget.apps.transport.incoming.parsers.template import TemplateParser
 from openbudget.apps.transport.incoming.errors import MetaParsingError, NodeNotFoundError
 
 
-class BudgetParser(BudgetTemplateParser):
+class BudgetParser(TemplateParser):
 
     container_model = Budget
     item_model = BudgetItem
@@ -15,7 +15,7 @@ class BudgetParser(BudgetTemplateParser):
     ITEM_CLEANING_EXCLUDE = ['node', 'budget']
 
     def __init__(self, container_object_dict):
-        super(BudgetTemplateParser, self).__init__(container_object_dict)
+        super(BudgetParser, self).__init__(container_object_dict)
         self.skipped_rows = {}
         self.template_parser = self._init_template_parser()
 
@@ -84,7 +84,7 @@ class BudgetParser(BudgetTemplateParser):
         if exclude:
             fields_to_exclude += exclude
 
-        super(BudgetTemplateParser, self)._create_container(container_dict=data, exclude=fields_to_exclude)
+        super(TemplateParser, self)._create_container(container_dict=data, exclude=fields_to_exclude)
 
     def _generate_lookup(self, data):
         resolved = deepcopy(self.template_parser.objects_lookup)
@@ -160,7 +160,7 @@ class BudgetParser(BudgetTemplateParser):
             del container_dict_copy['period_end']
 
         if parent_template:
-            return BudgetTemplateParser(container_dict_copy, extends=parent_template)
+            return TemplateParser(container_dict_copy, extends=parent_template)
 
         return False
 
@@ -191,7 +191,7 @@ class BudgetParser(BudgetTemplateParser):
                     return qs[0].template
                 else:
                     # try getting the standard template for this entity's division
-                    qs = BudgetTemplate.objects.filter(
+                    qs = Template.objects.filter(
                         divisions=entity.division,
                         period_start__lte=container_dict['period_start']
                     ).order_by('-period_start')[:1]

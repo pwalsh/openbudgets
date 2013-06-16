@@ -1,5 +1,5 @@
 from modeltranslation.translator import translator, TranslationOptions
-from openbudget.apps.budgets.models import Budget, BudgetItem, Actual, ActualItem, BudgetTemplate, BudgetTemplateNode
+from openbudget.apps.budgets.models import Budget, BudgetItem, Actual, ActualItem, Template, TemplateNode
 
 class SheetTransOps(TranslationOptions):
     fields = ('description',)
@@ -7,10 +7,10 @@ class SheetTransOps(TranslationOptions):
 class SheetItemTransOps(TranslationOptions):
     fields = ('description',)
 
-class BudgetTemplateTransOps(TranslationOptions):
-    fields = ('name',)
+class TemplateTransOps(TranslationOptions):
+    fields = ('name', 'description')
 
-class BudgetTemplateNodeTransOps(TranslationOptions):
+class TemplateNodeTransOps(TranslationOptions):
     fields = ('name', 'description')
 
 
@@ -18,5 +18,5 @@ translator.register(Budget, SheetTransOps)
 translator.register(BudgetItem, SheetItemTransOps)
 translator.register(Actual, SheetTransOps)
 translator.register(ActualItem, SheetItemTransOps)
-translator.register(BudgetTemplate, BudgetTemplateTransOps)
-translator.register(BudgetTemplateNode, BudgetTemplateNodeTransOps)
+translator.register(Template, TemplateTransOps)
+translator.register(TemplateNode, TemplateNodeTransOps)

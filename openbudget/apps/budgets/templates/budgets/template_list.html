@@ -12,7 +12,7 @@ Budget Templates in System
     <div>
     name: {{ object.name }} | applies to: {% for division in object.divisions.all %}{{ division.name }}{% endfor %}
     <br />
-    <a href="{% url 'budget_template_detail' object.uuid %}" title="">Go there</a>
+    <a href="{% url 'template_detail' object.uuid %}" title="">Go there</a>
     </div>
 {% endfor %}
 

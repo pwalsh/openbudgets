@@ -5,6 +5,13 @@ from openbudget.apps.entities.models import Entity
 from openbudget.commons.mixins.models import PeriodicModel, TimeStampedModel
 
 
+class ContextManager(models.Manager):
+    """Exposes the related_map method for more efficient bulk select queries."""
+
+    def related_map(self):
+        return self.select_related()
+
+
 class Context(TimeStampedModel, PeriodicModel):
     """A JSON object with contextual data for the given Entity/Time Period.
 
@@ -22,6 +29,8 @@ class Context(TimeStampedModel, PeriodicModel):
     * ground_surface
 
     """
+
+    objects = ContextManager()
 
     entity = models.ForeignKey(
         Entity

@@ -9,7 +9,7 @@ define([
 ], function (uijet, UploadController, $, Ebox, Q, Mustache) {
 
     var Importer =  {
-            BASE_API_URL: window.BASE_API_URL,
+            BASE_API_URL: window.API_INDEX + API_VERSION + '/',
             start   : function (options) {
                 /*
                  * Subscribe to events in views
