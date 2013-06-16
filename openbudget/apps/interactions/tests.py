@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from openbudget.apps.accounts.factories import AccountFactory
 from openbudget.apps.entities.factories import EntityFactory
-from openbudget.apps.budgets.factories import BudgetFactory, ActualFactory
+from openbudget.apps.budgets.factories import SheetFactory
 from openbudget.apps.interactions.factories import StarFactory, FollowFactory
 
 
@@ -17,19 +17,14 @@ class InteractionTestCase(TestCase):
         self.follow_string = 'form class="interaction follow"'
         self.star_string = 'form class="interaction star"'
         self.entity = EntityFactory.create()
-        self.budget = BudgetFactory.create()
-        self.actual = ActualFactory.create()
+        self.sheet = SheetFactory.create()
         self.entityview = reverse(
                 'entity_detail',
                 args=(self.entity.slug,)
         )
-        self.budgetview = reverse(
-                'budget_detail',
-                args=(self.budget.entity.slug, self.budget.period)
-        )
-        self.actualview = reverse(
-                'actual_detail',
-                args=(self.actual.entity.slug, self.actual.period)
+        self.sheetview = reverse(
+                'sheet_detail',
+                args=(self.sheet.entity.slug, self.sheet.period)
         )
 
     def test_auth_user_can_star_or_follow(self):
@@ -49,16 +44,7 @@ class InteractionTestCase(TestCase):
         self.assertContains(response, self.follow_string)
         self.assertContains(response, self.star_string)
 
-        response = self.client.get(self.budgetview)
-        self.assertEqual(response.status_code, 200)
-        # TODO: Work out how we can test for "template used", when
-        # the template is loaded via a template tag
-        #self.assertTemplateUsed(budgetresponse, self.follow_template)
-        #self.assertTemplateUsed(budgetresponse, self.star_template)
-        self.assertContains(response, self.follow_string)
-        self.assertContains(response, self.star_string)
-
-        response = self.client.get(self.actualview)
+        response = self.client.get(self.sheetview)
         self.assertEqual(response.status_code, 200)
         # TODO: Work out how we can test for "template used", when
         # the template is loaded via a template tag
@@ -79,16 +65,7 @@ class InteractionTestCase(TestCase):
         self.assertNotContains(response, self.follow_string)
         self.assertNotContains(response, self.star_string)
 
-        response = self.client.get(self.budgetview)
-        self.assertEqual(response.status_code, 200)
-        # TODO: Work out how we can test for "template used", when
-        # the template is loaded via a template tag
-        #self.assertTemplateNotUsed(budgetresponse, self.follow_template)
-        #self.assertTemplateNotUsed(budgetresponse, self.star_template)
-        self.assertNotContains(response, self.follow_string)
-        self.assertNotContains(response, self.star_string)
-
-        response = self.client.get(self.actualview)
+        response = self.client.get(self.sheetview)
         self.assertEqual(response.status_code, 200)
         # TODO: Work out how we can test for "template used", when
         # the template is loaded via a template tag

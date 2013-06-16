@@ -43,7 +43,7 @@ class TemplateNodeDetail(generics.RetrieveAPIView):
     serializer_class = serializers.TemplateNodeBase
 
 
-class BudgetList(generics.ListAPIView):
+class SheetList(generics.ListAPIView):
     """API endpoint that represents a list of budget sheets."""
 
     model = models.Budget
@@ -55,7 +55,7 @@ class BudgetList(generics.ListAPIView):
                      'period_end'] + translated_fields(model)
 
 
-class BudgetDetail(generics.RetrieveAPIView):
+class SheetDetail(generics.RetrieveAPIView):
     """API endpoint that represents a single budget."""
 
     model = models.Budget
@@ -63,7 +63,7 @@ class BudgetDetail(generics.RetrieveAPIView):
     serializer_class = serializers.BudgetDetail
 
 
-class BudgetItemList(generics.ListAPIView):
+class SheetItemList(generics.ListAPIView):
     """API endpoint that represents a list of budget items."""
 
     model = models.BudgetItem
@@ -76,7 +76,7 @@ class BudgetItemList(generics.ListAPIView):
                     translated_fields(models.TemplateNode)
 
 
-class BudgetItemDetail(generics.RetrieveAPIView):
+class SheetItemDetail(generics.RetrieveAPIView):
     """API endpoint that represents a single budget item."""
 
     model = models.BudgetItem

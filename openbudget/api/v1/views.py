@@ -13,10 +13,8 @@ def api_v1(request):
         'entities': reverse('entity-list', request=request),
         'templates': reverse('template-list', request=request),
         'templates/nodes': reverse('templatenode-list', request=request),
-        'budgets': reverse('budget-list', request=request),
-        'budgets/items/': reverse('budgetitem-list', request=request),
-        'actuals': reverse('actual-list', request=request),
-        'actuals/items': reverse('actualitem-list', request=request),
+        'sheets': reverse('sheet-list', request=request),
+        'sheets/items/': reverse('sheetitem-list', request=request),
         'contexts': reverse('context-list', request=request),
         'projects': reverse('project-list', request=request),
     })

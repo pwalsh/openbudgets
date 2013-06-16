@@ -337,7 +337,7 @@ class SheetManager(models.Manager):
 
 
 class Sheet(PeriodicModel, TimeStampedModel, UUIDModel, ClassMethodMixin):
-    """An abstract class for common Budget and Actual data"""
+    """A sheet describes the finances for the given period, exposing budget and actuals."""
 
     objects = SheetManager()
 
@@ -364,49 +364,20 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel, ClassMethodMixin):
     )
 
     @property
-    def total(self):
-        tmp = [item.amount for item in self.items.all()]
+    def budget_total(self):
+        tmp = [item.budget for item in self.items.all()]
+        value = sum(tmp)
+        return value
+
+    @property
+    def actual_total(self):
+        tmp = [item.actual for item in self.items.all()]
         value = sum(tmp)
         return value
 
     @property
     def item_count(self):
         value = self.items.all().count()
-        return value
-
-    class Meta:
-        abstract = True
-
-    def __unicode__(self):
-        return unicode(self.period)
-
-
-class Budget(Sheet):
-    """The budget sheet for the given entity/period."""
-
-    @property
-    def related_actuals(self):
-        tmp = Actual.objects.filter(entity=self.entity)
-        value = [actual for actual in tmp if actual.period == self.period]
-        return value
-
-    class Meta:
-        ordering = ['entity']
-        verbose_name = _('budget')
-        verbose_name_plural = _('budgets')
-
-    @models.permalink
-    def get_absolute_url(self):
-        return 'budget_detail', [self.uuid]
-
-
-class Actual(Sheet):
-    """The actuals sheet for the given entity/period."""
-
-    @property
-    def related_budgets(self):
-        tmp = Budget.objects.filter(entity=self.entity)
-        value = [budget for budget in tmp if budget.period == self.period]
         return value
 
     @property
@@ -421,12 +392,15 @@ class Actual(Sheet):
 
     class Meta:
         ordering = ['entity']
-        verbose_name = _('actual')
-        verbose_name_plural = _('actuals')
+        verbose_name = _('sheet')
+        verbose_name_plural = _('sheets')
 
     @models.permalink
     def get_absolute_url(self):
-        return 'actual_detail', [self.uuid]
+        return 'sheet_detail', [self.uuid]
+
+    def __unicode__(self):
+        return unicode(self.period)
 
 
 class SheetItemManager(models.Manager):
@@ -452,10 +426,14 @@ class SheetItemManager(models.Manager):
 
 
 class SheetItem(TimeStampedModel, UUIDModel, ClassMethodMixin):
-    """Abstract class for common BudgetItem and ActualItem data"""
+    """A single item in a given sheet."""
 
     objects = SheetItemManager()
 
+    sheet = models.ForeignKey(
+        Sheet,
+        related_name='items'
+    )
     node = models.ForeignKey(
         TemplateNode,
         related_name='%(class)ss',
@@ -466,12 +444,19 @@ class SheetItem(TimeStampedModel, UUIDModel, ClassMethodMixin):
         blank=True,
         help_text=_('Description that appears for this entry.')
     )
-    amount = models.DecimalField(
-        _('Amount'),
+    budget = models.DecimalField(
+        _('Budget Amount'),
         db_index=True,
         max_digits=26,
         decimal_places=2,
-        help_text=_('The total amount of this entry.')
+        help_text=_('The total budgeted amount of this entry.')
+    )
+    actual = models.DecimalField(
+        _('Actual Amount'),
+        db_index=True,
+        max_digits=26,
+        decimal_places=2,
+        help_text=_('The total actual amount of this entry.')
     )
     discussion = generic.GenericRelation(
         Comment,
@@ -491,43 +476,13 @@ class SheetItem(TimeStampedModel, UUIDModel, ClassMethodMixin):
         return value
 
     class Meta:
-        abstract = True
+        ordering = ['node']
+        verbose_name = _('sheet item')
+        verbose_name_plural = _('sheet items')
+
+    @models.permalink
+    def get_absolute_url(self):
+        return 'sheet_item_detail', [self.uuid]
 
     def __unicode__(self):
         return self.node.code
-
-
-class BudgetItem(SheetItem):
-    """A single item in a given budget sheet."""
-
-    budget = models.ForeignKey(
-        Budget,
-        related_name='items'
-    )
-
-    class Meta:
-        ordering = ['node']
-        verbose_name = _('budget item')
-        verbose_name_plural = _('budget items')
-
-    @models.permalink
-    def get_absolute_url(self):
-        return 'budget_item_detail', [self.uuid]
-
-
-class ActualItem(SheetItem):
-    """A single item in a given actuals sheet."""
-
-    actual = models.ForeignKey(
-        Actual,
-        related_name='items'
-    )
-
-    class Meta:
-        ordering = ['node']
-        verbose_name = _('actual item')
-        verbose_name_plural = _('actual items')
-
-    @models.permalink
-    def get_absolute_url(self):
-        return 'actual_item_detail', [self.uuid]
