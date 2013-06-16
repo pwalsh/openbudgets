@@ -1,7 +1,6 @@
 import os
 from datetime import datetime
 from django.core.mail import EmailMessage
-from django.utils.translation import ugettext_lazy as _
 from openbudget.settings.base import TEMP_FILES_DIR, ADMINS, EMAIL_HOST_USER
 from openbudget.apps.transport.models import String
 from openbudget.apps.transport.incoming.parsers import get_parser, get_parser_key
