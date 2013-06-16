@@ -36,12 +36,12 @@ The default settings look something like this::
             'rest_framework.filters.DjangoFilterBackend',
             'rest_framework.filters.SearchFilter',
         ),
-        'PAGINATE_BY': 500
+        'PAGINATE_BY': 250,
+        'PAGINATE_BY_PARAM': 'page_by'
     }
 
     # OAUTH TOOLKIT CONF
     CORS_ORIGIN_ALLOW_ALL = True
-
 
 Dependencies
 ------------
@@ -93,7 +93,7 @@ For example, if an Open Budget instance is installed on openmuni.org.il:
 
 * The API root is https://api.openmuni.org.il/
 * API versions are like so: https://api.openmuni.org.il/v1/
-* and all endpoints are scoped by version, like so: https://api.openmuni.org.il/budgets/
+* and all endpoints are scoped by version, like so: https://api.openmuni.org.il/v1/budgets/
 
 RESTful
 -------
