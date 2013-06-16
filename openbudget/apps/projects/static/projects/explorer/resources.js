@@ -35,7 +35,7 @@ define([
          */
         Munis = uijet.Collection({
             model   : Muni,
-            url     : API_URL + 'entity/',
+            url     : API_URL + 'entities/entities/',
             parse   : function (response) {
                 //! Array.prototype.filter
                 return response.results.filter(function (item) {

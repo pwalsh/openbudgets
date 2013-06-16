@@ -25,16 +25,15 @@
                     <span id="node_breadcrumb_main">Main</span>
                     <span id="node_breadcrumb_back"></span>
                 </div>
-                <span id="search_crumb">
-                    <span id="search_crumb_content"></span>
-                    <span id="search_crumb_remove">X</span>
-                </span>
-                <span id="filters_done">Done</span>
+                <span id="selected_crumb"></span>
+                <span id="search_crumb"></span>
+                <span id="picker_done">Done</span>
                 <span id="filters_search">Search</span>
             </div>
             <div id="nodes_search_pane" class="nodes_picker_pane">
                 <h3 class="nodes_picker_pane_heading">Filter only items' names and descriptions that contain:</h3>
                 <input type="text" name="nodes_search" id="nodes_search"/>
+                <span id="filter_selected">Selected</span>
             </div>
             <section id="nodes_list_container">
                 <ul id="nodes_list_header">
@@ -48,7 +47,10 @@
     </div>
     <script>
         //var API_URL = 'http://api.open-budget.prjts.com/',
-        var API_URL = 'http://api.obudget.dev:8000/',
+        var loc = window.location,
+            API_INDEX = loc.protocol + '//api.' + loc.host,
+            API_VERSION = '/v1/',
+            API_URL = API_INDEX + API_VERSION,
             AUTH_URL = API_URL + 'auth/access_token/';
     </script>
     <script src="/static/lib/require.js" data-main="/static/projects/explorer/main"></script>

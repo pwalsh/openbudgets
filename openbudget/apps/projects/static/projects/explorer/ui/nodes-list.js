@@ -1,7 +1,9 @@
 define([
     'uijet_dir/uijet',
     'resources',
-    'controllers/SearchedList'
+    'ui/nodes',
+    'project_widgets/FilteredList',
+    'controllers/NodesList'
 ], function (uijet, resources) {
 
     uijet.declare([{
@@ -10,8 +12,8 @@ define([
             element     : '#nodes_list_container',
             dont_wake   : true,
             app_events  : {
-                'entities_list.selected': function ($selected) {
-                    this.wake({ entity_id : $selected.attr('data-id') });
+                'entities_list.selected': function (id) {
+                    this.wake({ entity_id : id });
                 }
             }
         }
@@ -34,11 +36,11 @@ define([
             }
         }
     }, {
-        type    : 'List',
+        type    : 'FilteredList',
         config  : {
             element     : '#nodes_list',
             mixins      : ['Templated', 'Scrolled'],
-            adapters    : ['jqWheelScroll', 'Spin', 'SearchedList'],
+            adapters    : ['jqWheelScroll', 'Spin', 'NodesList'],
             resource    : 'LatestTemplate',
             position    : 'fluid',
             search      : {
@@ -46,6 +48,16 @@ define([
                     name        : 10,
                     description : 1,
                     code        : 20
+                }
+            },
+            filters     : {
+                search  : 'search',
+                selected: function (state) {
+                    if ( state !== null )
+                        return this.resource.where({ selected : 'selected' })
+                                            .map(uijet.Utils.prop('id'));
+                    else
+                        return null;
                 }
             },
             sorting     : {
@@ -56,9 +68,11 @@ define([
                 direction   : 'direction',
                 '-direction': resources.utils.reverseSorting('direction')
             },
+            data_events : {},
             signals     : {
                 post_init       : function () {
                     this.scope = null;
+                    this.active_filters = 0;
                 },
                 pre_wake        : function () {
                     var entity_id = this.context.entity_id;
@@ -82,21 +96,18 @@ define([
                 pre_update      : 'spin',
                 post_fetch_data : 'spinOff',
                 pre_render      : function () {
+                    if ( this.scope_changed ) {
+                        if ( this.has_data ) {
+                            this.scope_changed = false;
+                            this.buildIndex();
+                        }
+                    }
                     this.has_content && this.$element.addClass('invisible');
                 },
                 post_render     : function () {
                     this.$children = this.$element.children();
-                    var query = uijet.Resource('NodesListState').get('search');
-                    if ( this.scope_changed ) {
-                        this.scope_changed = false;
-                        this.index()
-                            .search_index.add(
-                                this.resource.byAncestor(this.scope)
-                                    .map(uijet.Utils.prop('attributes'))
-                            );
-                    }
-                    if ( query ) {
-                        this.filterItems(query);
+                    if ( this.active_filters ) {
+                        this.filterItems();
                     }
                     else {
                         this.scroll()
@@ -105,109 +116,10 @@ define([
                     this._finally();
                 },
                 pre_select      : function ($selected, e) {
-                    //TODO: refactor me!!!
                     var id = +$selected.attr('data-id');
                     if ( uijet.$(e.target).hasClass('selectbox') ) {
-                        var model = this.resource.get(id),
-                            old_state = model.get('selected'),
-                            new_state = { selected : '' },
-                            resource = this.resource,
-                            previous_id = id,
-                            branch, is_partial;
-                        switch ( old_state ) {
-                            case 'selected':
-                                // unselecting
-                                model.set(new_state);
-                                //! Array.prototype.forEach
-                                this.resource.byAncestor(id).forEach(function (model) {
-                                    model.set(new_state);
-                                });
-                                branch = this.resource.branch(id);
-                                // remove this model from the branch
-                                branch.pop();
-                                //! Array.prototype.forEach
-                                branch.reverse().forEach(function (model) {
-                                    var old_branch_state = model.get('selected'),
-                                        children = model.get('children'),
-                                        new_branch_state = { selected : '' };
-                                    if ( is_partial ) {
-                                        model.set({ selected : 'partial' });
-                                        return;
-                                    }
-                                    switch ( old_branch_state ) {
-                                        case 'selected':
-                                            if ( children.length > 1 ) {
-                                                new_branch_state.selected = 'partial';
-                                                is_partial = true;
-                                            }
-                                            model.set(new_branch_state);
-                                            break;
-                                        case 'partial':
-                                            if ( children.length > 1 ) {
-                                                //! Array.prototype.some
-                                                is_partial = children.some(function (child_id) {
-                                                    if ( child_id !== previous_id ) {
-                                                        return resource.get(child_id).get('selected') === 'selected';
-                                                    }
-                                                });
-                                                if ( is_partial ) {
-                                                    new_branch_state.selected = 'partial';
-                                                }
-                                            }
-                                            model.set(new_branch_state);
-                                            break;
-                                    }
-                                    previous_id = model.id;
-                                });
-                                break;
-                            case 'partial':
-                            default:
-                                new_state.selected = 'selected';
-                                model.set(new_state);
-                                //! Array.prototype.forEach
-                                this.resource.byAncestor(id).forEach(function (model) {
-                                    model.set(new_state);
-                                });
-                                branch = this.resource.branch(id);
-                                // remove this model from the branch
-                                branch.pop();
-                                //! Array.prototype.forEach
-                                branch.reverse().forEach(function (model) {
-                                    var old_branch_state = model.get('selected'),
-                                        children = model.get('children'),
-                                        new_branch_state = { selected : 'selected' };
-                                    if ( is_partial ) {
-                                        model.set({ selected : 'partial' });
-                                        return;
-                                    }
-                                    switch ( old_branch_state ) {
-                                        case 'partial':
-                                            if ( children.length > 1 ) {
-                                                //! Array.prototype.some
-                                                is_partial = children.some(function (child_id) {
-                                                    if ( child_id !== previous_id ) {
-                                                        return resource.get(child_id).get('selected') !== 'selected';
-                                                    }
-                                                });
-                                                if ( is_partial ) {
-                                                    new_branch_state.selected = 'partial';
-                                                }
-                                            }
-                                            model.set(new_branch_state);
-                                            break;
-                                        default:
-                                            if ( children.length > 1 ) {
-                                                new_branch_state.selected = 'partial';
-                                                is_partial = true;
-                                            }
-                                            model.set(new_branch_state);
-                                            break;
-                                    }
-                                    previous_id = model.id;
-                                });
-                                break;
-                        }
-                        this.publish('selection');
+                        this.updateSelection(id)
+                            .publish('selection');
                         return false;
                     }
                     else {
@@ -215,71 +127,27 @@ define([
                     }
                 },
                 post_select     : function ($selected) {
-                    var node_id = +$selected.attr('data-id') || null,
-                        filter = this.search_active ?
-                            this.resource.byAncestor :
-                            this.resource.byParent;
-                    // make sure we rebuild index and re-render
-                    this.scope_changed = true;
-                    this.scope = node_id || null;
-                    this.filter(filter, node_id)
-                        .render();
+                    var node_id = +$selected.attr('data-id') || null;
+                    this.redraw(node_id);
                 }
             },
             app_events  : {
-                'search.changed'                            : function (data) {
-                    var query = data.args[1];
-                    if ( query === null ) {
-                        this.search_active = false;
-                        this.filter(this.resource.byParent, this.scope)
-                            .render();
-                    } else {
-                        if ( ! this.search_active ) {
-                            this.search_active = true;
-                            this.filter(this.resource.byAncestor, this.scope)
-                                .render();
-                        }
-                        else {
-                            this.filterItems(query);
-                        }
-                    }
-                },
+                'search.changed'                            : 'updateSearchFilter+',
+                'selected.changed'                          : 'updateSelectedFilter+',
                 'nodes_list.filtered'                       : function () {
                     this.scroll()
                         .$element.removeClass('invisible');
                 },
-                'node_breadcrumb_main.clicked'              : function () {
-                    this.scope_changed = true;
-                    this.scope = null;
-                    this.filter(this.resource.roots)
-                        .render();
-                },
+                'node_breadcrumb_main.clicked'              : 'redraw',
                 'node_breadcrumb_back.clicked'              : function (data) {
-                    var scope = data.context.id,
-                        filter = this.search_active ?
-                            this.resource.byAncestor :
-                            this.resource.byParent; 
-                    this.scope_changed = true;
-                    this.scope = scope;
-                    this.filter(filter, scope)
-                        .render();
+                    this.redraw(data.context.id);
                 },
                 'nodes_breadcrumbs.selected'                : 'post_select+',
                 'nodes_breadcrumbs_history_menu.selected'   : 'post_select+',
-                'nodes_list_header.selected'                : function (data) {
-                    this.desc = data.desc;
-                    this.sort((data.desc ? '-' : '') + data.column);
-                    if ( this.filtered && ! uijet.Utils.isFunc(this.filtered) ) {
-                        this.filtered = Array.prototype.sort.call(this.filtered, resources.utils.reverseSorting(data.column));
-                        if ( ! data.desc ) {
-                            this.filtered.reverse();
-                        }
-                    }
-                    this.render();
-                },
+                'nodes_list_header.selected'                : 'sortItems+',
                 'nodes_list.selection'                      : function () {
                     var resource = this.resource,
-                        filter = this.search_active ?
+                        filter = this.active_filters ?
                             this.resource.byAncestor :
                             this.resource.byParent; 
                     this.filter(filter.call(this.resource, this.scope));
@@ -292,6 +160,9 @@ define([
                             state = resource.get(id).get('selected');
                         $item.attr('data-selected', state);
                     });
+                    if ( this.selected_active ) {
+                        this.filterBySelected(uijet.Resource('NodesListState').get('selected'));
+                    }
                 }
             }
         }

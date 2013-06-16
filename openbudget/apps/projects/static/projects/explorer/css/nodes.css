@@ -25,7 +25,15 @@
     white-space: nowrap;
 }
 
-#filters_done {
+.filtercrumb_remove {
+    padding: 0;
+}
+.filtercrumb_remove:before {
+    content: 'X';
+    padding-right: .3rem;
+}
+
+#picker_done {
     float: left;
 }
 #filters_search {

@@ -5,6 +5,7 @@
 
 .selectbox {
     display: inline-block;
+    float: right;
     width: 1rem;
     height: 1rem;
     border-radius: 50%;
@@ -29,7 +30,7 @@
 #nodes_list li:first-child {
     border-top: 1px solid lightslategray;
 }
-#nodes_list li.removed {
+#nodes_list li.search_removed, #nodes_list li.selected_removed {
     height: 0;
     padding: 0;
     border-bottom: none;
