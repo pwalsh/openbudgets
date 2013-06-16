@@ -1,21 +1,22 @@
 from copy import deepcopy
 from django.utils.translation import gettext as __
-from openbudget.apps.budgets.models import Template, Budget, BudgetItem
+from openbudget.apps.budgets.models import Template, Sheet, SheetItem
 from openbudget.apps.entities.models import Entity
+from openbudget.apps.international.utilities import translated_fields
 from openbudget.apps.transport.incoming.parsers import register, ParsingError
 from openbudget.apps.transport.incoming.parsers.template import TemplateParser
 from openbudget.apps.transport.incoming.errors import MetaParsingError, NodeNotFoundError
 
 
-class BudgetParser(TemplateParser):
+class SheetParser(TemplateParser):
 
-    container_model = Budget
-    item_model = BudgetItem
-    ITEM_ATTRIBUTES = ('amount', 'node', 'description', 'budget')
-    ITEM_CLEANING_EXCLUDE = ['node', 'budget']
+    container_model = Sheet
+    item_model = SheetItem
+    ITEM_ATTRIBUTES = ('budget', 'actual', 'node', 'description', 'sheet') + translated_fields(SheetItem)
+    ITEM_CLEANING_EXCLUDE = ['node', 'sheet']
 
     def __init__(self, container_object_dict):
-        super(BudgetParser, self).__init__(container_object_dict)
+        super(SheetParser, self).__init__(container_object_dict)
         self.skipped_rows = {}
         self.template_parser = self._init_template_parser()
 
@@ -40,12 +41,12 @@ class BudgetParser(TemplateParser):
             template_valid = False
             template_errors = []
 
-        valid, budget_errors = super(BudgetParser, self).validate(data)
+        valid, sheet_errors = super(SheetParser, self).validate(data)
 
         if self.template_parser:
             self.template_parser._clear_cache()
 
-        return template_valid and valid, budget_errors + template_errors
+        return template_valid and valid, sheet_errors + template_errors
 
     def save(self, dry=False):
         template_saved = True
@@ -54,12 +55,12 @@ class BudgetParser(TemplateParser):
             template_saved = self.template_parser.save()
 
         if template_saved:
-            return super(BudgetParser, self).save(dry)
+            return super(SheetParser, self).save(dry)
 
         return False
 
     def deferred(self):
-        deferred = super(BudgetParser, self).deferred()
+        deferred = super(SheetParser, self).deferred()
         deferred['template_parser'] = self.template_parser.deferred()
         return deferred
 
@@ -99,12 +100,19 @@ class BudgetParser(TemplateParser):
         self.objects_lookup = resolved
 
     def _rows_filter(self, obj, row_num=None):
-        if 'amount' in obj:
+        field = None
+        if 'budget' in obj:
+            field = 'budget'
+        elif 'actual' in obj:
+            field = 'actual'
+
+        if field:
             try:
-                float(obj['amount'])
+                float(obj[field])
                 return True
             except (ValueError, TypeError):
                 pass
+
         return False
 
     def _skipped_row(self, obj, row_num):
@@ -145,7 +153,7 @@ class BudgetParser(TemplateParser):
 
     def _add_to_container(self, obj, key):
         if not self.dry:
-            obj['budget'] = self.container_object
+            obj['sheet'] = self.container_object
 
     def _init_template_parser(self):
         container_dict_copy = deepcopy(self.container_object_dict)
@@ -172,35 +180,45 @@ class BudgetParser(TemplateParser):
         container_dict['entity'] = entity
 
         if entity:
-            # try getting the latest container model prior to this one
+            # try getting the container model for same period or containing it
             qs = self.container_model.objects.filter(
                 entity=entity,
-                period_end__lte=container_dict['period_start']
+                period_start__lte=container_dict['period_start'],
+                period_end__gte=container_dict['period_end']
             ).order_by('-period_end')[:1]
 
             if qs.count():
                 return qs[0].template
             else:
-                # try getting the earliest container model later then this one
+                # try getting the latest container model prior to this one
                 qs = self.container_model.objects.filter(
                     entity=entity,
-                    period_start__gte=container_dict['period_end']
-                ).order_by('period_start')[:1]
+                    period_end__lte=container_dict['period_start']
+                ).order_by('-period_end')[:1]
 
                 if qs.count():
                     return qs[0].template
                 else:
-                    # try getting the standard template for this entity's division
-                    qs = Template.objects.filter(
-                        divisions=entity.division,
-                        period_start__lte=container_dict['period_start']
-                    ).order_by('-period_start')[:1]
+                    # try getting the earliest container model later then this one
+                    qs = self.container_model.objects.filter(
+                        entity=entity,
+                        period_start__gte=container_dict['period_end']
+                    ).order_by('period_start')[:1]
 
                     if qs.count():
-                        return qs[0]
+                        return qs[0].template
                     else:
-                        #TODO: handle this case of no previous template found
-                        raise ParsingError(__('Could not find a parent template for input: %s') % container_dict)
+                        # try getting the standard template for this entity's division
+                        qs = Template.objects.filter(
+                            divisions=entity.division,
+                            period_start__lte=container_dict['period_start']
+                        ).order_by('-period_start')[:1]
+
+                        if qs.count():
+                            return qs[0]
+                        else:
+                            #TODO: handle this case of no previous template found
+                            raise ParsingError(__('Could not find a parent template for input: %s') % container_dict)
 
     def _set_entity(self):
 
@@ -229,4 +247,4 @@ class BudgetParser(TemplateParser):
                 raise e
 
 
-register('budget', BudgetParser)
+register('sheet', SheetParser)
