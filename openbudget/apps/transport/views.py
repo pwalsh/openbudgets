@@ -9,7 +9,7 @@ from openbudget.apps.transport.forms import FileImportForm
 from openbudget.apps.transport.incoming.importers.tablibimporter import TablibImporter
 from openbudget.apps.transport.tasks import save_import
 from openbudget.commons.mixins.views import FileResponseMixin
-from openbudget.apps.budgets.models import Budget, Actual, BudgetItem, ActualItem
+from openbudget.apps.budgets.models import Sheet, SheetItem
 
 
 class FileImportView(LoginRequiredMixin, FormView):
@@ -56,12 +56,12 @@ class FileExportView(FileResponseMixin, View):
     def get_context_data(self, **kwargs):
         context = {}
         context['params'] = kwargs
-        if self.kwargs['model'] == 'budget':
-            obj = Budget.objects.get(uuid=self.kwargs['uuid'])
-            obj_list = BudgetItem.objects.filter(budget=obj)
-        elif self.kwargs['model'] == 'actual':
-            obj = Actual.objects.get(uuid=self.kwargs['uuid'])
-            obj_list = ActualItem.objects.filter(actual=obj)
+        if self.kwargs['model'] == 'sheet':
+            obj = Sheet.objects.get(uuid=self.kwargs['uuid'])
+            obj_list = SheetItem.objects.filter(sheet=obj)
+        else:
+            # export other stuff
+            pass
         context['object'] = obj
         context['object_list'] = obj_list
         return context

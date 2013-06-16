@@ -61,7 +61,7 @@ class SheetItemBase(serializers.HyperlinkedModelSerializer):
 
 
 
-class BudgetDetail(SheetBase):
+class SheetDetail(SheetBase):
     """A detailed, related representation of sheets."""
 
     #entity = EntityBase()

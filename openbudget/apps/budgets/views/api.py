@@ -46,10 +46,10 @@ class TemplateNodeDetail(generics.RetrieveAPIView):
 class SheetList(generics.ListAPIView):
     """API endpoint that represents a list of budget sheets."""
 
-    model = models.Budget
+    model = models.Sheet
     queryset = model.objects.related_map_min()
-    serializer_class = serializers.BudgetBase
-    filter_class = filters.BudgetFilter
+    serializer_class = serializers.SheetBase
+    filter_class = filters.SheetFilter
     ordering = ['period_start']
     search_fields = ['entity__name', 'description', 'period_start',
                      'period_end'] + translated_fields(model)
@@ -58,19 +58,19 @@ class SheetList(generics.ListAPIView):
 class SheetDetail(generics.RetrieveAPIView):
     """API endpoint that represents a single budget."""
 
-    model = models.Budget
+    model = models.Sheet
     queryset = model.objects.related_map()
-    serializer_class = serializers.BudgetDetail
+    serializer_class = serializers.SheetDetail
 
 
 class SheetItemList(generics.ListAPIView):
     """API endpoint that represents a list of budget items."""
 
-    model = models.BudgetItem
+    model = models.SheetItem
     queryset = model.objects.related_map_min()
-    serializer_class = serializers.BudgetItemBase
-    filter_class = filters.BudgetItemFilter
-    search_fields = ['budget__entity__name', 'node__code', 'node__name',
+    serializer_class = serializers.SheetItemBase
+    filter_class = filters.SheetItemFilter
+    search_fields = ['sheet__entity__name', 'node__code', 'node__name',
                      'node__description', 'description', 'period_start',
                      'period_end'] + translated_fields(model) + \
                     translated_fields(models.TemplateNode)
@@ -79,50 +79,9 @@ class SheetItemList(generics.ListAPIView):
 class SheetItemDetail(generics.RetrieveAPIView):
     """API endpoint that represents a single budget item."""
 
-    model = models.BudgetItem
+    model = models.SheetItem
     queryset = model.objects.related_map()
-    serializer_class = serializers.BudgetItemBase
-
-
-class ActualList(generics.ListAPIView):
-    """API endpoint that represents a list of actuals sheets."""
-
-    model = models.Actual
-    queryset = model.objects.related_map_min()
-    serializer_class = serializers.ActualBase
-    filter_class = filters.ActualFilter
-    ordering = ['period_start']
-    search_fields = ['entity__name', 'description', 'period_start',
-                     'period_end'] + translated_fields(model)
-
-
-class ActualDetail(generics.RetrieveAPIView):
-    """API endpoint that represents a single actuals sheet."""
-
-    model = models.Actual
-    queryset = model.objects.related_map()
-    serializer_class = serializers.ActualDetail
-
-
-class ActualItemList(generics.ListAPIView):
-    """API endpoint that represents a list of actual items"""
-
-    model = models.ActualItem
-    queryset = model.objects.related_map_min()
-    serializer_class = serializers.ActualItemBase
-    filter_class = filters.ActualItemFilter
-    search_fields = ['actual__entity__name', 'node__code', 'node__name',
-                     'node__description', 'description', 'period_start',
-                     'period_end'] + translated_fields(model) + \
-                    translated_fields(models.TemplateNode)
-
-
-class ActualItemDetail(generics.RetrieveAPIView):
-    """API endpoint that represents a single actuals item."""
-
-    model = models.ActualItem
-    queryset = model.objects.related_map()
-    serializer_class = serializers.ActualItemBase
+    serializer_class = serializers.SheetItemBase
 
 
 class TemplateNodesListLatest(generics.ListAPIView):

@@ -54,7 +54,7 @@
         <ul>
         {% for budget in object.budgets.all %}
         <li>
-            <a href="{% url 'budget_detail' budget.uuid %}">{{ budget.period }} {{ budget.total }}</a>
+            <a href="{% url 'sheet_detail' budget.uuid %}">{{ budget.period }} {{ budget.total }}</a>
         </li>
 
         {% endfor %}

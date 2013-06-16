@@ -203,7 +203,7 @@ class TemplateInheritanceTestCase(TestCase):
         # create new budget based on template_2
         entity = EntityFactory.create()
 
-        budget = models.Budget.objects.create(
+        sheet = models.Sheet.objects.create(
             entity=entity,
             template=self.template_2,
             period_start=date(2013, 1, 1),
@@ -211,33 +211,33 @@ class TemplateInheritanceTestCase(TestCase):
         )
 
         # create 2 nodes on template_2 with backward nodes
-        item_1 = models.BudgetItem.objects.create(
-            budget=budget,
+        item_1 = models.SheetItem.objects.create(
+            sheet=sheet,
             node=node_2_3,
-            amount=500
+            budget=500
         )
-        item_1_past = models.BudgetItem.objects.create(
-            budget=budget,
+        item_1_past = models.SheetItem.objects.create(
+            sheet=sheet,
             node=self.node_1_2_1,
-            amount=1500
+            budget=1500
         )
-        item_2 = models.BudgetItem.objects.create(
-            budget=budget,
+        item_2 = models.SheetItem.objects.create(
+            sheet=sheet,
             node=node_2_4,
-            amount=1000
+            budget=1000
         )
-        item_2_past = models.BudgetItem.objects.create(
-            budget=budget,
+        item_2_past = models.SheetItem.objects.create(
+            sheet=sheet,
             node=backward,
-            amount=2000
+            budget=2000
         )
 
-        items = models.BudgetItem.objects.filter(node__in=node_2_3.with_past)
+        items = models.SheetItem.objects.filter(node__in=node_2_3.with_past)
 
         self.assertIn(item_1, items)
         self.assertIn(item_1_past, items)
 
-        items = models.BudgetItem.objects.filter(node__in=node_2_4.with_past)
+        items = models.SheetItem.objects.filter(node__in=node_2_4.with_past)
 
         self.assertIn(item_2, items)
         self.assertIn(item_2_past, items)
@@ -246,8 +246,8 @@ class TemplateInheritanceTestCase(TestCase):
 class TemplateViewTestCase(TestCase):
 
     def setUp(self):
-        self.divisions = factories.DivisionFactory.create_batch(3)
-        self.template = factories.BudgetTemplateFactory.create(
+        self.divisions = DivisionFactory.create_batch(3)
+        self.template = factories.TemplateFactory.create(
             divisions=self.divisions
         )
 

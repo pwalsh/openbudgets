@@ -6,7 +6,7 @@ class TemplateFilter(FilterSet):
 
     class Meta:
         model = models.Template
-        fields = ['divisions', 'budgets', 'actuals']
+        fields = ['divisions', 'using_sheets']
 
 
 class TemplateNodeFilter(FilterSet):

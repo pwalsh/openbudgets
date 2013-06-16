@@ -24,7 +24,7 @@
                 {% trans 'Budgetary data with this tag' %}
             </h5>
             <p>
-                {% trans 'Budgets' %}: {% for item in nodetag.content_object.budget_items %}<a class="tagged-sheet" href="{% url 'budget_detail' item.budget.uuid %}">{{ item.budget.entity.name }} {{ item.budget.period }}</a> {% endfor %}
+                {% trans 'Budgets' %}: {% for item in nodetag.content_object.budget_items %}<a class="tagged-sheet" href="{% url 'sheet_detail' item.budget.uuid %}">{{ item.budget.entity.name }} {{ item.budget.period }}</a> {% endfor %}
             </p>
             <p>
                 {% trans 'Actuals' %}: {% for item in nodetag.content_object.actual_items %}<a class="tagged-sheet" href="{% url 'actual_detail' item.actual.uuid %}">{{ item.actual.entity.name }} {{ item.actual.period }}</a> {% endfor %}

@@ -343,11 +343,11 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel, ClassMethodMixin):
 
     entity = models.ForeignKey(
         Entity,
-        related_name='%(class)ss'
+        related_name='sheets'
     )
     template = models.ForeignKey(
         Template,
-        related_name='%(class)ss'
+        related_name='using_sheets'
     )
     description = models.TextField(
         _('Description'),
@@ -449,6 +449,8 @@ class SheetItem(TimeStampedModel, UUIDModel, ClassMethodMixin):
         db_index=True,
         max_digits=26,
         decimal_places=2,
+        blank=True,
+        null=True,
         help_text=_('The total budgeted amount of this entry.')
     )
     actual = models.DecimalField(
@@ -456,6 +458,8 @@ class SheetItem(TimeStampedModel, UUIDModel, ClassMethodMixin):
         db_index=True,
         max_digits=26,
         decimal_places=2,
+        blank=True,
+        null=True,
         help_text=_('The total actual amount of this entry.')
     )
     discussion = generic.GenericRelation(
