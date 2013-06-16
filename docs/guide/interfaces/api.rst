@@ -375,7 +375,7 @@ Search works over the following fields:
 * **Name** - the name fields of all divisions, including translations
 
 Domains
-~~~~~~~~~
+~~~~~~~
 
 Description
 +++++++++++
@@ -415,14 +415,123 @@ Search works over the following fields:
 Contexts
 ~~~~~~~~
 
-TBD
+Description
++++++++++++
+
+The contexts endpoints provide access to all context data.
+
+Endpoints
++++++++++
+
+* /contexts/
+* /contexts/[id]/
+
+Allowed Methods
++++++++++++++++
+
+All contexts endpoints are read only via GET.
+
+Pagination
+++++++++++
+
+* **Default:** 250
+* **Custom:** use the 'page_by' parameter, passing an integer
+
+Filters
++++++++
+
+Use the following query parameters to customize the contexts list endpoint.
+
+* **'entity'** - return all contexts of a given entity.
+
+Search
+++++++
+
+Not applicable at present.
 
 Comments
 ~~~~~~~~
 
-TBD
+Description
++++++++++++
+
+The comments endpoints provide access to all comments data.
+
+Endpoints
++++++++++
+
+* /comments/
+* /comments/[id]/
+
+Allowed Methods
++++++++++++++++
+
+Comments can be created by posting to the list endpoint.
+
+All other comments endpoints are read only via GET.
+
+Pagination
+++++++++++
+
+* **Default:** 250
+* **Custom:** use the 'page_by' parameter, passing an integer
+
+Filters
++++++++
+
+Use the following query parameters to customize the comments list endpoint.
+
+* **'model'** - return all comments on a given model. Current possible values are budget_item and actual_item
+
+Search
+++++++
+
+Search works over the following fields:
+
+* **Comment** - the comment fields of all comments.
 
 Projects
 ~~~~~~~~
 
-TBD
+Description
++++++++++++
+
+The projects endpoints provide access to all project data.
+
+Endpoints
++++++++++
+
+* /projects/
+* /projects/[id]/
+
+Allowed Methods
++++++++++++++++
+
+Projects can be created by posting to the list endpoint.
+
+Only authenticated users can create a project.
+
+Projects can be viewed, updated and deleted from the project detail endpoint.
+
+Only authenticated project owners have permission to update or delete an existing project.
+
+Pagination
+++++++++++
+
+* **Default:** 250
+* **Custom:** use the 'page_by' parameter, passing an integer
+
+Filters
++++++++
+
+Use the following query parameters to customize the comments list endpoint.
+
+* **'author'** - return all projects by a given author.
+
+Search
+++++++
+
+Search works over the following fields:
+
+* **Name** - the name fields of all templates, including translations
+* **Description** - the description fields of all templates, including translations
