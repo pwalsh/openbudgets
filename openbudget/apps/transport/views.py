@@ -36,7 +36,7 @@ class FileImportView(LoginRequiredMixin, FormView):
         )
         valid, errors = importer.validate()
         if not valid:
-            error_dicts = [e.__dict__() for e in errors]
+            error_dicts = [e.to_json() for e in errors]
             return HttpResponseBadRequest(json.dumps(error_dicts), content_type='application/json')
 
         if self.request.is_ajax():

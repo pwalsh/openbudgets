@@ -11,7 +11,7 @@ class DataInputError(object):
         self.columns = columns or ['Unknown']
         self.values = values or ['Unknown']
 
-    def __dict__(self):
+    def to_json(self):
         return {
             'row': self.row,
             'columns': self.columns,
@@ -35,7 +35,7 @@ class DataCollisionError(object):
         self.columns = columns or ['Unknown']
         self.values = values or ['Unknown']
 
-    def __dict__(self):
+    def to_json(self):
         return {
             'rows': self.rows,
             'columns': self.columns,
@@ -77,7 +77,7 @@ class MetaParsingError(object):
     def __init__(self, reason='Unknown'):
         self.reason = reason
 
-    def __dict__(self):
+    def to_json(self):
         return {
             'reason': self.reason,
             'message': self.message
@@ -97,8 +97,8 @@ class DataValidationError(DataInputError):
         super(DataValidationError, self).__init__(row=row)
         self.reasons = reasons
 
-    def __dict__(self):
-        error_dic = super(DataValidationError, self).__dict__()
+    def to_json(self):
+        error_dic = super(DataValidationError, self).to_json()
         error_dic['reasons'] = self.reasons
         return error_dic
 
