@@ -125,8 +125,19 @@
     "model": "transport.String",
     "pk": 24,
     "fields": {
-        "string": "__customcode__",
+        "string": "תכנון‬‎",
         "parent": 12,
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "transport.String",
+    "pk": 24,
+    "fields": {
+        "string": "ביצוע‎",
+        "parent": 13,
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }

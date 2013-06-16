@@ -13,6 +13,7 @@ class TemplateList(generics.ListAPIView):
     queryset = model.objects.related_map_min()
     serializer_class = serializers.TemplateBase
     filter_class = filters.TemplateFilter
+    ordering = ['period_start']
     search_fields = ['name', 'description'] + translated_fields(model)
 
 
@@ -42,18 +43,19 @@ class TemplateNodeDetail(generics.RetrieveAPIView):
     serializer_class = serializers.TemplateNodeBase
 
 
-class BudgetList(generics.ListAPIView):
+class SheetList(generics.ListAPIView):
     """API endpoint that represents a list of budget sheets."""
 
     model = models.Budget
     queryset = model.objects.related_map_min()
     serializer_class = serializers.BudgetBase
     filter_class = filters.BudgetFilter
+    ordering = ['period_start']
     search_fields = ['entity__name', 'description', 'period_start',
                      'period_end'] + translated_fields(model)
 
 
-class BudgetDetail(generics.RetrieveAPIView):
+class SheetDetail(generics.RetrieveAPIView):
     """API endpoint that represents a single budget."""
 
     model = models.Budget
@@ -61,7 +63,7 @@ class BudgetDetail(generics.RetrieveAPIView):
     serializer_class = serializers.BudgetDetail
 
 
-class BudgetItemList(generics.ListAPIView):
+class SheetItemList(generics.ListAPIView):
     """API endpoint that represents a list of budget items."""
 
     model = models.BudgetItem
@@ -74,7 +76,7 @@ class BudgetItemList(generics.ListAPIView):
                     translated_fields(models.TemplateNode)
 
 
-class BudgetItemDetail(generics.RetrieveAPIView):
+class SheetItemDetail(generics.RetrieveAPIView):
     """API endpoint that represents a single budget item."""
 
     model = models.BudgetItem
@@ -89,6 +91,7 @@ class ActualList(generics.ListAPIView):
     queryset = model.objects.related_map_min()
     serializer_class = serializers.ActualBase
     filter_class = filters.ActualFilter
+    ordering = ['period_start']
     search_fields = ['entity__name', 'description', 'period_start',
                      'period_end'] + translated_fields(model)
 

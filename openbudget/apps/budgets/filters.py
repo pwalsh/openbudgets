@@ -1,47 +1,31 @@
-from django_filters import FilterSet, NumberFilter
-from openbudget.apps.budgets.models import Template, TemplateNode, Budget,\
-    BudgetItem, Actual, ActualItem
+from django_filters import FilterSet
+from openbudget.apps.budgets import models
 
 
 class TemplateFilter(FilterSet):
 
     class Meta:
-        model = Template
+        model = models.Template
         fields = ['divisions', 'budgets', 'actuals']
 
 
 class TemplateNodeFilter(FilterSet):
 
     class Meta:
-        model = TemplateNode
+        model = models.TemplateNode
         fields = ['templates', 'direction', 'parent', 'children', 'inverse']
 
 
-class BudgetFilter(FilterSet):
+class SheetFilter(FilterSet):
 
     class Meta:
-        model = Budget
+        model = models.Sheet
         fields = ['entity', 'template']
 
 
-class BudgetItemFilter(FilterSet):
+class SheetItemFilter(FilterSet):
 
     class Meta:
-        model = BudgetItem
-        fields = ['budget', 'node', 'node__code', 'node__direction',
-                  'node__parent', 'node__children']
-
-
-class ActualFilter(FilterSet):
-
-    class Meta:
-        model = Actual
-        fields = ['entity', 'template']
-
-
-class ActualItemFilter(FilterSet):
-
-    class Meta:
-        model = ActualItem
-        fields = ['actual', 'node', 'node__code', 'node__direction',
-                  'node__parent', 'node__children']
+        model = models.SheetItem
+        fields = ['sheet', 'sheet__entity', 'node', 'node__code',
+                  'node__direction', 'node__parent', 'node__children']

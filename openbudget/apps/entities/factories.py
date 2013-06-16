@@ -17,7 +17,7 @@ class DomainFactory(factory.DjangoModelFactory):
     )
 
 
-class DomainDivisionFactory(factory.DjangoModelFactory):
+class DivisionFactory(factory.DjangoModelFactory):
 
     FACTORY_FOR = Division
 
@@ -36,7 +36,7 @@ class EntityFactory(factory.DjangoModelFactory):
 
     FACTORY_FOR = Entity
 
-    division = factory.SubFactory(DomainDivisionFactory)
+    division = factory.SubFactory(DivisionFactory)
     name = factory.Sequence(lambda n: 'Entity {0}'.format(n))
     slug = factory.Sequence(lambda n: 'entity-{0}'.format(n))
     description = factory.Sequence(lambda n: 'Entity {0} description text.'.format(n))

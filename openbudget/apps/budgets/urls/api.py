@@ -38,53 +38,27 @@ def templates():
     return urlpatterns
 
 
-def budgets():
+def sheets():
     urlpatterns = patterns('',
         url(
             r'^$',
-            api.BudgetList.as_view(),
-            name='budget-list'
+            api.SheetList.as_view(),
+            name='sheet-list'
         ),
         url(
             r'^(?P<pk>\d+)/$',
-            api.BudgetDetail.as_view(),
-            name='budget-detail'
+            api.SheetDetail.as_view(),
+            name='sheet-detail'
         ),
         url(
             r'^items/$',
-            api.BudgetItemList.as_view(),
-            name='budgetitem-list'
+            api.SheetItemList.as_view(),
+            name='sheetitem-list'
         ),
         url(
             r'^items/(?P<pk>\d+)/$',
-            api.BudgetItemDetail.as_view(),
-            name='budgetitem-detail'
-        ),
-    )
-    return urlpatterns
-
-
-def actuals():
-    urlpatterns = patterns('',
-        url(
-            r'^$',
-            api.ActualList.as_view(),
-            name='actual-list'
-        ),
-        url(
-            r'^(?P<pk>\d+)/$',
-            api.ActualDetail.as_view(),
-            name='actual-detail'
-        ),
-        url(
-            r'^items/$',
-            api.ActualItemList.as_view(),
-            name='actualitem-list'
-        ),
-        url(
-            r'^items/(?P<pk>\d+)/$',
-            api.ActualItemDetail.as_view(),
-            name='actualitem-detail'
+            api.SheetItemDetail.as_view(),
+            name='sheetitem-detail'
         ),
     )
     return urlpatterns

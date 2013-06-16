@@ -31,46 +31,6 @@ class TemplateNodeMin(TemplateNodeBase):
         fields = TemplateNodeBase.Meta.fields.remove('templates')
 
 
-class BudgetBase(serializers.HyperlinkedModelSerializer):
-    """The default serialized representation of budgets."""
-
-    period = serializers.Field(source='period')
-
-    class Meta:
-        model = models.Budget
-        fields = ['id', 'url', 'entity', 'description', 'period',
-                  'created_on', 'last_modified'] + translated_fields(model)
-
-
-class BudgetItemBase(serializers.HyperlinkedModelSerializer):
-    """The default serialized representation of budget items."""
-
-    class Meta:
-        model = models.BudgetItem
-        fields = ['id', 'url', 'node', 'amount', 'description', 'created_on',
-                  'last_modified'] + translated_fields(model)
-
-
-class ActualBase(serializers.HyperlinkedModelSerializer):
-    """The default serialized representation of budgets."""
-
-    period = serializers.Field(source='period')
-
-    class Meta:
-        model = models.Actual
-        fields = ['id', 'url', 'entity', 'description', 'period', 'created_on',
-                  'last_modified'] + translated_fields(model)
-
-
-class ActualItemBase(serializers.HyperlinkedModelSerializer):
-    """The default serialized representation of actuals items."""
-
-    class Meta:
-        model = models.ActualItem
-        fields = ['id', 'url', 'node', 'amount', 'description', 'created_on',
-                  'last_modified'] + translated_fields(model)
-
-
 class TemplateDetail(TemplateBase):
     """A detailed, related representation of templates."""
 
@@ -80,37 +40,40 @@ class TemplateDetail(TemplateBase):
         fields = TemplateBase.Meta.fields + ['nodes']
 
 
-class BudgetDetail(BudgetBase):
-    """A detailed, related representation of budgets."""
+class SheetBase(serializers.HyperlinkedModelSerializer):
+    """The default serialized representation of sheets."""
+
+    period = serializers.Field(source='period')
+
+    class Meta:
+        model = models.Sheet
+        fields = ['id', 'url', 'template', 'entity', 'description', 'period',
+                  'created_on', 'last_modified'] + translated_fields(model)
+
+
+class SheetItemBase(serializers.HyperlinkedModelSerializer):
+    """The default serialized representation of sheet items."""
+
+    class Meta:
+        model = models.SheetItem
+        fields = ['id', 'url', 'node', 'budget', 'actual', 'description', 'created_on',
+                  'last_modified'] + translated_fields(model)
+
+
+
+class BudgetDetail(SheetBase):
+    """A detailed, related representation of sheets."""
 
     #entity = EntityBase()
     #total = serializers.DecimalField(source='total')
-    items = BudgetItemBase()
+    items = SheetItemBase()
 
-    class Meta(BudgetBase.Meta):
-        fields = BudgetBase.Meta.fields + ['items']
-
-
-class BudgetItemDetail(BudgetBase):
-    """A detailed, related representation of budget items."""
-
-    class Meta(BudgetItemBase.Meta):
-        fields = BudgetItemBase.Meta.fields + ['discussion']
+    class Meta(SheetBase.Meta):
+        fields = SheetBase.Meta.fields + ['items']
 
 
-class ActualDetail(BudgetBase):
-    """A detailed, related representation of actuals."""
+class SheetItemDetail(SheetItemBase):
+    """A detailed, related representation of sheet items."""
 
-    #entity = EntityBase
-    #total = serializers.DecimalField(source='total')
-    #items = ActualItemBase()
-
-    class Meta(ActualBase.Meta):
-        fields = ActualBase.Meta.fields + ['items']
-
-
-class ActualItemDetail(BudgetBase):
-    """A detailed, related representation of actuals items."""
-
-    class Meta(ActualItemBase.Meta):
-        fields = ActualItemBase.Meta.fields + ['discussion']
+    class Meta(SheetItemBase.Meta):
+        fields = SheetItemBase.Meta.fields + ['discussion']
