@@ -13,7 +13,7 @@ class TemplateList(generics.ListAPIView):
     queryset = model.objects.related_map_min()
     serializer_class = serializers.TemplateBase
     filter_class = filters.TemplateFilter
-    search_fields = ['uuid', 'name', 'description'] + translated_fields(model)
+    search_fields = ['name', 'description'] + translated_fields(model)
 
 
 class TemplateDetail(generics.RetrieveAPIView):
@@ -48,6 +48,7 @@ class BudgetList(generics.ListAPIView):
     model = models.Budget
     queryset = model.objects.related_map_min()
     serializer_class = serializers.BudgetBase
+    filter_class = filters.BudgetFilter
     search_fields = ['entity__name', 'description', 'period_start',
                      'period_end'] + translated_fields(model)
 
@@ -66,6 +67,7 @@ class BudgetItemList(generics.ListAPIView):
     model = models.BudgetItem
     queryset = model.objects.related_map_min()
     serializer_class = serializers.BudgetItemBase
+    filter_class = filters.BudgetItemFilter
     search_fields = ['budget__entity__name', 'node__code', 'node__name',
                      'node__description', 'description', 'period_start',
                      'period_end'] + translated_fields(model) + \
@@ -84,8 +86,9 @@ class ActualList(generics.ListAPIView):
     """API endpoint that represents a list of actuals sheets."""
 
     model = models.Actual
-    #queryset = model.objects.related_map_min()
+    queryset = model.objects.related_map_min()
     serializer_class = serializers.ActualBase
+    filter_class = filters.ActualFilter
     search_fields = ['entity__name', 'description', 'period_start',
                      'period_end'] + translated_fields(model)
 
@@ -104,6 +107,7 @@ class ActualItemList(generics.ListAPIView):
     model = models.ActualItem
     queryset = model.objects.related_map_min()
     serializer_class = serializers.ActualItemBase
+    filter_class = filters.ActualItemFilter
     search_fields = ['actual__entity__name', 'node__code', 'node__name',
                      'node__description', 'description', 'period_start',
                      'period_end'] + translated_fields(model) + \

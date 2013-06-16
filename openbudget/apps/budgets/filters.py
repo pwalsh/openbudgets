@@ -1,4 +1,4 @@
-from django_filters import FilterSet
+from django_filters import FilterSet, NumberFilter
 from openbudget.apps.budgets.models import Template, TemplateNode, Budget,\
     BudgetItem, Actual, ActualItem
 

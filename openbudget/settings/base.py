@@ -237,6 +237,7 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
         'rest_framework.filters.DjangoFilterBackend',
         'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
     ),
     'PAGINATE_BY': 250,
     'PAGINATE_BY_PARAM': 'page_by'
