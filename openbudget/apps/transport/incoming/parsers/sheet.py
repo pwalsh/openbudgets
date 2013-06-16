@@ -100,17 +100,14 @@ class SheetParser(TemplateParser):
         self.objects_lookup = resolved
 
     def _rows_filter(self, obj, row_num=None):
-        field = None
-        if 'budget' in obj:
-            field = 'budget'
-        elif 'actual' in obj:
-            field = 'actual'
-
-        if field:
+        try:
+            float(obj['budget'])
+            return True
+        except (KeyError, ValueError, TypeError):
             try:
-                float(obj[field])
+                float(obj['actual'])
                 return True
-            except (ValueError, TypeError):
+            except (KeyError, ValueError, TypeError):
                 pass
 
         return False
