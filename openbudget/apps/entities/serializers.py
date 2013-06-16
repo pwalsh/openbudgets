@@ -10,8 +10,8 @@ class EntityBase(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Entity
         fields = ['id', 'url', 'name', 'description', 'code', 'parent',
-                  'division', 'budgets', 'actuals', 'created_on',
-                  'last_modified'] + translated_fields(model)
+                  'division', 'sheets', 'created_on', 'last_modified']\
+                 + translated_fields(model)
 
 
 class DivisionBase(serializers.HyperlinkedModelSerializer):

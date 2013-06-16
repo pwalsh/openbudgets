@@ -143,8 +143,7 @@ class EntityManager(models.Manager):
         return self.select_related()
 
     def related_map(self):
-        return self.select_related().prefetch_related('budgets', 'actuals',
-                                                      'parent')
+        return self.select_related().prefetch_related('sheets', 'parent')
 
 
 class Entity(TimeStampedModel, ClassMethodMixin):
