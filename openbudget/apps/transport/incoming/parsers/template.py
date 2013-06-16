@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from django.utils.translation import ugettext_lazy as _, gettext as __
 from openbudget.apps.budgets.models import Template, TemplateNode, TemplateNodeRelation
 from openbudget.apps.entities.models import Division
+from openbudget.apps.international.utilities import translated_fields
 from openbudget.apps.transport.incoming.parsers import BaseParser, register, ParsingError
 from openbudget.apps.transport.incoming.resolvers import PathResolver
 from openbudget.apps.transport.incoming.errors import DataSyntaxError, ParentScopeError,\
@@ -20,7 +21,8 @@ class TemplateParser(BaseParser):
 
     container_model = Template
     item_model = TemplateNode
-    ITEM_ATTRIBUTES = ('name', 'code', 'parent', 'path', 'templates', 'direction', 'description')
+    ITEM_ATTRIBUTES = ['name', 'code', 'parent', 'path', 'templates', 'direction', 'description']\
+        + translated_fields(TemplateNode)
 
     def __init__(self, container_object_dict, extends=None, fill_in_parents=None, interpolate=None):
         super(TemplateParser, self).__init__(container_object_dict)
