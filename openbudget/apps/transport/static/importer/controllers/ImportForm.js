@@ -7,17 +7,10 @@ define([
             return [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-');
         },
         processDivisions    : function (data) {
-            //! Array.prototype.filter
-            data.results = data.results.filter(function (item, i) {
-                return item.budgeting;
-            });
+            return data.results;
         },
         processEntities     : function (data) {
-            //! Array.prototype.filter
-            data.results = data.results.filter(function (item, i) {
-                //return item.division.budgeting;
-                return true;
-            });
+            return data.results;
         },
         formExtConfigByType : function (type) {
             var config = {
@@ -47,11 +40,9 @@ define([
                         },
                         process_data: this.processDivisions
                     };
-                    config.data_url = Importer.BASE_API_URL + 'entities/divisions/';
+                    config.data_url = Importer.BASE_API_URL + 'divisions/?budgeting=True';
                     break;
-                case 'actual':
-                    config.template_name = 'budget-form';
-                case 'budget':
+                case 'sheet':
                     config.partials = {
                         entities: 'entities'
                     };
@@ -86,7 +77,7 @@ define([
                             .then( this.wakeContained.bind(this) );
                         }
                     };
-                    config.data_url = Importer.BASE_API_URL + 'entities/entities/';
+                    config.data_url = Importer.BASE_API_URL + 'entities/?division__budgeting=True';
                     break;
             }
 

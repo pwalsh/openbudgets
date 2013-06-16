@@ -20,13 +20,15 @@ define([
                                     ';period_start=' + data.period_start +
                                     ';divisions=' + uijet.Utils.toArray(data.divisions).join(',');
                     break;
-                case 'budget':
-                case 'actual':
+                case 'sheet':
                     attributes += 'period_start=' + data.period_start +
                                   ';period_end=' + data.period_end +
                                   ';entity=' + data.entity;
                     break;
             }
+
+            if ( ! attributes )
+                throw new Error('Source type not selected.');
 
             form_data.append('sourcefile', data.file);
             form_data.append('type', data.type);
