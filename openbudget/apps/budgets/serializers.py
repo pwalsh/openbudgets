@@ -85,7 +85,7 @@ class BudgetDetail(BudgetBase):
 
     #entity = EntityBase()
     #total = serializers.DecimalField(source='total')
-    #items = BudgetItemBase()
+    items = BudgetItemBase()
 
     class Meta(BudgetBase.Meta):
         fields = BudgetBase.Meta.fields + ['items']

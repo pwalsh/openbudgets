@@ -193,6 +193,13 @@ Use the following query parameters to customize the budget list endpoint.
 * **'entity'** - return all budgets that belong to the given entity.
 * **'template'** - return all budgets that use a given template.
 
+Ordering
+++++++++
+
+Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
+
+* **period**
+
 Search
 ++++++
 
