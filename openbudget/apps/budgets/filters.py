@@ -28,7 +28,7 @@ class BudgetItemFilter(FilterSet):
 
     class Meta:
         model = BudgetItem
-        fields = ['budget', 'node', 'node__code', 'node__direction',
+        fields = ['budget', 'budget__entity', 'node', 'node__code', 'node__direction',
                   'node__parent', 'node__children']
 
 
