@@ -47,7 +47,10 @@
     </div>
     <script>
         //var API_URL = 'http://api.open-budget.prjts.com/',
-        var API_URL = 'http://api.obudget.dev:8000/',
+        var location = window.location,
+            API_INDEX = location.protocol + '//api.' + location.host,
+            API_VERSION = '/v1/',
+            API_URL = API_INDEX + API_VERSION,
             AUTH_URL = API_URL + 'auth/access_token/';
     </script>
     <script src="/static/lib/require.js" data-main="/static/projects/explorer/main"></script>
