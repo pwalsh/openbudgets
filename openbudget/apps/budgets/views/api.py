@@ -13,6 +13,7 @@ class TemplateList(generics.ListAPIView):
     queryset = model.objects.related_map_min()
     serializer_class = serializers.TemplateBase
     filter_class = filters.TemplateFilter
+    ordering = ['period_start']
     search_fields = ['name', 'description'] + translated_fields(model)
 
 
@@ -49,6 +50,7 @@ class BudgetList(generics.ListAPIView):
     queryset = model.objects.related_map_min()
     serializer_class = serializers.BudgetBase
     filter_class = filters.BudgetFilter
+    ordering = ['period_start']
     search_fields = ['entity__name', 'description', 'period_start',
                      'period_end'] + translated_fields(model)
 
@@ -89,6 +91,7 @@ class ActualList(generics.ListAPIView):
     queryset = model.objects.related_map_min()
     serializer_class = serializers.ActualBase
     filter_class = filters.ActualFilter
+    ordering = ['period_start']
     search_fields = ['entity__name', 'description', 'period_start',
                      'period_end'] + translated_fields(model)
 

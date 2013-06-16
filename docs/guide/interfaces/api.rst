@@ -198,7 +198,7 @@ Ordering
 
 Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
 
-* **period**
+* **period_start**
 
 Search
 ++++++
@@ -245,6 +245,13 @@ Use the following query parameters to customize the actuals list endpoint.
 * **'entity'** - return all budgets that belong to the given entity.
 * **'template'** - return all budgets that use a given template.
 
+Ordering
+++++++++
+
+Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
+
+* **period_start**
+
 Search
 ++++++
 
@@ -290,6 +297,13 @@ Use the following query parameters to customize the template list endpoint.
 * **'divisions'** - return all budgets that belong to the given entity.
 * **'budgets'** - return the template used by a given budget.
 * **'actuals'** - return the template used by a given actual.
+
+Ordering
+++++++++
+
+Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
+
+* **period_start**
 
 Search
 ++++++
