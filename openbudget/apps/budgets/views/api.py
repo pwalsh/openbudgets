@@ -13,7 +13,7 @@ class TemplateList(generics.ListAPIView):
     queryset = model.objects.related_map_min()
     serializer_class = serializers.TemplateBase
     filter_class = filters.TemplateFilter
-    search_fields = ['uuid', 'name', 'description'] + translated_fields(model)
+    search_fields = ['name', 'description'] + translated_fields(model)
 
 
 class TemplateDetail(generics.RetrieveAPIView):
