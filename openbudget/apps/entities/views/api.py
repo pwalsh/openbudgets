@@ -45,11 +45,17 @@ class EntityList(generics.ListAPIView):
     """Called via an API endpoint that represents a list of entities."""
 
     model = models.Entity
-    queryset = model.objects.related_map()
+    #queryset = model.objects.related_map()
     serializer_class = serializers.EntityBase
     filter_class = filters.EntityFilter
     search_fields = ['name', 'description'] + translated_fields(model)
 
+    def get_queryset(self):
+        queryset = self.model.objects.related_map()
+        budgeting = self.request.QUERY_PARAMS.get('budgeting', None)
+        if budgeting:
+            queryset = queryset.filter(division__budgeting=budgeting)
+        return queryset
 
 class EntityDetail(generics.RetrieveAPIView):
     """Called via an API endpoint that represents a single entity."""
