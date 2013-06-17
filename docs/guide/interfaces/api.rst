@@ -158,26 +158,26 @@ API_ROUTES.budgets # all budgets
 API Resources
 -------------
 
-Budgets
-~~~~~~~
+Sheets
+~~~~~~
 
 Description
 +++++++++++
 
-The budgets endpoints provide access to all budget data.
+The sheets endpoints provide access to all sheet data.
 
 Endpoints
 +++++++++
 
-* /budgets/
-* /budgets/[id]/
-* /budgets/items/
-* /budgets/items/[id]/
+* /sheets/
+* /sheets/[id]/
+* /sheets/items/
+* /sheets/items/[id]/
 
 Allowed Methods
 +++++++++++++++
 
-All budgets endpoints are read only via GET.
+All sheets endpoints are read only via GET.
 
 Pagination
 ++++++++++
@@ -188,7 +188,7 @@ Pagination
 Filters
 +++++++
 
-Use the following query parameters to customize the budget list endpoint.
+Use the following query parameters to customize the sheet list endpoint.
 
 * **'entity'** - return all budgets that belong to the given entity.
 * **'template'** - return all budgets that use a given template.
@@ -199,67 +199,17 @@ Ordering
 Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
 
 * **period_start**
+* **created_on**
+* **last_modified**
 
 Search
 ++++++
 
-Use the search query parameter on the budget list endpoint to search for free text search over budgets. Search works over the following fields:
+Use the search query parameter on the sheet list endpoint to search for free text search over sheets. Search works over the following fields:
 
 * **Period** - the period_start and period_end fields of all budgets
 * **Description** - the description fields of all budgets, including translations
 * **Entity name** - the name of the entity of this budget, including translations
-
-
-Actuals
-~~~~~~~
-
-Description
-+++++++++++
-
-The budgets endpoints provide access to all budget data.
-
-Endpoints
-+++++++++
-
-* /actuals/
-* /actuals/[id]/
-* /actuals/items/
-* /actuals/items/[id]/
-
-Allowed Methods
-+++++++++++++++
-
-All actuals endpoints are read only via GET.
-
-Pagination
-++++++++++
-
-* **Default:** 250
-* **Custom:** use the 'page_by' parameter, passing an integer
-
-Filters
-+++++++
-
-Use the following query parameters to customize the actuals list endpoint.
-
-* **'entity'** - return all budgets that belong to the given entity.
-* **'template'** - return all budgets that use a given template.
-
-Ordering
-++++++++
-
-Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
-
-* **period_start**
-
-Search
-++++++
-
-Search works over the following fields:
-
-* **Period** - the period_start and period_end fields of all actuals
-* **Description** - the description fields of all actuals, including translations
-* **Entity name** - the name of the entity of this actuals, including translations
 
 
 Templates
@@ -304,6 +254,8 @@ Ordering
 Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
 
 * **period_start**
+* **created_on**
+* **last_modified**
 
 Search
 ++++++
@@ -347,6 +299,15 @@ Use the following query parameters to customize the entity list endpoint.
 * **'division__budgeting'** - return all entities that are potentially budgeting.
 * **'parent'** - return all children entities of the given parent.
 
+Ordering
+++++++++
+
+Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
+
+* **name**
+* **created_on**
+* **last_modified**
+
 Search
 ++++++
 
@@ -388,6 +349,15 @@ Use the following query parameters to customize the division list endpoint.
 * **'budgeting'** - return all divisions that are budgeting divisions.
 * **'index'** - return all divisions of the given index.
 
+Ordering
+++++++++
+
+Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
+
+* **name**
+* **created_on**
+* **last_modified**
+
 Search
 ++++++
 
@@ -424,6 +394,15 @@ Filters
 +++++++
 
 Not applicable at present.
+
+Ordering
+++++++++
+
+Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
+
+* **name**
+* **created_on**
+* **last_modified**
 
 Search
 ++++++
@@ -465,6 +444,14 @@ Use the following query parameters to customize the contexts list endpoint.
 
 * **'entity'** - return all contexts of a given entity.
 
+Ordering
+++++++++
+
+Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
+
+* **created_on**
+* **last_modified**
+
 Search
 ++++++
 
@@ -503,6 +490,15 @@ Filters
 Use the following query parameters to customize the comments list endpoint.
 
 * **'model'** - return all comments on a given model. Current possible values are budget_item and actual_item
+
+Ordering
+++++++++
+
+Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
+
+* **model**
+* **created_on**
+* **last_modified**
 
 Search
 ++++++
