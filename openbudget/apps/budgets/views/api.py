@@ -13,7 +13,7 @@ class TemplateList(generics.ListAPIView):
     queryset = model.objects.related_map_min()
     serializer_class = serializers.TemplateBase
     filter_class = filters.TemplateFilter
-    ordering = ['period_start']
+    ordering = ['name', 'period_start', 'created_on', 'last_modified']
     search_fields = ['name', 'description'] + translated_fields(model)
 
 
@@ -32,6 +32,7 @@ class TemplateNodeList(generics.ListAPIView):
     queryset = model.objects.related_map_min()
     serializer_class = serializers.TemplateNodeMin
     filter_class = filters.TemplateNodeFilter
+    ordering = ['name', 'period_start', 'created_on', 'last_modified']
     search_fields = ['name', 'description'] + translated_fields(model)
 
 
@@ -50,7 +51,7 @@ class SheetList(generics.ListAPIView):
     queryset = model.objects.related_map_min()
     serializer_class = serializers.SheetBase
     filter_class = filters.SheetFilter
-    ordering = ['period_start']
+    ordering = ['entity__name', 'period_start', 'created_on', 'last_modified']
     search_fields = ['entity__name', 'description', 'period_start',
                      'period_end'] + translated_fields(model)
 
@@ -70,6 +71,7 @@ class SheetItemList(generics.ListAPIView):
     queryset = model.objects.related_map_min()
     serializer_class = serializers.SheetItemBase
     filter_class = filters.SheetItemFilter
+    ordering = ['sheet__entity__name', 'name', 'node__code', 'created_on', 'last_modified']
     search_fields = ['sheet__entity__name', 'node__code', 'node__name',
                      'node__description', 'description', 'period_start',
                      'period_end'] + translated_fields(model) + \
