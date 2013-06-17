@@ -26,8 +26,10 @@ class TemplateManager(models.Manager):
         return self.select_related().prefetch_related('divisions', 'nodes')
 
     def latest_of(self, entity):
-        return self.filter(sheets__entity=entity).latest('period_start')
+        return self.filter(using_sheets__entity=entity).latest('period_start')
 
+    #def sheets_of(self, entity):
+    #    return self.filter(using_sheets__entity=entity)
 
 class Template(TimeStampedModel, UUIDModel, PeriodStartModel, ClassMethodMixin):
     """Templates describe the structure of a Budget or an Actual."""

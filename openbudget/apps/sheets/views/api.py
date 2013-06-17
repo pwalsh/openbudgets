@@ -29,11 +29,22 @@ class TemplateNodeList(generics.ListAPIView):
     """API endpoint that represents a list of template nodes."""
 
     model = models.TemplateNode
-    queryset = model.objects.related_map_min()
-    serializer_class = serializers.TemplateNodeMin
-    filter_class = filters.TemplateNodeFilter
+    #queryset = model.objects.related_map_min()
+    serializer_class = serializers.TemplateNodeBase
+    #filter_class = filters.TemplateNodeFilter
     ordering = ['name', 'created_on', 'last_modified']
     search_fields = ['name', 'description'] + translated_fields(model)
+
+    def get_queryset(self):
+        #queryset = self.model.objects.all()
+        entity = self.request.QUERY_PARAMS.get('entity', None)
+        latest = self.request.QUERY_PARAMS.get('latest', None)
+        if entity is not None:
+            if latest:
+                queryset = models.Template.objects.latest_of(entity=entity).nodes
+            else:
+                pass
+        return queryset
 
 
 class TemplateNodeDetail(generics.RetrieveAPIView):

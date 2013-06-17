@@ -84,8 +84,8 @@ https://django-oauth-toolkit.readthedocs.org/en/latest/index.html
 https://groups.google.com/forum/?fromgroups#!forum/django-oauth-toolkit
 
 
-Endpoints
----------
+API Endpoints
+-------------
 
 All endpoints are relative to the API subdomain of the instance domain.
 
@@ -95,23 +95,9 @@ For example, if an Open Budget instance is installed on openmuni.org.il:
 * API version: https://api.openmuni.org.il/v1/
 * API endpoint: https://api.openmuni.org.il/v1/budgets/
 
-RESTful
--------
 
-The API sticks to a RESTful architecture.
-
-Output
-------
-
-The API returns all data as JSON.
-
-HTTPS
------
-
-The API works over HTTPS only, except in development environments.
-
-Writing a Client
-----------------
+Writing an API Client
+---------------------
 
 When writing an API client, is is best to use as little hard coded endpoints to the Open Budget API as possible. This will make it easier for you to update your client to support changes and new versions of the API.
 
@@ -155,43 +141,73 @@ API_ROUTES.entities # all entities
 API_ROUTES.budgets # all budgets
 
 
-API Resources
+Using the API
 -------------
 
+The web API sticks to a RESTful architecture, and returns all data in JSON format. The API is served over HTTPS only - make sure your client code is compatible with this.
+
+Defaults
+~~~~~~~~
+
+Pagination
+++++++++++
+
+By default, each list view returns up to 250 resources per page. This can be overridden with the **page_by** parameter (see below).
+
+Filtering, Searching, Ordering, and Paging
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+All API endpoints that return **lists** of resources can be **filtered**, **ordered**, and **paginated**.
+
+Under each resource description below, you'll find the available parameters, per resource.
+
+Essentially, the common syntax is:
+
+* **?[FILTERABLE_FIELD]**: any field that is exposed to filter the query against, where the value is the relevant value type for that field [e.g.: ?entity=264]
+* **?search**: value is a string to search against the available search fields for the model [e.g.: ?search=health]
+* **?ordering**: value is a single or comma separated list of ordering fields for the model [e.g.: ?ordering=email]
+* **?page_by**: where the value is an integer for the amount of resources to return per page [e.g.: ?page_by=500]
+
+Resources
+~~~~~~~~~
+
 Sheets
-~~~~~~
+++++++
 
-Description
-+++++++++++
+The sheets endpoints provide access to all budget/actual sheet data. There are endpoints to navigate via sheet objects, and to navigate via sheet item objects. The appropriate strategy will depend on what you are trying to achieve.
 
-The sheets endpoints provide access to all sheet data.
+**Methods**
 
-Endpoints
-+++++++++
+All sheets endpoints are read-only, via GET.
+
+**Endpoints**
 
 * /sheets/
 * /sheets/[id]/
 * /sheets/items/
 * /sheets/items/[id]/
 
-Allowed Methods
-+++++++++++++++
-
-All sheets endpoints are read only via GET.
-
-Pagination
-++++++++++
-
-* **Default:** 250
-* **Custom:** use the 'page_by' parameter, passing an integer
-
-Filters
-+++++++
+**Filter**
 
 Use the following query parameters to customize the sheet list endpoint.
 
 * **'entity'** - return all budgets that belong to the given entity.
 * **'template'** - return all budgets that use a given template.
+
+**Search**
+
+Use the search query parameter on the sheet list endpoint to search for free text search over sheets. Search works over the following fields:
+
+* **Period** - the period_start and period_end fields of all budgets
+* **Description** - the description fields of all budgets, including translations
+* **Entity name** - the name of the entity of this budget, including translations
+
+**Pagination**
+
+* Default: 250
+* Custom: Pass an integer to the **page_by** parameter
+
+
 
 Ordering
 ++++++++
@@ -202,14 +218,7 @@ Use the following values to the 'ordering' parameter, to sort results by the mat
 * **created_on**
 * **last_modified**
 
-Search
-++++++
 
-Use the search query parameter on the sheet list endpoint to search for free text search over sheets. Search works over the following fields:
-
-* **Period** - the period_start and period_end fields of all budgets
-* **Description** - the description fields of all budgets, including translations
-* **Entity name** - the name of the entity of this budget, including translations
 
 
 Templates
