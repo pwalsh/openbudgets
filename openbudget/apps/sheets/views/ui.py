@@ -3,34 +3,34 @@ from django.http import Http404
 from django.views.generic import DetailView, ListView
 from django.utils.translation import ugettext as _
 from django.shortcuts import render
-from openbudget.apps.budgets import models
+from openbudget.apps.sheets import models
 from openbudget.apps.entities.models import Entity
 from openbudget.settings import base as settings
 
 
 def budget_browser(request):
-    return render(request, 'budgets/browser.html')
+    return render(request, 'sheets/browser.html')
 
 
 class TemplateList(ListView):
     model = models.Template
-    template_name = 'budgets/template_list.html'
+    template_name = 'sheets/template_list.html'
 
 
 class TemplateDetail(DetailView):
     model = models.Template
-    template_name = 'budgets/template_detail.html'
+    template_name = 'sheets/template_detail.html'
     slug_field = 'uuid'
 
 
 class SheetList(ListView):
     model = models.Sheet
-    template_name = 'budgets/sheet_list.html'
+    template_name = 'sheets/sheet_list.html'
 
 
 class SheetDetail(DetailView):
     model = models.Sheet
-    template_name = 'budgets/sheet_detail.html'
+    template_name = 'sheets/sheet_detail.html'
     slug_field = 'uuid'
 
     def get_object(self, queryset=None):
@@ -53,5 +53,5 @@ class SheetDetail(DetailView):
 
 class SheetItemDetail(DetailView):
     model = models.SheetItem
-    template_name = 'budgets/sheet_item_detail.html'
+    template_name = 'sheets/sheet_item_detail.html'
     slug_field = 'uuid'

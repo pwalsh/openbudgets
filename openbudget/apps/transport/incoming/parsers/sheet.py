@@ -1,6 +1,6 @@
 from copy import deepcopy
 from django.utils.translation import gettext as __
-from openbudget.apps.budgets.models import Template, Sheet, SheetItem
+from openbudget.apps.sheets.models import Template, Sheet, SheetItem
 from openbudget.apps.entities.models import Entity
 from openbudget.apps.international.utilities import translated_fields
 from openbudget.apps.transport.incoming.parsers import register, ParsingError

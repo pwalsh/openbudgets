@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 from django.core.mail import EmailMessage
 from openbudget.settings.base import TEMP_FILES_DIR, ADMINS, EMAIL_HOST_USER
+from openbudget.apps.international.utilities import translated_fields
 from openbudget.apps.transport.models import String
 from openbudget.apps.transport.incoming.parsers import get_parser, get_parser_key
 
@@ -13,9 +14,8 @@ class BaseImporter(object):
 
     This class can handle any of the supported datasets for importing.
 
-    At this stage, that means Budget Templates (template and related
-    node objects), and Budgets/Actuals (Budget or Actual, and related
-    items).
+    At this stage, that means Templates (template and related
+    node objects), and Sheets (+ related items).
 
     The importer supports a lower level import by parsing the
     file name for meta data - useful while testing, so developers do
@@ -121,7 +121,9 @@ class BaseImporter(object):
 
         """
         symbols = {
-            ord('_'): None,
+            # we are now allowing the "_" symbol for translation fields
+            # and cases of valid field names such as "map_url"
+            # ord('_'): None,
             ord('-'): None,
             ord('"'): None,
             ord(' '): None,
@@ -133,11 +135,15 @@ class BaseImporter(object):
         for index, header in enumerate(headers):
 
             tmp = unicode(header).translate(symbols).lower()
+            print tmp
 
             for k, v in scopes_map.iteritems():
 
                 if tmp == k or tmp in v:
                     normalized_headers[index] = k
+
+                if tmp in translated_fields(self.parser.item_model):
+                    normalized_headers[index] = tmp
 
         return normalized_headers
 

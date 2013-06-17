@@ -1,5 +1,5 @@
 from modeltranslation.translator import translator, TranslationOptions
-from openbudget.apps.budgets import models
+from openbudget.apps.sheets import models
 
 
 class SheetTransOps(TranslationOptions):

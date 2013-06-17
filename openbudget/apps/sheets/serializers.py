@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from openbudget.apps.international.utilities import translated_fields
-from openbudget.apps.budgets import models
+from openbudget.apps.sheets import models
 
 
 class TemplateBase(serializers.HyperlinkedModelSerializer):

@@ -1,7 +1,7 @@
 [
 
 {
-    "model": "budgets.Template",
+    "model": "sheets.Template",
     "pk": 1,
     "fields": {
         "uuid": "6cd238ac63974392834ad62699c1cf14",
@@ -15,7 +15,7 @@
 },
 
 {
-    "model": "budgets.TemplateNode",
+    "model": "sheets.TemplateNode",
     "pk": 1,
     "fields": {
         "uuid": "208413189e1c4312b024cfac4081cb34",
@@ -29,7 +29,7 @@
 },
 
 {
-    "model": "budgets.TemplateNodeRelation",
+    "model": "sheets.TemplateNodeRelation",
     "pk": 1,
     "fields": {
         "template": 1,
@@ -38,7 +38,7 @@
 },
 
 {
-    "model": "budgets.TemplateNode",
+    "model": "sheets.TemplateNode",
     "pk": 2,
     "fields": {
         "uuid": "a0936a00b7f3494087f674ca7d7028c0",
@@ -53,7 +53,7 @@
 },
 
 {
-    "model": "budgets.TemplateNodeRelation",
+    "model": "sheets.TemplateNodeRelation",
     "pk": 2,
     "fields": {
         "template": 1,
@@ -62,7 +62,7 @@
 },
 
 {
-    "model": "budgets.TemplateNode",
+    "model": "sheets.TemplateNode",
     "pk": 3,
     "fields": {
         "uuid": "6cd238ac63974392834ad62699c1cf14",
@@ -77,7 +77,7 @@
 },
 
 {
-    "model": "budgets.TemplateNodeRelation",
+    "model": "sheets.TemplateNodeRelation",
     "pk": 3,
     "fields": {
         "template": 1,
@@ -86,7 +86,7 @@
 },
 
 {
-    "model": "budgets.TemplateNode",
+    "model": "sheets.TemplateNode",
     "pk": 4,
     "fields": {
         "uuid": "19685c0d4ebe43e3acee6dd163cb1832",
@@ -102,7 +102,7 @@
 },
 
 {
-    "model": "budgets.TemplateNodeRelation",
+    "model": "sheets.TemplateNodeRelation",
     "pk": 4,
     "fields": {
         "template": 1,
@@ -111,7 +111,7 @@
 },
 
 {
-    "model": "budgets.TemplateNode",
+    "model": "sheets.TemplateNode",
     "pk": 5,
     "fields": {
         "uuid": "e044ad0fd7d041fd88c7a6816ee5520e",
@@ -126,7 +126,7 @@
 },
 
 {
-    "model": "budgets.TemplateNodeRelation",
+    "model": "sheets.TemplateNodeRelation",
     "pk": 5,
     "fields": {
         "template": 1,
@@ -135,7 +135,7 @@
 },
 
 {
-    "model": "budgets.TemplateNode",
+    "model": "sheets.TemplateNode",
     "pk": 6,
     "fields": {
         "uuid": "4e60a01f118b4798a7f4934972ddabe6",
@@ -151,7 +151,7 @@
 },
 
 {
-    "model": "budgets.TemplateNodeRelation",
+    "model": "sheets.TemplateNodeRelation",
     "pk": 6,
     "fields": {
         "template": 1,

@@ -109,7 +109,7 @@ INSTALLED_APPS = (
     'modeltranslation',
     'taggit',
     'openbudget.apps.accounts',
-    'openbudget.apps.budgets',
+    'openbudget.apps.sheets',
     'openbudget.apps.contexts',
     'openbudget.apps.entities',
     'openbudget.apps.interactions',

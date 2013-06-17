@@ -2,7 +2,7 @@ import datetime
 import factory
 from django.utils.timezone import utc
 from openbudget.apps.accounts.factories import AccountFactory
-from openbudget.apps.budgets.factories import TemplateFactory, TemplateNodeFactory
+from openbudget.apps.sheets.factories import TemplateFactory, TemplateNodeFactory
 from openbudget.apps.taxonomies.models import Taxonomy, Tag, TaggedNode
 
 

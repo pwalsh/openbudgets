@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from openbudget.apps.entities.urls.api import entities, divisions, domains
-from openbudget.apps.budgets.urls.api import templates, sheets
+from openbudget.apps.sheets.urls.api import templates, sheets
 
 
 urlpatterns = patterns('openbudget.api.v1.views',

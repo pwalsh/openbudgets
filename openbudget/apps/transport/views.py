@@ -9,7 +9,7 @@ from openbudget.apps.transport.forms import FileImportForm
 from openbudget.apps.transport.incoming.importers.tablibimporter import TablibImporter
 from openbudget.apps.transport.tasks import save_import
 from openbudget.commons.mixins.views import FileResponseMixin
-from openbudget.apps.budgets.models import Sheet, SheetItem
+from openbudget.apps.sheets.models import Sheet, SheetItem
 
 
 class FileImportView(LoginRequiredMixin, FormView):

@@ -30,7 +30,7 @@ class OpenBudgetDashboard(Dashboard):
             collapsible=True,
             column=1,
             css_classes=('collapse closed',),
-            models=('openbudget.apps.budgets.*',),
+            models=('openbudget.apps.sheets.*',),
         ))
 
         self.children.append(modules.AppList(

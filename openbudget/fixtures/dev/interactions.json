@@ -7,7 +7,7 @@
         "created_on": "2013-03-28T11:27:38.158Z",
         "last_modified": "2013-03-28T11:27:38.158Z",
         "user": ["democitizen"],
-        "content_type": ["budgets", "sheet"],
+        "content_type": ["sheets", "sheet"],
         "object_id": 1
     }
 },
@@ -19,7 +19,7 @@
         "created_on": "2013-03-28T11:27:48.571Z",
         "last_modified": "2013-03-28T11:27:48.571Z",
         "user": ["democitizen"],
-        "content_type": ["budgets", "sheet"],
+        "content_type": ["sheets", "sheet"],
         "object_id": 2
     }
 },
@@ -31,7 +31,7 @@
         "created_on": "2013-03-28T11:28:06.439Z",
         "last_modified": "2013-03-28T11:28:06.439Z",
         "user": ["democitizen"],
-        "content_type": ["budgets", "sheet"],
+        "content_type": ["sheets", "sheet"],
         "object_id": 3
     }
 },
@@ -60,7 +60,7 @@
         "site": 1,
         "is_removed": false,
         "user": ["democitizen"],
-        "content_type": ["budgets", "sheetitem"],
+        "content_type": ["sheets", "sheetitem"],
         "is_public": true,
         "user_name": "Concerned Citizen",
         "user_email": "citizen@example.com"

@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.db import IntegrityError
 from django.utils.translation import ugettext_lazy as _, gettext as __
-from openbudget.apps.budgets.models import Template, TemplateNode, TemplateNodeRelation
+from openbudget.apps.sheets.models import Template, TemplateNode, TemplateNodeRelation
 from openbudget.apps.entities.models import Division
 from openbudget.apps.international.utilities import translated_fields
 from openbudget.apps.transport.incoming.parsers import BaseParser, register, ParsingError

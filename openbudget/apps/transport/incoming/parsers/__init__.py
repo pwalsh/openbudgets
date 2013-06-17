@@ -1,7 +1,7 @@
 from copy import deepcopy
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
-from openbudget.apps.budgets.models import PATH_SEPARATOR
+from openbudget.apps.sheets.models import PATH_SEPARATOR
 from openbudget.apps.transport.incoming.errors import DataValidationError
 
 

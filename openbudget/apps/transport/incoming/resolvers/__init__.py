@@ -1,4 +1,4 @@
-from openbudget.apps.budgets.models import PATH_SEPARATOR
+from openbudget.apps.sheets.models import PATH_SEPARATOR
 from openbudget.apps.transport.incoming.parsers import ITEM_SEPARATOR
 from openbudget.apps.transport.incoming.errors import DataAmbiguityError, ParentScopeError,\
     InverseScopesError, InverseNodeNotFoundError

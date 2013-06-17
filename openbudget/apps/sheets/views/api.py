@@ -1,9 +1,9 @@
 from rest_framework import generics
 from rest_framework.response import Response
 from openbudget.apps.international.utilities import translated_fields
-from openbudget.apps.budgets import serializers
-from openbudget.apps.budgets import models
-from openbudget.apps.budgets import filters
+from openbudget.apps.sheets import serializers
+from openbudget.apps.sheets import models
+from openbudget.apps.sheets import filters
 
 
 class TemplateList(generics.ListAPIView):
@@ -32,7 +32,7 @@ class TemplateNodeList(generics.ListAPIView):
     queryset = model.objects.related_map_min()
     serializer_class = serializers.TemplateNodeMin
     filter_class = filters.TemplateNodeFilter
-    ordering = ['name', 'period_start', 'created_on', 'last_modified']
+    ordering = ['name', 'created_on', 'last_modified']
     search_fields = ['name', 'description'] + translated_fields(model)
 
 
@@ -71,7 +71,7 @@ class SheetItemList(generics.ListAPIView):
     queryset = model.objects.related_map_min()
     serializer_class = serializers.SheetItemBase
     filter_class = filters.SheetItemFilter
-    ordering = ['sheet__entity__name', 'name', 'node__code', 'created_on', 'last_modified']
+    ordering = ['sheet__entity__name', 'node__code', 'created_on', 'last_modified']
     search_fields = ['sheet__entity__name', 'node__code', 'node__name',
                      'node__description', 'description', 'period_start',
                      'period_end'] + translated_fields(model) + \

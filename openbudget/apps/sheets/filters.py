@@ -1,5 +1,5 @@
 from django_filters import FilterSet
-from openbudget.apps.budgets import models
+from openbudget.apps.sheets import models
 
 
 class TemplateFilter(FilterSet):

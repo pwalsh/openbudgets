@@ -20,8 +20,8 @@ urlpatterns = patterns('',
     url(r'^entities/',
         include('openbudget.apps.entities.urls.ui')
     ),
-    url(r'^budgets/',
-        include('openbudget.apps.budgets.urls.ui')
+    url(r'^sheets/',
+        include('openbudget.apps.sheets.urls.ui')
     ),
     url(r'^interactions/',
         include('openbudget.apps.interactions.urls')

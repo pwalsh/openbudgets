@@ -1,5 +1,5 @@
 from haystack import indexes
-from openbudget.apps.budgets import models
+from openbudget.apps.sheets import models
 
 
 class SheetIndex(indexes.SearchIndex, indexes.Indexable):

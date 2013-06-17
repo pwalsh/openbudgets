@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from openbudget.apps.budgets.views import ui
+from openbudget.apps.sheets.views import ui
 
 
 urlpatterns = patterns('',

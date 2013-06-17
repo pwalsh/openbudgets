@@ -4,7 +4,7 @@ from django.contrib.contenttypes import generic
 from taggit.models import ItemBase as TaggitItemBase
 from autoslug import AutoSlugField
 from openbudget.settings.base import AUTH_USER_MODEL
-from openbudget.apps.budgets.models import Template, TemplateNode
+from openbudget.apps.sheets.models import Template, TemplateNode
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
 from openbudget.commons.data import OBJECT_STATES
 

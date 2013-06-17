@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from openbudget.apps.international.utilities import translated_fields
 from openbudget.apps.entities import models
-from openbudget.apps.budgets import serializers as sheet_serializers
+from openbudget.apps.sheets import serializers as sheet_serializers
 
 
 class EntityBase(serializers.HyperlinkedModelSerializer):

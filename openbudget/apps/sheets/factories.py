@@ -2,7 +2,7 @@ import datetime
 import factory
 from django.utils.timezone import utc
 from openbudget.apps.entities.factories import EntityFactory
-from openbudget.apps.budgets import models
+from openbudget.apps.sheets import models
 
 
 class TemplateFactory(factory.DjangoModelFactory):

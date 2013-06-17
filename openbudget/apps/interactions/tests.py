@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from openbudget.apps.accounts.factories import AccountFactory
 from openbudget.apps.entities.factories import EntityFactory
-from openbudget.apps.budgets.factories import SheetFactory
+from openbudget.apps.sheets.factories import SheetFactory
 from openbudget.apps.interactions.factories import StarFactory, FollowFactory
 
 

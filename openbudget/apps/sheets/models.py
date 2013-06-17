@@ -26,7 +26,7 @@ class TemplateManager(models.Manager):
         return self.select_related().prefetch_related('divisions', 'nodes')
 
     def latest_of(self, entity):
-        return self.filter(budgets__entity=entity).latest('period_start')
+        return self.filter(sheets__entity=entity).latest('period_start')
 
 
 class Template(TimeStampedModel, UUIDModel, PeriodStartModel, ClassMethodMixin):
@@ -89,8 +89,8 @@ class Template(TimeStampedModel, UUIDModel, PeriodStartModel, ClassMethodMixin):
         return start, end
 
     @property
-    def has_budgets(self):
-        return bool(self.budgets.count())
+    def has_sheets(self):
+        return bool(self.sheets.count())
 
     class Meta:
         ordering = ['name']
@@ -382,12 +382,8 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel, ClassMethodMixin):
 
     @property
     def variance(self):
-        totals = None
-        if self.related_budgets:
-            totals = [budget.total for budget in self.related_budgets]
-        total_sum = sum(totals)
         # Note: we imported division from __future__
-        value = round(self.total / total_sum * 100, 2)
+        value = round(self.budget_total / self.actual_total * 100, 2)
         return value
 
     class Meta:

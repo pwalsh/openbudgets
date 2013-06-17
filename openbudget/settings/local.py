@@ -63,7 +63,7 @@ DEVSTRAP = {
     'TESTS': (
         'accounts',
         'api',
-        'budgets',
+        'sheets',
         'commons',
         'contexts',
         'entities',

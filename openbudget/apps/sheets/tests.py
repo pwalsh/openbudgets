@@ -2,8 +2,8 @@ import random
 from datetime import date
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-from openbudget.apps.budgets import factories
-from openbudget.apps.budgets import models
+from openbudget.apps.sheets import factories
+from openbudget.apps.sheets import models
 from openbudget.apps.entities.factories import DivisionFactory, EntityFactory
 
 
