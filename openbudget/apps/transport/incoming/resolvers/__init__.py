@@ -65,7 +65,7 @@ class PathResolver(object):
             parent = obj.get('parent', None)
             if first_run:
                 scope = obj.get('parentscope', None)
-                if scope:
+                if parent and scope:
                     # we have scope so we can resolve immediately
                     key = self.ROUTE_SEPARATOR.join((code, parent, scope))
                     self._resolve_row(key, row)
