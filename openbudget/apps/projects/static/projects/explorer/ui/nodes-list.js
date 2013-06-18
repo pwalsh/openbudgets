@@ -38,19 +38,22 @@ define([
     }, {
         type    : 'FilteredList',
         config  : {
-            element     : '#nodes_list',
-            mixins      : ['Templated', 'Scrolled'],
-            adapters    : ['jqWheelScroll', 'Spin', 'NodesList'],
-            resource    : 'LatestTemplate',
-            position    : 'fluid',
-            search      : {
+            element         : '#nodes_list',
+            mixins          : ['Templated', 'Scrolled'],
+            adapters        : ['jqWheelScroll', 'Spin', 'NodesList'],
+            resource        : 'LatestTemplate',
+            position        : 'fluid',
+            fetch_options   : {
+                reset   : true
+            },
+            search          : {
                 fields  : {
                     name        : 10,
                     description : 1,
                     code        : 20
                 }
             },
-            filters     : {
+            filters         : {
                 search  : 'search',
                 selected: function (state) {
                     if ( state !== null )
@@ -60,7 +63,7 @@ define([
                         return null;
                 }
             },
-            sorting     : {
+            sorting         : {
                 name        : 'name',
                 '-name'     : resources.utils.reverseSorting('name'),
                 code        : 'code',
@@ -68,32 +71,42 @@ define([
                 direction   : 'direction',
                 '-direction': resources.utils.reverseSorting('direction')
             },
-            data_events : {},
-            signals     : {
+            data_events     : {},
+            signals         : {
                 post_init       : function () {
                     this.scope = null;
                     this.active_filters = 0;
                 },
                 pre_wake        : function () {
-                    var entity_id = this.context.entity_id;
+                    var entity_id = this.context.entity_id,
+                        selection;
                     if ( entity_id ) {
                         if ( this.latest_entity_id !== entity_id ) {
                             this.latest_entity_id = entity_id;
                             // this makes sure search index is rebuilt and view is re-rendered
                             this.scope_changed = true;
                             // this makes sure the resource will execute fetch to sync with remote server
-                            this.has_data = false;
-                            this.scope = null;
+                            this.dont_fetch = false;
                             this.resource.url = API_URL + 'templates/nodes/?page_by=2000&latest=True&entity=' + entity_id;
-                            this.filter(this.resource.roots);
                         }
                         else {
+                            this.dont_fetch = true;
                             this.scope_changed = false;
+                            this.resetSelection(this.context.selection)
+                                .publish('selection', { reset : true });
                         }
+                        // change view back to main 
+                        this.scope = null;
+                        this.filter(this.resource.roots);
                     }
-                    return this.scope_changed;
                 },
-                pre_update      : 'spin',
+                pre_update      : function () {
+                    if ( ! this.has_data ) {
+                        this.spin();
+                        return true;
+                    }
+                    return false;
+                },
                 post_fetch_data : 'spinOff',
                 pre_render      : function () {
                     if ( this.scope_changed ) {
@@ -106,6 +119,11 @@ define([
                 },
                 post_render     : function () {
                     this.$children = this.$element.children();
+                    if ( ! this.dont_fetch ) {
+                        this.dont_fetch = true;
+                        this.resetSelection(this.context.selection)
+                            .publish('selection', { reset : true });
+                    }
                     if ( this.active_filters ) {
                         this.filterItems();
                     }
@@ -131,7 +149,8 @@ define([
                     this.redraw(node_id);
                 }
             },
-            app_events  : {
+            app_events      : {
+                'legends_list.change_state'                 : 'wake+',
                 'search.changed'                            : 'updateSearchFilter+',
                 'selected.changed'                          : 'updateSelectedFilter+',
                 'nodes_list.filtered'                       : function () {

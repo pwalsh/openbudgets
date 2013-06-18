@@ -1,4 +1,5 @@
 #add_legend {
+    width: 100%;
     border: 1px solid lightslategray;
     background-color: darkgray;
 }
