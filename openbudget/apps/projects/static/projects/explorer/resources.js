@@ -74,21 +74,23 @@ define([
              * @returns {Object|Array} response
              */
             parse           : function (response) {
-                var last = response.length - 1,
+                var results = response.results,
+                    last = results.length - 1,
                     paths_lookup = {},
                     parent_ids = {},
                     node, n, route, path;
-                for ( n = last; node = response[n]; n-- ) {
+                for ( n = last; node = results[n]; n-- ) {
                     node.ancestors = [];
                     paths_lookup[node.path] = node;
                     if ( node.parent ) {
+                        node.parent = node.parent.id;
                         if ( ! parent_ids[node.parent] ) {
                             parent_ids[node.parent] = [];
                         }
                         parent_ids[node.parent].push(node.id);
                     }
                 }
-                for ( n = last; node = response[n]; n-- ) {
+                for ( n = last; node = results[n]; n-- ) {
                     if ( parent_ids[node.id] ) {
                         node.children = parent_ids[node.id];
                     }
@@ -108,7 +110,7 @@ define([
                 paths_lookup = null;
                 parent_ids = null;
 
-                return response;
+                return results;
             },
             roots           : function () {
                 return this.byParent(null);

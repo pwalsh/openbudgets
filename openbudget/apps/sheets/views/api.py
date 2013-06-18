@@ -36,7 +36,7 @@ class TemplateNodeList(generics.ListAPIView):
     search_fields = ['name', 'description'] + translated_fields(model)
 
     def get_queryset(self):
-        #queryset = self.model.objects.all()
+        queryset = self.model.objects.all()
         entity = self.request.QUERY_PARAMS.get('entity', None)
         latest = self.request.QUERY_PARAMS.get('latest', None)
         if entity is not None:
