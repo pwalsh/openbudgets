@@ -14,21 +14,25 @@ class TemplateBase(serializers.HyperlinkedModelSerializer):
                   'created_on', 'last_modified'] + translated_fields(model)
 
 
+class TemplateNodeMin(serializers.HyperlinkedModelSerializer):
+    """A more efficient serialized representation of template nodes."""
+
+    class Meta:
+        model = models.TemplateNode
+        fields = ['id', 'url']
+
+
 class TemplateNodeBase(serializers.HyperlinkedModelSerializer):
     """The default serialized representation of template nodes."""
+
+    parent = TemplateNodeMin()
+    backwards = TemplateNodeMin(many=True)
 
     class Meta:
         model = models.TemplateNode
         fields = ['id', 'url', 'code', 'name', 'description', 'direction',
                   'templates', 'path', 'direction', 'parent', 'created_on',
-                  'last_modified'] + translated_fields(model)
-
-
-class TemplateNodeMin(TemplateNodeBase):
-    """A more efficient serialized representation of template nodes."""
-
-    class Meta(TemplateNodeBase.Meta):
-        fields = TemplateNodeBase.Meta.fields.remove('templates')
+                  'last_modified', 'backwards'] + translated_fields(model)
 
 
 class TemplateDetail(TemplateBase):
