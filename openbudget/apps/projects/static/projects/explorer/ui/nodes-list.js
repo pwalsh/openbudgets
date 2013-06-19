@@ -87,6 +87,7 @@ define([
                             this.scope_changed = true;
                             // this makes sure the resource will execute fetch to sync with remote server
                             this.dont_fetch = false;
+                            this.has_data = false;
                             this.resource.url = API_URL + 'templates/nodes/?page_by=2000&latest=True&entity=' + entity_id;
                         }
                         else {
