@@ -30,13 +30,6 @@ define([
             },
             signals         : {
                 post_init   : 'wake'
-            },
-            app_events      : {
-                'entities_list.selected': function (id) {
-                    this.resource.set({
-                        muni : uijet.Resource('Munis').get(id)
-                    });
-                }
             }
         }
     });
@@ -95,6 +88,11 @@ define([
                             selection   : model.get('state')
                         });
                     }
+                },
+                'entities_list.selected': function (id) {
+                    this.resource.at(this.current_index).set({
+                        muni: uijet.Resource('Munis').get(id)
+                    });
                 },
                 'nodes_list.selection'  : function (data) {
                     if ( data && data.reset ) return;
