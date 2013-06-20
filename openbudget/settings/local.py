@@ -15,21 +15,33 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.abspath(os.path.join(os.path.dirname(PROJECT_ROOT), 'local.db')),
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
+    }
+}
+
 MIDDLEWARE_CLASSES += (
-    'openbudget.api.middleware.XsSharing',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django_pdb.middleware.PdbMiddleware',
 )
-
-XS_SHARING_ALLOWED_ORIGINS = '*'
-XS_SHARING_ALLOWED_METHODS = ['POST', 'GET', 'OPTIONS', 'PUT', 'DELETE']
-XS_SHARING_ALLOWED_HEADERS = ['Content-Type', 'Authorization', '*']
-XS_SHARING_ALLOWED_CREDENTIALS = 'true'
 
 INSTALLED_APPS += (
     'debug_toolbar',
     'django_pdb',
 )
+
+# CACHE CONF - Uncomment to disable caching in development
+#CACHES = {
+#    'default': {
+#        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+#    }
+#}
 
 EMAIL_USE_TLS = True
 
