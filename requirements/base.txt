@@ -10,7 +10,8 @@ raven
 whoosh
 redis
 django-redis-cache
-johnny-cache
+#johnny-cache
+git+https://github.com/jmoiron/johnny-cache.git
 celery
 django-celery
 factory_boy
