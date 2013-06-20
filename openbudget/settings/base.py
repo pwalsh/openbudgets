@@ -8,7 +8,7 @@ MODELTRANSLATION_DEBUG = DEBUG
 
 SECRET_KEY = 'pvh9d)+7aui4=evh$yv!qgbr3oyz-4=^oj_%6g8+v57b=de5)7'
 
-ALLOWED_HOSTS = ['open-budget.prjts.com']
+ALLOWED_HOSTS = ['.open-budget.prjts.com']
 
 SESSION_COOKIE_DOMAIN = 'open-budget.prjts.com'
 
