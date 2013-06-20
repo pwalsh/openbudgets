@@ -11,9 +11,25 @@ define([
         config  : {
             mixins          : ['Templated'],
             template_name   : 'legend_item',
+            dont_fetch      : true,
+            data_events     : {
+                'change:nodes'  : function (model, value) {
+                    this.$element.find('.selected_nodes_count').text(value.length);
+                },
+                'change:muni'   : function (model,value) {
+                    this.$element.find('.entity').text(value.get('name'));
+                }
+            },
+            dom_events      : {
+                mouseenter  : function () {
+                    this.wakeContained();
+                },
+                mouseleave  : function () {
+                    this.sleepContained();
+                }
+            },
             signals         : {
-                post_init   : 'wake',
-                pre_update  : function () { return false; }
+                post_init   : 'wake'
             },
             app_events      : {
                 'entities_list.selected': function (id) {
@@ -33,17 +49,21 @@ define([
             position: 'right:350 fluid'
         }
     }, {
-        type    : 'Button',
-        config  : {
-            element : '#add_legend',
-            position: 'top:50px fluid'
-        }
-    }, {
         type    : 'Pane',
         config  : {
             element     : '#legends_list',
             position    : 'fluid',
             resource    : 'LegendItems',
+            signals     : {
+                post_init   : function () {
+                    uijet.start({
+                        type    : 'Button',
+                        config  : {
+                            element : '#add_legend'
+                        }
+                    });
+                }
+            },
             app_events  : {
                 'add_legend.clicked'    : function () {
                     var model = new Explorer.LegendItemModel({
@@ -58,18 +78,37 @@ define([
                         factory : 'LegendItem',
                         config  : {
                             element : uijet.$('<li>', {
-                                id  : this.id + '_item_' + this.current_index
+                                id          : this.id + '_item_' + this.current_index
                             }).appendTo(this.$element),
-                            resource: model
+                            resource: model,
+                            index   : this.current_index
                         }
                     }, true);
                 },
-                'nodes_list.selection'  : function () {
-                    var nodes = uijet.Resource('LatestTemplate')
-                                        .where({ selected : 'selected' })
-                                        .map(uijet.Utils.prop('id'));
+                'legends_list.selected' : function (index) {
+                    var model;
+                    if ( index !== this.current_index ) {
+                        model = this.resource.at(index);
+                        this.current_index = index;
+                        this.publish('change_state', {
+                            entity_id   : model.get('muni').get('id'),
+                            selection   : model.get('state')
+                        });
+                    }
+                },
+                'nodes_list.selection'  : function (data) {
+                    if ( data && data.reset ) return;
+                    var resource = uijet.Resource('LatestTemplate'),
+                        selected_nodes = resource.where({ selected : 'selected' })
+                                                 .map(uijet.Utils.prop('id')),
+                        partial_nodes = resource.where({ selected : 'partial' })
+                                                .map(uijet.Utils.prop('id'));
                     this.resource.at(this.current_index).set({
-                        nodes   : nodes
+                        nodes   : selected_nodes,
+                        state   : {
+                            selected: selected_nodes,
+                            partial : partial_nodes
+                        }
                     });
                 }
             }
@@ -83,7 +122,8 @@ define([
             animation_type  : 'slide',
             app_events      : {
                 'add_legend.clicked'            : 'wake',
-                'entity_filter_close.clicked'   : 'sleep'
+                'entity_filter_close.clicked'   : 'sleep',
+                'entities_list.selected'        : 'sleep'
             }
         }
     }, {

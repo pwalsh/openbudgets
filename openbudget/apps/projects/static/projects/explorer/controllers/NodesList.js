@@ -77,6 +77,34 @@ define([
             this.filterBySelected(state);
             return this;
         },
+        resetSelection      : function (state) {
+            var selected_state = { selected : 'selected' },
+                partial_state = { selected : 'partial' },
+                unselected_state = { selected : '' },
+                len = this.resource.length,
+                model, selected, partial;
+
+            state = state || {};
+            selected = state.selected;
+            partial = state.partial;
+
+            while ( len-- ) {
+                model = this.resource.models[len];
+                model.set(unselected_state);
+            }
+
+            len = selected && selected.length;
+            while ( len-- ) {
+                this.resource.get(selected[len]).set(selected_state);
+            }
+
+            len = partial && partial.length;
+            while ( len-- ) {
+                this.resource.get(partial[len]).set(partial_state);
+            }
+
+            return this;
+        },
         updateSelection     : function (id) {
             var model = this.resource.get(id),
                 old_state = model.get('selected'),
