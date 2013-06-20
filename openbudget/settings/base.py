@@ -8,6 +8,10 @@ MODELTRANSLATION_DEBUG = DEBUG
 
 SECRET_KEY = 'pvh9d)+7aui4=evh$yv!qgbr3oyz-4=^oj_%6g8+v57b=de5)7'
 
+ALLOWED_HOSTS = ['open-budget.prjts.com']
+
+SESSION_COOKIE_DOMAIN = 'open-budget.prjts.com'
+
 SETTINGS_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(SETTINGS_ROOT))
@@ -22,8 +26,8 @@ USE_TZ = True
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.abspath(os.path.join(os.path.dirname(PROJECT_ROOT), 'local.db')),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'openbudget',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
@@ -71,6 +75,8 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'johnny.middleware.LocalStoreClearMiddleware',
+    'johnny.middleware.QueryCacheMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'subdomains.middleware.SubdomainURLRoutingMiddleware',
@@ -80,6 +86,7 @@ MIDDLEWARE_CLASSES = (
     'openbudget.apps.international.middleware.InterfaceLanguage',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'openbudget.api.middleware.XsSharing',
 )
 
 INSTALLED_APPS = (
@@ -220,6 +227,17 @@ ABSOLUTE_URL_OVERRIDES = {
     'auth.user': lambda u: '/accounts/{uuid}/'.format(uuid=u.uuid)
 }
 
+# CACHE CONF
+CACHES = {
+    'default' : {
+        'BACKEND': 'johnny.backends.redis.RedisCache',
+        'LOCATION': '127.0.0.1:6379',
+        'JOHNNY_CACHE': True,
+    }
+}
+
+JOHNNY_MIDDLEWARE_KEY_PREFIX='jc_ob'
+
 # GRAPPELLI CONF
 GRAPPELLI_ADMIN_TITLE = 'Open Budget'
 
@@ -314,3 +332,9 @@ OPENBUDGET_CONTENT_TEAM_ID = 2
 OPENBUDGET_PUBLIC_ID = 3
 
 OPENBUDGET_PERIOD_RANGES = ('yearly',)
+
+# TODO: Yehonatan needs to check for a better solution here
+XS_SHARING_ALLOWED_ORIGINS = '*'
+XS_SHARING_ALLOWED_METHODS = ['POST', 'GET', 'OPTIONS', 'PUT', 'DELETE']
+XS_SHARING_ALLOWED_HEADERS = ['Content-Type', 'Authorization', '*']
+XS_SHARING_ALLOWED_CREDENTIALS = 'true'

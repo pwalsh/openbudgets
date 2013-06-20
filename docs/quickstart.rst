@@ -157,7 +157,7 @@ Install project requirements
 
 And continuing, we'll install all the project requirements, the Python requirements via pip, and the Javascript requirements via volo::
 
-    pip install -r requirements.txt --use-mirrors
+    pip install -r requirements/base.txt --use-mirrors
 
     volo add -noprompt
 

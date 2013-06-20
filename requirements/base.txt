@@ -1,4 +1,3 @@
-yolk
 django
 gunicorn
 south
@@ -10,6 +9,8 @@ tablib
 raven
 whoosh
 redis
+django-redis-cache
+johnny-cache
 celery
 django-celery
 factory_boy
