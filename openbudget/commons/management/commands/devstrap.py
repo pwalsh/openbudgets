@@ -36,15 +36,37 @@ class Command(BaseCommand):
         self.stdout.write("### DON'T PANIC\n")
         self.stdout.write("### Bootstrapping development environment\n")
 
-        # remove current database file
-        db_file_path = settings.DATABASES['default']['NAME']
+        db_engine = settings.DATABASES['default']['ENGINE']
 
-        if os.path.isfile(db_file_path):
+        if db_engine.endswith('sqlite3'):
+            # remove current database file
+            db_file_path = settings.DATABASES['default']['NAME']
+
+            if os.path.isfile(db_file_path):
+                try:
+                    self.stdout.write("### Removing DB\n")
+                    os.remove(db_file_path)
+                except IOError as e:
+                    raise CommandError(e)
+
+        elif db_engine.endswith('postgresql_psycopg2'):
+            # from django.db import connection
+            import psycopg2
+            db_name = settings.DATABASES['default']['NAME']
+            db_user = settings.DATABASES['default']['USER']
+            db_password = settings.DATABASES['default']['PASSWORD']
+
             try:
-                self.stdout.write("### Removing DB\n")
-                os.remove(db_file_path)
-            except IOError as e:
-                raise CommandError(e)
+                connection = psycopg2.connect("dbname='template1' user='%s' password='%s'" % (db_user, db_password))
+                cursor = connection.cursor()
+                # drop existing database
+                connection.set_isolation_level(0)
+                cursor.execute('DROP DATABASE %s' % db_name)
+                # create new database
+                cursor.execute('CREATE DATABASE %s' % db_name)
+                connection.close()
+            except:
+                raise Exception("I am unable to connect to the database.")
 
         # sync the db and do South migrations
         try:
