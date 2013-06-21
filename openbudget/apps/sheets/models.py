@@ -31,6 +31,7 @@ class TemplateManager(models.Manager):
     #def sheets_of(self, entity):
     #    return self.filter(using_sheets__entity=entity)
 
+
 class Template(TimeStampedModel, UUIDModel, PeriodStartModel, ClassMethodMixin):
     """Templates describe the structure of a Budget or an Actual."""
 
