@@ -1,7 +1,8 @@
 define([
     'uijet_dir/uijet',
     'modules/data/backbone',
-    'underscore'
+    'underscore',
+    'backbone-fetch-cache'
 ], function (uijet, Backbone, _) {
 
     uijet.use({
@@ -35,7 +36,6 @@ define([
          */
         Munis = uijet.Collection({
             model   : Muni,
-            url     : API_URL + 'entities/?division__budgeting=True',
             parse   : function (response) {
                 //! Array.prototype.filter
                 return response.results;
@@ -83,7 +83,7 @@ define([
                     node.ancestors = [];
                     paths_lookup[node.path] = node;
                     if ( node.parent ) {
-                        node.parent = node.parent.id;
+                        node.parent = node.parent.id || node.parent;
                         if ( ! parent_ids[node.parent] ) {
                             parent_ids[node.parent] = [];
                         }

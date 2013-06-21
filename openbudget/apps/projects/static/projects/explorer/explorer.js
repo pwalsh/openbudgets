@@ -1,6 +1,7 @@
 define([
     'uijet_dir/uijet',
     'resources',
+    'api',
     'modules/dom/jquery',
     'modules/pubsub/eventbox',
     'modules/promises/q',
@@ -8,20 +9,28 @@ define([
     'modules/xhr/jquery',
     'modules/animation/uijet-transit',
     'project_modules/uijet-search'
-], function (uijet, resources, $, Ebox, Q, Mustache) {
+], function (uijet, resources, api, $, Ebox, Q, Mustache) {
+
+    // get version endpoint
+    api.getVersion();
+
     var Explorer = {
         start       : function (options) {
             /*
              * Get an OAuth2 token
              */
-            uijet.xhr(options.AUTH_URL, {
-                type    : 'POST',
-                data    : options.auth
-            })
-            .then(function (response) {
-                Explorer.setToken(response.access_token);
-            }, function (xhr) {
-                console.error('Auth failed!', xhr);
+            api.auth({
+                data    : options.auth,
+                success : function (auth_response) {
+                    // set the API's routes
+                    api.getRoutes({
+                        success : function (response) {
+                            api._setRoutes(response);
+                            uijet.publish('api_routes_set');
+                        }
+                    });
+                    Explorer.setToken(auth_response.access_token);
+                }
             });
             /*
              * Register resources

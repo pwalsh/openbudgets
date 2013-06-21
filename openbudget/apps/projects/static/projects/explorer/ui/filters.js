@@ -1,10 +1,11 @@
 define([
     'uijet_dir/uijet',
     'explorer',
+    'api',
     'project_widgets/ClearableTextInput',
     'project_widgets/FilteredList',
     'project_widgets/LegendItem'
-], function (uijet, Explorer) {
+], function (uijet, Explorer, api) {
 
     uijet.Factory('LegendItem', {
         type    : 'LegendItem',
@@ -176,7 +177,12 @@ define([
                         .index().search_index.add( this.resource.toJSON() );
                 },
                 pre_wake        : function () {
-                    return ! this.has_content;
+                    if ( this.has_content ) {
+                        return false;
+                    }
+                    else {
+                        this.resource.url = api.getRoute('entities') + '?division__budgeting=True';
+                    }
                 },
                 post_render     : function () {
                     this.$children = this.$element.children();

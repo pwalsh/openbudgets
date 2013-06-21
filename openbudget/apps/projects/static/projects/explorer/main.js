@@ -11,10 +11,12 @@ requirejs.config({
         resources           : '../projects/explorer/resources',
         controllers         : '../projects/explorer/controllers',
         project_modules     : '../projects/explorer/modules',
-        project_widgets     : '../projects/explorer/widgets'
+        project_widgets     : '../projects/explorer/widgets',
+        api                 : '../src/api'
     },
     shim    : {
-        eventbox: ['setImmediate']
+        eventbox                : ['setImmediate'],
+        'backbone-fetch-cache'  : 'modules/data/backbone'
     }
 });
 requirejs([

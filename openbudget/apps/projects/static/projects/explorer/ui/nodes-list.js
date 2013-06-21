@@ -1,10 +1,11 @@
 define([
     'uijet_dir/uijet',
     'resources',
+    'api',
     'ui/nodes',
     'project_widgets/FilteredList',
     'controllers/NodesList'
-], function (uijet, resources) {
+], function (uijet, resources, api) {
 
     uijet.declare([{
         type    : 'Pane',
@@ -44,7 +45,9 @@ define([
             resource        : 'LatestTemplate',
             position        : 'fluid',
             fetch_options   : {
-                reset   : true
+                reset   : true,
+                cache   : true,
+                expires : 3600
             },
             search          : {
                 fields  : {
@@ -88,7 +91,7 @@ define([
                             // this makes sure the resource will execute fetch to sync with remote server
                             this.dont_fetch = false;
                             this.has_data = false;
-                            this.resource.url = API_URL + 'templates/nodes/?page_by=2000&latest=True&entity=' + entity_id;
+                            this.resource.url = api.getRoute('templateNodes') + '?page_by=4000&latest=True&entity=' + entity_id;
                         }
                         else {
                             this.dont_fetch = true;
