@@ -135,7 +135,6 @@ class BaseImporter(object):
         for index, header in enumerate(headers):
 
             tmp = unicode(header).translate(symbols).lower()
-            print tmp
 
             for k, v in scopes_map.iteritems():
 
