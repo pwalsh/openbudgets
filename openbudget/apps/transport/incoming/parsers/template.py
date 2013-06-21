@@ -1,5 +1,4 @@
 from datetime import datetime
-from django.db import IntegrityError
 from django.utils.translation import ugettext_lazy as _, gettext as __
 from openbudget.apps.sheets.models import Template, TemplateNode, TemplateNodeRelation
 from openbudget.apps.entities.models import Division
@@ -380,14 +379,10 @@ class TemplateParser(BaseParser):
 
     def _add_to_container(self, item, key):
         if not self.dry:
-            try:
-                TemplateNodeRelation.objects.create(
-                    template=self.container_object,
-                    node=item
-                )
-            except IntegrityError as e:
-                #TODO: assuming here it's only the "columns node_id, template_id are not unique" error
-                pass
+            TemplateNodeRelation.objects.get_or_create(
+                template=self.container_object,
+                node=item
+            )
 
     def _create_container(self, container_dict=None, exclude=None):
 
