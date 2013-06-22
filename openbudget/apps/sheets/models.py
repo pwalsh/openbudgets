@@ -79,7 +79,7 @@ class Template(TimeStampedModel, UUIDModel, PeriodStartModel, ClassMethodMixin):
 
         if len(ranges) == 1 and 'yearly' in ranges:
             start = self.period_start.year
-            qs = self.__class__.objects.filter(divisions=self.divisions.all())
+            qs = self.__class__.objects.filter(divisions__in=self.divisions.all())
             for obj in qs:
                 if obj.period_start.year > self.period_start.year:
                     end = obj.period_start.year
