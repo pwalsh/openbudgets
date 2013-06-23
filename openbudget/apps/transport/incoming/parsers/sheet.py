@@ -35,7 +35,6 @@ class SheetParser(TemplateParser):
 
     def __init__(self, container_object_dict):
         super(SheetParser, self).__init__(container_object_dict)
-        self.skipped_rows = {}
         self.template_parser = self._init_template_parser()
 
     @classmethod
@@ -55,6 +54,7 @@ class SheetParser(TemplateParser):
     def validate(self, data, keep_cache=False):
         if self.template_parser:
             template_valid, template_errors = self.template_parser.validate(data=deepcopy(data), keep_cache=True)
+            self.skipped_rows = self.template_parser.skipped_rows
         else:
             #TODO: add support for parsing sheets without a parent template to inherit from
             template_valid = False
