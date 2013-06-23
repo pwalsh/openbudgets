@@ -2,7 +2,7 @@
 
 {
     "model": "transport.String",
-    "pk": 13,
+    "pk": 14,
     "fields": {
         "string": "תקבולים",
         "parent": 1,
@@ -13,7 +13,7 @@
 
 {
     "model": "transport.String",
-    "pk": 14,
+    "pk": 15,
     "fields": {
         "string": "תשלומים",
         "parent": 2,
@@ -24,7 +24,7 @@
 
 {
     "model": "transport.String",
-    "pk": 15,
+    "pk": 16,
     "fields": {
         "string": "שם",
         "parent": 3,
@@ -35,7 +35,7 @@
 
 {
     "model": "transport.String",
-    "pk": 16,
+    "pk": 17,
     "fields": {
         "string": "קוד",
         "parent": 4,
@@ -46,7 +46,7 @@
 
 {
     "model": "transport.String",
-    "pk": 17,
+    "pk": 18,
     "fields": {
         "string": "הורה",
         "parent": 5,
@@ -57,7 +57,7 @@
 
 {
     "model": "transport.String",
-    "pk": 18,
+    "pk": 19,
     "fields": {
         "string": "ההפוך",
         "parent": 6,
@@ -68,7 +68,7 @@
 
 {
     "model": "transport.String",
-    "pk": 19,
+    "pk": 20,
     "fields": {
         "string": "__direction__",
         "parent": 7,
@@ -79,7 +79,7 @@
 
 {
     "model": "transport.String",
-    "pk": 20,
+    "pk": 21,
     "fields": {
         "string": "__description__",
         "parent": 8,
@@ -90,7 +90,7 @@
 
 {
     "model": "transport.String",
-    "pk": 21,
+    "pk": 22,
     "fields": {
         "string": "__parentscope__",
         "parent": 9,
@@ -101,7 +101,7 @@
 
 {
     "model": "transport.String",
-    "pk": 22,
+    "pk": 23,
     "fields": {
         "string": "__inversescope__",
         "parent": 10,
@@ -112,7 +112,7 @@
 
 {
     "model": "transport.String",
-    "pk": 23,
+    "pk": 24,
     "fields": {
         "string": "סכום",
         "parent": 11,
@@ -123,7 +123,7 @@
 
 {
     "model": "transport.String",
-    "pk": 24,
+    "pk": 25,
     "fields": {
         "string": "תכנון‬‎",
         "parent": 12,
@@ -134,7 +134,7 @@
 
 {
     "model": "transport.String",
-    "pk": 24,
+    "pk": 26,
     "fields": {
         "string": "ביצוע‎",
         "parent": 13,
