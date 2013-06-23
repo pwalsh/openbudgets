@@ -96,9 +96,11 @@ class SheetParser(TemplateParser):
                 # loop the lookup table and save item for every row
                 for key, obj in self.objects_lookup.iteritems():
                     self._save_item(obj, key)
-                # loop the template's saved nodes cache and save item for node
+                # loop the template's saved nodes cache and save item for every node that's not in the sourcefile
                 for key, obj in self.template_parser.saved_cache.iteritems():
                     self._save_item(obj, key, is_node=True)
+
+                self._save_amounts()
 
             self.dry = False
 
@@ -273,6 +275,48 @@ class SheetParser(TemplateParser):
                 )
             else:
                 raise e
+
+    def _save_amounts(self):
+        children_lookup = {}
+        keys_by_level = {1: []}
+
+        def _make_adder(attr):
+            def _add(a, b):
+                return a + float(getattr(b, attr) or 0)
+            return _add
+
+        for key, item in self.saved_cache.iteritems():
+            node = item.node
+            parent = node.parent
+
+            if parent:
+                parent_key = parent.path
+                level = len(parent_key.split(self.ROUTE_SEPARATOR))
+
+                if parent_key not in children_lookup:
+                    children_lookup[parent_key] = []
+                children_lookup[parent_key].append(item)
+
+                if not level in keys_by_level:
+                    keys_by_level[level] = []
+                keys_by_level[level].append(parent_key)
+
+            else:
+                parent_key = node.path
+                if parent_key not in children_lookup:
+                    children_lookup[parent_key] = []
+                keys_by_level[1].append(parent_key)
+
+        levels = keys_by_level.keys()
+        levels.sort(reverse=True)
+        for level in levels:
+            keys = keys_by_level[level]
+            for key in keys:
+                children = children_lookup[key]
+                item = self.saved_cache[key]
+                item.budget = reduce(_make_adder('budget'), children, 0)
+                item.actual = reduce(_make_adder('actual'), children, 0)
+                item.save()
 
 
 register('sheet', SheetParser)
