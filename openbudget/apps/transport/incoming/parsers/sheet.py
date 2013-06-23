@@ -8,6 +8,23 @@ from openbudget.apps.transport.incoming.parsers.template import TemplateParser
 from openbudget.apps.transport.incoming.errors import MetaParsingError, NodeNotFoundError
 
 
+def _rows_filter(obj, row_num=None):
+    if obj['has_children']:
+        return True
+    else:
+        try:
+            float(obj['budget'])
+            return True
+        except (KeyError, ValueError, TypeError):
+            try:
+                float(obj['actual'])
+                return True
+            except (KeyError, ValueError, TypeError):
+                pass
+
+        return False
+
+
 class SheetParser(TemplateParser):
 
     container_model = Sheet
@@ -39,6 +56,7 @@ class SheetParser(TemplateParser):
         if self.template_parser:
             template_valid, template_errors = self.template_parser.validate(data=deepcopy(data), keep_cache=True)
         else:
+            #TODO: add support for parsing sheets without a parent template to inherit from
             template_valid = False
             template_errors = []
 
@@ -56,7 +74,35 @@ class SheetParser(TemplateParser):
             template_saved = self.template_parser.save()
 
         if template_saved:
-            return super(SheetParser, self).save(dry)
+            self.dry = dry
+
+            # create an instance of the container
+            self._create_container()
+
+            if dry:
+                # save an untempered copy
+                lookup_table_copy = deepcopy(self.objects_lookup)
+
+                # loop the lookup table and save every item
+                for key, obj in self.objects_lookup.iteritems():
+                    self._save_item(obj, key)
+
+                if not self.keep_cache:
+                    self._clear_cache()
+                # clear all changes by replacing the lookup with the old copy
+                self.objects_lookup = lookup_table_copy
+
+            else:
+                # loop the lookup table and save item for every row
+                for key, obj in self.objects_lookup.iteritems():
+                    self._save_item(obj, key)
+                # loop the template's saved nodes cache and save item for node
+                for key, obj in self.template_parser.saved_cache.iteritems():
+                    self._save_item(obj, key, is_node=True)
+
+            self.dry = False
+
+            return True
 
         return False
 
@@ -66,13 +112,18 @@ class SheetParser(TemplateParser):
         return deferred
 
     def _save_item(self, obj, key, is_node=False):
+        node = None
         # check if we already saved this object and have it in cache
         if key in self.saved_cache:
             return self.saved_cache[key]
 
+        if is_node:
+            node = obj
+            obj = {}
+
         self._add_to_container(obj, key)
 
-        item = self._create_item(obj, key)
+        item = self._create_item(obj, key, node)
 
         # cache the saved object
         self.saved_cache[key] = item
@@ -89,36 +140,15 @@ class SheetParser(TemplateParser):
         super(TemplateParser, self)._create_container(container_dict=data, exclude=fields_to_exclude)
 
     def _generate_lookup(self, data):
-        resolved = deepcopy(self.template_parser.objects_lookup)
         self.rows_objects_lookup = self.template_parser.rows_objects_lookup
+        self.objects_lookup = deepcopy(self.template_parser.objects_lookup)
 
-        for key, obj in self.template_parser.objects_lookup.iteritems():
-            keep_row = self._rows_filter(obj)
-            if not keep_row:
-                del resolved[key]
-                self._skipped_row(obj, self.rows_objects_lookup[key])
+    def _create_item(self, obj, key, node=None):
 
-        self.objects_lookup = resolved
+        if node:
+            obj['node'] = node
 
-    def _rows_filter(self, obj, row_num=None):
-        try:
-            float(obj['budget'])
-            return True
-        except (KeyError, ValueError, TypeError):
-            try:
-                float(obj['actual'])
-                return True
-            except (KeyError, ValueError, TypeError):
-                pass
-
-        return False
-
-    def _skipped_row(self, obj, row_num):
-        self.skipped_rows[row_num] = obj
-
-    def _create_item(self, obj, key):
-
-        if key in self.template_parser.saved_cache:
+        elif key in self.template_parser.saved_cache:
             obj['node'] = self.template_parser.saved_cache[key]
 
         elif self.dry:
@@ -166,7 +196,7 @@ class SheetParser(TemplateParser):
             del container_dict_copy['period_end']
 
         if parent_template:
-            return TemplateParser(container_dict_copy, extends=parent_template)
+            return TemplateParser(container_dict_copy, extends=parent_template, rows_filters=(_rows_filter,))
 
         return False
 

@@ -21,6 +21,7 @@ class PathResolver(object):
         self.unresolved_rows_by_code = {}
         self.parent_nodes_by_code = {}
         self.root_nodes_lookup = {}
+        self.parent_keys_lookup = []
 
     def resolve(self):
         first_run = []
@@ -42,9 +43,11 @@ class PathResolver(object):
         while len(next_run):
             next_run = self._resolve_paths(next_run, False)
 
-        # one extra run for resolving inverses
+        # one extra run for resolving inverses and marking nodes that `has_children`
         for key, row in self.resolved_lookup.iteritems():
             self._set_inverse_scope(row)
+            obj = row[1]
+            obj['has_children'] = obj['path'] in self.parent_keys_lookup
 
         if len(self.unresolved_rows_by_code):
             for code, rows in self.unresolved_rows_by_code.iteritems():
@@ -150,9 +153,17 @@ class PathResolver(object):
             obj['parentscope'] = scope
         obj['path'] = key
         self.resolved_lookup[key] = row
+
+        parent = obj.get('parent', None)
+        if parent:
+            scope = scope or obj.get('parentscope', None)
+            parent_key = self.ROUTE_SEPARATOR.join((parent, scope)) if scope else parent
+            self.parent_keys_lookup.append(parent_key)
+
         if code not in self.resolved_rows_by_code:
             self.resolved_rows_by_code[code] = []
         self.resolved_rows_by_code[code].append(row)
+
         # remove row from unresolved lookup
         if code in self.unresolved_rows_by_code:
             list_copy = list(self.unresolved_rows_by_code[code])
