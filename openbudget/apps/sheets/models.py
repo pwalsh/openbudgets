@@ -505,7 +505,28 @@ class SheetItem(BaseItem, TimeStampedModel, UUIDModel, ClassMethodMixin):
         return self.node.code
 
 
+class DenormalizedSheetItemManager(models.Manager):
+    """Exposes the related_map method for more efficient bulk select queries."""
+
+    def related_map_min(self):
+        return self.select_related()
+
+    def related_map(self):
+        return self.select_related().prefetch_related('discussion')
+
+    # def timeline(self, node_uuid, entity_uuid):
+    #     try:
+    #         node = TemplateNode.objects.get(uuid=node_uuid)
+    #     except TemplateNode.DoesNotExist as e:
+    #         raise e
+    #     value = self.model.objects.filter(node__in=node.timeline,
+    #                                       budget__entity__uuid=entity_uuid)
+    #     return value
+
+
 class DenormalizedSheetItem(BaseNode, BaseItem, UUIDModel, ClassMethodMixin):
+
+    objects = DenormalizedSheetItemManager()
 
     normal_item = models.OneToOneField(
         SheetItem,
