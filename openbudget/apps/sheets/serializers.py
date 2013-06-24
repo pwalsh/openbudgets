@@ -59,9 +59,9 @@ class SheetItemBase(serializers.HyperlinkedModelSerializer):
     """The default serialized representation of sheet items."""
 
     class Meta:
-        model = models.SheetItem
-        fields = ['id', 'url', 'node', 'budget', 'actual', 'description', 'created_on',
-                  'last_modified'] + translated_fields(model)
+        model = models.DenormalizedSheetItem
+        fields = ['id', 'url', 'budget', 'actual', 'description', 'code', 'name',
+                  'path', 'direction', 'parent', 'backwards'] + translated_fields(model)
 
 
 
