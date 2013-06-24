@@ -2,141 +2,141 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-30 12:02+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2013-06-19 17:50+0000\n"
+"Last-Translator: Paul Walsh <paulywalsh@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5\n"
+"Language: \n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5\n"
+"X-Translated-Using: django-rosetta 0.7.2\n"
 
 #: dashboard.py:13
 msgid "User management"
-msgstr ""
+msgstr "إدارة المستخدم"
 
 #: dashboard.py:21
 msgid "Government entities"
-msgstr ""
+msgstr "الجهات الحكومية"
 
 #: dashboard.py:29
 msgid "Budget records"
-msgstr ""
+msgstr "سجلات الميزانية"
 
 #: dashboard.py:37
 msgid "Budget taxonomies"
-msgstr ""
+msgstr "التصنيفات الميزانية"
 
 #: dashboard.py:45
 msgid "Transport"
-msgstr ""
+msgstr "نقل"
 
 #: dashboard.py:53
 msgid "Generic pages"
-msgstr ""
+msgstr "صفحات عامة"
 
 #: dashboard.py:61
 msgid "File management"
-msgstr ""
+msgstr "إدارة الملفات"
 
 #: dashboard.py:65
 msgid "Media browser"
-msgstr ""
+msgstr "متصفح وسائل الإعلام"
 
 #: dashboard.py:70
 msgid "Codebase translations"
-msgstr ""
+msgstr "ترجمات كوديباسي"
 
 #: dashboard.py:78
 msgid "External resources"
-msgstr ""
+msgstr "الموارد الخارجية"
 
 #: dashboard.py:82
 msgid "Open Budget Documentation"
-msgstr ""
+msgstr "فتح وثائق الميزانية"
 
 #: dashboard.py:87
 msgid "Django Documentation"
-msgstr ""
+msgstr "جانغو التوثيق"
 
 #: dashboard.py:92
 msgid "Grappelli Documentation"
-msgstr ""
+msgstr "???"
 
 #: dashboard.py:97
 msgid "Open Budget Repository"
-msgstr ""
+msgstr "فتح مستودع الميزانية"
 
 #: dashboard.py:105
 msgid "Credits"
-msgstr ""
+msgstr "ائتمانات"
 
 #: dashboard.py:109
 msgid "HaSadna"
-msgstr ""
+msgstr "???"
 
 #: dashboard.py:114
 msgid "Developed by prjts"
-msgstr ""
+msgstr "???"
 
 #: dashboard.py:119
 msgid "Email developers"
-msgstr ""
+msgstr "المطورين البريد الإلكتروني"
 
 #: dashboard.py:124
 msgid "Designed by bnop"
-msgstr ""
+msgstr "صمم على يد بنوف"
 
 #: dashboard.py:129
 msgid "Email designers"
-msgstr ""
+msgstr "المصممين البريد الإلكتروني"
 
 #: dashboard.py:137
 msgid "Recent Actions"
-msgstr ""
+msgstr "الإجراءات الأخيرة"
 
 #: apps/accounts/admin.py:20
 msgid "Account credentials"
-msgstr ""
+msgstr "اعتماد الحساب"
 
 #: apps/accounts/models.py:17
 msgid "Set your preferred language for the app"
-msgstr ""
+msgstr "تعيين لغتك المفضلة للتطبيق"
 
 #: apps/accounts/models.py:42
 msgid "User profile"
-msgstr ""
+msgstr "بروفيل المستخدم"
 
 #: apps/accounts/models.py:43
 msgid "User profiles"
-msgstr ""
+msgstr "بروفيل المستخدمين"
 
 #: apps/accounts/models.py:82
 msgid "Core team user"
-msgstr ""
+msgstr "مستخدم الفريق الأساسي"
 
 #: apps/accounts/models.py:83
 msgid "Core team users"
-msgstr ""
+msgstr "مستخدمين الفريق الأساسي"
 
 #: apps/accounts/models.py:105
 msgid "Content team user"
-msgstr ""
+msgstr "مستخدم فريق المحتوى"
 
 #: apps/accounts/models.py:106
 msgid "Content team users"
-msgstr ""
+msgstr "المستخدمين فريق المحتوى"
 
 #: apps/accounts/models.py:128
 msgid "Public user"
-msgstr ""
+msgstr "مستخدم عام"
 
 #: apps/accounts/models.py:129
 msgid "Public users"
@@ -762,8 +762,8 @@ msgstr ""
 
 #: apps/entities/templates/entities/entity_list.html:14
 msgid ""
-"We do not currently store budgets for the State of Israel, but please browse "
-"the Israel municipality budget and actuals data below."
+"We do not currently store budgets for the State of Israel, but please browse"
+" the Israel municipality budget and actuals data below."
 msgstr ""
 
 #: apps/entities/templates/entities/entity_list.html:17
@@ -848,8 +848,8 @@ msgstr ""
 
 #: apps/interactions/templatetags/interactions.py:77
 msgid ""
-"Add this item to your followed items. You will receive email for any updates "
-"or discussion on the item."
+"Add this item to your followed items. You will receive email for any updates"
+" or discussion on the item."
 msgstr ""
 
 #: apps/pages/forms.py:6
@@ -923,16 +923,14 @@ msgstr ""
 #: apps/pages/templates/pages/home.html:12
 msgid ""
 "\n"
-"            This is the demo site. Please have a look around. There is some "
-"test data that should give a basic overview of the current featureset.\n"
+"            This is the demo site. Please have a look around. There is some test data that should give a basic overview of the current featureset.\n"
 "            "
 msgstr ""
 
 #: apps/pages/templates/pages/home.html:17
 msgid ""
 "\n"
-"            Some features are only visible to logged in users. To login, use "
-"the following credentials:\n"
+"            Some features are only visible to logged in users. To login, use the following credentials:\n"
 "            "
 msgstr ""
 
@@ -1162,7 +1160,8 @@ msgstr ""
 #: apps/transport/incoming/errors.py:48
 #, python-format
 msgid ""
-"Source data collision error in rows: %s, %s; and columns: %s; with values: %s"
+"Source data collision error in rows: %s, %s; and columns: %s; with values: "
+"%s"
 msgstr ""
 
 #: apps/transport/incoming/errors.py:58
@@ -1307,8 +1306,7 @@ msgstr ""
 #: apps/transport/templates/transport/importer.html:12
 msgid ""
 "\n"
-"            File has been uploaded and validated, and will now be saved to "
-"the database.\n"
+"            File has been uploaded and validated, and will now be saved to the database.\n"
 "            You will receive an email once saving process is complete.\n"
 "        "
 msgstr ""
@@ -1481,8 +1479,8 @@ msgstr ""
 
 #: commons/templates/registration/activate.html:17
 msgid ""
-"Oops &ndash; it seems that your activation key is invalid.  Please check the "
-"url again."
+"Oops &ndash; it seems that your activation key is invalid.  Please check the"
+" url again."
 msgstr ""
 
 #: commons/templates/registration/activation_complete.html:12
@@ -1577,8 +1575,7 @@ msgstr ""
 #: commons/templates/registration/password_reset_done.html:14
 msgid ""
 "\n"
-"        Thanks for verifying your email address. A message has been sent to "
-"the address you supplied with further instructions.\n"
+"        Thanks for verifying your email address. A message has been sent to the address you supplied with further instructions.\n"
 "        "
 msgstr ""
 
@@ -1599,8 +1596,7 @@ msgstr ""
 #: commons/templates/registration/registration_complete.html:12
 msgid ""
 "\n"
-"        An activation email has been sent to the email address you entered. "
-"Please check your email and click on the link to activate your account.\n"
+"        An activation email has been sent to the email address you entered. Please check your email and click on the link to activate your account.\n"
 "        "
 msgstr ""
 
@@ -1681,8 +1677,7 @@ msgstr ""
 #: commons/templates/search/search.html:119
 msgid ""
 "\n"
-"            Enter any budget-related keywords, and we'll retreive the "
-"matching records for you.\n"
+"            Enter any budget-related keywords, and we'll retreive the matching records for you.\n"
 "            "
 msgstr ""
 
