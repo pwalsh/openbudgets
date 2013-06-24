@@ -59,7 +59,8 @@ class FileResponseMixin(object):
         dataset.headers = [
             'CODE',
             'NAME',
-            'AMOUNT',
+            'BUDGET',
+            'ACTUAL',
             'DIRECTION'
         ]
         for item in context['object_list']:
@@ -67,7 +68,8 @@ class FileResponseMixin(object):
                 [
                     item.node.code,
                     item.node.name,
-                    item.amount,
+                    item.budget,
+                    item.actual,
                     item.node.direction
                 ]
             )

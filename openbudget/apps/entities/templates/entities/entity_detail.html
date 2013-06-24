@@ -31,52 +31,36 @@
         {% trans 'Budgets and Actuals' %}
     </h2>
 
-    {% if not object.division.has_budgets %}
+    {% if not object.division.budgeting %}
     <p>
         <strong>{{ object.name }}</strong> {% trans 'is a' %} {{ object.division.name }} {% trans 'of' %} {{ object.division.domain }}, {% trans 'and therefore does not declare budgets. It serves a purely administrative function.' %}
     </p>
     {% else %}
 
-    {% if not object.budgets and not object.actuals %}
+    {% if not object.sheets %}
     <p>
-        {% trans 'There are no Budgets or Actuals for this entity' %}.
+        {% trans 'There are no Budgets for this entity' %}.
     </p>
     {% else %}
     <div>
         <h3>
             {% trans 'Budgets available' %}...
         </h3>
-        {% if not object.budgets.all %}
+        {% if not object.sheets.all %}
         <p>
             {% trans 'There are no Budgets this entity' %}.
         </p>
         {% else %}
         <ul>
-        {% for budget in object.budgets.all %}
+        {% for sheet in object.sheets.all %}
         <li>
-            <a href="{% url 'sheet_detail' budget.uuid %}">{{ budget.period }} {{ budget.total }}</a>
+            <a href="{% url 'sheet_detail' object.slug sheet.period %}">{{ sheet.period }} {{ sheet.total }}</a>
         </li>
 
         {% endfor %}
         </ul>
         {% endif %}
-        <h3>
-            {% trans 'Actuals available' %}...
-        </h3>
-        {% if not object.actuals.all %}
-        <p>
-            {% trans 'There are no Budgets this entity' %}.
-        </p>
-        {% else %}
-        <ul>
-        {% for actual in object.actuals.all %}
-        <li>
-            <a href="{% url 'actual_detail' actual.uuid %}">{{ actual.period }} {{ actual.total }}</a> {% if actual.has_budgets %}({{ actual.variance }}%){% endif %}
-        </li>
 
-        {% endfor %}
-        </ul>
-        {% endif %}
     </div>
     {% endif %}
 

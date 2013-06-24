@@ -19,13 +19,13 @@ urlpatterns = patterns('',
         name='sheet_list'
     ),
     url(
-        r'^sheets/(?P<entity_slug>[-\w]+)/(?P<period>[-\w]+)/$',
-        ui.SheetDetail.as_view(),
-        name='sheet_detail'
-    ),
-    url(
         r'^sheets/items/(?P<slug>[-\w]+)/$',
         ui.SheetItemDetail.as_view(),
         name='sheet_item_detail'
+    ),
+    url(
+        r'^sheets/(?P<entity_slug>[-\w]+)/(?P<period>[-\w]+)/$',
+        ui.SheetDetail.as_view(),
+        name='sheet_detail'
     ),
 )

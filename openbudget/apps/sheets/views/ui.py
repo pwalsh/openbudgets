@@ -5,6 +5,7 @@ from django.utils.translation import ugettext as _
 from django.shortcuts import render
 from openbudget.apps.sheets import models
 from openbudget.apps.entities.models import Entity
+from openbudget.apps.sheets.models import Sheet
 from openbudget.settings import base as settings
 
 
