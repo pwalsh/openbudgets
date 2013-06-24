@@ -507,11 +507,10 @@ class SheetItem(BaseItem, TimeStampedModel, UUIDModel, ClassMethodMixin):
 
 class DenormalizedSheetItem(BaseNode, BaseItem, UUIDModel, ClassMethodMixin):
 
-    DIRECTIONS = (
-        ('REVENUE', _('REVENUE')),
-        ('EXPENDITURE', _('EXPENDITURE'))
+    normal_item = models.OneToOneField(
+        SheetItem,
+        related_name='denormalized'
     )
-
     node_description = models.TextField(
         _('Entry description'),
         blank=True,
