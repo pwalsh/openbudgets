@@ -9,17 +9,19 @@
 {% block content %}
 <section>
     <h2>
-        {{ object.budget.entity }} {{ object.budget.period }} {% trans 'budget' %}
+        {{ object.sheet.entity }} {{ object.sheet.period }} {% trans 'budget' %}
     </h2>
     <div>
-        {% trans 'Amount' %}: {{ object.amount }}
+        {% trans 'Budget Amount' %}: {{ object.budget }}
+        <br />
+        {% trans 'Actual Amount' %}: {{ object.actual }}
         <br />
         {{ object.description }}
     </div>
     <div>
-        <a href="{% url 'sheet_detail' object.budget.uuid %}">{% trans 'Back to the Budget' %}</a>
+        <a href="{% url 'sheet_detail' object.sheet.entity.slug object.sheet.period %}">{% trans 'Back to the Budget' %}</a>
         <br />
-        <a href="{% url 'entity_detail' object.budget.entity.slug %}">{% trans 'Back to the Entity' %}</a>
+        <a href="{% url 'entity_detail' object.sheet.entity.slug %}">{% trans 'Back to the Entity' %}</a>
     </div>
 </section>
 {% include 'interactions/partials/_discussion.html' %}
