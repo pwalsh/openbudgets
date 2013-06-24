@@ -42,16 +42,16 @@ define([
             }
         }),
         /*
-         * BudgetTemplateNode Model
+         * DnormalizedSheetItem Model
          */
-        Node = uijet.Model({
+        Sheet = uijet.Model({
             idAttribute : 'id'
         }),
         /*
-         * BudgetTemplateNodes Collection
+         * DnormalizedSheetItems Collection
          */
-        Nodes = uijet.Collection({
-            model           : Node,
+        Items = uijet.Collection({
+            model           : Item,
             comparator      : function (a, b) {
                 var a_attrs = a.attributes,
                     b_attrs = b.attributes,
@@ -67,8 +67,8 @@ define([
                 return diff > 0 ? 1 : -1;
             },
             /**
-             * Setting `ancestors` array of `id`s, `leaf_node` boolean flag and
-             * `level` - a Number representing the level of the node in the tree.
+             * Setting `ancestors` array of `id`s, `leaf_item` boolean flag and
+             * `level` - a Number representing the level of the item in the tree.
              * 
              * @param {Object|Array} response
              * @returns {Object|Array} response
@@ -78,31 +78,31 @@ define([
                     last = results.length - 1,
                     paths_lookup = {},
                     parent_ids = {},
-                    node, n, route, path;
-                for ( n = last; node = results[n]; n-- ) {
-                    node.ancestors = [];
-                    paths_lookup[node.path] = node;
-                    if ( node.parent ) {
-                        node.parent = node.parent.id || node.parent;
-                        if ( ! parent_ids[node.parent] ) {
-                            parent_ids[node.parent] = [];
+                    item, n, route, path;
+                for ( n = last; item = results[n]; n-- ) {
+                    item.ancestors = [];
+                    paths_lookup[item.path] = item;
+                    if ( item.parent ) {
+                        item.parent = item.parent.id || item.parent;
+                        if ( ! parent_ids[item.parent] ) {
+                            parent_ids[item.parent] = [];
                         }
-                        parent_ids[node.parent].push(node.id);
+                        parent_ids[item.parent].push(item.id);
                     }
                 }
-                for ( n = last; node = results[n]; n-- ) {
-                    if ( parent_ids[node.id] ) {
-                        node.children = parent_ids[node.id];
+                for ( n = last; item = results[n]; n-- ) {
+                    if ( parent_ids[item.id] ) {
+                        item.children = parent_ids[item.id];
                     }
                     else {
-                        node.leaf_node = true;
+                        item.leaf_item = true;
                     }
-                    route = node.path.split('|').slice(1);
-                    node.level = route.length;
+                    route = item.path.split('|').slice(1);
+                    item.level = route.length;
                     while ( route.length ) {
                         path = route.join('|');
                         if ( path in paths_lookup ) {
-                            node.ancestors.push(paths_lookup[path].id);
+                            item.ancestors.push(paths_lookup[path].id);
                         }
                         route.shift();
                     }
@@ -122,33 +122,33 @@ define([
             },
             byAncestor      : function (ancestor_id) {
                 if ( ancestor_id ) {
-                    return this.filter(function (node) {
-                        return ~ node.attributes.ancestors.indexOf(ancestor_id);
+                    return this.filter(function (item) {
+                        return ~ item.attributes.ancestors.indexOf(ancestor_id);
                     });
                 }
                 else {
                     return this.models;
                 }
             },
-            branch          : function (node_id) {
-                var tip_node, branch;
-                if ( node_id ) {
-                    tip_node = this.get(node_id);
+            branch          : function (item_id) {
+                var tip_item, branch;
+                if ( item_id ) {
+                    tip_item = this.get(item_id);
                     //! Array.prototype.map
-                    branch = tip_node.get('ancestors')
+                    branch = tip_item.get('ancestors')
                         .map( function (ancestor_id) {
                             return this.get(ancestor_id);
                         }, this )
                         .sort( function (a, b) {
                             return a.attributes.level - b.attributes.level;
                         } );
-                    branch.push(tip_node);
+                    branch.push(tip_item);
                 }
                 return branch || [];
             },
-            past            : function (node_id, past) {
-                var node = this.get(node_id),
-                    backwards = node.get('backwards');
+            past            : function (item_id, past) {
+                var item = this.get(item_id),
+                    backwards = item.get('backwards');
                 past = past || [];
                 _.each(backwards, function (id) {
                     past.push(id);
@@ -156,9 +156,9 @@ define([
                 }, this);
                 return past;
             },
-            future          : function (node_id, future) {
-                var node = this.get(node_id),
-                    forwards = node.get('forwards');
+            future          : function (item_id, future) {
+                var item = this.get(item_id),
+                    forwards = item.get('forwards');
                 future = future || [];
                 _.each(forwards, function (id) {
                     future.push(id);
@@ -166,15 +166,15 @@ define([
                 }, this);
                 return future;
             },
-            timeline        : function (node_id) {
-                return[node_id].concat(this.future(node_id), this.past(node_id));
+            timeline        : function (item_id) {
+                return[item_id].concat(this.future(item_id), this.past(item_id));
             }
         });
 
     return {
         Munis   : Munis,
-        Node    : Node,
-        Nodes   : Nodes,
+        Item    : Item,
+        Items   : Items,
         utils   : {
             reverseSorting  : reverseSorting
         }

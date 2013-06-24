@@ -2,15 +2,15 @@ define([
     'uijet_dir/uijet',
     'resources',
     'api',
-    'ui/nodes',
+    'ui/items',
     'project_widgets/FilteredList',
-    'controllers/NodesList'
+    'controllers/ItemsList'
 ], function (uijet, resources, api) {
 
     uijet.declare([{
         type    : 'Pane',
         config  : {
-            element     : '#nodes_list_container',
+            element     : '#items_list_container',
             dont_wake   : true,
             app_events  : {
                 'entities_list.selected': function (id) {
@@ -21,7 +21,7 @@ define([
     }, {
         type    : 'List',
         config  : {
-            element     : '#nodes_list_header',
+            element     : '#items_list_header',
             horizontal  : true,
             position    : 'top:2rem fluid',
             signals     : {
@@ -39,10 +39,10 @@ define([
     }, {
         type    : 'FilteredList',
         config  : {
-            element         : '#nodes_list',
+            element         : '#items_list',
             mixins          : ['Templated', 'Scrolled'],
-            adapters        : ['jqWheelScroll', 'Spin', 'NodesList'],
-            resource        : 'LatestTemplate',
+            adapters        : ['jqWheelScroll', 'Spin', 'ItemsList'],
+            resource        : 'LatestSheet',
             position        : 'fluid',
             fetch_options   : {
                 reset   : true,
@@ -91,7 +91,7 @@ define([
                             // this makes sure the resource will execute fetch to sync with remote server
                             this.dont_fetch = false;
                             this.has_data = false;
-                            this.resource.url = api.getRoute('templateNodes') + '?page_by=4000&latest=True&entity=' + entity_id;
+                            this.resource.url = api.getRoute('sheetItems') + '?page_by=4000&latest=True&entity=' + entity_id;
                         }
                         else {
                             this.dont_fetch = true;
@@ -149,26 +149,26 @@ define([
                     }
                 },
                 post_select     : function ($selected) {
-                    var node_id = +$selected.attr('data-id') || null;
-                    this.redraw(node_id);
+                    var item_id = +$selected.attr('data-id') || null;
+                    this.redraw(item_id);
                 }
             },
             app_events      : {
                 'legends_list.change_state'                 : 'wake+',
                 'search.changed'                            : 'updateSearchFilter+',
                 'selected.changed'                          : 'updateSelectedFilter+',
-                'nodes_list.filtered'                       : function () {
+                'items_list.filtered'                       : function () {
                     this.scroll()
                         .$element.removeClass('invisible');
                 },
-                'node_breadcrumb_main.clicked'              : 'redraw',
-                'node_breadcrumb_back.clicked'              : function (data) {
+                'item_breadcrumb_main.clicked'              : 'redraw',
+                'item_breadcrumb_back.clicked'              : function (data) {
                     this.redraw(data.context.id);
                 },
-                'nodes_breadcrumbs.selected'                : 'post_select+',
-                'nodes_breadcrumbs_history_menu.selected'   : 'post_select+',
-                'nodes_list_header.selected'                : 'sortItems+',
-                'nodes_list.selection'                      : function () {
+                'items_breadcrumbs.selected'                : 'post_select+',
+                'items_breadcrumbs_history_menu.selected'   : 'post_select+',
+                'items_list_header.selected'                : 'sortItems+',
+                'items_list.selection'                      : function () {
                     var resource = this.resource,
                         filter = this.active_filters ?
                             this.resource.byAncestor :
@@ -184,7 +184,7 @@ define([
                         $item.attr('data-selected', state);
                     });
                     if ( this.selected_active ) {
-                        this.filterBySelected(uijet.Resource('NodesListState').get('selected'));
+                        this.filterBySelected(uijet.Resource('ItemsListState').get('selected'));
                     }
                 }
             }

@@ -3,7 +3,7 @@ define([
     'composites/DropmenuButton'
 ], function (uijet) {
 
-    var BREADCRUMB_CLASS = 'node_breadcrumb';
+    var BREADCRUMB_CLASS = 'item_breadcrumb';
 
     uijet.Widget('Breadcrumbs', {
         //TODO: the type_class still gets messed up if not specified - need to fix inside uijet
@@ -15,7 +15,7 @@ define([
             uijet.start([{
                 type    : 'Button',
                 config  : {
-                    element     : '#node_breadcrumb_main',
+                    element     : '#item_breadcrumb_main',
                     container   : this.id,
                     dont_wake   : true,
                     disabled    : true,
@@ -28,12 +28,12 @@ define([
                         }
                     },
                     app_events  : {
-                        'nodes_breadcrumbs.hide_root'   : 'sleep',
-                        'nodes_breadcrumbs.enable_root' : function () {
+                        'items_breadcrumbs.hide_root'   : 'sleep',
+                        'items_breadcrumbs.enable_root' : function () {
                             this.wake();
                             this.enable();
                         },
-                        'nodes_breadcrumbs.disable_root': function () {
+                        'items_breadcrumbs.disable_root': function () {
                             this.wake();
                             this.disable();
                         }
@@ -42,7 +42,7 @@ define([
             }, {
                 type    : 'Button',
                 config  : {
-                    element     : '#node_breadcrumb_back',
+                    element     : '#item_breadcrumb_back',
                     container   : this.id,
                     dont_wake   : true,
                     signals     : {
@@ -57,14 +57,14 @@ define([
                         }
                     },
                     app_events  : {
-                        'nodes_breadcrumbs.hide_back'   : 'sleep',
-                        'nodes_breadcrumbs.set_back'    : 'wake+'
+                        'items_breadcrumbs.hide_back'   : 'sleep',
+                        'items_breadcrumbs.set_back'    : 'wake+'
                     }
                 }
             }, {
                 type    : 'DropmenuButton',
                 config  : {
-                    element         : '#nodes_breadcrumbs_history',
+                    element         : '#items_breadcrumbs_history',
                     container       : this.id,
                     dont_wake       : true,
                     wrapper_class   : 'hide',
@@ -97,7 +97,7 @@ define([
                         }
                     },
                     app_events  : {
-                        'nodes_breadcrumbs.updated' : function (crumbs) {
+                        'items_breadcrumbs.updated' : function (crumbs) {
                             if ( crumbs && crumbs.length ) {
                                 this.wake(crumbs);
                             }
@@ -109,10 +109,10 @@ define([
                 }
             }]);
 
-            this.subscribe('node_breadcrumb_main.clicked', function () {
+            this.subscribe('item_breadcrumb_main.clicked', function () {
                 this.resource.reset([]);
             });
-            this.subscribe('node_breadcrumb_back.clicked', function (data) {
+            this.subscribe('item_breadcrumb_back.clicked', function (data) {
                 var id = data.context.id,
                     models = [];
                 if ( id ) {
@@ -126,10 +126,10 @@ define([
                 }
                 this.resource.reset(models);
             });
-            this.subscribe('nodes_breadcrumbs_history_menu.selected', function ($selected) {
-                var node_id = +$selected.attr('data-id');
+            this.subscribe('items_breadcrumbs_history_menu.selected', function ($selected) {
+                var item_id = +$selected.attr('data-id');
                 this.resource.reset(
-                    uijet.Resource('LatestTemplate').branch(node_id)
+                    uijet.Resource('LatestSheet').branch(item_id)
                 );
             });
 

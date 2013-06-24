@@ -8,9 +8,9 @@ define([
 ], function (uijet, resources) {
 
     uijet.Resource('Breadcrumbs', uijet.Collection({
-        model   : resources.Node
+        model   : resources.Item
     }))
-    .Resource('NodesListState', uijet.Model(), {
+    .Resource('ItemsListState', uijet.Model(), {
         search  : null,
         selected: null
     });
@@ -27,9 +27,9 @@ define([
     uijet.declare([{
         type    : 'Pane',
         config  : {
-            element     : '#nodes_picker',
+            element     : '#items_picker',
             position    : 'fluid',
-            resource    : 'NodesListState',
+            resource    : 'ItemsListState',
             data_events : {
                 'change:search'     : '-search.changed',
                 'change:selected'   : '-selected.changed'
@@ -45,12 +45,12 @@ define([
     }, {
         type    : 'Pane',
         config  : {
-            element     : '#nodes_filters_pane',
+            element     : '#items_filters_pane',
             mixins      : ['Layered'],
             position    : 'top:100 fluid',
             app_events  : {
-                'nodes_search.entered'  : 'wake',
-                'nodes_search.cancelled': 'wake'
+                'items_search.entered'  : 'wake',
+                'items_search.cancelled': 'wake'
             }
         }
     }, {
@@ -66,7 +66,7 @@ define([
     }, {
         type    : 'Pane',
         config  : {
-            element     : '#nodes_search_pane',
+            element     : '#items_search_pane',
             mixins      : ['Layered'],
             dont_wake   : true,
             position    : 'top:100 fluid',
@@ -77,8 +77,8 @@ define([
     }, {
         type    : 'ClearableTextInput',
         config  : {
-            element     : '#nodes_search',
-            resource    : 'NodesListState',
+            element     : '#items_search',
+            resource    : 'ItemsListState',
             dom_events  : {
                 keyup   : function (e) {
                     var code = e.keyCode || e.which,
@@ -112,7 +112,7 @@ define([
                 }
             },
             app_events  : {
-                'nodes_search_clear.clicked': function () {
+                'items_search_clear.clicked': function () {
                     this.resource.set({ search : '' });
                 }
             }
@@ -120,16 +120,16 @@ define([
     }, {
         type    : 'Breadcrumbs',
         config  : {
-            element     : '#nodes_breadcrumbs',
+            element     : '#items_breadcrumbs',
             resource    : 'Breadcrumbs',
             data_events : {
                 change  : 'render',
                 reset   : 'render'
             },
             app_events  : {
-                'nodes_list.selected'   : function (selected) {
+                'items_list.selected'   : function (selected) {
                     this.resource.reset(
-                        uijet.Resource('LatestTemplate').branch(selected)
+                        uijet.Resource('LatestSheet').branch(selected)
                     );
                 }
             }
@@ -146,7 +146,7 @@ define([
                 }
             },
             app_events  : {
-                'nodes_search.entered'  : function (query) {
+                'items_search.entered'  : function (query) {
                     query !== null && this.wake();
                 },
                 'filters_search.clicked': 'sleep',
