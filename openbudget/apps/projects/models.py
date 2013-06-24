@@ -15,9 +15,7 @@ class ProjectManager(models.Manager):
 
 
 class Project(TimeStampedModel, UUIDModel, ClassMethodMixin):
-    """
-    Visualization state object comprised of configuration, data input and some meta data.
-    """
+    """API Project object, comprised of initial data + some meta data."""
 
     objects = ProjectManager()
 
@@ -71,3 +69,40 @@ class Project(TimeStampedModel, UUIDModel, ClassMethodMixin):
         verbose_name = _('Project')
         verbose_name_plural = _('Projects')
 
+
+class State(TimeStampedModel, UUIDModel, ClassMethodMixin):
+    """State objects describe saved states of specific projects."""
+
+    project = models.ForeignKey(
+        Project,
+        related_name='states'
+    )
+    author = models.ForeignKey(
+        Account,
+        related_name='saved_states'
+    )
+    preview = models.ImageField(
+        _('Preview'),
+        # TODO: write a function to customize upload to user directory
+        upload_to=settings.MEDIA_ROOT,
+        blank=True,
+        null=True,
+        help_text=_('A preview image for this state')
+    )
+    config = JSONField(
+        _('Data and configuration'),
+        blank=True,
+        null=True,
+        help_text=_('JSON serialized configuration object of the state.')
+    )
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('state_detail', [self.uuid])
+
+    def __unicode__(self):
+        return self.project.name + u'state: ' + unicode(self.last_modified)
+
+    class Meta:
+        verbose_name = _('State')
+        verbose_name_plural = _('States')
