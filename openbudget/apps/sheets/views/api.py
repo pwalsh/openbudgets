@@ -29,22 +29,11 @@ class TemplateNodeList(generics.ListAPIView):
     """API endpoint that represents a list of template nodes."""
 
     model = models.TemplateNode
-    #queryset = model.objects.related_map_min()
+    queryset = model.objects.related_map_min()
     serializer_class = serializers.TemplateNodeBase
-    #filter_class = filters.TemplateNodeFilter
+    filter_class = filters.TemplateNodeFilter
     ordering = ['name', 'created_on', 'last_modified']
     search_fields = ['name', 'description'] + translated_fields(model)
-
-    def get_queryset(self):
-        queryset = self.model.objects.all()
-        entity = self.request.QUERY_PARAMS.get('entity', None)
-        latest = self.request.QUERY_PARAMS.get('latest', None)
-        if entity is not None:
-            if latest:
-                queryset = models.Template.objects.latest_of(entity=entity).nodes
-            else:
-                pass
-        return queryset
 
 
 class TemplateNodeDetail(generics.RetrieveAPIView):
@@ -78,21 +67,31 @@ class SheetDetail(generics.RetrieveAPIView):
 class SheetItemList(generics.ListAPIView):
     """API endpoint that represents a list of budget items."""
 
-    model = models.SheetItem
+    model = models.DenormalizedSheetItem
     queryset = model.objects.related_map_min()
     serializer_class = serializers.SheetItemBase
     filter_class = filters.SheetItemFilter
-    ordering = ['sheet__entity__name', 'node__code', 'created_on', 'last_modified']
-    search_fields = ['sheet__entity__name', 'node__code', 'node__name',
-                     'node__description', 'description', 'period_start',
-                     'period_end'] + translated_fields(model) + \
-                    translated_fields(models.TemplateNode)
+    ordering = ['sheet__entity__name', 'code', 'created_on', 'last_modified']
+    search_fields = ['sheet__entity__name', 'code', 'name',
+                     'node_description', 'description', 'period_start',
+                     'period_end'] + translated_fields(model)
+
+    def get_queryset(self):
+        queryset = self.model.objects.all()
+        entity = self.request.QUERY_PARAMS.get('entity', None)
+        latest = self.request.QUERY_PARAMS.get('latest', None)
+        if entity is not None:
+            if latest:
+                queryset = models.Sheet.objects.latest_of(entity=entity).denormalizedsheetitems
+            else:
+                pass
+        return queryset
 
 
 class SheetItemDetail(generics.RetrieveAPIView):
     """API endpoint that represents a single budget item."""
 
-    model = models.SheetItem
+    model = models.DenormalizedSheetItem
     queryset = model.objects.related_map()
     serializer_class = serializers.SheetItemBase
 

@@ -14,8 +14,8 @@ define([
             template_name   : 'legend_item',
             dont_fetch      : true,
             data_events     : {
-                'change:nodes'  : function (model, value) {
-                    this.$element.find('.selected_nodes_count').text(value.length);
+                'change:items'  : function (model, value) {
+                    this.$element.find('.selected_items_count').text(value.length);
                 },
                 'change:muni'   : function (model,value) {
                     this.$element.find('.entity').text(value.get('name'));
@@ -64,7 +64,7 @@ define([
                         title       : 'Title me',
                         description : 'Describe me',
                         muni        : '',
-                        nodes       : []
+                        items       : []
                     });
                     this.current_index = this.resource.add(model).length - 1;
 
@@ -95,18 +95,18 @@ define([
                         muni: uijet.Resource('Munis').get(id)
                     });
                 },
-                'nodes_list.selection'  : function (data) {
+                'items_list.selection'  : function (data) {
                     if ( data && data.reset ) return;
-                    var resource = uijet.Resource('LatestTemplate'),
-                        selected_nodes = resource.where({ selected : 'selected' })
+                    var resource = uijet.Resource('LatestSheet'),
+                        selected_items = resource.where({ selected : 'selected' })
                                                  .map(uijet.Utils.prop('id')),
-                        partial_nodes = resource.where({ selected : 'partial' })
+                        partial_items = resource.where({ selected : 'partial' })
                                                 .map(uijet.Utils.prop('id'));
                     this.resource.at(this.current_index).set({
-                        nodes   : selected_nodes,
+                        items   : selected_items,
                         state   : {
-                            selected: selected_nodes,
-                            partial : partial_nodes
+                            selected: selected_items,
+                            partial : partial_items
                         }
                     });
                 }

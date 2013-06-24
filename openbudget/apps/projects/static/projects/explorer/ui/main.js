@@ -1,6 +1,6 @@
 define([
     'explorer',
-    'ui/nodes-list'
+    'ui/items-list'
 ], function (Explorer) {
 
     return Explorer;

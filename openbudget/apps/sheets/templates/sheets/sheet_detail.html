@@ -33,12 +33,14 @@
         </h2>
         {% if object.items %}
         {% for item in object.items.all %}
-        <div class="budget-item">
+        <div class="sheet-item">
             [{{ item.node.code }}] {{ item.node.name }}
             <br />
-            {{ item.amount }} {% trans 'NIS' %}
+            {% trans 'Budget' %}: {{ item.budget }} {% trans 'NIS' %}
             <br />
-            <a href="{% url 'budget_item_detail' item.uuid %}">
+            {% trans 'Actual' %}: {{ item.actual }} {% trans 'NIS' %}
+            <br />
+            <a href="{% url 'sheet_item_detail' item.uuid %}">
                 {% trans 'View' %}
             </a>
         </div>

@@ -23,10 +23,11 @@ class TemplateParser(BaseParser):
     ITEM_ATTRIBUTES = ['name', 'code', 'parent', 'path', 'templates', 'direction', 'description']\
         + translated_fields(TemplateNode)
 
-    def __init__(self, container_object_dict, extends=None, fill_in_parents=None, interpolate=None):
+    def __init__(self, container_object_dict, rows_filters=None, extends=None, fill_in_parents=None, interpolate=None):
         super(TemplateParser, self).__init__(container_object_dict)
         self.parent = extends
         self.skipped_rows = []
+        self.rows_filters = rows_filters or []
 
         #TODO: this assumes there's always a base template to inherit from, might need to support parents filling w/o parent template
         if extends:
@@ -426,6 +427,9 @@ class TemplateParser(BaseParser):
         self.rows_objects_lookup = rows_objects_lookup
 
     def _rows_filter(self, obj, row_num=None):
+        for filter in self.rows_filters:
+            if not filter(obj, row_num):
+                return False
         return True
 
     def _skipped_row(self, obj, row_num):

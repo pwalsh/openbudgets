@@ -26,6 +26,6 @@ class SheetFilter(FilterSet):
 class SheetItemFilter(FilterSet):
 
     class Meta:
-        model = models.SheetItem
-        fields = ['sheet', 'sheet__entity', 'node', 'node__code',
-                  'node__direction', 'node__parent', 'node__children']
+        model = models.DenormalizedSheetItem
+        fields = ['sheet', 'sheet__entity', 'code',
+                  'direction', 'parent', 'children', 'inverse']

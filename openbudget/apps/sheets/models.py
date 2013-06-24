@@ -108,44 +108,18 @@ class Template(TimeStampedModel, UUIDModel, PeriodStartModel, ClassMethodMixin):
         return self.name
 
 
-class TemplateNodeManager(models.Manager):
-    """Exposes the related_map methods for more efficient bulk select queries."""
-
-    def related_map_min(self):
-        return self.select_related('parent')
-
-    def related_map(self):
-        return self.select_related('parent').prefetch_related('children',
-                                                              'templates',
-                                                              'inverse',
-                                                              'backwards')
-
-
-class TemplateNode(TimeStampedModel, UUIDModel):
-    """The nodes that make up a template."""
+class BaseNode(models.Model):
 
     DIRECTIONS = (
         ('REVENUE', _('REVENUE')),
         ('EXPENDITURE', _('EXPENDITURE'))
     )
 
-    objects = TemplateNodeManager()
-
-    templates = models.ManyToManyField(
-        Template,
-        through='TemplateNodeRelation',
-        related_name='nodes'
-    )
     name = models.CharField(
         _('Name'),
         db_index=True,
         max_length=255,
         help_text=_('The name of this template node.')
-    )
-    description = models.TextField(
-        _('Entry description'),
-        blank=True,
-        help_text=_('A descriptive text for this template node.')
     )
     code = models.CharField(
         _('Code'),
@@ -191,6 +165,39 @@ class TemplateNode(TimeStampedModel, UUIDModel):
         blank=True,
         symmetrical=False,
         related_name='forwards'
+    )
+
+    class Meta:
+        abstract = True
+
+
+class TemplateNodeManager(models.Manager):
+    """Exposes the related_map methods for more efficient bulk select queries."""
+
+    def related_map_min(self):
+        return self.select_related('parent')
+
+    def related_map(self):
+        return self.select_related('parent').prefetch_related('children',
+                                                              'templates',
+                                                              'inverse',
+                                                              'backwards')
+
+
+class TemplateNode(BaseNode, TimeStampedModel, UUIDModel):
+    """The nodes that make up a template."""
+
+    objects = TemplateNodeManager()
+
+    templates = models.ManyToManyField(
+        Template,
+        through='TemplateNodeRelation',
+        related_name='nodes'
+    )
+    description = models.TextField(
+        _('Entry description'),
+        blank=True,
+        help_text=_('A descriptive text for this template node.')
     )
 
     referencesources = generic.GenericRelation(
@@ -402,40 +409,11 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel, ClassMethodMixin):
         return unicode(self.period)
 
 
-class SheetItemManager(models.Manager):
-    """Exposes the related_map method for more efficient bulk select queries."""
-
-    def get_queryset(self):
-        return super(SheetItemManager, self).select_related('node')
-
-    def related_map_min(self):
-        return self.select_related()
-
-    def related_map(self):
-        return self.select_related().prefetch_related('discussion')
-
-    def timeline(self, node_uuid, entity_uuid):
-        try:
-            node = TemplateNode.objects.get(uuid=node_uuid)
-        except TemplateNode.DoesNotExist as e:
-            raise e
-        value = self.model.objects.filter(node__in=node.timeline,
-                                          budget__entity__uuid=entity_uuid)
-        return value
-
-
-class SheetItem(TimeStampedModel, UUIDModel, ClassMethodMixin):
-    """A single item in a given sheet."""
-
-    objects = SheetItemManager()
+class BaseItem(models.Model):
 
     sheet = models.ForeignKey(
         Sheet,
-        related_name='items'
-    )
-    node = models.ForeignKey(
-        TemplateNode,
-        related_name='%(class)ss',
+        related_name='%(class)ss'
     )
     description = models.TextField(
         _('Description'),
@@ -466,6 +444,42 @@ class SheetItem(TimeStampedModel, UUIDModel, ClassMethodMixin):
         object_id_field="object_pk"
     )
 
+    class Meta:
+        abstract = True
+
+
+class SheetItemManager(models.Manager):
+    """Exposes the related_map method for more efficient bulk select queries."""
+
+    def get_queryset(self):
+        return super(SheetItemManager, self).select_related('node')
+
+    def related_map_min(self):
+        return self.select_related()
+
+    def related_map(self):
+        return self.select_related().prefetch_related('discussion')
+
+    def timeline(self, node_uuid, entity_uuid):
+        try:
+            node = TemplateNode.objects.get(uuid=node_uuid)
+        except TemplateNode.DoesNotExist as e:
+            raise e
+        value = self.model.objects.filter(node__in=node.timeline,
+                                          budget__entity__uuid=entity_uuid)
+        return value
+
+
+class SheetItem(BaseItem, TimeStampedModel, UUIDModel, ClassMethodMixin):
+    """A single item in a given sheet."""
+
+    objects = SheetItemManager()
+
+    node = models.ForeignKey(
+        TemplateNode,
+        related_name='%(class)ss',
+    )
+
     referencesources = generic.GenericRelation(
         ReferenceSource
     )
@@ -489,3 +503,49 @@ class SheetItem(TimeStampedModel, UUIDModel, ClassMethodMixin):
 
     def __unicode__(self):
         return self.node.code
+
+
+class DenormalizedSheetItemManager(models.Manager):
+    """Exposes the related_map method for more efficient bulk select queries."""
+
+    def related_map_min(self):
+        return self.select_related()
+
+    def related_map(self):
+        return self.select_related().prefetch_related('discussion')
+
+    # def timeline(self, node_uuid, entity_uuid):
+    #     try:
+    #         node = TemplateNode.objects.get(uuid=node_uuid)
+    #     except TemplateNode.DoesNotExist as e:
+    #         raise e
+    #     value = self.model.objects.filter(node__in=node.timeline,
+    #                                       budget__entity__uuid=entity_uuid)
+    #     return value
+
+
+class DenormalizedSheetItem(BaseNode, BaseItem, UUIDModel, ClassMethodMixin):
+
+    objects = DenormalizedSheetItemManager()
+
+    normal_item = models.OneToOneField(
+        SheetItem,
+        related_name='denormalized'
+    )
+    node_description = models.TextField(
+        _('Entry description'),
+        blank=True,
+        help_text=_('A descriptive text for this template node underlying this sheet item.')
+    )
+
+    class Meta:
+        ordering = ['code']
+        verbose_name = _('denormalized sheet item')
+        verbose_name_plural = _('denormalized sheet items')
+
+    @models.permalink
+    def get_absolute_url(self):
+        return 'denormalized_sheet_item_detail', [self.uuid]
+
+    def __unicode__(self):
+        return self.code

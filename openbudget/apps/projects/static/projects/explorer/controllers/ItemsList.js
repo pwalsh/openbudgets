@@ -5,7 +5,7 @@ define([
 
     var arraySort = Array.prototype.sort;
 
-    uijet.Adapter('NodesList', {
+    uijet.Adapter('ItemsList', {
         redraw              : function (scope) {
             var filter = this.active_filters ?
                     this.resource.byAncestor :
