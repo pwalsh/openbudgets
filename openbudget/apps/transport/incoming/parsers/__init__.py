@@ -26,6 +26,7 @@ class BaseParser(object):
 
     ROUTE_SEPARATOR = PATH_SEPARATOR
     ITEM_SEPARATOR = ITEM_SEPARATOR
+    ITEM_CLEANING_EXCLUDE = []
 
     def __init__(self, container_object_dict):
         self.valid = True
@@ -151,6 +152,18 @@ class BaseParser(object):
         This method needs to be implemented by non-abstract implementations.
         """
         raise NotImplementedError
+
+    def _create_item(self, obj, key):
+        self._clean_object(obj, key)
+
+        if not self.dry:
+            item = self.item_model.objects.create(**obj)
+        else:
+            item = self.item_model(**obj)
+            row_num = self.rows_objects_lookup.get(key, None)
+            self._dry_clean(item, row_num=row_num, exclude=self.ITEM_CLEANING_EXCLUDE)
+
+        return item
 
     def _clean_object(self, obj, key):
         """

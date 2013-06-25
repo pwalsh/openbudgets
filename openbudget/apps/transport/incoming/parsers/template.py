@@ -365,18 +365,7 @@ class TemplateParser(BaseParser):
 
     def _create_item(self, obj, key):
         # work with a clone so we always keep the source input
-        obj = obj.copy()
-
-        self._clean_object(obj, key)
-
-        if not self.dry:
-            item = self.item_model.objects.create(**obj)
-        else:
-            item = self.item_model(**obj)
-            row_num = self.rows_objects_lookup.get(key, None)
-            self._dry_clean(item, row_num=row_num)
-
-        return item
+        return super(TemplateParser, self)._create_item(obj.copy(), key)
 
     def _add_to_container(self, item, key):
         if not self.dry:
