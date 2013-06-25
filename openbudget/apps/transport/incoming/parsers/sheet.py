@@ -12,15 +12,27 @@ def _rows_filter(obj, row_num=None):
     if obj['has_children']:
         return True
     else:
-        try:
-            float(obj['budget'])
-            return True
-        except (KeyError, ValueError, TypeError):
+        if 'budget' in obj:
             try:
-                float(obj['actual'])
-                return True
-            except (KeyError, ValueError, TypeError):
+                budget = float(obj['budget'])
+                if budget > 0:
+                    return True
+                elif 'actual' in obj:
+                    try:
+                        actual = float(obj['actual'])
+                        return actual > 0
+                    except (ValueError, TypeError):
+                        pass
+            except (ValueError, TypeError):
                 pass
+        elif 'actual' in obj:
+            try:
+                actual = float(obj['actual'])
+                return actual > 0
+            except (ValueError, TypeError):
+                pass
+        else:
+            raise ParsingError(__('Neither actual nor budget columns found.'))
 
         return False
 
