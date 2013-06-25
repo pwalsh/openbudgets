@@ -80,17 +80,12 @@ class SheetParser(TemplateParser):
             self._create_container()
 
             if dry:
-                # save an untempered copy
-                lookup_table_copy = deepcopy(self.objects_lookup)
-
                 # loop the lookup table and save every item
                 for key, obj in self.objects_lookup.iteritems():
                     self._save_item(obj, key)
 
                 if not self.keep_cache:
                     self._clear_cache()
-                # clear all changes by replacing the lookup with the old copy
-                self.objects_lookup = lookup_table_copy
 
             else:
                 # loop the lookup table and save item for every row
@@ -172,14 +167,16 @@ class SheetParser(TemplateParser):
         else:
             raise ParsingError(__('Did not find a node for the item in row: %s') % self.rows_objects_lookup[key])
 
-        self._clean_object(obj, key)
-        if not self.dry:
-            item = self.item_model.objects.create(**obj)
-        else:
-            item = self.item_model(**obj)
-            self._dry_clean(item, self.rows_objects_lookup[key], exclude=self.ITEM_CLEANING_EXCLUDE)
+        return super(TemplateParser, self)._create_item(obj, key)
 
-        return item
+    def _clean_object(self, obj, key):
+        super(SheetParser, self)._clean_object(obj, key)
+
+        if 'budget' not in obj or not obj['budget']:
+            obj['budget'] = 0.0
+
+        if 'actual' not in obj or not obj['actual']:
+            obj['actual'] = 0.0
 
     def _add_to_container(self, obj, key):
         if not self.dry:
