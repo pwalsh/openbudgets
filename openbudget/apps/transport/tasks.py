@@ -36,9 +36,11 @@ def denormalize_sheet(sheet_id):
             item.save()
 
         for inverse in node.inverse.all():
-            item.inverse.add(denormalized_items[inverse.path])
+            if inverse.path in denormalized_items:
+                item.inverse.add(denormalized_items[inverse.path])
         for backward in node.backwards.all():
-            item.backwards.add(denormalized_items[backward.path])
+            if backward.path in denormalized_items:
+                item.backwards.add(denormalized_items[backward.path])
 
 
 @task(name='tasks.save_import')
