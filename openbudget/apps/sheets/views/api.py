@@ -71,7 +71,7 @@ class SheetItemList(generics.ListAPIView):
     queryset = model.objects.related_map_min()
     serializer_class = serializers.SheetItemBase
     filter_class = filters.SheetItemFilter
-    ordering = ['sheet__entity__name', 'code', 'created_on', 'last_modified']
+    ordering = ['sheet__entity__name', 'code']
     search_fields = ['sheet__entity__name', 'code', 'name',
                      'node_description', 'description', 'period_start',
                      'period_end'] + translated_fields(model)
