@@ -340,7 +340,7 @@ class SheetManager(models.Manager):
         return self.select_related('entity')
 
     def related_map(self):
-        return self.select_related().prefetch_related('items')
+        return self.select_related().prefetch_related('denormalizedsheetitems')
 
     def latest_of(self, entity):
         return self.filter(entity=entity).latest('period_start')
