@@ -44,7 +44,7 @@ define([
         /*
          * DnormalizedSheetItem Model
          */
-        Sheet = uijet.Model({
+        Item = uijet.Model({
             idAttribute : 'id'
         }),
         /*
