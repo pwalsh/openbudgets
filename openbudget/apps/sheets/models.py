@@ -231,9 +231,11 @@ class TemplateNode(BaseNode, TimeStampedModel, UUIDModel):
     def with_future(self):
         return [self] + self.future
 
-    @property
-    def timeline(self):
-        return self.with_past + self.future
+    def timeline(self, include_future=False):
+        timeline = self.with_past
+        if include_future:
+            timeline += self.future
+        return timeline
 
     def _get_path_to_root(self):
         path = [self.code]
@@ -460,14 +462,13 @@ class SheetItemManager(models.Manager):
     def related_map(self):
         return self.select_related().prefetch_related('discussion')
 
-    def timeline(self, node_uuid, entity_uuid):
+    def timeline(self, node_pk, entity_pk):
         try:
-            node = TemplateNode.objects.get(uuid=node_uuid)
+            nodes = TemplateNode.objects.get(id=node_pk).timeline()
         except TemplateNode.DoesNotExist as e:
             raise e
-        value = self.model.objects.filter(node__in=node.timeline,
-                                          budget__entity__uuid=entity_uuid)
-        return value
+        items = self.model.objects.filter(node__in=nodes, sheet__entity=entity_pk).select_related('sheet')
+        return items
 
 
 class SheetItem(BaseItem, TimeStampedModel, UUIDModel, ClassMethodMixin):
