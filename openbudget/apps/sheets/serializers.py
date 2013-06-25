@@ -86,3 +86,15 @@ class SheetItemDetail(SheetItemBase):
 
     class Meta(SheetItemBase.Meta):
         fields = SheetItemBase.Meta.fields + ['discussion']
+
+
+class SheetTimeline(serializers.ModelSerializer):
+
+    period = serializers.SerializerMethodField('get_period')
+
+    class Meta:
+        model = models.SheetItem
+        fields = ['id', 'budget', 'actual', 'description', 'period'] + translated_fields(model)
+
+    def get_period(self, obj):
+        return obj.sheet.period
