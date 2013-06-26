@@ -30,9 +30,9 @@ def templates():
             name='node-list-latest'
         ),
         url(
-            r'^(?P<entity_pk>\w+)/timeline/(?P<node_pk>\w+)/$',
-            api.NodeTimeline.as_view(),
-            name='node-timeline'
+            r'^timeline/(?P<entity_pk>\w+)/(?P<node_pk>\w+)/$',
+            api.ItemsTimeline.as_view(),
+            name='items-timeline'
         ),
     )
     return urlpatterns
