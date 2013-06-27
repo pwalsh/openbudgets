@@ -255,6 +255,11 @@
         },
         getRoute        : function (name) {
             return obudget.routes[name];
+        },
+        getTimelineRoute: function (entity, nodes) {
+            return obudget.getRoute('sheets') +
+                'timeline/' + entity +
+                '/?nodes=' + nodes.join(',');
         }
     };
     return obudget;
