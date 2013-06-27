@@ -1,0 +1,9 @@
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+
+#chart {
+    height: 100%;
+}
