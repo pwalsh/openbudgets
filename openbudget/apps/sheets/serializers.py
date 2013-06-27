@@ -61,12 +61,12 @@ class SheetItemBase(serializers.ModelSerializer):
     """The default serialized representation of sheet items."""
 
     url = serializers.HyperlinkedIdentityField(view_name='sheetitem-detail')
+    node = TemplateNodeMin()
 
     class Meta:
-        model = models.DenormalizedSheetItem
+        model = models.SheetItem
         #TODO: put 'url' back here once we fix the url of DenormalizedSheetItem
-        fields = ['id', 'budget', 'actual', 'description', 'code', 'name',
-                  'path', 'direction', 'parent', 'backwards'] + translated_fields(model)
+        fields = ['id', 'budget', 'actual', 'description', 'node'] + translated_fields(model)
 
 
 
