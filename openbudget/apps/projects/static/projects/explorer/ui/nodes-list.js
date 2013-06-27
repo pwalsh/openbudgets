@@ -2,15 +2,14 @@ define([
     'uijet_dir/uijet',
     'resources',
     'api',
-    'ui/items',
     'project_widgets/FilteredList',
-    'controllers/ItemsList'
+    'controllers/NodesList'
 ], function (uijet, resources, api) {
 
-    uijet.declare([{
+    return [{
         type    : 'Pane',
         config  : {
-            element     : '#items_list_container',
+            element     : '#nodes_list_container',
             dont_wake   : true,
             app_events  : {
                 'entities_list.selected': function (id) {
@@ -21,7 +20,7 @@ define([
     }, {
         type    : 'List',
         config  : {
-            element     : '#items_list_header',
+            element     : '#nodes_list_header',
             horizontal  : true,
             position    : 'top:2rem fluid',
             signals     : {
@@ -39,9 +38,9 @@ define([
     }, {
         type    : 'FilteredList',
         config  : {
-            element         : '#items_list',
+            element         : '#nodes_list',
             mixins          : ['Templated', 'Scrolled'],
-            adapters        : ['jqWheelScroll', 'Spin', 'ItemsList'],
+            adapters        : ['jqWheelScroll', 'Spin', 'NodesList'],
             resource        : 'LatestSheet',
             position        : 'fluid',
             fetch_options   : {
@@ -91,7 +90,7 @@ define([
                             // this makes sure the resource will execute fetch to sync with remote server
                             this.dont_fetch = false;
                             this.has_data = false;
-                            this.resource.url = api.getRoute('sheetItems') + '?page_by=4000&latest=True&entity=' + entity_id;
+                            this.resource.url = api.getRoute('templateNodes') + '?page_by=4000&latest=True&entity=' + entity_id;
                         }
                         else {
                             this.dont_fetch = true;
@@ -149,26 +148,26 @@ define([
                     }
                 },
                 post_select     : function ($selected) {
-                    var item_id = +$selected.attr('data-id') || null;
-                    this.redraw(item_id);
+                    var node_id = +$selected.attr('data-id') || null;
+                    this.redraw(node_id);
                 }
             },
             app_events      : {
                 'legends_list.change_state'                 : 'wake+',
                 'search.changed'                            : 'updateSearchFilter+',
                 'selected.changed'                          : 'updateSelectedFilter+',
-                'items_list.filtered'                       : function () {
+                'nodes_list.filtered'                       : function () {
                     this.scroll()
                         .$element.removeClass('invisible');
                 },
-                'item_breadcrumb_main.clicked'              : 'redraw',
-                'item_breadcrumb_back.clicked'              : function (data) {
+                'node_breadcrumb_main.clicked'              : 'redraw',
+                'node_breadcrumb_back.clicked'              : function (data) {
                     this.redraw(data.context.id);
                 },
-                'items_breadcrumbs.selected'                : 'post_select+',
-                'items_breadcrumbs_history_menu.selected'   : 'post_select+',
-                'items_list_header.selected'                : 'sortItems+',
-                'items_list.selection'                      : function () {
+                'nodes_breadcrumbs.selected'                : 'post_select+',
+                'nodes_breadcrumbs_history_menu.selected'   : 'post_select+',
+                'nodes_list_header.selected'                : 'sortNodes+',
+                'nodes_list.selection'                      : function () {
                     var resource = this.resource,
                         filter = this.active_filters ?
                             this.resource.byAncestor :
@@ -177,18 +176,18 @@ define([
                     if ( this.desc === false ) {
                         this.filtered.reverse();
                     }
-                    this.$children.each(function (i, item) {
-                        var $item = uijet.$(item),
-                            id = +$item.attr('data-id'),
+                    this.$children.each(function (i, node) {
+                        var $node = uijet.$(node),
+                            id = +$node.attr('data-id'),
                             state = resource.get(id).get('selected');
-                        $item.attr('data-selected', state);
+                        $node.attr('data-selected', state);
                     });
                     if ( this.selected_active ) {
-                        this.filterBySelected(uijet.Resource('ItemsListState').get('selected'));
+                        this.filterBySelected(uijet.Resource('NodesListState').get('selected'));
                     }
                 }
             }
         }
-    }]);
+    }];
 
 });

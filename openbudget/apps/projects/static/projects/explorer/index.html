@@ -18,33 +18,34 @@
                 <ul id="entities_list"></ul>
             </div>
         </div>
-        <div id="items_picker">
-            <div id="items_filters_pane" class="items_picker_pane">
-                <h3 class="items_picker_pane_heading">Choose budget items for this legend item</h3>
-                <div id="items_breadcrumbs">
-                    <span id="items_breadcrumbs_history">...</span>
-                    <span id="item_breadcrumb_main">Main</span>
-                    <span id="item_breadcrumb_back"></span>
+        <div id="nodes_picker">
+            <div id="nodes_filters_pane" class="nodes_picker_pane">
+                <h3 class="nodes_picker_pane_heading">Choose budget items for this legend item</h3>
+                <div id="nodes_breadcrumbs">
+                    <span id="nodes_breadcrumbs_history">...</span>
+                    <span id="node_breadcrumb_main">Main</span>
+                    <span id="node_breadcrumb_back"></span>
                 </div>
                 <span id="selected_crumb"></span>
                 <span id="search_crumb"></span>
                 <span id="picker_done">Done</span>
                 <span id="filters_search">Search</span>
             </div>
-            <div id="items_search_pane" class="items_picker_pane">
-                <h3 class="items_picker_pane_heading">Filter only items' names and descriptions that contain:</h3>
-                <input type="text" name="items_search" id="items_search"/>
+            <div id="nodes_search_pane" class="nodes_picker_pane">
+                <h3 class="nodes_picker_pane_heading">Filter only items' names and descriptions that contain:</h3>
+                <input type="text" name="nodes_search" id="nodes_search"/>
                 <span id="filter_selected">Selected</span>
             </div>
-            <section id="items_list_container">
-                <ul id="items_list_header">
-                    <li class="items_list_header_item" data-column="code">Code</li>
-                    <li class="items_list_header_item" data-column="direction">Type</li>
-                    <li class="items_list_header_item" data-column="name">Name</li>
+            <section id="nodes_list_container">
+                <ul id="nodes_list_header">
+                    <li class="nodes_list_header_node" data-column="code">Code</li>
+                    <li class="nodes_list_header_node" data-column="direction">Type</li>
+                    <li class="nodes_list_header_node" data-column="name">Name</li>
                 </ul>
-                <ul id="items_list"></ul>
+                <ul id="nodes_list"></ul>
             </section>
         </div>
+        <div id="chart"></div>
     </div>
     <script>
         var API_VERSION = '/v1/';
