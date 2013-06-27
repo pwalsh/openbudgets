@@ -78,14 +78,12 @@ class SheetDetail(generics.RetrieveAPIView):
 class SheetItemList(generics.ListAPIView):
     """API endpoint that represents a list of budget items."""
 
-    model = models.DenormalizedSheetItem
+    model = models.SheetItem
     queryset = model.objects.related_map_min()
     serializer_class = serializers.SheetItemBase
     filter_class = filters.SheetItemFilter
-    ordering = ['sheet__entity__name', 'code']
-    search_fields = ['sheet__entity__name', 'code', 'name',
-                     'node_description', 'description', 'period_start',
-                     'period_end'] + translated_fields(model)
+    ordering = ['sheet__entity__name', 'node__code']
+    search_fields = ['sheet__entity__name', 'node__code', 'node__name', 'description'] + translated_fields(model)
 
     def get_queryset(self):
         queryset = self.model.objects.all()
@@ -93,7 +91,7 @@ class SheetItemList(generics.ListAPIView):
         latest = self.request.QUERY_PARAMS.get('latest', None)
         if entity is not None:
             if latest:
-                queryset = models.Sheet.objects.latest_of(entity=entity).denormalizedsheetitems
+                queryset = models.Sheet.objects.latest_of(entity=entity).sheetitems
             else:
                 pass
         return queryset
@@ -123,10 +121,16 @@ class ItemsTimeline(generics.ListAPIView):
     according to a given node, entity and optionally a period
     """
 
-    def get(self, request, entity_pk, node_pk, *args, **kwargs):
+    def get(self, request, entity_pk, *args, **kwargs):
         """GET handler for retrieving all budget items and actual items of the node's timeline, filtered by entity"""
 
-        items = models.SheetItem.objects.timeline(node_pk, entity_pk)
+        nodes = self.request.QUERY_PARAMS.get('nodes', None)
+        if nodes:
+            nodes = [int(node_id) for node_id in nodes.split(',')]
+        else:
+            #TODO: handle case of no nodes specified
+            pass
+        items = models.SheetItem.objects.timeline(nodes, entity_pk)
 
         serialized_timeline = serializers.SheetTimeline(items, many=True).data
 
