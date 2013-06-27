@@ -462,12 +462,16 @@ class SheetItemManager(models.Manager):
     def related_map(self):
         return self.select_related().prefetch_related('discussion')
 
-    def timeline(self, node_pk, entity_pk):
-        try:
-            nodes = TemplateNode.objects.get(id=node_pk).timeline()
-        except TemplateNode.DoesNotExist as e:
-            raise e
-        items = self.model.objects.filter(node__in=nodes, sheet__entity=entity_pk).select_related('sheet')
+    def timeline(self, node_pks, entity_pk):
+        nodes = TemplateNode.objects.filter(id__in=node_pks)
+        timelines = []
+        if nodes.count():
+            for node in nodes:
+                timelines += node.timeline()
+        else:
+            raise TemplateNode.DoesNotExist()
+
+        items = self.model.objects.filter(node__in=timelines, sheet__entity=entity_pk).select_related('sheet')
         return items
 
 
