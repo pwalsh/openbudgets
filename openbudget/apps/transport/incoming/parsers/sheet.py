@@ -24,7 +24,12 @@ def _rows_filter(obj, row_num=None):
                     except (ValueError, TypeError):
                         pass
             except (ValueError, TypeError):
-                pass
+                if 'actual' in obj:
+                    try:
+                        actual = float(obj['actual'])
+                        return actual > 0
+                    except (ValueError, TypeError):
+                        pass
         elif 'actual' in obj:
             try:
                 actual = float(obj['actual'])
