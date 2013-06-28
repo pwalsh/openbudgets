@@ -7,7 +7,11 @@ define([
 
     var d3 = window.d3,
         period = uijet.Utils.prop('period'),
-        amount = uijet.Utils.prop('amount');
+        amount = uijet.Utils.prop('amount'),
+        dateParser = d3.time.format('%Y').parse,
+        periodParser = function (d) {
+            d.period = dateParser(d.period);
+        };
 
     uijet.Widget('TimelineChart', {
         options         : {
@@ -23,19 +27,22 @@ define([
                 width = element.offsetWidth,
                 height = element.offsetHeight,
 //                x = d3.time.scale()
-                x = d3.scale.linear()
+                x = d3.time.scale()
                     .range([0, width]),
                 y = d3.scale.linear()
                     .range([height, 0]),
                 x_axis = d3.svg.axis()
                     .scale(x)
-                    .orient('bottom'),
+                    .orient('bottom')
+                    .ticks(d3.time.years),
                 y_axis = d3.svg.axis()
                     .scale(y)
                     .orient('left');
 
             this.width = width;
             this.height = height;
+            this.x_axis = x_axis;
+            this.y_axis = y_axis;
             this.x_scale = x;
             this.y_scale = y;
 
@@ -49,16 +56,6 @@ define([
                 .attr('height', height)
                 .append('g');
 //                    .attr('transform', 'translate(20,20)');
-
-            this.svg.append('g')
-                .attr('class', 'x_axis')
-                .attr('transform', 'translate(0,' + (this.height - 20) + ')')
-                .call(x_axis);
-
-            this.svg.append('g')
-                .attr('class', 'y_axis')
-                .attr('transform', 'translate(20,0)')
-                .call(y_axis);
         },
         render          : function () {
             this._super();
@@ -79,6 +76,8 @@ define([
                     budget_id = id + '-budget',
                     title = item.get('title'),
                     item_series = item.toSeries();
+                item_series[0].forEach(periodParser);
+                item_series[1].forEach(periodParser);
                 ids.push(actual_id, budget_id);
                 data.push({
                     id      : actual_id,
@@ -90,7 +89,7 @@ define([
                     values  : item_series[1]
                 });
             });
-            console.log(ids);
+
             this.colors.domain(ids);
 
             this.x_scale.domain([
@@ -101,6 +100,16 @@ define([
                 d3.min(data, function (d) { return d3.min(d.values, amount); }),
                 d3.max(data, function (d) { return d3.max(d.values, amount); })
             ]);
+
+            this.svg.append('g')
+                .attr('class', 'x_axis')
+                .attr('transform', 'translate(0,' + (this.height - 20) + ')')
+                .call(this.x_axis);
+
+            this.svg.append('g')
+                .attr('class', 'y_axis')
+                .attr('transform', 'translate(20,0)')
+                .call(this.y_axis);
 
             var timeline = this.svg.selectAll('.timeline')
                 .data(data)
