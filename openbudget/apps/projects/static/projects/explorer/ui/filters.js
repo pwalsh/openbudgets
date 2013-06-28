@@ -75,7 +75,11 @@ define([
                 },
                 'legends_list.selected' : 'selectItem+',
                 'entities_list.selected': 'setEntity+',
-                'nodes_list.selection'  : 'updateSelection+'
+                'nodes_list.selection'  : 'updateSelection+',
+                'picker_done.clicked'   : function () {
+                    // reset the state of selected legend item
+                    this.current_index = null;
+                }
             }
         }
     }, {

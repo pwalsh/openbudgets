@@ -7,14 +7,15 @@ define([
     return [{
         type    : 'TimelineChart',
         config  : {
-            element     : '#chart',
-            mixins      : ['Layered'],
-            adapters    : ['TimelineChart'],
-            resource    : 'TimeSeries',
-            dont_wake   : true,
-            position    : 'fluid',
-            data_events : {},
-            app_events  : {
+            element         : '#chart',
+            mixins          : ['Layered', 'Transitioned'],
+            adapters        : ['TimelineChart'],
+            resource        : 'TimeSeries',
+            dont_wake       : true,
+            position        : 'fluid',
+            animation_type  : 'fade',
+            data_events     : {},
+            app_events      : {
                 'picker_done.clicked'   : 'wake'
             }
         }

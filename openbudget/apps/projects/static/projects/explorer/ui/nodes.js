@@ -26,20 +26,23 @@ define([
     return [{
         type    : 'Pane',
         config  : {
-            element     : '#nodes_picker',
-            mixins      : ['Layered'],
-            position    : 'fluid',
-            resource    : 'NodesListState',
-            data_events : {
+            element         : '#nodes_picker',
+            mixins          : ['Layered', 'Transitioned'],
+            position        : 'fluid',
+            animation_type  : 'fade',
+            resource        : 'NodesListState',
+            data_events     : {
                 'change:search'     : '-search.changed',
                 'change:selected'   : '-selected.changed'
             },
-            app_events  : {
+            app_events      : {
                 'search_crumb_remove.clicked'   : nullifySearchQuery,
                 'selected_crumb_remove.clicked' : attributeNullifier('selected'),
                 'filter_selected.clicked'       : function () {
                     this.resource.set({ selected : true });
-                }
+                },
+                'legends_list.change_state'     : 'wake+',
+                'add_legend.clicked'            : 'wake'
             }
         }
     }, {

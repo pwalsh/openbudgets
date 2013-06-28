@@ -10,7 +10,6 @@ define([
         type    : 'Pane',
         config  : {
             element     : '#nodes_list_container',
-            dont_wake   : true,
             app_events  : {
                 'entities_list.selected': function (id) {
                     this.wake({ entity_id : id });
@@ -80,6 +79,9 @@ define([
                     this.active_filters = 0;
                 },
                 pre_wake        : function () {
+                    // usually on first load when there's no context, just bail out
+                    if ( ! this.context ) return false;
+
                     var entity_id = this.context.entity_id,
                         selection;
                     if ( entity_id ) {
@@ -153,7 +155,6 @@ define([
                 }
             },
             app_events      : {
-                'legends_list.change_state'                 : 'wake+',
                 'search.changed'                            : 'updateSearchFilter+',
                 'selected.changed'                          : 'updateSelectedFilter+',
                 'nodes_list.filtered'                       : function () {
