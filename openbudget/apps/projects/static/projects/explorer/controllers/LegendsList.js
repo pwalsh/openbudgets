@@ -30,6 +30,9 @@ define([
                 });
             }
         },
+        deleteItem      : function (index) {
+            this.resource.remove(this.resource.at(index));
+        }, 
         updateSelection : function (data) {
             if ( data && data.reset ) return;
             var resource = uijet.Resource('LatestSheet'),

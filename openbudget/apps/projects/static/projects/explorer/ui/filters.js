@@ -62,18 +62,21 @@ define([
             },
             app_events  : {
                 'add_legend.clicked'    : function () {
+                    var index = this.resource.length;
+
                     uijet.start({
                         factory : 'LegendItem',
                         config  : {
                             element : uijet.$('<li>', {
-                                id          : this.id + '_item_' + this.current_index
+                                id          : this.id + '_item_' + index
                             }).appendTo(this.$element),
                             resource: this.createItemModel(),
-                            index   : this.current_index
+                            index   : index
                         }
                     }, true);
                 },
                 'legends_list.selected' : 'selectItem+',
+                'legends_list.delete'   : 'deleteItem+',
                 'entities_list.selected': 'setEntity+',
                 'nodes_list.selection'  : 'updateSelection+',
                 'picker_done.clicked'   : function () {
