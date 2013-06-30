@@ -8,12 +8,15 @@ define([
         type    : 'TimelineChart',
         config  : {
             element         : '#chart',
-            mixins          : ['Layered', 'Transitioned'],
+            mixins          : ['Transitioned', 'Layered'],
             adapters        : ['TimelineChart'],
             resource        : 'TimeSeries',
             dont_wake       : true,
             position        : 'fluid',
             animation_type  : 'fade',
+            style           : {
+                padding : 30
+            },
             data_events     : {},
             app_events      : {
                 'picker_done.clicked'   : 'wake'

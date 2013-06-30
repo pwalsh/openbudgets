@@ -27,7 +27,7 @@ define([
         type    : 'Pane',
         config  : {
             element         : '#nodes_picker',
-            mixins          : ['Layered', 'Transitioned'],
+            mixins          : ['Transitioned', 'Layered'],
             position        : 'fluid',
             animation_type  : 'fade',
             resource        : 'NodesListState',
@@ -42,7 +42,7 @@ define([
                     this.resource.set({ selected : true });
                 },
                 'legends_list.change_state'     : 'wake+',
-                'add_legend.clicked'            : 'wake'
+                'add_legend.clicked'            : 'wake+'
             }
         }
     }, {
