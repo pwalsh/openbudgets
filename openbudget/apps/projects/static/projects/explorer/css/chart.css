@@ -1,3 +1,7 @@
+.axis path, .axis line {
+  fill: none;
+  stroke: none;
+}
 .line {
     fill: none;
     stroke: steelblue;
