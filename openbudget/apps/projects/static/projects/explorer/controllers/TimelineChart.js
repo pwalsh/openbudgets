@@ -63,7 +63,8 @@ define([
                     nodes = legend_item.get('nodes'),
                     title = legend_item.get('title'),
                     muni_name = muni.get('name'),
-                    model = this.resource.findWhere({ muni_id : muni_id });
+                    model = this.resource.get(legend_item.cid),
+                    now = Date.now();
 
                 if ( model ) {
                     model.set({
@@ -72,19 +73,24 @@ define([
                         title   : title,
                         muni    : muni_name
                     });
+                    if ( model.hasChanged() ) {
+                        model.set({ updated : now });
+                    }
                 }
                 else {
                     model = new TimeSeriesModel({
+                        id      : legend_item.cid,
                         muni_id : muni_id,
                         nodes   : nodes,
                         title   : title,
-                        muni    : muni_name
+                        muni    : muni_name,
+                        updated : now
                     });
                 }
                 return model;
             }, this);
 
-            return this.resource.set(updated_models).fetch();
+            return this.resource.reset(updated_models).fetch();
         }
     });
 
