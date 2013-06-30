@@ -62,15 +62,16 @@ define([
             },
             app_events  : {
                 'add_legend.clicked'    : function () {
-                    var index = this.resource.length;
+                    var index = this.resource.length,
+                        model = this.createItemModel();
 
                     uijet.start({
                         factory : 'LegendItem',
                         config  : {
                             element : uijet.$('<li>', {
-                                id          : this.id + '_item_' + index
+                                id          : this.id + '_item_' + model.cid
                             }).appendTo(this.$element),
-                            resource: this.createItemModel(),
+                            resource: model,
                             index   : index
                         }
                     }, true);
