@@ -1,3 +1,3 @@
-<input type="text" name="name" placeholder="Name this template"/>
-<input type="text" name="period_start" id="period_start" placeholder="The start date for this template to be in effect"/>
+<input type="text" name="name" placeholder="{{i18n.template-form_name-placeholder}}"/>
+<input type="text" name="period_start" id="period_start" placeholder="{{i18n.template-form_period-start-placeholder}}"/>
 <fieldset id="divisions">{{>divisions}}</fieldset>

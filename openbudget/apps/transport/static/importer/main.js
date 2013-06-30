@@ -7,7 +7,8 @@ requirejs.config({
         composites          : 'uijet/composites',
         importer            : '../importer',
         ui                  : '../importer/ui',
-        controllers         : '../importer/controllers'
+        controllers         : '../importer/controllers',
+        i18n                : '../importer/i18n'
     },
     shim    : {
         eventbox: ['setImmediate']

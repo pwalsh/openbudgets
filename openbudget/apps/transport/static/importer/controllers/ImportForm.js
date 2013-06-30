@@ -1,17 +1,25 @@
 define([
     'uijet_dir/uijet',
-    'importer/app'
-], function (uijet, Importer) {
+    'importer/app',
+    'i18n'
+], function (uijet, Importer, i18n) {
+
+    function translate (data) {
+        data.i18n = i18n;
+    }
+
     return {
         parseDate           : function (date) {
             return [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-');
         },
         processDivisions    : function (data) {
+            translate(data);
             data.results = data.results.filter(function (item, i) {
                 return item.budgeting;
             });
         },
         processEntities     : function (data) {
+            translate(data);
             //! Array.prototype.filter
             data.results = data.results.filter(function (item, i) {
                 //return item.division.budgeting;

@@ -1,0 +1,51 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-01 00:10+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: static/importer/i18n.js:3
+msgid "Name this template"
+msgstr "שם עבור התבנית"
+
+#: static/importer/i18n.js:4
+msgid "The start date for this template to be in effect"
+msgstr "תאריך ההתחלה לתקפות התבנית"
+
+#: static/importer/i18n.js:5
+msgid "Choose divisions:"
+msgstr "בחר מחלקה:"
+
+#: static/importer/i18n.js:6
+msgid "Period start"
+msgstr "תאריך התחלה"
+
+#: static/importer/i18n.js:7
+msgid "Period end"
+msgstr "תאריך סיום"
+
+#: static/importer/controllers/Upload.js:56
+msgid "Disturbance in the force."
+msgstr ""
+
+#: static/importer/ui/main.js:113
+msgid "Import failed due to:"
+msgstr "יבוא נכשל בשל:"
+
+#: static/importer/ui/main.js:117
+msgid "Import succeeded!"
+msgstr "יבוא הושלם בהצלחה!"
