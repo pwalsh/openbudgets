@@ -3,6 +3,7 @@ define([
     'resources',
     'api',
     'project_widgets/FilteredList',
+    'project_mixins/Diverted',
     'controllers/NodesList'
 ], function (uijet, resources, api) {
 
@@ -38,14 +39,14 @@ define([
         type    : 'FilteredList',
         config  : {
             element         : '#nodes_list',
-            mixins          : ['Templated', 'Scrolled'],
+            mixins          : ['Templated', 'Scrolled', 'Diverted'],
             adapters        : ['jqWheelScroll', 'Spin', 'NodesList'],
             resource        : 'LatestSheet',
             position        : 'fluid',
             fetch_options   : {
                 reset   : true,
                 cache   : true,
-                expires : 3600
+                expires : 8 * 3600
             },
             search          : {
                 fields  : {

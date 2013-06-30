@@ -42,7 +42,11 @@ define([
                     this.resource.set({ selected : true });
                 },
                 'legends_list.change_state'     : 'wake+',
-                'add_legend.clicked'            : 'wake+'
+                'add_legend.clicked'            : function () {
+                    this.wake({
+                        nodes_list  : 'sleep'
+                    });
+                }
             }
         }
     }, {
