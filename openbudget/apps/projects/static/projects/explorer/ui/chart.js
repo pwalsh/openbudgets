@@ -19,7 +19,12 @@ define([
             },
             data_events     : {},
             app_events      : {
-                'picker_done.clicked'   : 'wake'
+                'picker_done.clicked'   : 'wake',
+                'legends_list.delete'   : function () {
+                    if ( this.awake ) {
+                        this.render();
+                    }
+                }
             }
         }
     }];
