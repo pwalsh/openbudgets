@@ -31,7 +31,7 @@ define([
             }
         },
         deleteItem      : function (index) {
-            this.resource.remove(this.resource.at(index));
+            this.resource.remove(this.resource.cid);
         }, 
         updateSelection : function (data) {
             if ( data && data.reset ) return;
