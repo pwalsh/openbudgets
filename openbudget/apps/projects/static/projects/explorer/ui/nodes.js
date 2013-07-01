@@ -21,7 +21,10 @@ define([
                 this.resource.set(obj);
             };
         },
-        nullifySearchQuery = attributeNullifier('search');
+        nullifySearchQuery = attributeNullifier('search'),
+        clearText = function () {
+            this.$element.text('');
+        };
 
     return [{
         type    : 'Pane',
@@ -58,6 +61,19 @@ define([
             app_events  : {
                 'nodes_search.entered'  : 'wake',
                 'nodes_search.cancelled': 'wake'
+            }
+        }
+    }, {
+        type    : 'Pane',
+        config  : {
+            element     : '#nodes_scope_name',
+            app_events  : {
+                'nodes_list.scope_changed'  : function (scope_node_model) {
+                    var scope_name = scope_node_model ? scope_node_model.get('name') : '';
+                    this.$element.text(scope_name);
+                },
+                'add_legend.clicked'        : clearText,
+                'legends_list.selected'     : clearText
             }
         }
     }, {

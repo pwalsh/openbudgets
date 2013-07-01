@@ -63,3 +63,6 @@
 #nodes_filters_pane_wrapper {
     overflow: visible;
 }
+#nodes_scope_name {
+    height: auto;
+}

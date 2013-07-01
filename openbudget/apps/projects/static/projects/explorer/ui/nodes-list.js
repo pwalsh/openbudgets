@@ -116,6 +116,7 @@ define([
                 post_fetch_data : 'spinOff',
                 pre_render      : function () {
                     if ( this.scope_changed ) {
+                        this.publish('scope_changed', this.resource.get(this.scope));
                         if ( this.has_data ) {
                             this.scope_changed = false;
                             this.buildIndex();
