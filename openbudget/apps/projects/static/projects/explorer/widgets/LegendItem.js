@@ -1,6 +1,6 @@
 define([
     'uijet_dir/uijet',
-    'uijet_dir/widgets/Button'
+    'project_widgets/ContentEditable'
 ], function (uijet) {
 
     uijet.Widget('LegendItem', {
@@ -11,9 +11,20 @@ define([
             var res = this._super.apply(this, arguments),
                 $buttons = this.$element.find('.legend_item_buttons'),
                 button_class_prefix = '.legend_item_',
+                $title = this.$element.find(button_class_prefix + 'title'),
                 id = this.id;
 
             uijet.start([{
+                type    : 'ContentEditable',
+                config  : {
+                    element     : $title,
+                    id          : id + '_title',
+                    container   : id,
+                    input       : {
+                        name: 'title'
+                    }
+                }
+            }, {
                 type    : 'Button',
                 config  : {
                     element     : $buttons.find(button_class_prefix + 'color'),
@@ -46,7 +57,10 @@ define([
             this.subscribe(id + '_color.clicked', this.itemColor)
                 .subscribe(id + '_edit.clicked', this.itemEdit)
                 .subscribe(id + '_duplicate.clicked', this.itemDuplicate)
-                .subscribe(id + '_delete.clicked', this.itemDelete);
+                .subscribe(id + '_delete.clicked', this.itemDelete)
+                .subscribe(id + '_title.updated', this.updateTitle);
+
+            this.wakeContained();
 
             return res;
         },
@@ -60,6 +74,9 @@ define([
         itemDelete      : function () {
             uijet.publish('legends_list.delete', this.resource.collection.indexOf(this.resource));
             this.destroy();
+        },
+        updateTitle     : function (title) {
+            this.resource.set({ title : title });
         }
     });
 

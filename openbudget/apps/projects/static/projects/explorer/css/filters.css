@@ -1,3 +1,17 @@
+.uijet_contenteditable_input {
+    display: block;
+}
+
+.legend_item_buttons {
+    visibility: hidden;
+}
+.legend_item:hover .legend_item_buttons {
+    visibility: visible;
+}
+.legend_item_buttons > .uijet_button {
+    visibility: inherit !important;
+}
+
 #add_legend {
     width: 100%;
     border: 1px solid lightslategray;
