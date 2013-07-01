@@ -34,8 +34,12 @@ define([
         },
         blur            : function () {
             var value = this.$input.addClass('hide').val();
+
             this.$element.text(value || this.$input.attr('placeholder'));
             this.$element.removeClass('hide');
+
+            this.publish('updated', value);
+
             return this;
         }
     }, {

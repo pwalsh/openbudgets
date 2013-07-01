@@ -57,7 +57,8 @@ define([
             this.subscribe(id + '_color.clicked', this.itemColor)
                 .subscribe(id + '_edit.clicked', this.itemEdit)
                 .subscribe(id + '_duplicate.clicked', this.itemDuplicate)
-                .subscribe(id + '_delete.clicked', this.itemDelete);
+                .subscribe(id + '_delete.clicked', this.itemDelete)
+                .subscribe(id + '_title.updated', this.updateTitle);
 
             this.wakeContained();
 
@@ -73,6 +74,9 @@ define([
         itemDelete      : function () {
             uijet.publish('legends_list.delete', this.resource.collection.indexOf(this.resource));
             this.destroy();
+        },
+        updateTitle     : function (title) {
+            this.resource.set({ title : title });
         }
     });
 
