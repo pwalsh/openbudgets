@@ -13,4 +13,13 @@ urlpatterns = patterns('',
         api.ProjectDetail.as_view(),
         name='project-detail'
     ),
+    url(r'^states/$',
+        api.StateList.as_view(),
+        name='state-list'
+    ),
+    url(
+        r'^states/(?P<pk>\d+)/$',
+        api.StateDetail.as_view(),
+        name='state-detail'
+    ),
 )
