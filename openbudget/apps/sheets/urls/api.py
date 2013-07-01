@@ -57,8 +57,8 @@ def sheets():
         ),
         url(
             r'^timeline/(?P<entity_pk>\w+)/$',
-            api.ItemsTimeline.as_view(),
-            name='items-timeline'
+            api.SheetItemTimeline.as_view(),
+            name='sheetitem-timeline'
         ),
     )
     return urlpatterns

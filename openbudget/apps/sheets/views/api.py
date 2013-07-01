@@ -55,6 +55,16 @@ class TemplateNodeDetail(generics.RetrieveAPIView):
     serializer_class = serializers.TemplateNodeBase
 
 
+class TemplateNodesListLatest(generics.ListAPIView):
+
+    def get(self, request, entity_pk, *args, **kwargs):
+
+        nodes = models.Template.objects.latest_of(entity=entity_pk).nodes
+        serialized_nodes = serializers.TemplateNodeBase(nodes, many=True).data
+
+        return Response(serialized_nodes)
+
+
 class SheetList(generics.ListAPIView):
     """API endpoint that represents a list of budget sheets."""
 
@@ -105,20 +115,10 @@ class SheetItemDetail(generics.RetrieveAPIView):
     serializer_class = serializers.SheetItemBase
 
 
-class TemplateNodesListLatest(generics.ListAPIView):
+class SheetItemTimeline(generics.ListAPIView):
+    """API endpoint that retrieves a timeline of sheet items.
 
-    def get(self, request, entity_pk, *args, **kwargs):
-
-        nodes = models.Template.objects.latest_of(entity=entity_pk).nodes
-        serialized_nodes = serializers.TemplateNodeBase(nodes, many=True).data
-
-        return Response(serialized_nodes)
-
-
-class ItemsTimeline(generics.ListAPIView):
-    """
-    API endpoint that retrieves a timeline of budget items and actual items
-    according to a given node, entity and optionally a period
+    The timeline is created according to the given entity, node(s)
     """
 
     def get(self, request, entity_pk, *args, **kwargs):
@@ -128,6 +128,12 @@ class ItemsTimeline(generics.ListAPIView):
         if nodes:
             nodes = [int(node_id) for node_id in nodes.split(',')]
         else:
+            # Provide a sensible default.
+            # If there is no node query param, let's return the top level nodes,
+            # as used in the latest Sheet.
+            print 'HERE'
+            print models.Sheet.objects.latest_of(entity_pk).sheetitems
+            #nodes = [for models.Sheet.objects.latest_of(entity_pk).shee]
             #TODO: handle case of no nodes specified
             pass
         items = models.SheetItem.objects.timeline(nodes, entity_pk)
