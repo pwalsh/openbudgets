@@ -1,27 +1,75 @@
-CSV file imports
-================
+Data Import
+===========
 
 Overview
 --------
 
-Open Budget can import most of its core datasets in bulk, and this is certainly an area we'd like to see the community help develop even further.
+Open Budget deals with large datasets. A primary focus of the project is to make it easy to import large datasets in bulk. There is still much work to do here, but we have a good start.
 
-Importing datasets requires preparation. The data needs to be in a *file type* we support (CSV only at this stage), and follow our *file format* for the dataset being imported.
+Importing datasets requires preparation. First and foremost, the data needs to be in a file format that Open Budget can understand. At present, this means in CSV format, with the file encoded in UTF-8. Additionally, each single CSV file must describe only one, and a complete, dataset.
 
-The following datasets can be imported in bulk:
+We have an ongoing community project at present to allow support direct import from a Google Spreadsheet, bypassing the need to save to a CSV file.
 
-* Budget Templates
-* Budgets
-* Actuals
-* Entities
-* Contexts
+At present, the following datasets can be imported in bulk:
 
-This section of the documentation deals with the file formats we specify for each importable dataset. For more information on the importing mechanisms, please see the "Import" page of the "Features" section of the guide.
+* Templates (via interactive import only)
+* Sheets (via interactive import only)
+* Domains (via command line import only)
+* Divisions (via command line import only)
+* Entities (via command line import only)
+* Contexts (via command line import only)
+
+This section of the documentation deals with the file structure we specify for each importable dataset.
+
+For more information on the actual importing mechanisms, please see the "Import" page of the "Features" section of the guide.
 
 Dependencies
 ------------
 
-To create an importable file of the correct type, you'll need to use any spreadsheet app that can output as CSV in UTF-8 encoding. We work with Google Docs, which is a great choice for creating and collaborating on the files before importing.
+To create an importable file of the correct type, you'll need to use any spreadsheet app that can output as CSV in UTF-8 encoding.
+
+We work with Google Docs, which is a great choice for creating and collaborating on the files before importing.
+
+Workflow
+--------
+
+I'll describe our current workflow. It is not optimal, and not required, but it is "how we do things" at present.
+
+1. Get some source data
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The first step, of course, is to get some source data. Source data comes from a range of sources, depending on the dataset. For example, in the Israel Municipality case, "Context" data comes from the Central Bureau of Statistics, and "Budget" data comes from each individual municipality.
+
+2. Enter source data into required data structure
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It is very rare that the source data will come in a format that is importable.
+
+Further, the vast majority of source data features errors.
+
+So, we currently do a manual process (this can, in large part, be automated) of taking the source data, and converting it to an importable structure.
+
+We currently use Google Docs exclusively for this task. There are several advantages to using Google Docs. Obviously, collaboration is easy. Additionally, it opens the possibility of adding data validations that can help prevent data entry errors. We currently employ several data validations on "Sheet" datasets.
+
+3. Initial validation  of data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Once the data is in a Google Spreadsheet, we review the data in comparison to the source, and, if the dataset has validations, we review for validation warnings. For example, we use cross-document validations between "Template" and "Sheet" docs, to check that budgets follow the template they are supposed to.
+
+4. Create importable file
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Currently, we still need a CSV file for importing data. Therefore, we export CSV files from Google Docs, one file per dataset.
+
+5. Import data into database
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We then take this exported CSV and import, either via the interactive importer or via the command line importer.
+
+In the commandline importer, import into the database will fail if the dataset is not valid.
+
+In the interactive importer, a validation process takes place before any attempt to put data into the database. If the dataset is invalid for any reason, the user will get notification, along with specific instructions for the invalid data.
+
 
 Specifications
 --------------
@@ -32,9 +80,9 @@ Common
 Basic Requirements
 ++++++++++++++++++
 
-* a compliant CSV file that is UTF-8 encoded
-* data that matches the exact expected input for the dataset you want to import
-* one single datapoint per cell - no overloading of cells for multiple data points
+* A compliant CSV file that is UTF-8 encoded
+* Data that matches the exact expected input for the dataset you want to import
+* One single datapoint per cell - no overloading of cells for multiple data points
 
 Header Requirements
 +++++++++++++++++++
@@ -47,123 +95,59 @@ Header Requirements
 Data Requirements
 +++++++++++++++++
 
-The importer does a range of validations on data to be imported, but there are always corner cases or use cases we perhaps did not predict. To make things easier, check the following in your source file before trying to import:
+The importer does a range of validations on data to be imported, but there are always corner cases or use cases we perhaps did not predict.
+
+To make things easier, check the following in your source file before trying to import:
 
 * Each column in your file is a valid data column for the dataset you are trying to import
-* Where columns are required for import (for example, "code" for budget templates), the import will be prevented if an item is missing a required value - check and double-check that your dataset is complete
+* Where columns are required for import (for example, "code" in Templates), the import will be prevented if an item is missing a required value - check and double-check that your dataset is complete
 
-Budget Template
-~~~~~~~~~~~~~~~
+Template
+~~~~~~~~
 
-When importing a budget template, every row in the file must be a distinct Budget Template Node.
+A Template describe a structure for budget sheets.
 
-In addition, you'll fill out some form fields on import that provide us with other required metadata for the dataset: Name of the template, what entities it applies to, and the period of time for which it is valid.
+There can be multiple templates, applicable at different points in time, and applicable to different Divisions in a Domain. For example, one template for Israel Municipalities between 1994 and 2013, another from 2014 - 2018, and another template for the Israel State from 2010-2011.
 
-All headers are required, even if some columns may be completely empty (because not all **data** is required).
+When importing a  template, every row in the file must be a distinct Template Node.
 
-The headers, and their data requirements, are:
-
-* Name:          REQUIRED, string
-* Code:          REQUIRED, string
-* Parent:        NOTREQUIRED, string that must match another items Code
-* Parent Scope:  NOTREQUIRED, pipe-separated strings, from left to right, parent's parent to top of tree
-* Direction      REQUIRED: "EXPENDITURE" or "REVENUE"
-* Inverse:       NOTREQUIRED, string that must match another items Code, inverse must have opposite direct to the item
-* Inverse Scope: NOTREQUIRED, pipe-separated strings, from left to right, parent's parent to top of tree
-* Description:   NOTREQUIRED, string
-
-The following values are **the bare minimum requirement** for each item:
-
-* Name
-* Code
-* Direction
-
-The "Description" field is purely optional, dependent on whether your budget template has descriptions for each node in the template.
-
-The additional fields in the file are for cases where the template is tree-like (Some nodes are parents/children of other nodes), and where some nodes have explicit inverse relations (a given node or group of nodes on one side, say EXPENDITURE, is directly related to a node or group on the other, REVENUE).
-
-Parent/Child relations then raises a new issue - because some Budget Templates do not adhere to a system where the "code" for a given node is truly unique in the whole template, there are cases where we need a "disambiguation key" to know which parent a child relates to. Hence, we have a "scope" field that puts potentially conflicting nodes in context. "Parent Scope" and "Inverse Scope".
-
-So:
-
-If your template structure has conflicting codes (eg: two codes called "202", but they are in fact different, as they are under different parents), the following additional fields are required:
-
-* Parent
-
-And lastly, if a parent or an inverse is a conflicting code, the following fields are required:
-
-* Parent Scope
-
-or
-
-* Inverse Scope
-
-Budget/Actual
-~~~~~~~~~~~~~
-
-For all intents and purposes, the file format for Budgets and Actuals are the same, and we will now refer to importing a "Sheet" to refer to both, and "Sheet Items" to refer to the actual items in a budget or actual.
-
-As with importing a Budget Template, you'll fill out some form fields on import that provide us with other required metadata for the dataset: Name of the entity the budget is for, period of the budget, a description text for the budget, and so on.
+In addition, you'll fill out some form fields on import that provide us with other required metadata for the dataset: Name of the template, what divisions it applies to, and the period of time for which it is valid.
 
 All headers are required, even if some columns may be completely empty (because not all **data** is required).
 
-The headers, and their data requirements, are:
-
-* Code:          REQUIRED, string
-* Code Scope:          NOTREQUIRED, string
-* Amount:        REQUIRED, number
-* Description:  NOTREQUIRED, string
-* Custom Code: NOTREQUIRED, TRUE OR FALSE
-* Direction      REQUIRED WITH CUSTOM CODE TRUE: "EXPENDITURE" or "REVENUE"
-* Parent:        NOTREQUIRED, string that must match another items Code
-* Parent Scope:  NOTREQUIRED, pipe-separated strings, from left to right, parent's parent to top of tree
-* Inverse:       NOTREQUIRED, string that must match another items Code, inverse must have opposite direct to the item
-* Inverse Alias: NOTREQUIRED, pipe-separated strings, from left to right, parent's parent to top of tree
-
-The following values are **the bare minimum requirement** for each item:
-
-* Code
-* Amount
-
-The "Description" field is purely optional, dependent on whether your budget items have descriptions.
-
-Other fields depend on the CUSTOM CODE field. If this is FALSE or blank, the other fields are completely ignored.
-
-If this is TRUE, then the other fields are required according to all the logic of the Template importer rules for these fields.
-
-Files
------
-
-We have files hosted on google docs for ease of viewing and use. If you want to use one of these files as a starting point for your own file, please ensure that in the end, to import, you download as CSV.
-
-**CSV is the only import format we support at present**
-
-Budget Template: Blank
-++++++++++++++++++++++
+Please see the example Template Format worksheet:
 
 https://docs.google.com/spreadsheet/ccc?key=0AoJzAmQXH28mdGllRS1EWFB2aFF3Qk5DbHgyakE4Q0E#gid=4
 
-Budget Template: Israeli Muni 1994 to Now
-+++++++++++++++++++++++++++++++++++++++++
+And, here is an example dataset, the Israel Municipality Budget template, applicable from 1994 onwards:
 
 https://docs.google.com/spreadsheet/ccc?key=0AoJzAmQXH28mdC12X3FrWi13VjU4bnh4dnZJekNTQXc#gid=4
 
-Budget Template: Unit Test File
-+++++++++++++++++++++++++++++++
 
-https://docs.google.com/spreadsheet/ccc?key=0AoJzAmQXH28mdC0xLXNDQnd4OVN0elIzMW5SYXNkSnc#gid=5
+Sheet
+~~~~~
 
-Budget/Actual: Blank
-++++++++++++++++++++
+A Sheet describes budget and actual data for a given Entity, in a given period.
+
+
+As with importing a Template, you'll fill out some form fields on import that provide us with other required metadata for the dataset: Name of the entity the Sheet is for, period of the Sheet, a description text for the budget, and so on.
+
+All headers are required, even if some columns may be completely empty (because not all **data** is required).
+
+Please see the example Sheet Format worksheet:
 
 https://docs.google.com/spreadsheet/ccc?key=0AoJzAmQXH28mdHQySzVLLVdTUzhQWnJKdGJnSW11eWc#gid=4
 
-Budget/Actual: Israel Muni Mock
-+++++++++++++++++++++++++++++++
+And, here is an example dataset, all Sheets for Gush Etzion, a municipality in Israel:
 
-https://docs.google.com/spreadsheet/ccc?key=0AoJzAmQXH28mdG44Xzd0NDB3UERvT2gtY2UyUWQxd3c#gid=4
+https://docs.google.com/spreadsheet/ccc?key=0AoJzAmQXH28mdFB0TFQxOVk4ZkNKRFVQaFgwWHQ3d3c#gid=7
 
-Budget/Actual: Unit Test File
-+++++++++++++++++++++++++++++++
+Note how, for Sheets, we create a "Data" worksheet will all data we have. This is done also to help with data validation - seeing common patterns in item codes over time, checking that an item code has the same name over time, and so on. We then generate, from this "Data" worksheet, specific worksheets for each period we have data on. It is these auto-generated sheets that are importing into the database.
 
-https://docs.google.com/spreadsheet/ccc?key=0AoJzAmQXH28mdFFuc0MybjV0cnptT1R3TURrMjlIT0E#gid=4
+
+Example Files
+-------------
+
+Please refer to our public drive folder for all data format and structures:
+
+https://drive.google.com/#folders/0B4JzAmQXH28md2FHUUJvZXZvb0U
