@@ -22,14 +22,6 @@ define([
                     this.$element.find('.entity').text(value.get('name'));
                 }
             },
-            dom_events      : {
-                mouseenter  : function () {
-                    this.wakeContained();
-                },
-                mouseleave  : function () {
-                    this.sleepContained();
-                }
-            },
             signals         : {
                 post_init   : 'wake'
             }
