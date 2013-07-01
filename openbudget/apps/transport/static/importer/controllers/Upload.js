@@ -53,7 +53,7 @@ define([
                             }
                         });
                     } catch (e) {
-                        data = [{ message : 'Disturbance in the force.' }]
+                        data = [{ message : gettext('Disturbance in the force.') }]
                     }
                     uijet.publish('upload.failed', data);
                 });

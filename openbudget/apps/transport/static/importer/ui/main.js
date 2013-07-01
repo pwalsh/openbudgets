@@ -110,11 +110,11 @@ define([
             },
             app_events  : {
                 'upload.failed'             : function () {
-                    this.$element.text('Import failed due to:');
+                    this.$element.text(gettext('Import failed due to:'));
                     this.wake(true);
                 },
                 'upload.done'               : function () {
-                    this.$element.text('Import succeeded!');
+                    this.$element.text(gettext('Import succeeded!'));
                     this.$import_message_exp.removeClass('hide');
                     this.wake(true);
                 },

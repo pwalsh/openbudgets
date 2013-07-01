@@ -231,9 +231,11 @@ class TemplateNode(BaseNode, TimeStampedModel, UUIDModel):
     def with_future(self):
         return [self] + self.future
 
-    @property
-    def timeline(self):
-        return self.with_past + self.future
+    def timeline(self, include_future=False):
+        timeline = self.with_past
+        if include_future:
+            timeline += self.future
+        return timeline
 
     def _get_path_to_root(self):
         path = [self.code]
@@ -340,7 +342,7 @@ class SheetManager(models.Manager):
         return self.select_related('entity')
 
     def related_map(self):
-        return self.select_related().prefetch_related('items')
+        return self.select_related().prefetch_related('denormalizedsheetitems')
 
     def latest_of(self, entity):
         return self.filter(entity=entity).latest('period_start')
@@ -460,14 +462,17 @@ class SheetItemManager(models.Manager):
     def related_map(self):
         return self.select_related().prefetch_related('discussion')
 
-    def timeline(self, node_uuid, entity_uuid):
-        try:
-            node = TemplateNode.objects.get(uuid=node_uuid)
-        except TemplateNode.DoesNotExist as e:
-            raise e
-        value = self.model.objects.filter(node__in=node.timeline,
-                                          budget__entity__uuid=entity_uuid)
-        return value
+    def timeline(self, node_pks, entity_pk):
+        nodes = TemplateNode.objects.filter(id__in=node_pks)
+        timelines = []
+        if nodes.count():
+            for node in nodes:
+                timelines += node.timeline()
+        else:
+            raise TemplateNode.DoesNotExist()
+
+        items = self.model.objects.filter(node__in=timelines, sheet__entity=entity_pk).select_related('sheet')
+        return items
 
 
 class SheetItem(BaseItem, TimeStampedModel, UUIDModel, ClassMethodMixin):

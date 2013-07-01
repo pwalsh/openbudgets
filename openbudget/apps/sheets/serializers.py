@@ -44,24 +44,29 @@ class TemplateDetail(TemplateBase):
         fields = TemplateBase.Meta.fields + ['nodes']
 
 
-class SheetBase(serializers.HyperlinkedModelSerializer):
+#TODO: change back to HyperlinkedModelSerializer once we fix the url of DenormalizedSheetItem
+class SheetBase(serializers.ModelSerializer):
     """The default serialized representation of sheets."""
 
     period = serializers.Field(source='period')
 
     class Meta:
         model = models.Sheet
-        fields = ['id', 'url', 'template', 'entity', 'description', 'period',
+        #TODO: put 'url' back here once we fix the url of DenormalizedSheetItem
+        fields = ['id', 'template', 'entity', 'description', 'period',
                   'created_on', 'last_modified'] + translated_fields(model)
 
-
-class SheetItemBase(serializers.HyperlinkedModelSerializer):
+#TODO: change back to HyperlinkedModelSerializer once we fix the url of DenormalizedSheetItem
+class SheetItemBase(serializers.ModelSerializer):
     """The default serialized representation of sheet items."""
 
+    url = serializers.HyperlinkedIdentityField(view_name='sheetitem-detail')
+    node = TemplateNodeMin()
+
     class Meta:
-        model = models.DenormalizedSheetItem
-        fields = ['id', 'url', 'budget', 'actual', 'description', 'code', 'name',
-                  'path', 'direction', 'parent', 'backwards'] + translated_fields(model)
+        model = models.SheetItem
+        #TODO: put 'url' back here once we fix the url of DenormalizedSheetItem
+        fields = ['id', 'budget', 'actual', 'description', 'node'] + translated_fields(model)
 
 
 
@@ -73,7 +78,7 @@ class SheetDetail(SheetBase):
     items = SheetItemBase()
 
     class Meta(SheetBase.Meta):
-        fields = SheetBase.Meta.fields + ['items']
+        fields = SheetBase.Meta.fields + ['denormalizedsheetitems']
 
 
 class SheetItemDetail(SheetItemBase):
@@ -81,3 +86,15 @@ class SheetItemDetail(SheetItemBase):
 
     class Meta(SheetItemBase.Meta):
         fields = SheetItemBase.Meta.fields + ['discussion']
+
+
+class SheetTimeline(serializers.ModelSerializer):
+
+    period = serializers.SerializerMethodField('get_period')
+
+    class Meta:
+        model = models.SheetItem
+        fields = ['id', 'budget', 'actual', 'description', 'period'] + translated_fields(model)
+
+    def get_period(self, obj):
+        return obj.sheet.period

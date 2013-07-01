@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.utils.translation import ugettext_lazy as _, gettext as __
+from django.db.models import Q
 from openbudget.apps.sheets.models import Template, TemplateNode, TemplateNodeRelation
 from openbudget.apps.entities.models import Division
 from openbudget.apps.international.utilities import translated_fields
@@ -33,6 +34,17 @@ class TemplateParser(BaseParser):
         if extends:
             self.fill_in_parents = True if fill_in_parents is None else fill_in_parents
             self.interpolate = True if interpolate is None else interpolate
+
+            divisions = self.parent.divisions.all()
+            if divisions.exists():
+                self.ancestors_qs = self.item_model.objects.filter(templates__divisions__in=divisions)
+            else:
+                entity = self.parent.using_sheets.all()[:1][0].entity
+                self.ancestors_qs = self.item_model.objects.filter(
+                    Q(templates__using_sheets__entity=entity) |
+                    Q(templates__divisions__in=[entity.division])
+                ).order_by('-templates__period_start')
+
         else:
             self.fill_in_parents = False
             self.interpolate = False
@@ -365,18 +377,7 @@ class TemplateParser(BaseParser):
 
     def _create_item(self, obj, key):
         # work with a clone so we always keep the source input
-        obj = obj.copy()
-
-        self._clean_object(obj, key)
-
-        if not self.dry:
-            item = self.item_model.objects.create(**obj)
-        else:
-            item = self.item_model(**obj)
-            row_num = self.rows_objects_lookup.get(key, None)
-            self._dry_clean(item, row_num=row_num)
-
-        return item
+        return super(TemplateParser, self)._create_item(obj.copy(), key)
 
     def _add_to_container(self, item, key):
         if not self.dry:
@@ -475,8 +476,12 @@ class TemplateParser(BaseParser):
             # there can be one or none
             return self.parent.nodes.get(path=path)
 
-        except TemplateNode.DoesNotExist as e:
+        except self.item_model.DoesNotExist as e:
             # none found
+            ancestors_matches = self.ancestors_qs.filter(path=path)
+            if len(ancestors_matches):
+                return ancestors_matches[0]
+
             try:
                 if route is None and path:
                     route = path.split(self.ROUTE_SEPARATOR)
@@ -488,9 +493,9 @@ class TemplateParser(BaseParser):
 
                 return self.parent.nodes.get(**_filter)
 
-            except TemplateNode.DoesNotExist as e:
+            except self.item_model.DoesNotExist as e:
                 return None
-            except TemplateNode.MultipleObjectsReturned as e:
+            except self.item_model.MultipleObjectsReturned as e:
                 if self.dry:
                     self.throw(
                         ParentScopeError(
@@ -501,7 +506,7 @@ class TemplateParser(BaseParser):
                 else:
                     raise e
 
-        except TemplateNode.MultipleObjectsReturned as e:
+        except self.item_model.MultipleObjectsReturned as e:
             #TODO: this indicates that the data is corrupted, need to handle better
             if self.dry:
                 # more then one probably means there's PARENT_SCOPE missing

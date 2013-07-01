@@ -1,16 +1,15 @@
 define([
     'uijet_dir/uijet',
     'resources',
-    'ui/filters',
     'project_widgets/ClearableTextInput',
     'project_widgets/Breadcrumbs',
     'project_widgets/FilterCrumb'
 ], function (uijet, resources) {
 
     uijet.Resource('Breadcrumbs', uijet.Collection({
-        model   : resources.Item
+        model   : resources.Node
     }))
-    .Resource('ItemsListState', uijet.Model(), {
+    .Resource('NodesListState', uijet.Model(), {
         search  : null,
         selected: null
     });
@@ -24,33 +23,41 @@ define([
         },
         nullifySearchQuery = attributeNullifier('search');
 
-    uijet.declare([{
+    return [{
         type    : 'Pane',
         config  : {
-            element     : '#items_picker',
-            position    : 'fluid',
-            resource    : 'ItemsListState',
-            data_events : {
+            element         : '#nodes_picker',
+            mixins          : ['Transitioned', 'Layered'],
+            position        : 'fluid',
+            animation_type  : 'fade',
+            resource        : 'NodesListState',
+            data_events     : {
                 'change:search'     : '-search.changed',
                 'change:selected'   : '-selected.changed'
             },
-            app_events  : {
+            app_events      : {
                 'search_crumb_remove.clicked'   : nullifySearchQuery,
                 'selected_crumb_remove.clicked' : attributeNullifier('selected'),
                 'filter_selected.clicked'       : function () {
                     this.resource.set({ selected : true });
+                },
+                'legends_list.change_state'     : 'wake+',
+                'add_legend.clicked'            : function () {
+                    this.wake({
+                        nodes_list  : 'sleep'
+                    });
                 }
             }
         }
     }, {
         type    : 'Pane',
         config  : {
-            element     : '#items_filters_pane',
+            element     : '#nodes_filters_pane',
             mixins      : ['Layered'],
             position    : 'top:100 fluid',
             app_events  : {
-                'items_search.entered'  : 'wake',
-                'items_search.cancelled': 'wake'
+                'nodes_search.entered'  : 'wake',
+                'nodes_search.cancelled': 'wake'
             }
         }
     }, {
@@ -66,7 +73,7 @@ define([
     }, {
         type    : 'Pane',
         config  : {
-            element     : '#items_search_pane',
+            element     : '#nodes_search_pane',
             mixins      : ['Layered'],
             dont_wake   : true,
             position    : 'top:100 fluid',
@@ -77,8 +84,8 @@ define([
     }, {
         type    : 'ClearableTextInput',
         config  : {
-            element     : '#items_search',
-            resource    : 'ItemsListState',
+            element     : '#nodes_search',
+            resource    : 'NodesListState',
             dom_events  : {
                 keyup   : function (e) {
                     var code = e.keyCode || e.which,
@@ -112,7 +119,7 @@ define([
                 }
             },
             app_events  : {
-                'items_search_clear.clicked': function () {
+                'nodes_search_clear.clicked': function () {
                     this.resource.set({ search : '' });
                 }
             }
@@ -120,14 +127,14 @@ define([
     }, {
         type    : 'Breadcrumbs',
         config  : {
-            element     : '#items_breadcrumbs',
+            element     : '#nodes_breadcrumbs',
             resource    : 'Breadcrumbs',
             data_events : {
                 change  : 'render',
                 reset   : 'render'
             },
             app_events  : {
-                'items_list.selected'   : function (selected) {
+                'nodes_list.selected'   : function (selected) {
                     this.resource.reset(
                         uijet.Resource('LatestSheet').branch(selected)
                     );
@@ -146,7 +153,7 @@ define([
                 }
             },
             app_events  : {
-                'items_search.entered'  : function (query) {
+                'nodes_search.entered'  : function (query) {
                     query !== null && this.wake();
                 },
                 'filters_search.clicked': 'sleep',
@@ -195,5 +202,5 @@ define([
                 }
             }
         }
-    }]);
+    }];
 });

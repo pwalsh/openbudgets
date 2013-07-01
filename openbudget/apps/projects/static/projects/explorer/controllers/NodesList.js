@@ -5,7 +5,7 @@ define([
 
     var arraySort = Array.prototype.sort;
 
-    uijet.Adapter('ItemsList', {
+    uijet.Adapter('NodesList', {
         redraw              : function (scope) {
             var filter = this.active_filters ?
                     this.resource.byAncestor :
@@ -23,7 +23,7 @@ define([
                 );
             return this;
         },
-        sortItems           : function (data) {
+        sortNodes           : function (data) {
             this.desc = data.desc;
             this.sort((data.desc ? '-' : '') + data.column);
             if ( this.filtered && ! uijet.Utils.isFunc(this.filtered) ) {

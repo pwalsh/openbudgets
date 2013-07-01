@@ -29,11 +29,6 @@ def templates():
             api.TemplateNodesListLatest.as_view(),
             name='node-list-latest'
         ),
-        url(
-            r'^(?P<entity_pk>\w+)/timeline/(?P<node_pk>\w+)/$',
-            api.NodeTimeline.as_view(),
-            name='node-timeline'
-        ),
     )
     return urlpatterns
 
@@ -59,6 +54,11 @@ def sheets():
             r'^items/(?P<pk>\d+)/$',
             api.SheetItemDetail.as_view(),
             name='sheetitem-detail'
+        ),
+        url(
+            r'^timeline/(?P<entity_pk>\w+)/$',
+            api.ItemsTimeline.as_view(),
+            name='items-timeline'
         ),
     )
     return urlpatterns

@@ -35,6 +35,17 @@ class TemplateNodeList(generics.ListAPIView):
     ordering = ['name', 'created_on', 'last_modified']
     search_fields = ['name', 'description'] + translated_fields(model)
 
+    def get_queryset(self):
+        queryset = self.model.objects.all()
+        entity = self.request.QUERY_PARAMS.get('entity', None)
+        latest = self.request.QUERY_PARAMS.get('latest', None)
+        if entity is not None:
+            if latest:
+                queryset = models.Template.objects.latest_of(entity=entity).nodes
+            else:
+                pass
+        return queryset
+
 
 class TemplateNodeDetail(generics.RetrieveAPIView):
     """API endpoint that represents a single template node."""
@@ -67,14 +78,12 @@ class SheetDetail(generics.RetrieveAPIView):
 class SheetItemList(generics.ListAPIView):
     """API endpoint that represents a list of budget items."""
 
-    model = models.DenormalizedSheetItem
+    model = models.SheetItem
     queryset = model.objects.related_map_min()
     serializer_class = serializers.SheetItemBase
     filter_class = filters.SheetItemFilter
-    ordering = ['sheet__entity__name', 'code', 'created_on', 'last_modified']
-    search_fields = ['sheet__entity__name', 'code', 'name',
-                     'node_description', 'description', 'period_start',
-                     'period_end'] + translated_fields(model)
+    ordering = ['sheet__entity__name', 'node__code']
+    search_fields = ['sheet__entity__name', 'node__code', 'node__name', 'description'] + translated_fields(model)
 
     def get_queryset(self):
         queryset = self.model.objects.all()
@@ -82,7 +91,7 @@ class SheetItemList(generics.ListAPIView):
         latest = self.request.QUERY_PARAMS.get('latest', None)
         if entity is not None:
             if latest:
-                queryset = models.Sheet.objects.latest_of(entity=entity).denormalizedsheetitems
+                queryset = models.Sheet.objects.latest_of(entity=entity).sheetitems
             else:
                 pass
         return queryset
@@ -106,22 +115,23 @@ class TemplateNodesListLatest(generics.ListAPIView):
         return Response(serialized_nodes)
 
 
-class NodeTimeline(generics.ListAPIView):
+class ItemsTimeline(generics.ListAPIView):
     """
     API endpoint that retrieves a timeline of budget items and actual items
     according to a given node, entity and optionally a period
     """
 
-    def get(self, request, entity_pk, node_pk, *args, **kwargs):
+    def get(self, request, entity_pk, *args, **kwargs):
         """GET handler for retrieving all budget items and actual items of the node's timeline, filtered by entity"""
 
-        budget_items = models.BudgetItem.objects.timeline(node_pk, entity_pk)
-        actual_items = models.ActualItem.objects.timeline(node_pk, entity_pk)
+        nodes = self.request.QUERY_PARAMS.get('nodes', None)
+        if nodes:
+            nodes = [int(node_id) for node_id in nodes.split(',')]
+        else:
+            #TODO: handle case of no nodes specified
+            pass
+        items = models.SheetItem.objects.timeline(nodes, entity_pk)
 
-        budget_items_serialized = serializers.BudgetItemBase(budget_items, many=True).data
-        actual_items_serialized = serializers.ActualItemBase(actual_items, many=True).data
+        serialized_timeline = serializers.SheetTimeline(items, many=True).data
 
-        return Response({
-            "budget_items": budget_items_serialized,
-            "actual_items": actual_items_serialized
-        })
+        return Response(serialized_timeline)

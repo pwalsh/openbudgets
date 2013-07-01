@@ -52,13 +52,13 @@ define([
         },
         itemColor       : function () {},
         itemEdit        : function () {
-            uijet.publish('legends_list.selected', this.options.index);
+            uijet.publish('legends_list.selected', this.resource.collection.indexOf(this.resource));
         },
         itemDuplicate   : function () {
-            uijet.publish('legends_list.duplicate', this.options.index);
+            uijet.publish('legends_list.duplicate', this.resource.collection.indexOf(this.resource));
         },
         itemDelete      : function () {
-            uijet.publish('legends_list.delete', this.options.index);
+            uijet.publish('legends_list.delete', this.resource.collection.indexOf(this.resource));
             this.destroy();
         }
     });

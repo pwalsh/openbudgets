@@ -4,7 +4,8 @@ define([
     'api',
     'project_widgets/ClearableTextInput',
     'project_widgets/FilteredList',
-    'project_widgets/LegendItem'
+    'project_widgets/LegendItem',
+    'controllers/LegendsList'
 ], function (uijet, Explorer, api) {
 
     uijet.Factory('LegendItem', {
@@ -14,8 +15,8 @@ define([
             template_name   : 'legend_item',
             dont_fetch      : true,
             data_events     : {
-                'change:items'  : function (model, value) {
-                    this.$element.find('.selected_items_count').text(value.length);
+                'change:state'  : function (model, state) {
+                    this.$element.find('.selected_nodes_count').text(state.selected.length);
                 },
                 'change:muni'   : function (model,value) {
                     this.$element.find('.entity').text(value.get('name'));
@@ -36,7 +37,7 @@ define([
     });
 
 
-    uijet.declare([{
+    return [{
         type    : 'Pane',
         config  : {
             element : '#legends',
@@ -46,6 +47,7 @@ define([
         type    : 'Pane',
         config  : {
             element     : '#legends_list',
+            adapters    : ['LegendsList'],
             position    : 'fluid',
             resource    : 'LegendItems',
             signals     : {
@@ -60,55 +62,27 @@ define([
             },
             app_events  : {
                 'add_legend.clicked'    : function () {
-                    var model = new Explorer.LegendItemModel({
-                        title       : 'Title me',
-                        description : 'Describe me',
-                        muni        : '',
-                        items       : []
-                    });
-                    this.current_index = this.resource.add(model).length - 1;
+                    var index = this.resource.length,
+                        model = this.createItemModel();
 
                     uijet.start({
                         factory : 'LegendItem',
                         config  : {
                             element : uijet.$('<li>', {
-                                id          : this.id + '_item_' + this.current_index
+                                id          : this.id + '_item_' + model.cid
                             }).appendTo(this.$element),
                             resource: model,
-                            index   : this.current_index
+                            index   : index
                         }
                     }, true);
                 },
-                'legends_list.selected' : function (index) {
-                    var model;
-                    if ( index !== this.current_index ) {
-                        model = this.resource.at(index);
-                        this.current_index = index;
-                        this.publish('change_state', {
-                            entity_id   : model.get('muni').get('id'),
-                            selection   : model.get('state')
-                        });
-                    }
-                },
-                'entities_list.selected': function (id) {
-                    this.resource.at(this.current_index).set({
-                        muni: uijet.Resource('Munis').get(id)
-                    });
-                },
-                'items_list.selection'  : function (data) {
-                    if ( data && data.reset ) return;
-                    var resource = uijet.Resource('LatestSheet'),
-                        selected_items = resource.where({ selected : 'selected' })
-                                                 .map(uijet.Utils.prop('id')),
-                        partial_items = resource.where({ selected : 'partial' })
-                                                .map(uijet.Utils.prop('id'));
-                    this.resource.at(this.current_index).set({
-                        items   : selected_items,
-                        state   : {
-                            selected: selected_items,
-                            partial : partial_items
-                        }
-                    });
+                'legends_list.selected' : 'selectItem+',
+                'legends_list.delete'   : 'deleteItem+',
+                'entities_list.selected': 'setEntity+',
+                'nodes_list.selection'  : 'updateSelection+',
+                'picker_done.clicked'   : function () {
+                    // reset the state of selected legend item
+                    this.current_index = null;
                 }
             }
         }
@@ -197,6 +171,6 @@ define([
                 'entities_list.filtered': 'scroll'
             }
         }
-    }]);
+    }];
 
 });

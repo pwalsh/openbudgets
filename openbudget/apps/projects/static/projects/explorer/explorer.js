@@ -36,7 +36,7 @@ define([
              * Register resources
              */
             uijet.Resource('Munis', resources.Munis);
-            uijet.Resource('LatestSheet', resources.Items);
+            uijet.Resource('LatestSheet', resources.Nodes);
 
             this.LegendItemModel = uijet.Model();
             uijet.Resource('LegendItems', uijet.Collection({

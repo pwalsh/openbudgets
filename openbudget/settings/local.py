@@ -37,11 +37,11 @@ INSTALLED_APPS += (
 )
 
 # CACHE CONF - Uncomment to disable caching in development
-#CACHES = {
+# CACHES = {
 #    'default': {
 #        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
 #    }
-#}
+# }
 
 EMAIL_USE_TLS = True
 

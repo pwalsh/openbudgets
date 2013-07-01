@@ -42,16 +42,16 @@ define([
             }
         }),
         /*
-         * DnormalizedSheetItem Model
+         * TemplateNode Model
          */
-        Sheet = uijet.Model({
+        Node = uijet.Model({
             idAttribute : 'id'
         }),
         /*
-         * DnormalizedSheetItems Collection
+         * TemplateNodes Collection
          */
-        Items = uijet.Collection({
-            model           : Item,
+        Nodes = uijet.Collection({
+            model           : Node,
             comparator      : function (a, b) {
                 var a_attrs = a.attributes,
                     b_attrs = b.attributes,
@@ -67,8 +67,8 @@ define([
                 return diff > 0 ? 1 : -1;
             },
             /**
-             * Setting `ancestors` array of `id`s, `leaf_item` boolean flag and
-             * `level` - a Number representing the level of the item in the tree.
+             * Setting `ancestors` array of `id`s, `leaf_node` boolean flag and
+             * `level` - a Number representing the level of the node in the tree.
              * 
              * @param {Object|Array} response
              * @returns {Object|Array} response
@@ -78,31 +78,31 @@ define([
                     last = results.length - 1,
                     paths_lookup = {},
                     parent_ids = {},
-                    item, n, route, path;
-                for ( n = last; item = results[n]; n-- ) {
-                    item.ancestors = [];
-                    paths_lookup[item.path] = item;
-                    if ( item.parent ) {
-                        item.parent = item.parent.id || item.parent;
-                        if ( ! parent_ids[item.parent] ) {
-                            parent_ids[item.parent] = [];
+                    node, n, route, path;
+                for ( n = last; node = results[n]; n-- ) {
+                    node.ancestors = [];
+                    paths_lookup[node.path] = node;
+                    if ( node.parent ) {
+                        node.parent = node.parent.id || node.parent;
+                        if ( ! parent_ids[node.parent] ) {
+                            parent_ids[node.parent] = [];
                         }
-                        parent_ids[item.parent].push(item.id);
+                        parent_ids[node.parent].push(node.id);
                     }
                 }
-                for ( n = last; item = results[n]; n-- ) {
-                    if ( parent_ids[item.id] ) {
-                        item.children = parent_ids[item.id];
+                for ( n = last; node = results[n]; n-- ) {
+                    if ( parent_ids[node.id] ) {
+                        node.children = parent_ids[node.id];
                     }
                     else {
-                        item.leaf_item = true;
+                        node.leaf_node = true;
                     }
-                    route = item.path.split('|').slice(1);
-                    item.level = route.length;
+                    route = node.path.split('|').slice(1);
+                    node.level = route.length;
                     while ( route.length ) {
                         path = route.join('|');
                         if ( path in paths_lookup ) {
-                            item.ancestors.push(paths_lookup[path].id);
+                            node.ancestors.push(paths_lookup[path].id);
                         }
                         route.shift();
                     }
@@ -122,59 +122,36 @@ define([
             },
             byAncestor      : function (ancestor_id) {
                 if ( ancestor_id ) {
-                    return this.filter(function (item) {
-                        return ~ item.attributes.ancestors.indexOf(ancestor_id);
+                    return this.filter(function (node) {
+                        return ~ node.attributes.ancestors.indexOf(ancestor_id);
                     });
                 }
                 else {
                     return this.models;
                 }
             },
-            branch          : function (item_id) {
-                var tip_item, branch;
-                if ( item_id ) {
-                    tip_item = this.get(item_id);
+            branch          : function (node_id) {
+                var tip_node, branch;
+                if ( node_id ) {
+                    tip_node = this.get(node_id);
                     //! Array.prototype.map
-                    branch = tip_item.get('ancestors')
+                    branch = tip_node.get('ancestors')
                         .map( function (ancestor_id) {
                             return this.get(ancestor_id);
                         }, this )
                         .sort( function (a, b) {
                             return a.attributes.level - b.attributes.level;
                         } );
-                    branch.push(tip_item);
+                    branch.push(tip_node);
                 }
                 return branch || [];
-            },
-            past            : function (item_id, past) {
-                var item = this.get(item_id),
-                    backwards = item.get('backwards');
-                past = past || [];
-                _.each(backwards, function (id) {
-                    past.push(id);
-                    this.past(id, past);
-                }, this);
-                return past;
-            },
-            future          : function (item_id, future) {
-                var item = this.get(item_id),
-                    forwards = item.get('forwards');
-                future = future || [];
-                _.each(forwards, function (id) {
-                    future.push(id);
-                    this.future(id, future);
-                }, this);
-                return future;
-            },
-            timeline        : function (item_id) {
-                return[item_id].concat(this.future(item_id), this.past(item_id));
             }
         });
 
     return {
         Munis   : Munis,
-        Item    : Item,
-        Items   : Items,
+        Node    : Node,
+        Nodes   : Nodes,
         utils   : {
             reverseSorting  : reverseSorting
         }

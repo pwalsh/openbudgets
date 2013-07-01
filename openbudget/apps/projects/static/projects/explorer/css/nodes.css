@@ -40,26 +40,26 @@
     float: left;
 }
 
-#item_breadcrumb_back:before {
+#node_breadcrumb_back:before {
     content: '> ';
 }
-#items_breadcrumbs, #items_breadcrumbs_wrapper {
+#nodes_breadcrumbs, #nodes_breadcrumbs_wrapper {
     display: inline-block;
     height: auto;
     overflow: visible;
 }
-#items_breadcrumbs .uijet_button {
+#nodes_breadcrumbs .uijet_button {
     padding: 0;
 }
-#items_breadcrumbs_history_wrapper {
+#nodes_breadcrumbs_history_wrapper {
     display: inline-block;
     width: auto;
 }
 
-#items_picker {
+#nodes_picker {
     background-color: lightblue;
 }
 
-#items_filters_pane_wrapper {
+#nodes_filters_pane_wrapper {
     overflow: visible;
 }
