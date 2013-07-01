@@ -123,6 +123,7 @@ define([
             mixins      : ['Templated', 'Scrolled'],
             adapters    : ['jqWheelScroll', 'Spin'],
             resource    : 'Munis',
+            dont_wake   : true,
             position    : 'top|50 fluid',
             search      : {
                 fields  : {
@@ -159,6 +160,10 @@ define([
                 }
             },
             app_events  : {
+                'api_routes_set'        : function () {
+                    this.options.dont_wake = false;
+                    this.wake();
+                },
                 'entity_field.changed'  : 'filterBySearch+',
                 'entities_list.filtered': 'scroll'
             }

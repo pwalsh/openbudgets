@@ -63,6 +63,16 @@
 #nodes_filters_pane_wrapper {
     overflow: visible;
 }
+
+#nodes_picker_footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    border-top: 1px solid lightslategray;
+}
+
 #nodes_scope_name {
     height: auto;
 }

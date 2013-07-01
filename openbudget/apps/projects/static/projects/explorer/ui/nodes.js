@@ -79,11 +79,6 @@ define([
     }, {
         type    : 'Button',
         config  : {
-            element : '#picker_done'
-        }
-    }, {
-        type    : 'Button',
-        config  : {
             element : '#filters_search'
         }
     }, {
@@ -217,6 +212,16 @@ define([
                     }
                 }
             }
+        }
+    }, {
+        type    : 'Pane',
+        config  : {
+            element : '#nodes_picker_footer'
+        }
+    }, {
+        type    : 'Button',
+        config  : {
+            element : '#picker_done'
         }
     }];
 });
