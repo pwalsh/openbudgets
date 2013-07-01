@@ -25,12 +25,12 @@ Features
    features/interactions
    features/internationalization
    features/pages
+   features/projects
    features/query-builder
    features/search
    features/settings
    features/sources
    features/taxonomies
-   features/vizualizations
 
 
 Interfaces
