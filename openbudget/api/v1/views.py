@@ -12,9 +12,10 @@ def api_v1(request):
         'divisions': reverse('division-list', request=request),
         'entities': reverse('entity-list', request=request),
         'templates': reverse('template-list', request=request),
-        'templates/nodes': reverse('templatenode-list', request=request),
+        'templates/nodes/': reverse('templatenode-list', request=request),
         'sheets': reverse('sheet-list', request=request),
         'sheets/items/': reverse('sheetitem-list', request=request),
         'contexts': reverse('context-list', request=request),
         'projects': reverse('project-list', request=request),
+        'projects/states/': reverse('state-list', request=request),
     })

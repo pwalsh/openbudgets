@@ -70,8 +70,17 @@ class Project(TimeStampedModel, UUIDModel, ClassMethodMixin):
         verbose_name_plural = _('Projects')
 
 
+class StateManager(models.Manager):
+    """Exposes the related_map method for more efficient bulk select queries."""
+
+    def related_map(self):
+        return self.select_related()
+
+
 class State(TimeStampedModel, UUIDModel, ClassMethodMixin):
     """State objects describe saved states of specific projects."""
+
+    objects = StateManager()
 
     project = models.ForeignKey(
         Project,

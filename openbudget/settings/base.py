@@ -86,7 +86,7 @@ MIDDLEWARE_CLASSES = (
     'openbudget.apps.international.middleware.InterfaceLanguage',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'openbudget.api.middleware.XsSharing',
+    'corsheaders.middleware.CorsMiddleware',
 )
 
 INSTALLED_APPS = (
@@ -102,6 +102,7 @@ INSTALLED_APPS = (
     'grappelli_modeltranslation',
     'django.contrib.admin',
     'django.contrib.sitemaps',
+    'corsheaders',
     'gunicorn',
     'south',
     'haystack',
@@ -265,6 +266,20 @@ REST_FRAMEWORK = {
     'PAGINATE_BY_PARAM': 'page_by'
 }
 
+# DJANGO CORS HEADERS CONF
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_METHODS = (
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    #'DELETE',
+    'OPTIONS'
+)
+
+#CORS_ALLOW_CREDENTIALS = False
+
 # OAUTH2 PROVIDER CONF
 OAUTH_ENFORCE_SECURE = True
 
@@ -332,9 +347,3 @@ OPENBUDGET_CONTENT_TEAM_ID = 2
 OPENBUDGET_PUBLIC_ID = 3
 
 OPENBUDGET_PERIOD_RANGES = ('yearly',)
-
-# TODO: Yehonatan needs to check for a better solution here
-XS_SHARING_ALLOWED_ORIGINS = '*'
-XS_SHARING_ALLOWED_METHODS = ['POST', 'GET', 'OPTIONS', 'PUT', 'DELETE']
-XS_SHARING_ALLOWED_HEADERS = ['Content-Type', 'Authorization', '*']
-XS_SHARING_ALLOWED_CREDENTIALS = 'true'
