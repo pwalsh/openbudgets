@@ -48,9 +48,16 @@ class InitImporter(object):
 
         for item in dataset.dict:
 
-            for x in item.keys():
-                if item[x] == '':
-                    del item[x]
+            for k, v in item.iteritems():
+
+                if item[k] == '':
+                    del item[k]
+
+                if v == 'TRUE':
+                    item[k] = True
+
+                if v == 'FALSE':
+                    item[k] = False
 
             ## TODO: FIX THIS JUST WORKING AROUND SOME MODELTRANS ISSUE
             item['name_he'] = item['name']
