@@ -26,7 +26,10 @@ define([
                         id          : this.id + '_item_' + model.cid
                     }).appendTo(this.$element),
                     resource: model,
-                    index   : index
+                    index   : index,
+                    signals : {
+                        post_full_render: '-legend_item_added'
+                    }
                 }
             }, true);
             return this;
@@ -34,11 +37,13 @@ define([
         addItem         : function (model_index) {
             this.createItem(model_index)
                 .selectItem(this.resource.length - 1);
+            return this;
         },
         setEntity       : function (id) {
             this.resource.at(this.current_index).set({
                 muni: uijet.Resource('Munis').get(id)
             });
+            return this;
         },
         selectItem      : function (index) {
             var model, muni;
@@ -47,12 +52,21 @@ define([
                 muni = model.get('muni');
                 this.current_index = index;
                 if ( muni ) {
-                    this.publish('change_state', {
-                        entity_id   : muni.get('id'),
-                        selection   : model.get('state')
-                    });
+                    this.updateState(model, muni);
                 }
             }
+        },
+        updateState     : function (model, muni) {
+            if ( ! model ) {
+                model = this.resource.at(this.current_index);
+            }
+            if ( ! muni ) {
+                muni = model.get('muni');
+            }
+            this.publish('change_state', {
+                entity_id   : muni.get('id'),
+                selection   : model.get('state')
+            });
         },
         deleteItem      : function (index) {
             var is_current_index = index === this.current_index,
@@ -80,6 +94,7 @@ define([
             else {
                 this.publish('last_deleted');
             }
+            this.scroll();
         },
         updateSelection : function (data) {
             if ( data && data.reset ) return;

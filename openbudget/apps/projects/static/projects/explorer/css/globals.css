@@ -1,0 +1,70 @@
+body, html {
+    height: 100%;
+    direction: rtl;
+    text-align: right;
+}
+
+.ui-v-scroller {
+    position: absolute;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    z-index: 1;
+    width: 8px;
+    opacity: 0.3;
+}
+.ui-v-scroller-grip {
+    position: absolute;
+    top: 0;
+    right: -1px;
+    z-index: 1;
+    width: 6px;
+    height: 20px;
+    background-color: darkslategray;
+    cursor: pointer;
+}
+
+.uijet_contenteditable_input {
+    display: block;
+}
+.uijet_clearabletextinput {
+    font-size: 3rem;
+    line-height: 150%;
+    border: none;
+    outline: none;
+}
+.uijet_clearabletextinput_wrapper {
+    display: inline-block;
+    width: auto;
+    height: auto;
+}
+.uijet_button.uijet_clear_button {
+    position: absolute;
+    display: block;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 1rem;
+    padding: 0;
+}
+.uijet_clear_button:before {
+    content: 'X';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: .2rem;
+}
+.uijet_menu li {
+    white-space: nowrap;
+}
+
+.top_container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}

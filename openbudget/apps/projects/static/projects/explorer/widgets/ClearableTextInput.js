@@ -18,6 +18,7 @@ define([
                     element     : button_ops.element || uijet.$('<span>', {
                         id : this.id + '_clear'
                     }).appendTo(this.$wrapper),
+                    container   : this.id,
                     extra_class : 'uijet_clear_button'
                 }, button_ops)
             });

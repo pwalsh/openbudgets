@@ -1,0 +1,9 @@
+/***********/
+/* Globals */
+/***********/
+
+#left_container {
+    left: 0;
+    width: 90px;
+    background-color: #d0d0dc;
+}

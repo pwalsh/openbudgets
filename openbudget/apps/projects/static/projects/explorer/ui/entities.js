@@ -1,87 +1,22 @@
 define([
     'uijet_dir/uijet',
-    'explorer',
     'api',
+    'explorer',
     'project_widgets/ClearableTextInput',
-    'project_widgets/FilteredList',
-    'project_widgets/LegendItem',
-    'controllers/LegendsList'
-], function (uijet, Explorer, api) {
-
-    uijet.Factory('LegendItem', {
-        type    : 'LegendItem',
-        config  : {
-            mixins          : ['Templated'],
-            template_name   : 'legend_item',
-            dont_fetch      : true,
-            data_events     : {
-                'change:state'  : function (model, state) {
-                    this.$element.find('.selected_nodes_count').text(state.selected.length);
-                },
-                'change:muni'   : function (model,value) {
-                    this.$element.find('.entity').text(value.get('name'));
-                }
-            },
-            signals         : {
-                post_init   : 'wake'
-            }
-        }
-    });
-
+    'project_widgets/FilteredList'
+], function (uijet, api, explorer) {
 
     return [{
         type    : 'Pane',
         config  : {
-            element : '#legends',
-            position: 'right:350 fluid'
-        }
-    }, {
-        type    : 'Pane',
-        config  : {
-            element     : '#legends_list',
-            adapters    : ['LegendsList'],
-            position    : 'fluid',
-            resource    : 'LegendItems',
-            signals     : {
-                post_init   : function () {
-                    uijet.start({
-                        type    : 'Button',
-                        config  : {
-                            element : '#add_legend'
-                        }
-                    });
-                }
-            },
-            app_events  : {
-                'add_legend.clicked'    : 'addItem',
-                'legends_list.duplicate': 'addItem+',
-                'legends_list.selected' : 'selectItem+',
-                'legends_list.delete'   : 'removeItem+',
-                'entities_list.selected': 'setEntity+',
-                'nodes_list.selection'  : 'updateSelection+',
-                'picker_done.clicked'   : function () {
-                    // reset the state of selected legend item
-                    this.current_index = null;
-                }
-            }
-        }
-    }, {
-        type    : 'Pane',
-        config  : {
-            element         : '#entity_filter',
+            element         : '#entity_selection',
             dont_wake       : true,
-            mixins          : ['Transitioned'],
-            animation_type  : 'slide',
+            mixins          : ['Transitioned', 'Layered'],
+            animation_type  : 'fade',
             app_events      : {
-                'add_legend.clicked'            : 'wake',
-                'entity_filter_close.clicked'   : 'sleep',
-                'entities_list.selected'        : 'sleep'
+                'add_legend.clicked'    : 'wake',
+                'entities_list.selected': 'sleep'
             }
-        }
-    }, {
-        type    : 'Button',
-        config  : {
-            element : '#entity_filter_close'
         }
     }, {
         type    : 'ClearableTextInput',
@@ -111,7 +46,7 @@ define([
             adapters    : ['jqWheelScroll', 'Spin'],
             resource    : 'Munis',
             dont_wake   : true,
-            position    : 'top|50 fluid',
+            position    : 'top|120px bottom fluid',
             search      : {
                 fields  : {
                     code    : 20,

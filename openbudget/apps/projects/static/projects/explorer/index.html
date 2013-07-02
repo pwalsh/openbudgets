@@ -8,7 +8,77 @@
 </head>
 <body>
     <div id="explorer" class="uijet_app">
-        <div id="legends">
+        <section id="left_container" class="top_container">
+            <span id="enter_button">Enter</span>
+        </section>
+        <section id="main_container" class="top_container">
+            <div id="welcome">Welcome to Budget Explorer 5000</div>
+            <div id="entity_selection" class="main_pane">
+                <header>
+                    <p class="section_description">Choose entity</p>
+                    <input type="text" name="entity" id="entity_field" placeholder="Search"/>
+                </header>
+                <ul id="entities_list"></ul>
+            </div>
+            <div id="nodes_picker" class="main_pane">
+                <div id="nodes_filters_pane" class="nodes_picker_pane">
+                    <h3 class="nodes_picker_pane_heading">Choose budget items for this legend item</h3>
+                    <div id="nodes_breadcrumbs">
+                        <span id="nodes_breadcrumbs_history">...</span>
+                        <span id="node_breadcrumb_main">Main</span>
+                        <span id="node_breadcrumb_back"></span>
+                    </div>
+                    <h2 id="nodes_scope_name"></h2>
+                    <span id="selected_crumb"></span>
+                    <span id="search_crumb"></span>
+                    <span id="filters_search">Search</span>
+                </div>
+                <div id="nodes_search_pane" class="nodes_picker_pane">
+                    <h3 class="nodes_picker_pane_heading">Filter only items' names and descriptions that contain:</h3>
+                    <input type="text" name="nodes_search" id="nodes_search"/>
+                    <span id="filter_selected">Selected</span>
+                </div>
+                <section id="nodes_list_container">
+                    <ul id="nodes_list_header">
+                        <li class="nodes_list_header_node" data-column="code">Code</li>
+                        <li class="nodes_list_header_node" data-column="direction">Type</li>
+                        <li class="nodes_list_header_node" data-column="name">Name</li>
+                    </ul>
+                    <ul id="nodes_list"></ul>
+                </section>
+                <section id="nodes_picker_footer">
+                    <p id="results_count_container"><span id="results_count"></span></p>
+                    <p id="sheet_type_picker"></p>
+                    <span id="picker_done">Done</span>
+                </section>
+            </div>
+        </section>
+        <section id="right_container" class="top_container">
+            <div id="loading">Loading...</div>
+            <div id="site_menu">
+                <span id="site_menu_close">X</span>
+                <div id="site_menu_items">
+                    <a href="#home" class="site_menu_item">Home</a>
+                    <a href="#munis" class="site_menu_item">Munis</a>
+                    <a href="#projects" class="site_menu_item">Projects</a>
+                    <a href="#about" class="site_menu_item">About</a>
+                </div>
+            </div>
+            <div id="work_menus">
+                <span id="site_menu_open">Open Muni Budget</span>
+                <div id="comparing_pane">
+                    <h3 class="right_menu_heading">Compare</h3>
+                    <section id="legend_controls">
+                        <span id="add_legend">Add legend item</span>
+                        <ul id="legends_list"></ul>
+                    </section>
+                </div>
+                <div id="selected_muni_pane">
+                    <h3 class="right_menu_heading" id="selected_muni_name"></h3>
+                </div>
+            </div>
+        </section>
+        <!--div id="legends">
             <ul id="legends_list">
                 <span id="add_legend">Add legend item</span>
             </ul>
@@ -50,7 +120,7 @@
                 <span id="picker_done">Done</span>
             </section>
         </div>
-        <div id="chart"></div>
+        <div id="chart"></div-->
     </div>
     <script>
         var API_VERSION = '/v1/';

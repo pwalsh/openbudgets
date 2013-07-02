@@ -31,7 +31,7 @@ define([
         config  : {
             element         : '#nodes_picker',
             mixins          : ['Transitioned', 'Layered'],
-            position        : 'fluid',
+            dont_wake       : true,
             animation_type  : 'fade',
             resource        : 'NodesListState',
             data_events     : {
@@ -44,12 +44,7 @@ define([
                 'filter_selected.clicked'       : function () {
                     this.resource.set({ selected : true });
                 },
-                'legends_list.change_state'     : 'wake+',
-                'add_legend.clicked'            : function () {
-                    this.wake({
-                        nodes_list  : 'sleep'
-                    });
-                }
+                'legends_list.change_state'     : 'wake+'
             }
         }
     }, {
