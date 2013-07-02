@@ -53,23 +53,10 @@ define([
                 }
             },
             app_events  : {
-                'add_legend.clicked'    : function () {
-                    var index = this.resource.length,
-                        model = this.createItemModel();
-
-                    uijet.start({
-                        factory : 'LegendItem',
-                        config  : {
-                            element : uijet.$('<li>', {
-                                id          : this.id + '_item_' + model.cid
-                            }).appendTo(this.$element),
-                            resource: model,
-                            index   : index
-                        }
-                    }, true);
-                },
+                'add_legend.clicked'    : 'addItem',
+                'legends_list.duplicate': 'addItem+',
                 'legends_list.selected' : 'selectItem+',
-                'legends_list.delete'   : 'deleteItem+',
+                'legends_list.delete'   : 'removeItem+',
                 'entities_list.selected': 'setEntity+',
                 'nodes_list.selection'  : 'updateSelection+',
                 'picker_done.clicked'   : function () {

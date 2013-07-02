@@ -73,7 +73,8 @@ define([
                     this.$element.text(scope_name);
                 },
                 'add_legend.clicked'        : clearText,
-                'legends_list.selected'     : clearText
+                'legends_list.selected'     : clearText,
+                'legends_list.last_deleted' : clearText
             }
         }
     }, {

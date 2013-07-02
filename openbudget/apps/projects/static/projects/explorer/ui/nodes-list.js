@@ -157,6 +157,7 @@ define([
                 }
             },
             app_events      : {
+                'legends_list.last_deleted'                 : 'sleep',
                 'search.changed'                            : 'updateSearchFilter+',
                 'selected.changed'                          : 'updateSelectedFilter+',
                 'nodes_list.filtered'                       : function () {
