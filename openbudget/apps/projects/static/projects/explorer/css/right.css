@@ -11,11 +11,10 @@
 
 .legend_item {
     padding: 15px 36px;
-    background-color: #e7e7ed;
     border-bottom: 1px solid #d0d0dc;
 }
 .legend_item:hover {
-    background-color: #f3f3f6;
+    background-color: #c4c4d3;
 }
 .legend_item_buttons {
     visibility: hidden;
@@ -30,29 +29,18 @@
     padding: .3rem;
 }
 
-#add_legend {
-    /*position: absolute;*/
-    /*left: 0;*/
-    /*top: 0;*/
-    /*width: 240px;*/
-    /*height: 51px;*/
-    background-color: #e7e7ed;
-}
 #add_legend:hover {
-    background-color: lightslategray;
+    background-color: #c4c4d3;
 }
 #add_legend:before {
     content: '+';
-    float: left;
+    float: right;
     width: 1rem;
-    height: 1rem;
-    padding: 0 2px 2px 0;
-    background-color: #141450;
-    border-radius: 50%;
+    padding: 0 1px 3px;
     text-align: center;
-    font-size: 1rem;
+    font-size: 1.5rem;
     font-weight: bold;
-    color: #e7e7ed;
+    line-height: 100%;
 }
 
 #legend_controls {
