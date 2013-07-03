@@ -23,7 +23,7 @@ define([
         },
         nullifySearchQuery = attributeNullifier('search'),
         clearText = function () {
-            this.$element.text('Main');
+            this.$element.text(gettext('Main'));
         };
 
     return [{
@@ -51,7 +51,6 @@ define([
         type    : 'Pane',
         config  : {
             element     : '#nodes_picker_header',
-//            position    : 'top:100 fluid',
             app_events  : {
                 'nodes_search.entered'  : 'wake',
                 'nodes_search.cancelled': 'wake'

@@ -78,7 +78,8 @@
         </section>
     </div>
     <script>
-        var API_VERSION = '/v1/';
+        var API_VERSION = '/v1/',
+            gettext = window.gettext || function (v) { return v; };
     </script>
     <script src="/static/lib/require.js" data-main="/static/projects/explorer/main"></script>
 </body>

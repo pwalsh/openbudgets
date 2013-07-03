@@ -13,6 +13,7 @@ requirejs.config({
         project_modules     : '../projects/explorer/modules',
         project_widgets     : '../projects/explorer/widgets',
         project_mixins     : '../projects/explorer/mixins',
+        i18n                : '../projects/explorer/api',
         api                 : '../src/api'
     },
     shim    : {
