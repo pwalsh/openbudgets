@@ -5,9 +5,9 @@ define([
     'ui/site-menu',
     'ui/entities',
     'ui/nodes',
-    'ui/nodes-list'
-//    'ui/chart'
-], function (uijet, explorer, legend, site_menu, entities, nodes, nodes_list) {
+    'ui/nodes-list',
+    'ui/chart'
+], function (uijet, explorer, legend, site_menu, entities, nodes, nodes_list, chart) {
 
     uijet.declare([{
         type    : 'Pane',
@@ -35,7 +35,8 @@ define([
         .declare(site_menu)
         .declare(entities)
         .declare(nodes)
-        .declare(nodes_list);
+        .declare(nodes_list)
+        .declare(chart);
 
     return explorer;
 });
