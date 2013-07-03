@@ -10,6 +10,7 @@
 /**********/
 
 .legend_item {
+    position: relative;
     padding: 15px 36px;
     border-bottom: 1px solid #d0d0dc;
 }
@@ -17,11 +18,27 @@
     background-color: #c4c4d3;
 }
 .legend_item_buttons {
-    visibility: hidden;
+    position: absolute;
+    top: 15px;
+    left: 0;
+    padding: 3px 15px;
     overflow: hidden;
+    background-color: #c4c4d3;
+    -webkit-transition-property: -webkit-transform;
+       -moz-transition-property: -moz-transform;
+         -o-transition-property: -o-transform;
+            transition-property: -ms-transform, transform;
+    -webkit-transform: translateX(-100%);
+       -moz-transform: translateX(-100%);
+         -o-transform: translateX(-100%);
+            transform: translateX(-100%);
 }
 .legend_item:hover .legend_item_buttons {
     visibility: visible;
+    -webkit-transform: translateX(0);
+       -moz-transform: translateX(0);
+         -o-transform: translateX(0);
+            transform: translateX(0);
 }
 .legend_item_buttons > .uijet_button {
     visibility: inherit !important;
