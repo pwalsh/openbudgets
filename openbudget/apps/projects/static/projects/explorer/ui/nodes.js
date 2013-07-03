@@ -50,9 +50,8 @@ define([
     }, {
         type    : 'Pane',
         config  : {
-            element     : '#nodes_filters_pane',
-            mixins      : ['Layered'],
-            position    : 'top:100 fluid',
+            element     : '#nodes_picker_header',
+//            position    : 'top:100 fluid',
             app_events  : {
                 'nodes_search.entered'  : 'wake',
                 'nodes_search.cancelled': 'wake'
@@ -78,21 +77,11 @@ define([
             element : '#filters_search'
         }
     }, {
-        type    : 'Pane',
-        config  : {
-            element     : '#nodes_search_pane',
-            mixins      : ['Layered'],
-            dont_wake   : true,
-            position    : 'top:100 fluid',
-            app_events  : {
-                'filters_search.clicked': 'wake'
-            }
-        }
-    }, {
         type    : 'ClearableTextInput',
         config  : {
             element     : '#nodes_search',
             resource    : 'NodesListState',
+            dont_wake   : true,
             dom_events  : {
                 keyup   : function (e) {
                     var code = e.keyCode || e.which,
@@ -100,12 +89,14 @@ define([
                     // enter key
                     if ( code === 13 ) {
                         value || nullifySearchQuery.call(this);
-                        this.publish('entered', value || null);
+                        this.publish('entered', value || null)
+                            .sleep();
                     }
                     // esc key
                     else if ( code === 27 ) {
                         nullifySearchQuery.call(this);
-                        this.publish('cancelled');
+                        this.publish('cancelled')
+                            .sleep();
                     }
                     else {
                         this.resource.set({ search : value });
@@ -128,7 +119,8 @@ define([
             app_events  : {
                 'nodes_search_clear.clicked': function () {
                     this.resource.set({ search : '' });
-                }
+                },
+                'filters_search.clicked'    : 'wake'
             }
         }
     }, {

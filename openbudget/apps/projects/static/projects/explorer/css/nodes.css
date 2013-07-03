@@ -7,7 +7,14 @@
 }
 
 #picker_done {
-    float: left;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin: -15px 0 0 15px;
+    padding: .3rem 1rem;
+    background-color: #1d7680;
+    border-radius: 8px;
+    color: white;
 }
 #filters_search {
     float: left;
@@ -30,7 +37,7 @@
 }
 
 #nodes_picker {
-    background-color: lightblue;
+    background-color: white;
 }
 
 #nodes_filters_pane_wrapper {
@@ -44,6 +51,7 @@
     right: 0;
     height: 60px;
     border-top: 1px solid lightslategray;
+    background-color: #6ebec8;
 }
 
 #nodes_scope_name {

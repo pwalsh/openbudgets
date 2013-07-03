@@ -21,23 +21,20 @@
                 <ul id="entities_list"></ul>
             </div>
             <div id="nodes_picker" class="main_pane">
-                <div id="nodes_filters_pane" class="nodes_picker_pane">
-                    <h3 class="nodes_picker_pane_heading">Choose budget items for this legend item</h3>
+                <header id="nodes_picker_header">
+                    <p class="section_description">Choose budget items:</p>
                     <div id="nodes_breadcrumbs">
                         <span id="nodes_breadcrumbs_history">...</span>
                         <span id="node_breadcrumb_main">Main</span>
                         <span id="node_breadcrumb_back"></span>
                     </div>
                     <h2 id="nodes_scope_name"></h2>
+                    <input type="text" name="nodes_search" id="nodes_search"/>
                     <span id="selected_crumb"></span>
                     <span id="search_crumb"></span>
                     <span id="filters_search">Search</span>
-                </div>
-                <div id="nodes_search_pane" class="nodes_picker_pane">
-                    <h3 class="nodes_picker_pane_heading">Filter only items' names and descriptions that contain:</h3>
-                    <input type="text" name="nodes_search" id="nodes_search"/>
                     <span id="filter_selected">Selected</span>
-                </div>
+                </header>
                 <section id="nodes_list_container">
                     <ul id="nodes_list_header">
                         <li class="nodes_list_header_node" data-column="code">Code</li>
@@ -52,6 +49,7 @@
                     <span id="picker_done">Done</span>
                 </section>
             </div>
+            <div id="chart"></div>
         </section>
         <section id="right_container" class="top_container">
             <div id="loading">Loading...</div>
@@ -78,49 +76,6 @@
                 </div>
             </div>
         </section>
-        <!--div id="legends">
-            <ul id="legends_list">
-                <span id="add_legend">Add legend item</span>
-            </ul>
-            <div id="entity_filter">
-                <span id="entity_filter_close">X</span>
-                <input type="text" name="entity" id="entity_field"/>
-                <ul id="entities_list"></ul>
-            </div>
-        </div>
-        <div id="nodes_picker">
-            <div id="nodes_filters_pane" class="nodes_picker_pane">
-                <h3 class="nodes_picker_pane_heading">Choose budget items for this legend item</h3>
-                <div id="nodes_breadcrumbs">
-                    <span id="nodes_breadcrumbs_history">...</span>
-                    <span id="node_breadcrumb_main">Main</span>
-                    <span id="node_breadcrumb_back"></span>
-                </div>
-                <h2 id="nodes_scope_name"></h2>
-                <span id="selected_crumb"></span>
-                <span id="search_crumb"></span>
-                <span id="filters_search">Search</span>
-            </div>
-            <div id="nodes_search_pane" class="nodes_picker_pane">
-                <h3 class="nodes_picker_pane_heading">Filter only items' names and descriptions that contain:</h3>
-                <input type="text" name="nodes_search" id="nodes_search"/>
-                <span id="filter_selected">Selected</span>
-            </div>
-            <section id="nodes_list_container">
-                <ul id="nodes_list_header">
-                    <li class="nodes_list_header_node" data-column="code">Code</li>
-                    <li class="nodes_list_header_node" data-column="direction">Type</li>
-                    <li class="nodes_list_header_node" data-column="name">Name</li>
-                </ul>
-                <ul id="nodes_list"></ul>
-            </section>
-            <section id="nodes_picker_footer">
-                <p id="results_count_container"><span id="results_count"></span></p>
-                <p id="sheet_type_picker"></p>
-                <span id="picker_done">Done</span>
-            </section>
-        </div>
-        <div id="chart"></div-->
     </div>
     <script>
         var API_VERSION = '/v1/';
