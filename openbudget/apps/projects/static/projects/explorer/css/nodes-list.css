@@ -1,33 +1,58 @@
+.node_cell {
+    display: table-cell;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: .5rem 1rem;
+    border-bottom: 1px solid darkslategray;
+}
 .node_cell_code {
-    float: right;
-    padding-left: 1rem;
+    width: 160px;
+}
+.node_cell_select {
+    width: 10px;
+}
+.node_cell_direction {
+    width: 160px;
 }
 
 .selectbox {
+    position: relative;
     display: inline-block;
-    float: right;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
-    border: 2px outset darkslategray;
+    width: .8rem;
+    height: .8rem;
+    border: 1px outset darkslategray;
     background-color: transparent;
 }
-[data-selected=selected] .selectbox {
-    background-color: cadetblue;
+.selectbox:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    line-height: 70%;
 }
-[data-selected=partial] .selectbox {
-    background-image: linear-gradient(transparent, transparent 50%, cadetblue 50%, cadetblue);
+[data-selected=selected] .selectbox:before {
+    content: '\2713';
+    font-size: 1.3rem;
+}
+[data-selected=partial] .selectbox:before {
+    content: '\2012';
+    font-size: 1rem;
+    /*background-image: linear-gradient(transparent, transparent 50%, cadetblue 50%, cadetblue);*/
 }
 
 #nodes_list {
+    display: table;
+    padding: .5rem;
     text-align: right;
 }
 #nodes_list li {
-    padding: .6rem;
-    border-bottom: 1px solid lightslategray;
+    display: table-row;
     overflow: hidden;
 }
-#nodes_list li:first-child {
+#nodes_list li:hover {
+    background-color: #ffffcd;
+}
+#nodes_list li:first-child .node_cell {
     border-top: 1px solid lightslategray;
 }
 #nodes_list li.search_removed, #nodes_list li.selected_removed {
@@ -44,15 +69,26 @@
     height: auto;
 }
 #nodes_list_header {
-    border-top: 1px solid lightslategray;
+    display: table;
+    padding: .5rem 56px .5rem .5rem;
 }
 #nodes_list_header li {
+    display: table-cell;
     float: none;
-    padding: .6rem;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: .6rem 1rem;
 }
 #nodes_list_header li.selected:after {
     content: '\25B2';
 }
 #nodes_list_header li.selected.desc:after {
     content: '\25BC';
+}
+#nodes_list_header_wrapper {
+    
+}
+[data-column=code], [data-column=direction] {
+    width: 160px;
 }
