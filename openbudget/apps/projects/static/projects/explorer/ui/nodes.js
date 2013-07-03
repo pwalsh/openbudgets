@@ -23,7 +23,7 @@ define([
         },
         nullifySearchQuery = attributeNullifier('search'),
         clearText = function () {
-            this.$element.text('');
+            this.$element.text('Main');
         };
 
     return [{
@@ -63,8 +63,12 @@ define([
             element     : '#nodes_scope_name',
             app_events  : {
                 'nodes_list.scope_changed'  : function (scope_node_model) {
-                    var scope_name = scope_node_model ? scope_node_model.get('name') : '';
-                    this.$element.text(scope_name);
+                    if ( scope_node_model ) {
+                        this.$element.text(scope_node_model.get('name'));
+                    }
+                    else {
+                        clearText.call(this);
+                    }
                 },
                 'add_legend.clicked'        : clearText,
                 'legends_list.selected'     : clearText,
