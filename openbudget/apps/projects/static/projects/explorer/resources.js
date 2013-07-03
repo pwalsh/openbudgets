@@ -25,6 +25,29 @@ define([
                         0;
             };
         },
+        nestingSort = function (a, b) {
+            var a_attrs = a.attributes,
+                b_attrs = b.attributes,
+                a_parent = a_attrs.parent,
+                b_parent = b_attrs.parent,
+                collection, a_leaf, b_leaf;
+
+            if ( a_parent === b_parent ) {
+                a_leaf = a_attrs.leaf_node;
+                b_leaf = b_attrs.leaf_node;
+                if ( a_leaf && ! b_leaf )
+                    return -1;
+                else if ( b_leaf && ! a_leaf )
+                    return 1;
+
+                return a_attrs.code < b_attrs.code ? -1 : 1;
+            }
+
+            collection = a.collection;
+            a_parent = a_parent ? collection.get(a_parent) : a;
+            b_parent = b_parent ? collection.get(b_parent) : b;
+            return nestingSort(a_parent, b_parent);
+        },
         /*
          * Muni (Entity) Model
          */
@@ -167,7 +190,8 @@ define([
         Node    : Node,
         Nodes   : Nodes,
         utils   : {
-            reverseSorting  : reverseSorting
+            reverseSorting  : reverseSorting,
+            nestingSort     : nestingSort
         }
     };
 });
