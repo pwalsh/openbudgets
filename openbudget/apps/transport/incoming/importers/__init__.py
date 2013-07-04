@@ -45,7 +45,7 @@ class BaseImporter(object):
         We clean up the headers.
 
         We email ourselves if the source file cannot be converted \
-        to a datset, and we save that sourcefile in a tempoary \
+        to a datset, and we save that sourcefile in a temporary \
         location, as well as emailing it, for analysis.
 
         """
