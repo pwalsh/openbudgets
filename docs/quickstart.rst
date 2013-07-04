@@ -18,6 +18,7 @@ You system will need to have **Python** (and some system-wide Python packages), 
 * A unix-like OS
 * `Python <http://python.org/>`_ (2.7.x)
 * `Node <http://nodejs.org/>`_ (0.8.x)
+* `Redis <http://redis.io/>`_
 * `Git <http://git-scm.com/>`_
 * `Mercurial <http://mercurial.selenic.com/>`_
 * `virtualenv <http://virtualenvwrapper.readthedocs.org/en/latest/>`_ (a Python package for working with multiple dev. environments)
@@ -38,20 +39,22 @@ http://docs.python-guide.org/en/latest/
 Installing system requirements
 ------------------------------
 
+Use of sudo for any commands is also dependent on how your machine is set up.
+
 Ubuntu
 ~~~~~~
 
 Here we go::
 
-    sudo apt-get install python-dev mercurial git-core nodejs python-pip
+    sudo apt-get install python-dev mercurial git-core nodejs redis python-pip
     sudo pip install virtualenv virtualenvwrapper
-    npm install volo -g
+    sudo npm install volo -g
 
 Now we'll setup virutalenvwrapper, in our user's .profile file::
 
     # this goes in ~/.profile
-    export WORKON_HOME="/srv/environments"
-    export PROJECT_HOME="/srv/projects"
+    export WORKON_HOME="/home/[YOUR_USER]/environments"
+    export PROJECT_HOME="/home/[YOUR_USER]/projects"
     source /usr/local/bin/virtualenvwrapper.sh
     export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
 
