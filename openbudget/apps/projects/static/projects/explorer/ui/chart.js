@@ -12,7 +12,6 @@ define([
             adapters        : ['TimelineChart'],
             resource        : 'TimeSeries',
             dont_wake       : true,
-            position        : 'fluid',
             animation_type  : 'fade',
             style           : {
                 padding : 30

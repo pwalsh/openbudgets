@@ -7,6 +7,18 @@ define([
         options     : {
             type_class  : ['legend_item']
         },
+        init        : function () {
+            this._super.apply(this, arguments);
+            var id = this.id;
+
+            this.subscribe(id + '_color.clicked', this.itemColor)
+                .subscribe(id + '_edit.clicked', this.itemEdit)
+                .subscribe(id + '_duplicate.clicked', this.itemDuplicate)
+                .subscribe(id + '_delete.clicked', this.itemDelete)
+                .subscribe(id + '_title.updated', this.updateTitle);
+
+            return this;
+        },
         render      : function () {
             var res = this._super.apply(this, arguments),
                 $buttons = this.$element.find('.legend_item_buttons'),
@@ -54,13 +66,9 @@ define([
                 }
             }], true);
 
-            this.subscribe(id + '_color.clicked', this.itemColor)
-                .subscribe(id + '_edit.clicked', this.itemEdit)
-                .subscribe(id + '_duplicate.clicked', this.itemDuplicate)
-                .subscribe(id + '_delete.clicked', this.itemDelete)
-                .subscribe(id + '_title.updated', this.updateTitle);
-
             this.wakeContained();
+
+            this.notify(true, 'post_full_render');
 
             return res;
         },

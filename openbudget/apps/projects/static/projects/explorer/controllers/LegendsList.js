@@ -4,35 +4,98 @@ define([
 ], function (uijet, Explorer) {
 
     uijet.Adapter('LegendsList', {
-        createItemModel : function () {
-            var model = new Explorer.LegendItemModel({
+        createItemModel : function (state) {
+            var model = new Explorer.LegendItemModel(state || {
                 title       : 'Title me',
                 description : 'Describe me',
                 muni        : '',
                 nodes       : []
             });
-            this.current_index = this.resource.add(model).length - 1;
+            this.resource.add(model);
             return model;
+        },
+        createItem      : function (model_index) {
+            var index = this.resource.length,
+                state = typeof model_index == 'number' ? this.resource.at(model_index).attributes : model_index,
+                model = this.createItemModel(state);
+
+            uijet.start({
+                factory : 'LegendItem',
+                config  : {
+                    element : uijet.$('<li>', {
+                        id          : this.id + '_item_' + model.cid
+                    }).appendTo(this.$element),
+                    resource: model,
+                    index   : index,
+                    signals : {
+                        post_full_render: '-legend_item_added'
+                    }
+                }
+            }, true);
+            return this;
+        },
+        addItem         : function (model_index) {
+            this.createItem(model_index)
+                .selectItem(this.resource.length - 1);
+            return this;
         },
         setEntity       : function (id) {
             this.resource.at(this.current_index).set({
                 muni: uijet.Resource('Munis').get(id)
             });
+            return this;
         },
         selectItem      : function (index) {
-            var model;
+            var model, muni;
             if ( index !== this.current_index ) {
                 model = this.resource.at(index);
+                muni = model.get('muni');
                 this.current_index = index;
-                this.publish('change_state', {
-                    entity_id   : model.get('muni').get('id'),
-                    selection   : model.get('state')
-                });
+                if ( muni ) {
+                    this.updateState(model, muni);
+                }
             }
         },
+        updateState     : function (model, muni) {
+            if ( ! model ) {
+                model = this.resource.at(this.current_index);
+            }
+            if ( ! muni ) {
+                muni = model.get('muni');
+            }
+            this.publish('change_state', {
+                entity_id   : muni.get('id'),
+                selection   : model.get('state')
+            });
+        },
         deleteItem      : function (index) {
+            var is_current_index = index === this.current_index,
+                new_length;
             this.resource.remove(this.resource.at(index));
-        }, 
+            // if the user is currently viewing the item s/he's deleting
+            if ( is_current_index ) {
+                new_length = this.resource.length;
+                // if we still have other legend items left
+                // and it was the last item in the list
+                if ( new_length && new_length === index ) {
+                    index--;
+                }
+            }
+            // if current selected item is below the deleted one then need to shift the index by 1
+            else if ( index < this.current_index ) {
+                this.current_index--;
+            }
+        },
+        removeItem      : function (index) {
+            this.deleteItem(index);
+            if ( this.resource.length ) {
+                uijet.publish('legends_list.selected', index);
+            }
+            else {
+                this.publish('last_deleted');
+            }
+            this.scroll();
+        },
         updateSelection : function (data) {
             if ( data && data.reset ) return;
             var resource = uijet.Resource('LatestSheet'),

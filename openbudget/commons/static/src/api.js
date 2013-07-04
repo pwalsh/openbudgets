@@ -240,14 +240,12 @@
             obudget.routes = {};
 
             for ( route in routes ) {
-                split_route = route.split('/');
+                split_route = route.split(' ');
                 if ( split_route.length > 1 ) {
-                    route_name = split_route.reduce(function (prev, current) {
-                        return current ? prev.slice(0, -1) + current[0].toUpperCase() + current.slice(1) : prev;
-                    });
+                    route_name = split_route.shift().toLowerCase() + split_route.join('');
                 }
                 else {
-                    route_name = split_route[0];
+                    route_name = split_route[0].toLowerCase();
                 }
                 obudget.routes[route_name] = routes[route];
                 setEndpoint(route_name, routes[route]);

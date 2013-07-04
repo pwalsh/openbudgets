@@ -1,32 +1,9 @@
 @charset "UTF-8";
 @import url('/static/lib/uijet/uijet.css');
-@import url('filters.css');
+@import url('globals.css');
+@import url('right.css');
+@import url('left.css');
+@import url('main-section.css');
 @import url('nodes.css');
 @import url('nodes-list.css');
 @import url('chart.css');
-
-
-body, html {
-    direction: rtl;
-    text-align: right;
-}
-
-.ui-v-scroller {
-    position: absolute;
-    top: 1px;
-    bottom: 1px;
-    right: 1px;
-    z-index: 1;
-    width: 8px;
-    opacity: 0.3;
-}
-.ui-v-scroller-grip {
-    position: absolute;
-    top: 0;
-    right: -1px;
-    z-index: 1;
-    width: 6px;
-    height: 20px;
-    background-color: darkslategray;
-    cursor: pointer;
-}

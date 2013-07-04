@@ -22,7 +22,7 @@ define([
         config  : {
             element     : '#nodes_list_header',
             horizontal  : true,
-            position    : 'top:2rem fluid',
+            position    : 'top:40px fluid',
             signals     : {
                 pre_select  : function ($selected) {
                     if ( this.$selected && $selected[0] === this.$selected[0] ) {
@@ -116,6 +116,7 @@ define([
                 post_fetch_data : 'spinOff',
                 pre_render      : function () {
                     if ( this.scope_changed ) {
+                        this.publish('scope_changed', this.resource.get(this.scope));
                         if ( this.has_data ) {
                             this.scope_changed = false;
                             this.buildIndex();
@@ -156,6 +157,7 @@ define([
                 }
             },
             app_events      : {
+                'legends_list.last_deleted'                 : 'sleep',
                 'search.changed'                            : 'updateSearchFilter+',
                 'selected.changed'                          : 'updateSelectedFilter+',
                 'nodes_list.filtered'                       : function () {

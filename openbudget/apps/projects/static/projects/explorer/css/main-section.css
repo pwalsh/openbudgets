@@ -1,0 +1,55 @@
+/***********/
+/* Globals */
+/***********/
+
+#main_container {
+    left: 90px;
+    right: 270px;
+    background-color: #fff;
+}
+
+/************/
+/* Entities */
+/************/
+
+#entities_list {
+    padding: 0 .5rem;
+}
+#entities_list li {
+    padding: .6rem;
+    border-bottom: 1px solid #ededf1;
+    overflow: hidden;
+    font-weight: bold;
+}
+#entities_list li:first-child {
+    border-top: 1px solid #ededf1;
+}
+#entities_list li:hover {
+    background-color: #ffffcd;
+}
+#entities_list li.search_removed {
+    height: 0;
+    padding: 0;
+    border-bottom: none;
+}
+#entities_list_wrapper {
+    height: auto;
+    text-align: right;
+}
+
+#entity_field_wrapper {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-top: 12px;
+}
+#entity_selection header {
+    position: relative;
+    height: 120px;
+}
+
+/***********************/
+/* Nodes Picker Header */
+/***********************/
+
+
