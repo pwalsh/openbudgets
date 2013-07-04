@@ -8,25 +8,12 @@ Open Budget has a set of data importers, making it easy to get budget data into 
 
 Importing data is currently only exposed to Admin users (but anyone can export data in a range of formats). Imported data must be validated before it is exposed via the app and the API.
 
-For this iteration of the project, the importer supports importing Budget Templates, Budgets, and Actuals.
+There are in fact two ways to import data: via an interactive, user-facing importer, and also via a commandline importer.
 
-Features
---------
+For the most part, the commandline importers are for bootstrapping an instance. Our main focus is on the interactive importer, and improving that. The focus of this section of the documentation is on the interactive importer.
 
-File Importer
-~~~~~~~~~~~~~
+At this stage, the interactive import works with Templates and Sheets.
 
-A simple file importer without any interactive form ui. Useful for development
-
-Importer Wizard
-~~~~~~~~~~~~~~~
-
-Interface for admins to import data.
-
-Configuration
--------------
-
-There is no specific configuration guide for the importers. However, the DataImporter class takes a number of keyword arguments on initialization which can be used to customize the import.
 
 Dependencies
 ------------
@@ -40,7 +27,11 @@ Tablib
 
 https://github.com/kennethreitz/tablib
 
-Tablib is a great python package for manipulating tabular datasets. We use it to get data from files, and manipulate that data before hitting the database. We also use Tablib in other places to export data in supported file formats.
+Tablib is a great Python package for manipulating tabular datasets.
+
+We use it to get data from files, and manipulate that data before hitting the database.
+
+We also use Tablib in other places to export data in supported file formats.
 
 http://docs.python-tablib.org/en/latest/
 
