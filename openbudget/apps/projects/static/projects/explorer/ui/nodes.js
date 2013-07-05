@@ -88,25 +88,22 @@ define([
             element     : '#nodes_search',
             resource    : 'NodesListState',
             dont_wake   : true,
-            dom_events  : {
-                keyup   : function (e) {
-                    var code = e.keyCode || e.which,
-                        value = e.target.value;
-                    // enter key
-                    if ( code === 13 ) {
-                        value || nullifySearchQuery.call(this);
-                        this.publish('entered', value || null)
-                            .sleep();
-                    }
-                    // esc key
-                    else if ( code === 27 ) {
-                        nullifySearchQuery.call(this);
-                        this.publish('cancelled')
-                            .sleep();
-                    }
-                    else {
-                        this.resource.set({ search : value });
-                    }
+            keys        : {
+                // enter
+                13          : function (e) {
+                    var value = e.target.value;
+                    value || nullifySearchQuery.call(this);
+                    this.publish('entered', value || null)
+                        .sleep();
+                },
+                // esc
+                27          : function (e) {
+                    nullifySearchQuery.call(this);
+                    this.publish('cancelled')
+                        .sleep();
+                },
+                'default'   : function (e) {
+                    this.resource.set({ search : e.target.value });
                 }
             },
             signals     : {
