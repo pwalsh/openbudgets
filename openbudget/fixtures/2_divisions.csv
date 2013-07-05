@@ -1,7 +1,0 @@
-DOMAIN,NAME,NAME_EN,NAME_AR,NAME_RU,INDEX,BUDGETING
-ממשלה,מדינה,State,بلد,Государство,0,TRUE
-ממשלה,מחוז,District,حي,Округ,1,FALSE
-ממשלה,נפה,Sub-District,غربال,Подокруг,2,FALSE
-ממשלה,עירייה,City Municipality,دار البلدية,Городской совет,3,TRUE
-ממשלה,מועצה מקומית,Local Municipality,مجلس بلدي,Местный совет,3,TRUE
-ממשלה,מועצה אזורית,Regional Municipality,المجلس الإقليمي,Региональный совет,3,TRUE
