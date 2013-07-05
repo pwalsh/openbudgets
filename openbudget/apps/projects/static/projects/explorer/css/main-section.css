@@ -16,6 +16,9 @@
     padding: 0;
     background-color: #fff;
 }
+#welcome {
+    padding: 10px;
+}
 
 /************/
 /* Entities */
