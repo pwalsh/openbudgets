@@ -122,8 +122,6 @@ INSTALLED_APPS = (
     'registration',
     'rest_framework',
     'oauth2_provider',
-    'rosetta_grappelli',
-    'rosetta',
     'modeltranslation',
     'taggit',
     'openbudget.apps.accounts',
