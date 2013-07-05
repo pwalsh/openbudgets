@@ -25,10 +25,8 @@ django-grappelli==2.4.5
 django-cors-headers==0.11
 django-filter==0.6
 django-subdomains==2.0.4
-django-rosetta==0.7.2
 grappelli-modeltranslation==0.1.2
 jsonfield==0.9.17
 git+https://github.com/toastdriven/django-haystack.git
 git+https://github.com/mozilla/unicode-slugify
 hg+https://bitbucket.org/prjts/django-registration
-git+https://github.com/prjts/django-rosetta-grappelli.git
