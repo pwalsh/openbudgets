@@ -5,7 +5,7 @@
     "pk": 1,
     "fields": {
         "name": "obudget.dev:8000",
-        "user": 4,
+        "user": 1,
         "redirect_uris": "http://obudget.dev:8000/",
         "client_type": "authorization-code",
         "client_id": "751be246011e8a6198d7",
@@ -18,8 +18,8 @@
     "pk": 1,
     "fields": {
         "auth": 1,
-        "owner": 4,
-        "author": 4,
+        "owner": 1,
+        "author": 1,
         "name": "Cat Health: An Inquiry",
         "description": "we love cats.",
         "featured": true,
@@ -34,7 +34,7 @@
     "pk": 2,
     "fields": {
         "name": "obudget.dev:8000",
-        "user": 4,
+        "user": 1,
         "redirect_uris": "http://obudget.dev:8000/",
         "client_type": "authorization-code",
         "client_id": "28f7398679208b953942",
@@ -47,8 +47,8 @@
     "pk": 2,
     "fields": {
         "auth": 2,
-        "owner": 4,
-        "author": 4,
+        "owner": 1,
+        "author": 1,
         "name": "Flowers or Food?",
         "description": "Cities spend a lot amount of money on flowers and gardens. How much food could we grow with the same budget?",
         "featured": true,
