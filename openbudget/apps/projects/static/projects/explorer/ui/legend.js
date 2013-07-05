@@ -81,11 +81,13 @@ define([
                 },
                 'legend_item_added'     : 'scroll',
                 'nodes_picker.awake'    : function () {
-                    this.position({ top : 0 }); 
+                    this.position({ top : 0 })
+                        .scroll();
                 },
                 'add_legend.awaking'    : function () {
                     var top = this.processed_position.top;
-                    this.position({ top : top.size + (top.unit || 'px') });
+                    this.position({ top : top.size + (top.unit || 'px') })
+                        .scroll();
                 }
             }
         }
