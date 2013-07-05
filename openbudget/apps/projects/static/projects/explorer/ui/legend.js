@@ -28,8 +28,14 @@ define([
     return [{
         type    : 'Button',
         config  : {
-            element : '#add_legend',
-            position: 'top:51px left:240px'
+            element     : '#add_legend',
+            position    : 'top:51px left:240px',
+            signals     : {
+                pre_click   : 'disable'
+            },
+            app_events  : {
+                'entities_list.selected': 'enable'
+            }
         }
     }, {
         type    : 'Pane',
