@@ -29,14 +29,13 @@ define([
         type    : 'Button',
         config  : {
             element     : '#add_legend',
-            position    : 'top:51px left:270px',
+            position    : 'top:44px left:277px',
             signals     : {
-                pre_click   : 'disable'
+                pre_click   : 'disable',
+                pre_wake    : 'awaking'
             },
             app_events  : {
-                'entities_list.selected'    : function () {
-                    this.enable().sleep();
-                },
+                'entities_list.selected'    : 'enable',
                 'add_legend_cancel.clicked' : 'enable',
                 'picker_done.clicked'       : 'wake',
                 'nodes_picker.awake'        : 'sleep'
@@ -62,7 +61,7 @@ define([
             mixins      : ['Scrolled'],
             adapters    : ['LegendsList', 'jqWheelScroll'],
             resource    : 'LegendItems',
-            position    : 'top|52px left:270px bottom',
+            position    : 'top|45px left:277px bottom',
             style       : {
                 height  : 'auto'
             },
@@ -80,7 +79,14 @@ define([
                     // reset the state of selected legend item
                     this.current_index = null;
                 },
-                'legend_item_added'     : 'scroll'
+                'legend_item_added'     : 'scroll',
+                'nodes_picker.awake'    : function () {
+                    this.position({ top : 0 }); 
+                },
+                'add_legend.awaking'    : function () {
+                    var top = this.processed_position.top;
+                    this.position({ top : top.size + (top.unit || 'px') });
+                }
             }
         }
     }];

@@ -2,7 +2,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 270px;
+    width: 277px;
     margin-top: -50px;
     font-size: 3.261rem;
     font-weight: normal;
@@ -64,6 +64,9 @@
     padding: .3rem;
 }
 
+#add_legend {
+    padding: 1rem;
+}
 #add_legend:hover {
     background-color: #c4c4d3;
 }
