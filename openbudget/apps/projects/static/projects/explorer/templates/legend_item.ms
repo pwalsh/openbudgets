@@ -4,7 +4,6 @@
 <div class="legend_item_buttons transitioned">
     <span class="legend_item_delete">X</span><span
     class="legend_item_edit">E</span><span
-    class="legend_item_duplicate">D</span><span
-    class="legend_item_color">C</span>
+    class="legend_item_duplicate">D</span>
 </div>
 

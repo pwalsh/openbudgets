@@ -11,8 +11,8 @@ define([
             this._super.apply(this, arguments);
             var id = this.id;
 
-            this.subscribe(id + '_color.clicked', this.itemColor)
-                .subscribe(id + '_edit.clicked', this.itemEdit)
+//            this.subscribe(id + '_color.clicked', this.itemColor)
+            this.subscribe(id + '_edit.clicked', this.itemEdit)
                 .subscribe(id + '_duplicate.clicked', this.itemDuplicate)
                 .subscribe(id + '_delete.clicked', this.itemDelete)
                 .subscribe(id + '_title.updated', this.updateTitle);
@@ -36,13 +36,13 @@ define([
                         name: 'title'
                     }
                 }
-            }, {
-                type    : 'Button',
-                config  : {
-                    element     : $buttons.find(button_class_prefix + 'color'),
-                    id          : id + '_color',
-                    container   : id
-                }
+//            }, {
+//                type    : 'Button',
+//                config  : {
+//                    element     : $buttons.find(button_class_prefix + 'color'),
+//                    id          : id + '_color',
+//                    container   : id
+//                }
             }, {
                 type    : 'Button',
                 config  : {
@@ -72,7 +72,7 @@ define([
 
             return res;
         },
-        itemColor       : function () {},
+//        itemColor       : function () {},
         itemEdit        : function () {
             uijet.publish('legends_list.selected', this.resource.collection.indexOf(this.resource));
         },
