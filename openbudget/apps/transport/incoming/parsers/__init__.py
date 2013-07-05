@@ -230,7 +230,7 @@ def get_parser(key):
     if key in PARSERS_MAP:
         return PARSERS_MAP[key]
     else:
-        raise Exception(_('Parser for key: "%s" does not exist') % key)
+        raise Exception(_('Parser for key: "{key}" does not exist').format(key=key))
 
 
 def get_parser_key(cls):
@@ -242,7 +242,8 @@ def get_parser_key(cls):
         if cls is parser_class:
             return key
     else:
-        raise Exception(_('Given parser is not registered: %s' % unicode(cls)))
+        raise Exception(_('Given parser is not registered: {klass}'.format(
+            klass=unicode(cls))))
 
 
 def autodiscover():
