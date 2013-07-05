@@ -2,7 +2,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 277px;
+    width: 260px;
     margin-top: -50px;
     font-size: 3.261rem;
     font-weight: normal;
@@ -75,10 +75,9 @@
 }
 #add_legend:before {
     content: '+';
-    position: absolute;
-    right: 0;
-    width: 1rem;
-    padding: 0 1px 3px;
+    float: right;
+    width: 2rem;
+    vertical-align: bottom;
     text-align: center;
     font-size: 1.5rem;
     font-weight: bold;
@@ -86,8 +85,8 @@
 }
 #add_legend.disabled:before {
     content: '\25cb';
-    font-size: 2rem;
-    line-height: 70%;
+    font-size: 2.5rem;
+    line-height: 1.2rem;
 }
 #add_legend_cancel {
     float: left;
