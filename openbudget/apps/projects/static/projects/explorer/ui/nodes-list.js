@@ -22,7 +22,7 @@ define([
         config  : {
             element     : '#nodes_list_header',
             horizontal  : true,
-            position    : 'top:40px fluid',
+            position    : 'top:27px fluid',
             signals     : {
                 pre_select  : function ($selected) {
                     if ( this.$selected && $selected[0] === this.$selected[0] ) {

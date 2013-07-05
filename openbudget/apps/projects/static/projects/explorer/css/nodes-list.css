@@ -3,17 +3,16 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    padding: .5rem 1rem;
-    border-bottom: 1px solid darkslategray;
+    padding: .9rem 1.3rem;
+    border-bottom: 1px solid #d0d0dc;
 }
-.node_cell_code {
+.node_cell_code, .node_cell_direction {
     width: 160px;
+    font-size: .9rem;
+    color: #8989a8;
 }
 .node_cell_select {
     width: 10px;
-}
-.node_cell_direction {
-    width: 160px;
 }
 
 .selectbox {
@@ -21,7 +20,7 @@
     display: inline-block;
     width: .8rem;
     height: .8rem;
-    border: 1px outset darkslategray;
+    border: 1px inset #d0d0dc;
     background-color: transparent;
 }
 .selectbox:before {
@@ -39,21 +38,31 @@
     font-size: 1rem;
     /*background-image: linear-gradient(transparent, transparent 50%, cadetblue 50%, cadetblue);*/
 }
+[data-selected=selected] .node_cell_code,
+[data-selected=partial] .node_cell_code,
+[data-selected=selected] .node_cell_direction,
+[data-selected=partial] .node_cell_direction {
+    color: #141450;
+}
+[data-selected=selected], [data-selected=partial] {
+    background-color: #ffffcd;
+}
 
 #nodes_list {
     display: table;
-    padding: .5rem;
+    padding: 0 .5rem;
     text-align: right;
 }
 #nodes_list li {
     display: table-row;
     overflow: hidden;
+    font-size: 1.3rem;
 }
 #nodes_list li:hover {
     background-color: #ffffcd;
 }
 #nodes_list li:first-child .node_cell {
-    border-top: 1px solid lightslategray;
+    border-top: 1px solid #d0d0dc;
 }
 #nodes_list li.search_removed, #nodes_list li.selected_removed {
     height: 0;
@@ -70,7 +79,7 @@
 }
 #nodes_list_header {
     display: table;
-    padding: .5rem 56px .5rem .5rem;
+    padding: .5rem 4.3rem .5rem .5rem;
 }
 #nodes_list_header li {
     display: table-cell;
@@ -78,16 +87,15 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    padding: .6rem 1rem;
+    padding: 0 1.3rem;
+    font-size: .9rem;
+    color: #8989a8;
 }
 #nodes_list_header li.selected:after {
     content: '\25B2';
 }
 #nodes_list_header li.selected.desc:after {
     content: '\25BC';
-}
-#nodes_list_header_wrapper {
-    
 }
 [data-column=code], [data-column=direction] {
     width: 160px;
