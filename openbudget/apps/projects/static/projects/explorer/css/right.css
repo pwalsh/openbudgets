@@ -11,6 +11,9 @@
 #right_container {
     right: 0;
     width: 300px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
     background-color: #d0d0dc;
 }
 
@@ -65,14 +68,15 @@
 }
 
 #add_legend {
-    padding: 1rem;
+    padding: 1rem 1.5rem 1rem 1rem;
 }
 #add_legend:hover {
     background-color: #c4c4d3;
 }
 #add_legend:before {
     content: '+';
-    float: right;
+    position: absolute;
+    right: 0;
     width: 1rem;
     padding: 0 1px 3px;
     text-align: center;
@@ -82,7 +86,8 @@
 }
 #add_legend.disabled:before {
     content: '\25cb';
-    line-height: 90%;
+    font-size: 2rem;
+    line-height: 70%;
 }
 #add_legend_cancel {
     float: left;
@@ -92,8 +97,9 @@
 #legend_controls {
     position: absolute;
     top: 120px;
-    width: 100%;
     bottom: 0;
+    left: 0;
+    width: 100%;
 }
 
 #site_menu_open {
