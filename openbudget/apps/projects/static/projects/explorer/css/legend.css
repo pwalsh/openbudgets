@@ -1,0 +1,95 @@
+.legend_item {
+    position: relative;
+    height: 3.384rem;
+    padding: .3rem 2.5rem;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-bottom: 1px solid #d0d0dc;
+}
+.legend_item:hover {
+    background-color: #c4c4d3;
+}
+.legend_item_buttons {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    /*padding: 3px 15px;*/
+    overflow: hidden;
+    line-height: 220%;
+    text-align: left;
+    background-color: #c4c4d3;
+    -webkit-transition-duration: .2s;
+       -moz-transition-duration: .2s;
+         -o-transition-duration: .2s;
+            transition-duration: .2s;
+    -webkit-transition-property: -webkit-transform;
+       -moz-transition-property: -moz-transform;
+         -o-transition-property: -o-transform;
+            transition-property: -ms-transform, transform;
+    -webkit-transform: translateX(-100%);
+       -moz-transform: translateX(-100%);
+         -o-transform: translateX(-100%);
+            transform: translateX(-100%);
+}
+.legend_item:hover .legend_item_buttons {
+    visibility: visible;
+    -webkit-transform: translateX(0);
+       -moz-transform: translateX(0);
+         -o-transform: translateX(0);
+            transform: translateX(0);
+}
+.legend_item_buttons > .uijet_button {
+    visibility: inherit !important;
+    padding: .3rem;
+}
+.legend_item_count {
+    display: none;
+}
+.legend_item_count,
+.legend_item_title {
+    font-size: .9rem;
+    color: #8989a8;
+    font-weight: bold;
+}
+.picking .legend_item_count {
+    display: block;
+}
+.picking .legend_item_title {
+    display: none;
+}
+
+#add_legend {
+    padding: 1rem 1.5rem 1rem 1rem;
+}
+#add_legend:hover {
+    background-color: #c4c4d3;
+}
+#add_legend:before {
+    content: '+';
+    float: right;
+    width: 2rem;
+    vertical-align: bottom;
+    text-align: right;
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 100%;
+}
+#add_legend.disabled:before {
+    content: '\25cb';
+    font-size: 2.5rem;
+    line-height: 1.2rem;
+}
+#add_legend_cancel {
+    float: left;
+    padding: 0;
+}
+
+#legend_controls {
+    position: absolute;
+    top: 120px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}

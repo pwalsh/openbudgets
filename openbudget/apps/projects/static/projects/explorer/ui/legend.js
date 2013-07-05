@@ -78,16 +78,19 @@ define([
                 'picker_done.clicked'   : function () {
                     // reset the state of selected legend item
                     this.current_index = null;
+                    this.$element.removeClass('picking');
                 },
                 'legend_item_added'     : 'scroll',
                 'nodes_picker.awake'    : function () {
                     this.position({ top : 0 })
-                        .scroll();
+                        .scroll()
+                        .$element.addClass('picking');
                 },
                 'add_legend.awaking'    : function () {
                     var top = this.processed_position.top;
                     this.position({ top : top.size + (top.unit || 'px') })
-                        .scroll();
+                        .scroll()
+                        .$element.removeClass('picking');
                 }
             }
         }
