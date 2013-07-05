@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-05 08:46+0300\n"
+"POT-Creation-Date: 2013-07-05 12:34+0300\n"
 "PO-Revision-Date: 2013-05-23 17:58+0000\n"
 "Last-Translator: Ram Ezrach <ram.ezrach@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1171,121 +1171,112 @@ msgid "The data import failed for "
 msgstr ""
 
 #: apps/transport/incoming/errors.py:24
-#, python-format
-msgid "Error found in row: %s; and columns: %s; with values: %s"
-msgstr ""
-
-#: apps/transport/incoming/errors.py:48
-#, python-format
 msgid ""
-"Source data collision error in rows: %s, %s; and columns: %s; with values: %s"
+"Error found in row: {row}; and columns: {columns}; with values: {values}"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:58
+#: apps/transport/incoming/errors.py:51
+msgid ""
+"Source data collision error in rows: {first_row}, {second_row}; and columns: "
+"{columns}; with values: {values}"
+msgstr ""
+
+#: apps/transport/incoming/errors.py:64
 msgid "Data Syntax Error"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:62
-#, python-format
-msgid "Syntax error found in row: %s; and columns: %s; with values: %s"
+#: apps/transport/incoming/errors.py:68
+msgid ""
+"Syntax error found in row: {row}; and columns: {columns}; with values: "
+"{values}"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:68
+#: apps/transport/incoming/errors.py:75
 msgid "Data Ambiguity Error"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:72
-#, python-format
+#: apps/transport/incoming/errors.py:79
 msgid ""
-"Source contains siblings with same code in rows: %s, %s; and columns: %s; "
-"with values: %s"
+"Source contains siblings with same code in rows: {first_row}, {second_row}; "
+"and columns: {columns}; with values: {values}"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:87
+#: apps/transport/incoming/errors.py:95
 msgid "Meta Parsing Error"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:91
-#, python-format
-msgid "Source meta data invalid for reason: %s"
+#: apps/transport/incoming/errors.py:99
+msgid "Source meta data invalid for reason: {reason}"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:106
+#: apps/transport/incoming/errors.py:115
 msgid "Data Validation Error"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:122
-#, python-format
-msgid "Source data invalid in row: %s; for reasons: %s"
+#: apps/transport/incoming/errors.py:133
+msgid "Source data invalid in row: {row}; for reasons: {reasons}"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:128
+#: apps/transport/incoming/errors.py:140
 msgid "Node Direction Error"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:132
-#, python-format
+#: apps/transport/incoming/errors.py:144
 msgid ""
-"Inverse node's direction is not opposite of item in row: %s; and inverse in "
-"row: %s"
+"Inverse node's direction is not opposite of item in row: {row}; and inverse "
+"in row: {row}"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:138
+#: apps/transport/incoming/errors.py:151
 msgid "Parent Scope Error"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:142
-#, python-format
-msgid "Parent scope is missing or not resolvable in row: %s"
-msgstr ""
-
-#: apps/transport/incoming/errors.py:153
-#, python-format
-msgid ""
-"Budget template node not found for item in row: %s; and columns: %s; with "
-"values: %s"
-msgstr ""
-
-#: apps/transport/incoming/errors.py:160
-#, python-format
-msgid ""
-"Parent node not found for item in row: %s; and columns: %s; with values: %s"
+#: apps/transport/incoming/errors.py:155
+msgid "Parent scope is missing or not resolvable in row: {row}"
 msgstr ""
 
 #: apps/transport/incoming/errors.py:166
+msgid ""
+"Budget template node not found for item in row: {row}; and columns: "
+"{columns}; with values: {values}"
+msgstr ""
+
+#: apps/transport/incoming/errors.py:174
+msgid ""
+"Parent node not found for item in row: {row}; and columns: {columns}; with "
+"values: {values}"
+msgstr ""
+
+#: apps/transport/incoming/errors.py:181
 msgid "Nodes Path Interpolation Error"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:170
-#, python-format
-msgid "Interpolation failed, no ancestor found for row: %s"
+#: apps/transport/incoming/errors.py:185
+msgid "Interpolation failed, no ancestor found for row: {row}"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:176
+#: apps/transport/incoming/errors.py:191
 msgid "Inverse Scopes Error"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:180
-#, python-format
+#: apps/transport/incoming/errors.py:195
 msgid ""
-"Inverse scopes not matching inverses in row: %s; and columns: %s; with "
-"values: %s"
+"Inverse scopes not matching inverses in row: {row}; and columns: {columns}; "
+"with values: {values}"
 msgstr ""
 
-#: apps/transport/incoming/errors.py:187
-#, python-format
+#: apps/transport/incoming/errors.py:203
 msgid ""
-"Inverse node not found for item in row: %s; and columns: %s; with values: %s"
+"Inverse node not found for item in row: {row}; and columns: {columns}; with "
+"values: {values}"
 msgstr ""
 
 #: apps/transport/incoming/parsers/__init__.py:233
-#, python-format
-msgid "Parser for key: \"%s\" does not exist"
+msgid "Parser for key: \"{key}\" does not exist"
 msgstr ""
 
 #: apps/transport/incoming/parsers/__init__.py:245
-#, python-format
-msgid "Given parser is not registered: %s"
+msgid "Given parser is not registered: {klass}"
 msgstr ""
 
 #: apps/transport/incoming/parsers/template.py:323
