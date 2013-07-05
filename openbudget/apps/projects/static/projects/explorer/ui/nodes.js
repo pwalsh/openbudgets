@@ -38,6 +38,9 @@ define([
                 'change:search'     : '-search.changed',
                 'change:selected'   : '-selected.changed'
             },
+            signals         : {
+                post_wake    : 'awake'
+            },
             app_events      : {
                 'search_crumb_remove.clicked'   : nullifySearchQuery,
                 'selected_crumb_remove.clicked' : attributeNullifier('selected'),

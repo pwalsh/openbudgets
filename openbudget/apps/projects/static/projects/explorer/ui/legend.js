@@ -31,10 +31,28 @@ define([
             element     : '#add_legend',
             position    : 'top:51px left:270px',
             signals     : {
-                pre_click   : 'activate'
+                pre_click   : 'disable'
             },
             app_events  : {
-                'entities_list.selected': 'deactivate'
+                'entities_list.selected'    : function () {
+                    this.enable().sleep();
+                },
+                'add_legend_cancel.clicked' : 'enable',
+                'picker_done.clicked'       : 'wake',
+                'nodes_picker.awake'        : 'sleep'
+            }
+        }
+    }, {
+        type    : 'Button',
+        config  : {
+            element     : '#add_legend_cancel',
+            dont_wake   : true,
+            signals     : {
+                pre_click   : 'sleep'
+            },
+            app_events  : {
+                'add_legend.clicked'    : 'wake',
+                'entities_list.selected': 'sleep'
             }
         }
     }, {

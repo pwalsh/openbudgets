@@ -14,8 +14,9 @@ define([
             mixins          : ['Transitioned', 'Layered'],
             animation_type  : 'fade',
             app_events      : {
-                'add_legend.clicked'    : 'wake',
-                'entities_list.selected': 'sleep'
+                'add_legend.clicked'        : 'wake',
+                'add_legend_cancel.clicked' : 'sleep',
+                'entities_list.selected'    : 'sleep'
             }
         }
     }, {

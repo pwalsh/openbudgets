@@ -18,10 +18,19 @@ define([
             },
             data_events     : {},
             app_events      : {
-                'picker_done.clicked'   : 'wake',
-                'legends_list.delete'   : function () {
+                'picker_done.clicked'       : 'wake',
+                'legends_list.delete'       : function () {
                     if ( this.awake ) {
                         this.render();
+                    }
+                },
+                'add_legend_cancel.clicked' : function () {
+                    var has_legend_items = uijet.Resource('LegendItems').length;
+                    if ( has_legend_items ) {
+                        this.wake();
+                    }
+                    else {
+                        uijet.publish('welcome');
                     }
                 }
             }

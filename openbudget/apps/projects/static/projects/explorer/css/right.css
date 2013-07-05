@@ -77,9 +77,13 @@
     font-weight: bold;
     line-height: 100%;
 }
-#add_legend.activated:before {
+#add_legend.disabled:before {
     content: '\25cb';
     line-height: 90%;
+}
+#add_legend_cancel {
+    float: left;
+    padding: 0;
 }
 
 #legend_controls {

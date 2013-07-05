@@ -13,7 +13,10 @@ define([
         type    : 'Pane',
         config  : {
             element     : '#welcome',
-            mixins      : ['Layered']
+            mixins      : ['Layered'],
+            app_events  : {
+                welcome : 'wake'
+            }
         }
     }, {
         type    : 'Pane',
