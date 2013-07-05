@@ -29,12 +29,12 @@ define([
         type    : 'Button',
         config  : {
             element     : '#add_legend',
-            position    : 'top:51px left:240px',
+            position    : 'top:51px left:270px',
             signals     : {
-                pre_click   : 'disable'
+                pre_click   : 'activate'
             },
             app_events  : {
-                'entities_list.selected': 'enable'
+                'entities_list.selected': 'deactivate'
             }
         }
     }, {
@@ -44,7 +44,7 @@ define([
             mixins      : ['Scrolled'],
             adapters    : ['LegendsList', 'jqWheelScroll'],
             resource    : 'LegendItems',
-            position    : 'top|52px left:240px bottom',
+            position    : 'top|52px left:270px bottom',
             style       : {
                 height  : 'auto'
             },

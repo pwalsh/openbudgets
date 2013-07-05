@@ -2,8 +2,21 @@ body, html {
     height: 100%;
     direction: rtl;
     text-align: right;
-    font: Arial;
+    font: 13px/1.231 Arial, sans-serif;
     color: #141450;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color: #d0d0dc;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #d0d0dc;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #d0d0dc;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #d0d0dc;
 }
 
 .ui-v-scroller {
@@ -69,4 +82,9 @@ body, html {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+}
+
+.small_heading {
+    font-size: 1.3rem;
+    font-weight: bold;
 }

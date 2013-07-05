@@ -1,3 +1,13 @@
+.right_menu_heading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 270px;
+    margin-top: -50px;
+    font-size: 3.261rem;
+    font-weight: normal;
+}
+
 #right_container {
     right: 0;
     width: 300px;
@@ -65,11 +75,11 @@
     text-align: center;
     font-size: 1.5rem;
     font-weight: bold;
-    line-height: 90%;
+    line-height: 100%;
 }
-#add_legend.disabled:before {
+#add_legend.activated:before {
     content: '\25cb';
-    line-height: 70%;
+    line-height: 90%;
 }
 
 #legend_controls {
@@ -77,4 +87,8 @@
     top: 120px;
     width: 100%;
     bottom: 0;
+}
+
+#site_menu_open {
+    color: #7070a0;
 }
