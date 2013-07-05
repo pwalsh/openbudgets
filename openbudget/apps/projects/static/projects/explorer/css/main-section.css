@@ -28,6 +28,7 @@
     padding: .6rem;
     border-bottom: 1px solid #d0d0dc;
     overflow: hidden;
+    font-size: 1.3rem;
     font-weight: bold;
 }
 #entities_list li:first-child {
