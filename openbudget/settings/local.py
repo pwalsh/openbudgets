@@ -9,7 +9,7 @@ MODELTRANSLATION_DEBUG = DEBUG
 SESSION_COOKIE_DOMAIN = 'obudget.dev'
 
 ADMINS = (
-    ('Paul Walsh', 'paulywalsh@gmail.com'),
+    ('', ''),
     #('', ''),
 )
 
@@ -46,16 +46,27 @@ MIDDLEWARE_CLASSES += (
 )
 
 INSTALLED_APPS += (
+    # kombu because we are using Celery's Django backend in dev
+    'kombu.transport.django',
+    # Tools for debugging
     'debug_toolbar',
     'django_pdb',
 )
 
-# CACHE CONF - Uncomment to disable caching in development
-# CACHES = {
-#    'default': {
-#        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-#    }
-# }
+# CACHE CONF
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
+}
+
+# CELERY CONF
+BROKER_URL = 'django://'
+
+CELERY_RESULT_BACKEND = 'database'
+
+CELERY_RESULT_DBURI = os.path.abspath(os.path.join(
+    os.path.dirname(PROJECT_ROOT), 'celery.db'))
 
 EMAIL_USE_TLS = True
 
@@ -70,7 +81,6 @@ EMAIL_HOST_PASSWORD = ''
 OAUTH_ENFORCE_SECURE = False
 
 SENTRY_DSN = ''
-
 
 INTERNAL_IPS = ('127.0.0.1',)
 

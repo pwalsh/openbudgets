@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from jsonfield import JSONField
-from provider.oauth2.models import Client
+from oauth2_provider.models import Application
 from openbudget.settings import base as settings
 from openbudget.apps.accounts.models import Account
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, ClassMethodMixin
@@ -20,7 +20,7 @@ class Project(TimeStampedModel, UUIDModel, ClassMethodMixin):
     objects = ProjectManager()
 
     auth = models.OneToOneField(
-        Client,
+        Application,
     )
     owner = models.ForeignKey(
         Account,
