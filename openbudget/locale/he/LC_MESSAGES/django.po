@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-30 22:40+0300\n"
+"POT-Creation-Date: 2013-07-05 08:46+0300\n"
 "PO-Revision-Date: 2013-05-23 17:58+0000\n"
 "Last-Translator: Ram Ezrach <ram.ezrach@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -368,8 +368,8 @@ msgid "The name of this entity."
 msgstr "שם הרשות"
 
 #: apps/entities/models.py:166 apps/projects/models.py:39
-#: apps/sheets/models.py:50 apps/sheets/models.py:363
-#: apps/sheets/models.py:419
+#: apps/sheets/models.py:50 apps/sheets/models.py:365
+#: apps/sheets/models.py:421
 #, fuzzy
 msgid "Description"
 msgstr "תיאור פריט"
@@ -750,7 +750,7 @@ msgid ""
 "node."
 msgstr ""
 
-#: apps/sheets/models.py:198 apps/sheets/models.py:536
+#: apps/sheets/models.py:198 apps/sheets/models.py:541
 msgid "Entry description"
 msgstr "תיאור ערך"
 
@@ -758,96 +758,96 @@ msgstr "תיאור ערך"
 msgid "A descriptive text for this template node."
 msgstr ""
 
-#: apps/sheets/models.py:257
+#: apps/sheets/models.py:259
 #, fuzzy
 msgid "template node"
 msgstr "באותו נושא"
 
-#: apps/sheets/models.py:258
+#: apps/sheets/models.py:260
 #, fuzzy
 msgid "template nodes"
 msgstr "תצורות התקציב"
 
-#: apps/sheets/models.py:272
+#: apps/sheets/models.py:274
 msgid "Inverse node can not point to self."
 msgstr ""
 
-#: apps/sheets/models.py:276
+#: apps/sheets/models.py:278
 msgid "Inverse node's direction can not be the same as self direction."
 msgstr ""
 
-#: apps/sheets/models.py:316
+#: apps/sheets/models.py:318
 msgid ""
 "Node with name: {name}; code: {code}; parent: {parent}; already exists in "
 "template: {template}"
 msgstr ""
 
-#: apps/sheets/models.py:325
+#: apps/sheets/models.py:327
 msgid "template/node relation"
 msgstr ""
 
-#: apps/sheets/models.py:326
+#: apps/sheets/models.py:328
 msgid "template/node relations"
 msgstr ""
 
-#: apps/sheets/models.py:366
+#: apps/sheets/models.py:368
 #, python-format
 msgid "Descriptive text for this %(class)s"
 msgstr ""
 
-#: apps/sheets/models.py:401
+#: apps/sheets/models.py:403
 msgid "sheet"
 msgstr ""
 
-#: apps/sheets/models.py:402
+#: apps/sheets/models.py:404
 msgid "sheets"
 msgstr ""
 
-#: apps/sheets/models.py:422
+#: apps/sheets/models.py:424
 msgid "Description that appears for this entry."
 msgstr ""
 
-#: apps/sheets/models.py:425
+#: apps/sheets/models.py:427
 #: apps/sheets/templates/sheets/sheet_item_detail.html:15
 #, fuzzy
 msgid "Budget Amount"
 msgstr "פריט תקציב"
 
-#: apps/sheets/models.py:431
+#: apps/sheets/models.py:433
 #, fuzzy
 msgid "The total budgeted amount of this entry."
 msgstr "אוכלוסית הרשות"
 
-#: apps/sheets/models.py:434
+#: apps/sheets/models.py:436
 #: apps/sheets/templates/sheets/sheet_item_detail.html:17
 #, fuzzy
 msgid "Actual Amount"
 msgstr "סכום"
 
-#: apps/sheets/models.py:440
+#: apps/sheets/models.py:442
 #, fuzzy
 msgid "The total actual amount of this entry."
 msgstr "אוכלוסית הרשות"
 
-#: apps/sheets/models.py:497
+#: apps/sheets/models.py:502
 #, fuzzy
 msgid "sheet item"
 msgstr "פריט תקציב"
 
-#: apps/sheets/models.py:498
+#: apps/sheets/models.py:503
 #, fuzzy
 msgid "sheet items"
 msgstr "פריטי תקציב"
 
-#: apps/sheets/models.py:538
+#: apps/sheets/models.py:543
 msgid "A descriptive text for this template node underlying this sheet item."
 msgstr ""
 
-#: apps/sheets/models.py:543
+#: apps/sheets/models.py:548
 msgid "denormalized sheet item"
 msgstr ""
 
-#: apps/sheets/models.py:544
+#: apps/sheets/models.py:549
 msgid "denormalized sheet items"
 msgstr ""
 
@@ -1154,19 +1154,19 @@ msgstr ""
 msgid "A word or some such."
 msgstr ""
 
-#: apps/transport/tasks.py:37
+#: apps/transport/tasks.py:77
 msgid "[OPEN BUDGET]: Data import success"
 msgstr ""
 
-#: apps/transport/tasks.py:38
+#: apps/transport/tasks.py:78
 msgid "The data import succeeded for "
 msgstr ""
 
-#: apps/transport/tasks.py:41
+#: apps/transport/tasks.py:81
 msgid "[OPEN BUDGET]: Data import failure"
 msgstr ""
 
-#: apps/transport/tasks.py:42
+#: apps/transport/tasks.py:82
 msgid "The data import failed for "
 msgstr ""
 
@@ -1278,37 +1278,37 @@ msgid ""
 "Inverse node not found for item in row: %s; and columns: %s; with values: %s"
 msgstr ""
 
-#: apps/transport/incoming/parsers/__init__.py:220
+#: apps/transport/incoming/parsers/__init__.py:233
 #, python-format
 msgid "Parser for key: \"%s\" does not exist"
 msgstr ""
 
-#: apps/transport/incoming/parsers/__init__.py:232
+#: apps/transport/incoming/parsers/__init__.py:245
 #, python-format
 msgid "Given parser is not registered: %s"
 msgstr ""
 
-#: apps/transport/incoming/parsers/template.py:311
+#: apps/transport/incoming/parsers/template.py:323
 #, python-format
 msgid "Interpolation failed, no ancestor found for path: %s"
 msgstr ""
 
-#: apps/transport/incoming/parsers/template.py:358
+#: apps/transport/incoming/parsers/template.py:370
 #, python-format
 msgid "You are trying to insert an item that already exists at: %s"
 msgstr ""
 
-#: apps/transport/incoming/parsers/template.py:407
+#: apps/transport/incoming/parsers/template.py:408
 #, python-format
 msgid "DomainDivision with pk %s does not exist"
 msgstr ""
 
-#: apps/transport/incoming/parsers/template.py:518
+#: apps/transport/incoming/parsers/template.py:523
 #, python-format
 msgid "Template of %(entity)s since %(year)s"
 msgstr ""
 
-#: apps/transport/incoming/parsers/template.py:527
+#: apps/transport/incoming/parsers/template.py:532
 msgid "Official Template since %(year)"
 msgstr ""
 
@@ -1711,19 +1711,19 @@ msgid ""
 "            "
 msgstr ""
 
-#: settings/base.py:199
+#: settings/base.py:210
 msgid "Hebrew"
 msgstr "עברית"
 
-#: settings/base.py:200
+#: settings/base.py:211
 msgid "English"
 msgstr "אנגלית"
 
-#: settings/base.py:201
+#: settings/base.py:212
 msgid "Arabic"
 msgstr "ערבית"
 
-#: settings/base.py:202
+#: settings/base.py:213
 msgid "Russian"
 msgstr "רוסית"
 
