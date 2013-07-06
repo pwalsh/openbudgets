@@ -6,8 +6,7 @@ define([
     uijet.Adapter('LegendsList', {
         createItemModel : function (state) {
             var model = new Explorer.LegendItemModel(state || {
-                title       : 'Title me',
-                description : 'Describe me',
+                title       : 'Insert title',
                 muni        : '',
                 nodes       : []
             });
