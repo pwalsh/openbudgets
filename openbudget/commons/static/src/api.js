@@ -104,9 +104,15 @@
                     xhr.setRequestHeader(h, this.options.headers[h]);
                 }
             }
+            else {
+                this.options.headers = {};
+            }
 
-            if ( ! this.options.headers || ! this.options.headers['Contet-Type'] ) {
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            if ( ! this.options.headers['Contet-Type'] ) {
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            }
+            if ( ! this.options.headers['Accept'] ) {
+                xhr.setRequestHeader('Accept', 'application/json');
             }
 
             if ( isObject(this.options.data) ) {
