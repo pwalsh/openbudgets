@@ -67,23 +67,30 @@
     background-color: #c4c4d3;
 }
 #add_legend:before {
-    content: '+';
+    content: '';
     float: right;
-    width: 2rem;
-    vertical-align: bottom;
-    text-align: right;
-    font-size: 1.5rem;
-    font-weight: bold;
-    line-height: 100%;
+    width: 15px;
+    height: 100%;
+    margin-left: .9rem;
+    background: url(../img/plus_compare_icon_blue.png) center no-repeat;
 }
 #add_legend.disabled:before {
-    content: '\25cb';
-    font-size: 2.5rem;
-    line-height: 1.2rem;
+    width: 13px;
+    height: 13px;
+    margin-top: 2px;
+    border-radius: 8px;
+    border: 1px solid #141450;
+    background: transparent;
 }
 #add_legend_cancel {
-    float: left;
+    position: absolute;
+    top: 50%;
+    left: 2rem;
+    width: 12px;
+    height: 12px;
+    margin-top: -6px;
     padding: 0;
+    background: url(../img/x_for_adding_line.png) center no-repeat;
 }
 
 #legend_controls {
