@@ -8,6 +8,7 @@ define([
     'modules/engine/mustache',
     'modules/xhr/jquery',
     'modules/animation/uijet-transit',
+    'project_modules/uijet-i18n',
     'project_modules/uijet-search'
 ], function (uijet, resources, api, $, Ebox, Q, Mustache) {
 

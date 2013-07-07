@@ -4,28 +4,28 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
     <link rel="stylesheet" href="/static/projects/explorer/css/main.css"/>
-    <title>Open Muni Budget | Budget Explorer</title>
+    <title data-i18n="document-title"></title>
 </head>
 <body>
     <div id="explorer" class="uijet_app">
         <section id="left_container" class="top_container">
-            <span id="enter_button">Enter</span>
+            <span id="enter_button" data-i18n="enter"></span>
         </section>
         <section id="main_container" class="top_container">
-            <div id="welcome">Welcome to Budget Explorer 5000</div>
+            <div id="welcome" data-i18n="welcome-message"></div>
             <div id="entity_selection" class="main_pane">
                 <header class="main_section_header">
-                    <p class="section_description">Choose entity</p>
-                    <input type="text" name="entity" id="entity_field" placeholder="Search"/>
+                    <p class="section_description" data-i18n="choose-entity"></p>
+                    <input type="text" name="entity" id="entity_field" data-i18n="search-placeholder" data-i18n-attr="placeholder"/>
                 </header>
                 <ul id="entities_list"></ul>
             </div>
             <div id="nodes_picker" class="main_pane">
                 <header id="nodes_picker_header" class="main_section_header">
-                    <p class="section_description">Choose budget items:</p>
+                    <p class="section_description" data-i18n="choose-budget-item"></p>
                     <div id="nodes_breadcrumbs">
                         <span id="nodes_breadcrumbs_history">...</span>
-                        <span id="node_breadcrumb_main">Main</span>
+                        <span id="node_breadcrumb_main" data-i18n="main"></span>
                         <span id="node_breadcrumb_back"></span>
                     </div>
                     <h2 id="nodes_scope_name"></h2>
@@ -37,16 +37,16 @@
                 </header>
                 <section id="nodes_list_container">
                     <ul id="nodes_list_header">
-                        <li class="nodes_list_header_node" data-column="code">Code</li>
-                        <li class="nodes_list_header_node" data-column="name">Name</li>
-                        <li class="nodes_list_header_node" data-column="direction">Type</li>
+                        <li class="nodes_list_header_node" data-column="code" data-i18n="code"></li>
+                        <li class="nodes_list_header_node" data-column="name" data-i18n="name"></li>
+                        <li class="nodes_list_header_node" data-column="direction" data-i18n="type"></li>
                     </ul>
                     <ul id="nodes_list"></ul>
                 </section>
                 <section id="nodes_picker_footer">
                     <p id="results_count_container"><span id="results_count"></span></p>
                     <p id="sheet_type_picker"></p>
-                    <span id="picker_done">Done</span>
+                    <span id="picker_done" data-i18n="done"></span>
                 </section>
             </div>
             <div id="chart"></div>

@@ -12,8 +12,8 @@ requirejs.config({
         controllers         : '../projects/explorer/controllers',
         project_modules     : '../projects/explorer/modules',
         project_widgets     : '../projects/explorer/widgets',
-        project_mixins     : '../projects/explorer/mixins',
-        i18n                : '../projects/explorer/api',
+        project_mixins      : '../projects/explorer/mixins',
+        dictionary          : '../projects/explorer/i18n',
         api                 : '../src/api'
     },
     shim    : {
