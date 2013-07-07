@@ -16,27 +16,16 @@
 }
 
 .selectbox {
-    position: relative;
     display: inline-block;
-    width: .8rem;
-    height: .8rem;
-    border: 1px inset #d0d0dc;
-    background-color: transparent;
+    width: 13px;
+    height: 13px;
+    background: url(../img/check_box_empty.png) center no-repeat;
 }
-.selectbox:before {
-    position: absolute;
-    top: 0;
-    left: 0;
-    line-height: 70%;
+[data-selected=selected] .selectbox {
+    background: url(../img/check_box_checked.png) center no-repeat;
 }
-[data-selected=selected] .selectbox:before {
-    content: '\2713';
-    font-size: 1.3rem;
-}
-[data-selected=partial] .selectbox:before {
-    content: '\2012';
-    font-size: 1rem;
-    /*background-image: linear-gradient(transparent, transparent 50%, cadetblue 50%, cadetblue);*/
+[data-selected=partial] .selectbox {
+    background: url(../img/check_box_half.png) center no-repeat;
 }
 [data-selected=selected] .node_cell_code,
 [data-selected=partial] .node_cell_code,
