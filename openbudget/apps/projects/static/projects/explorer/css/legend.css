@@ -10,6 +10,18 @@
 .legend_item:hover {
     background-color: #c4c4d3;
 }
+.legend_item_color {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    width: 13px;
+    height: 13px;
+    margin-top: -7px;
+    border-radius: 7px;
+    background-color: transparent;
+}
 .legend_item_buttons {
     position: absolute;
     top: 0;

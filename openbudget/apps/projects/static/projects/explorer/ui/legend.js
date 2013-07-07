@@ -15,8 +15,11 @@ define([
                 'change:state'  : function (model, state) {
                     this.$element.find('.selected_nodes_count').text(state.selected.length);
                 },
-                'change:muni'   : function (model,value) {
+                'change:muni'   : function (model, value) {
                     this.$element.find('.entity').text(value.get('name'));
+                },
+                'change:color'  : function (model, color) {
+                    this.setColor(color);
                 }
             },
             signals         : {
@@ -66,7 +69,14 @@ define([
             style       : {
                 height  : 'auto'
             },
+            data_events : {
+                remove  : function () { this.resource.setColors(); },
+                add     : function () { this.resource.setColors(); }
+            },
             app_events  : {
+                chart_colors            : function (colors) {
+                    this.resource.colors = colors;
+                },
                 'legends_list.duplicate': 'addItem+',
                 'legends_list.selected' : 'selectItem+',
                 'legends_list.delete'   : 'removeItem+',

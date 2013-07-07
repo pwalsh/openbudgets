@@ -20,6 +20,7 @@ define([
         init            : function () {
             this._super.apply(this, arguments);
             this.colors = d3.scale.category20();
+            uijet.publish('chart_colors', this.colors.range());
         },
         prepareElement  : function () {
             this._super();

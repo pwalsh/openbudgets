@@ -11,7 +11,6 @@ define([
             this._super.apply(this, arguments);
             var id = this.id;
 
-//            this.subscribe(id + '_color.clicked', this.itemColor)
             this.subscribe(id + '_edit.clicked', this.itemEdit)
                 .subscribe(id + '_duplicate.clicked', this.itemDuplicate)
                 .subscribe(id + '_delete.clicked', this.itemDelete)
@@ -27,6 +26,8 @@ define([
                 $title = this.$element.find(button_class_prefix + 'title'),
                 id = this.id,
                 slider_id = id + '_slider';
+
+            this.setColor();
 
             uijet.start([{
                 type    : 'ContentEditable',
@@ -49,13 +50,6 @@ define([
                         'picker_done.clicked'   : 'sleep'
                     }
                 }
-//            }, {
-//                type    : 'Button',
-//                config  : {
-//                    element     : $buttons.find(button_class_prefix + 'color'),
-//                    id          : id + '_color',
-//                    container   : id
-//                }
             }, {
                 type    : 'Pane',
                 config  : {
@@ -98,7 +92,15 @@ define([
 
             return res;
         },
-//        itemColor       : function () {},
+        setColor        : function (color) {
+            if ( color )
+                this.options.color = color;
+            else
+                color = this.options.color;
+
+            this.$element.find('.legend_item_color').css('backgroundColor', color);
+            return this;
+        },
         itemEdit        : function () {
             uijet.publish('legends_list.selected', this.resource.collection.indexOf(this.resource));
         },
