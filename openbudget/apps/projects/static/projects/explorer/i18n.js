@@ -15,7 +15,10 @@ define(function() {
         home                : gettext('Home'),
         munis               : gettext('Munis'),
         projects            : gettext('Projects'),
-        about               : gettext('About')
+        about               : gettext('About'),
+        loading             : gettext('Loading...'),
+        'open-muni-budget'  : gettext('Open Muni Budget'),
+        compare             : gettext('Compare')
     };
 
 });
