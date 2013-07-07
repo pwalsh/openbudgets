@@ -1,7 +1,7 @@
 .legend_item {
     position: relative;
     height: 3.384rem;
-    padding: .3rem 2.5rem;
+    padding: .3rem 3.4rem .3rem 1rem;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -15,7 +15,7 @@
     display: block;
     position: absolute;
     top: 50%;
-    right: 1rem;
+    right: 1.5rem;
     width: 13px;
     height: 13px;
     margin-top: -7px;
