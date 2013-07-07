@@ -10,7 +10,8 @@ define(function() {
         code                : gettext('Code'),
         name                : gettext('Name'),
         type                : gettext('Type'),
-        done                : gettext('Done')
+        done                : gettext('Done'),
+        add                 : gettext('Add')
     };
 
 });
