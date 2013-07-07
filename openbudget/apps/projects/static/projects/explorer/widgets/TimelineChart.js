@@ -37,7 +37,7 @@ define([
                     .ticks(d3.time.years),
                 y_axis = d3.svg.axis()
                     .scale(y)
-                    .orient('left');
+                    .orient('right');
 
             this.width = width;
             this.height = height;

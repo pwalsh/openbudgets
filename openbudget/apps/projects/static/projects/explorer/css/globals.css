@@ -5,6 +5,9 @@ body, html {
     font: 13px/1.231 Arial, sans-serif;
     color: #141450;
 }
+svg {
+    direction: ltr;
+}
 
 ::-webkit-input-placeholder { /* WebKit browsers */
     color: #d0d0dc;
