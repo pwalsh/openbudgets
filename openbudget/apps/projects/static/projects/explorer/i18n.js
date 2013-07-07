@@ -11,7 +11,11 @@ define(function() {
         name                : gettext('Name'),
         type                : gettext('Type'),
         done                : gettext('Done'),
-        add                 : gettext('Add')
+        add                 : gettext('Add'),
+        home                : gettext('Home'),
+        munis               : gettext('Munis'),
+        projects            : gettext('Projects'),
+        about               : gettext('About')
     };
 
 });
