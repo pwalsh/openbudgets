@@ -15,10 +15,8 @@
     top: 0;
     left: 0;
     height: 100%;
-    /*padding: 3px 15px;*/
+    padding: 0 .5rem;
     overflow: hidden;
-    line-height: 220%;
-    text-align: left;
     background-color: #c4c4d3;
     -webkit-transition-duration: .2s;
        -moz-transition-duration: .2s;
@@ -42,7 +40,12 @@
 }
 .legend_item_buttons > .uijet_button {
     visibility: inherit !important;
-    padding: .3rem;
+    position: relative;
+    top: 1rem;
+    width: 18px;
+    height: 18px;
+    margin: 0 .4rem;
+    padding: 0;
 }
 .legend_item_count {
     display: none;
@@ -58,6 +61,16 @@
 }
 .picking .legend_item_title {
     display: none;
+}
+
+.legend_item_delete {
+    background: url(../img/x_icon_for_slider.png) center no-repeat;
+}
+.legend_item_duplicate {
+    background: url(../img/duplicate_icon_for_slider.png) center no-repeat;
+}
+.legend_item_edit {
+    background: url(../img/pencil_icon_for_slider.png) center no-repeat;
 }
 
 #add_legend {
