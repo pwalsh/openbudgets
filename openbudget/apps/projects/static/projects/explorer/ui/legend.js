@@ -38,7 +38,8 @@ define([
                 'entities_list.selected'    : 'enable',
                 'add_legend_cancel.clicked' : 'enable',
                 'picker_done.clicked'       : 'wake',
-                'nodes_picker.awake'        : 'sleep'
+                'nodes_picker.awake'        : 'sleep',
+                'welcome'                   : 'wake'
             }
         }
     }, {
@@ -79,18 +80,21 @@ define([
                     // reset the state of selected legend item
                     this.current_index = null;
                     this.$element.removeClass('picking');
+                    this.picking = false;
                 },
                 'legend_item_added'     : 'scroll',
                 'nodes_picker.awake'    : function () {
                     this.position({ top : 0 })
                         .scroll()
                         .$element.addClass('picking');
+                    this.picking = true;
                 },
                 'add_legend.awaking'    : function () {
                     var top = this.processed_position.top;
                     this.position({ top : top.size + (top.unit || 'px') })
                         .scroll()
                         .$element.removeClass('picking');
+                    this.picking = false;
                 }
             }
         }

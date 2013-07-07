@@ -88,10 +88,12 @@ define([
         removeItem      : function (index) {
             this.deleteItem(index);
             if ( this.resource.length ) {
-                uijet.publish('legends_list.selected', index);
+                if ( this.picking ) {
+                    uijet.publish('legends_list.selected', this.current_index);
+                }
             }
             else {
-                this.publish('last_deleted');
+                uijet.publish('welcome');
             }
             this.scroll();
         },
