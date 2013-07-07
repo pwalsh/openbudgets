@@ -1,11 +1,11 @@
 define([
     'uijet_dir/uijet',
     'explorer'
-], function (uijet, Explorer) {
+], function (uijet, explorer) {
 
     uijet.Adapter('LegendsList', {
         createItemModel : function (state) {
-            var model = new Explorer.LegendItemModel(state || {
+            var model = new explorer.LegendItemModel(state || {
                 title       : gettext('Insert title'),
                 muni        : '',
                 nodes       : []
@@ -28,7 +28,8 @@ define([
                     index   : index,
                     signals : {
                         post_full_render: '-legend_item_added'
-                    }
+                    },
+                    color   : this.resource.colors[index * 2]
                 }
             }, true);
             return this;
