@@ -15,6 +15,7 @@ define([
             this.subscribe(id + '_edit.clicked', this.itemEdit)
                 .subscribe(id + '_duplicate.clicked', this.itemDuplicate)
                 .subscribe(id + '_delete.clicked', this.itemDelete)
+                .subscribe(id + '_remove.clicked', this.itemDelete)
                 .subscribe(id + '_title.updated', this.updateTitle);
 
             return this;
@@ -24,7 +25,8 @@ define([
                 $buttons = this.$element.find('.legend_item_buttons'),
                 button_class_prefix = '.legend_item_',
                 $title = this.$element.find(button_class_prefix + 'title'),
-                id = this.id;
+                id = this.id,
+                slider_id = id + '_slider';
 
             uijet.start([{
                 type    : 'ContentEditable',
@@ -36,6 +38,17 @@ define([
                         name: 'title'
                     }
                 }
+            }, {
+                type    : 'Button',
+                config  : {
+                    element     : this.$element.find(button_class_prefix + 'remove'),
+                    id          : id + '_remove',
+                    container   : id,
+                    app_events      : {
+                        'nodes_picker.awake'    : 'wake',
+                        'picker_done.clicked'   : 'sleep'
+                    }
+                }
 //            }, {
 //                type    : 'Button',
 //                config  : {
@@ -44,25 +57,38 @@ define([
 //                    container   : id
 //                }
             }, {
+                type    : 'Pane',
+                config  : {
+                    element         : $buttons,
+                    id              : slider_id,
+                    container       : id,
+                    dont_wrap       : true,
+                    dont_wake       : true,
+                    app_events      : {
+                        'picker_done.clicked'   : 'wake',
+                        'nodes_picker.awake'    : 'sleep'
+                    }
+                }
+            }, {
                 type    : 'Button',
                 config  : {
                     element     : $buttons.find(button_class_prefix + 'edit'),
                     id          : id + '_edit',
-                    container   : id
+                    container   : slider_id
                 }
             }, {
                 type    : 'Button',
                 config  : {
                     element     : $buttons.find(button_class_prefix + 'duplicate'),
                     id          : id + '_duplicate',
-                    container   : id
+                    container   : slider_id
                 }
             }, {
                 type    : 'Button',
                 config  : {
                     element     : $buttons.find(button_class_prefix + 'delete'),
                     id          : id + '_delete',
-                    container   : id
+                    container   : slider_id
                 }
             }], true);
 
