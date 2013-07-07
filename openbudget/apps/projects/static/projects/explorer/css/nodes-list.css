@@ -12,13 +12,14 @@
     color: #8989a8;
 }
 .node_cell_select {
-    width: 10px;
+    width: 13px;
 }
 
 .selectbox {
     display: inline-block;
     width: 13px;
     height: 13px;
+    vertical-align: middle;
     background: url(../img/check_box_empty.png) center no-repeat;
 }
 [data-selected=selected] .selectbox {
