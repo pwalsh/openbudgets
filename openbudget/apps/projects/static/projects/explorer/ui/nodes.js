@@ -23,7 +23,7 @@ define([
         },
         nullifySearchQuery = attributeNullifier('search'),
         clearText = function () {
-            this.$element.text(gettext('Main'));
+            this.$content.text(gettext('Main'));
         };
 
     return [{
@@ -64,18 +64,25 @@ define([
         type    : 'Pane',
         config  : {
             element     : '#nodes_scope_name',
+            signals     : {
+                post_init   : function () {
+                    this.$content = this.$element.find('#nodes_scope_name_content');
+                }
+            },
             app_events  : {
-                'nodes_list.scope_changed'  : function (scope_node_model) {
+                'nodes_list.scope_changed'      : function (scope_node_model) {
                     if ( scope_node_model ) {
-                        this.$element.text(scope_node_model.get('name'));
+                        this.$content.text(scope_node_model.get('name'));
                     }
                     else {
                         clearText.call(this);
                     }
                 },
-                'add_legend.clicked'        : clearText,
-                'legends_list.selected'     : clearText,
-                'legends_list.last_deleted' : clearText
+                'add_legend.clicked'            : clearText,
+                'legends_list.selected'         : clearText,
+                'legends_list.last_deleted'     : clearText,
+                'filters_search.clicked'        : 'sleep',
+                'search_crumb_remove.clicked'   : 'wake'
             }
         }
     }, {
@@ -209,6 +216,7 @@ define([
         type    : 'Button',
         config  : {
             element     : '#filter_selected',
+            dont_wake   : true,
             app_events  : {
                 'selected.changed'  : function (data) {
                     var state = data.args[1];

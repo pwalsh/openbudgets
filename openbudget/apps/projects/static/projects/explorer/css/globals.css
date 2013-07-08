@@ -47,7 +47,7 @@ svg {
 }
 .uijet_clearabletextinput {
     width: 100%;
-    font-size: 3rem;
+    font-size: 3.261rem;
     line-height: 150%;
     border: none;
     outline: none;
@@ -61,7 +61,7 @@ svg {
     visibility: hidden !important;
     position: absolute;
     right: 0;
-    font-size: 3rem;
+    font-size: 3.261rem;
 }
 .uijet_button.uijet_clear_button {
     position: absolute;

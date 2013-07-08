@@ -17,7 +17,14 @@
     color: white;
 }
 #filters_search {
-    float: left;
+    position: absolute;
+    top: 50%;
+    left: -30px;
+    width: 25px;
+    height: 25px;
+    margin-top: -13px;
+    padding: 0;
+    background: url(../img/search_icon.png) center no-repeat;
 }
 
 #node_breadcrumb_back:before {
@@ -39,6 +46,9 @@
 #nodes_picker {
     background-color: white;
 }
+#nodes_picker_header {
+    position: relative;
+}
 
 #nodes_filters_pane_wrapper {
     overflow: visible;
@@ -55,5 +65,12 @@
 }
 
 #nodes_scope_name {
+    position: absolute;
+    bottom: 8px;
+    right: 18px;
+    z-index: 1;
+    width: auto;
     height: auto;
+    font-size: 3.261rem;
+    font-weight: normal;
 }
