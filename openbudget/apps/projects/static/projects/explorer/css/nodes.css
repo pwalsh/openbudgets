@@ -10,11 +10,15 @@
     position: absolute;
     top: 50%;
     left: 0;
-    margin: -15px 0 0 15px;
-    padding: .3rem 1rem;
+    width: 74px;
+    height: 24px;
+    margin: -12px 20px 0;
+    padding: 2px 0;
+    font-size: 1.3rem;
     background-color: #1d7680;
-    border-radius: 8px;
+    border-radius: 10px;
     color: white;
+    font-weight: bold;
 }
 #filters_search {
     position: absolute;
@@ -59,7 +63,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 60px;
+    height: 44px;
     border-top: 1px solid lightslategray;
     background-color: #6ebec8;
 }
