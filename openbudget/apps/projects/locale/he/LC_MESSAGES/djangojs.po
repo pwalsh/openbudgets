@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-08 10:15+0300\n"
+"POT-Creation-Date: 2013-07-09 00:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -109,3 +109,7 @@ msgstr "השוואות"
 #: static/projects/explorer/controllers/LegendsList.js:9
 msgid "Insert title"
 msgstr "כתיבת כותרת"
+
+#: static/projects/explorer/ui/nodes.js:274
+msgid "%(count)s results found"
+msgstr "נמצאו %(count)s תוצאות"
