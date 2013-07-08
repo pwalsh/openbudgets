@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-07 15:03+0300\n"
+"POT-Creation-Date: 2013-07-08 10:15+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -83,14 +83,26 @@ msgid "About"
 msgstr "אודות"
 
 #: static/projects/explorer/i18n.js:19
+msgid "API"
+msgstr ""
+
+#: static/projects/explorer/i18n.js:20
+msgid "Terms"
+msgstr "תנאי שימוש"
+
+#: static/projects/explorer/i18n.js:21
+msgid "Credits"
+msgstr "קדיטים"
+
+#: static/projects/explorer/i18n.js:22
 msgid "Loading..."
 msgstr "טוען..."
 
-#: static/projects/explorer/i18n.js:20
+#: static/projects/explorer/i18n.js:23
 msgid "Open Muni Budget"
 msgstr "תקציב מקומי פתוח"
 
-#: static/projects/explorer/i18n.js:21
+#: static/projects/explorer/i18n.js:24
 msgid "Compare"
 msgstr "השוואות"
 

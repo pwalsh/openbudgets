@@ -5,7 +5,22 @@
     line-height: 100%;
     color: white;
 }
+.site_menu_footer_item {
+    display: inline-block;
+    font-size: 1.3em;
+    color: #1d7680;
+}
+.site_menu_footer_item + .site_menu_footer_item {
+    margin-right: 1.5rem;
+}
 
+#hasadna_link {
+    float: right;
+    width: 87px;
+    height: 31px;
+    margin-top: -70px;
+    background: url(../img/sadna_logo_cover.png) center no-repeat;
+}
 #site_menu {
     position: absolute;
     top: 0;
@@ -14,6 +29,14 @@
     height: 100%;
     padding: 169px 50px 35px;
     background: #60c2cc url(../img/logo_for_cover.png) 69px 35px no-repeat;
+}
+#site_menu footer {
+    position: absolute;
+    bottom: 18px;
+    left: 0;
+    right: 0;
+    padding-right: 50px;
+    text-align: right;
 }
 #site_menu_close {
     position: absolute;

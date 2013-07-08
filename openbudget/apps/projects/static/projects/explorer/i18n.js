@@ -16,6 +16,9 @@ define(function() {
         'site-menu-munis'   : gettext('Munis'),
         'site-menu-projects': gettext('Projects'),
         'site-menu-about'   : gettext('About'),
+        'site-menu-api'     : gettext('API'),
+        'site-menu-tos'     : gettext('Terms'),
+        'site-menu-credits' : gettext('Credits'),
         loading             : gettext('Loading...'),
         'open-muni-budget'  : gettext('Open Muni Budget'),
         compare             : gettext('Compare')
