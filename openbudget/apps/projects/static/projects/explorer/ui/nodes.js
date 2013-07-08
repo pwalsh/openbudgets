@@ -47,7 +47,8 @@ define([
                 'filter_selected.clicked'       : function () {
                     this.resource.set({ selected : true });
                 },
-                'legends_list.change_state'     : 'wake+'
+                'legends_list.change_state'     : 'wake+',
+                'entities_list.selected'        : nullifySearchQuery
             }
         }
     }, {
@@ -88,6 +89,25 @@ define([
             element     : '#nodes_search',
             resource    : 'NodesListState',
             dont_wake   : true,
+            button      : {
+                dont_wake   : true,
+                signals     : {
+                    pre_click   : 'sleep'
+                },
+                app_events  : {
+                    'nodes_search.move_button'  : function (width) {
+                        if ( width ) {
+                            this.$element[0].style.right = width + 30 + 'px';
+                            if ( ! this.awake) {
+                                this.wake();
+                            }
+                        }
+                        else if ( this.awake ) {
+                            this.sleep();
+                        }
+                    }
+                }
+            },
             keys        : {
                 // enter
                 13          : function (e) {
@@ -103,10 +123,19 @@ define([
                         .sleep();
                 },
                 'default'   : function (e) {
-                    this.resource.set({ search : e.target.value });
+                    var val = e.target.value;
+                    this.publish('changed', e.target.value);
+                    this.$shadow_text.text(val);
+                    this.publish('move_button', val ? this.$shadow_text.width() : 0);
+                    this.resource.set({ search : val });
                 }
             },
             signals     : {
+                post_init   : function () {
+                    this.$shadow_text = uijet.$('<span>', {
+                        'class' : 'shadow_text'
+                    }).prependTo(this.$wrapper);
+                },
                 pre_wake    : function () {
                     var initial = this.resource.get('search');
                     if ( initial === null ) {
@@ -114,9 +143,14 @@ define([
                         this.resource.set({ search : '' });
                     }
                     this.$element.val(initial);
+                    this.$shadow_text.text(initial);
                 },
                 post_wake   : function () {
+                    var width = this.$shadow_text.width();
                     this.$element.focus();
+                    if ( width ) {
+                        this.publish('move_button', width);
+                    }
                 }
             },
             app_events  : {
@@ -163,6 +197,11 @@ define([
                     var query = data.args[1];
                     this.setContent(query || '');
                     query === null && this.sleep();
+                },
+                'nodes_picker.awake'    : function () {
+                    if ( uijet.Resource('NodesListState').get('search') ) {
+                        this.wake();
+                    }
                 }
             }
         }
