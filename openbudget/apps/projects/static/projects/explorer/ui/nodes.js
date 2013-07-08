@@ -82,6 +82,8 @@ define([
                 'legends_list.selected'         : clearText,
                 'legends_list.last_deleted'     : clearText,
                 'filters_search.clicked'        : 'sleep',
+                'nodes_search.entered'          : 'wake',
+                'nodes_search.cancelled'        : 'wake',
                 'search_crumb_remove.clicked'   : 'wake'
             }
         }
