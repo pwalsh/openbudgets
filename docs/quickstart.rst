@@ -82,7 +82,7 @@ If you are not sure, just stick with system Python for now::
     brew install mercurial git node redis
     sudo easy_install virtualenv
     sudo pip install virtualenvwrapper
-    npm install volo -g
+    npm install -g volo
 
 
     # alternatively, using homebrew Python
@@ -171,7 +171,7 @@ Clone the project repository
 
 Now we have an environment setup, and we are at the root of our project directory, we need to clone the project from Github::
 
-    git clone git@github.com:hasadna/omuni-budget.git .
+    git clone https://github.com/hasadna/omuni-budget.git .
 
 **Important: Note the "." at the end of the git clone command.**
 
@@ -201,6 +201,8 @@ We can populate the database with our initial data, run our tests, and run a dev
 Right now you can see the app at the following address in your browser::
 
     http://obudget.dev:8000/
+
+Lastly, For some functionality, you'll need to adjust settings.local with some settings for your environment. For example, email username and password. **Never commit your changes to settings.local**.
 
 The easy way to working data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
