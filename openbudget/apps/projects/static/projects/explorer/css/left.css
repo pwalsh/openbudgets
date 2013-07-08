@@ -2,6 +2,10 @@
 /* Globals */
 /***********/
 
+#enter_button {
+    text-decoration: underline;
+}
+
 #left_container {
     left: 0;
     width: 100px;

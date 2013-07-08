@@ -4,7 +4,7 @@
 
 .main_section_header {
     height: 120px;
-    padding: 10px;
+    padding: 18px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -17,7 +17,7 @@
     background-color: #fff;
 }
 #welcome {
-    padding: 10px;
+    padding: 18px;
 }
 
 /************/
@@ -28,10 +28,12 @@
     padding: 0 .5rem;
 }
 #entities_list li {
+    height: 44px;
     padding: .6rem;
     border-bottom: 1px solid #d0d0dc;
     overflow: hidden;
     font-size: 1.3rem;
+    line-height: 150%;
     font-weight: bold;
 }
 #entities_list li:first-child {
@@ -52,16 +54,12 @@
 
 #entity_field_wrapper {
     position: absolute;
-    right: 10px;
+    right: 18px;
     bottom: 0;
     margin-top: 12px;
 }
 #entity_selection header {
     position: relative;
 }
-
-/***********************/
-/* Nodes Picker Header */
-/***********************/
 
 

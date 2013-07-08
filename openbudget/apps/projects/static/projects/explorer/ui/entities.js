@@ -24,18 +24,47 @@ define([
         config  : {
             element     : '#entity_field',
             button      : {
-                signals : {
-                    pre_click   : '-entity_field.changed'
+                dont_wake   : true,
+                signals     : {
+                    pre_click   : function () {
+                        uijet.publish('entity_field.changed');
+                        this.sleep();
+                    }
+                },
+                app_events  : {
+                    'entity_field.move_button'  : function (width) {
+                        if ( width ) {
+                            this.$element[0].style.right = width + 30 + 'px';
+                            if ( ! this.awake) {
+                                this.wake();
+                            }
+                        }
+                        else if ( this.awake ) {
+                            this.sleep();
+                        }
+                    }
                 }
             },
             dom_events  : {
                 keyup   : function (e) {
+                    var val = e.target.value;
                     this.publish('changed', e.target.value);
+                    this.$shadow_text.text(val);
+                    this.publish('move_button', val ? this.$shadow_text.width() : 0);
                 }
             },
             signals     : {
+                post_init   : function () {
+                    this.$shadow_text = uijet.$('<span>', {
+                        'class' : 'shadow_text'
+                    }).prependTo(this.$wrapper);
+                },
                 post_wake   : function () {
+                    var width = this.$shadow_text.width();
                     this.$element.focus();
+                    if ( width ) {
+                        this.publish('move_button', width);
+                    }
                 }
             }
         }
