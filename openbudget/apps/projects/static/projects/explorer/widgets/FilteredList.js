@@ -50,7 +50,7 @@ define([
         },
         filterChildren  : function (ids, prefix) {
             var class_name = this.options.removed_class || 'removed',
-                filter;
+                filter, result_count;
             if ( prefix )
                 class_name = prefix + '_' + class_name;
             if ( ids === null ) {
@@ -60,10 +60,10 @@ define([
                 filter = function (i, item) {
                     return ~ ids.indexOf(+uijet.$(item).attr('data-id'));
                 };
-                this.$children.filter(filter).removeClass(class_name);
+                result_count = this.$children.filter(filter).removeClass(class_name).length;
                 this.$children.not(filter).addClass(class_name);
             }
-            this.publish('filtered');
+            this.publish('filtered', result_count);
             return this;
         },
         queueFilter     : function (filter_name, value) {

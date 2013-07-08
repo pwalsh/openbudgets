@@ -263,5 +263,24 @@ define([
         config  : {
             element : '#picker_done'
         }
+    }, {
+        type    : 'Pane',
+        config  : {
+            element     : '#results_count',
+            dont_wake   : true,
+            app_events  : {
+                'nodes_list.filtered'   : function (count) {
+                    if ( typeof count == 'number' ) {
+                        this.$element.text(interpolate(gettext('%(count)s results found'), { count : count }, true));
+                        this.wake();
+                    }
+                },
+                'search.changed'        : function (data) {
+                    if ( ! data.args[1] ) {
+                        this.sleep();
+                    }
+                }
+            }
+        }
     }];
 });

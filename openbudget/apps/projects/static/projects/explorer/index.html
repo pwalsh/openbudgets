@@ -47,11 +47,11 @@
                     </ul>
                     <ul id="nodes_list"></ul>
                 </section>
-                <section id="nodes_picker_footer">
-                    <p id="results_count_container"><span id="results_count"></span></p>
+                <footer id="nodes_picker_footer">
+                    <p id="results_count"></p>
                     <p id="sheet_type_picker"></p>
                     <span id="picker_done" data-i18n="done"></span>
-                </section>
+                </footer>
             </div>
             <div id="chart"></div>
         </section>
@@ -92,6 +92,8 @@
     <script>
         var API_VERSION = '/v1/';
         //var gettext = window.gettext || function (v) { return v; };
+        //var ngettext = window.gettext || function (v1, vn, n) { return v1; };
+        //var interpolate = window.interpolate || function (fmts, d, named) { return fmts; };
     </script>
     <script src="/projects/jsi18n/"></script>
     <script src="/static/lib/require.js" data-main="/static/projects/explorer/main"></script>
