@@ -4,8 +4,27 @@ from openbudget.apps.entities import models
 from openbudget.apps.sheets import serializers as sheet_serializers
 
 
+class EntityMin(serializers.HyperlinkedModelSerializer):
+    """A minimal serializer for use as a nested entity representation."""
+
+    class Meta:
+        model = models.Entity
+        fields = ['id', 'url']
+
+
+class DivisionMin(serializers.HyperlinkedModelSerializer):
+    """A minimal serializer for use as a nested division representation."""
+
+    class Meta:
+        model = models.Division
+        fields = ['id', 'url']
+
+
 class EntityBase(serializers.HyperlinkedModelSerializer):
     """The default serialized representation of entities."""
+
+    parent = EntityMin()
+    division = DivisionMin()
 
     class Meta:
         model = models.Entity
