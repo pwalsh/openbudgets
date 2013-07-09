@@ -1,9 +1,8 @@
 define([
     'uijet_dir/uijet',
-    'api',
     'project_widgets/LegendItem',
     'controllers/LegendsList'
-], function (uijet, api) {
+], function (uijet) {
 
     uijet.Factory('LegendItem', {
         type    : 'LegendItem',
