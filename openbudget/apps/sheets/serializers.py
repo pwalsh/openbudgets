@@ -3,6 +3,14 @@ from openbudget.apps.international.utilities import translated_fields
 from openbudget.apps.sheets import models
 
 
+class TemplateMin(serializers.HyperlinkedModelSerializer):
+    """A minimal serializer for nested template objects."""
+
+    class Meta:
+        model = models.Template
+        fields = ['id', 'url']
+
+
 class TemplateBase(serializers.HyperlinkedModelSerializer):
     """The default serialized representation of templates."""
 
@@ -44,30 +52,30 @@ class TemplateDetail(TemplateBase):
         fields = TemplateBase.Meta.fields + ['nodes']
 
 
-#TODO: change back to HyperlinkedModelSerializer once we fix the url of DenormalizedSheetItem
-class SheetBase(serializers.ModelSerializer):
+class SheetBase(serializers.HyperlinkedModelSerializer):
     """The default serialized representation of sheets."""
 
     period = serializers.Field(source='period')
+    # preventing circular import
+    from openbudget.apps.entities.serializers import EntityMin
+    entity = EntityMin()
+    template = TemplateMin()
 
     class Meta:
         model = models.Sheet
-        #TODO: put 'url' back here once we fix the url of DenormalizedSheetItem
-        fields = ['id', 'template', 'entity', 'description', 'period',
+        fields = ['id', 'url', 'template', 'entity', 'description', 'period',
                   'created_on', 'last_modified'] + translated_fields(model)
 
-#TODO: change back to HyperlinkedModelSerializer once we fix the url of DenormalizedSheetItem
-class SheetItemBase(serializers.ModelSerializer):
+
+class SheetItemBase(serializers.HyperlinkedModelSerializer):
     """The default serialized representation of sheet items."""
 
-    url = serializers.HyperlinkedIdentityField(view_name='sheetitem-detail')
     node = TemplateNodeMin()
 
     class Meta:
         model = models.SheetItem
-        #TODO: put 'url' back here once we fix the url of DenormalizedSheetItem
-        fields = ['id', 'budget', 'actual', 'description', 'node'] + translated_fields(model)
-
+        fields = ['id', 'url', 'budget', 'actual', 'description', 'node',
+                  'discussion'] + translated_fields(model)
 
 
 class SheetDetail(SheetBase):

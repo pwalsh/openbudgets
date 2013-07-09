@@ -3,18 +3,45 @@ from rest_framework.response import Response
 from openbudget.apps.international.utilities import translated_fields
 from openbudget.apps.sheets import serializers
 from openbudget.apps.sheets import models
-from openbudget.apps.sheets import filters
 
 
 class TemplateList(generics.ListAPIView):
     """API endpoint that represents a list of templates."""
 
     model = models.Template
-    queryset = model.objects.related_map_min()
     serializer_class = serializers.TemplateBase
-    filter_class = filters.TemplateFilter
-    ordering = ['name', 'period_start', 'created_on', 'last_modified']
+    ordering = ['id', 'name', 'period_start', 'created_on', 'last_modified']
     search_fields = ['name', 'description'] + translated_fields(model)
+
+    def get_queryset(self):
+        queryset = self.model.objects.related_map_min()
+
+        ### FILTERS
+        domains = self.request.QUERY_PARAMS.get('domains', None)
+        divisions = self.request.QUERY_PARAMS.get('divisions', None)
+        entities = self.request.QUERY_PARAMS.get('entities', None)
+
+        # DOMAINS: return templates used in the given domain(s).
+        if domains:
+            domains = domains.split('.')
+            queryset = queryset.filter(divisions__domain__in=domains).distinct()
+
+        # DIVISIONS: return templates used in the given division(s).
+        if divisions:
+            divisions = divisions.split('.')
+            queryset = queryset.filter(divisions__in=divisions)
+
+        # ENTITIES: return templates used by the given entity(-ies).
+        if entities:
+            entities = entities.split('.')
+            queryset = queryset.filter(using_sheets__entity__in=entities)
+
+        # DEFAULT: We just want to return "official" templates, unless a
+        # specific filter requires otherwise
+        if not self.request.QUERY_PARAMS:
+            queryset = queryset.exclude(divisions=None)
+
+        return queryset
 
 
 class TemplateDetail(generics.RetrieveAPIView):
@@ -29,21 +56,40 @@ class TemplateNodeList(generics.ListAPIView):
     """API endpoint that represents a list of template nodes."""
 
     model = models.TemplateNode
-    queryset = model.objects.related_map_min()
     serializer_class = serializers.TemplateNodeBase
-    filter_class = filters.TemplateNodeFilter
-    ordering = ['name', 'created_on', 'last_modified']
+    ordering = ['id', 'name', 'description', 'created_on', 'last_modified']
     search_fields = ['name', 'description'] + translated_fields(model)
 
     def get_queryset(self):
-        queryset = self.model.objects.all()
+        queryset = self.model.objects.related_map_min()
+
+        ### FILTERS
+        templates = self.request.QUERY_PARAMS.get('templates', None)
+        entities = self.request.QUERY_PARAMS.get('entities', None)
+
+        # for latest query only:
         entity = self.request.QUERY_PARAMS.get('entity', None)
         latest = self.request.QUERY_PARAMS.get('latest', None)
+
+        # TEMPLATES: return template nodes used in the given template(s).
+        if templates:
+            templates = templates.split('.')
+            queryset = queryset.filter(templates__in=templates)
+
+        # ENTITIES: return template nodes of templates used by the given entity(-ies).
+        if entities:
+            entities = entities.split('.')
+            queryset = queryset.filter(using_sheets__entity__in=entities)
+
+        # Check about this
+        # was implemented for timeline. Have a feeling we can do it more
+        # efficiently elsewhere.
         if entity is not None:
             if latest:
                 queryset = models.Template.objects.latest_of(entity=entity).nodes
             else:
                 pass
+
         return queryset
 
 
@@ -69,12 +115,35 @@ class SheetList(generics.ListAPIView):
     """API endpoint that represents a list of budget sheets."""
 
     model = models.Sheet
-    queryset = model.objects.related_map_min()
     serializer_class = serializers.SheetBase
-    filter_class = filters.SheetFilter
-    ordering = ['entity__name', 'period_start', 'created_on', 'last_modified']
+    ordering = ['id', 'entity__name', 'period_start', 'created_on', 'last_modified']
     search_fields = ['entity__name', 'description', 'period_start',
                      'period_end'] + translated_fields(model)
+
+    def get_queryset(self):
+        queryset = self.model.objects.related_map_min()
+
+        ### FILTERS
+        entities = self.request.QUERY_PARAMS.get('entities', None)
+        divisions = self.request.QUERY_PARAMS.get('divisions', None)
+        templates = self.request.QUERY_PARAMS.get('templates', None)
+
+        # ENTITIES: return sheets that belong to the given entity(-ies).
+        if entities:
+            entities = entities.split('.')
+            queryset = queryset.filter(entity__in=entities)
+
+        # DIVISIONS: return sheets that are under the given division(s).
+        if divisions:
+            divisions = divisions.split('.')
+            queryset = queryset.filter(entity__division_id__in=divisions)
+
+        # TEMPLATES: return sheets that use the given template(s).
+        if templates:
+            templates = templates.split('.')
+            queryset = queryset.filter(template__in=templates)
+
+        return queryset
 
 
 class SheetDetail(generics.RetrieveAPIView):
@@ -89,21 +158,50 @@ class SheetItemList(generics.ListAPIView):
     """API endpoint that represents a list of budget items."""
 
     model = models.SheetItem
-    queryset = model.objects.related_map_min()
     serializer_class = serializers.SheetItemBase
-    filter_class = filters.SheetItemFilter
-    ordering = ['sheet__entity__name', 'node__code']
-    search_fields = ['sheet__entity__name', 'node__code', 'node__name', 'description'] + translated_fields(model)
+    ordering = ['id', 'sheet__entity__name', 'node__code', 'created_on',
+                'last_modified']
+    search_fields = ['sheet__entity__name', 'node__code', 'node__name',
+                     'description'] + translated_fields(model)
 
     def get_queryset(self):
-        queryset = self.model.objects.all()
-        entity = self.request.QUERY_PARAMS.get('entity', None)
-        latest = self.request.QUERY_PARAMS.get('latest', None)
-        if entity is not None:
-            if latest:
-                queryset = models.Sheet.objects.latest_of(entity=entity).sheetitems
-            else:
-                pass
+        queryset = self.model.objects.related_map()
+
+        ### FILTERS
+        has_discussion = self.request.QUERY_PARAMS.get('has_discussion', None)
+        entities = self.request.QUERY_PARAMS.get('entities', None)
+        divisions = self.request.QUERY_PARAMS.get('divisions', None)
+        templates = self.request.QUERY_PARAMS.get('templates', None)
+
+        # HAS_DISCUSSION: return sheet items that have user discussion.
+        matches = []
+        if has_discussion == 'true':
+            for obj in queryset:
+                if obj.discussion.all():
+                    matches.append(obj.pk)
+            queryset = queryset.filter(pk__in=matches)
+
+        elif has_discussion == 'false':
+            for obj in queryset:
+                if not obj.discussion.all():
+                    matches.append(obj.pk)
+            queryset = queryset.filter(pk__in=matches)
+
+        # ENTITIES: return sheets that belong to the given entity(-ies).
+        if entities:
+            entities = entities.split('.')
+            queryset = queryset.filter(entity__in=entities)
+
+        # DIVISIONS: return sheets that are under the given division(s).
+        if divisions:
+            divisions = divisions.split('.')
+            queryset = queryset.filter(entity__division_id__in=divisions)
+
+        # TEMPLATES: return sheets that use the given template(s).
+        if templates:
+            templates = templates.split('.')
+            queryset = queryset.filter(template__in=templates)
+
         return queryset
 
 

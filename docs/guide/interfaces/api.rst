@@ -344,57 +344,126 @@ Filter list by searching over the following fields:
 Example: https://api.example.com/v1/entities/?search=Tel%20Aviv
 
 
-
-
-
 Sheets
-++++++
+~~~~~~
 
-The sheets endpoints provide access to all budget/actual sheet data. There are endpoints to navigate via sheet objects, and to navigate via sheet item objects. The appropriate strategy will depend on what you are trying to achieve.
+Description
++++++++++++
 
-**Methods**
+The sheets endpoint provide access to all sheet data.
 
-All sheets endpoints are read-only, via GET.
-
-**Endpoints**
+Endpoints
++++++++++
 
 * /sheets/
 * /sheets/[id]/
-* /sheets/items/
-* /sheets/items/[id]/
 
-**Filter**
+Allowed Methods
++++++++++++++++
 
-Use the following query parameters to customize the sheet list endpoint.
+All sheets endpoints are read only via GET.
 
-* **'entity'** - return all budgets that belong to the given entity.
-* **'template'** - return all budgets that use a given template.
+Pagination
+++++++++++
 
-**Search**
+Implements API defaults.
 
-Use the search query parameter on the sheet list endpoint to search for free text search over sheets. Search works over the following fields:
+Example: https://api.example.com/v1/sheets/?page_by=300
 
-* **Period** - the period_start and period_end fields of all budgets
-* **Description** - the description fields of all budgets, including translations
-* **Entity name** - the name of the entity of this budget, including translations
+Filters
++++++++
 
-**Pagination**
+* entities [INT, list of comma-separated INT] - returns sheets of the given entity id(s).
+* divisions [INT, list of comma-separated INT] - returns sheets under the given division id(s).
+* templates [INT, list of comma-separated INT] - returns sheets using the given template id(s).
 
-* Default: 250
-* Custom: Pass an integer to the **page_by** parameter
-
-
+Example: https://api.example.com/v1/sheets/?entities=165,81
 
 Ordering
 ++++++++
 
-Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
+Order results by the following fields:
 
+* **id**
+* **entity__name**
 * **period_start**
 * **created_on**
 * **last_modified**
 
+Example: https://api.example.com/v1/sheets/?ordering=entity__name,-period_start
 
+Search
+++++++
+
+Filter list by searching over the following fields:
+
+* **entity_name** - The name field of the entities of all sheets.
+* **description** - The description field of all sheets.
+* **period_start** and **period_end** - The applicable dates for all sheets.
+
+Example: https://api.example.com/v1/sheets/?search=increase%20in%20spending
+
+
+Sheet Items
+~~~~~~~~~~~
+
+Description
++++++++++++
+
+The sheet items endpoint provide access to all sheet item data.
+
+Endpoints
++++++++++
+
+* /sheets/items/
+* /sheets/items/[id]/
+
+Allowed Methods
++++++++++++++++
+
+All sheets endpoints are read only via GET.
+
+Pagination
+++++++++++
+
+Implements API defaults.
+
+Example: https://api.example.com/v1/sheets/items/?page_by=300
+
+Filters
++++++++
+
+* has_discussion [true/false] - returns sheet items that have user discussion.
+* entities [INT, list of comma-separated INT] - returns sheets of the given entity id(s).
+* divisions [INT, list of comma-separated INT] - returns sheets under the given division id(s).
+* templates [INT, list of comma-separated INT] - returns sheets using the given template id(s).
+
+Example: https://api.example.com/v1/sheets/items/?entities=165,81&has_discussion=true
+
+Ordering
+++++++++
+
+Order results by the following fields:
+
+* **id**
+* **sheet__entity__name**
+* **node__code**
+* **created_on**
+* **last_modified**
+
+Example: https://api.example.com/v1/sheets/items/?ordering=id,node__code
+
+Search
+++++++
+
+Filter list by searching over the following fields:
+
+* **sheet__entity__name** - The name field of the entity of the sheets.
+* **node__code** - The code field of the item node.
+* **node__name** - The name field of the item node.
+* **period_start** and **period_end** - The applicable dates for all sheets.
+
+Example: https://api.example.com/v1/sheets/items/?search=increase%20in%20spending
 
 
 Templates
@@ -403,52 +472,121 @@ Templates
 Description
 +++++++++++
 
-The templates endpoints provide access to all template data.
+The templates endpoint provide access to all template data.
 
 Endpoints
 +++++++++
 
 * /templates/
 * /templates/[id]/
+
+Allowed Methods
++++++++++++++++
+
+All templates endpoints are read only via GET.
+
+Pagination
+++++++++++
+
+Implements API defaults.
+
+Example: https://api.example.com/v1/templates/?page_by=10
+
+Filters
++++++++
+
+* entities [INT, list of comma-separated INT] - returns sheets of the given entity id(s).
+* divisions [INT, list of comma-separated INT] - returns sheets under the given division id(s).
+* domains [INT, list of comma-separated INT] - returns templates using the given domain id(s).
+
+* Default (no filter) - by default, a list of templates that are explicitly assigned to a division is returned. In a future iteration, we'll have to improve the way template "inheritance" works to change this.
+
+Example: https://api.example.com/v1/templates/?divisions=4,5
+
+Ordering
+++++++++
+
+Order results by the following fields:
+
+* **id**
+* **name**
+* **period_start**
+* **created_on**
+* **last_modified**
+
+Example: https://api.example.com/v1/templates/?ordering=-period_start
+
+Search
+++++++
+
+Filter list by searching over the following fields:
+
+* **name** - The name field of the templates.
+* **description** - The description field of the templates.
+
+Example: https://api.example.com/v1/templates/?search=israel
+
+
+Template Nodes
+~~~~~~~~~~~~~~
+
+Description
++++++++++++
+
+The template nodes endpoint provide access to all template data.
+
+Endpoints
++++++++++
+
 * /templates/nodes/
 * /templates/nodes/[id]/
 
 Allowed Methods
 +++++++++++++++
 
-All actuals endpoints are read only via GET.
+All template nodes endpoints are read only via GET.
 
 Pagination
 ++++++++++
 
-* **Default:** 250
-* **Custom:** use the 'page_by' parameter, passing an integer
+Implements API defaults.
+
+Example: https://api.example.com/v1/templates/nodes/?page_by=10
 
 Filters
 +++++++
 
-Use the following query parameters to customize the template list endpoint.
+* entities [INT, list of comma-separated INT] - returns sheets of the given entity id(s).
+* divisions [INT, list of comma-separated INT] - returns sheets under the given division id(s).
+* domains [INT, list of comma-separated INT] - returns templates using the given domain id(s).
 
-* **'divisions'** - return all budgets that belong to the given entity.
-* **'budgets'** - return the template used by a given budget.
-* **'actuals'** - return the template used by a given actual.
+* Default (no filter) - by default, a list of templates that are explicitly assigned to a division is returned. In a future iteration, we'll have to improve the way template "inheritance" works to change this.
+
+Example: https://api.example.com/v1/templates/nodes/?divisions=4,5
 
 Ordering
 ++++++++
 
-Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
+Order results by the following fields:
 
-* **period_start**
+* **id**
+* **name**
+* **description**
 * **created_on**
 * **last_modified**
+
+Example: https://api.example.com/v1/templates/nodes/?ordering=-name,last_modified
 
 Search
 ++++++
 
-Search works over the following fields:
+Filter list by searching over the following fields:
 
-* **Name** - the name fields of all templates, including translations
-* **Description** - the description fields of all templates, including translations
+* **name** - The name field of the templates.
+* **description** - The description field of the templates.
+
+Example: https://api.example.com/v1/templates/nodes/?search=Ethiopian%20Health
+
 
 
 

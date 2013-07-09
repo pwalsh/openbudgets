@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from openbudget.apps.international.utilities import translated_fields
 from openbudget.apps.entities import models
-from openbudget.apps.sheets import serializers as sheet_serializers
 
 
 class EntityMin(serializers.HyperlinkedModelSerializer):
@@ -71,5 +70,6 @@ class DivisionDetail(DivisionBase):
 
 class EntityDetail(EntityBase):
     """A detailed, related representation of entities."""
-
-    sheets = sheet_serializers.SheetBase()
+    # preventing circular import
+    from openbudget.apps.sheets.serializers import SheetBase
+    sheets = SheetBase()

@@ -4,8 +4,8 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
-from django.contrib.comments.models import Comment
 from django.db.models.signals import m2m_changed
+from openbudget.apps.accounts.models import Account
 from openbudget.apps.entities.models import Division, Entity
 from openbudget.apps.sources.models import ReferenceSource, AuxSource
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, \
@@ -441,10 +441,6 @@ class BaseItem(models.Model):
         null=True,
         help_text=_('The total actual amount of this entry.')
     )
-    discussion = generic.GenericRelation(
-        Comment,
-        object_id_field="object_pk"
-    )
 
     class Meta:
         abstract = True
@@ -508,6 +504,32 @@ class SheetItem(BaseItem, TimeStampedModel, UUIDModel, ClassMethodMixin):
 
     def __unicode__(self):
         return self.node.code
+
+
+class SheetItemComment(TimeStampedModel, UUIDModel, ClassMethodMixin):
+    """Comments on sheet items."""
+
+    item = models.ForeignKey(
+        SheetItem,
+        related_name='discussion'
+    )
+    user = models.ForeignKey(
+        Account,
+        related_name='comments'
+    )
+
+    comment = models.TextField(
+        _('Comment'),
+        help_text=_('Add your comments to this discussion.')
+    )
+
+    class Meta:
+        ordering = ['user', 'last_modified']
+        verbose_name = _('sheet item comment')
+        verbose_name_plural = _('sheet item comments')
+
+    def __unicode__(self):
+        return self.comment
 
 
 class DenormalizedSheetItemManager(models.Manager):
