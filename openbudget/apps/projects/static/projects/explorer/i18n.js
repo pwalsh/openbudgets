@@ -21,7 +21,13 @@ define(function() {
         'site-menu-credits' : gettext('Credits'),
         loading             : gettext('Loading...'),
         'open-muni-budget'  : gettext('Open Muni Budget'),
-        compare             : gettext('Compare')
+        compare             : gettext('Compare'),
+        'viz-new'           : gettext('New'),
+        'viz-duplicate'     : gettext('Duplicate'),
+        'viz-delete'        : gettext('Delete'),
+        'viz-export'        : gettext('Export'),
+        'viz-publish'       : gettext('Publish'),
+        'viz-save'          : gettext('Save')
     };
 
 });

@@ -6,8 +6,8 @@ define([
 ], function (uijet, resources, api) {
 
     var d3 = window.d3,
-        period = uijet.Utils.prop('period'),
-        amount = uijet.Utils.prop('amount'),
+        period = uijet.utils.prop('period'),
+        amount = uijet.utils.prop('amount'),
         dateParser = d3.time.format('%Y').parse,
         periodParser = function (d) {
             d.period = dateParser(d.period);
@@ -48,18 +48,19 @@ define([
             this.y_scale = y;
 
             this.line = d3.svg.line()
-//                .interpolate('basis')
                 .x( function(d) { return x(d.period); } )
                 .y( function(d) { return y(d.amount); } );
 
             this.svg = d3.select(this.$element[0]).append('svg')
                 .attr('width', width)
                 .attr('height', height);
+            return this;
         },
         render          : function () {
             this._super();
             this.set(uijet.Resource('LegendItems').models).then(function () {
-                this.draw(this.resource.models);
+                this.publish('fetched', this.resource)
+                    .draw(this.resource.models);
             }.bind(this));
             return this;
         },

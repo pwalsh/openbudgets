@@ -2,12 +2,85 @@
   fill: none;
   stroke: none;
 }
+.chart_period_button {
+    padding: 1.3rem;
+    font-size: 3.261rem;
+    background: url(../img/arrow_down_normalize.png) left center no-repeat;
+}
+.chart_period_select {
+    position: absolute;
+    top: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+}
+.float.chart_period_select_wrapper {
+    width: 100%;
+    background-color: #d0d0dc;
+    right: 0;
+}
+
 .line {
     fill: none;
-    stroke: steelblue;
     stroke-width: 1.5px;
+}
+.viz_action {
+    font-size: 1.3rem;
+    font-weight: bold;
 }
 
 #chart {
-    height: 100%;
+    position: absolute;
+    top: 174px;
+    left: 0;
+    right: 0;
+    bottom: 88px;
+}
+
+#chart_footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 88px;
+    background-color: #d0d0dc;
+}
+#chart_footer .uijet_select_menu li {
+    padding: .4rem;
+    text-align: center;
+    font-size: 1.3rem;
+    background-color: #c4c4d3;
+}
+#chart_footer .uijet_select_menu li:hover {
+    background-color: #8989a8;
+}
+
+#chart_heading {
+    position: absolute;
+    top: 44px;
+    left: 0;
+    right: 0;
+    height: 130px;
+}
+
+#chart_period_end_wrapper {
+    right: 0;
+}
+#chart_period_start {
+    background-position: right center;
+}
+#chart_period_start_wrapper {
+    left: 0;
+}
+
+#viz_actions_menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 44px;
+    background-color: #d0d0dc;
+}
+#viz_actions_menu_left {
+    float: left;
 }
