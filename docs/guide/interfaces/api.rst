@@ -6,6 +6,8 @@ Overview
 
 Open Budget has a web API to expose all public data stored in an instance.
 
+The API is currently at v1.
+
 The API allows developers to build apps and visualizations on top of Open Budget data.
 
 Data from the API is returned in JSON format.
@@ -144,32 +146,206 @@ API_ROUTES.budgets # all budgets
 Using the API
 -------------
 
-The web API sticks to a RESTful architecture, and returns all data in JSON format. The API is served over HTTPS only - make sure your client code is compatible with this.
+The web API sticks to a RESTful architecture, and returns all data in JSON format.
 
-Defaults
-~~~~~~~~
+In production, the API is served over HTTPS only - make sure your client code is compatible with this.
+
+Introduction
+~~~~~~~~~~~~
+
+The API features distinct endpoints for each resource type.
+
+Hitting an endpoint direct returns a list of that type.
+
+Appending a resource ID returns a detail view for that resource.
+
+Each list view takes a number of possible query parameters to filter, order, and paginate the list.
+
+All query parameters can be chained.
+
+The common pattern is:
+
+* **?page_by=[INT]** - paginate the results by the given integer. Defaults to 1000.
+* **?ordering=[(-)FIELD_NAME]** - order results by the given field. Prepend "-" to the field name to reverse the order. Available field names are listed below per endpoint.
+* **?search=[STRING]** - filter the results according to matches for the search query. Available searchable fields are listed, below per endpoint.
+* **?[FIELD_NAME]=[VALUE]** - Filter based on value of a field. Depending on the field, value could be an integer, a string, or "true"/"false" for boolean matches. Available fields are listed below, per endpoint.
+Also note, pluralized field names (e.g: "parents" can take multiple comma-separated values).
+
+
+Endpoints
+~~~~~~~~~
+
+Domains
+~~~~~~~
+
+Description
++++++++++++
+
+The domains endpoint provide access to all domain data.
+
+Endpoints
++++++++++
+
+* /domains/
+* /domains/[id]/
+
+Allowed Methods
++++++++++++++++
+
+All domains endpoints are read only via GET.
 
 Pagination
 ++++++++++
 
-By default, each list view returns up to 250 resources per page. This can be overridden with the **page_by** parameter (see below).
+Implements API defaults.
 
-Filtering, Searching, Ordering, and Paging
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Example:** https://api.example.com/v1/domains/?page_by=250
 
-All API endpoints that return **lists** of resources can be **filtered**, **ordered**, and **paginated**.
+Filters
++++++++
 
-Under each resource description below, you'll find the available parameters, per resource.
+* has_divisions [true/false] - returns domains that have divisions
+* has_entities [true/false] - returns domains that have entities
 
-Essentially, the common syntax is:
+**Example:** https://api.example.com/v1/domains/?has_entities=false
 
-* **?[FILTERABLE_FIELD]**: any field that is exposed to filter the query against, where the value is the relevant value type for that field [e.g.: ?entity=264]
-* **?search**: value is a string to search against the available search fields for the model [e.g.: ?search=health]
-* **?ordering**: value is a single or comma separated list of ordering fields for the model [e.g.: ?ordering=email]
-* **?page_by**: where the value is an integer for the amount of resources to return per page [e.g.: ?page_by=500]
+Ordering
+++++++++
 
-Resources
+Order results by the following fields:
+
+* **id**
+* **name**
+* **created_on**
+* **last_modified**
+
+**Example:** https://api.example.com/v1/domains/?ordering=id,name
+
+Search
+++++++
+
+Filter list by searching over the following fields:
+
+* **name** - The name field of all domains.
+
+
+Divisions
 ~~~~~~~~~
+
+Description
++++++++++++
+
+The divisions endpoint provide access to all division data.
+
+Endpoints
++++++++++
+
+* /divisions/
+* /divisions/[id]/
+
+Allowed Methods
++++++++++++++++
+
+All divisions endpoints are read only via GET.
+
+Pagination
+++++++++++
+
+Implements API defaults.
+
+**Example:** https://api.example.com/v1/divisions/?page_by=50
+
+Filters
++++++++
+
+* budgeting [true/false] - returns divisions that are budgeting
+* has_entities [true/false] - returns divisions that have entities
+* domains [INT, list of comma-separated INT] - returns divisions of the given domain id(s).
+* indexes [INT, list of comma-separated INT]  - returns divisions of the given index(es).
+
+**Example:** https://api.example.com/v1/domains/?has_entities=false
+
+Ordering
+++++++++
+
+Order results by the following fields:
+
+* **id**
+* **name**
+* **created_on**
+* **last_modified**
+
+**Example:** https://api.example.com/v1/domains/?ordering=created_on
+
+Search
+++++++
+
+Filter list by searching over the following fields:
+
+* **name** - The name field of all divisions.
+
+
+Entities
+~~~~~~~~
+
+Description
++++++++++++
+
+The entities endpoint provide access to all entity data.
+
+Endpoints
++++++++++
+
+* /entities/
+* /entities/[id]/
+
+Allowed Methods
++++++++++++++++
+
+All entities endpoints are read only via GET.
+
+Pagination
+++++++++++
+
+Implements API defaults.
+
+**Example:** https://api.example.com/v1/entities/?page_by=800
+
+Filters
++++++++
+
+* budgeting [true/false] - returns entities that are budgeting
+* has_sheets [true/false] - returns entities that have sheets
+* divisions [INT, list of comma-separated INT] - returns entities of the given division id(s).
+* parents [INT, list of comma-separated INT]  - returns entities of the given parent entity id(s).
+
+**Example:** https://api.example.com/v1/entities/?parents=3,79,120
+
+Ordering
+++++++++
+
+Order results by the following fields:
+
+* **id**
+* **name**
+* **created_on**
+* **last_modified**
+
+**Example:** https://api.example.com/v1/entities/?ordering=name,id
+
+Search
+++++++
+
+Filter list by searching over the following fields:
+
+* **name** - The name field of all entities.
+* **description** - The description field of all entities.
+
+
+
+
+
+
 
 Sheets
 ++++++
@@ -275,150 +451,6 @@ Search works over the following fields:
 * **Description** - the description fields of all templates, including translations
 
 
-Entities
-~~~~~~~~
-
-Description
-+++++++++++
-
-The entities endpoints provide access to all entity data.
-
-Endpoints
-+++++++++
-
-* /entities/
-* /entities/[id]/
-
-Allowed Methods
-+++++++++++++++
-
-All entities endpoints are read only via GET.
-
-Pagination
-++++++++++
-
-* **Default:** 250
-* **Custom:** use the 'page_by' parameter, passing an integer
-
-Filters
-+++++++
-
-Use the following query parameters to customize the entity list endpoint.
-
-* **'division__budgeting'** - return all entities that are potentially budgeting.
-* **'parent'** - return all children entities of the given parent.
-
-Ordering
-++++++++
-
-Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
-
-* **name**
-* **created_on**
-* **last_modified**
-
-Search
-++++++
-
-Search works over the following fields:
-
-* **Name** - the name fields of all templates, including translations
-* **Description** - the description fields of all templates, including translations
-
-Divisions
-~~~~~~~~~
-
-Description
-+++++++++++
-
-The divisions endpoints provide access to all division data.
-
-Endpoints
-+++++++++
-
-* /divisions/
-* /divisions/[id]/
-
-Allowed Methods
-+++++++++++++++
-
-All entities endpoints are read only via GET.
-
-Pagination
-++++++++++
-
-* **Default:** 250
-* **Custom:** use the 'page_by' parameter, passing an integer
-
-Filters
-+++++++
-
-Use the following query parameters to customize the division list endpoint.
-
-* **'budgeting'** - return all divisions that are budgeting divisions.
-* **'index'** - return all divisions of the given index.
-
-Ordering
-++++++++
-
-Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
-
-* **name**
-* **created_on**
-* **last_modified**
-
-Search
-++++++
-
-Search works over the following fields:
-
-* **Name** - the name fields of all divisions, including translations
-
-Domains
-~~~~~~~
-
-Description
-+++++++++++
-
-The domains endpoints provide access to all domain data.
-
-Endpoints
-+++++++++
-
-* /domains/
-* /domains/[id]/
-
-Allowed Methods
-+++++++++++++++
-
-All domains endpoints are read only via GET.
-
-Pagination
-++++++++++
-
-* **Default:** 250
-* **Custom:** use the 'page_by' parameter, passing an integer
-
-Filters
-+++++++
-
-Not applicable at present.
-
-Ordering
-++++++++
-
-Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
-
-* **name**
-* **created_on**
-* **last_modified**
-
-Search
-++++++
-
-Search works over the following fields:
-
-* **Name** - the name fields of all divisions, including translations
 
 
 Contexts
