@@ -172,9 +172,6 @@ The common pattern is:
 Also note, pluralized field names (e.g: "parents" can take multiple comma-separated values).
 
 
-Endpoints
-~~~~~~~~~
-
 Domains
 ~~~~~~~
 
@@ -199,7 +196,7 @@ Pagination
 
 Implements API defaults.
 
-**Example:** https://api.example.com/v1/domains/?page_by=250
+Example: https://api.example.com/v1/domains/?page_by=250
 
 Filters
 +++++++
@@ -207,7 +204,7 @@ Filters
 * has_divisions [true/false] - returns domains that have divisions
 * has_entities [true/false] - returns domains that have entities
 
-**Example:** https://api.example.com/v1/domains/?has_entities=false
+Example: https://api.example.com/v1/domains/?has_entities=false
 
 Ordering
 ++++++++
@@ -219,7 +216,7 @@ Order results by the following fields:
 * **created_on**
 * **last_modified**
 
-**Example:** https://api.example.com/v1/domains/?ordering=id,name
+Example: https://api.example.com/v1/domains/?ordering=id,-name
 
 Search
 ++++++
@@ -227,6 +224,8 @@ Search
 Filter list by searching over the following fields:
 
 * **name** - The name field of all domains.
+
+Example: https://api.example.com/v1/domains/?search=Government
 
 
 Divisions
@@ -253,7 +252,7 @@ Pagination
 
 Implements API defaults.
 
-**Example:** https://api.example.com/v1/divisions/?page_by=50
+Example: https://api.example.com/v1/divisions/?page_by=50
 
 Filters
 +++++++
@@ -263,7 +262,7 @@ Filters
 * domains [INT, list of comma-separated INT] - returns divisions of the given domain id(s).
 * indexes [INT, list of comma-separated INT]  - returns divisions of the given index(es).
 
-**Example:** https://api.example.com/v1/domains/?has_entities=false
+Example: https://api.example.com/v1/divisions/?has_entities=false
 
 Ordering
 ++++++++
@@ -275,7 +274,7 @@ Order results by the following fields:
 * **created_on**
 * **last_modified**
 
-**Example:** https://api.example.com/v1/domains/?ordering=created_on
+Example: https://api.example.com/v1/divisions/?ordering=created_on
 
 Search
 ++++++
@@ -284,6 +283,7 @@ Filter list by searching over the following fields:
 
 * **name** - The name field of all divisions.
 
+Example: https://api.example.com/v1/divisions/?search=Shumron
 
 Entities
 ~~~~~~~~
@@ -309,7 +309,7 @@ Pagination
 
 Implements API defaults.
 
-**Example:** https://api.example.com/v1/entities/?page_by=800
+Example: https://api.example.com/v1/entities/?page_by=800
 
 Filters
 +++++++
@@ -319,7 +319,7 @@ Filters
 * divisions [INT, list of comma-separated INT] - returns entities of the given division id(s).
 * parents [INT, list of comma-separated INT]  - returns entities of the given parent entity id(s).
 
-**Example:** https://api.example.com/v1/entities/?parents=3,79,120
+Example: https://api.example.com/v1/entities/?parents=3,79,120
 
 Ordering
 ++++++++
@@ -331,7 +331,7 @@ Order results by the following fields:
 * **created_on**
 * **last_modified**
 
-**Example:** https://api.example.com/v1/entities/?ordering=name,id
+Example: https://api.example.com/v1/entities/?ordering=name,id
 
 Search
 ++++++
@@ -341,7 +341,7 @@ Filter list by searching over the following fields:
 * **name** - The name field of all entities.
 * **description** - The description field of all entities.
 
-
+Example: https://api.example.com/v1/entities/?search=Tel%20Aviv
 
 
 
