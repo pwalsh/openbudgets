@@ -89,7 +89,7 @@
         <h3>{% trans 'Commented on' %}</h3>
         <div class="comments">
             {% if user.comments %}
-            {% for comment in user.comments %}
+            {% for comment in user.comments.all %}
             <div class="comment">
                 <a href="{{ comment.content_object.get_absolute_url }}" title="">{{ comment.content_object.name }}<span class="_float-right _align-right">{{ comment.submit_date|date:"d M Y" }}</span></a>
                 <blockquote class="comment-quote">

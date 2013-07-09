@@ -101,16 +101,6 @@ class TemplateNodeDetail(generics.RetrieveAPIView):
     serializer_class = serializers.TemplateNodeBase
 
 
-class TemplateNodesListLatest(generics.ListAPIView):
-
-    def get(self, request, entity_pk, *args, **kwargs):
-
-        nodes = models.Template.objects.latest_of(entity=entity_pk).nodes
-        serialized_nodes = serializers.TemplateNodeBase(nodes, many=True).data
-
-        return Response(serialized_nodes)
-
-
 class SheetList(generics.ListAPIView):
     """API endpoint that represents a list of budget sheets."""
 
