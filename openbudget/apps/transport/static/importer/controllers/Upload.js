@@ -18,7 +18,7 @@ define([
                 case 'template':
                     attributes += 'name=' + data.name +
                                     ';period_start=' + data.period_start +
-                                    ';divisions=' + uijet.Utils.toArray(data.divisions).join(',');
+                                    ';divisions=' + uijet.utils.toArray(data.divisions).join(',');
                     break;
                 case 'sheet':
                     attributes += 'period_start=' + data.period_start +

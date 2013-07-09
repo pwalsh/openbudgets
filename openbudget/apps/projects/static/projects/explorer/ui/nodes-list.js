@@ -60,7 +60,7 @@ define([
                 selected: function (state) {
                     if ( state !== null )
                         return this.resource.where({ selected : 'selected' })
-                                            .map(uijet.Utils.prop('id'));
+                                            .map(uijet.utils.prop('id'));
                     else
                         return null;
                 }

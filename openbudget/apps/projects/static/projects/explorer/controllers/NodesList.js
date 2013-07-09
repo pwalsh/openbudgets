@@ -19,14 +19,14 @@ define([
             this.index()
                 .search_index.add(
                     this.resource.byAncestor(this.scope)
-                        .map(uijet.Utils.prop('attributes'))
+                        .map(uijet.utils.prop('attributes'))
                 );
             return this;
         },
         sortNodes           : function (data) {
             this.desc = data.desc;
             this.sort((data.desc ? '-' : '') + data.column);
-            if ( this.filtered && ! uijet.Utils.isFunc(this.filtered) ) {
+            if ( this.filtered && ! uijet.utils.isFunc(this.filtered) ) {
                 this.filtered = arraySort.call(this.filtered, resources.utils.reverseSorting(data.column));
                 if ( ! data.desc ) {
                     this.filtered.reverse();

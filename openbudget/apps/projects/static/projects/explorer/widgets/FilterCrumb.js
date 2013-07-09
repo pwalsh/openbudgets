@@ -18,7 +18,7 @@ define([
 
             var x_button_id = this.id + '_remove';
 
-            uijet.start(uijet.Utils.extend(true, {
+            uijet.start(uijet.utils.extend(true, {
                 type    : 'Button',
                 config  : {
                     element     : uijet.$('<span>', {

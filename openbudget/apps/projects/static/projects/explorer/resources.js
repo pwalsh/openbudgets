@@ -11,7 +11,7 @@ define([
                 return obj[property];
             };
         }
-    }, uijet.Utils);
+    }, uijet.utils);
 
     var
         reverseSorting = function (field) {

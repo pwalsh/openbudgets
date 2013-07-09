@@ -67,9 +67,9 @@ define([
                 keys = this.options.keys;
 
             if ( keys ) {
-                if ( uijet.Utils.isFunc(keys[key]) )
+                if ( uijet.utils.isFunc(keys[key]) )
                     return keys[key].call(this, e);
-                else if ( uijet.Utils.isFunc(keys[default_key]) )
+                else if ( uijet.utils.isFunc(keys[default_key]) )
                     return keys[default_key].call(this, e);
             }
 
