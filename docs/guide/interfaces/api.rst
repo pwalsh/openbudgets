@@ -588,16 +588,13 @@ Filter list by searching over the following fields:
 Example: https://api.example.com/v1/templates/nodes/?search=Ethiopian%20Health
 
 
-
-
-
 Contexts
 ~~~~~~~~
 
 Description
 +++++++++++
 
-The contexts endpoints provide access to all context data.
+The contexts endpoint provide access to all contextual data.
 
 Endpoints
 +++++++++
@@ -613,78 +610,42 @@ All contexts endpoints are read only via GET.
 Pagination
 ++++++++++
 
-* **Default:** 250
-* **Custom:** use the 'page_by' parameter, passing an integer
+Implements API defaults.
+
+Example: https://api.example.com/v1/contexts/?page_by=100
 
 Filters
 +++++++
 
-Use the following query parameters to customize the contexts list endpoint.
+* entities [INT, list of comma-separated INT] - returns contexts of the given entity id(s).
+* divisions [INT, list of comma-separated INT] - returns contexts under the given division id(s).
+* domains [INT, list of comma-separated INT] - returns contexts using the given domain id(s).
 
-* **'entity'** - return all contexts of a given entity.
-
-Ordering
-++++++++
-
-Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
-
-* **created_on**
-* **last_modified**
-
-Search
-++++++
-
-Not applicable at present.
-
-Comments
-~~~~~~~~
-
-Description
-+++++++++++
-
-The comments endpoints provide access to all comments data.
-
-Endpoints
-+++++++++
-
-* /comments/
-* /comments/[id]/
-
-Allowed Methods
-+++++++++++++++
-
-Comments can be created by posting to the list endpoint.
-
-All other comments endpoints are read only via GET.
-
-Pagination
-++++++++++
-
-* **Default:** 250
-* **Custom:** use the 'page_by' parameter, passing an integer
-
-Filters
-+++++++
-
-Use the following query parameters to customize the comments list endpoint.
-
-* **'model'** - return all comments on a given model. Current possible values are budget_item and actual_item
+Example: https://api.example.com/v1/contexts/?entity=4,5
 
 Ordering
 ++++++++
 
-Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
+Order results by the following fields:
 
-* **model**
+* **id**
+* **entity__name**
+* **period_start**
 * **created_on**
 * **last_modified**
+
+Example: https://api.example.com/v1/contexts/?ordering=id,last_modified
 
 Search
 ++++++
 
-Search works over the following fields:
+Filter list by searching over the following fields:
 
-* **Comment** - the comment fields of all comments.
+* **data** - The data field of the contexts.
+* **entity__name** - The name of the context entities.
+
+Example: https://api.example.com/v1/contexts/?search=Pension
+
 
 Projects
 ~~~~~~~~
@@ -709,25 +670,39 @@ Only authenticated users can create a project.
 
 Projects can be viewed, updated and deleted from the project detail endpoint.
 
-Only authenticated project owners have permission to update or delete an existing project.
+Only authenticated project owners have permission to update or delete an existing project of their own.
 
 Pagination
 ++++++++++
 
-* **Default:** 250
-* **Custom:** use the 'page_by' parameter, passing an integer
+Implements API defaults.
+
+Example: https://api.example.com/v1/projects/?page_by=100
 
 Filters
 +++++++
 
-Use the following query parameters to customize the comments list endpoint.
+None.
 
-* **'author'** - return all projects by a given author.
+Ordering
+++++++++
+
+Order results by the following fields:
+
+* **id**
+* **created_on**
+* **last_modified**
+
+Example: https://api.example.com/v1/projects/?ordering=id,last_modified
 
 Search
 ++++++
 
-Search works over the following fields:
+Filter list by searching over the following fields:
 
-* **Name** - the name fields of all templates, including translations
-* **Description** - the description fields of all templates, including translations
+* **name** - The name field of the projects.
+* **description** - The description field of the projects.
+* **author name** - The name fields of the author of the projects.
+* **owner name** - The name fields of the owner of the projects.
+
+Example: https://api.example.com/v1/projects/?search=Education
