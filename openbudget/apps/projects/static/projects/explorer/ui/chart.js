@@ -95,10 +95,16 @@ define([
             },
             data_events : {},
             app_events  : {
-                'legends_list.delete'   : function () {
+                'legends_list.delete'           : function () {
                     if ( this.awake ) {
                         this.render();
                     }
+                },
+                'chart_period_start.selected'   : function ($selected) {
+                    this.timeContext($selected.text());
+                },
+                'chart_period_end.selected'     : function ($selected) {
+                    this.timeContext(null, $selected.text());
                 }
             }
         }

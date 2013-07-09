@@ -38,7 +38,8 @@ define([
                     .ticks(d3.time.years),
                 y_axis = d3.svg.axis()
                     .scale(y)
-                    .orient('right');
+                    .orient('right')
+                    .ticks(5);
 
             this.width = width;
             this.height = height;
@@ -67,6 +68,7 @@ define([
         draw            : function (series) {
             var line = this.line,
                 colors = this.colors,
+                width = this.width,
                 ids = [],
                 data = [];
 
@@ -113,7 +115,12 @@ define([
             this.svg.append('g')
                 .attr('class', 'axis y_axis')
                 .attr('transform', 'translate(10,0)')
-                .call(this.y_axis);
+                .call(this.y_axis)
+                .selectAll('line')
+                    .attr('x2', 20)
+                    .attr('x1', function () {
+                        return width - 20;
+                    });
 
             this.svg.selectAll('.timeline').remove();
 
@@ -131,6 +138,28 @@ define([
                             return line(d.values);
                         })
                         .style('stroke', function(d) { return colors(d.id); });
+        },
+        timeContext     : function (from, to) {
+            var domain = this.x_scale.domain(),
+                line = this.line;
+            if ( ! from ) {
+                from = domain[0];
+            }
+            else {
+                from = dateParser(from);
+            }
+            if ( ! to ) {
+                to = domain[1];
+            }
+            else {
+                to = dateParser(to);
+            }
+            this.x_scale.domain([from, to]);
+            this.svg.select('.x_axis').call(this.x_axis);
+            this.svg.selectAll('.line').attr('d', function (d) {
+                return line(d.values);
+            });
+            return this;
         }
     });
 

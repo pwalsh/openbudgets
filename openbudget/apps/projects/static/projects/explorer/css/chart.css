@@ -2,6 +2,9 @@
   fill: none;
   stroke: none;
 }
+.y_axis line {
+    stroke: #d0d0dc;
+}
 .chart_period_button {
     padding: 1.3rem;
     font-size: 3.261rem;
