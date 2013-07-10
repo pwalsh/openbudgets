@@ -13,7 +13,8 @@ django-celery==3.0.17
 factory-boy==2.0.2
 gdata==2.0.18
 djangorestframework==2.3.6
-django-oauth-toolkit==0.3.1
+#django-oauth-toolkit==0.3.2
+git+https://github.com/evonove/django-oauth-toolkit.git
 django-autoslug==1.6.1
 django-pdb==0.3.2
 django-taggit==0.10a1
