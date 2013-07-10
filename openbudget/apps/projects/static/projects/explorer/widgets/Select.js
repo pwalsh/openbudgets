@@ -4,6 +4,15 @@ define([
     'uijet_dir/widgets/List'
 ], function (uijet) {
 
+    uijet.Widget('SelectMenu', {
+        setSelected : function () {
+            this._super.apply(this, arguments);
+            this.sleep();
+        }
+    }, {
+        widgets : 'List'
+    });
+
     uijet.Widget('Select', {
         options : {
             type_class  : ['uijet_button', 'uijet_select'],
@@ -32,7 +41,7 @@ define([
             menu_app_events[this.id + '.clicked'] = 'toggle';
 
             menu_declaration = {
-                type    : 'List',
+                type    : 'SelectMenu',
                 config  : uijet.utils.extend(true, {
                     element     : uijet.$('<ul>', {
                         id  : id
