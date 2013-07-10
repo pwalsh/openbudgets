@@ -21,17 +21,17 @@ class ContextList(ListAPIView):
 
         # DOMAINS: return contexts used in the given domain(s).
         if domains:
-            domains = domains.split('.')
+            domains = domains.split(',')
             queryset = queryset.filter(entity__division__domain__in=domains)
 
         # DIVISIONS: return contexts used in the given division(s).
         if divisions:
-            divisions = divisions.split('.')
+            divisions = divisions.split(',')
             queryset = queryset.filter(entity__divisions__in=divisions)
 
         # ENTITIES: return contexts used by the given entity(-ies).
         if entities:
-            entities = entities.split('.')
+            entities = entities.split(',')
             queryset = queryset.filter(entity=entities)
 
         return queryset

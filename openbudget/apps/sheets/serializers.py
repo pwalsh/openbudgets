@@ -86,7 +86,7 @@ class SheetDetail(SheetBase):
     items = SheetItemBase()
 
     class Meta(SheetBase.Meta):
-        fields = SheetBase.Meta.fields + ['denormalizedsheetitems']
+        fields = SheetBase.Meta.fields
 
 
 class SheetItemDetail(SheetItemBase):

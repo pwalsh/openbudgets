@@ -97,12 +97,12 @@ class DivisionList(generics.ListAPIView):
 
         # DOMAINS: return divisions that belong to the given domains(s).
         if domains:
-            domains = domains.split('.')
+            domains = domains.split(',')
             queryset = queryset.filter(domain__in=domains)
 
         # INDEXES: return divisions of the given index(s).
         if indexes:
-            indexes = indexes.split('.')
+            indexes = indexes.split(',')
             queryset = queryset.filter(index__in=indexes)
 
         return queryset
@@ -155,12 +155,12 @@ class EntityList(generics.ListAPIView):
 
         # DIVISIONS: return entities that belong to the given division(s).
         if divisions:
-            divisions = divisions.split('.')
+            divisions = divisions.split(',')
             queryset = queryset.filter(division__in=divisions)
 
         # PARENTS: return entities that are children of given parent(s).
         if parents:
-            parents = parents.split('.')
+            parents = parents.split(',')
             queryset = queryset.filter(parent__in=parents)
 
         return queryset

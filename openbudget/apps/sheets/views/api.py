@@ -23,17 +23,17 @@ class TemplateList(generics.ListAPIView):
 
         # DOMAINS: return templates used in the given domain(s).
         if domains:
-            domains = domains.split('.')
+            domains = domains.split(',')
             queryset = queryset.filter(divisions__domain__in=domains).distinct()
 
         # DIVISIONS: return templates used in the given division(s).
         if divisions:
-            divisions = divisions.split('.')
+            divisions = divisions.split(',')
             queryset = queryset.filter(divisions__in=divisions)
 
         # ENTITIES: return templates used by the given entity(-ies).
         if entities:
-            entities = entities.split('.')
+            entities = entities.split(',')
             queryset = queryset.filter(using_sheets__entity__in=entities)
 
         # DEFAULT: We just want to return "official" templates, unless a
@@ -73,12 +73,12 @@ class TemplateNodeList(generics.ListAPIView):
 
         # TEMPLATES: return template nodes used in the given template(s).
         if templates:
-            templates = templates.split('.')
+            templates = templates.split(',')
             queryset = queryset.filter(templates__in=templates)
 
         # ENTITIES: return template nodes of templates used by the given entity(-ies).
         if entities:
-            entities = entities.split('.')
+            entities = entities.split(',')
             queryset = queryset.filter(using_sheets__entity__in=entities)
 
         # Check about this
@@ -120,17 +120,17 @@ class SheetList(generics.ListAPIView):
 
         # ENTITIES: return sheets that belong to the given entity(-ies).
         if entities:
-            entities = entities.split('.')
+            entities = entities.split(',')
             queryset = queryset.filter(entity__in=entities)
 
         # DIVISIONS: return sheets that are under the given division(s).
         if divisions:
-            divisions = divisions.split('.')
+            divisions = divisions.split(',')
             queryset = queryset.filter(entity__division_id__in=divisions)
 
         # TEMPLATES: return sheets that use the given template(s).
         if templates:
-            templates = templates.split('.')
+            templates = templates.split(',')
             queryset = queryset.filter(template__in=templates)
 
         return queryset
@@ -163,6 +163,12 @@ class SheetItemList(generics.ListAPIView):
         divisions = self.request.QUERY_PARAMS.get('divisions', None)
         templates = self.request.QUERY_PARAMS.get('templates', None)
 
+
+        # normalize by population
+        # filter by code
+        # filter by value greater/less
+
+
         # HAS_DISCUSSION: return sheet items that have user discussion.
         matches = []
         if has_discussion == 'true':
@@ -179,17 +185,17 @@ class SheetItemList(generics.ListAPIView):
 
         # ENTITIES: return sheets that belong to the given entity(-ies).
         if entities:
-            entities = entities.split('.')
+            entities = entities.split(',')
             queryset = queryset.filter(entity__in=entities)
 
         # DIVISIONS: return sheets that are under the given division(s).
         if divisions:
-            divisions = divisions.split('.')
+            divisions = divisions.split(',')
             queryset = queryset.filter(entity__division_id__in=divisions)
 
         # TEMPLATES: return sheets that use the given template(s).
         if templates:
-            templates = templates.split('.')
+            templates = templates.split(',')
             queryset = queryset.filter(template__in=templates)
 
         return queryset
