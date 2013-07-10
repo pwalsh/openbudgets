@@ -5,6 +5,8 @@ define([
     'd3'
 ], function (uijet, resources, api) {
 
+    var X_TICKS = 5;
+
     var d3 = window.d3,
         period = uijet.utils.prop('period'),
         amount = uijet.utils.prop('amount'),
@@ -39,7 +41,7 @@ define([
                 y_axis = d3.svg.axis()
                     .scale(y)
                     .orient('right')
-                    .ticks(5);
+                    .ticks(X_TICKS);
 
             this.width = width;
             this.height = height;
@@ -110,7 +112,11 @@ define([
             this.svg.append('g')
                 .attr('class', 'axis x_axis')
                 .attr('transform', 'translate(0,' + (this.height - 20) + ')')
-                .call(this.x_axis);
+                .call(this.x_axis)
+                .selectAll('line')
+                    .attr('x1', 0)
+                    .attr('y2', 20)
+                    .attr('y1', -(this.height - 20));
 
             this.svg.append('g')
                 .attr('class', 'axis y_axis')
@@ -118,9 +124,7 @@ define([
                 .call(this.y_axis)
                 .selectAll('line')
                     .attr('x2', 20)
-                    .attr('x1', function () {
-                        return width - 20;
-                    });
+                    .attr('x1', this.width - 20);
 
             this.svg.selectAll('.timeline').remove();
 
@@ -138,6 +142,9 @@ define([
                             return line(d.values);
                         })
                         .style('stroke', function(d) { return colors(d.id); });
+
+            this.svg.on('mouseover', this.hoverOn.bind(this));
+            this.svg.on('mouseout', this.hoverOff.bind(this));
         },
         timeContext     : function (from, to) {
             var domain = this.x_scale.domain(),
@@ -160,6 +167,48 @@ define([
                 return line(d.values);
             });
             return this;
+        },
+        hoverOn         : function () {
+            this.svg.on('mousemove', this.mousemove());
+        },
+        hoverOff        : function () {
+            this.svg.on('mousemove', null);
+            this.hoverMark();
+            this.current_hovered_index = null;
+        },
+        mousemove       : function () {
+            var x = this.x_scale,
+                x_ticks_coords = x.ticks(X_TICKS).map(function (value) {
+                    return x(value);
+                }),
+                that = this;
+
+            return function () {
+                var mouse_x = d3.mouse(this)[0],
+                    right_index = d3.bisectLeft(x_ticks_coords, mouse_x),
+                    left_index = right_index ? right_index - 1 : right_index,
+                    new_index;
+                if ( right_index !== left_index ) {
+                    if ( mouse_x - x_ticks_coords[left_index] < x_ticks_coords[right_index] - mouse_x ) {
+                        new_index = left_index;
+                    }
+                    else {
+                        new_index = right_index;
+                    }
+                }
+                else {
+                    new_index = right_index;
+                }
+                if ( that.current_hovered_index !== new_index ) {
+                    that.current_hovered_index = new_index;
+                    that.hoverMark(new_index);
+                }
+            };
+        },
+        hoverMark       : function (index) {
+            d3.select('line.mark').classed('mark', false);
+            if ( typeof index == 'number' )
+                d3.select(d3.select('.x_axis').selectAll('line')[0][index]).classed('mark', true);
         }
     });
 

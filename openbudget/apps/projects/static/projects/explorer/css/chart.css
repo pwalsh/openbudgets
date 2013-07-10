@@ -2,6 +2,9 @@
   fill: none;
   stroke: none;
 }
+.x_axis line.mark {
+    stroke: #d0d0dc;
+}
 .y_axis line {
     stroke: #d0d0dc;
 }
