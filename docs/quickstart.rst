@@ -4,72 +4,67 @@ Requirements
 Overview
 --------
 
-Open Budget is written in Python and JavaScript.
+Open Budget is written in Python and JavaScript. If you already develop web apps in these languages, it is likely that your machine is ready to start work. Please check the system requirements below to confirm.
 
-If you develop web apps in these languages, it is likely that your machine is ready to start work.
+This Quickstart will walk you through setting up the project. We provide basic instructions for setting up system requirements, but this does assume some knowledge of the relevant package managers, use of sudo, etc.
 
-Below we walk you through setting up an environment. First, the system requirements to work on the project, and second, the setup of the project itself.
+If you find any problems with this Quickstart in configuring your system, please raise a ticket in the projects issue tracker here: https://github.com/hasadna/omuni-budget/issues
+
 
 System requirements
 -------------------
 
-You system will need to have **Python** (and some system-wide Python packages), **Node.js** (and some system-wide Node.js modules), **Git**, and **Mercurial** (for working with code repositories).
+In order to work on the project, your system will need Python, Node.js, Git and Mercurial. You'll also need a handful of Python packages and Node.js modules installed globally.
 
-* A unix-like OS
-* `Python <http://python.org/>`_ (2.7.x)
-* `Node <http://nodejs.org/>`_ (0.8.x)
-* `Git <http://git-scm.com/>`_
-* `Mercurial <http://mercurial.selenic.com/>`_
-* `virtualenv <http://virtualenvwrapper.readthedocs.org/en/latest/>`_ (a Python package for working with multiple dev. environments)
-* `virtualenvwrapper <http://virtualenvwrapper.readthedocs.org/en/latest/>`_ (some sugar for virtualenv)
-* The necessary tools to build Python packages (eg: python-dev on Debian systems)
-* `volojs <http://volojs.org/>`_ (a package manager for client-side resources)
+Our Quickstart only supports Debian flavors of Linux, and Mac OS X. If you can test the installation on other systems, please make a pull request updating this Quickstart with the required changes.
 
-We develop on Ubuntu and Mac OS X. If you use other operating systems with any success, please make a pull request on this file, with any required additions, to support those operating systems.
 
-All setup instructions are tested on Ubuntu and Mac OS X only.
+**IMPORTANT: Please make sure you meet the system requirements before moving on to the installation of the project.**
 
-**IMPORTANT: Please make sure you meet these requirements before moving on to the installation of the project.**
-
-Additionally, if you are new to web development with Python, we also recommend Kenneth Reitz's excellent best practices guide, which we attempt to follow:
-
-http://docs.python-guide.org/en/latest/
 
 Installing system requirements
 ------------------------------
+
+Use of sudo for any commands is also dependent on how your machine is set up.
 
 Ubuntu
 ~~~~~~
 
 Here we go::
 
-    sudo apt-get install python-dev mercurial git-core nodejs python-pip
-    sudo pip install virtualenv virtualenvwrapper
-    npm install volo -g
+    # Our core system dependencies
+    sudo apt-get install python-dev mercurial git-core nodejs redis python-pip
 
-Now we'll setup virutalenvwrapper, in our user's .profile file::
+    # Python packages we want installed globally
+    sudo pip install virtualenv virtualenvwrapper
+
+    # Node.js modules we want installed globally
+    sudo npm install volo -g
+
+Now, make some changes to your user's .profile file for the Python environment::
 
     # this goes in ~/.profile
-    export WORKON_HOME="/srv/environments"
-    export PROJECT_HOME="/srv/projects"
+    export PYTHONIOENCODING=utf-8
+    export WORKON_HOME="/home/[YOUR_USER]/environments"
+    export PROJECT_HOME="/home/[YOUR_USER]/projects"
     source /usr/local/bin/virtualenvwrapper.sh
     export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
 
 Fedora
 ~~~~~~
 
-Here we go::
-
-    sudo yum install python-devel mercurial
+Please complete.
 
 Mac OS X
 ~~~~~~~~
 
-First, make sure you have XCode installed, **and** Command Line Tools. See here for more info about this:
+First, make sure you have XCode installed, **and** Command Line Tools.
+
+See here for more info about this:
 
 https://python-guide.readthedocs.org/en/latest/starting/install/osx.html
 
-Secondly, install Homebrew, which is a great package manager for all the *nix goodies you need to develop:
+Secondly, install Homebrew, which is a great package manager for all the *nix goodies you need to develop with:
 
 http://mxcl.github.io/homebrew/
 
@@ -79,27 +74,30 @@ To ensure you are ready, try::
 
 You should see a list of arguments the brew command accepts.
 
-Next, you can choose to use the version of Python that comes with OS X, or you can use a Homebrew managed Python. If you are not sure, just stick with system Python for now::
+Next, you can choose to use the version of Python that comes with OS X, or you can use a Homebrew managed Python.
+
+If you are not sure, just stick with system Python for now::
 
     # using system Python
-    brew install mercurial git node
+    brew install mercurial git node redis
     sudo easy_install virtualenv
     sudo pip install virtualenvwrapper
-    npm install volo -g
+    npm install -g volo
+
 
     # alternatively, using homebrew Python
-    brew install mercurial git node python
+    brew install mercurial git node redis python
     pip install virtualenv virtualenvwrapper
     npm install volo -g
 
-Now we'll setup virutalenvwrapper, in our user's .bash_profile file::
+Now, make some changes to your user's .bash_profile file for the Python environment::
 
     # this goes in ~/.bash_profile
+    export PYTHONIOENCODING=utf-8
     export WORKON_HOME="/Users/[YOUR_USER]/Sites/environments"
     export PROJECT_HOME="/Users/[YOUR_USER]/Sites/projects"
     source /usr/local/bin/virtualenvwrapper.sh
     export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
-
 
 Installing the project
 ----------------------
@@ -109,7 +107,9 @@ As long as you have met the system requirements above, we're ready to install th
 Configure hosts
 ~~~~~~~~~~~~~~~
 
-This project makes use of subdomains to target languages, and for API requests. To enable this functionality fully, you'll need to edit your hosts file on your development machine.
+This project makes use of subdomains to target languages, and for API requests.
+
+To enable this functionality fully, you'll need to edit your hosts file on your development machine.
 
 **Ubuntu**::
 
@@ -123,22 +123,45 @@ Add the following domain mappings for localhost::
 
     127.0.0.1 obudget.dev www.obudget.dev api.obudget.dev en.obudget.dev he.obudget.dev ar.obudget.dev ru.obudget.dev
 
-
 Make a virtualenv
 ~~~~~~~~~~~~~~~~~
 
-**Remember:** See the `dependencies page <http://open-budget.readthedocs.org/en/latest/guide/management/dependencies.html>`_ for more information on using virtualenv and virtualenvwrapper.
+We are going to setup the project in a new Python virtual environment. If you are not familiar wth virtualenv, or the accompanying tool, virtualenvwrapper, see the following for more information:
 
-Issue the following commands to create a new virtualenv for the project, and then clone the git repository into your virtualenv project directory::
+http://docs.python-guide.org/en/latest/dev/virtualenvs/
+
+We are going to create a new virtual environment, create another directory for our project code, make a connection between the two, and then, clone the project code into its directory.
+
+Ubuntu
+++++++
+
+Here we go::
 
     # create the virtual environment
-    mkvirtualenv open-budget
+    mkvirtualenv [PROJECT_NAME]
 
     # create a directory for our project code
-    mkdir /srv/projects/open-budget
+    mkdir /home/[YOUR_USER]projects/[PROJECT_NAME]
 
     # link our project code directory to our virtual environment
-    setvirtualenvproject /srv/environments/open-budget /srv/projects/open-budget
+    setvirtualenvproject /home/[YOUR_USER]/environments/[PROJECT_NAME] /home/[YOUR_USER]projects/[PROJECT_NAME]
+
+    # move to the root of our project code directory
+    cdproject
+
+OS X
+++++
+
+Here we go::
+
+    # create the virtual environment
+    mkvirtualenv [PROJECT_NAME]
+
+    # create a directory for our project code
+    mkdir /Users/[YOUR_USER]/Sites/projects/[PROJECT_NAME]
+
+    # link our project code directory to our virtual environment
+    setvirtualenvproject /Users/[YOUR_USER]/Sites/environments/[PROJECT_NAME] /Users/[YOUR_USER]/Sites/projects/[PROJECT_NAME]
 
     # move to the root of our project code directory
     cdproject
@@ -148,7 +171,7 @@ Clone the project repository
 
 Now we have an environment setup, and we are at the root of our project directory, we need to clone the project from Github::
 
-    git clone git@github.com:hasadna/omuni-budget.git .
+    git clone https://github.com/hasadna/omuni-budget.git .
 
 **Important: Note the "." at the end of the git clone command.**
 
@@ -159,28 +182,38 @@ And continuing, we'll install all the project requirements, the Python requireme
 
     pip install -r requirements/base.txt --use-mirrors
 
+    # If you see ParseError when invoking volo, keep trying, it eventually works. We are going to replace it.
     volo add -noprompt
 
 Bootstrap the project
 ~~~~~~~~~~~~~~~~~~~~~
 
-Now we have almost everything we need. We can populate the database with our initial data, run our tests, and run a development server::
+Now we have almost everything we need.
 
+We can populate the database with our initial data, run our tests, and run a development server::
+
+    # syncdb, migrate and run tests
     python manage.py devstrap -m -t
 
+    # start the server
     python manage.py runserver
 
 Right now you can see the app at the following address in your browser::
 
     http://obudget.dev:8000/
 
+Lastly, For some functionality, you'll need to adjust settings.local with some settings for your environment. For example, email username and password. **Never commit your changes to settings.local**.
 
 The easy way to working data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The project bootstrap loads quite a chunk of the data the app requires - but not everything. Notably, it does not load budget data at this point. The easiest way to add the latest budget data we have is to now, replace your development database with one that is completely populated. We have a set of populated databases here:
+The project bootstrap loads some initial data the app requires.
 
-https://drive.google.com/#folders/0B4JzAmQXH28mdUpST3lkSzluWnc
+To get entity and sheet data (the Israel government structure, and the muni budgets, in the current case), grab our latest local.db file and replace your current development database with it.
+
+You can always get the latest file here:
+
+https://drive.google.com/#folders/0B4JzAmQXH28mNXBxdjdzeEJXb2s
 
 Simply grab the latest one by date, download it, rename it local.db and replace the existing local.db in your repo root.
 
@@ -197,6 +230,13 @@ If you want to contribute code, please keep these points in mind:
 * **Branching**: We follow the Git Flow method for managing branches. and all development work is done off the **develop** branch
 
 More below.
+
+best practices
+--------------
+
+Additionally, if you are new to web development with Python, we also recommend Kenneth Reitz's excellent best practices guide, which we attempt to follow:
+
+http://docs.python-guide.org/en/latest/
 
 Style
 -----

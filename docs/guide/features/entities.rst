@@ -6,12 +6,12 @@ Overview
 
 Open Budget has a flexible system for supporting budgeting entities, be they corporations, governments, non-profits, and even all of the above in the same Open Budget instance.
 
-To acheive this, we have a system that delcares certain entity relations where a *Domain* is the overall context for an entity, *DomainDivisions* are logical, distinct divisions in a domain (according to the business logic of the domain), and *Entities* are the actual entities that are present in the domain.
+To achieve this, we have a system that declares certain entity relations where a *Domain* is the overall context for an entity, *Divisions* are logical, distinct divisions in a domain (according to the business logic of the domain), and *Entities* are the actual entities that are present in the domain.
 
 How it works
 ~~~~~~~~~~~~
 
-In explaining the Domain/DomainDivision/Entity relations, we'll demonstrate with concrete examples of Israeli governmental system - the major context for the first iteration of Open Budget.
+In explaining the Domain/Division/Entity relations, we'll demonstrate with concrete examples of Israeli governmental system - the major context for the first iteration of Open Budget.
 
 Domain
 ++++++
@@ -24,10 +24,10 @@ In this case, our Domain is "Government", or more precisely, "Israel Government"
 
 Let's move on to see how we break up (divide) this domain according to its actual structure.
 
-DomainDivision
-++++++++++++++
+Division
+++++++++
 
-A DomainDivision describes some type of logical division for a domain - it could be administrative, geographical, ad hoc - anything that makes sense according to the Domain's internal logic.
+A Division describes some type of logical division for a domain - it could be administrative, geographical, ad hoc - anything that makes sense according to the Domain's internal logic.
 
 For our "Israel Government" example, we look at the structure of the government, and see how it breaks down from the national to local level.
 
@@ -48,29 +48,29 @@ Another example: the three "municipality" types are at an equal level in the "tr
 
 So, instead of having a parent relationship to self, we have a more flexible index field, which is an integer, where 0 represents the top level, and subsequent numbering the subsequent levels.
 
-Explicitly, in our Israeli case, the diviion structure is as follows:
+Explicitly, in our Israeli case, the division structure is as follows:
 
 * State: 0
 * District: 1
 * Sub-District: 2
-* City Muncipality: 3
-* Local Muncipality: 3
-* Regional Muncipality: 3
+* City Municipality: 3
+* Local Municipality: 3
+* Regional Municipality: 3
 
 We also note that note that not all entities declare budgets. In the Israel Government example, the State declares budgets, and the Municipality types declare budgets.
 
-The other levels of government serve purely administrative roles. So, our DomainDivision model has a boolena flag "has_budgets", to indicate if entities of this division declare budgets. This flag is a helper for views and templates, when querying over entities for budget and actual data.
+The other levels of government serve purely administrative roles. So, our DomainDivision model has a boolean flag "budgeting", to indicate if entities of this division declare budgets. This flag is a helper for views and templates, when querying over entities for sheet (budget) data.
 
 Entity
 ++++++
 
-Our Domain and Domain Division models provide scope the Entity objects.
+Our Domain and Division models provide scope the Entity objects.
 
 An entity is any "unit", "group", or, well, "entity" in the Domain.
 
 In our Israel Government case, we have an entity "Israel" (which belongs to the "State" domain division), and we have a number of entities that belong to the "City Municipality" domain division, such as "Tel Aviv", "Jerusalem", "Haifa", "Ra'anana" and so on.
 
-Let' take another example to illustrate entities, with a completely different Domain/DomainDivision/Entity set. We'll take an example from the corporate world.
+Let' take another example to illustrate entities, with a completely different Domain/Division/Entity set. We'll take an example from the corporate world.
 
 Say we have a Domain "Google Corp", a corporation big enough to theoretical have a complex administrative structure all of its own.
 
@@ -98,7 +98,7 @@ Models
 
 https://github.com/hasadna/omuni-budget/blob/develop/openbudget/apps/entities/models.py
 
-Above, in "How it works", we describe the relationship between the Domain, DomainDivision and Entity models.
+Above, in "How it works", we describe the relationship between the Domain, Division and Entity models.
 
 While Domain and DomainDivision provide the context for entities, it is actually the Entity model where most of the important stuff happens. Budgets and Actuals ultimately belong to this or that entity.
 
@@ -114,7 +114,7 @@ URLs
 
 https://github.com/hasadna/omuni-budget/blob/develop/openbudget/apps/entities/urls.py
 
-The urls are straight forward views to return list and detail views of entities, budgets, actuals, budget items, actual items, and budget templates.
+The urls are straight forward views to return list and detail views of entities, sheets, sheet items, and templates.
 
 Templates
 ~~~~~~~~~

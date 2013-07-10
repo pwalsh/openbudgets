@@ -25,15 +25,13 @@ You can contribute to the project in a number of ways:
 
 **Write some code**: https://github.com/hasadna/omuni-budget
 
-**Find some issues**: https://github.com/hasadna/omuni-budget/issues
-
 **Read the docs**: http://open-budget.readthedocs.org/
 
-**Try the demo**: http://open-budget.prjts.com/
+**Tackle an open issues**: https://github.com/hasadna/omuni-budget/issues
 
-**Start a discussion**: https://groups.google.com/forum/?fromgroups=#!forum/open-muni-dev
+**Make some translations**: https://www.transifex.com/projects/p/open-budgets/
 
-**HaSadna (Public Knowledge Workshop)**: http://www.hasadna.org.il/en/
+**Start a discussion**: https://groups.google.com/forum/#!forum/hasadna-dev
 
 
 Quickstart

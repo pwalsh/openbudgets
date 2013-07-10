@@ -21,11 +21,14 @@ class DataInputError(object):
 
     @property
     def _message(self):
-        return _('Error found in row: %s; and columns: %s; with values: %s')
+        return _('Error found in row: {row}; and columns: {columns}; '
+                 'with values: {values}')
 
     @property
     def message(self):
-        return self._message % (self.row, ', '.join(self.columns), ', '.join(self.values))
+        return self._message.format(row=self.row,
+                                    columns=', '.join(self.columns),
+                                    values=', '.join(self.values))
 
 
 class DataCollisionError(object):
@@ -45,11 +48,14 @@ class DataCollisionError(object):
 
     @property
     def _message(self):
-        return _('Source data collision error in rows: %s, %s; and columns: %s; with values: %s')
+        return _('Source data collision error in rows: {first_row}, '
+                 '{second_row}; and columns: {columns}; with values: {values}')
 
     @property
     def message(self):
-        return self._message % (self.rows[0], self.rows[1], self.columns, self.values)
+        return self._message.format(first_row=self.rows[0],
+                                    second_row=self.rows[1],
+                                    columns=self.columns, values=self.values)
 
 
 class DataSyntaxError(DataInputError):
@@ -59,7 +65,8 @@ class DataSyntaxError(DataInputError):
 
     @property
     def _message(self):
-        return _('Syntax error found in row: %s; and columns: %s; with values: %s')
+        return _('Syntax error found in row: {row}; and columns: {columns}; '
+                 'with values: {values}')
 
 
 class DataAmbiguityError(DataCollisionError):
@@ -69,7 +76,8 @@ class DataAmbiguityError(DataCollisionError):
 
     @property
     def _message(self):
-        return _('Source contains siblings with same code in rows: %s, %s; and columns: %s; with values: %s')
+        return _('Source contains siblings with same code in rows: {first_row},'
+                 ' {second_row}; and columns: {columns}; with values: {values}')
 
 
 class MetaParsingError(object):
@@ -88,7 +96,8 @@ class MetaParsingError(object):
 
     @property
     def message(self):
-        return _('Source meta data invalid for reason: %s') % self.reason
+        return _('Source meta data invalid for reason: {reason}').format(
+            reason=self.reason)
 
 
 class DataValidationError(DataInputError):
@@ -115,11 +124,14 @@ class DataValidationError(DataInputError):
                 if key == NON_FIELD_ERRORS:
                     key = 'others'
 
-                reasons.append('%s: %s' % (key, 'and '.join(messages)))
+                reasons.append('{key}: {messages}'.format(
+                    key=key,
+                    messages='and '.join(messages)))
 
             reasons = ' AND '.join(reasons)
 
-        return _('Source data invalid in row: %s; for reasons: %s') % (self.row, reasons)
+        return _('Source data invalid in row: {row}; '
+                 'for reasons: {reasons}').format(row=self.row, reasons=reasons)
 
 
 class NodeDirectionError(DataCollisionError):
@@ -129,7 +141,8 @@ class NodeDirectionError(DataCollisionError):
 
     @property
     def _message(self):
-        return _("Inverse node's direction is not opposite of item in row: %s; and inverse in row: %s")
+        return _("Inverse node's direction is not opposite of item in row: "
+                 "{row}; and inverse in row: {row}")
 
 
 class ParentScopeError(DataInputError):
@@ -139,25 +152,27 @@ class ParentScopeError(DataInputError):
 
     @property
     def _message(self):
-        return _("Parent scope is missing or not resolvable in row: %s")
+        return _("Parent scope is missing or not resolvable in row: {row}")
 
     @property
     def message(self):
-        return self._message % self.row
+        return self._message.format(row=self.row)
 
 
 class NodeNotFoundError(DataInputError):
 
     @property
     def _message(self):
-        return _('Budget template node not found for item in row: %s; and columns: %s; with values: %s')
+        return _('Budget template node not found for item in'
+                 ' row: {row}; and columns: {columns}; with values: {values}')
 
 
 class ParentNodeNotFoundError(DataInputError):
 
     @property
     def _message(self):
-        return _('Parent node not found for item in row: %s; and columns: %s; with values: %s')
+        return _('Parent node not found for item in '
+                 'row: {row}; and columns: {columns}; with values: {values}')
 
 
 class PathInterpolationError(DataInputError):
@@ -167,7 +182,7 @@ class PathInterpolationError(DataInputError):
 
     @property
     def _message(self):
-        return _('Interpolation failed, no ancestor found for row: %s')
+        return _('Interpolation failed, no ancestor found for row: {row}')
 
 
 class InverseScopesError(DataInputError):
@@ -177,11 +192,13 @@ class InverseScopesError(DataInputError):
 
     @property
     def _message(self):
-        return _('Inverse scopes not matching inverses in row: %s; and columns: %s; with values: %s')
+        return _('Inverse scopes not matching inverses in'
+                 ' row: {row}; and columns: {columns}; with values: {values}')
 
 
 class InverseNodeNotFoundError(DataInputError):
 
     @property
     def _message(self):
-        return _('Inverse node not found for item in row: %s; and columns: %s; with values: %s')
+        return _('Inverse node not found for item in'
+                 ' row: {row}; and columns: {columns}; with values: {values}')

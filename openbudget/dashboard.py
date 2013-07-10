@@ -68,7 +68,6 @@ class OpenBudgetDashboard(Dashboard):
                 },
                 {
                     'title': _('Codebase translations'),
-                    'url': '/rosetta/',
                     'external': False,
                 },
             ]

@@ -83,20 +83,9 @@ class Command(BaseCommand):
         for fixture in settings.DEVSTRAP['FIXTURES']:
             call_command('loaddata', fixture)
 
-        self.stdout.write("### Loading fixtures from CSV\n")
-        call_command('loadcsv')
-
         # run tests
         if options['test']:
             call_command('test', *settings.DEVSTRAP['TESTS'])
-
-        # build the search index
-        call_command(
-            'rebuild_index',
-            verbosity=0,
-            interactive=False
-        )
-        self.stdout.write('### Just built the search index\n')
 
         # wave goodbye
         self.stdout.write("### Development bootstrapping completed successfully\n")

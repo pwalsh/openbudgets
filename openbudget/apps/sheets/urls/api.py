@@ -24,11 +24,6 @@ def templates():
             api.TemplateNodeDetail.as_view(),
             name='templatenode-detail'
         ),
-        url(
-            r'^nodes/latest/(?P<entity_pk>\w+)/$',
-            api.TemplateNodesListLatest.as_view(),
-            name='node-list-latest'
-        ),
     )
     return urlpatterns
 

@@ -2,7 +2,6 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView
 from openbudget.apps.international.utilities import translated_fields
 from openbudget.apps.projects import serializers
 from openbudget.apps.projects import models
-from openbudget.apps.projects import filters
 
 
 class ProjectList(ListAPIView):
@@ -11,9 +10,10 @@ class ProjectList(ListAPIView):
     model = models.Project
     queryset = model.objects.related_map()
     serializer_class = serializers.ProjectBaseSerializer
-    filter_class = filters.ProjectFilter
-    search_fields = ['name', 'description', 'owner', 'author']\
-                    + translated_fields(model)
+    ordering = ['id', 'created_on', 'last_modified']
+    search_fields = ['name', 'description', 'owner__first_name',
+                     'owner__last_name', 'author__first_name',
+                     'author__first_name',] + translated_fields(model)
 
 
 class ProjectDetail(RetrieveAPIView):
@@ -30,7 +30,6 @@ class StateList(ListAPIView):
     model = models.State
     queryset = model.objects.related_map()
     serializer_class = serializers.StateBaseSerializer
-    filter_class = filters.StateFilter
     search_fields = ['author__first_name', 'author__last_name', 'project__name']
 
 

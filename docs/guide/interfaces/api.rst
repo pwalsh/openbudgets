@@ -6,6 +6,8 @@ Overview
 
 Open Budget has a web API to expose all public data stored in an instance.
 
+The API is currently at v1.
+
 The API allows developers to build apps and visualizations on top of Open Budget data.
 
 Data from the API is returned in JSON format.
@@ -144,235 +146,31 @@ API_ROUTES.budgets # all budgets
 Using the API
 -------------
 
-The web API sticks to a RESTful architecture, and returns all data in JSON format. The API is served over HTTPS only - make sure your client code is compatible with this.
+The web API sticks to a RESTful architecture, and returns all data in JSON format.
 
-Defaults
-~~~~~~~~
+In production, the API is served over HTTPS only - make sure your client code is compatible with this.
 
-Pagination
-++++++++++
+Introduction
+~~~~~~~~~~~~
 
-By default, each list view returns up to 250 resources per page. This can be overridden with the **page_by** parameter (see below).
+The API features distinct endpoints for each resource type.
 
-Filtering, Searching, Ordering, and Paging
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Hitting an endpoint direct returns a list of that type.
 
-All API endpoints that return **lists** of resources can be **filtered**, **ordered**, and **paginated**.
+Appending a resource ID returns a detail view for that resource.
 
-Under each resource description below, you'll find the available parameters, per resource.
+Each list view takes a number of possible query parameters to filter, order, and paginate the list.
 
-Essentially, the common syntax is:
+All query parameters can be chained.
 
-* **?[FILTERABLE_FIELD]**: any field that is exposed to filter the query against, where the value is the relevant value type for that field [e.g.: ?entity=264]
-* **?search**: value is a string to search against the available search fields for the model [e.g.: ?search=health]
-* **?ordering**: value is a single or comma separated list of ordering fields for the model [e.g.: ?ordering=email]
-* **?page_by**: where the value is an integer for the amount of resources to return per page [e.g.: ?page_by=500]
+The common pattern is:
 
-Resources
-~~~~~~~~~
+* **?page_by=[INT]** - paginate the results by the given integer. Defaults to 1000.
+* **?ordering=[(-)FIELD_NAME]** - order results by the given field. Prepend "-" to the field name to reverse the order. Available field names are listed below per endpoint.
+* **?search=[STRING]** - filter the results according to matches for the search query. Available searchable fields are listed, below per endpoint.
+* **?[FIELD_NAME]=[VALUE]** - Filter based on value of a field. Depending on the field, value could be an integer, a string, or "true"/"false" for boolean matches. Available fields are listed below, per endpoint.
+Also note, pluralized field names (e.g: "parents" can take multiple comma-separated values).
 
-Sheets
-++++++
-
-The sheets endpoints provide access to all budget/actual sheet data. There are endpoints to navigate via sheet objects, and to navigate via sheet item objects. The appropriate strategy will depend on what you are trying to achieve.
-
-**Methods**
-
-All sheets endpoints are read-only, via GET.
-
-**Endpoints**
-
-* /sheets/
-* /sheets/[id]/
-* /sheets/items/
-* /sheets/items/[id]/
-
-**Filter**
-
-Use the following query parameters to customize the sheet list endpoint.
-
-* **'entity'** - return all budgets that belong to the given entity.
-* **'template'** - return all budgets that use a given template.
-
-**Search**
-
-Use the search query parameter on the sheet list endpoint to search for free text search over sheets. Search works over the following fields:
-
-* **Period** - the period_start and period_end fields of all budgets
-* **Description** - the description fields of all budgets, including translations
-* **Entity name** - the name of the entity of this budget, including translations
-
-**Pagination**
-
-* Default: 250
-* Custom: Pass an integer to the **page_by** parameter
-
-
-
-Ordering
-++++++++
-
-Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
-
-* **period_start**
-* **created_on**
-* **last_modified**
-
-
-
-
-Templates
-~~~~~~~~~
-
-Description
-+++++++++++
-
-The templates endpoints provide access to all template data.
-
-Endpoints
-+++++++++
-
-* /templates/
-* /templates/[id]/
-* /templates/nodes/
-* /templates/nodes/[id]/
-
-Allowed Methods
-+++++++++++++++
-
-All actuals endpoints are read only via GET.
-
-Pagination
-++++++++++
-
-* **Default:** 250
-* **Custom:** use the 'page_by' parameter, passing an integer
-
-Filters
-+++++++
-
-Use the following query parameters to customize the template list endpoint.
-
-* **'divisions'** - return all budgets that belong to the given entity.
-* **'budgets'** - return the template used by a given budget.
-* **'actuals'** - return the template used by a given actual.
-
-Ordering
-++++++++
-
-Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
-
-* **period_start**
-* **created_on**
-* **last_modified**
-
-Search
-++++++
-
-Search works over the following fields:
-
-* **Name** - the name fields of all templates, including translations
-* **Description** - the description fields of all templates, including translations
-
-
-Entities
-~~~~~~~~
-
-Description
-+++++++++++
-
-The entities endpoints provide access to all entity data.
-
-Endpoints
-+++++++++
-
-* /entities/
-* /entities/[id]/
-
-Allowed Methods
-+++++++++++++++
-
-All entities endpoints are read only via GET.
-
-Pagination
-++++++++++
-
-* **Default:** 250
-* **Custom:** use the 'page_by' parameter, passing an integer
-
-Filters
-+++++++
-
-Use the following query parameters to customize the entity list endpoint.
-
-* **'division__budgeting'** - return all entities that are potentially budgeting.
-* **'parent'** - return all children entities of the given parent.
-
-Ordering
-++++++++
-
-Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
-
-* **name**
-* **created_on**
-* **last_modified**
-
-Search
-++++++
-
-Search works over the following fields:
-
-* **Name** - the name fields of all templates, including translations
-* **Description** - the description fields of all templates, including translations
-
-Divisions
-~~~~~~~~~
-
-Description
-+++++++++++
-
-The divisions endpoints provide access to all division data.
-
-Endpoints
-+++++++++
-
-* /divisions/
-* /divisions/[id]/
-
-Allowed Methods
-+++++++++++++++
-
-All entities endpoints are read only via GET.
-
-Pagination
-++++++++++
-
-* **Default:** 250
-* **Custom:** use the 'page_by' parameter, passing an integer
-
-Filters
-+++++++
-
-Use the following query parameters to customize the division list endpoint.
-
-* **'budgeting'** - return all divisions that are budgeting divisions.
-* **'index'** - return all divisions of the given index.
-
-Ordering
-++++++++
-
-Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
-
-* **name**
-* **created_on**
-* **last_modified**
-
-Search
-++++++
-
-Search works over the following fields:
-
-* **Name** - the name fields of all divisions, including translations
 
 Domains
 ~~~~~~~
@@ -380,7 +178,7 @@ Domains
 Description
 +++++++++++
 
-The domains endpoints provide access to all domain data.
+The domains endpoint provide access to all domain data.
 
 Endpoints
 +++++++++
@@ -396,29 +194,398 @@ All domains endpoints are read only via GET.
 Pagination
 ++++++++++
 
-* **Default:** 250
-* **Custom:** use the 'page_by' parameter, passing an integer
+Implements API defaults.
+
+Example: https://api.example.com/v1/domains/?page_by=250
 
 Filters
 +++++++
 
-Not applicable at present.
+* has_divisions [true/false] - returns domains that have divisions
+* has_entities [true/false] - returns domains that have entities
+
+Example: https://api.example.com/v1/domains/?has_entities=false
 
 Ordering
 ++++++++
 
-Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
+Order results by the following fields:
 
+* **id**
 * **name**
 * **created_on**
 * **last_modified**
 
+Example: https://api.example.com/v1/domains/?ordering=id,-name
+
 Search
 ++++++
 
-Search works over the following fields:
+Filter list by searching over the following fields:
 
-* **Name** - the name fields of all divisions, including translations
+* **name** - The name field of all domains.
+
+Example: https://api.example.com/v1/domains/?search=Government
+
+
+Divisions
+~~~~~~~~~
+
+Description
++++++++++++
+
+The divisions endpoint provide access to all division data.
+
+Endpoints
++++++++++
+
+* /divisions/
+* /divisions/[id]/
+
+Allowed Methods
++++++++++++++++
+
+All divisions endpoints are read only via GET.
+
+Pagination
+++++++++++
+
+Implements API defaults.
+
+Example: https://api.example.com/v1/divisions/?page_by=50
+
+Filters
++++++++
+
+* budgeting [true/false] - returns divisions that are budgeting
+* has_entities [true/false] - returns divisions that have entities
+* domains [INT, list of comma-separated INT] - returns divisions of the given domain id(s).
+* indexes [INT, list of comma-separated INT]  - returns divisions of the given index(es).
+
+Example: https://api.example.com/v1/divisions/?has_entities=false
+
+Ordering
+++++++++
+
+Order results by the following fields:
+
+* **id**
+* **name**
+* **created_on**
+* **last_modified**
+
+Example: https://api.example.com/v1/divisions/?ordering=created_on
+
+Search
+++++++
+
+Filter list by searching over the following fields:
+
+* **name** - The name field of all divisions.
+
+Example: https://api.example.com/v1/divisions/?search=Shumron
+
+Entities
+~~~~~~~~
+
+Description
++++++++++++
+
+The entities endpoint provide access to all entity data.
+
+Endpoints
++++++++++
+
+* /entities/
+* /entities/[id]/
+
+Allowed Methods
++++++++++++++++
+
+All entities endpoints are read only via GET.
+
+Pagination
+++++++++++
+
+Implements API defaults.
+
+Example: https://api.example.com/v1/entities/?page_by=800
+
+Filters
++++++++
+
+* budgeting [true/false] - returns entities that are budgeting
+* has_sheets [true/false] - returns entities that have sheets
+* divisions [INT, list of comma-separated INT] - returns entities of the given division id(s).
+* parents [INT, list of comma-separated INT]  - returns entities of the given parent entity id(s).
+
+Example: https://api.example.com/v1/entities/?parents=3,79,120
+
+Ordering
+++++++++
+
+Order results by the following fields:
+
+* **id**
+* **name**
+* **created_on**
+* **last_modified**
+
+Example: https://api.example.com/v1/entities/?ordering=name,id
+
+Search
+++++++
+
+Filter list by searching over the following fields:
+
+* **name** - The name field of all entities.
+* **description** - The description field of all entities.
+
+Example: https://api.example.com/v1/entities/?search=Tel%20Aviv
+
+
+Sheets
+~~~~~~
+
+Description
++++++++++++
+
+The sheets endpoint provide access to all sheet data.
+
+Endpoints
++++++++++
+
+* /sheets/
+* /sheets/[id]/
+
+Allowed Methods
++++++++++++++++
+
+All sheets endpoints are read only via GET.
+
+Pagination
+++++++++++
+
+Implements API defaults.
+
+Example: https://api.example.com/v1/sheets/?page_by=300
+
+Filters
++++++++
+
+* entities [INT, list of comma-separated INT] - returns sheets of the given entity id(s).
+* divisions [INT, list of comma-separated INT] - returns sheets under the given division id(s).
+* templates [INT, list of comma-separated INT] - returns sheets using the given template id(s).
+
+Example: https://api.example.com/v1/sheets/?entities=165,81
+
+Ordering
+++++++++
+
+Order results by the following fields:
+
+* **id**
+* **entity__name**
+* **period_start**
+* **created_on**
+* **last_modified**
+
+Example: https://api.example.com/v1/sheets/?ordering=entity__name,-period_start
+
+Search
+++++++
+
+Filter list by searching over the following fields:
+
+* **entity_name** - The name field of the entities of all sheets.
+* **description** - The description field of all sheets.
+* **period_start** and **period_end** - The applicable dates for all sheets.
+
+Example: https://api.example.com/v1/sheets/?search=increase%20in%20spending
+
+
+Sheet Items
+~~~~~~~~~~~
+
+Description
++++++++++++
+
+The sheet items endpoint provide access to all sheet item data.
+
+Endpoints
++++++++++
+
+* /sheets/items/
+* /sheets/items/[id]/
+
+Allowed Methods
++++++++++++++++
+
+All sheets endpoints are read only via GET.
+
+Pagination
+++++++++++
+
+Implements API defaults.
+
+Example: https://api.example.com/v1/sheets/items/?page_by=300
+
+Filters
++++++++
+
+* has_discussion [true/false] - returns sheet items that have user discussion.
+* entities [INT, list of comma-separated INT] - returns sheets of the given entity id(s).
+* divisions [INT, list of comma-separated INT] - returns sheets under the given division id(s).
+* templates [INT, list of comma-separated INT] - returns sheets using the given template id(s).
+
+Example: https://api.example.com/v1/sheets/items/?entities=165,81&has_discussion=true
+
+Ordering
+++++++++
+
+Order results by the following fields:
+
+* **id**
+* **sheet__entity__name**
+* **node__code**
+* **created_on**
+* **last_modified**
+
+Example: https://api.example.com/v1/sheets/items/?ordering=id,node__code
+
+Search
+++++++
+
+Filter list by searching over the following fields:
+
+* **sheet__entity__name** - The name field of the entity of the sheets.
+* **node__code** - The code field of the item node.
+* **node__name** - The name field of the item node.
+* **period_start** and **period_end** - The applicable dates for all sheets.
+
+Example: https://api.example.com/v1/sheets/items/?search=increase%20in%20spending
+
+
+Templates
+~~~~~~~~~
+
+Description
++++++++++++
+
+The templates endpoint provide access to all template data.
+
+Endpoints
++++++++++
+
+* /templates/
+* /templates/[id]/
+
+Allowed Methods
++++++++++++++++
+
+All templates endpoints are read only via GET.
+
+Pagination
+++++++++++
+
+Implements API defaults.
+
+Example: https://api.example.com/v1/templates/?page_by=10
+
+Filters
++++++++
+
+* entities [INT, list of comma-separated INT] - returns sheets of the given entity id(s).
+* divisions [INT, list of comma-separated INT] - returns sheets under the given division id(s).
+* domains [INT, list of comma-separated INT] - returns templates using the given domain id(s).
+
+* Default (no filter) - by default, a list of templates that are explicitly assigned to a division is returned. In a future iteration, we'll have to improve the way template "inheritance" works to change this.
+
+Example: https://api.example.com/v1/templates/?divisions=4,5
+
+Ordering
+++++++++
+
+Order results by the following fields:
+
+* **id**
+* **name**
+* **period_start**
+* **created_on**
+* **last_modified**
+
+Example: https://api.example.com/v1/templates/?ordering=-period_start
+
+Search
+++++++
+
+Filter list by searching over the following fields:
+
+* **name** - The name field of the templates.
+* **description** - The description field of the templates.
+
+Example: https://api.example.com/v1/templates/?search=israel
+
+
+Template Nodes
+~~~~~~~~~~~~~~
+
+Description
++++++++++++
+
+The template nodes endpoint provide access to all template data.
+
+Endpoints
++++++++++
+
+* /templates/nodes/
+* /templates/nodes/[id]/
+
+Allowed Methods
++++++++++++++++
+
+All template nodes endpoints are read only via GET.
+
+Pagination
+++++++++++
+
+Implements API defaults.
+
+Example: https://api.example.com/v1/templates/nodes/?page_by=10
+
+Filters
++++++++
+
+* entities [INT, list of comma-separated INT] - returns sheets of the given entity id(s).
+* divisions [INT, list of comma-separated INT] - returns sheets under the given division id(s).
+* domains [INT, list of comma-separated INT] - returns templates using the given domain id(s).
+
+* Default (no filter) - by default, a list of templates that are explicitly assigned to a division is returned. In a future iteration, we'll have to improve the way template "inheritance" works to change this.
+
+Example: https://api.example.com/v1/templates/nodes/?divisions=4,5
+
+Ordering
+++++++++
+
+Order results by the following fields:
+
+* **id**
+* **name**
+* **description**
+* **created_on**
+* **last_modified**
+
+Example: https://api.example.com/v1/templates/nodes/?ordering=-name,last_modified
+
+Search
+++++++
+
+Filter list by searching over the following fields:
+
+* **name** - The name field of the templates.
+* **description** - The description field of the templates.
+
+Example: https://api.example.com/v1/templates/nodes/?search=Ethiopian%20Health
 
 
 Contexts
@@ -427,7 +594,7 @@ Contexts
 Description
 +++++++++++
 
-The contexts endpoints provide access to all context data.
+The contexts endpoint provide access to all contextual data.
 
 Endpoints
 +++++++++
@@ -443,78 +610,42 @@ All contexts endpoints are read only via GET.
 Pagination
 ++++++++++
 
-* **Default:** 250
-* **Custom:** use the 'page_by' parameter, passing an integer
+Implements API defaults.
+
+Example: https://api.example.com/v1/contexts/?page_by=100
 
 Filters
 +++++++
 
-Use the following query parameters to customize the contexts list endpoint.
+* entities [INT, list of comma-separated INT] - returns contexts of the given entity id(s).
+* divisions [INT, list of comma-separated INT] - returns contexts under the given division id(s).
+* domains [INT, list of comma-separated INT] - returns contexts using the given domain id(s).
 
-* **'entity'** - return all contexts of a given entity.
-
-Ordering
-++++++++
-
-Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
-
-* **created_on**
-* **last_modified**
-
-Search
-++++++
-
-Not applicable at present.
-
-Comments
-~~~~~~~~
-
-Description
-+++++++++++
-
-The comments endpoints provide access to all comments data.
-
-Endpoints
-+++++++++
-
-* /comments/
-* /comments/[id]/
-
-Allowed Methods
-+++++++++++++++
-
-Comments can be created by posting to the list endpoint.
-
-All other comments endpoints are read only via GET.
-
-Pagination
-++++++++++
-
-* **Default:** 250
-* **Custom:** use the 'page_by' parameter, passing an integer
-
-Filters
-+++++++
-
-Use the following query parameters to customize the comments list endpoint.
-
-* **'model'** - return all comments on a given model. Current possible values are budget_item and actual_item
+Example: https://api.example.com/v1/contexts/?entity=4,5
 
 Ordering
 ++++++++
 
-Use the following values to the 'ordering' parameter, to sort results by the matching field. prepend the value with - for reverse ordering.
+Order results by the following fields:
 
-* **model**
+* **id**
+* **entity__name**
+* **period_start**
 * **created_on**
 * **last_modified**
+
+Example: https://api.example.com/v1/contexts/?ordering=id,last_modified
 
 Search
 ++++++
 
-Search works over the following fields:
+Filter list by searching over the following fields:
 
-* **Comment** - the comment fields of all comments.
+* **data** - The data field of the contexts.
+* **entity__name** - The name of the context entities.
+
+Example: https://api.example.com/v1/contexts/?search=Pension
+
 
 Projects
 ~~~~~~~~
@@ -539,25 +670,39 @@ Only authenticated users can create a project.
 
 Projects can be viewed, updated and deleted from the project detail endpoint.
 
-Only authenticated project owners have permission to update or delete an existing project.
+Only authenticated project owners have permission to update or delete an existing project of their own.
 
 Pagination
 ++++++++++
 
-* **Default:** 250
-* **Custom:** use the 'page_by' parameter, passing an integer
+Implements API defaults.
+
+Example: https://api.example.com/v1/projects/?page_by=100
 
 Filters
 +++++++
 
-Use the following query parameters to customize the comments list endpoint.
+None.
 
-* **'author'** - return all projects by a given author.
+Ordering
+++++++++
+
+Order results by the following fields:
+
+* **id**
+* **created_on**
+* **last_modified**
+
+Example: https://api.example.com/v1/projects/?ordering=id,last_modified
 
 Search
 ++++++
 
-Search works over the following fields:
+Filter list by searching over the following fields:
 
-* **Name** - the name fields of all templates, including translations
-* **Description** - the description fields of all templates, including translations
+* **name** - The name field of the projects.
+* **description** - The description field of the projects.
+* **author name** - The name fields of the author of the projects.
+* **owner name** - The name fields of the owner of the projects.
+
+Example: https://api.example.com/v1/projects/?search=Education

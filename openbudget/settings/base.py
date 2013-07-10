@@ -32,7 +32,18 @@ DATABASES = {
         'PASSWORD': '',
         'HOST': '',
         'PORT': '',
+        'OPTIONS': {
+            'autocommit': True,
+        }
     }
+}
+
+REDIS = {
+    'HOST': '127.0.0.1',
+    'PORT': 6379,
+    'DB': 0,
+    'PASSWORD': '',
+    'SCHEME': 'redis://'
 }
 
 MEDIA_ROOT = os.path.abspath(
@@ -75,18 +86,18 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'johnny.middleware.LocalStoreClearMiddleware',
-    'johnny.middleware.QueryCacheMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'openbudget.apps.international.middleware.InterfaceLanguage',
     'django.middleware.common.CommonMiddleware',
     'subdomains.middleware.SubdomainURLRoutingMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'openbudget.apps.international.middleware.InterfaceLanguage',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 INSTALLED_APPS = (
@@ -110,10 +121,7 @@ INSTALLED_APPS = (
     'subdomains',
     'registration',
     'rest_framework',
-    'provider',
-    'provider.oauth2',
-    'rosetta_grappelli',
-    'rosetta',
+    'oauth2_provider',
     'modeltranslation',
     'taggit',
     'openbudget.apps.accounts',
@@ -230,14 +238,19 @@ ABSOLUTE_URL_OVERRIDES = {
 
 # CACHE CONF
 CACHES = {
-    'default' : {
-        'BACKEND': 'johnny.backends.redis.RedisCache',
-        'LOCATION': '127.0.0.1:6379',
-        'JOHNNY_CACHE': True,
-    }
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': REDIS['HOST'] + str(REDIS['PORT']),
+        'OPTIONS': {
+            'DB': REDIS['DB'],
+            'PARSER_CLASS': 'redis.connection.HiredisParser'
+        },
+    },
 }
 
-JOHNNY_MIDDLEWARE_KEY_PREFIX='jc_ob'
+CACHE_MIDDLEWARE_SECONDS = 600
+
+CACHE_MIDDLEWARE_KEY_PREFIX = 'omuni'
 
 # GRAPPELLI CONF
 GRAPPELLI_ADMIN_TITLE = 'Open Budget'
@@ -247,23 +260,28 @@ GRAPPELLI_INDEX_DASHBOARD = 'openbudget.dashboard.OpenBudgetDashboard'
 # DJANGO REST FRAMEWORK CONF
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.OAuth2Authentication',
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
+        #'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.UnicodeJSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
+        #'rest_framework.renderers.BrowsableAPIRenderer',
     ),
     'DEFAULT_FILTER_BACKENDS': (
-        'rest_framework.filters.DjangoFilterBackend',
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ),
-    'PAGINATE_BY': 250,
+    'PAGINATE_BY': 100,
     'PAGINATE_BY_PARAM': 'page_by'
+}
+
+# OAUTH2 PROVIDER CONF
+OAUTH2_PROVIDER = {
+    'SCOPES': ['read', 'write']
 }
 
 # DJANGO CORS HEADERS CONF
@@ -280,9 +298,6 @@ CORS_ALLOW_METHODS = (
 
 # CORS_ALLOW_CREDENTIALS = False
 
-# OAUTH2 PROVIDER CONF
-OAUTH_ENFORCE_SECURE = True
-
 # HAYSTACK CONF
 HAYSTACK_CONNECTIONS = {
     'default': {
@@ -292,30 +307,14 @@ HAYSTACK_CONNECTIONS = {
 }
 
 # CELERY CONF
-from celery.schedules import crontab
 import djcelery
 
 djcelery.setup_loader()
 
-BROKER_URL = 'redis://127.0.0.1:6379/'
+BROKER_URL = REDIS['SCHEME'] + REDIS['HOST'] + str(REDIS['PORT']) + \
+             str(REDIS['DB'])
 
-CELERYBEAT_SCHEDULE = {
-    "update_index": {
-        "task": "tasks.update_index",
-        "schedule": crontab(
-           minute=0,
-            hour=0
-        ),
-    },
-    "rebuild_index": {
-        "task": "tasks.rebuild_index",
-        "schedule": crontab(
-            day_of_week='saturday',
-            minute=0,
-            hour=0
-        ),
-    }
-}
+CELERY_RESULT_BACKEND = BROKER_URL
 
 # EMAIL CONF
 EMAIL_USE_TLS = True
