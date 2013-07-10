@@ -29,6 +29,13 @@
     height: 100%;
     padding: 169px 50px 35px;
     background: #60c2cc url(../img/logo_for_cover.png) 69px 35px no-repeat;
+    -webkit-transition-duration: 100ms;
+}
+#site_menu.slide_out {
+    -webkit-transition-timing-function: ease-in;
+}
+#site_menu.slide_in {
+    -webkit-transition-timing-function: ease-out;
 }
 #site_menu footer {
     position: absolute;
