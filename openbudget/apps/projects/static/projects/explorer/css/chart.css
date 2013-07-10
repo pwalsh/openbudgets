@@ -33,11 +33,15 @@
 }
 
 #chart {
+    height: 100%;
+}
+#chart_wrapper {
     position: absolute;
     top: 174px;
     left: 0;
     right: 0;
     bottom: 88px;
+    height: auto;
 }
 
 #chart_footer {

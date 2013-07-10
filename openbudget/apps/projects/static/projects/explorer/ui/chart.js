@@ -91,7 +91,7 @@ define([
             adapters    : ['TimelineChart'],
             resource    : 'TimeSeries',
             style       : {
-                padding : 30
+                padding : 20
             },
             data_events : {},
             app_events  : {
