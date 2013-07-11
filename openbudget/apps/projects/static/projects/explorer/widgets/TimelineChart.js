@@ -5,7 +5,7 @@ define([
     'd3'
 ], function (uijet, resources, api) {
 
-    var X_TICKS = 5;
+    var Y_TICKS = 5;
 
     var d3 = window.d3,
         period = uijet.utils.prop('period'),
@@ -41,7 +41,7 @@ define([
                 y_axis = d3.svg.axis()
                     .scale(y)
                     .orient('right')
-                    .ticks(X_TICKS);
+                    .ticks(Y_TICKS);
 
             this.width = width;
             this.height = height;
@@ -162,10 +162,20 @@ define([
                 to = dateParser(to);
             }
             this.x_scale.domain([from, to]);
-            this.svg.select('.x_axis').call(this.x_axis);
+            this.svg.select('.x_axis')
+                .call(this.x_axis)
+                .selectAll('line')
+                    .attr('x1', 0)
+                    .attr('y2', 20)
+                    .attr('y1', -(this.height - 20));
             this.svg.selectAll('.line').attr('d', function (d) {
                 return line(d.values);
             });
+
+            // reset mouseover handler
+            this.hoverOff();
+            this.svg.on('mouseover', this.hoverOn.bind(this));
+
             return this;
         },
         hoverOn         : function () {
@@ -178,7 +188,8 @@ define([
         },
         mousemove       : function () {
             var x = this.x_scale,
-                x_ticks_coords = x.ticks(X_TICKS).map(function (value) {
+                ticks_values = x.ticks(d3.time.years),
+                x_ticks_coords = ticks_values.map(function (value) {
                     return x(value);
                 }),
                 that = this;
@@ -201,14 +212,21 @@ define([
                 }
                 if ( that.current_hovered_index !== new_index ) {
                     that.current_hovered_index = new_index;
-                    that.hoverMark(new_index);
+                    that.hoverMark(ticks_values[new_index]);
                 }
             };
         },
-        hoverMark       : function (index) {
-            d3.select('line.mark').classed('mark', false);
-            if ( typeof index == 'number' )
-                d3.select(d3.select('.x_axis').selectAll('line')[0][index]).classed('mark', true);
+        hoverMark       : function (value) {
+            if ( value ) {
+                //TODO: this is based on assumption that data is yearly
+                var year = value.getFullYear();
+                d3.select('.x_axis').selectAll('line').classed('mark', function (d) {
+                    return d.getFullYear()   === year;
+                });
+            }
+            else {
+                d3.select('line.mark').classed('mark', false);
+            }
         }
     });
 
