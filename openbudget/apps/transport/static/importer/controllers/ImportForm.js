@@ -91,7 +91,7 @@ define([
                             .then( this.wakeContained.bind(this) );
                         }
                     };
-                    config.data_url = Importer.BASE_API_URL + 'entities/';
+                    config.data_url = Importer.BASE_API_URL + 'entities/?page_by=300&ordering=name';
                     break;
             }
 
