@@ -11,7 +11,7 @@ define([
                 return obj[property];
             };
         }
-    }, uijet.Utils);
+    }, uijet.utils);
 
     var
         reverseSorting = function (field) {
@@ -24,6 +24,29 @@ define([
                         -1 :
                         0;
             };
+        },
+        nestingSort = function (a, b) {
+            var a_attrs = a.attributes,
+                b_attrs = b.attributes,
+                a_parent = a_attrs.parent,
+                b_parent = b_attrs.parent,
+                collection, a_leaf, b_leaf;
+
+            if ( a_parent === b_parent ) {
+                a_leaf = a_attrs.leaf_node;
+                b_leaf = b_attrs.leaf_node;
+                if ( a_leaf && ! b_leaf )
+                    return -1;
+                else if ( b_leaf && ! a_leaf )
+                    return 1;
+
+                return a_attrs.code < b_attrs.code ? -1 : 1;
+            }
+
+            collection = a.collection;
+            a_parent = a_parent ? collection.get(a_parent) : a;
+            b_parent = b_parent ? collection.get(b_parent) : b;
+            return nestingSort(a_parent, b_parent);
         },
         /*
          * Muni (Entity) Model
@@ -78,9 +101,19 @@ define([
                     last = results.length - 1,
                     paths_lookup = {},
                     parent_ids = {},
-                    node, n, route, path;
+                    node, n, route, path, ancestor;
+                /* 
+                 * first loop
+                 *
+                 * init `ancestor` to `[]` 
+                 * create `paths_lookup` to look up nodes by `path`
+                 * create `parent_ids` to look up child nodes by `parent` (by id later)
+                 * set `level` by splitting `path` and checking its `length`
+                 * set `parent` to the parent's id
+                 */
                 for ( n = last; node = results[n]; n-- ) {
                     node.ancestors = [];
+                    node.level = node.path.split('|').length - 1;
                     paths_lookup[node.path] = node;
                     if ( node.parent ) {
                         node.parent = node.parent.id || node.parent;
@@ -90,6 +123,13 @@ define([
                         parent_ids[node.parent].push(node.id);
                     }
                 }
+                /*
+                 * second loop
+                 * 
+                 * set `children` to the array in `parent_ids` using `id`
+                 * set `leaf_node` to `true` if `id` is not in `parent_ids`
+                 * fill `ancestors` array by ancestor `id`s ordered by `level` as index
+                 */
                 for ( n = last; node = results[n]; n-- ) {
                     if ( parent_ids[node.id] ) {
                         node.children = parent_ids[node.id];
@@ -98,11 +138,11 @@ define([
                         node.leaf_node = true;
                     }
                     route = node.path.split('|').slice(1);
-                    node.level = route.length;
                     while ( route.length ) {
                         path = route.join('|');
                         if ( path in paths_lookup ) {
-                            node.ancestors.push(paths_lookup[path].id);
+                            ancestor = paths_lookup[path];
+                            node.ancestors[ancestor.level] = ancestor.id;
                         }
                         route.shift();
                     }
@@ -138,10 +178,7 @@ define([
                     branch = tip_node.get('ancestors')
                         .map( function (ancestor_id) {
                             return this.get(ancestor_id);
-                        }, this )
-                        .sort( function (a, b) {
-                            return a.attributes.level - b.attributes.level;
-                        } );
+                        }, this );
                     branch.push(tip_node);
                 }
                 return branch || [];
@@ -153,7 +190,8 @@ define([
         Node    : Node,
         Nodes   : Nodes,
         utils   : {
-            reverseSorting  : reverseSorting
+            reverseSorting  : reverseSorting,
+            nestingSort     : nestingSort
         }
     };
 });

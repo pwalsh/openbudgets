@@ -9,9 +9,13 @@ define([
             return api.getTimelineRoute(this.attributes.muni_id, this.attributes.nodes);
         },
         parse   : function (response) {
-            var series = {};
+            var periods = [],
+                series = {};
             response.forEach(function (item) {
                 var period = +item.period;
+                if ( !~ periods.indexOf(period) ) {
+                    periods.push(period);
+                }
                 if ( ! (period in series) ) {
                     series[period] = {
                         budget  : +item.budget,
@@ -24,6 +28,7 @@ define([
                 }
             });
             return {
+                periods : periods.sort(),
                 series  : series
             };
         },
@@ -52,6 +57,15 @@ define([
             return uijet.whenAll(this.models.map(function (model) {
                 return model.fetch();
             }));
+        },
+        periods : function () {
+            return this.pluck('periods').reduce(function (prev, current) {
+                current.forEach(function (item) {
+                    if ( !~ this.indexOf(item) )
+                        this.push(item);
+                }, prev);
+                return prev;
+            }).sort();
         }
     }));
 

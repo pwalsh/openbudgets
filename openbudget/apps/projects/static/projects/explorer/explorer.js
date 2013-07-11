@@ -8,13 +8,14 @@ define([
     'modules/engine/mustache',
     'modules/xhr/jquery',
     'modules/animation/uijet-transit',
+    'project_modules/uijet-i18n',
     'project_modules/uijet-search'
 ], function (uijet, resources, api, $, Ebox, Q, Mustache) {
 
     // get version endpoint
     api.getVersion();
 
-    var Explorer = {
+    var explorer = {
         start       : function (options) {
             /*
              * Get an OAuth2 token
@@ -29,7 +30,7 @@ define([
                             uijet.publish('api_routes_set');
                         }
                     });
-                    Explorer.setToken(auth_response.access_token);
+                    explorer.setToken(auth_response.access_token);
                 }
             });
             /*
@@ -40,7 +41,12 @@ define([
 
             this.LegendItemModel = uijet.Model();
             uijet.Resource('LegendItems', uijet.Collection({
-                model   : this.LegendItemModel
+                model       : this.LegendItemModel,
+                setColors   : function () {
+                    this.models.forEach(function (model, index) {
+                        model.set('color', this.colors[index * 2]);
+                    }, this);
+                }
             }));
             /*
              * Starting uijet
@@ -63,5 +69,5 @@ define([
         } 
     };
 
-    return Explorer;
+    return explorer;
 });

@@ -69,9 +69,9 @@ define([
                     dont_wake       : true,
                     wrapper_class   : 'hide',
                     menu            : {
-                        mixins      : ['Templated'],
-                        float_top   : '1rem',
-                        signals     : {
+                        mixins          : ['Templated'],
+                        float_position  : 'top: 1rem',
+                        signals         : {
                             pre_select  : function ($selected) {
                                 var id = +$selected.attr('data-id'),
                                     i = 0;
@@ -159,7 +159,7 @@ define([
                     break;
             }
             if ( length ) {
-                history = this.resource.slice(0, -2).map(uijet.Utils.prop('attributes'));
+                history = this.resource.slice(0, -2).map(uijet.utils.prop('attributes'));
             }
             this.publish('updated', history);
             return this;

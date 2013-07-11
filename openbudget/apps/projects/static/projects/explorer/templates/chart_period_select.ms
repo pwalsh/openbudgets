@@ -1,0 +1,3 @@
+{{#periods}}
+<li>{{.}}</li>
+{{/periods}}

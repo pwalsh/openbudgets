@@ -1,0 +1,138 @@
+.legend_item {
+    position: relative;
+    height: 3.384rem;
+    padding: .3rem 3.4rem .3rem 1rem;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-bottom: 1px solid #d0d0dc;
+}
+.legend_item:hover {
+    background-color: #c4c4d3;
+}
+.legend_item_color {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 1.5rem;
+    width: 13px;
+    height: 13px;
+    margin-top: -7px;
+    border-radius: 7px;
+    background-color: transparent;
+}
+.legend_item_buttons {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: 100%;
+    padding: 0 .5rem;
+    overflow: hidden;
+    background-color: #c4c4d3;
+    -webkit-transition-duration: .2s;
+       -moz-transition-duration: .2s;
+         -o-transition-duration: .2s;
+            transition-duration: .2s;
+    -webkit-transition-property: -webkit-transform;
+       -moz-transition-property: -moz-transform;
+         -o-transition-property: -o-transform;
+            transition-property: -ms-transform, transform;
+    -webkit-transform: translateX(-100%);
+       -moz-transform: translateX(-100%);
+         -o-transform: translateX(-100%);
+            transform: translateX(-100%);
+}
+.legend_item:hover .legend_item_buttons {
+    visibility: visible;
+    -webkit-transform: translateX(0);
+       -moz-transform: translateX(0);
+         -o-transform: translateX(0);
+            transform: translateX(0);
+}
+.legend_item_buttons > .uijet_button {
+    visibility: inherit !important;
+    position: relative;
+    top: 1rem;
+    width: 18px;
+    height: 18px;
+    margin: 0 .4rem;
+    padding: 0;
+}
+.legend_item_count {
+    display: none;
+}
+.legend_item_count,
+.legend_item_title {
+    font-size: .9rem;
+    color: #8989a8;
+    font-weight: bold;
+}
+.picking .legend_item_count {
+    display: block;
+}
+.picking .legend_item_title {
+    display: none;
+}
+
+.legend_item_delete {
+    background: url(../img/x_icon_for_slider.png) center no-repeat;
+}
+.legend_item_duplicate {
+    background: url(../img/duplicate_icon_for_slider.png) center no-repeat;
+}
+.legend_item_edit {
+    background: url(../img/pencil_icon_for_slider.png) center no-repeat;
+}
+.legend_item_remove {
+    position: absolute;
+    top: 50%;
+    left: 2rem;
+    width: 12px;
+    height: 12px;
+    margin-top: -6px;
+    padding: 0;
+    background: url(../img/x_for_adding_line.png) center no-repeat;
+}
+
+#add_legend {
+    padding: 1rem 1.5rem 1rem 1rem;
+}
+#add_legend:hover {
+    background-color: #c4c4d3;
+}
+#add_legend:before {
+    content: '';
+    float: right;
+    width: 15px;
+    height: 100%;
+    margin-left: .9rem;
+    background: url(../img/plus_compare_icon_blue.png) center no-repeat;
+}
+#add_legend.disabled:before {
+    width: 13px;
+    height: 13px;
+    margin-top: 2px;
+    border-radius: 8px;
+    border: 1px solid #141450;
+    background: transparent;
+}
+#add_legend_cancel {
+    position: absolute;
+    top: 50%;
+    left: 2rem;
+    width: 12px;
+    height: 12px;
+    margin-top: -6px;
+    padding: 0;
+    background: url(../img/x_for_adding_line.png) center no-repeat;
+}
+
+#legend_controls {
+    position: absolute;
+    top: 120px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}

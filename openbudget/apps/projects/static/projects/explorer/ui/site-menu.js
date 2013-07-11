@@ -3,6 +3,12 @@ define([
 ], function (uijet) {
 
     return [{
+        type    : 'Button',
+        config  : {
+            element     : '#site_menu_open',
+            click_event : 'mouseover'
+        }
+    }, {
         type    : 'Pane',
         config  : {
             element         : '#site_menu',
@@ -10,7 +16,8 @@ define([
             dont_wake       : true,
             animation_type  : 'slide',
             app_events      : {
-                'site_menu_close.clicked': 'sleep'
+                'site_menu_open.clicked'    : 'wake',
+                'site_menu_close.clicked'   : 'sleep'
             }
         }
     }, {

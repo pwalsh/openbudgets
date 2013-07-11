@@ -2,9 +2,15 @@ define([
     'uijet_dir/uijet',
     'uijet_dir/widgets/Button'
 ], function (uijet) {
+
+    var default_key = 'default';
+
     uijet.Widget('ClearableTextInput', {
         options         : {
-            type_class  : ['uijet_clearabletextinput']
+            type_class  : ['uijet_clearabletextinput'],
+            dom_events  : {
+                keyup  : 'keyup+'
+            }
         },
         prepareElement  : function () {
             var ret = this._super(),
@@ -14,7 +20,7 @@ define([
 
             uijet.start({
                 type    : 'Button',
-                config  : uijet.Utils.extend(true, {
+                config  : uijet.utils.extend(true, {
                     element     : button_ops.element || uijet.$('<span>', {
                         id : this.id + '_clear'
                     }).appendTo(this.$wrapper),
@@ -30,6 +36,18 @@ define([
         clear           : function () {
             this.$element.val('').focus();
             return this;
+        },
+        keyup           : function (e) {
+            var key = e.keyCode || e.which,
+                keys = this.options.keys;
+
+            if ( keys ) {
+                if ( uijet.utils.isFunc(keys[key]) )
+                    return keys[key].call(this, e);
+                else if ( uijet.utils.isFunc(keys[default_key]) ) {
+                    return keys[default_key].call(this, e);
+                }
+            }
         }
     })
 });

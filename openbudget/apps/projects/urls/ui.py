@@ -9,6 +9,11 @@ urlpatterns = patterns('',
         name='project_list'
     ),
 
+    url(r'^jsi18n/$',
+        'django.views.i18n.javascript_catalog',
+        {'packages': ('openbudget.apps.projects',)}
+    ),
+
     url(r'^(?P<slug>[-\w]+)/$',
         ProjectDetailView.as_view(),
         name='project_detail'

@@ -1,0 +1,68 @@
+.site_menu_item {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 3.261rem;
+    line-height: 100%;
+    color: white;
+}
+.site_menu_footer_item {
+    display: inline-block;
+    font-size: 1.3em;
+    color: #1d7680;
+}
+.site_menu_footer_item + .site_menu_footer_item {
+    margin-right: 1.5rem;
+}
+
+#hasadna_link {
+    float: right;
+    width: 87px;
+    height: 31px;
+    margin-top: -70px;
+    background: url(../img/sadna_logo_cover.png) center no-repeat;
+}
+#site_menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 169px 50px 35px;
+    background: #60c2cc url(../img/logo_for_cover.png) 69px 35px no-repeat;
+    -webkit-transition-duration: 100ms;
+}
+#site_menu.slide_out {
+    -webkit-transition-timing-function: ease-in;
+}
+#site_menu.slide_in {
+    -webkit-transition-timing-function: ease-out;
+}
+#site_menu footer {
+    position: absolute;
+    bottom: 18px;
+    left: 0;
+    right: 0;
+    padding-right: 50px;
+    text-align: right;
+}
+#site_menu_close {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    background: url(../img/x_icon_for_cover.png) center no-repeat;
+}
+#site_menu_open {
+    padding: 0;
+    color: #7070a0;
+}
+#site_menu_open:after {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+    background: url(../img/arrow_left_logp_menu.png) center no-repeat;
+}

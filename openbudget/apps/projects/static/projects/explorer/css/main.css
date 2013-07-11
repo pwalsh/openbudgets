@@ -2,6 +2,8 @@
 @import url('/static/lib/uijet/uijet.css');
 @import url('globals.css');
 @import url('right.css');
+@import url('site-menu.css');
+@import url('legend.css');
 @import url('left.css');
 @import url('main-section.css');
 @import url('nodes.css');

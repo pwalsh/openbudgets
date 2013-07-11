@@ -52,11 +52,11 @@ define([
                 ._wrap()
                 .$wrapper.append(datepicker_config.element);
 
-            left = uijet.Utils.getOffsetOf(this.$element[0], this.$wrapper[0]).x;
+            left = uijet.utils.getOffsetOf(this.$element[0], this.$wrapper[0]).x;
 
             uijet.start({
                 type    : 'Datepicker',
-                config  : uijet.Utils.extend(true, this.options.datepicker, datepicker_config)
+                config  : uijet.utils.extend(true, this.options.datepicker, datepicker_config)
             });
             return this;
         }

@@ -1,13 +1,12 @@
 define([
     'uijet_dir/uijet',
     'explorer'
-], function (uijet, Explorer) {
+], function (uijet, explorer) {
 
     uijet.Adapter('LegendsList', {
         createItemModel : function (state) {
-            var model = new Explorer.LegendItemModel(state || {
-                title       : 'Title me',
-                description : 'Describe me',
+            var model = new explorer.LegendItemModel(state || {
+                title       : gettext('Insert title'),
                 muni        : '',
                 nodes       : []
             });
@@ -29,7 +28,8 @@ define([
                     index   : index,
                     signals : {
                         post_full_render: '-legend_item_added'
-                    }
+                    },
+                    color   : this.resource.colors[index * 2]
                 }
             }, true);
             return this;
@@ -89,10 +89,12 @@ define([
         removeItem      : function (index) {
             this.deleteItem(index);
             if ( this.resource.length ) {
-                uijet.publish('legends_list.selected', index);
+                if ( this.picking ) {
+                    uijet.publish('legends_list.selected', this.current_index);
+                }
             }
             else {
-                this.publish('last_deleted');
+                uijet.publish('welcome');
             }
             this.scroll();
         },
@@ -100,13 +102,13 @@ define([
             if ( data && data.reset ) return;
             var resource = uijet.Resource('LatestSheet'),
                 selected_nodes = resource.where({ selected : 'selected' }),
-                selected_nodes_ids = selected_nodes.map(uijet.Utils.prop('id')),
+                selected_nodes_ids = selected_nodes.map(uijet.utils.prop('id')),
                 partial_nodes = resource.where({ selected : 'partial' })
-                                        .map(uijet.Utils.prop('id'));
+                                        .map(uijet.utils.prop('id'));
             this.resource.at(this.current_index).set({
                 nodes   : selected_nodes.filter(function (node) {
                     return !~ selected_nodes_ids.indexOf(node.get('parent'));
-                }).map(uijet.Utils.prop('id')),
+                }).map(uijet.utils.prop('id')),
                 state   : {
                     selected: selected_nodes_ids,
                     partial : partial_nodes

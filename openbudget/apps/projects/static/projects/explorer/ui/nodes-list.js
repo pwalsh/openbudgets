@@ -22,7 +22,7 @@ define([
         config  : {
             element     : '#nodes_list_header',
             horizontal  : true,
-            position    : 'top:40px fluid',
+            position    : 'top:27px fluid',
             signals     : {
                 pre_select  : function ($selected) {
                     if ( this.$selected && $selected[0] === this.$selected[0] ) {
@@ -60,7 +60,7 @@ define([
                 selected: function (state) {
                     if ( state !== null )
                         return this.resource.where({ selected : 'selected' })
-                                            .map(uijet.Utils.prop('id'));
+                                            .map(uijet.utils.prop('id'));
                     else
                         return null;
                 }

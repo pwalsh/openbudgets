@@ -2,10 +2,22 @@
 /* Globals */
 /***********/
 
+.main_section_header {
+    height: 120px;
+    padding: 18px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 #main_container {
-    left: 90px;
-    right: 270px;
+    left: 100px;
+    right: 300px;
+    padding: 0;
     background-color: #fff;
+}
+#welcome {
+    padding: 18px;
 }
 
 /************/
@@ -16,13 +28,16 @@
     padding: 0 .5rem;
 }
 #entities_list li {
+    height: 44px;
     padding: .6rem;
-    border-bottom: 1px solid #ededf1;
+    border-bottom: 1px solid #d0d0dc;
     overflow: hidden;
+    font-size: 1.3rem;
+    line-height: 150%;
     font-weight: bold;
 }
 #entities_list li:first-child {
-    border-top: 1px solid #ededf1;
+    border-top: 1px solid #d0d0dc;
 }
 #entities_list li:hover {
     background-color: #ffffcd;
@@ -39,17 +54,12 @@
 
 #entity_field_wrapper {
     position: absolute;
-    right: 0;
+    right: 18px;
     bottom: 0;
     margin-top: 12px;
 }
 #entity_selection header {
     position: relative;
-    height: 120px;
 }
-
-/***********************/
-/* Nodes Picker Header */
-/***********************/
 
 

@@ -4,70 +4,98 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
     <link rel="stylesheet" href="/static/projects/explorer/css/main.css"/>
-    <title>Open Muni Budget | Budget Explorer</title>
+    <title data-i18n="document-title"></title>
 </head>
 <body>
     <div id="explorer" class="uijet_app">
         <section id="left_container" class="top_container">
-            <span id="enter_button">Enter</span>
+            <span id="enter_button" data-i18n="enter" class="section_description"></span>
         </section>
         <section id="main_container" class="top_container">
-            <div id="welcome">Welcome to Budget Explorer 5000</div>
+            <div id="welcome" data-i18n="welcome-message"></div>
             <div id="entity_selection" class="main_pane">
-                <header>
-                    <p class="section_description">Choose entity</p>
-                    <input type="text" name="entity" id="entity_field" placeholder="Search"/>
+                <header class="main_section_header">
+                    <p class="section_description" data-i18n="choose-entity"></p>
+                    <input type="text" name="entity" id="entity_field" data-i18n="search-placeholder" data-i18n-attr="placeholder"/>
                 </header>
                 <ul id="entities_list"></ul>
             </div>
             <div id="nodes_picker" class="main_pane">
-                <header id="nodes_picker_header">
-                    <p class="section_description">Choose budget items:</p>
+                <header id="nodes_picker_header" class="main_section_header">
+                    <p class="section_description" data-i18n="choose-budget-item"></p>
                     <div id="nodes_breadcrumbs">
                         <span id="nodes_breadcrumbs_history">...</span>
-                        <span id="node_breadcrumb_main">Main</span>
+                        <span id="node_breadcrumb_main" data-i18n="main"></span>
                         <span id="node_breadcrumb_back"></span>
                     </div>
-                    <h2 id="nodes_scope_name"></h2>
-                    <input type="text" name="nodes_search" id="nodes_search"/>
+                    <h2 id="nodes_scope_name">
+                        <span id="nodes_scope_name_content"></span>
+                        <span id="filters_search"></span>
+                    </h2>
+                    <input type="text" name="nodes_search" id="nodes_search" data-i18n="search-placeholder" data-i18n-attr="placeholder"/>
                     <span id="selected_crumb"></span>
                     <span id="search_crumb"></span>
-                    <span id="filters_search">Search</span>
                     <span id="filter_selected">Selected</span>
                 </header>
                 <section id="nodes_list_container">
                     <ul id="nodes_list_header">
-                        <li class="nodes_list_header_node" data-column="code">Code</li>
-                        <li class="nodes_list_header_node" data-column="name">Name</li>
-                        <li class="nodes_list_header_node" data-column="direction">Type</li>
+                        <li class="nodes_list_header_node" data-column="select"></li>
+                        <li class="nodes_list_header_node" data-column="type"></li>
+                        <li class="nodes_list_header_node" data-column="code" data-i18n="code"></li>
+                        <li class="nodes_list_header_node" data-column="name" data-i18n="name"></li>
+                        <li class="nodes_list_header_node" data-column="direction" data-i18n="type"></li>
                     </ul>
                     <ul id="nodes_list"></ul>
                 </section>
-                <section id="nodes_picker_footer">
-                    <p id="results_count_container"><span id="results_count"></span></p>
+                <footer id="nodes_picker_footer">
+                    <p id="results_count"></p>
                     <p id="sheet_type_picker"></p>
-                    <span id="picker_done">Done</span>
-                </section>
+                    <span id="picker_done" data-i18n="done"></span>
+                </footer>
             </div>
-            <div id="chart"></div>
+            <div id="chart_section">
+                <header id="viz_actions_menu">
+                    <span id="viz_new" class="viz_action" data-i18n="viz-new"></span>
+                    <span id="viz_duplicate" class="viz_action" data-i18n="viz-duplicate"></span>
+                    <span id="viz_delete" class="viz_action" data-i18n="viz-delete"></span>
+                    <p id="viz_actions_menu_left">
+                        <span id="viz_export" class="viz_action" data-i18n="viz-export"></span>
+                        <span id="viz_publish" class="viz_action" data-i18n="viz-publish"></span>
+                        <span id="viz_save" class="viz_action" data-i18n="viz-save"></span>
+                    </p>
+                </header>
+                <section id="chart_heading"></section>
+                <div id="chart"></div>
+                <footer id="chart_footer">
+                    <span id="chart_period_start" class="chart_period_button"></span>
+                    <span id="chart_period_end" class="chart_period_button"></span>
+                </footer>
+            </div>
         </section>
         <section id="right_container" class="top_container">
-            <div id="loading">Loading...</div>
             <div id="site_menu">
-                <span id="site_menu_close">X</span>
+                <span id="site_menu_close"></span>
                 <div id="site_menu_items">
-                    <a href="#home" class="site_menu_item">Home</a>
-                    <a href="#munis" class="site_menu_item">Munis</a>
-                    <a href="#projects" class="site_menu_item">Projects</a>
-                    <a href="#about" class="site_menu_item">About</a>
+                    <a href="#home" class="site_menu_item" data-i18n="site-menu-home"></a>
+                    <a href="#munis" class="site_menu_item" data-i18n="site-menu-munis"></a>
+                    <a href="#projects" class="site_menu_item" data-i18n="site-menu-projects"></a>
+                    <a href="#about" class="site_menu_item" data-i18n="site-menu-about"></a>
                 </div>
+                <footer>
+                    <a href="http://http://www.hasadna.org.il/" id="hasadna_link"></a>
+                    <a href="#api" class="site_menu_footer_item" data-i18n="site-menu-api"></a>
+                    <a href="#tos" class="site_menu_footer_item" data-i18n="site-menu-tos"></a>
+                    <a href="#credits" class="site_menu_footer_item" data-i18n="site-menu-credits"></a>
+                </footer>
             </div>
             <div id="work_menus">
-                <span id="site_menu_open">Open Muni Budget</span>
+                <span id="site_menu_open" class="small_heading" data-i18n="open-muni-budget"></span>
                 <div id="comparing_pane">
-                    <h3 class="right_menu_heading">Compare</h3>
-                    <section id="legend_controls">
-                        <span id="add_legend">Add legend item</span>
+                    <section id="legend_controls" class="small_heading">
+                        <h3 class="right_menu_heading" data-i18n="compare"></h3>
+                        <span id="add_legend"><span data-i18n="add"></span>
+                            <span id="add_legend_cancel"></span>
+                        </span>
                         <ul id="legends_list"></ul>
                     </section>
                 </div>
@@ -79,7 +107,11 @@
     </div>
     <script>
         var API_VERSION = '/v1/';
+        //var gettext = window.gettext || function (v) { return v; };
+        //var ngettext = window.gettext || function (v1, vn, n) { return v1; };
+        //var interpolate = window.interpolate || function (fmts, d, named) { return fmts; };
     </script>
+    <script src="/projects/jsi18n/"></script>
     <script src="/static/lib/require.js" data-main="/static/projects/explorer/main"></script>
 </body>
 </html>

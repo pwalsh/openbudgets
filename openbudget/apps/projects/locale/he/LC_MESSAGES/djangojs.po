@@ -1,0 +1,115 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-09 00:14+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: static/projects/explorer/i18n.js:3
+msgid "Open Muni Budget | Budget Explorer"
+msgstr "תקציב מקומי פתוח | סייר התקציב"
+
+#: static/projects/explorer/i18n.js:4
+msgid "Enter"
+msgstr "כניסה"
+
+#: static/projects/explorer/i18n.js:5
+msgid "Welcome to Budget Explorer 5000"
+msgstr "ברוכים הבאים לסייר התקציב 5000"
+
+#: static/projects/explorer/i18n.js:6
+msgid "Choose entity"
+msgstr "בחירת רשות"
+
+#: static/projects/explorer/i18n.js:7
+msgid "Search"
+msgstr "חיפוש"
+
+#: static/projects/explorer/i18n.js:8
+msgid "Choose budget items:"
+msgstr "בחירת סעיפי תקציב"
+
+#: static/projects/explorer/i18n.js:9 static/projects/explorer/ui/nodes.js:26
+msgid "Main"
+msgstr "ראשי"
+
+#: static/projects/explorer/i18n.js:10
+msgid "Code"
+msgstr "קוד סעיף"
+
+#: static/projects/explorer/i18n.js:11
+msgid "Name"
+msgstr "שם סעיף"
+
+#: static/projects/explorer/i18n.js:12
+msgid "Type"
+msgstr "סוג"
+
+#: static/projects/explorer/i18n.js:13
+msgid "Done"
+msgstr "אישור"
+
+#: static/projects/explorer/i18n.js:14
+msgid "Add"
+msgstr "הוספה"
+
+#: static/projects/explorer/i18n.js:15
+msgid "Home"
+msgstr "דף הבית"
+
+#: static/projects/explorer/i18n.js:16
+msgid "Munis"
+msgstr "ראשויות"
+
+#: static/projects/explorer/i18n.js:17
+msgid "Projects"
+msgstr "פרויקטים"
+
+#: static/projects/explorer/i18n.js:18
+msgid "About"
+msgstr "אודות"
+
+#: static/projects/explorer/i18n.js:19
+msgid "API"
+msgstr ""
+
+#: static/projects/explorer/i18n.js:20
+msgid "Terms"
+msgstr "תנאי שימוש"
+
+#: static/projects/explorer/i18n.js:21
+msgid "Credits"
+msgstr "קדיטים"
+
+#: static/projects/explorer/i18n.js:22
+msgid "Loading..."
+msgstr "טוען..."
+
+#: static/projects/explorer/i18n.js:23
+msgid "Open Muni Budget"
+msgstr "תקציב מקומי פתוח"
+
+#: static/projects/explorer/i18n.js:24
+msgid "Compare"
+msgstr "השוואות"
+
+#: static/projects/explorer/controllers/LegendsList.js:9
+msgid "Insert title"
+msgstr "כתיבת כותרת"
+
+#: static/projects/explorer/ui/nodes.js:274
+msgid "%(count)s results found"
+msgstr "נמצאו %(count)s תוצאות"
