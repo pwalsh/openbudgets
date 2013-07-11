@@ -72,10 +72,10 @@ define([
         type    : 'FilteredList',
         config  : {
             element     : '#entities_list',
-            mixins      : ['Templated', 'Scrolled'],
+            mixins      : ['Templated', 'Scrolled', 'Deferred'],
             adapters    : ['jqWheelScroll', 'Spin'],
             resource    : 'Munis',
-            dont_wake   : true,
+            promise     : explorer.routes_set_promise,
             position    : 'top|120px bottom fluid',
             search      : {
                 fields  : {
@@ -100,7 +100,7 @@ define([
                         return false;
                     }
                     else {
-                        this.resource.url = api.getRoute('entities') + '?division__budgeting=True';
+                        this.resource.url = api.getRoute('entities') + '?division__budgeting=True&page_by=300&ordering=name';
                     }
                 },
                 post_render     : function () {
@@ -112,10 +112,6 @@ define([
                 }
             },
             app_events  : {
-                'api_routes_set'        : function () {
-                    this.options.dont_wake = false;
-                    this.wake();
-                },
                 'entity_field.changed'  : 'filterBySearch+',
                 'entities_list.filtered': 'scroll'
             }

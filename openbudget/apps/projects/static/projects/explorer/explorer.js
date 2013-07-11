@@ -20,17 +20,27 @@ define([
             /*
              * Get an OAuth2 token
              */
-            api.auth({
-                data    : options.auth,
-                success : function (auth_response) {
+//            api.auth({
+//                data    : options.auth,
+//                success : function (auth_response) {
                     // set the API's routes
-                    api.getRoutes({
-                        success : function (response) {
-                            api._setRoutes(response);
-                            uijet.publish('api_routes_set');
-                        }
-                    });
-                    explorer.setToken(auth_response.access_token);
+//                    api.getRoutes({
+//                        success : function (response) {
+//                            api._setRoutes(response);
+//                            uijet.publish('api_routes_set');
+//                        }
+//                    });
+//                    explorer.setToken(auth_response.access_token);
+//                }
+//            });
+            var routes_deferred = uijet.Promise();
+            explorer.routes_set_promise = routes_deferred.promise();
+
+            // set the API's routes
+            api.getRoutes({
+                success : function (response) {
+                    api._setRoutes(response);
+                    routes_deferred.resolve();
                 }
             });
             /*
