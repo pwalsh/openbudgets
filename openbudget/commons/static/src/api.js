@@ -211,7 +211,7 @@
          * Get an OAuth2 token
          */
         _auth           : function (options) {
-            return new Request(API_URL + 'auth/access_token/', extend(true, {
+            return new Request(API_URL + 'auth/token/', extend(true, {
                 method  : 'POST',
                 data    : AUTH_DATA,
                 dataType: 'json',
