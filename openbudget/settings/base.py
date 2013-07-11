@@ -93,7 +93,7 @@ MIDDLEWARE_CLASSES = (
     'openbudget.apps.international.middleware.InterfaceLanguage',
     'django.middleware.common.CommonMiddleware',
     'subdomains.middleware.SubdomainURLRoutingMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -113,6 +113,7 @@ INSTALLED_APPS = (
     'grappelli_modeltranslation',
     'django.contrib.admin',
     'django.contrib.sitemaps',
+    'oauth2_provider',
     'corsheaders',
     'gunicorn',
     'south',
@@ -121,7 +122,6 @@ INSTALLED_APPS = (
     'subdomains',
     'registration',
     'rest_framework',
-    'oauth2_provider',
     'modeltranslation',
     'taggit',
     'openbudget.apps.accounts',
@@ -261,7 +261,7 @@ GRAPPELLI_INDEX_DASHBOARD = 'openbudget.dashboard.OpenBudgetDashboard'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'oauth2_provider.ext.rest_framework.OAuth2Authentication',
-        'rest_framework.authentication.SessionAuthentication',
+        #'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',

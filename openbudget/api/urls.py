@@ -8,6 +8,9 @@ urlpatterns = patterns('',
         api_index,
         name='api'
     ),
+    url(r'^auth/',
+        include('oauth2_provider.urls')
+    ),
     url(r'^v1/',
         include('openbudget.api.v1.urls'),
     ),
