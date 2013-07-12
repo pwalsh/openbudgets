@@ -115,16 +115,16 @@ define([
                 .call(this.x_axis)
                 .selectAll('line')
                     .attr('x1', 0)
-                    .attr('y2', 20)
-                    .attr('y1', -(this.height - 20));
+                    .attr('y2', '0')
+                    .attr('y1', -this.height);
 
             this.svg.append('g')
                 .attr('class', 'axis y_axis')
-                .attr('transform', 'translate(10,0)')
+//                .attr('transform', 'translate(10,0)')
                 .call(this.y_axis)
                 .selectAll('line')
-                    .attr('x2', 20)
-                    .attr('x1', this.width - 20);
+//                    .attr('x2', 20)
+                    .attr('x1', this.width);
 
             this.svg.selectAll('.timeline').remove();
 
@@ -166,7 +166,7 @@ define([
                 .call(this.x_axis)
                 .selectAll('line')
                     .attr('x1', 0)
-                    .attr('y2', 20)
+                    .attr('y2', '0')
                     .attr('y1', -(this.height - 20));
             this.svg.selectAll('.line').attr('d', function (d) {
                 return line(d.values);
@@ -221,7 +221,7 @@ define([
                 //TODO: this is based on assumption that data is yearly
                 var year = value.getFullYear();
                 d3.select('.x_axis').selectAll('line').classed('mark', function (d) {
-                    return d.getFullYear()   === year;
+                    return d.getFullYear() === year;
                 });
             }
             else {
