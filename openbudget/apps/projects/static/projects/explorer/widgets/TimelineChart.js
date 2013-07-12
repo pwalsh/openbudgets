@@ -236,11 +236,10 @@ define([
         markValues      : function (x_value) {
             var labels,
                 datums = [],
-                positions = {},
                 x = this.x_scale,
                 y = this.y_scale,
                 color = this.colors,
-                added_label, added_label_texts, label_texts;
+                added_label, added_label_texts;
             d3.selectAll('.timeline').each(function (d, i) {
                 d.values.some(function (point_datum) {
                     if ( point_datum.period.valueOf() === x_value.valueOf() ) {
@@ -286,19 +285,6 @@ define([
                 return 'translate(' + d.x + ',' + d.y + ')';
             });
 
-            d3.selectAll('.value_label')
-                .attr('transform', function (d, i) {
-                    var current_y = -10,
-                        prev_y, dy;
-                    if ( i ) {
-                        current_y = d.y;
-                        prev_y = datums[i - 1].y;
-                        dy = prev_y - current_y;
-                        // make sure we have a margin of 20px between labels' texts
-                        current_y = dy < 20 && dy > 0 ? -30 : -10;
-                    }
-                    return 'translate(0,' + current_y + ')';
-                });
             labels.selectAll('text')
                 .attr('fill', function (d) { return d.color; });
             labels.selectAll('.amount')
@@ -308,6 +294,19 @@ define([
                 });
             labels.selectAll('.title')
                 .text(function (d) { return d.muni + ': ' + d.title; });
+
+            d3.selectAll('.value_label')
+                .attr('transform', function (d, i) {
+                    var y_pos = -10,
+                        prev_y, dy;
+                    if ( i ) {
+                        prev_y = datums[i - 1].y;
+                        dy = prev_y - d.y;
+                        // make sure we have a margin of 20px between labels' texts
+                        y_pos = dy < 20 && dy > 0 ? -30 : -10;
+                    }
+                    return 'translate(0,' + y_pos + ')';
+                });
 
             labels.select('circle')
                 .attr('r', 5)
