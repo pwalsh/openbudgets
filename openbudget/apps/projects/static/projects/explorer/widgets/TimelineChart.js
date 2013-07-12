@@ -79,17 +79,20 @@ define([
                     actual_id = id + '-actual',
                     budget_id = id + '-budget',
                     title = item.get('title'),
+                    muni = item.get('muni'),
                     item_series = item.toSeries();
                 item_series[0].forEach(periodParser);
                 item_series[1].forEach(periodParser);
                 ids.push(actual_id, budget_id);
                 data.push({
                     id      : actual_id,
-                    name    : title + ' actual',
+                    title   : title + ' actual',
+                    muni    : muni,
                     values  : item_series[0]
                 }, {
                     id      : budget_id,
-                    name    : title + ' budget',
+                    title   : title + ' budget',
+                    muni    : muni,
                     values  : item_series[1]
                 });
             });
@@ -223,10 +226,92 @@ define([
                 d3.select('.x_axis').selectAll('line').classed('mark', function (d) {
                     return d.getFullYear() === year;
                 });
+                this.markValues(value);
             }
             else {
                 d3.select('line.mark').classed('mark', false);
+                d3.selectAll('.value_circle').remove();
             }
+        },
+        markValues      : function (x_value) {
+            var labels,
+                datums = [],
+                positions = {},
+                x = this.x_scale,
+                y = this.y_scale,
+                color = this.colors,
+                added_label, added_label_texts, label_texts;
+            d3.selectAll('.timeline').each(function (d, i) {
+                d.values.some(function (point_datum) {
+                    if ( point_datum.period.valueOf() === x_value.valueOf() ) {
+                        datums.push({
+                            period  : point_datum.period,
+                            amount  : point_datum.amount,
+                            id      : d.id,
+                            title   : d.title,
+                            muni    : d.muni
+                        });
+                        return true;
+                    }
+                });
+            });
+            datums.forEach(function (d, i) {
+                d.x = x(d.period);
+                d.y = y(d.amount);
+                d.color = color(d.id);
+            });
+
+            labels = this.svg.selectAll('.value_circle').data(datums, function (d) { return d.id + d.period; });
+
+            labels.exit().remove();
+
+            added_label = labels.enter().append('g')
+                .attr('class', 'value_circle');
+            
+            added_label_texts = added_label.append('g')
+                .attr('class', 'value_label')
+                .attr('transform', 'translate(0,-10)');
+
+            added_label_texts.append('text')
+                .attr('class', 'title');
+
+            added_label_texts.append('text')
+                .attr('class', 'amount');
+
+            added_label.append('circle');
+
+            labels.sort(function (a, b) { return a.amount - b.amount; });
+
+            labels.attr('transform', function (d) {
+                return 'translate(' + d.x + ',' + d.y + ')';
+            });
+
+            d3.selectAll('.value_label')
+                .attr('transform', function (d, i) {
+                    var current_y = -10,
+                        prev_y, dy;
+                    if ( i ) {
+                        current_y = d.y;
+                        prev_y = datums[i - 1].y;
+                        dy = prev_y - current_y;
+                        // make sure we have a margin of 20px between labels' texts
+                        current_y = dy < 20 && dy > 0 ? -30 : -10;
+                    }
+                    return 'translate(0,' + current_y + ')';
+                });
+            labels.selectAll('text')
+                .attr('fill', function (d) { return d.color; });
+            labels.selectAll('.amount')
+                .text(function (d) { return d.amount; })
+                .attr('x', function () {
+                    return - (this.getBBox().width + 10);
+                });
+            labels.selectAll('.title')
+                .text(function (d) { return d.muni + ': ' + d.title; });
+
+            labels.select('circle')
+                .attr('r', 5)
+                .style('fill', function (d) { return d.color; });
         }
     });
 
