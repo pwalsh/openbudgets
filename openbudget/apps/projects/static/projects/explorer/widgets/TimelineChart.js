@@ -254,6 +254,9 @@ define([
                     }
                 });
             });
+            datums.sort(function (a, b) {
+                return a.amount - b.amount;
+            });
             datums.forEach(function (d, i) {
                 d.x = x(d.period);
                 d.y = y(d.amount);
