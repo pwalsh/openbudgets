@@ -463,9 +463,9 @@ Filters
 +++++++
 
 * has_discussion [true/false] - returns sheet items that have user discussion.
+* sheets [INT, list of comma-separated INT] - returns sheet items belonging to the given sheet(s).
 * entities [INT, list of comma-separated INT] - returns sheets of the given entity id(s).
 * divisions [INT, list of comma-separated INT] - returns sheets under the given division id(s).
-* templates [INT, list of comma-separated INT] - returns sheets using the given template id(s).
 
 Ordering
 ++++++++

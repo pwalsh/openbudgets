@@ -159,10 +159,9 @@ class SheetItemList(generics.ListAPIView):
 
         ### FILTERS
         has_discussion = self.request.QUERY_PARAMS.get('has_discussion', None)
+        sheets = self.request.QUERY_PARAMS.get('sheets', None)
         entities = self.request.QUERY_PARAMS.get('entities', None)
         divisions = self.request.QUERY_PARAMS.get('divisions', None)
-        templates = self.request.QUERY_PARAMS.get('templates', None)
-
 
         # normalize by population
         # filter by code
@@ -183,17 +182,22 @@ class SheetItemList(generics.ListAPIView):
                     matches.append(obj.pk)
             queryset = queryset.filter(pk__in=matches)
 
-        # ENTITIES: return sheets that belong to the given entity(-ies).
+        # SHEETS: return sheets that belong to the given entity(-ies).
+        if sheets:
+            sheets = sheets.split(',')
+            queryset = queryset.filter(sheet__in=sheets)
+
+        # ENTITIES: return sheet items that belong to the given entity(-ies).
         if entities:
             entities = entities.split(',')
             queryset = queryset.filter(entity__in=entities)
 
-        # DIVISIONS: return sheets that are under the given division(s).
+        # DIVISIONS: return sheet items that are under the given division(s).
         if divisions:
             divisions = divisions.split(',')
             queryset = queryset.filter(entity__division_id__in=divisions)
 
-        # TEMPLATES: return sheets that use the given template(s).
+        # TEMPLATES: return sheet items that use the given template(s).
         if templates:
             templates = templates.split(',')
             queryset = queryset.filter(template__in=templates)
