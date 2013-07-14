@@ -71,13 +71,20 @@ define([
     }, {
         type    : 'FilteredList',
         config  : {
-            element     : '#entities_list',
-            mixins      : ['Templated', 'Scrolled', 'Deferred'],
-            adapters    : ['jqWheelScroll', 'Spin'],
-            resource    : 'Munis',
-            promise     : explorer.routes_set_promise,
-            position    : 'top|120px bottom fluid',
-            search      : {
+            element         : '#entities_list',
+            mixins          : ['Templated', 'Scrolled', 'Deferred'],
+            adapters        : ['jqWheelScroll', 'Spin'],
+            resource        : 'Munis',
+            promise         : explorer.routes_set_promise,
+            position        : 'top|120px bottom fluid',
+            fetch_options   : {
+                data: {
+                    division__budgeting : 'True',
+                    page_by             : 300,
+                    ordering            : 'name'
+                }
+            },
+            search          : {
                 fields  : {
                     code    : 20,
                     name    : 10,
@@ -86,22 +93,17 @@ define([
                     name_ar : 10
                 }
             },
-            filters     : {
+            filters         : {
                 search  : 'search'
             },
-            signals     : {
+            signals         : {
+                pre_wake        : function () {
+                    return ! this.has_content;
+                },
                 pre_update      : 'spin',
                 post_fetch_data : function () {
                     this.spinOff()
                         .index().search_index.add( this.resource.toJSON() );
-                },
-                pre_wake        : function () {
-                    if ( this.has_content ) {
-                        return false;
-                    }
-                    else {
-                        this.resource.url = api.getRoute('entities') + '?division__budgeting=True&page_by=300&ordering=name';
-                    }
                 },
                 post_render     : function () {
                     this.$children = this.$element.children();
@@ -111,7 +113,7 @@ define([
                     return +$selected.attr('data-id');
                 }
             },
-            app_events  : {
+            app_events      : {
                 'entity_field.changed'  : 'filterBySearch+',
                 'entities_list.filtered': 'scroll'
             }

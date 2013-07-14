@@ -2,8 +2,9 @@ define([
     'uijet_dir/uijet',
     'modules/data/backbone',
     'underscore',
+    'api',
     'backbone-fetch-cache'
-], function (uijet, Backbone, _) {
+], function (uijet, Backbone, _, api) {
 
     uijet.use({
         prop: function (property) {
@@ -13,7 +14,13 @@ define([
         }
     }, uijet.utils);
 
-    var
+    var METHOD_MAP = {
+            create  : 'POST',
+            update  : 'PUT',
+            patch   : 'PATCH',
+            'delete': 'DELETE',
+            read    : 'GET'
+        },
         reverseSorting = function (field) {
             return function (a, b) {
                 var a_val = a.get(field),
@@ -59,6 +66,9 @@ define([
          */
         Munis = uijet.Collection({
             model   : Muni,
+            url     : function () {
+                return api.getRoute('entities');
+            },
             parse   : function (response) {
                 //! Array.prototype.filter
                 return response.results;
@@ -75,6 +85,9 @@ define([
          */
         Nodes = uijet.Collection({
             model           : Node,
+            url             : function () {
+                return api.getRoute('templateNodes');
+            },
             comparator      : function (a, b) {
                 var a_attrs = a.attributes,
                     b_attrs = b.attributes,
@@ -183,12 +196,25 @@ define([
                 }
                 return branch || [];
             }
+        }),
+        State = uijet.Model({
+            idAttribute : 'uuid',
+            urlRoot     : function () {
+                return api.getRoute('projectStates');
+            },
+            sync        : function (method, model, options) {
+                return new api.Request(model.url(), {
+                    method  : METHOD_MAP[method],
+                    data    : model.toJSON()
+                });
+            }
         });
 
     return {
         Munis   : Munis,
         Node    : Node,
         Nodes   : Nodes,
+        State   : State,
         utils   : {
             reverseSorting  : reverseSorting,
             nestingSort     : nestingSort
