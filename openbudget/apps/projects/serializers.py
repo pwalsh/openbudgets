@@ -1,4 +1,4 @@
-from rest_framework.serializers import HyperlinkedModelSerializer, RelatedField
+from rest_framework.serializers import ModelSerializer, HyperlinkedModelSerializer, Field, RelatedField
 from openbudget.apps.international.utilities import translated_fields
 from openbudget.apps.projects import models
 
@@ -16,13 +16,14 @@ class ProjectBaseSerializer(HyperlinkedModelSerializer):
                  translated_fields(model)
 
 
-class StateBaseSerializer(HyperlinkedModelSerializer):
+class StateBaseSerializer(ModelSerializer):
     """Base State serializer, exposing our defaults for projects."""
 
     #project = RelatedField()
     #author = RelatedField()
+    url = Field(source='get_absolute_url')
 
     class Meta:
         model = models.State
-        fields = ['url', 'id', 'project', 'author', 'preview', 'config',
+        fields = ['url', 'uuid', 'id', 'project', 'author', 'preview', 'config',
                   'created_on', 'last_modified']
