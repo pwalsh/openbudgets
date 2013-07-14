@@ -3,7 +3,7 @@
   stroke: none;
 }
 .x_axis line.mark {
-    stroke: #d0d0dc;
+    stroke: #646e78;
 }
 .y_axis line {
     stroke: #d0d0dc;
@@ -29,6 +29,16 @@
 .line {
     fill: none;
     stroke-width: 1.5px;
+}
+.value_circle {
+    pointer-events: none;
+}
+.value_circle circle {
+    stroke: white;
+}
+.value_circle text {
+    font-size: 1.3rem;
+    font-weight: bold;
 }
 .viz_action {
     font-size: 1.3rem;

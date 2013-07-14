@@ -72,6 +72,26 @@ define([
                 remove  : function () { this.resource.setColors(); },
                 add     : function () { this.resource.setColors(); }
             },
+            signals     : {
+                post_init   : function () {
+                    var overlay_id = this.id + '_overlay';
+                    uijet.start({
+                        type    : 'Overlay',
+                        config  : {
+                            element     : uijet.$('<div>', {
+                                id      : overlay_id
+                            }).appendTo(this.$wrapper),
+                            container   : this.id,
+                            darken      : true,
+                            app_events  : {
+                                'add_legend.clicked'        : 'wake',
+                                'add_legend_cancel.clicked' : 'sleep',
+                                'entities_list.selected'    : 'sleep'
+                            }
+                        }
+                    });
+                }
+            },
             app_events  : {
                 chart_colors            : function (colors) {
                     this.resource.colors = colors;

@@ -31,7 +31,7 @@ requirejs([
             client_id       : '751be246011e8a6198d7',
             client_secret   : 'c62cb3b66fcbe46b82ecda2ed146b7bfe24fdea4',
             grant_type      : 'password',
-            username        : 'pwalsh',
+            username        : 'admin',
             password        : 'morelove!'
         }
     });

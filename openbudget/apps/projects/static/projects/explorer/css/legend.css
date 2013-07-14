@@ -136,3 +136,9 @@
     left: 0;
     width: 100%;
 }
+
+#legends_list_overlay {
+    position: absolute;
+    background-color: #d0d0dc;
+    opacity: .8;
+}

@@ -5,7 +5,7 @@ define([
     'd3'
 ], function (uijet, resources, api) {
 
-    var X_TICKS = 5;
+    var Y_TICKS = 5;
 
     var d3 = window.d3,
         period = uijet.utils.prop('period'),
@@ -41,7 +41,7 @@ define([
                 y_axis = d3.svg.axis()
                     .scale(y)
                     .orient('right')
-                    .ticks(X_TICKS);
+                    .ticks(Y_TICKS);
 
             this.width = width;
             this.height = height;
@@ -79,17 +79,20 @@ define([
                     actual_id = id + '-actual',
                     budget_id = id + '-budget',
                     title = item.get('title'),
+                    muni = item.get('muni'),
                     item_series = item.toSeries();
                 item_series[0].forEach(periodParser);
                 item_series[1].forEach(periodParser);
                 ids.push(actual_id, budget_id);
                 data.push({
                     id      : actual_id,
-                    name    : title + ' actual',
+                    title   : title + ' actual',
+                    muni    : muni,
                     values  : item_series[0]
                 }, {
                     id      : budget_id,
-                    name    : title + ' budget',
+                    title   : title + ' budget',
+                    muni    : muni,
                     values  : item_series[1]
                 });
             });
@@ -115,16 +118,16 @@ define([
                 .call(this.x_axis)
                 .selectAll('line')
                     .attr('x1', 0)
-                    .attr('y2', 20)
-                    .attr('y1', -(this.height - 20));
+                    .attr('y2', '0')
+                    .attr('y1', -this.height);
 
             this.svg.append('g')
                 .attr('class', 'axis y_axis')
-                .attr('transform', 'translate(10,0)')
+//                .attr('transform', 'translate(10,0)')
                 .call(this.y_axis)
                 .selectAll('line')
-                    .attr('x2', 20)
-                    .attr('x1', this.width - 20);
+//                    .attr('x2', 20)
+                    .attr('x1', this.width);
 
             this.svg.selectAll('.timeline').remove();
 
@@ -162,10 +165,20 @@ define([
                 to = dateParser(to);
             }
             this.x_scale.domain([from, to]);
-            this.svg.select('.x_axis').call(this.x_axis);
+            this.svg.select('.x_axis')
+                .call(this.x_axis)
+                .selectAll('line')
+                    .attr('x1', 0)
+                    .attr('y2', '0')
+                    .attr('y1', -(this.height - 20));
             this.svg.selectAll('.line').attr('d', function (d) {
                 return line(d.values);
             });
+
+            // reset mouseover handler
+            this.hoverOff();
+            this.svg.on('mouseover', this.hoverOn.bind(this));
+
             return this;
         },
         hoverOn         : function () {
@@ -178,7 +191,8 @@ define([
         },
         mousemove       : function () {
             var x = this.x_scale,
-                x_ticks_coords = x.ticks(X_TICKS).map(function (value) {
+                ticks_values = x.ticks(d3.time.years),
+                x_ticks_coords = ticks_values.map(function (value) {
                     return x(value);
                 }),
                 that = this;
@@ -201,14 +215,105 @@ define([
                 }
                 if ( that.current_hovered_index !== new_index ) {
                     that.current_hovered_index = new_index;
-                    that.hoverMark(new_index);
+                    that.hoverMark(ticks_values[new_index]);
                 }
             };
         },
-        hoverMark       : function (index) {
-            d3.select('line.mark').classed('mark', false);
-            if ( typeof index == 'number' )
-                d3.select(d3.select('.x_axis').selectAll('line')[0][index]).classed('mark', true);
+        hoverMark       : function (value) {
+            if ( value ) {
+                //TODO: this is based on assumption that data is yearly
+                var year = value.getFullYear();
+                d3.select('.x_axis').selectAll('line').classed('mark', function (d) {
+                    return d.getFullYear() === year;
+                });
+                this.markValues(value);
+            }
+            else {
+                d3.select('line.mark').classed('mark', false);
+                d3.selectAll('.value_circle').remove();
+            }
+        },
+        markValues      : function (x_value) {
+            var labels,
+                datums = [],
+                x = this.x_scale,
+                y = this.y_scale,
+                color = this.colors,
+                added_label, added_label_texts;
+            d3.selectAll('.timeline').each(function (d, i) {
+                d.values.some(function (point_datum) {
+                    if ( point_datum.period.valueOf() === x_value.valueOf() ) {
+                        datums.push({
+                            period  : point_datum.period,
+                            amount  : point_datum.amount,
+                            id      : d.id,
+                            title   : d.title,
+                            muni    : d.muni
+                        });
+                        return true;
+                    }
+                });
+            });
+            datums.sort(function (a, b) {
+                return a.amount - b.amount;
+            });
+            datums.forEach(function (d, i) {
+                d.x = x(d.period);
+                d.y = y(d.amount);
+                d.color = color(d.id);
+            });
+
+            labels = this.svg.selectAll('.value_circle').data(datums, function (d) { return d.id + d.period; });
+
+            labels.exit().remove();
+
+            added_label = labels.enter().append('g')
+                .attr('class', 'value_circle');
+            
+            added_label_texts = added_label.append('g')
+                .attr('class', 'value_label')
+                .attr('transform', 'translate(0,-10)');
+
+            added_label_texts.append('text')
+                .attr('class', 'title');
+
+            added_label_texts.append('text')
+                .attr('class', 'amount');
+
+            added_label.append('circle');
+
+            labels.sort(function (a, b) { return a.amount - b.amount; });
+
+            labels.attr('transform', function (d) {
+                return 'translate(' + d.x + ',' + d.y + ')';
+            });
+
+            labels.selectAll('text')
+                .attr('fill', function (d) { return d.color; });
+            labels.selectAll('.amount')
+                .text(function (d) { return d.amount; })
+                .attr('x', function () {
+                    return - (this.getBBox().width + 10);
+                });
+            labels.selectAll('.title')
+                .text(function (d) { return d.muni + ': ' + d.title; });
+
+            d3.selectAll('.value_label')
+                .attr('transform', function (d, i) {
+                    var y_pos = -10,
+                        prev_y, dy;
+                    if ( i ) {
+                        prev_y = datums[i - 1].y;
+                        dy = prev_y - d.y;
+                        // make sure we have a margin of 20px between labels' texts
+                        y_pos = dy < 20 && dy > 0 ? -30 : -10;
+                    }
+                    return 'translate(0,' + y_pos + ')';
+                });
+
+            labels.select('circle')
+                .attr('r', 5)
+                .style('fill', function (d) { return d.color; });
         }
     });
 
