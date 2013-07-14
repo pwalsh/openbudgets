@@ -69,7 +69,7 @@
             var key;
             for ( key in data ) {
                 if ( isObject(data[key]) ) {
-                    result.push(urlSerialize(data[key]));
+                    result.push(key + '=' + JSON.stringify(data[key]));
                 }
                 else {
                     result.push(key + '=' + data[key]);
