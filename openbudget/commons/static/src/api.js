@@ -23,7 +23,7 @@
             client_id       : '751be246011e8a6198d7',
             client_secret   : 'c62cb3b66fcbe46b82ecda2ed146b7bfe24fdea4',
             grant_type      : 'password',
-            username        : 'pwalsh',
+            username        : 'admin',
             password        : 'morelove!'
         },
         obudget;
@@ -31,6 +31,7 @@
     function isObject (obj) {
         return Object.prototype.toString.call(obj) == '[object Object]';
     }
+
     function extend () {
         var args = Array.prototype.slice.call(arguments),
             target = args.shift(),
@@ -61,6 +62,25 @@
         }
         return target;
     }
+
+    function urlSerialize (data) {
+        if ( isObject(data) ) {
+            var result = [];
+            var key;
+            for ( key in data ) {
+                if ( isObject(data[key]) ) {
+                    result.push(urlSerialize(data[key]));
+                }
+                else {
+                    result.push(key + '=' + data[key]);
+                }
+            }
+            result = result.join('&');
+            return result;
+        }
+        return data;
+    }
+
     function Request (url, ops) {
         if ( !(this instanceof Request) ) return new Request(url, ops);
         var options;
@@ -115,13 +135,7 @@
                 xhr.setRequestHeader('Accept', 'application/json');
             }
 
-            if ( isObject(this.options.data) ) {
-                var key;
-                for ( key in this.options.data ) {
-                    data.push(key + '=' + this.options.data[key]);
-                }
-                data = data.join('&');
-            }
+            data = urlSerialize(this.options.data);
 
             xhr.send(data || this.options.data);
 
@@ -134,7 +148,7 @@
 
             try {
                 if ( xhr.readyState === 4 ) {
-                    if ( xhr.status === 200 ) {
+                    if ( xhr.status === 200 || xhr.status === 201 ) {
                         if ( typeof ops.success == 'function') {
                             response = xhr.responseText;
                             if ( ops.dataType === 'json' ) {
@@ -208,12 +222,23 @@
             }
         },
         /**
+         * Generate an OAuth2 token URI from `AUTH_DATA`
+         */
+        _authTokenURI   : function (options) {
+            var splitter = '://',
+                index_split = API_INDEX.split(splitter);
+            return index_split[0] + splitter +
+                options.client_id + ':' + 
+                options.client_secret + '@' + 
+                index_split[1] + 'auth/token/';
+        },
+        /**
          * Get an OAuth2 token
          */
-        _auth           : function (options) {
-            return new Request(API_URL + 'auth/token/', extend(true, {
+        auth           : function (options) {
+            return new Request(obudget._authTokenURI(options.data), extend(true, {
                 method  : 'POST',
-                data    : AUTH_DATA,
+                data    : options.data || AUTH_DATA,
                 dataType: 'json',
                 success : function (response) {
                     Request.setHeader('Authorization', 'Bearer ' + response.access_token);
@@ -223,9 +248,6 @@
                     throw new Error('Auth failed: ' + response);
                 }
             }, options || {}));
-        },
-        auth            : function (options) {
-            return obudget.versionWrapper(obudget._auth, options);
         },
         _getRoutes      : function (options) {
             return new Request(API_URL, extend(true, {
