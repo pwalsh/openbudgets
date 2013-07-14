@@ -240,7 +240,7 @@ ABSOLUTE_URL_OVERRIDES = {
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.RedisCache',
-        'LOCATION': REDIS['HOST'] + str(REDIS['PORT']),
+        'LOCATION': REDIS['HOST'] + ':' + str(REDIS['PORT']),
         'OPTIONS': {
             'DB': REDIS['DB'],
             'PARSER_CLASS': 'redis.connection.HiredisParser'
@@ -311,7 +311,7 @@ import djcelery
 
 djcelery.setup_loader()
 
-BROKER_URL = REDIS['SCHEME'] + REDIS['HOST'] + str(REDIS['PORT']) + \
+BROKER_URL = REDIS['SCHEME'] + REDIS['HOST'] + ':' + str(REDIS['PORT']) + \
              str(REDIS['DB'])
 
 CELERY_RESULT_BACKEND = BROKER_URL
