@@ -13,11 +13,8 @@ define([
             this.resource.add(model);
             return model;
         },
-        createItem      : function (model_index) {
-            var index = this.resource.length,
-                state = typeof model_index == 'number' ? this.resource.at(model_index).attributes : model_index,
-                model = this.createItemModel(state);
-
+        createItemWidget: function (model, index) {
+            index = typeof index == 'number' ? index : this.resource.length;
             uijet.start({
                 factory : 'LegendItem',
                 config  : {
@@ -33,6 +30,12 @@ define([
                 }
             }, true);
             return this;
+        },
+        createItem      : function (model_index) {
+            var state = typeof model_index == 'number' ? this.resource.at(model_index).attributes : model_index,
+                model = this.createItemModel(state);
+
+            return this.createItemWidget(model);
         },
         addItem         : function (model_index) {
             this.createItem(model_index)
@@ -114,6 +117,26 @@ define([
                     partial : partial_nodes
                 }
             });
+        },
+        resetItems      : function () {
+            this.destroyContained();
+            this.resource.models.forEach(this.createItemWidget, this);
+            this.resource.setColors();
+            this.createOverlay();
+            return this;
+        },
+        createOverlay   : function () {
+            var overlay_id = this.id + '_overlay';
+            uijet.start({
+                factory : 'LegendOverlay',
+                config  : {
+                    element     : uijet.$('<div>', {
+                        id      : overlay_id
+                    }).appendTo(this.$wrapper),
+                    container   : this.id
+                }
+            });
+            return this;
         }
     });
 

@@ -45,7 +45,8 @@ define([
                     else {
                         uijet.publish('welcome');
                     }
-                }
+                },
+                'chart_reset'               : 'wake+'
             }
         }
     }, {
@@ -93,7 +94,13 @@ define([
             style       : {
                 padding : 20
             },
-            data_events : {},
+            data_events : {
+                reset   : function () {
+                    uijet.publish('chart_reset', {
+                        state_loaded: true
+                    });
+                }
+            },
             app_events  : {
                 'legends_list.delete'           : function () {
                     if ( this.awake ) {

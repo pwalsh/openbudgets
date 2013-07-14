@@ -3,6 +3,7 @@ define([
     'modules/data/backbone',
     'underscore',
     'api',
+    'modules/promises/q',
     'backbone-fetch-cache'
 ], function (uijet, Backbone, _, api) {
 
@@ -14,14 +15,7 @@ define([
         }
     }, uijet.utils);
 
-    var METHOD_MAP = {
-            create  : 'POST',
-            update  : 'PUT',
-            patch   : 'PATCH',
-            'delete': 'DELETE',
-            read    : 'GET'
-        },
-        reverseSorting = function (field) {
+    var reverseSorting = function (field) {
             return function (a, b) {
                 var a_val = a.get(field),
                     b_val = b.get(field);
@@ -201,16 +195,11 @@ define([
             idAttribute : 'uuid',
             urlRoot     : function () {
                 return api.getRoute('projectStates');
-            },
-            sync        : function (method, model, options) {
-                return new api.Request(model.url(), {
-                    method  : METHOD_MAP[method],
-                    data    : model.toJSON()
-                });
             }
         });
 
     return {
+        Muni    : Muni,
         Munis   : Munis,
         Node    : Node,
         Nodes   : Nodes,

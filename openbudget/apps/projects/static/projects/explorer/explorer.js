@@ -2,6 +2,8 @@ define([
     'uijet_dir/uijet',
     'resources',
     'api',
+    'modules/data/backbone',
+    'modules/router/backbone',
     'modules/dom/jquery',
     'modules/pubsub/eventbox',
     'modules/promises/q',
@@ -10,12 +12,35 @@ define([
     'modules/animation/uijet-transit',
     'project_modules/uijet-i18n',
     'project_modules/uijet-search'
-], function (uijet, resources, api, $, Ebox, Q, Mustache) {
+], function (uijet, resources, api, Backbone, Router, $, Ebox, Q, Mustache) {
+
+    var explorer;
 
     // get version endpoint
     api.getVersion();
 
-    var explorer = {
+    explorer = {
+        router      : Router({
+            routes  : {
+                'test'  : function () {
+                    alert('TEST');
+                },
+                ':uuid' : function (uuid) {
+                    var state = uijet.Resource('ProjectState');
+                    if ( state.id !== uuid ) {
+                        state.set({
+                            uuid: uuid
+                        })
+                        .fetch({
+                            success : function (model) {
+                                var series = JSON.parse(model.get('config'));
+                                uijet.Resource('TimeSeries').reset(series);
+                            }
+                        });
+                    }
+                }
+            }
+        }),
         start       : function (options) {
             /*
              * Get an OAuth2 token
@@ -50,6 +75,7 @@ define([
             uijet.Resource('LatestSheet', resources.Nodes);
 
             this.LegendItemModel = uijet.Model();
+
             uijet.Resource('LegendItems', uijet.Collection({
                 model       : this.LegendItemModel,
                 setColors   : function () {
@@ -58,6 +84,20 @@ define([
                     }, this);
                 }
             }));
+
+            uijet.Resource('ProjectState', resources.State, {
+                project : 1,
+                author  : 1
+            });
+            
+            uijet.subscribe('startup', function () {
+                Backbone.history.start({ root : 'static/projects/explorer/index.html' });
+            });
+            /*
+             * Register handlers to events in UI
+             */
+            uijet.subscribe('viz_save.clicked', explorer.saveState);
+
             /*
              * Starting uijet
              */
@@ -76,7 +116,20 @@ define([
             });
             uijet.publish('authenticated');
             return this;
-        } 
+        },
+        saveState   : function () {
+            var chart_data = uijet.Resource('TimeSeries').toJSON(),
+                state_model = uijet.Resource('ProjectState');
+
+            state_model.save({ config : chart_data }, {
+                success : function () {
+                    explorer.router.navigate(state_model.uuid);
+                },
+                error   : function () {
+                    console.error.apply(console, arguments);
+                }
+            });
+        }
     };
 
     return explorer;

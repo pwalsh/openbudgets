@@ -93,13 +93,13 @@ define([
                             // this makes sure the resource will execute fetch to sync with remote server
                             this.dont_fetch = false;
                             this.has_data = false;
-                            this.options.fetch_options = {
+                            uijet.utils.extend(true, this.options.fetch_options, {
                                 data: {
                                     page_by : 4000,
                                     latest  : 'True',
                                     entity  : entity_id
                                 }
-                            };
+                            });
                         }
                         else {
                             this.dont_fetch = true;

@@ -52,13 +52,13 @@ define([
     });
 
     uijet.Resource('TimeSeries', uijet.Collection({
-        model   : TimeSeriesModel,
-        fetch   : function () {
+        model       : TimeSeriesModel,
+        fetch       : function () {
             return uijet.whenAll(this.models.map(function (model) {
                 return model.fetch();
             }));
         },
-        periods : function () {
+        periods     : function () {
             return this.pluck('periods').reduce(function (prev, current) {
                 current.forEach(function (item) {
                     if ( !~ this.indexOf(item) )
@@ -66,6 +66,19 @@ define([
                 }, prev);
                 return prev;
             }).sort();
+        },
+        extractLegend   : function () {
+            return this.models.map(function (model) {
+                var attrs = model.attributes;
+                return {
+                    title   : attrs.title,
+                    nodes   : attrs.nodes,
+                    muni    : new resources.Muni({
+                        id  : attrs.muni_id,
+                        name: attrs.muni
+                    })
+                };
+            });
         }
     }));
 
