@@ -257,17 +257,13 @@ Pagination
 
 Implements API defaults.
 
-Example: http://api.open-budget.prjts.com/v1/divisions/?page_by=50
-
 Filters
 +++++++
 
-* budgeting [true/false] - returns divisions that are budgeting
+* budgeting [true/false] - returns divisions that actually declare budgets
 * has_entities [true/false] - returns divisions that have entities
 * domains [INT, list of comma-separated INT] - returns divisions of the given domain id(s).
 * indexes [INT, list of comma-separated INT]  - returns divisions of the given index(es).
-
-Example: http://api.open-budget.prjts.com/v1/divisions/?has_entities=false
 
 Ordering
 ++++++++
@@ -279,8 +275,6 @@ Order results by the following fields:
 * **created_on**
 * **last_modified**
 
-Example: http://api.open-budget.prjts.com/v1/divisions/?ordering=created_on
-
 Search
 ++++++
 
@@ -288,7 +282,23 @@ Filter list by searching over the following fields:
 
 * **name** - The name field of all divisions.
 
-Example: http://api.open-budget.prjts.com/v1/divisions/?search=Shumron
+Example queries
++++++++++++++++
+
+http://api.open-budget.prjts.com/v1/divisions/?budgeting=false
+
+http://api.open-budget.prjts.com/v1/divisions/?has_entities=true
+
+http://api.open-budget.prjts.com/v1/divisions/?domains=1
+
+http://api.open-budget.prjts.com/v1/divisions/?indexes=1,3
+
+http://api.open-budget.prjts.com/v1/divisions/?search=מחוז
+
+http://api.open-budget.prjts.com/v1/divisions/?search=מ
+
+http://api.open-budget.prjts.com/v1/divisions/?ordering=-id
+
 
 Entities
 ~~~~~~~~
@@ -314,8 +324,6 @@ Pagination
 
 Implements API defaults.
 
-Example: http://api.open-budget.prjts.com/v1/entities/?page_by=800
-
 Filters
 +++++++
 
@@ -323,8 +331,6 @@ Filters
 * has_sheets [true/false] - returns entities that have sheets
 * divisions [INT, list of comma-separated INT] - returns entities of the given division id(s).
 * parents [INT, list of comma-separated INT]  - returns entities of the given parent entity id(s).
-
-Example: http://api.open-budget.prjts.com/v1/entities/?parents=3,79,120
 
 Ordering
 ++++++++
@@ -336,8 +342,6 @@ Order results by the following fields:
 * **created_on**
 * **last_modified**
 
-Example: http://api.open-budget.prjts.com/v1/entities/?ordering=name,id
-
 Search
 ++++++
 
@@ -346,7 +350,24 @@ Filter list by searching over the following fields:
 * **name** - The name field of all entities.
 * **description** - The description field of all entities.
 
-Example: http://api.open-budget.prjts.com/v1/entities/?search=Tel%20Aviv
+Example queries
++++++++++++++++
+
+http://api.open-budget.prjts.com/v1/entities/?budgeting=false
+
+http://api.open-budget.prjts.com/v1/entities/?has_sheets=true
+
+http://api.open-budget.prjts.com/v1/entities/?domains=1
+
+http://api.open-budget.prjts.com/v1/entities/?divisions=1,3
+
+http://api.open-budget.prjts.com/v1/entities/?parents=3,79,120
+
+http://api.open-budget.prjts.com/v1/entities/?search=Tel%20Aviv
+
+http://api.open-budget.prjts.com/v1/entities/?search=Tel
+
+http://api.open-budget.prjts.com/v1/entities/?ordering=-created_on
 
 
 Sheets
@@ -373,16 +394,12 @@ Pagination
 
 Implements API defaults.
 
-Example: http://api.open-budget.prjts.com/v1/sheets/?page_by=300
-
 Filters
 +++++++
 
 * entities [INT, list of comma-separated INT] - returns sheets of the given entity id(s).
 * divisions [INT, list of comma-separated INT] - returns sheets under the given division id(s).
 * templates [INT, list of comma-separated INT] - returns sheets using the given template id(s).
-
-Example: http://api.open-budget.prjts.com/v1/sheets/?entities=165,81
 
 Ordering
 ++++++++
@@ -395,8 +412,6 @@ Order results by the following fields:
 * **created_on**
 * **last_modified**
 
-Example: http://api.open-budget.prjts.com/v1/sheets/?ordering=entity__name,-period_start
-
 Search
 ++++++
 
@@ -406,7 +421,18 @@ Filter list by searching over the following fields:
 * **description** - The description field of all sheets.
 * **period_start** and **period_end** - The applicable dates for all sheets.
 
-Example: http://api.open-budget.prjts.com/v1/sheets/?search=increase%20in%20spending
+Example queries
++++++++++++++++
+
+http://api.open-budget.prjts.com/v1/sheets/?entities=45,90,91
+
+http://api.open-budget.prjts.com/v1/sheets/?divisions=3,4
+
+http://api.open-budget.prjts.com/v1/sheets/?templates=2
+
+http://api.open-budget.prjts.com/v1/sheets/?search=Tel%20Aviv
+
+http://api.open-budget.prjts.com/v1/sheets/?ordering=-created_on
 
 
 Sheet Items
@@ -433,8 +459,6 @@ Pagination
 
 Implements API defaults.
 
-Example: http://api.open-budget.prjts.com/v1/sheets/items/?page_by=300
-
 Filters
 +++++++
 
@@ -442,8 +466,6 @@ Filters
 * entities [INT, list of comma-separated INT] - returns sheets of the given entity id(s).
 * divisions [INT, list of comma-separated INT] - returns sheets under the given division id(s).
 * templates [INT, list of comma-separated INT] - returns sheets using the given template id(s).
-
-Example: http://api.open-budget.prjts.com/v1/sheets/items/?entities=165,81&has_discussion=true
 
 Ordering
 ++++++++
@@ -456,8 +478,6 @@ Order results by the following fields:
 * **created_on**
 * **last_modified**
 
-Example: http://api.open-budget.prjts.com/v1/sheets/items/?ordering=id,node__code
-
 Search
 ++++++
 
@@ -468,8 +488,18 @@ Filter list by searching over the following fields:
 * **node__name** - The name field of the item node.
 * **period_start** and **period_end** - The applicable dates for all sheets.
 
-Example: http://api.open-budget.prjts.com/v1/sheets/items/?search=increase%20in%20spending
+Example queries
++++++++++++++++
 
+http://api.open-budget.prjts.com/v1/sheets/items/?has_discussion=true
+
+http://api.open-budget.prjts.com/v1/sheets/items/?entities=65,99
+
+http://api.open-budget.prjts.com/v1/sheets/items/?divisions=4,5
+
+http://api.open-budget.prjts.com/v1/sheets/items/?search=Tel%20Aviv
+
+http://api.open-budget.prjts.com/v1/sheets/items/?ordering=-created_on
 
 Templates
 ~~~~~~~~~
@@ -495,8 +525,6 @@ Pagination
 
 Implements API defaults.
 
-Example: http://api.open-budget.prjts.com/v1/templates/?page_by=10
-
 Filters
 +++++++
 
@@ -505,8 +533,6 @@ Filters
 * domains [INT, list of comma-separated INT] - returns templates using the given domain id(s).
 
 * Default (no filter) - by default, a list of templates that are explicitly assigned to a division is returned. In a future iteration, we'll have to improve the way template "inheritance" works to change this.
-
-Example: http://api.open-budget.prjts.com/v1/templates/?divisions=4,5
 
 Ordering
 ++++++++
@@ -519,8 +545,6 @@ Order results by the following fields:
 * **created_on**
 * **last_modified**
 
-Example: http://api.open-budget.prjts.com/v1/templates/?ordering=-period_start
-
 Search
 ++++++
 
@@ -529,7 +553,18 @@ Filter list by searching over the following fields:
 * **name** - The name field of the templates.
 * **description** - The description field of the templates.
 
-Example: http://api.open-budget.prjts.com/v1/templates/?search=israel
+Example queries
++++++++++++++++
+
+http://api.open-budget.prjts.com/v1/templates/?domains=1
+
+http://api.open-budget.prjts.com/v1/templates/?divisions=5
+
+http://api.open-budget.prjts.com/v1/templates/?entities=101
+
+http://api.open-budget.prjts.com/v1/templates/?search=Tel%20Aviv
+
+http://api.open-budget.prjts.com/v1/templates/?ordering=-period_start
 
 
 Template Nodes
@@ -556,8 +591,6 @@ Pagination
 
 Implements API defaults.
 
-Example: http://api.open-budget.prjts.com/v1/templates/nodes/?page_by=10
-
 Filters
 +++++++
 
@@ -566,8 +599,6 @@ Filters
 * domains [INT, list of comma-separated INT] - returns templates using the given domain id(s).
 
 * Default (no filter) - by default, a list of templates that are explicitly assigned to a division is returned. In a future iteration, we'll have to improve the way template "inheritance" works to change this.
-
-Example: http://api.open-budget.prjts.com/v1/templates/nodes/?divisions=4,5
 
 Ordering
 ++++++++
@@ -580,8 +611,6 @@ Order results by the following fields:
 * **created_on**
 * **last_modified**
 
-Example: http://api.open-budget.prjts.com/v1/templates/nodes/?ordering=-name,last_modified
-
 Search
 ++++++
 
@@ -590,7 +619,16 @@ Filter list by searching over the following fields:
 * **name** - The name field of the templates.
 * **description** - The description field of the templates.
 
-Example: http://api.open-budget.prjts.com/v1/templates/nodes/?search=Ethiopian%20Health
+Example queries
++++++++++++++++
+
+http://api.open-budget.prjts.com/v1/templates/nodes/?templates=1
+
+http://api.open-budget.prjts.com/v1/templates/nodes/?entities=4,5
+
+http://api.open-budget.prjts.com/v1/templates/nodes/?search=Tel%20Aviv
+
+http://api.open-budget.prjts.com/v1/templates/nodes/?ordering=last_modified
 
 
 Contexts
