@@ -66,15 +66,12 @@ define([
         render          : function () {
             this._super();
 
-            var legend = uijet.Resource('LegendItems');
-
             if ( this.context && this.context.state_loaded ) {
-                legend.reset(this.resource.extractLegend());
                 this._draw();
                 delete this.context.state_loaded;
             }
             else {
-                this.set(legend.models).then(this._draw.bind(this));
+                this.set(uijet.Resource('LegendItems').models).then(this._draw.bind(this));
             }
             return this;
         },
