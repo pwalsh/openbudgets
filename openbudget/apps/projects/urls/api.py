@@ -18,7 +18,7 @@ urlpatterns = patterns('',
         name='project-detail'
     ),
     url(
-        r'^states/(?P<uuid>\w+)$',
+        r'^states/(?P<uuid>\w+)/$',
         api.StateDetail.as_view(),
         name='state-detail'
     ),
