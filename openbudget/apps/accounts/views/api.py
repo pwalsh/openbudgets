@@ -17,5 +17,4 @@ class AccountDetail(generics.RetrieveAPIView):
     """Called via an API endpoint that represents a single account object."""
 
     model = models.Account
-    lookup_field = 'uuid'
     serializer_class = serializers.AccountBaseSerializer

@@ -8,7 +8,7 @@ urlpatterns = patterns('',
         api.AccountList.as_view(),
         name='account-list'
     ),
-    url(r'^(?P<uuid>\w+)/$',
+    url(r'^(?P<pk>\d+)/$',
         api.AccountDetail.as_view(),
         name='account-detail'
     ),
