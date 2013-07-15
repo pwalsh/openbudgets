@@ -81,19 +81,20 @@ define([
                 // if we still have other legend items left
                 // and it was the last item in the list
                 if ( new_length && new_length === index ) {
-                    this.current_index = index - 1;
+                    return index - 1;
                 }
             }
             // if current selected item is below the deleted one then need to shift the index by 1
             else if ( index < this.current_index ) {
-                this.current_index--;
+                return this.current_index - 1;
             }
+            return this.current_index;
         },
         removeItem      : function (index) {
-            this.deleteItem(index);
+            var new_current_index = this.deleteItem(index);
             if ( this.resource.length ) {
                 if ( this.picking ) {
-                    uijet.publish('legends_list.selected', this.current_index);
+                    uijet.publish('legends_list.selected', new_current_index);
                 }
             }
             else {
