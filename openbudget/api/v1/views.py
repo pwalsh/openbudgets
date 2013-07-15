@@ -8,6 +8,7 @@ def api_v1(request):
     """The entry endpoint of our v1 API"""
 
     return Response({
+        'Accounts': reverse('account-list', request=request),
         'Domains': reverse('domain-list', request=request),
         'Divisions': reverse('division-list', request=request),
         'Entities': reverse('entity-list', request=request),

@@ -15,7 +15,7 @@ urlpatterns = patterns('',
         include(admin.site.urls)
     ),
     url(r'^accounts/',
-        include('openbudget.apps.accounts.urls')
+        include('openbudget.apps.accounts.urls.ui')
     ),
     url(r'^entities/',
         include('openbudget.apps.entities.urls.ui')

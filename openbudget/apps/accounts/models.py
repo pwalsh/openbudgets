@@ -44,7 +44,7 @@ class Account(UUIDModel, AbstractUser):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('account_detail', [self.uuid])
+        return 'account_detail', [self.uuid]
 
     def __unicode__(self):
         return self.username
