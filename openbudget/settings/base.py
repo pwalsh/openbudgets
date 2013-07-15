@@ -311,7 +311,7 @@ import djcelery
 
 djcelery.setup_loader()
 
-BROKER_URL = REDIS['SCHEME'] + REDIS['HOST'] + ':' + str(REDIS['PORT']) + \
+BROKER_URL = REDIS['SCHEME'] + REDIS['HOST'] + ':' + str(REDIS['PORT']) + '/' + \
              str(REDIS['DB'])
 
 CELERY_RESULT_BACKEND = BROKER_URL
