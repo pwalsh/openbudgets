@@ -22,9 +22,6 @@ define([
     explorer = {
         router      : Router({
             routes  : {
-                'test'  : function () {
-                    alert('TEST');
-                },
                 ':uuid' : function (uuid) {
                     var state = uijet.Resource('ProjectState');
                     if ( state.id !== uuid ) {
@@ -33,8 +30,12 @@ define([
                         })
                         .fetch({
                             success : function (model) {
-                                var series = JSON.parse(model.get('config'));
-                                uijet.Resource('TimeSeries').reset(series);
+                                var series = JSON.parse(model.get('config')),
+                                    legend_data = uijet.Resource('TimeSeries').reset(series).extractLegend();
+                                legend_data.forEach(function (item, i) {
+                                    item.state = series[i].state;
+                                });
+                                uijet.Resource('LegendItems').reset(legend_data);
                             }
                         });
                     }
@@ -119,8 +120,12 @@ define([
         },
         saveState   : function () {
             var chart_data = uijet.Resource('TimeSeries').toJSON(),
+                selection_states = uijet.Resource('LegendItems').pluck('state'),
                 state_model = uijet.Resource('ProjectState');
 
+            chart_data.forEach(function (series, i) {
+                series.state = selection_states[i];
+            });
             state_model.save({ config : chart_data }, {
                 success : function () {
                     explorer.router.navigate(state_model.uuid);

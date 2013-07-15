@@ -14,7 +14,7 @@ define([
             return model;
         },
         createItemWidget: function (model, index) {
-            index = typeof index == 'number' ? index : this.resource.length;
+            index = typeof index == 'number' ? index : this.resource.length - 1;
             uijet.start({
                 factory : 'LegendItem',
                 config  : {
@@ -121,7 +121,6 @@ define([
         resetItems      : function () {
             this.destroyContained();
             this.resource.models.forEach(this.createItemWidget, this);
-            this.resource.setColors();
             this.createOverlay();
             return this;
         },

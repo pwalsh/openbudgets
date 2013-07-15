@@ -52,13 +52,13 @@ define([
     });
 
     uijet.Resource('TimeSeries', uijet.Collection({
-        model       : TimeSeriesModel,
-        fetch       : function () {
+        model           : TimeSeriesModel,
+        fetch           : function () {
             return uijet.whenAll(this.models.map(function (model) {
                 return model.fetch();
             }));
         },
-        periods     : function () {
+        periods         : function () {
             return this.pluck('periods').reduce(function (prev, current) {
                 current.forEach(function (item) {
                     if ( !~ this.indexOf(item) )
