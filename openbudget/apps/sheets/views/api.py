@@ -197,11 +197,6 @@ class SheetItemList(generics.ListAPIView):
             divisions = divisions.split(',')
             queryset = queryset.filter(entity__division_id__in=divisions)
 
-        # TEMPLATES: return sheet items that use the given template(s).
-        if templates:
-            templates = templates.split(',')
-            queryset = queryset.filter(template__in=templates)
-
         return queryset
 
 
