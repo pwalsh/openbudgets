@@ -81,7 +81,7 @@ define([
                 // if we still have other legend items left
                 // and it was the last item in the list
                 if ( new_length && new_length === index ) {
-                    index--;
+                    this.current_index = index - 1;
                 }
             }
             // if current selected item is below the deleted one then need to shift the index by 1
