@@ -2,8 +2,10 @@ define([
     'uijet_dir/uijet',
     'modules/data/backbone',
     'underscore',
+    'api',
+    'modules/promises/q',
     'backbone-fetch-cache'
-], function (uijet, Backbone, _) {
+], function (uijet, Backbone, _, api) {
 
     uijet.use({
         prop: function (property) {
@@ -13,8 +15,7 @@ define([
         }
     }, uijet.utils);
 
-    var
-        reverseSorting = function (field) {
+    var reverseSorting = function (field) {
             return function (a, b) {
                 var a_val = a.get(field),
                     b_val = b.get(field);
@@ -59,6 +60,9 @@ define([
          */
         Munis = uijet.Collection({
             model   : Muni,
+            url     : function () {
+                return api.getRoute('entities');
+            },
             parse   : function (response) {
                 //! Array.prototype.filter
                 return response.results;
@@ -75,6 +79,9 @@ define([
          */
         Nodes = uijet.Collection({
             model           : Node,
+            url             : function () {
+                return api.getRoute('templateNodes');
+            },
             comparator      : function (a, b) {
                 var a_attrs = a.attributes,
                     b_attrs = b.attributes,
@@ -183,12 +190,20 @@ define([
                 }
                 return branch || [];
             }
+        }),
+        State = uijet.Model({
+            idAttribute : 'uuid',
+            urlRoot     : function () {
+                return api.getRoute('projectStates');
+            }
         });
 
     return {
+        Muni    : Muni,
         Munis   : Munis,
         Node    : Node,
         Nodes   : Nodes,
+        State   : State,
         utils   : {
             reverseSorting  : reverseSorting,
             nestingSort     : nestingSort

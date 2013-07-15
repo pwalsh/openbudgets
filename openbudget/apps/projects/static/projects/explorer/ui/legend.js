@@ -4,6 +4,13 @@ define([
     'controllers/LegendsList'
 ], function (uijet) {
 
+    function chartMode () {
+        // reset the state of selected legend item
+        this.current_index = null;
+        this.$element.removeClass('picking');
+        this.picking = false;
+    }
+
     uijet.Factory('LegendItem', {
         type    : 'LegendItem',
         config  : {
@@ -23,6 +30,17 @@ define([
             },
             signals         : {
                 post_init   : 'wake'
+            }
+        }
+    })
+    .Factory('LegendOverlay', {
+        type    : 'Overlay',
+        config  : {
+            darken      : true,
+            app_events  : {
+                'add_legend.clicked'        : 'wake',
+                'add_legend_cancel.clicked' : 'sleep',
+                'entities_list.selected'    : 'sleep'
             }
         }
     });
@@ -70,27 +88,11 @@ define([
             },
             data_events : {
                 remove  : function () { this.resource.setColors(); },
-                add     : function () { this.resource.setColors(); }
+                add     : function () { this.resource.setColors(); },
+                reset   : 'resetItems'
             },
             signals     : {
-                post_init   : function () {
-                    var overlay_id = this.id + '_overlay';
-                    uijet.start({
-                        type    : 'Overlay',
-                        config  : {
-                            element     : uijet.$('<div>', {
-                                id      : overlay_id
-                            }).appendTo(this.$wrapper),
-                            container   : this.id,
-                            darken      : true,
-                            app_events  : {
-                                'add_legend.clicked'        : 'wake',
-                                'add_legend_cancel.clicked' : 'sleep',
-                                'entities_list.selected'    : 'sleep'
-                            }
-                        }
-                    });
-                }
+                post_init   : 'createOverlay'
             },
             app_events  : {
                 chart_colors            : function (colors) {
@@ -105,12 +107,8 @@ define([
                         .updateState();
                 },
                 'nodes_list.selection'  : 'updateSelection+',
-                'picker_done.clicked'   : function () {
-                    // reset the state of selected legend item
-                    this.current_index = null;
-                    this.$element.removeClass('picking');
-                    this.picking = false;
-                },
+                'picker_done.clicked'   : chartMode,
+                'chart_reset'           : chartMode,
                 'legend_item_added'     : 'scroll',
                 'nodes_picker.awake'    : function () {
                     this.position({ top : 0 })

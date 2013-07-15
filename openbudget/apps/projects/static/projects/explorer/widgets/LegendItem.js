@@ -45,8 +45,10 @@ define([
                     element     : this.$element.find(button_class_prefix + 'remove'),
                     id          : id + '_remove',
                     container   : id,
+                    dont_wake   : ! (this.context && this.context.state_loaded),
                     app_events      : {
                         'nodes_picker.awake'    : 'wake',
+                        'chart_reset'           : 'sleep',
                         'picker_done.clicked'   : 'sleep'
                     }
                 }
@@ -57,9 +59,10 @@ define([
                     id              : slider_id,
                     container       : id,
                     dont_wrap       : true,
-                    dont_wake       : true,
+                    dont_wake       : this.context && this.context.state_loaded,
                     app_events      : {
                         'picker_done.clicked'   : 'wake',
+                        'chart_reset'           : 'wake',
                         'nodes_picker.awake'    : 'sleep'
                     }
                 }

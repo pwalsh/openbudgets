@@ -59,12 +59,23 @@ define([
                 .attr('height', height);
             return this;
         },
+        _draw           : function () {
+            return this.publish('fetched', this.resource)
+                .draw(this.resource.models);
+        },
         render          : function () {
             this._super();
-            this.set(uijet.Resource('LegendItems').models).then(function () {
-                this.publish('fetched', this.resource)
-                    .draw(this.resource.models);
-            }.bind(this));
+
+            var legend = uijet.Resource('LegendItems');
+
+            if ( this.context && this.context.state_loaded ) {
+                legend.reset(this.resource.extractLegend());
+                this._draw();
+                delete this.context.state_loaded;
+            }
+            else {
+                this.set(legend.models).then(this._draw.bind(this));
+            }
             return this;
         },
         draw            : function (series) {
