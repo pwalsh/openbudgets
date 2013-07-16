@@ -77,13 +77,46 @@ define([
     }, {
         type    : 'Button',
         config  : {
-            element : '#viz_save'
+            element         : '#viz_save',
+            adapters        : ['Spin'],
+            spinner_options : {
+                lines   : 10,
+                length  : 8,
+                radius  : 6,
+                width   : 4
+            },
+            signals         : {
+                pre_click   : 'spin'
+            },
+            app_events      : {
+                state_saved : 'spinOff'
+            }
         }
     }, {
         type    : 'Pane',
         config  : {
             element     : '#chart_heading',
-            mixins      : ['Templated']
+            mixins      : ['Templated'],
+            resource    : 'ProjectStateView',
+            signals     : {
+                pre_wake    : function () {
+                    return ! this.has_content;
+                },
+                post_render : function () {
+                    uijet.start({
+                        type    : 'ContentEditable',
+                        config  : {
+                            element     : '#chart_heading h1',
+                            id          : this.id + '_title',
+                            container   : this.id,
+                            input       : {
+                                name: 'title'
+                            }
+                        }
+                    });
+                    this.wakeContained();
+                }
+            }
         }
     }, {
         type    : 'TimelineChart',

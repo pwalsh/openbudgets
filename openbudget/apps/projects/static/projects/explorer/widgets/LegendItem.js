@@ -25,7 +25,8 @@ define([
                 button_class_prefix = '.legend_item_',
                 $title = this.$element.find(button_class_prefix + 'title'),
                 id = this.id,
-                slider_id = id + '_slider';
+                slider_id = id + '_slider',
+                in_picker_view = this.options.picking;
 
             this.setColor();
 
@@ -45,7 +46,7 @@ define([
                     element     : this.$element.find(button_class_prefix + 'remove'),
                     id          : id + '_remove',
                     container   : id,
-                    dont_wake   : ! (this.context && this.context.state_loaded),
+                    dont_wake   : ! in_picker_view,
                     app_events      : {
                         'nodes_picker.awake'    : 'wake',
                         'chart_reset'           : 'sleep',
@@ -59,7 +60,7 @@ define([
                     id              : slider_id,
                     container       : id,
                     dont_wrap       : true,
-                    dont_wake       : this.context && this.context.state_loaded,
+                    dont_wake       : in_picker_view,
                     app_events      : {
                         'picker_done.clicked'   : 'wake',
                         'chart_reset'           : 'wake',

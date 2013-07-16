@@ -16,6 +16,14 @@ define([
 
     var explorer;
 
+    // make sure all jQuery requests (foreign and domestic) have a CSRF token 
+    $(document).ajaxSend(function (event, xhr, settings) {
+        if ( ! settings.headers )
+            settings.headers = {};
+
+        if ( ! ('X-CSRFToken' in settings.headers) )
+            settings.headers['X-CSRFToken'] = api.getCSRFToken();
+    });
     // get version endpoint
     api.getVersion();
 
@@ -72,8 +80,8 @@ define([
             /*
              * Register resources
              */
-            uijet.Resource('Munis', resources.Munis);
-            uijet.Resource('LatestSheet', resources.Nodes);
+            uijet.Resource('Munis', resources.Munis)
+                .Resource('LatestSheet', resources.Nodes);
 
             this.LegendItemModel = uijet.Model();
 
@@ -84,25 +92,40 @@ define([
                         model.set('color', this.colors[index * 2]);
                     }, this);
                 }
-            }));
+            }))
 
-            uijet.Resource('ProjectState', resources.State, {
+            .Resource('ProjectState', resources.State, {
                 project : 1,
-                author  : 1
+                author  : 1,
+                title   : gettext('Insert title')
             });
+
+            var project_state = uijet.Resource('ProjectState').attributes,
+                autor_model = new resources.User({ id : project_state.author });
+
+            explorer.routes_set_promise.then(
+                autor_model.fetch.bind(autor_model)
+            );
+
+            uijet.Resource('ProjectStateView', resources.State, {
+                    project : project_state.project,
+                    author  : autor_model,
+                    title   : project_state.title
+                }
+            )
             
-            uijet.subscribe('startup', function () {
+            .subscribe('startup', function () {
                 Backbone.history.start({ root : 'static/projects/explorer/index.html' });
-            });
+            })
             /*
              * Register handlers to events in UI
              */
-            uijet.subscribe('viz_save.clicked', explorer.saveState);
+            .subscribe('viz_save.clicked', explorer.saveState)
 
             /*
              * Starting uijet
              */
-            uijet.init({
+            .init({
                 element             : '#explorer',
                 templates_path      : '/static/projects/explorer/templates/',
                 templates_extension : 'ms'
@@ -128,9 +151,11 @@ define([
             });
             state_model.save({ config : chart_data }, {
                 success : function () {
-                    explorer.router.navigate(state_model.uuid);
+                    uijet.publish('state_saved');
+                    explorer.router.navigate(state_model.get('uuid'));
                 },
                 error   : function () {
+                    uijet.publish('state_save_failed');
                     console.error.apply(console, arguments);
                 }
             });

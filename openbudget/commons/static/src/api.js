@@ -12,7 +12,8 @@
     }
 }(this, function (root) {
 
-    var global_xhr_settings = {
+    var CSRF_TOKEN_RE = /csrftoken=([a-zA-Z0-9]+)/,
+        global_xhr_settings = {
             headers : {}
         },
         loc = root.location,
@@ -27,6 +28,10 @@
             password        : 'morelove!'
         },
         obudget;
+
+    function getCSRFToken () {
+        return document.cookie.match(CSRF_TOKEN_RE)[1];
+    }
 
     function isObject (obj) {
         return Object.prototype.toString.call(obj) == '[object Object]';
@@ -134,6 +139,9 @@
             if ( ! this.options.headers['Accept'] ) {
                 xhr.setRequestHeader('Accept', 'application/json');
             }
+            if ( ! this.options.headers['X-CSRFToken'] ) {
+                xhr.setRequestHeader('X-CSRFToken', getCSRFToken());
+            }
 
             data = urlSerialize(this.options.data);
 
@@ -193,7 +201,8 @@
     }
 
     obudget = {
-        Request     : Request,
+        Request         : Request,
+        getCSRFToken    : getCSRFToken,
         getVersion      : function (options) {
             return new Request(API_URL, extend(true, {
                 method  : 'GET',

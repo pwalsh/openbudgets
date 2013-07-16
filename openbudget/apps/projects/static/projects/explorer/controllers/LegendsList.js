@@ -26,7 +26,8 @@ define([
                     signals : {
                         post_full_render: '-legend_item_added'
                     },
-                    color   : this.resource.colors[index * 2]
+                    color   : this.resource.colors[index * 2],
+                    picking : this.picking
                 }
             }, true);
             return this;
@@ -38,6 +39,7 @@ define([
             return this.createItemWidget(model);
         },
         addItem         : function (model_index) {
+            this.picking = true;
             this.createItem(model_index)
                 .selectItem(this.resource.length - 1);
             return this;

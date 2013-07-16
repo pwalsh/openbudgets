@@ -1,2 +1,2 @@
-<p>Someone:</p>
-<h1>Outrage! Ethiopians!!1</h1>
+<p>{{#author}}{{author.attributes.username}}{{/author}}{{^author}}Guest{{/author}}:</p>
+<h1>{{title}}</h1>
