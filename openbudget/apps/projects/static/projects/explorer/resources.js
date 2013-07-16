@@ -50,6 +50,18 @@ define([
             return nestingSort(a_parent, b_parent);
         },
         /*
+         * User (Account) Model
+         */
+        User = uijet.Model({
+            idAttribute : 'id',
+            urlRoot     : function () {
+                return api.getRoute('accounts');
+            },
+            url         : function () {
+                return this.urlRoot() + (this.id ? this.id + '/' : '');
+            }
+        }),
+        /*
          * Muni (Entity) Model
          */
         Muni = uijet.Model({
@@ -195,10 +207,14 @@ define([
             idAttribute : 'uuid',
             urlRoot     : function () {
                 return api.getRoute('projectStates');
+            },
+            url         : function () {
+                return this.urlRoot() + (this.id ? this.id + '/' : '');
             }
         });
 
     return {
+        User    : User,
         Muni    : Muni,
         Munis   : Munis,
         Node    : Node,

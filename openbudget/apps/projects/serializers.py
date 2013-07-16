@@ -14,6 +14,7 @@ class ProjectBaseSerializer(HyperlinkedModelSerializer):
         fields = ['url', 'id', 'owner', 'author', 'name', 'description', 'featured',
                   'preview', 'created_on', 'last_modified'] +\
                  translated_fields(model)
+        lookup_field = 'uuid'
 
 
 class StateBaseSerializer(ModelSerializer):

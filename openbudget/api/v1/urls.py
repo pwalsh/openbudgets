@@ -38,6 +38,10 @@ urlpatterns = patterns('openbudget.api.v1.views',
         r'^projects/',
         include('openbudget.apps.projects.urls.api')
     ),
+    url(
+        r'^accounts/',
+        include('openbudget.apps.accounts.urls.api')
+    ),
 )
 
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])

@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from openbudget.apps.accounts.views import AccountDetailView, AccountUpdateView
+from openbudget.apps.accounts.views.ui import AccountDetailView, AccountUpdateView
 
 
 urlpatterns = patterns('',
