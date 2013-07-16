@@ -463,9 +463,20 @@ Filters
 +++++++
 
 * has_discussion [true/false] - returns sheet items that have user discussion.
+* codes [STR, list of comma-separated STR] - returns sheet items that use the given code(s).
+* direction ["revenue"/"expenditure"] - returns sheet items that are either revenue of expenditure.
+* parents [INT, list of comma-separated INT, "none"] - returns sheet items that are children of the given item id(s). If "none" is passed, returns items with no parent.
 * sheets [INT, list of comma-separated INT] - returns sheet items belonging to the given sheet(s).
-* entities [INT, list of comma-separated INT] - returns sheets of the given entity id(s).
-* divisions [INT, list of comma-separated INT] - returns sheets under the given division id(s).
+* entities [INT, list of comma-separated INT] - returns sheet items of the given entity id(s).
+* divisions [INT, list of comma-separated INT] - returns sheet items under the given division id(s).
+* budget_gt [DEC] - returns sheet items with a budget amount greater than the given amount.
+* budget_gte [DEC] - returns sheet items with a budget amount greater than or equal to the given amount.
+* budget_lt [DEC] - returns sheet items with a budget amount less than  the given amount.
+* budget_lte [DEC] - returns sheet items with a budget amount less than or equal to the given amount.
+* actual_gt [DEC] - returns sheet items with an actual amount greater than the given amount.
+* actual_gte [DEC] - returns sheet items with an actual amount greater than or equal to the given amount.
+* actual_lt [DEC] - returns sheet items with an actual amount less than  the given amount.
+* actual_lte [DEC] - returns sheet items with an actual amount less than or equal to the given amount.
 
 Ordering
 ++++++++
@@ -493,6 +504,14 @@ Example queries
 
 http://api.open-budget.prjts.com/v1/sheets/items/?has_discussion=true
 
+http://api.open-budget.prjts.com/v1/sheets/items/?direction=revenue
+
+http://api.open-budget.prjts.com/v1/sheets/items/?parents=1,4,5
+
+http://api.open-budget.prjts.com/v1/sheets/items/?parents=none
+
+http://api.obudget.dev:8000/v1/sheets/items/?codes=6,1
+
 http://api.open-budget.prjts.com/v1/sheets/items/?entities=65,99
 
 http://api.open-budget.prjts.com/v1/sheets/items/?divisions=4,5
@@ -500,6 +519,12 @@ http://api.open-budget.prjts.com/v1/sheets/items/?divisions=4,5
 http://api.open-budget.prjts.com/v1/sheets/items/?search=Tel%20Aviv
 
 http://api.open-budget.prjts.com/v1/sheets/items/?ordering=-created_on
+
+http://api.obudget.dev:8000/v1/sheets/items/?budget_gt=10000000&direction=revenue
+
+http://api.obudget.dev:8000/v1/sheets/items/?actual_lt=100000&direction=expenditure
+
+http://api.obudget.dev:8000/v1/sheets/items/?budget_lte=1000000
 
 Templates
 ~~~~~~~~~
@@ -597,7 +622,7 @@ Filters
 * entities [INT, list of comma-separated INT] - returns sheets of the given entity id(s).
 * divisions [INT, list of comma-separated INT] - returns sheets under the given division id(s).
 * domains [INT, list of comma-separated INT] - returns templates using the given domain id(s).
-
+* parents [INT, list of comma-separated INT, "none"] - returns nodes that are children of the given item id(s). If "none" is passed, returns nodes with no parent.
 * Default (no filter) - by default, a list of templates that are explicitly assigned to a division is returned. In a future iteration, we'll have to improve the way template "inheritance" works to change this.
 
 Ordering
@@ -630,6 +655,9 @@ http://api.open-budget.prjts.com/v1/templates/nodes/?search=Tel%20Aviv
 
 http://api.open-budget.prjts.com/v1/templates/nodes/?ordering=last_modified
 
+http://api.open-budget.prjts.com/v1/templates/nodes/?parents=100,101
+
+http://api.open-budget.prjts.com/v1/templates/nodes/?parents=none
 
 Contexts
 ~~~~~~~~
