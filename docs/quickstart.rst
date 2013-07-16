@@ -64,7 +64,7 @@ See here for more info about this:
 
 https://python-guide.readthedocs.org/en/latest/starting/install/osx.html
 
-Secondly, install Homebrew, which is a great package manager for all the *nix goodies you need to develop with:
+Secondly, install Homebrew, which is a great package manager for all the \*nix goodies you need to develop with:
 
 http://mxcl.github.io/homebrew/
 
