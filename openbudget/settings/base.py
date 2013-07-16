@@ -296,6 +296,15 @@ CORS_ALLOW_METHODS = (
     'OPTIONS'
 )
 
+CORS_ALLOW_HEADERS = (
+    'x-requested-with',
+    'content-type',
+    'accept',
+    'origin',
+    'authorization',
+    'x-csrftoken'
+)
+
 # CORS_ALLOW_CREDENTIALS = False
 
 # HAYSTACK CONF
