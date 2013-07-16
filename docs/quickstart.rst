@@ -141,10 +141,10 @@ Here we go::
     mkvirtualenv [PROJECT_NAME]
 
     # create a directory for our project code
-    mkdir /home/[YOUR_USER]projects/[PROJECT_NAME]
+    mkdir /home/[YOUR_USER]/Sites/projects/[PROJECT_NAME]
 
     # link our project code directory to our virtual environment
-    setvirtualenvproject /home/[YOUR_USER]/environments/[PROJECT_NAME] /home/[YOUR_USER]projects/[PROJECT_NAME]
+    setvirtualenvproject /home/[YOUR_USER]/environments/[PROJECT_NAME] /home/[YOUR_USER]/Sites/projects/[PROJECT_NAME]
 
     # move to the root of our project code directory
     cdproject
