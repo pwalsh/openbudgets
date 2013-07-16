@@ -93,7 +93,7 @@ MIDDLEWARE_CLASSES = (
     'openbudget.apps.international.middleware.InterfaceLanguage',
     'django.middleware.common.CommonMiddleware',
     'subdomains.middleware.SubdomainURLRoutingMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -275,7 +275,7 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ),
-    'PAGINATE_BY': 100,
+    'PAGINATE_BY': 500,
     'PAGINATE_BY_PARAM': 'page_by'
 }
 
