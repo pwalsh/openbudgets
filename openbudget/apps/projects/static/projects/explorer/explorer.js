@@ -14,7 +14,12 @@ define([
     'project_modules/uijet-search'
 ], function (uijet, resources, api, Backbone, Router, $, Ebox, Q, Mustache) {
 
-    var explorer;
+    var default_state = {
+            project : 1,
+            author  : 1,
+            title   : gettext('Insert title')
+        },
+        explorer;
 
     // make sure all jQuery requests (foreign and domestic) have a CSRF token 
     $(document).ajaxSend(function (event, xhr, settings) {
@@ -96,31 +101,37 @@ define([
                 }
             }))
 
-            .Resource('ProjectState', resources.State, {
-                project : 1,
-                author  : 1,
-                title   : gettext('Insert title')
-            });
+            .Resource('ProjectState', resources.State, default_state)
 
-            var project_state = uijet.Resource('ProjectState').attributes,
-                autor_model = new resources.User({ id : project_state.author });
-
-            explorer.routes_set_promise.then(function () {
-                Backbone.history.start({ root : 'static/projects/explorer/index.html' });
-                autor_model.fetch();
-            });
-
-            uijet.Resource('ProjectStateView', resources.State, {
-                    project : project_state.project,
-                    author  : autor_model,
-                    title   : project_state.title
+            // create a User model instance for representing the author of the state
+            .Resource('Author', Backbone.Model.extend.call(resources.User, {
+                name: function () {
+                    var first = this.get('first_name'),
+                        last = this.get('last_name');
+                    if ( first || last ) {
+                        return first + ' ' + last;
+                    }
+                    else {
+                        return this.get('username');
+                    }
                 }
-            )
+            }), { id : uijet.Resource('ProjectState').get('author')});
+
+            // once API routes are set init the router and sync the author
+            explorer.routes_set_promise.then(function () {
+                uijet.Resource('Author').fetch();
+            });
 
             /*
              * Register handlers to events in UI
              */
+            uijet.subscribe('startup', function () {
+                explorer.routes_set_promise.then(function () {
+                    Backbone.history.start({ root : 'static/projects/explorer/index.html' });
+                });
+            })
             .subscribe('viz_save.clicked', explorer.saveState)
+            .subscribe('viz_new.clicked', explorer.clearState)
 
             /*
              * Starting uijet
@@ -140,6 +151,12 @@ define([
             });
             uijet.publish('authenticated');
             return this;
+        },
+        clearState  : function () {
+            uijet.Resource('TimeSeries').reset();
+            uijet.Resource('LegendItems').reset();
+            uijet.Resource('ProjectState').set(default_state);
+            explorer.router.navigate('');
         },
         saveState   : function () {
             var chart_data = uijet.Resource('TimeSeries').toJSON(),

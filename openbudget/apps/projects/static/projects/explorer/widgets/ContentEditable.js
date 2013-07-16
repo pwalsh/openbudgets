@@ -36,6 +36,17 @@ define([
             this.$input = null;
             return this._super.apply(this, arguments);
         },
+        reset     : function (value, silent) {
+            this.change(value, silent)
+                .$input.val(value);
+            return this;
+        },
+        change          : function (value, silent) {
+            this.$element.text(value || this.$input.attr('placeholder'));
+            this.last_value = value;
+            silent || this.publish('updated', value);
+            return this;
+        },
         click           : function () {
             this.$element.addClass('hide');
             this.$input.removeClass('hide')
@@ -54,13 +65,9 @@ define([
                 value = this.$input.addClass('hide').val();
             }
 
-            this.$element.text(value || this.$input.attr('placeholder'));
-            this.last_value = value;
             this.$element.removeClass('hide');
 
-            this.publish('updated', value);
-
-            return this;
+            return this.change(value);
         },
         keyup           : function (e) {
             var key = e.keyCode || e.which,
