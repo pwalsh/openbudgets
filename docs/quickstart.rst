@@ -53,7 +53,22 @@ Now, make some changes to your user's .profile file for the Python environment::
 Fedora
 ~~~~~~
 
-Please complete.
+Here we go::
+
+    # Our core system dependencies
+    sudo yum install nodejs npm python-devel python-virtualenv python-virtualenvwrapper python-pip git mercurial redis
+
+    # Node.js modules we want installed globally
+    sudo npm install volo -g
+
+Changes for virtualwrapper in your user's .bashrc (assuming you use bash, please adjust for other shells)::
+
+    # this goes in ~/.bashrc
+    export PYTHONIOENCODING=utf-8
+    export WORKON_HOME="/home/[YOUR_USER]/environments"
+    export PROJECT_HOME="/home/[YOUR_USER]/projects"
+    source /usr/bin/virtualenvwrapper.sh
+    export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
 
 Mac OS X
 ~~~~~~~~
@@ -111,7 +126,7 @@ This project makes use of subdomains to target languages, and for API requests.
 
 To enable this functionality fully, you'll need to edit your hosts file on your development machine.
 
-**Ubuntu**::
+**Ubuntu & Fedora**::
 
     sudo nano /etc/hosts
 
@@ -132,8 +147,8 @@ http://docs.python-guide.org/en/latest/dev/virtualenvs/
 
 We are going to create a new virtual environment, create another directory for our project code, make a connection between the two, and then, clone the project code into its directory.
 
-Ubuntu
-++++++
+Ubuntu & Fedora
++++++++++++++++
 
 Here we go::
 
