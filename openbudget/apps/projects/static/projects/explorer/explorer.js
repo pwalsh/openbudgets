@@ -18,7 +18,10 @@ define([
 
     // make sure all jQuery requests (foreign and domestic) have a CSRF token 
     $(document).ajaxSend(function (event, xhr, settings) {
-        if ( ! settings.headers || ! ('X-CSRFToken' in settings.headers) )
+        if ( ! settings.headers )
+            settings.headers = {};
+
+        if ( ! ('X-CSRFToken' in settings.headers) )
             settings.headers['X-CSRFToken'] = api.getCSRFToken();
     });
     // get version endpoint
