@@ -82,6 +82,12 @@
     right: 0;
     height: 130px;
 }
+#chart_heading h1 {
+    font-size: 3.261rem;
+}
+#chart_heading p {
+    font-size: .977rem;
+}
 
 #chart_period_end_wrapper {
     right: 0;
