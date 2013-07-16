@@ -103,9 +103,10 @@ define([
             var project_state = uijet.Resource('ProjectState').attributes,
                 autor_model = new resources.User({ id : project_state.author });
 
-            explorer.routes_set_promise.then(
-                autor_model.fetch.bind(autor_model)
-            );
+            explorer.routes_set_promise.then(function () {
+                Backbone.history.start({ root : 'static/projects/explorer/index.html' });
+                autor_model.fetch();
+            });
 
             uijet.Resource('ProjectStateView', resources.State, {
                     project : project_state.project,
@@ -113,10 +114,7 @@ define([
                     title   : project_state.title
                 }
             )
-            
-            .subscribe('startup', function () {
-                Backbone.history.start({ root : 'static/projects/explorer/index.html' });
-            })
+
             /*
              * Register handlers to events in UI
              */
