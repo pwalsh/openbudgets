@@ -48,61 +48,6 @@
         {% endif %}
     </section>
 
-    <section class="row" title="{{ object.template.description }}">
-        <h3>
-            {% trans 'According to the' %} {{ object.template.name }}
-        </h3>
-        <p>
-            {% trans 'The official classificatory scheme, in effect since' %} {{ object.template.period_start.year }}.
-        </p>
-        <ul>
-            <li>
-                <a href="#">
-                    {% trans 'See all budget data' %}
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'template_detail' object.template.uuid %}">
-                    {% trans 'About' %}
-                </a>
-            </li>
-        </ul>
-    </section>
-
-    <section class="row">
-        <h2>
-            {% trans 'Alternative taxonomies' %}
-        </h2>
-        {% if object.template.taxonomies %}
-        {% for taxonomy in object.template.taxonomies.all %}
-        <div class="budget-taxonomies">
-            <h3>
-                {{ taxonomy.name }}
-            </h3>
-            <p>
-                {% trans 'By' %} {{ taxonomy.user.get_full_name }}
-            </p>
-            <p>
-            {{ taxonomy.description }}
-            </p>
-            <ul>
-                <li>
-                    <a href="#">
-                        {% trans 'View through this taxonomy' %}
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'taxonomy_detail' taxonomy.slug %}">
-                        {% trans 'About' %}
-                    </a>
-                </li>
-            </ul>
-        </div>
-        {% endfor %}
-        {% else %}
-        {% trans 'There are no taxonomies currently available.' %}
-        {% endif %}
-    </section>
 </div>
 
 <div class="budget-actions">

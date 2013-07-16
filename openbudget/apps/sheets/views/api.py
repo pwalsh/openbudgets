@@ -66,6 +66,7 @@ class TemplateNodeList(generics.ListAPIView):
         ### FILTERS
         templates = self.request.QUERY_PARAMS.get('templates', None)
         entities = self.request.QUERY_PARAMS.get('entities', None)
+        parents = self.request.QUERY_PARAMS.get('parents', None)
 
         # for latest query only:
         entity = self.request.QUERY_PARAMS.get('entity', None)
@@ -80,6 +81,14 @@ class TemplateNodeList(generics.ListAPIView):
         if entities:
             entities = entities.split(',')
             queryset = queryset.filter(using_sheets__entity__in=entities)
+
+        # PARENTS: return nodes that are children of given parent(s).
+        if parents and parents == 'none':
+            queryset = queryset.filter(parent__isnull=True)
+
+        elif parents:
+            parents = parents.split(',')
+            queryset = queryset.filter(parent__in=parents)
 
         # Check about this
         # was implemented for timeline. Have a feeling we can do it more
@@ -117,6 +126,14 @@ class SheetList(generics.ListAPIView):
         entities = self.request.QUERY_PARAMS.get('entities', None)
         divisions = self.request.QUERY_PARAMS.get('divisions', None)
         templates = self.request.QUERY_PARAMS.get('templates', None)
+        budget_gt = self.request.QUERY_PARAMS.get('budget_gt', None)
+        budget_gte = self.request.QUERY_PARAMS.get('budget_gte', None)
+        budget_lt = self.request.QUERY_PARAMS.get('budget_gt', None)
+        budget_lte = self.request.QUERY_PARAMS.get('budget_gte', None)
+        actual_gt = self.request.QUERY_PARAMS.get('actual_gt', None)
+        actual_gte = self.request.QUERY_PARAMS.get('actual_gte', None)
+        actual_lt = self.request.QUERY_PARAMS.get('actual_gt', None)
+        actual_lte = self.request.QUERY_PARAMS.get('actual_gte', None)
 
         # ENTITIES: return sheets that belong to the given entity(-ies).
         if entities:
@@ -132,6 +149,46 @@ class SheetList(generics.ListAPIView):
         if templates:
             templates = templates.split(',')
             queryset = queryset.filter(template__in=templates)
+
+        # BUDGET_GT: return sheet items with a budget amount greater than the
+        # given amount.
+        #if budget_gt:
+        #    queryset = queryset.filter(budget__gt=budget_gt)
+
+        # BUDGET_LT: return sheet items with a budget amount less than the
+        # given amount.
+        #if budget_lt:
+        #    queryset = queryset.filter(budget__lt=budget_lt)
+
+        # BUDGET_GTE: return sheets with a budget amount greater than or
+        # equal to the given amount.
+        #if budget_gte:
+        #    queryset = queryset.filter(budget__gte=budget_gte)
+
+        # BUDGET_LTE: return sheets with a budget amount less than or
+        # equal to the given amount.
+        #if budget_lte:
+        #    queryset = queryset.filter(budget__lte=budget_lte)
+
+        # ACTUAL_GT: return sheets with an actual amount greater than the
+        # given amount.
+        #if actual_gt:
+        #    queryset = queryset.filter(actual__gt=actual_gt)
+
+        # ACTUAL_LT: return sheets with an actual amount less than the
+        # given amount.
+        #if actual_lt:
+        #    queryset = queryset.filter(budget__lt=actual_lt)
+
+        # ACTUAL_GTE: return sheets with an actual amount greater than or
+        # equal to the given amount.
+        #if actual_gte:
+        #    queryset = queryset.filter(budget__gte=actual_gte)
+
+        # ACTUAL_LTE: return sheets with an actual amount less than or
+        # equal to the given amount.
+        #if actual_lte:
+        #    queryset = queryset.filter(budget__lte=actual_lte)
 
         return queryset
 
@@ -162,11 +219,17 @@ class SheetItemList(generics.ListAPIView):
         sheets = self.request.QUERY_PARAMS.get('sheets', None)
         entities = self.request.QUERY_PARAMS.get('entities', None)
         divisions = self.request.QUERY_PARAMS.get('divisions', None)
-
-        # normalize by population
-        # filter by code
-        # filter by value greater/less
-
+        parents = self.request.QUERY_PARAMS.get('parents', None)
+        direction = self.request.QUERY_PARAMS.get('direction', None)
+        codes = self.request.QUERY_PARAMS.get('codes', None)
+        budget_gt = self.request.QUERY_PARAMS.get('budget_gt', None)
+        budget_gte = self.request.QUERY_PARAMS.get('budget_gte', None)
+        budget_lt = self.request.QUERY_PARAMS.get('budget_lt', None)
+        budget_lte = self.request.QUERY_PARAMS.get('budget_lte', None)
+        actual_gt = self.request.QUERY_PARAMS.get('actual_gt', None)
+        actual_gte = self.request.QUERY_PARAMS.get('actual_gte', None)
+        actual_lt = self.request.QUERY_PARAMS.get('actual_lt', None)
+        actual_lte = self.request.QUERY_PARAMS.get('actual_lte', None)
 
         # HAS_DISCUSSION: return sheet items that have user discussion.
         matches = []
@@ -190,12 +253,70 @@ class SheetItemList(generics.ListAPIView):
         # ENTITIES: return sheet items that belong to the given entity(-ies).
         if entities:
             entities = entities.split(',')
-            queryset = queryset.filter(entity__in=entities)
+            queryset = queryset.filter(sheet__entity__in=entities)
 
         # DIVISIONS: return sheet items that are under the given division(s).
         if divisions:
             divisions = divisions.split(',')
-            queryset = queryset.filter(entity__division_id__in=divisions)
+            queryset = queryset.filter(sheet__entity__division_id__in=divisions)
+
+        # DIRECTION: return sheet items in the given direction.
+        if direction:
+            direction = direction.upper()
+            queryset = queryset.filter(node__direction=direction)
+
+        # CODES: return sheet items that match the given code(s).
+        if codes:
+            codes = codes.split(',')
+            queryset = queryset.filter(node__code__in=codes)
+
+        # PARENTS: return items that are children of given parent(s).
+        if parents and parents == 'none':
+            queryset = queryset.filter(node__parent__isnull=True)
+
+        elif parents:
+            parents = parents.split(',')
+            queryset = queryset.filter(node__parent__in=parents)
+
+        # BUDGET_GT: return sheet items with a budget amount greater than the
+        # given amount.
+        if budget_gt:
+            queryset = queryset.filter(budget__gt=budget_gt)
+
+        # BUDGET_LT: return sheet items with a budget amount less than the
+        # given amount.
+        if budget_lt:
+            queryset = queryset.filter(budget__lt=budget_lt)
+
+        # BUDGET_GTE: return sheet items with a budget amount greater than or
+        # equal to the given amount.
+        if budget_gte:
+            queryset = queryset.filter(budget__gte=budget_gte)
+
+        # BUDGET_LTE: return sheet items with a budget amount less than or
+        # equal to the given amount.
+        if budget_lte:
+            queryset = queryset.filter(budget__lte=budget_lte)
+
+        # ACTUAL_GT: return sheet items with an actual amount greater than the
+        # given amount.
+        if actual_gt:
+            queryset = queryset.filter(actual__gt=actual_gt)
+
+        # ACTUAL_LT: return sheet items with an actual amount less than the
+        # given amount.
+        if actual_lt:
+            queryset = queryset.filter(budget__lt=actual_lt)
+
+        # ACTUAL_GTE: return sheet items with an actual amount greater than or
+        # equal to the given amount.
+        if actual_gte:
+            queryset = queryset.filter(budget__gte=actual_gte)
+
+        # ACTUAL_LTE: return sheet items with an actual amount less than or
+        # equal to the given amount.
+        if actual_lte:
+            queryset = queryset.filter(budget__lte=actual_lte)
 
         return queryset
 

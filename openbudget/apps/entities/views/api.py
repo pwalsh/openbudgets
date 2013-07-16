@@ -159,9 +159,12 @@ class EntityList(generics.ListAPIView):
             queryset = queryset.filter(division__in=divisions)
 
         # PARENTS: return entities that are children of given parent(s).
-        if parents:
+        if parents and parents == 'none':
+            queryset = queryset.filter(node__parent__isnull=True)
+
+        elif parents:
             parents = parents.split(',')
-            queryset = queryset.filter(parent__in=parents)
+            queryset = queryset.filter(node__parent__in=parents)
 
         return queryset
 
