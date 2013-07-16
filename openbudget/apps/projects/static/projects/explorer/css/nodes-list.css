@@ -94,10 +94,16 @@
     border-bottom: 1px solid #d0d0dc;
 }
 #nodes_list_header li.selected:after {
-    content: '\25B2';
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: .9rem;
+    vertical-align: middle;
+    margin-right: 5px;
+    background: url(../img/arrow_up_tiny.png) center no-repeat;
 }
 #nodes_list_header li.selected.desc:after {
-    content: '\25BC';
+    background: url(../img/arrow_down_tiny.png) center no-repeat;
 }
 #nodes_list_header [data-column=code] {
     padding-right: .461rem;
