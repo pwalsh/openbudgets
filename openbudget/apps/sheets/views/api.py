@@ -253,12 +253,12 @@ class SheetItemList(generics.ListAPIView):
         # ENTITIES: return sheet items that belong to the given entity(-ies).
         if entities:
             entities = entities.split(',')
-            queryset = queryset.filter(entity__in=entities)
+            queryset = queryset.filter(sheet__entity__in=entities)
 
         # DIVISIONS: return sheet items that are under the given division(s).
         if divisions:
             divisions = divisions.split(',')
-            queryset = queryset.filter(entity__division_id__in=divisions)
+            queryset = queryset.filter(sheet__entity__division_id__in=divisions)
 
         # DIRECTION: return sheet items in the given direction.
         if direction:
