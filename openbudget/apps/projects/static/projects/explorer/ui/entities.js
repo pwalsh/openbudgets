@@ -79,9 +79,9 @@ define([
             position        : 'top|120px bottom fluid',
             fetch_options   : {
                 data: {
-                    division__budgeting : 'True',
-                    page_by             : 300,
-                    ordering            : 'name'
+                    has_sheets  : true,
+                    page_by     : 300,
+                    ordering    : 'name'
                 }
             },
             search          : {
