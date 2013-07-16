@@ -47,6 +47,7 @@ define([
                                     legend_data = uijet.Resource('TimeSeries').reset(series).extractLegend();
                                 legend_data.forEach(function (item, i) {
                                     item.state = series[i].state;
+                                    item.title = series[i].title;
                                 });
                                 uijet.Resource('LegendItems').reset(legend_data);
                             }
@@ -160,11 +161,14 @@ define([
         },
         saveState   : function () {
             var chart_data = uijet.Resource('TimeSeries').toJSON(),
-                selection_states = uijet.Resource('LegendItems').pluck('state'),
+                legend = uijet.Resource('LegendItems'),
+                selection_states = legend.pluck('state'),
+                selection_titles = legend.pluck('title'),
                 state_model = uijet.Resource('ProjectState');
 
             chart_data.forEach(function (series, i) {
                 series.state = selection_states[i];
+                series.title = selection_titles[i];
             });
             state_model.save({ config : chart_data }, {
                 success : function () {
