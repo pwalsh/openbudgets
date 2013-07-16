@@ -166,6 +166,18 @@ Here we go::
     # move to the root of our project code directory
     cdproject
 
+Note
+++++
+
+Later when you want to work on the project use::
+    workon [PROJECT_NAME]
+
+For more information on virtualenvwrapper:
+
+    http://www.doughellmann.com/projects/virtualenvwrapper/
+
+
+
 Clone the project repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
