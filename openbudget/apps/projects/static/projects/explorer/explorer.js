@@ -43,8 +43,10 @@ define([
                         })
                         .fetch({
                             success : function (model) {
-                                var series = JSON.parse(model.get('config')),
+                                var config = JSON.parse(model.get('config')),
+                                    series = config.chart,
                                     legend_data = uijet.Resource('TimeSeries').reset(series).extractLegend();
+                                model.set('title', config.title);
                                 legend_data.forEach(function (item, i) {
                                     item.state = series[i].state;
                                     item.title = series[i].title;
@@ -170,7 +172,10 @@ define([
                 series.state = selection_states[i];
                 series.title = selection_titles[i];
             });
-            state_model.save({ config : chart_data }, {
+            state_model.save({ config : {
+                chart   : chart_data,
+                title   : state_model.get('title')
+            } }, {
                 success : function () {
                     uijet.publish('state_saved');
                     explorer.router.navigate(state_model.get('uuid'));
