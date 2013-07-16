@@ -30,7 +30,8 @@
         obudget;
 
     function getCSRFToken () {
-        return document.cookie.match(CSRF_TOKEN_RE)[1];
+        var match = document.cookie && document.cookie.match(CSRF_TOKEN_RE);
+        return match && match[1];
     }
 
     function isObject (obj) {
