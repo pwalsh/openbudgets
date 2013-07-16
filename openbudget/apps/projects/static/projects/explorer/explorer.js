@@ -87,6 +87,8 @@ define([
 
             uijet.Resource('LegendItems', uijet.Collection({
                 model       : this.LegendItemModel,
+                // for some reason this is need to prevent V8 from saying later that colors is undefined
+                colors      : [],
                 setColors   : function () {
                     this.models.forEach(function (model, index) {
                         model.set('color', this.colors[index * 2]);
