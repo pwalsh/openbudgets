@@ -222,15 +222,15 @@ Filter list by searching over the following fields:
 Example queries
 +++++++++++++++
 
-http://api.open-budget.prjts.com/v1/domains/?page_by=25
+http://api.dev.openmuni.org.il/v1/domains/?page_by=25
 
-http://api.open-budget.prjts.com/v1/domains/?has_divisions=false
+http://api.dev.openmuni.org.il/v1/domains/?has_divisions=false
 
-http://api.open-budget.prjts.com/v1/domains/?has_entities=true
+http://api.dev.openmuni.org.il/v1/domains/?has_entities=true
 
-http://api.open-budget.prjts.com/v1/domains/?search=Government
+http://api.dev.openmuni.org.il/v1/domains/?search=Government
 
-http://api.open-budget.prjts.com/v1/domains/?ordering=id,-name
+http://api.dev.openmuni.org.il/v1/domains/?ordering=id,-name
 
 
 Divisions
@@ -285,19 +285,19 @@ Filter list by searching over the following fields:
 Example queries
 +++++++++++++++
 
-http://api.open-budget.prjts.com/v1/divisions/?budgeting=false
+http://api.dev.openmuni.org.il/v1/divisions/?budgeting=false
 
-http://api.open-budget.prjts.com/v1/divisions/?has_entities=true
+http://api.dev.openmuni.org.il/v1/divisions/?has_entities=true
 
-http://api.open-budget.prjts.com/v1/divisions/?domains=1
+http://api.dev.openmuni.org.il/v1/divisions/?domains=1
 
-http://api.open-budget.prjts.com/v1/divisions/?indexes=1,3
+http://api.dev.openmuni.org.il/v1/divisions/?indexes=1,3
 
-http://api.open-budget.prjts.com/v1/divisions/?search=מחוז
+http://api.dev.openmuni.org.il/v1/divisions/?search=מחוז
 
-http://api.open-budget.prjts.com/v1/divisions/?search=מ
+http://api.dev.openmuni.org.il/v1/divisions/?search=מ
 
-http://api.open-budget.prjts.com/v1/divisions/?ordering=-id
+http://api.dev.openmuni.org.il/v1/divisions/?ordering=-id
 
 
 Entities
@@ -353,21 +353,21 @@ Filter list by searching over the following fields:
 Example queries
 +++++++++++++++
 
-http://api.open-budget.prjts.com/v1/entities/?budgeting=false
+http://api.dev.openmuni.org.il/v1/entities/?budgeting=false
 
-http://api.open-budget.prjts.com/v1/entities/?has_sheets=true
+http://api.dev.openmuni.org.il/v1/entities/?has_sheets=true
 
-http://api.open-budget.prjts.com/v1/entities/?domains=1
+http://api.dev.openmuni.org.il/v1/entities/?domains=1
 
-http://api.open-budget.prjts.com/v1/entities/?divisions=1,3
+http://api.dev.openmuni.org.il/v1/entities/?divisions=1,3
 
-http://api.open-budget.prjts.com/v1/entities/?parents=3,79,120
+http://api.dev.openmuni.org.il/v1/entities/?parents=3,79,120
 
-http://api.open-budget.prjts.com/v1/entities/?search=Tel%20Aviv
+http://api.dev.openmuni.org.il/v1/entities/?search=Tel%20Aviv
 
-http://api.open-budget.prjts.com/v1/entities/?search=Tel
+http://api.dev.openmuni.org.il/v1/entities/?search=Tel
 
-http://api.open-budget.prjts.com/v1/entities/?ordering=-created_on
+http://api.dev.openmuni.org.il/v1/entities/?ordering=-created_on
 
 
 Sheets
@@ -424,15 +424,15 @@ Filter list by searching over the following fields:
 Example queries
 +++++++++++++++
 
-http://api.open-budget.prjts.com/v1/sheets/?entities=45,90,91
+http://api.dev.openmuni.org.il/v1/sheets/?entities=45,90,91
 
-http://api.open-budget.prjts.com/v1/sheets/?divisions=3,4
+http://api.dev.openmuni.org.il/v1/sheets/?divisions=3,4
 
-http://api.open-budget.prjts.com/v1/sheets/?templates=2
+http://api.dev.openmuni.org.il/v1/sheets/?templates=2
 
-http://api.open-budget.prjts.com/v1/sheets/?search=Tel%20Aviv
+http://api.dev.openmuni.org.il/v1/sheets/?search=Tel%20Aviv
 
-http://api.open-budget.prjts.com/v1/sheets/?ordering=-created_on
+http://api.dev.openmuni.org.il/v1/sheets/?ordering=-created_on
 
 
 Sheet Items
@@ -502,29 +502,29 @@ Filter list by searching over the following fields:
 Example queries
 +++++++++++++++
 
-http://api.open-budget.prjts.com/v1/sheets/items/?has_discussion=true
+http://api.dev.openmuni.org.il/v1/sheets/items/?has_discussion=true
 
-http://api.open-budget.prjts.com/v1/sheets/items/?direction=revenue
+http://api.dev.openmuni.org.il/v1/sheets/items/?direction=revenue
 
-http://api.open-budget.prjts.com/v1/sheets/items/?parents=1,4,5
+http://api.dev.openmuni.org.il/v1/sheets/items/?parents=1,4,5
 
-http://api.open-budget.prjts.com/v1/sheets/items/?parents=none
+http://api.dev.openmuni.org.il/v1/sheets/items/?parents=none
 
-http://api.obudget.dev:8000/v1/sheets/items/?codes=6,1
+http://api.dev.openmuni.org.il/v1/sheets/items/?codes=6,1
 
-http://api.open-budget.prjts.com/v1/sheets/items/?entities=65,99
+http://api.dev.openmuni.org.il/v1/sheets/items/?entities=65,99
 
-http://api.open-budget.prjts.com/v1/sheets/items/?divisions=4,5
+http://api.dev.openmuni.org.il/v1/sheets/items/?divisions=4,5
 
-http://api.open-budget.prjts.com/v1/sheets/items/?search=Tel%20Aviv
+http://api.dev.openmuni.org.il/v1/sheets/items/?search=Tel%20Aviv
 
-http://api.open-budget.prjts.com/v1/sheets/items/?ordering=-created_on
+http://api.dev.openmuni.org.il/v1/sheets/items/?ordering=-created_on
 
-http://api.obudget.dev:8000/v1/sheets/items/?budget_gt=10000000&direction=revenue
+http://api.dev.openmuni.org.il/v1/sheets/items/?budget_gt=10000000&direction=revenue
 
-http://api.obudget.dev:8000/v1/sheets/items/?actual_lt=100000&direction=expenditure
+http://api.dev.openmuni.org.il/v1/sheets/items/?actual_lt=100000&direction=expenditure
 
-http://api.obudget.dev:8000/v1/sheets/items/?budget_lte=1000000
+http://api.dev.openmuni.org.il/v1/sheets/items/?budget_lte=1000000
 
 Templates
 ~~~~~~~~~
@@ -581,15 +581,15 @@ Filter list by searching over the following fields:
 Example queries
 +++++++++++++++
 
-http://api.open-budget.prjts.com/v1/templates/?domains=1
+http://api.dev.openmuni.org.il/v1/templates/?domains=1
 
-http://api.open-budget.prjts.com/v1/templates/?divisions=5
+http://api.dev.openmuni.org.il/v1/templates/?divisions=5
 
-http://api.open-budget.prjts.com/v1/templates/?entities=101
+http://api.dev.openmuni.org.il/v1/templates/?entities=101
 
-http://api.open-budget.prjts.com/v1/templates/?search=Tel%20Aviv
+http://api.dev.openmuni.org.il/v1/templates/?search=Tel%20Aviv
 
-http://api.open-budget.prjts.com/v1/templates/?ordering=-period_start
+http://api.dev.openmuni.org.il/v1/templates/?ordering=-period_start
 
 
 Template Nodes
@@ -647,17 +647,17 @@ Filter list by searching over the following fields:
 Example queries
 +++++++++++++++
 
-http://api.open-budget.prjts.com/v1/templates/nodes/?templates=1
+http://api.dev.openmuni.org.il/v1/templates/nodes/?templates=1
 
-http://api.open-budget.prjts.com/v1/templates/nodes/?entities=4,5
+http://api.dev.openmuni.org.il/v1/templates/nodes/?entities=4,5
 
-http://api.open-budget.prjts.com/v1/templates/nodes/?search=Tel%20Aviv
+http://api.dev.openmuni.org.il/v1/templates/nodes/?search=Tel%20Aviv
 
-http://api.open-budget.prjts.com/v1/templates/nodes/?ordering=last_modified
+http://api.dev.openmuni.org.il/v1/templates/nodes/?ordering=last_modified
 
-http://api.open-budget.prjts.com/v1/templates/nodes/?parents=100,101
+http://api.dev.openmuni.org.il/v1/templates/nodes/?parents=100,101
 
-http://api.open-budget.prjts.com/v1/templates/nodes/?parents=none
+http://api.dev.openmuni.org.il/v1/templates/nodes/?parents=none
 
 Contexts
 ~~~~~~~~
@@ -683,7 +683,7 @@ Pagination
 
 Implements API defaults.
 
-Example: http://api.open-budget.prjts.com/v1/contexts/?page_by=100
+Example: http://api.dev.openmuni.org.il/v1/contexts/?page_by=100
 
 Filters
 +++++++
@@ -692,7 +692,7 @@ Filters
 * divisions [INT, list of comma-separated INT] - returns contexts under the given division id(s).
 * domains [INT, list of comma-separated INT] - returns contexts using the given domain id(s).
 
-Example: http://api.open-budget.prjts.com/v1/contexts/?entity=4,5
+Example: http://api.dev.openmuni.org.il/v1/contexts/?entity=4,5
 
 Ordering
 ++++++++
@@ -705,7 +705,7 @@ Order results by the following fields:
 * **created_on**
 * **last_modified**
 
-Example: http://api.open-budget.prjts.com/v1/contexts/?ordering=id,last_modified
+Example: http://api.dev.openmuni.org.il/v1/contexts/?ordering=id,last_modified
 
 Search
 ++++++
@@ -715,7 +715,7 @@ Filter list by searching over the following fields:
 * **data** - The data field of the contexts.
 * **entity__name** - The name of the context entities.
 
-Example: http://api.open-budget.prjts.com/v1/contexts/?search=Pension
+Example: http://api.dev.openmuni.org.il/v1/contexts/?search=Pension
 
 
 Projects
@@ -748,7 +748,7 @@ Pagination
 
 Implements API defaults.
 
-Example: http://api.open-budget.prjts.com/v1/projects/?page_by=100
+Example: http://api.dev.openmuni.org.il/v1/projects/?page_by=100
 
 Filters
 +++++++
