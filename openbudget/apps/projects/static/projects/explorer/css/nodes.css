@@ -23,13 +23,43 @@
 }
 #filters_search {
     position: absolute;
-    top: 50%;
-    left: -30px;
+    top: 0;
+    left: 0;
     width: 25px;
     height: 25px;
-    margin-top: -13px;
     padding: 0;
     background: url(../img/search_icon.png) center no-repeat;
+}
+#filters_search_wrapper {
+    position: absolute;
+    top: 50%;
+    left: -3.261rem;
+    width: 25px;
+    height: 25px;
+    margin-top: -9px;
+}
+#filters_search_menu {
+    font-size: 1.3rem;
+}
+#filters_search_menu li {
+    padding: .5rem 1rem;
+    text-align: right;
+}
+#filters_search_menu li:before {
+    content: attr(data-prefix);
+    margin-left: 1rem;
+}
+#filters_search_menu li:first-child {
+    border-bottom: 1px solid #b9b9ca;
+}
+#filters_search_menu li:hover {
+    background-color: #8989a8;
+}
+#filters_search_menu_wrapper {
+    right: 0;
+    max-height: 220px;
+    padding: 1rem;
+    background-color: #d0d0dc;
 }
 
 #node_breadcrumb_back:before {

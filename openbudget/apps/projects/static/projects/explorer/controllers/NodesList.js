@@ -26,13 +26,17 @@ define([
         sortNodes           : function (data) {
             this.desc = data.desc;
             this.sort((data.desc ? '-' : '') + data.column);
-            if ( this.filtered && ! uijet.utils.isFunc(this.filtered) ) {
-                this.filtered = arraySort.call(this.filtered, resources.utils.reverseSorting(data.column));
-                if ( ! data.desc ) {
-                    this.filtered.reverse();
+
+            if ( this.has_data ) {
+                if ( this.filtered && ! uijet.utils.isFunc(this.filtered) ) {
+                    this.filtered = arraySort.call(this.filtered, resources.utils.reverseSorting(data.column));
+                    if ( ! data.desc ) {
+                        this.filtered.reverse();
+                    }
                 }
+                return this.render();
             }
-            return this.render();
+            return this;
         },
         updateSearchFilter  : function (data) {
             var query = data.args[1];
