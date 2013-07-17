@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-09 00:14+0300\n"
+"POT-Creation-Date: 2013-07-17 18:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: static/projects/explorer/explorer.js:20
+#: static/projects/explorer/controllers/LegendsList.js:9
+msgid "Insert title"
+msgstr "כתיבת כותרת"
 
 #: static/projects/explorer/i18n.js:3
 msgid "Open Muni Budget | Budget Explorer"
@@ -106,10 +111,43 @@ msgstr "תקציב מקומי פתוח"
 msgid "Compare"
 msgstr "השוואות"
 
-#: static/projects/explorer/controllers/LegendsList.js:9
-msgid "Insert title"
-msgstr "כתיבת כותרת"
+#: static/projects/explorer/i18n.js:25
+msgid "New"
+msgstr "חדש"
 
-#: static/projects/explorer/ui/nodes.js:274
+#: static/projects/explorer/i18n.js:26
+msgid "Duplicate"
+msgstr "שכפול"
+
+#: static/projects/explorer/i18n.js:27
+msgid "Delete"
+msgstr "מחיקה"
+
+#: static/projects/explorer/i18n.js:28
+msgid "Export"
+msgstr "יצוא"
+
+#: static/projects/explorer/i18n.js:29
+msgid "Publish"
+msgstr "פרסום"
+
+#: static/projects/explorer/i18n.js:30
+msgid "Save"
+msgstr "שמירה"
+
+#: static/projects/explorer/i18n.js:31
+msgid "Show selected only"
+msgstr "הראה רק מסומנים"
+
+#: static/projects/explorer/i18n.js:32
+msgid "Free text search"
+msgstr "חיפוש טקסט חופשי"
+
+#: static/projects/explorer/i18n.js:33
+#, fuzzy
+msgid "Search for"
+msgstr "חפש"
+
+#: static/projects/explorer/ui/nodes.js:316
 msgid "%(count)s results found"
 msgstr "נמצאו %(count)s תוצאות"
