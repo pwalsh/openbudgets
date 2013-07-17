@@ -4,6 +4,8 @@ define([
     'api'
 ], function (uijet, resources, api) {
 
+    function sortByPeriod (a, b) { return a.period - b.period; }
+
     var TimeSeriesModel = uijet.Model({
         url : function () {
             return api.getTimelineRoute(this.attributes.muni_id, this.attributes.nodes);
@@ -47,7 +49,7 @@ define([
                     amount  : series[period].budget
                 });
             }
-            return [actuals,budgets];
+            return [actuals.sort(sortByPeriod), budgets.sort(sortByPeriod)];
         }
     });
 

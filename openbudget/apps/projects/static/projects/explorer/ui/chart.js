@@ -97,10 +97,18 @@ define([
         config  : {
             element     : '#chart_heading',
             mixins      : ['Templated'],
-            resource    : 'ProjectStateView',
+            resource    : 'ProjectState',
+            data_events : {
+                'change:title'  : 'title_changed'
+            },
             signals     : {
                 pre_wake    : function () {
                     return ! this.has_content;
+                },
+                pre_render : function () {
+                    var name = uijet.Resource('Author').name();
+                    ! this.context && (this.context = {});
+                    this.context.author_name = name;
                 },
                 post_render : function () {
                     uijet.start({
@@ -111,10 +119,20 @@ define([
                             container   : this.id,
                             input       : {
                                 name: 'title'
+                            },
+                            app_events  : {
+                                'chart_heading.title_changed'   : function (data) {
+                                    this.reset(data.args[1], true);
+                                }
                             }
                         }
                     });
                     this.wakeContained();
+                }
+            },
+            app_events  : {
+                'chart_heading_title.updated'   : function (value) {
+                    this.resource.set({ title : value }, { silent : true });
                 }
             }
         }
@@ -128,9 +146,9 @@ define([
                 padding : 20
             },
             data_events : {
-                reset   : function () {
+                reset   : function (collection) {
                     uijet.publish('chart_reset', {
-                        state_loaded: true
+                        state_loaded: collection.length
                     });
                 }
             },

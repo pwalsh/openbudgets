@@ -125,6 +125,9 @@ define([
             this.destroyContained();
             this.resource.models.forEach(this.createItemWidget, this);
             this.createOverlay();
+            if ( ! this.resource.length ) {
+                uijet.publish('welcome');
+            }
             return this;
         },
         createOverlay   : function () {

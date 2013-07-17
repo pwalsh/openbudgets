@@ -14,7 +14,12 @@ define([
     'project_modules/uijet-search'
 ], function (uijet, resources, api, Backbone, Router, $, Ebox, Q, Mustache) {
 
-    var explorer;
+    var default_state = {
+            project : 1,
+            author  : 1,
+            title   : gettext('Insert title')
+        },
+        explorer;
 
     // make sure all jQuery requests (foreign and domestic) have a CSRF token 
     $(document).ajaxSend(function (event, xhr, settings) {
@@ -38,10 +43,13 @@ define([
                         })
                         .fetch({
                             success : function (model) {
-                                var series = JSON.parse(model.get('config')),
+                                var config = JSON.parse(model.get('config')),
+                                    series = config.chart,
                                     legend_data = uijet.Resource('TimeSeries').reset(series).extractLegend();
+                                model.set('title', config.title);
                                 legend_data.forEach(function (item, i) {
                                     item.state = series[i].state;
+                                    item.title = series[i].title;
                                 });
                                 uijet.Resource('LegendItems').reset(legend_data);
                             }
@@ -87,6 +95,8 @@ define([
 
             uijet.Resource('LegendItems', uijet.Collection({
                 model       : this.LegendItemModel,
+                // for some reason this is need to prevent V8 from saying later that colors is undefined
+                colors      : [],
                 setColors   : function () {
                     this.models.forEach(function (model, index) {
                         model.set('color', this.colors[index * 2]);
@@ -94,33 +104,37 @@ define([
                 }
             }))
 
-            .Resource('ProjectState', resources.State, {
-                project : 1,
-                author  : 1,
-                title   : gettext('Insert title')
+            .Resource('ProjectState', resources.State, default_state)
+
+            // create a User model instance for representing the author of the state
+            .Resource('Author', Backbone.Model.extend.call(resources.User, {
+                name: function () {
+                    var first = this.get('first_name'),
+                        last = this.get('last_name');
+                    if ( first || last ) {
+                        return first + ' ' + last;
+                    }
+                    else {
+                        return this.get('username');
+                    }
+                }
+            }), { id : uijet.Resource('ProjectState').get('author')});
+
+            // once API routes are set init the router and sync the author
+            explorer.routes_set_promise.then(function () {
+                uijet.Resource('Author').fetch();
             });
 
-            var project_state = uijet.Resource('ProjectState').attributes,
-                autor_model = new resources.User({ id : project_state.author });
-
-            explorer.routes_set_promise.then(
-                autor_model.fetch.bind(autor_model)
-            );
-
-            uijet.Resource('ProjectStateView', resources.State, {
-                    project : project_state.project,
-                    author  : autor_model,
-                    title   : project_state.title
-                }
-            )
-            
-            .subscribe('startup', function () {
-                Backbone.history.start({ root : 'static/projects/explorer/index.html' });
-            })
             /*
              * Register handlers to events in UI
              */
+            uijet.subscribe('startup', function () {
+                explorer.routes_set_promise.then(function () {
+                    Backbone.history.start({ root : 'static/projects/explorer/index.html' });
+                });
+            })
             .subscribe('viz_save.clicked', explorer.saveState)
+            .subscribe('viz_new.clicked', explorer.clearState)
 
             /*
              * Starting uijet
@@ -141,15 +155,27 @@ define([
             uijet.publish('authenticated');
             return this;
         },
+        clearState  : function () {
+            uijet.Resource('TimeSeries').reset();
+            uijet.Resource('LegendItems').reset();
+            uijet.Resource('ProjectState').set(default_state);
+            explorer.router.navigate('');
+        },
         saveState   : function () {
             var chart_data = uijet.Resource('TimeSeries').toJSON(),
-                selection_states = uijet.Resource('LegendItems').pluck('state'),
+                legend = uijet.Resource('LegendItems'),
+                selection_states = legend.pluck('state'),
+                selection_titles = legend.pluck('title'),
                 state_model = uijet.Resource('ProjectState');
 
             chart_data.forEach(function (series, i) {
                 series.state = selection_states[i];
+                series.title = selection_titles[i];
             });
-            state_model.save({ config : chart_data }, {
+            state_model.save({ config : {
+                chart   : chart_data,
+                title   : state_model.get('title')
+            } }, {
                 success : function () {
                     uijet.publish('state_saved');
                     explorer.router.navigate(state_model.get('uuid'));

@@ -81,6 +81,7 @@
     left: 0;
     right: 0;
     height: 130px;
+    padding: 20px 20px 0;
 }
 #chart_heading h1 {
     font-size: 3.261rem;
