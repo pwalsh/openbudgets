@@ -72,7 +72,7 @@ msgstr "דף הבית"
 
 #: static/projects/explorer/i18n.js:16
 msgid "Munis"
-msgstr "ראשויות"
+msgstr "רשויות"
 
 #: static/projects/explorer/i18n.js:17
 msgid "Projects"

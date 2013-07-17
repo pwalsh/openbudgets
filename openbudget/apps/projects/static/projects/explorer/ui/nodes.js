@@ -81,16 +81,51 @@ define([
                 'add_legend.clicked'            : clearText,
                 'legends_list.selected'         : clearText,
                 'legends_list.last_deleted'     : clearText,
-                'filters_search.clicked'        : 'sleep',
+                'filters_search_menu.selected'  : 'sleep',
                 'nodes_search.entered'          : 'wake',
                 'nodes_search.cancelled'        : 'wake',
                 'search_crumb_remove.clicked'   : 'wake'
             }
         }
     }, {
-        type    : 'Button',
+        type    : 'DropmenuButton',
         config  : {
-            element : '#filters_search'
+            element : '#filters_search',
+            menu    : {
+                mixins          : ['Templated', 'Translated'],
+                float_position  : 'top: 3rem',
+                signals         : {
+                    post_init   : function () {
+                        this.prev_search_terms = [];
+                    },
+                    pre_wake    : function () {
+                        this.context || (this.context = {});
+                        this.context.prev_search_terms = this.prev_search_terms;
+                    },
+                    pre_select  : function ($selected) {
+                        var type = $selected.attr('data-type'),
+                            value;
+                        if ( type === 'search' ) {
+                            if ( $selected.attr('data-old') ) {
+                                value = $selected.text();
+                            }
+                        }
+                        return {
+                            type    : type,
+                            value   : value
+                        };
+                    }
+                },
+                app_events      : {
+                    'nodes_search.entered'  : function (query) {
+                        var index = this.prev_search_terms.indexOf(query);
+                        if ( ~ index ) {
+                            this.prev_search_terms.splice(index, 1);
+                        }
+                        this.prev_search_terms.unshift(query);
+                    }
+                }
+            }
         }
     }, {
         type    : 'ClearableTextInput',
@@ -163,10 +198,14 @@ define([
                 }
             },
             app_events  : {
-                'nodes_search_clear.clicked': function () {
+                'nodes_search_clear.clicked'    : function () {
                     this.resource.set({ search : '' });
                 },
-                'filters_search.clicked'    : 'wake'
+                'filters_search_menu.selected'  : function (data) {console.log(data);
+                    if ( data.value )
+                        this.resource.set({ search : data.value });
+                    this.wake();
+                }
             }
         }
     }, {
@@ -193,21 +232,24 @@ define([
             dont_wake   : true,
             dom_events  : {
                 click   : function () {
-                    uijet.publish('filters_search.clicked');
+                    uijet.publish('filters_search_menu.selected', {
+                        type    : 'search',
+                        value   : this.$content.text()
+                    });
                     this.sleep();
                 }
             },
             app_events  : {
-                'nodes_search.entered'  : function (query) {
+                'nodes_search.entered'          : function (query) {
                     query !== null && this.wake();
                 },
-                'filters_search.clicked': 'sleep',
-                'search.changed'        : function (data) {
+                'filters_search_menu.selected'  : 'sleep',
+                'search.changed'                : function (data) {
                     var query = data.args[1];
                     this.setContent(query || '');
                     query === null && this.sleep();
                 },
-                'nodes_picker.awake'    : function () {
+                'nodes_picker.awake'            : function () {
                     if ( uijet.Resource('NodesListState').get('search') ) {
                         this.wake();
                     }
