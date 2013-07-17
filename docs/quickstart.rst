@@ -53,7 +53,22 @@ Now, make some changes to your user's .profile file for the Python environment::
 Fedora
 ~~~~~~
 
-Please complete.
+Here we go::
+
+    # Our core system dependencies
+    sudo yum install nodejs npm python-devel python-virtualenv python-virtualenvwrapper python-pip git mercurial redis
+
+    # Node.js modules we want installed globally
+    sudo npm install volo -g
+
+Changes for virtualwrapper in your user's .bashrc (assuming you use bash, please adjust for other shells)::
+
+    # this goes in ~/.bashrc
+    export PYTHONIOENCODING=utf-8
+    export WORKON_HOME="/home/[YOUR_USER]/environments"
+    export PROJECT_HOME="/home/[YOUR_USER]/projects"
+    source /usr/bin/virtualenvwrapper.sh
+    export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
 
 Mac OS X
 ~~~~~~~~
@@ -64,7 +79,7 @@ See here for more info about this:
 
 https://python-guide.readthedocs.org/en/latest/starting/install/osx.html
 
-Secondly, install Homebrew, which is a great package manager for all the *nix goodies you need to develop with:
+Secondly, install Homebrew, which is a great package manager for all the \*nix goodies you need to develop with:
 
 http://mxcl.github.io/homebrew/
 
@@ -111,7 +126,7 @@ This project makes use of subdomains to target languages, and for API requests.
 
 To enable this functionality fully, you'll need to edit your hosts file on your development machine.
 
-**Ubuntu**::
+**Ubuntu & Fedora**::
 
     sudo nano /etc/hosts
 
@@ -132,8 +147,8 @@ http://docs.python-guide.org/en/latest/dev/virtualenvs/
 
 We are going to create a new virtual environment, create another directory for our project code, make a connection between the two, and then, clone the project code into its directory.
 
-Ubuntu
-++++++
+Ubuntu & Fedora
++++++++++++++++
 
 Here we go::
 
@@ -141,10 +156,10 @@ Here we go::
     mkvirtualenv [PROJECT_NAME]
 
     # create a directory for our project code
-    mkdir /home/[YOUR_USER]projects/[PROJECT_NAME]
+    mkdir /home/[YOUR_USER]/Sites/projects/[PROJECT_NAME]
 
     # link our project code directory to our virtual environment
-    setvirtualenvproject /home/[YOUR_USER]/environments/[PROJECT_NAME] /home/[YOUR_USER]projects/[PROJECT_NAME]
+    setvirtualenvproject /home/[YOUR_USER]/environments/[PROJECT_NAME] /home/[YOUR_USER]/Sites/projects/[PROJECT_NAME]
 
     # move to the root of our project code directory
     cdproject
@@ -165,6 +180,18 @@ Here we go::
 
     # move to the root of our project code directory
     cdproject
+
+Note
+++++
+
+Later when you want to work on the project use::
+    workon [PROJECT_NAME]
+
+For more information on virtualenvwrapper:
+
+    http://www.doughellmann.com/projects/virtualenvwrapper/
+
+
 
 Clone the project repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
