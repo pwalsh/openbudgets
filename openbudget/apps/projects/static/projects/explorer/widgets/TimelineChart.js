@@ -83,7 +83,7 @@ define([
                 data = [];
 
             series.forEach(function (item) {
-                var id = item.cid + '-' + item.get('updated'),
+                var id = item.id + '-' + item.get('updated'),
                     actual_id = id + '-actual',
                     budget_id = id + '-budget',
                     title = item.get('title'),
@@ -95,11 +95,13 @@ define([
                 data.push({
                     id      : actual_id,
                     title   : title + ' actual',
+                    type    : 'actual',
                     muni    : muni,
                     values  : item_series[0]
                 }, {
                     id      : budget_id,
                     title   : title + ' budget',
+                    type    : 'budget',
                     muni    : muni,
                     values  : item_series[1]
                 });
@@ -322,6 +324,19 @@ define([
             labels.select('circle')
                 .attr('r', 5)
                 .style('fill', function (d) { return d.color; });
+        },
+        setTitle        : function (cid, title) {
+            if ( uijet.utils.isObj(cid) ) {
+                title = cid.title;
+                cid = cid.id;
+            }
+            d3.selectAll('.timeline').filter(function (d) {
+                return d.id.indexOf(cid) === 0;
+            }).datum(function (d) {
+                d.title = title + ' ' + d.type;
+                return d;
+            });
+            return this;
         }
     });
 

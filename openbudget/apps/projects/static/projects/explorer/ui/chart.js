@@ -169,6 +169,7 @@ define([
                         this.render();
                     }
                 },
+                'legend_item_title.updated'     : 'setTitle+',
                 'chart_period_start.selected'   : function ($selected) {
                     this.timeContext($selected.text());
                 },

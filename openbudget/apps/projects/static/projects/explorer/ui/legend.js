@@ -28,6 +28,12 @@ define([
                 },
                 'change:color'  : function (model, color) {
                     this.setColor(color);
+                },
+                'change:title'  : function (model, value) {
+                    uijet.publish('legend_item_title.updated', {
+                        id      : model.cid,
+                        title   : value
+                    });
                 }
             },
             signals         : {
