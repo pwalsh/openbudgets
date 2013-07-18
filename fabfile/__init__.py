@@ -126,18 +126,27 @@ def project_bootstrap():
     #project_validate()
     #project_initialize()
     #project_restart_sequence()
-    project_nginx_conf()
+    #project_nginx_conf()
     project_gunicorn_conf()
     project_celery_conf()
-    #project_gunicorn_conf()
-    #project_celery_conf()
+
+
+@task
+@roles('web')
+def db_load():
+    puts(green('Loading data to postgres.'))
+    local = '/Users/paulwalsh/Desktop/postgres.sql'
+    remote = MACHINE['DIR_USER_HOME'] + '/' + KEY + '.sql'
+    file_upload(remote, local)
+    run('dropdb ' + KEY)
+    run('createdb ' + KEY)
+    run('psql ' + KEY + ' < ' + remote)
 
 
 def venv_conf():
     run(PROJECT['MAKE_ENV'])
     dir_ensure(PROJECT['ROOT'])
     run(PROJECT['SET_ENV'])
-    run(PROJECT['DEACTIVATE'])
 
 
 def project_install():
@@ -146,6 +155,8 @@ def project_install():
         run(PROJECT['DEACTIVATE'])
 
 
+@task
+@roles('web')
 def project_requirements_install():
     with prefix(PROJECT['WORKON']):
         run('pip install -r requirements/base.txt')
@@ -214,10 +225,10 @@ def project_gunicorn_conf():
 
     mode_sudo()
     content = text_template(templates.gunicorn_supervisor, context)
-    file_write('/etc/supervisor/conf.d/' + KEY + '_gunicorn.conf', content)
-    #file_unlink('/var/run//supervisor.sock')
-    sudo('service supervisor stop')
-    sudo('service supervisor start')
+    file_write('/etc/supervisor/conf.d/' + KEY + '-gunicorn.conf', content)
+    sudo('supervisorctl reread')
+    sudo('supervisorctl update')
+    sudo('supervisorctl restart ' + KEY + '-gunicorn')
 
 
 def project_celery_conf():
@@ -235,10 +246,10 @@ def project_celery_conf():
 
     mode_sudo()
     content = text_template(templates.celery_supervisor, context)
-    file_write('/etc/supervisor/conf.d/' + KEY + '_celery.conf', content)
-    #file_unlink('/var/run//supervisor.sock')
-    sudo('service supervisor stop')
-    sudo('service supervisor start')
+    file_write('/etc/supervisor/conf.d/' + KEY + '-celery.conf', content)
+    sudo('supervisorctl reread')
+    sudo('supervisorctl update')
+    sudo('supervisorctl restart ' + KEY + '-celery')
 
 
 ######                  ######
@@ -378,8 +389,9 @@ def postgres_conf():
         # get out of postgresq shell here
         #
         run('createuser ' + env.user)
-        run('createdb ' + env.user)
         run('exit')
+        run('createdb ' + env.user)
+
 
 
 def profile_conf():
@@ -405,9 +417,6 @@ def link_conf():
     file_link('/usr/lib/x86_64-linux-gnu/libz.so', '/usr/lib/libz.so', symbolic=True)
     file_link('/usr/lib/x86_64-linux-gnu/libfreetype.so', '/usr/lib/libfreetype.so', symbolic=True)
     file_link('/usr/lib/x86_64-linux-gnu/liblcms.so', '/usr/lib/liblcms.so', symbolic=True)
-
-    # have problems with supervisor if I don't do this
-    #file_unlink('/var/run//supervisor.sock')
 
 
 def reboot():

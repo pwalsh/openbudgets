@@ -29,6 +29,8 @@ You can contribute to the project in a number of ways:
 
 **Read the docs**: http://open-budget.readthedocs.org/
 
+**Play with the demo**: http://dev.openmuni.org.il/
+
 **Tackle an open issues**: https://github.com/hasadna/omuni-budget/issues
 
 **Make some translations**: https://www.transifex.com/projects/p/open-budgets/
