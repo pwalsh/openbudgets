@@ -311,13 +311,25 @@ define([
             d3.selectAll('.value_label')
                 .attr('transform', function (d, i) {
                     var y_pos = -10,
-                        prev_y, dy;
+                        prev, prev_y, dy;
                     if ( i ) {
-                        prev_y = datums[i - 1].y;
-                        dy = prev_y - d.y;
+                        prev = datums[i - 1];
+                        prev_y = prev.title_y || prev.y;
+                        dy = prev_y - (d.y - 10);
                         // make sure we have a margin of 20px between labels' texts
-                        y_pos = dy < 20 && dy > 0 ? -30 : -10;
+                        if ( dy <= 0 ) {
+                            y_pos = prev_y - d.y - 30
+                        }
+                        else if ( dy < 20 ) {
+                            y_pos = -30;
+                        }
+                        else {
+                            y_pos = -10;
+                        }
                     }
+                    // cache title position
+                    d.title_y = d.y + y_pos;
+
                     return 'translate(0,' + y_pos + ')';
                 });
 
