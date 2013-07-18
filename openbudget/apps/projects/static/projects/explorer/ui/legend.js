@@ -31,7 +31,7 @@ define([
                 },
                 'change:title'  : function (model, value) {
                     uijet.publish('legend_item_title.updated', {
-                        id      : model.cid,
+                        id      : model.id,
                         title   : value
                     });
                 }

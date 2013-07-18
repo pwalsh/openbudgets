@@ -19,7 +19,7 @@ define([
                 factory : 'LegendItem',
                 config  : {
                     element : uijet.$('<li>', {
-                        id          : this.id + '_item_' + model.cid
+                        id          : this.id + '_item_' + model.id
                     }).appendTo(this.$element),
                     resource: model,
                     index   : index,

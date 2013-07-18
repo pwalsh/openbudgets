@@ -51,9 +51,7 @@ define([
                                     item.state = series[i].state;
                                     item.title = series[i].title;
                                 });
-                                uijet.Resource('LegendItems').reset(legend_data).models.forEach(function (item, i) {
-                                    item.cid = series[i].id;
-                                });
+                                uijet.Resource('LegendItems').reset(legend_data);
                             }
                         });
                     }
@@ -92,8 +90,12 @@ define([
              */
             uijet.Resource('Munis', resources.Munis)
                 .Resource('LatestSheet', resources.Nodes);
-
-            this.LegendItemModel = uijet.Model();
+            
+            this.LegendItemModel = uijet.Model({
+                initialize  : function () {
+                    this.id = resources._.uniqueId('li');
+                }
+            });
 
             uijet.Resource('LegendItems', uijet.Collection({
                 model       : this.LegendItemModel,

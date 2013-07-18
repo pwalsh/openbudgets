@@ -353,13 +353,13 @@ define([
                 .attr('r', 5)
                 .style('fill', function (d) { return d.color; });
         },
-        setTitle        : function (cid, title) {
-            if ( uijet.utils.isObj(cid) ) {
-                title = cid.title;
-                cid = cid.id;
+        setTitle        : function (id, title) {
+            if ( uijet.utils.isObj(id) ) {
+                title = id.title;
+                id = id.id;
             }
             d3.selectAll('.timeline').filter(function (d) {
-                return d.id.indexOf(cid) === 0;
+                return d.id.indexOf(id) === 0;
             }).datum(function (d) {
                 d.title = title + ' ' + d.type;
                 return d;
