@@ -124,6 +124,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'modeltranslation',
     'taggit',
+    'django_gravatar',
     'openbudget.apps.accounts',
     'openbudget.apps.sheets',
     'openbudget.apps.contexts',
@@ -236,6 +237,8 @@ ABSOLUTE_URL_OVERRIDES = {
     'auth.user': lambda u: '/accounts/{uuid}/'.format(uuid=u.uuid)
 }
 
+GRAVATAR_DEFAULT_IMAGE = 'retro'
+
 # CACHE CONF
 CACHES = {
     'default': {
@@ -347,6 +350,8 @@ ADMINS = (
 
 # OPEN BUDGET CUSTOM CONF
 TEMP_FILES_DIR = os.path.abspath(os.path.join(os.path.dirname(PROJECT_ROOT), 'tmp'))
+
+OPENBUDGET_NAME = 'Open Local Budgets'
 
 OPENBUDGET_CORE_TEAM_ID = 1
 

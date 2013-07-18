@@ -1,12 +1,16 @@
-{% load i18n %}
+{% load i18n gravatar %}
 {% load url from future %}
 
 {% if user.is_authenticated %}
 
-Hi {{ user.username }} | <a href="{% url 'account_detail' user.uuid %}">{% trans 'Account' %}</a> | <a href="{% url 'auth_logout' %}">{% trans 'Logout' %}</a>
+<a id="avatar" href="{% url 'account_detail' user.uuid %}"><img src="{% gravatar_url user.email 60 %}" /></a>
 
+
+{% comment %}
+Hi {{ user.username }} | <a href="{% url 'account_detail' user.uuid %}">{% trans 'Account' %}</a> | <a href="{% url 'auth_logout' %}">{% trans 'Logout' %}</a>
+{% endcomment %}
 {% else %}
 
-<a class="button blue" href="{% url 'auth_login' %}">{% trans 'Login' %}</a>
+<a href="{% url 'auth_login' %}">{% trans 'Login' %}</a>
 
 {% endif %}
