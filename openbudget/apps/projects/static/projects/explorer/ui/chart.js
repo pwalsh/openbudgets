@@ -118,9 +118,9 @@ define([
                     }.bind(this));
                 },
                 pre_wake    : function () {
+                    updateAuthorName.call(this);
                     return ! this.has_content;
                 },
-                pre_render  : updateAuthorName,
                 post_render : function () {
                     uijet.start({
                         type    : 'ContentEditable',
