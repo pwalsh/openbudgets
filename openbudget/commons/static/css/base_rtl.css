@@ -1958,8 +1958,7 @@ a {
   color: #070746;
 }
 #nav-panel {
-  /*display: none;*/
-
+  display: none;
   position: fixed;
   top: 0;
   -webkit-box-sizing: border-box;
