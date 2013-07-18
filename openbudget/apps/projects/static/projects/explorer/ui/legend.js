@@ -19,7 +19,9 @@ define([
             dont_fetch      : true,
             data_events     : {
                 'change:state'  : function (model, state) {
-                    this.$element.find('.selected_nodes_count').text(state.selected.length);
+                    var count = state.selected.length;
+                    this.$element.find('.selected_nodes_count').text(count);
+                    uijet.publish('selected_nodes_count.updated', count);
                 },
                 'change:muni'   : function (model, value) {
                     this.$element.find('.entity').text(value.get('name'));

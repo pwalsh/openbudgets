@@ -106,6 +106,7 @@ define([
         },
         updateSelection : function (data) {
             if ( data && data.reset ) return;
+            //TODO: can optimize since we're already looping LatestSheet in nodes_list widget on selection
             var resource = uijet.Resource('LatestSheet'),
                 selected_nodes = resource.where({ selected : 'selected' }),
                 selected_nodes_ids = selected_nodes.map(uijet.utils.prop('id')),

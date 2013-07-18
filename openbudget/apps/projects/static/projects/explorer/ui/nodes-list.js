@@ -186,6 +186,7 @@ define([
                     if ( this.desc === false ) {
                         this.filtered.reverse();
                     }
+                    // update DOM with collection's state
                     this.$children.each(function (i, node) {
                         var $node = uijet.$(node),
                             id = +$node.attr('data-id'),

@@ -303,7 +303,14 @@ define([
     }, {
         type    : 'Button',
         config  : {
-            element : '#picker_done'
+            element     : '#picker_done',
+            app_events  : {
+                'entities_list.selected'        : 'disable',
+                'legends_list.delete'           : 'enable',
+                'selected_nodes_count.updated'  : function (count) {
+                    count ? this.enable() : this.disable();
+                }
+            }
         }
     }, {
         type    : 'Pane',
