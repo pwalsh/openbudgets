@@ -51,7 +51,9 @@ define([
                                     item.state = series[i].state;
                                     item.title = series[i].title;
                                 });
-                                uijet.Resource('LegendItems').reset(legend_data);
+                                uijet.Resource('LegendItems').reset(legend_data).models.forEach(function (item, i) {
+                                    item.cid = series[i].id;
+                                });
                             }
                         });
                     }
