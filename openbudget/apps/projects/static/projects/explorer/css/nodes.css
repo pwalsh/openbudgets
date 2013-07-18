@@ -50,7 +50,7 @@
     padding: .5rem 1rem;
     text-align: right;
 }
-#filters_search_menu li:before {
+#filters_search_menu li[data-prefix]:before {
     content: attr(data-prefix);
     margin-left: 1rem;
 }
