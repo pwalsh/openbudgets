@@ -31,76 +31,68 @@
 
         {% endblock js_head %}
     </head>
-
     <body class="{{ LANGUAGE_CODE }}{% if LANGUAGE_BIDI %} rtl{% else %} ltr{% endif %}">
-        <div id="sticky">
+
+        <section id="nav-panel">
             <header>
-                <div class="wrapper">
-                {% block header %}
-                    <nav>
-                        {% spaceless %}
-                        {% block nav %}
-                        <a href="{% url 'home' %}">{% trans 'Home' %}</a>
-                        <a href="{% url 'page' slug='about' %}">{% trans 'About' %}</a>
-                        <a href="{% url 'project_list' %}">{% trans 'Projects' %}</a>
-                        <a href="{% url 'entity_list' %}">{% trans 'Municipalities' %}</a>
-                        <a href="{% url 'api' subdomain='api' %}">{% trans 'API' %}</a>
-                        {% endblock nav %}
-                        <span class="user-widget">
-                            {% language_switch request.get_full_path %}
-                            {% include 'accounts/partials/_account_tools.html' %}
-                        </span>
-                        {% endspaceless %}
-                    </nav>
-                {% endblock header %}
-                </div>
+            {% block header %}
+                <nav>
+                    {% spaceless %}
+                    {% block nav %}
+                    <a href="{% url 'home' %}">{% trans 'Home' %}</a>
+                    <a href="{% url 'page' slug='about' %}">{% trans 'About' %}</a>
+                    <a href="{% url 'project_list' %}">{% trans 'Projects' %}</a>
+                    <a href="{% url 'entity_list' %}">{% trans 'Municipalities' %}</a>
+                    <a href="{% url 'api' subdomain='api' %}">{% trans 'API' %}</a>
+                    {% endblock nav %}
+                    {% endspaceless %}
+                </nav>
+            {% endblock header %}
             </header>
-
-            <section id="main">
-                <div class="wrapper">
-                {% block main %}
-
-                    <h1>
-                        {% block title %}
-
-                        {% endblock title %}
-                    </h1>
-                    <div class="interactions">
-                        {% block interactions %}
-
-                        {% endblock interactions %}
-                    </div>
-                    <div>
-                        {%block content %}
-
-                        {% endblock content %}
-                    </div>
-
-                {% endblock main %}
-                </div>
-            </section>
-        </div><!--end sticky-->
-
-        <footer>
-            <div class="wrapper">
+            <footer>
                 {% block footer %}
-                <div class="searchbox-container">
-                    {% include 'partials/_searchbox.html' %}
+                <div>
+                    {% language_switch request.get_full_path %}
+                </div>
+                <nav>
+                    <a href="{% url 'page' slug='privacy' %}">{% trans 'Privacy' %}</a>
+                    <a href="{% url 'page' slug='terms' %}">{% trans 'Terms' %}</a>
+                    <a href="{% url 'contact' %}">{% trans 'Contact' %}</a>
+                </nav>
+                {% endblock footer %}
+            </footer>
+        </section>
+
+        <section id="action-panel">
+            <span id="nav-anchor"><a href="{% url 'home' %}" title="{% trans "Back to the home page" %}">{% trans 'Open Local Budgets' %} {% if LANGUAGE_BIDI %}&#9668;{% else %}&#9658;{% endif %}</a></span>
+        </section>
+
+        <section id="content-panel">
+
+            {% block main %}
+
+                <h1>
+                    {% block title %}
+
+                    {% endblock title %}
+                </h1>
+                <div>
+                    {%block content %}
+
+                    {% endblock content %}
                 </div>
 
-                <div class="footer-links">
-                    <nav>
-                        <a href="{% url 'page' slug='privacy' %}">{% trans 'Privacy' %}</a>
-                        <a href="{% url 'page' slug='terms' %}">{% trans 'Terms' %}</a>
-                        <a href="{% url 'contact' %}">{% trans 'Contact' %}</a>
-                    </nav>
-                </div>
-                {% endblock footer %}
-            </div>
-        </footer>
+            {% endblock main %}
+
+        </section>
+
+        <section id="append-panel">
+            {% include 'accounts/partials/_account_tools.html' %}
+        </section>
 
         {% block js_body %}
-
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script src="{{ STATIC_URL }}js/base.js"></script>
         {% endblock js_body %}
     </body>
 </html>

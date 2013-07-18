@@ -1,4 +1,117 @@
-@import "../lib/adaptabl/adaptabl.mock";
+@import "../lib/adaptabl/adaptabl";
+
+/* MONKEY PATCHING ADAPTABL */
+
+/*don't want layout because of sticky footer - fix in adaptabl*/
+
+@import "../lib/adaptabl/src/core";
+@import "../lib/adaptabl/src/elements";
+@import "../lib/adaptabl/src/box";
+/*@import "src/layout";*/
+@import "../lib/adaptabl/src/typography";
+@import "../lib/adaptabl/src/buttons";
+@import "../lib/adaptabl/src/colors";
+@import "../lib/adaptabl/src/helpers";
+
+.row(@width: 100%) {
+    .layout-object(@width);
+    .clear;
+}
+
+/* PALETTE */
+@bluegrey: hsl(240, 15%, 84%);
+@strongblue: hsl(240, 82%, 15%);
+@midblue: hsl(240, 26%, 36%);
+
+body, html {
+    background-color: @bluegrey;
+    color: @midblue;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: @strongblue;
+}
+
+a {
+    color: @strongblue;
+}
+
+#nav-panel {
+    /*display: none;*/
+    position: fixed;
+    top: 0;
+    .layout-object(300px);
+    .padding-top(18px);
+    .padding-bottom(18px);
+    .padding-left(40px);
+    .padding-right(16px);
+    .height(100%);
+    .background-color(@green);
+
+    nav {
+        .width(100%);
+
+        a {
+            .display-block;
+        }
+    }
+
+    footer {
+        position: absolute;
+        left: 40;
+        bottom: 0;
+        height: 64px;
+
+        nav a {
+            .display-inline-block;
+            .padding-reset();
+        }
+    }
+}
+
+#nav-anchor {
+    .display-inline-block;
+    cursor: pointer;
+
+    a {
+        text-decoration: none;
+    }
+}
+
+#action-panel {
+    .layout-object(300px);
+    .padding-top(18px);
+    .padding-bottom(18px);
+    .padding-left(40px);
+    .padding-right(16px);
+    .height(100%);
+}
+
+#content-panel {
+    .layout-object(860px);
+    .padding-top(18px);
+    .padding-bottom(18px);
+    .padding-left(40px);
+    .padding-right(40px);
+    .height(100%);
+    .background-color(@white);
+}
+
+#append-panel {
+    .layout-object(100px);
+    .padding-top(18px);
+    .padding-bottom(18px);
+    .padding-left(16px);
+    .height(100%);
+}
+
+#avatar {
+    width: 60px;
+    height: 60px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+}
+
 
 
 textarea {
