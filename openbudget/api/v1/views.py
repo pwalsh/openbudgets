@@ -18,7 +18,7 @@ def api_v1(request):
 
         # Shouldn't be publicly declared, it is an implementation detail.
         # The same data can be better retrieved from the sheet items endpoint.
-        #'Template Nodes': reverse('templatenode-list', request=request),
+        'Template Nodes': reverse('templatenode-list', request=request),
         'Sheets': reverse('sheet-list', request=request),
         'Sheet Items': reverse('sheetitem-list', request=request),
         #'Sheet Item Timeline': reverse('sheetitem-timeline', request=request),
