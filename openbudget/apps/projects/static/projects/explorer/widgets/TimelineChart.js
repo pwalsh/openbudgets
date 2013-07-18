@@ -248,6 +248,7 @@ define([
                 datums = [],
                 x = this.x_scale,
                 y = this.y_scale,
+                width = this.width,
                 color = this.colors,
                 added_label, added_label_texts;
             d3.selectAll('.timeline').each(function (d, i) {
@@ -311,6 +312,9 @@ define([
             d3.selectAll('.value_label')
                 .attr('transform', function (d, i) {
                     var y_pos = -10,
+                        x_pos = 0,
+                        matrix = this.getCTM(),
+                        bbox = this.getBBox(),
                         prev, prev_y, dy;
                     if ( i ) {
                         prev = datums[i - 1];
@@ -330,7 +334,19 @@ define([
                     // cache title position
                     d.title_y = d.y + y_pos;
 
-                    return 'translate(0,' + y_pos + ')';
+                    // check if the label is exceeding the size of the canvas
+                    x_pos = bbox.x + matrix.e;
+                    if ( x_pos < 0 ) {
+                        x_pos = -x_pos;
+                    }
+                    else if ( x_pos + bbox.width > width ) {
+                        x_pos = width - (x_pos + bbox.width);
+                    }
+                    else {
+                        x_pos = 0;
+                    }
+
+                    return 'translate(' + x_pos + ',' + y_pos + ')';
                 });
 
             labels.select('circle')
