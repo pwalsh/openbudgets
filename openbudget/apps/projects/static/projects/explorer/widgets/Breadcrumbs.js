@@ -70,7 +70,7 @@ define([
                     wrapper_class   : 'hide',
                     menu            : {
                         mixins          : ['Templated'],
-                        float_position  : 'top: 1rem',
+                        float_position  : 'top: 2rem',
                         signals         : {
                             pre_select  : function ($selected) {
                                 var id = +$selected.attr('data-id'),
