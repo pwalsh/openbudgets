@@ -118,7 +118,9 @@ define([
                         return this.get('username');
                     }
                 }
-            }), { id : uijet.Resource('ProjectState').get('author')});
+            }), {
+                id  : uijet.Resource('ProjectState').get('author')
+            });
 
             // once API routes are set init the router and sync the author
             explorer.routes_set_promise.then(function () {

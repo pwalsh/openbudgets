@@ -5,6 +5,12 @@ define([
     'controllers/TimelineChart'
 ], function (uijet) {
 
+    function updateAuthorName () {
+        var name = uijet.Resource('Author').name();
+        ! this.context && (this.context = {});
+        this.context.author_name = name;
+    }
+
     uijet.Factory('ChartPeriodSelect', {
         type    : 'Select',
         config  : {
@@ -102,14 +108,19 @@ define([
                 'change:title'  : 'title_changed'
             },
             signals     : {
+                post_init   : function () {
+                    var author_model = uijet.Resource('Author');
+                    author_model.on('change', function () {
+                        updateAuthorName.call(this);
+                        if ( this.has_content ) {
+                            uijet.$('#state_author_name').text(this.context.author_name);
+                        }
+                    }.bind(this));
+                },
                 pre_wake    : function () {
                     return ! this.has_content;
                 },
-                pre_render : function () {
-                    var name = uijet.Resource('Author').name();
-                    ! this.context && (this.context = {});
-                    this.context.author_name = name;
-                },
+                pre_render  : updateAuthorName,
                 post_render : function () {
                     uijet.start({
                         type    : 'ContentEditable',
