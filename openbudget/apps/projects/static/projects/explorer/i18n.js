@@ -30,7 +30,8 @@ define(function() {
         'viz-save'              : gettext('Save'),
         'search-menu-selected'  : gettext('Show selected only'),
         'search-menu-free'      : gettext('Free text search'),
-        'search-term-prefix'    : gettext('Search for')
+        'search-term-prefix'    : gettext('Search for'),
+        'guest'                 : gettext('Guest')
     };
 
 });

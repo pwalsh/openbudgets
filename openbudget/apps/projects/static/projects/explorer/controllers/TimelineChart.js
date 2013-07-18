@@ -108,7 +108,7 @@ define([
                 }
                 else {
                     model = new TimeSeriesModel({
-                        id      : legend_item.cid,
+                        id      : legend_item.id,
                         muni_id : muni_id,
                         nodes   : nodes,
                         title   : title,

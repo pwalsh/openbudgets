@@ -223,6 +223,7 @@ define([
         utils   : {
             reverseSorting  : reverseSorting,
             nestingSort     : nestingSort
-        }
+        },
+        '_'     : _
     };
 });

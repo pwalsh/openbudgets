@@ -21,6 +21,11 @@
     color: white;
     font-weight: bold;
 }
+#picker_done.disabled {
+    background-color: #646e78;
+    color: #d0d0dc;
+}
+
 #filters_search {
     position: absolute;
     top: 0;
@@ -45,7 +50,7 @@
     padding: .5rem 1rem;
     text-align: right;
 }
-#filters_search_menu li:before {
+#filters_search_menu li[data-prefix]:before {
     content: attr(data-prefix);
     margin-left: 1rem;
 }
@@ -63,12 +68,15 @@
 }
 
 #node_breadcrumb_back:before {
-    content: '> ';
+    content: '\2190';
+    margin-left: .5rem;
 }
 #nodes_breadcrumbs, #nodes_breadcrumbs_wrapper {
     display: inline-block;
     height: auto;
     overflow: visible;
+    font-size: 1.3rem;
+    font-weight: bold;
 }
 #nodes_breadcrumbs .uijet_button {
     padding: 0;
@@ -76,6 +84,23 @@
 #nodes_breadcrumbs_history_wrapper {
     display: inline-block;
     width: auto;
+}
+#nodes_breadcrumbs_history_menu {
+    background-color: #d0d0dc;
+}
+#nodes_breadcrumbs_history_menu li {
+    padding: .5rem 1rem;
+}
+#nodes_breadcrumbs_history_menu li:before {
+    content: '\2190';
+    margin-left: .5rem;
+}
+#nodes_breadcrumbs_history_menu li:first-child:before {
+    content: '';
+    margin-left: 0;
+}
+#nodes_breadcrumbs_history_menu li:hover {
+    background-color: #8989a8;
 }
 
 #nodes_picker {

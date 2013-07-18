@@ -144,7 +144,8 @@ class BaseImporter(object):
                 if tmp in translated_fields(self.parser.item_model):
                     normalized_headers[index] = tmp
 
-        return normalized_headers
+        # MAKE SURE HEADERS ARE LOWER CASED, ALWAYS! 
+        return [h.lower() for h in normalized_headers]
 
     def import_error(self):
         """If a file is not validly formed, we can't open it.

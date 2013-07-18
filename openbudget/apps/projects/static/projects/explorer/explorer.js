@@ -90,8 +90,12 @@ define([
              */
             uijet.Resource('Munis', resources.Munis)
                 .Resource('LatestSheet', resources.Nodes);
-
-            this.LegendItemModel = uijet.Model();
+            
+            this.LegendItemModel = uijet.Model({
+                initialize  : function () {
+                    this.id = resources._.uniqueId('li');
+                }
+            });
 
             uijet.Resource('LegendItems', uijet.Collection({
                 model       : this.LegendItemModel,
@@ -118,7 +122,9 @@ define([
                         return this.get('username');
                     }
                 }
-            }), { id : uijet.Resource('ProjectState').get('author')});
+            }), {
+                id  : uijet.Resource('ProjectState').get('author')
+            });
 
             // once API routes are set init the router and sync the author
             explorer.routes_set_promise.then(function () {
