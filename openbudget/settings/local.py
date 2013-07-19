@@ -104,7 +104,7 @@ DEVSTRAP = {
         'commons',
         'contexts',
         'entities',
-        'interactions',
+        #'interactions',
         'international',
         'pages',
         'sources',
