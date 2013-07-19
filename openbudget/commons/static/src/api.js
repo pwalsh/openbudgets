@@ -18,7 +18,7 @@
         },
         loc = root.location,
         API_INDEX = root.API_INDEX || (loc.protocol + '//api.' + loc.host + '/'),
-        API_VERSION = 'v1',
+        API_VERSION = root.API_VERSION || 'v1',
         API_URL = API_INDEX,
         AUTH_DATA = {
             client_id       : '751be246011e8a6198d7',
@@ -29,6 +29,21 @@
         },
         obudget;
 
+    /**
+     * Looks for Django's CSRF token in cookies and gets the token if found.
+     * 
+     * Example using with jQuery:
+     * 
+     * $(document).ajaxSend(function (event, xhr, settings) {
+     *     if ( ! settings.headers )
+     *         settings.headers = {};
+     *
+     *     if ( ! ('X-CSRFToken' in settings.headers) )
+     *         settings.headers['X-CSRFToken'] = api.getCSRFToken();
+     *  });
+     * 
+     * @returns {String|null} CSRF token
+     */
     function getCSRFToken () {
         var match = document.cookie && document.cookie.match(CSRF_TOKEN_RE);
         return match && match[1];
