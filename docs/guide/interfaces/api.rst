@@ -169,6 +169,7 @@ The common pattern is:
 * **?ordering=[(-)FIELD_NAME]** - order results by the given field. Prepend "-" to the field name to reverse the order. Available field names are listed below per endpoint.
 * **?search=[STRING]** - filter the results according to matches for the search query. Available searchable fields are listed, below per endpoint.
 * **?[FIELD_NAME]=[VALUE]** - Filter based on value of a field. Depending on the field, value could be an integer, a string, or "true"/"false" for boolean matches. Available fields are listed below, per endpoint.
+
 Also note, pluralized field names (e.g: "parents" can take multiple comma-separated values).
 
 

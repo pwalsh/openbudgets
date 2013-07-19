@@ -92,7 +92,7 @@ https://github.com/hasadna/omuni-budget/blob/develop/openbudget/apps/taxonomies/
 Standard urls to expose a taxonomy detail page and a tag detail page.
 
 Templates
-~~~~
+~~~~~~~~~
 
 https://github.com/hasadna/omuni-budget/blob/develop/openbudget/apps/taxonomies/templates/taxonomies
 
