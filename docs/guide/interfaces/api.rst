@@ -118,7 +118,7 @@ API_VERSION = "v1"
 This provides your client will all the information it needs to get the correct endpoints on intialization, by follow a flow as follows:
 
 
-1. On initialization, hit the API_INDEX, and get the URL for v1 from the returned JSON object.
+1. On initialization, hit the API_INDEX, and get the URL for v1 (API_VERSION) from the returned JSON object.
 
 The returned object will look something like this:
 
