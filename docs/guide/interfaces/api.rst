@@ -71,7 +71,7 @@ How to import::
 
 Example implementation:
 
-https://github.com/hasadna/omuni-budget/blob/develop/openbudget/apps/budgets/serializers.py
+https://github.com/hasadna/omuni-budget/blob/develop/openbudget/apps/sheets/serializers.py
 
 Django OAuth Toolkit
 ~~~~~~~~~~~~~~~~~~~~
@@ -95,7 +95,7 @@ For example, if an Open Budget instance is installed on openmuni.org.il:
 
 * API root: https://api.openmuni.org.il/
 * API version: https://api.openmuni.org.il/v1/
-* API endpoint: https://api.openmuni.org.il/v1/budgets/
+* API endpoint: https://api.openmuni.org.il/v1/sheets/
 
 
 Writing an API Client
