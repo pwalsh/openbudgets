@@ -17,7 +17,7 @@ Taxonomies have been implemented in the server. the 0.3 tag of Open Budget expos
 
 Subsequent tags have removed taxonomies fromt he UI as they are not in the current project's scope.
 
-TODO: After the current iteration of the project, we hope that the taxpnomies feature can be picked up and implemented.
+TODO: After the current iteration of the project, we hope that the taxonomies feature can be picked up and implemented.
 
 At present, a taxonomy has a foreign key to BudgetTemplates. This relation suggests that taxonomies should be created as alternative ways to "read" a template, and thereby, any budget or actual that maps to such a template, can map to a taxonomy.
 
