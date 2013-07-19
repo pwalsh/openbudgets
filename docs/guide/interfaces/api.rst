@@ -136,7 +136,7 @@ The returned object will look something like this:
 
 Something like this:
 
-API_ROUTES = {"entities":"http://api.domain.com/v1/entities/","budgets":"http://api.domain.com/v1/budgets/"}
+API_ROUTES = {"Entities":"http://api.domain.com/v1/entities/","Sheets":"http://api.domain.com/v1/sheets/","Sheet Items":"http://api.domain.com/v1/sheet/items/"}
 
 API_ROUTES.entities # all entities
 
