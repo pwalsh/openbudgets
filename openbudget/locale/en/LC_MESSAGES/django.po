@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-05 12:34+0300\n"
+"POT-Creation-Date: 2013-07-17 23:42+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,51 +53,51 @@ msgstr ""
 msgid "Codebase translations"
 msgstr ""
 
-#: dashboard.py:78
+#: dashboard.py:77
 msgid "External resources"
 msgstr ""
 
-#: dashboard.py:82
+#: dashboard.py:81
 msgid "Open Budget Documentation"
 msgstr ""
 
-#: dashboard.py:87
+#: dashboard.py:86
 msgid "Django Documentation"
 msgstr ""
 
-#: dashboard.py:92
+#: dashboard.py:91
 msgid "Grappelli Documentation"
 msgstr ""
 
-#: dashboard.py:97
+#: dashboard.py:96
 msgid "Open Budget Repository"
 msgstr ""
 
-#: dashboard.py:105
+#: dashboard.py:104
 msgid "Credits"
 msgstr ""
 
-#: dashboard.py:109
+#: dashboard.py:108
 msgid "HaSadna"
 msgstr ""
 
-#: dashboard.py:114
+#: dashboard.py:113
 msgid "Developed by prjts"
 msgstr ""
 
-#: dashboard.py:119
+#: dashboard.py:118
 msgid "Email developers"
 msgstr ""
 
-#: dashboard.py:124
+#: dashboard.py:123
 msgid "Designed by bnop"
 msgstr ""
 
-#: dashboard.py:129
+#: dashboard.py:128
 msgid "Email designers"
 msgstr ""
 
-#: dashboard.py:137
+#: dashboard.py:136
 msgid "Recent Actions"
 msgstr ""
 
@@ -581,7 +581,7 @@ msgstr ""
 msgid ""
 "\n"
 "            This is the demo site. Please have a look around. There is some "
-"test data that should give a basic overview of the current featureset.\n"
+"test data that should give a basic overview of the current feature set.\n"
 "            "
 msgstr ""
 
@@ -636,7 +636,6 @@ msgstr ""
 
 #: apps/projects/models.py:70
 #: apps/projects/templates/projects/project_list.html:6
-#: commons/templates/base.html:45
 msgid "Projects"
 msgstr ""
 
@@ -726,7 +725,7 @@ msgid ""
 "node."
 msgstr ""
 
-#: apps/sheets/models.py:198 apps/sheets/models.py:541
+#: apps/sheets/models.py:198 apps/sheets/models.py:563
 msgid "Entry description"
 msgstr ""
 
@@ -799,23 +798,39 @@ msgstr ""
 msgid "The total actual amount of this entry."
 msgstr ""
 
-#: apps/sheets/models.py:502
+#: apps/sheets/models.py:498
 msgid "sheet item"
 msgstr ""
 
-#: apps/sheets/models.py:503
+#: apps/sheets/models.py:499
 msgid "sheet items"
 msgstr ""
 
-#: apps/sheets/models.py:543
+#: apps/sheets/models.py:522
+msgid "Comment"
+msgstr ""
+
+#: apps/sheets/models.py:523
+msgid "Add your comments to this discussion."
+msgstr ""
+
+#: apps/sheets/models.py:528
+msgid "sheet item comment"
+msgstr ""
+
+#: apps/sheets/models.py:529
+msgid "sheet item comments"
+msgstr ""
+
+#: apps/sheets/models.py:565
 msgid "A descriptive text for this template node underlying this sheet item."
 msgstr ""
 
-#: apps/sheets/models.py:548
+#: apps/sheets/models.py:570
 msgid "denormalized sheet item"
 msgstr ""
 
-#: apps/sheets/models.py:549
+#: apps/sheets/models.py:571
 msgid "denormalized sheet items"
 msgstr ""
 
@@ -841,102 +856,66 @@ msgstr ""
 msgid "Actual"
 msgstr ""
 
-#: apps/sheets/templates/sheets/sheet_detail.html:53
-msgid "According to the"
-msgstr ""
-
 #: apps/sheets/templates/sheets/sheet_detail.html:56
-msgid "The official classificatory scheme, in effect since"
-msgstr ""
-
-#: apps/sheets/templates/sheets/sheet_detail.html:61
-msgid "See all budget data"
-msgstr ""
-
-#: apps/sheets/templates/sheets/sheet_detail.html:66
-#: apps/sheets/templates/sheets/sheet_detail.html:96
-#: apps/sources/templates/sources/auxsource_detail.html:22
-#: apps/sources/templates/sources/referencesource_detail.html:22
-#: commons/templates/base.html:44
-msgid "About"
-msgstr ""
-
-#: apps/sheets/templates/sheets/sheet_detail.html:74
-msgid "Alternative taxonomies"
-msgstr ""
-
-#: apps/sheets/templates/sheets/sheet_detail.html:83
-msgid "By"
-msgstr ""
-
-#: apps/sheets/templates/sheets/sheet_detail.html:91
-msgid "View through this taxonomy"
-msgstr ""
-
-#: apps/sheets/templates/sheets/sheet_detail.html:103
-msgid "There are no taxonomies currently available."
-msgstr ""
-
-#: apps/sheets/templates/sheets/sheet_detail.html:111
 msgid "Export this Budget"
 msgstr ""
 
-#: apps/sheets/templates/sheets/sheet_detail.html:115
+#: apps/sheets/templates/sheets/sheet_detail.html:60
 msgid "CSV"
 msgstr ""
 
-#: apps/sheets/templates/sheets/sheet_detail.html:119
+#: apps/sheets/templates/sheets/sheet_detail.html:64
 msgid "XLS"
 msgstr ""
 
-#: apps/sheets/templates/sheets/sheet_detail.html:123
+#: apps/sheets/templates/sheets/sheet_detail.html:68
 msgid "XLSX"
 msgstr ""
 
-#: apps/sheets/templates/sheets/sheet_detail.html:129
+#: apps/sheets/templates/sheets/sheet_detail.html:74
 msgid "Related files"
 msgstr ""
 
-#: apps/sheets/templates/sheets/sheet_detail.html:133
+#: apps/sheets/templates/sheets/sheet_detail.html:78
 msgid "Reference files"
 msgstr ""
 
-#: apps/sheets/templates/sheets/sheet_detail.html:136
+#: apps/sheets/templates/sheets/sheet_detail.html:81
 msgid "The source files used to enter this data into the system."
 msgstr ""
 
-#: apps/sheets/templates/sheets/sheet_detail.html:143
-#: apps/sheets/templates/sheets/sheet_detail.html:168
+#: apps/sheets/templates/sheets/sheet_detail.html:88
+#: apps/sheets/templates/sheets/sheet_detail.html:113
 msgid "View info"
 msgstr ""
 
-#: apps/sheets/templates/sheets/sheet_detail.html:147
-#: apps/sheets/templates/sheets/sheet_detail.html:172
+#: apps/sheets/templates/sheets/sheet_detail.html:92
+#: apps/sheets/templates/sheets/sheet_detail.html:117
 msgid "Download file"
 msgstr ""
 
-#: apps/sheets/templates/sheets/sheet_detail.html:151
-#: apps/sheets/templates/sheets/sheet_detail.html:176
+#: apps/sheets/templates/sheets/sheet_detail.html:96
+#: apps/sheets/templates/sheets/sheet_detail.html:121
 msgid "We have no stored reference sources."
 msgstr ""
 
-#: apps/sheets/templates/sheets/sheet_detail.html:156
+#: apps/sheets/templates/sheets/sheet_detail.html:101
 msgid "Auxiliary files"
 msgstr ""
 
-#: apps/sheets/templates/sheets/sheet_detail.html:159
+#: apps/sheets/templates/sheets/sheet_detail.html:104
 msgid "Files uploaded by other users."
 msgstr ""
 
-#: apps/sheets/templates/sheets/sheet_detail.html:165
+#: apps/sheets/templates/sheets/sheet_detail.html:110
 msgid "added by"
 msgstr ""
 
-#: apps/sheets/templates/sheets/sheet_detail.html:183
+#: apps/sheets/templates/sheets/sheet_detail.html:128
 msgid "See something else"
 msgstr ""
 
-#: apps/sheets/templates/sheets/sheet_detail.html:193
+#: apps/sheets/templates/sheets/sheet_detail.html:138
 msgid "All municipalities"
 msgstr ""
 
@@ -1019,6 +998,11 @@ msgstr ""
 #: apps/sources/templates/sources/auxsource_detail.html:15
 #: apps/sources/templates/sources/referencesource_detail.html:15
 msgid "Uploaded by"
+msgstr ""
+
+#: apps/sources/templates/sources/auxsource_detail.html:22
+#: apps/sources/templates/sources/referencesource_detail.html:22
+msgid "About"
 msgstr ""
 
 #: apps/sources/templates/sources/auxsource_detail.html:25
@@ -1330,28 +1314,8 @@ msgstr ""
 msgid "The end date for this %(class)s"
 msgstr ""
 
-#: commons/templates/base.html:43
-msgid "Home"
-msgstr ""
-
-#: commons/templates/base.html:46
-msgid "Municipalities"
-msgstr ""
-
-#: commons/templates/base.html:47
-msgid "API"
-msgstr ""
-
-#: commons/templates/base.html:93
-msgid "Privacy"
-msgstr ""
-
-#: commons/templates/base.html:94
-msgid "Terms"
-msgstr ""
-
-#: commons/templates/base.html:95
-msgid "Contact"
+#: commons/templates/base.html:36 settings/base.py:351
+msgid "Open Local Budgets"
 msgstr ""
 
 #: commons/templates/comments/_preview.html:4
@@ -1660,18 +1624,18 @@ msgid ""
 "            "
 msgstr ""
 
-#: settings/base.py:210
+#: settings/base.py:208
 msgid "Hebrew"
 msgstr ""
 
-#: settings/base.py:211
+#: settings/base.py:209
 msgid "English"
 msgstr ""
 
-#: settings/base.py:212
+#: settings/base.py:210
 msgid "Arabic"
 msgstr ""
 
-#: settings/base.py:213
+#: settings/base.py:211
 msgid "Russian"
 msgstr ""

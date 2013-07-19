@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-05 12:34+0300\n"
+"POT-Creation-Date: 2013-07-17 23:42+0300\n"
 "PO-Revision-Date: 2013-07-04 14:04+0000\n"
 "Last-Translator: Paul Walsh <paulywalsh@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,51 +55,51 @@ msgstr "متصفح وسائل الإعلام"
 msgid "Codebase translations"
 msgstr "ترجمات كوديباسي"
 
-#: dashboard.py:78
+#: dashboard.py:77
 msgid "External resources"
 msgstr "الموارد الخارجية"
 
-#: dashboard.py:82
+#: dashboard.py:81
 msgid "Open Budget Documentation"
 msgstr "فتح وثائق الميزانية"
 
-#: dashboard.py:87
+#: dashboard.py:86
 msgid "Django Documentation"
 msgstr "جانغو التوثيق"
 
-#: dashboard.py:92
+#: dashboard.py:91
 msgid "Grappelli Documentation"
 msgstr ""
 
-#: dashboard.py:97
+#: dashboard.py:96
 msgid "Open Budget Repository"
 msgstr "فتح مستودع الميزانية"
 
-#: dashboard.py:105
+#: dashboard.py:104
 msgid "Credits"
 msgstr "ائتمانات"
 
-#: dashboard.py:109
+#: dashboard.py:108
 msgid "HaSadna"
 msgstr ""
 
-#: dashboard.py:114
+#: dashboard.py:113
 msgid "Developed by prjts"
 msgstr ""
 
-#: dashboard.py:119
+#: dashboard.py:118
 msgid "Email developers"
 msgstr "المطورين البريد الإلكتروني"
 
-#: dashboard.py:124
+#: dashboard.py:123
 msgid "Designed by bnop"
 msgstr "صمم على يد بنوف"
 
-#: dashboard.py:129
+#: dashboard.py:128
 msgid "Email designers"
 msgstr "المصممين البريد الإلكتروني"
 
-#: dashboard.py:137
+#: dashboard.py:136
 msgid "Recent Actions"
 msgstr "الإجراءات الأخيرة"
 
@@ -597,10 +597,11 @@ msgid "Welcome to Open Budget"
 msgstr "مرحبا بكم في الميزانية المفتوحة"
 
 #: apps/pages/templates/pages/home.html:12
+#, fuzzy
 msgid ""
 "\n"
 "            This is the demo site. Please have a look around. There is some "
-"test data that should give a basic overview of the current featureset.\n"
+"test data that should give a basic overview of the current feature set.\n"
 "            "
 msgstr ""
 "\n"
@@ -661,7 +662,6 @@ msgstr "مشروع"
 
 #: apps/projects/models.py:70
 #: apps/projects/templates/projects/project_list.html:6
-#: commons/templates/base.html:45
 msgid "Projects"
 msgstr "مشاريع"
 
@@ -758,7 +758,7 @@ msgid ""
 "node."
 msgstr ""
 
-#: apps/sheets/models.py:198 apps/sheets/models.py:541
+#: apps/sheets/models.py:198 apps/sheets/models.py:563
 msgid "Entry description"
 msgstr "وصف الدخول"
 
@@ -842,25 +842,44 @@ msgstr "البند الفعلي"
 msgid "The total actual amount of this entry."
 msgstr "المبلغ الإجمالي لهذا الدخول"
 
-#: apps/sheets/models.py:502
+#: apps/sheets/models.py:498
 #, fuzzy
 msgid "sheet item"
 msgstr "بند الميزانية"
 
-#: apps/sheets/models.py:503
+#: apps/sheets/models.py:499
 #, fuzzy
 msgid "sheet items"
 msgstr "بنود الميزانية"
 
-#: apps/sheets/models.py:543
+#: apps/sheets/models.py:522
+#, fuzzy
+msgid "Comment"
+msgstr "تعليقات"
+
+#: apps/sheets/models.py:523
+msgid "Add your comments to this discussion."
+msgstr ""
+
+#: apps/sheets/models.py:528
+#, fuzzy
+msgid "sheet item comment"
+msgstr "بند الميزانية"
+
+#: apps/sheets/models.py:529
+#, fuzzy
+msgid "sheet item comments"
+msgstr "بنود الميزانية"
+
+#: apps/sheets/models.py:565
 msgid "A descriptive text for this template node underlying this sheet item."
 msgstr ""
 
-#: apps/sheets/models.py:548
+#: apps/sheets/models.py:570
 msgid "denormalized sheet item"
 msgstr ""
 
-#: apps/sheets/models.py:549
+#: apps/sheets/models.py:571
 msgid "denormalized sheet items"
 msgstr ""
 
@@ -886,102 +905,66 @@ msgstr "شيقل"
 msgid "Actual"
 msgstr "واقعي"
 
-#: apps/sheets/templates/sheets/sheet_detail.html:53
-msgid "According to the"
-msgstr "وفقا لل"
-
 #: apps/sheets/templates/sheets/sheet_detail.html:56
-msgid "The official classificatory scheme, in effect since"
-msgstr "مخطط التصنيفية الرسمية، في الواقع منذ"
-
-#: apps/sheets/templates/sheets/sheet_detail.html:61
-msgid "See all budget data"
-msgstr "انظر جميع بيانات الموازنة"
-
-#: apps/sheets/templates/sheets/sheet_detail.html:66
-#: apps/sheets/templates/sheets/sheet_detail.html:96
-#: apps/sources/templates/sources/auxsource_detail.html:22
-#: apps/sources/templates/sources/referencesource_detail.html:22
-#: commons/templates/base.html:44
-msgid "About"
-msgstr "حول"
-
-#: apps/sheets/templates/sheets/sheet_detail.html:74
-msgid "Alternative taxonomies"
-msgstr "التصنيفات البديله"
-
-#: apps/sheets/templates/sheets/sheet_detail.html:83
-msgid "By"
-msgstr "من قبل"
-
-#: apps/sheets/templates/sheets/sheet_detail.html:91
-msgid "View through this taxonomy"
-msgstr "انظر من خلال هذا التصنيف"
-
-#: apps/sheets/templates/sheets/sheet_detail.html:103
-msgid "There are no taxonomies currently available."
-msgstr "لا يوجد تصنيفات متوفرة حاليا"
-
-#: apps/sheets/templates/sheets/sheet_detail.html:111
 msgid "Export this Budget"
 msgstr "تصدير هذه الميزانية"
 
-#: apps/sheets/templates/sheets/sheet_detail.html:115
+#: apps/sheets/templates/sheets/sheet_detail.html:60
 msgid "CSV"
 msgstr ""
 
-#: apps/sheets/templates/sheets/sheet_detail.html:119
+#: apps/sheets/templates/sheets/sheet_detail.html:64
 msgid "XLS"
 msgstr ""
 
-#: apps/sheets/templates/sheets/sheet_detail.html:123
+#: apps/sheets/templates/sheets/sheet_detail.html:68
 msgid "XLSX"
 msgstr ""
 
-#: apps/sheets/templates/sheets/sheet_detail.html:129
+#: apps/sheets/templates/sheets/sheet_detail.html:74
 msgid "Related files"
 msgstr "الملفات ذات الصلة"
 
-#: apps/sheets/templates/sheets/sheet_detail.html:133
+#: apps/sheets/templates/sheets/sheet_detail.html:78
 msgid "Reference files"
 msgstr "الملفات المرجعية"
 
-#: apps/sheets/templates/sheets/sheet_detail.html:136
+#: apps/sheets/templates/sheets/sheet_detail.html:81
 msgid "The source files used to enter this data into the system."
 msgstr "ملفات المصدرالتي تستخدم لإدخال هذه البيانات في النظام"
 
-#: apps/sheets/templates/sheets/sheet_detail.html:143
-#: apps/sheets/templates/sheets/sheet_detail.html:168
+#: apps/sheets/templates/sheets/sheet_detail.html:88
+#: apps/sheets/templates/sheets/sheet_detail.html:113
 msgid "View info"
 msgstr "مشهد معلومات"
 
-#: apps/sheets/templates/sheets/sheet_detail.html:147
-#: apps/sheets/templates/sheets/sheet_detail.html:172
+#: apps/sheets/templates/sheets/sheet_detail.html:92
+#: apps/sheets/templates/sheets/sheet_detail.html:117
 msgid "Download file"
 msgstr "تحميل الملف"
 
-#: apps/sheets/templates/sheets/sheet_detail.html:151
-#: apps/sheets/templates/sheets/sheet_detail.html:176
+#: apps/sheets/templates/sheets/sheet_detail.html:96
+#: apps/sheets/templates/sheets/sheet_detail.html:121
 msgid "We have no stored reference sources."
 msgstr "لا تتواجد لدينا مصادر مرجعية مخزنة"
 
-#: apps/sheets/templates/sheets/sheet_detail.html:156
+#: apps/sheets/templates/sheets/sheet_detail.html:101
 msgid "Auxiliary files"
 msgstr "ملفات المساعدة"
 
-#: apps/sheets/templates/sheets/sheet_detail.html:159
+#: apps/sheets/templates/sheets/sheet_detail.html:104
 msgid "Files uploaded by other users."
 msgstr "ملفات التي تم تحميلها من قبل المستخدمين الآخرين."
 
-#: apps/sheets/templates/sheets/sheet_detail.html:165
+#: apps/sheets/templates/sheets/sheet_detail.html:110
 msgid "added by"
 msgstr "أضيفت على يد"
 
-#: apps/sheets/templates/sheets/sheet_detail.html:183
+#: apps/sheets/templates/sheets/sheet_detail.html:128
 msgid "See something else"
 msgstr "رؤية شيء آخر"
 
-#: apps/sheets/templates/sheets/sheet_detail.html:193
+#: apps/sheets/templates/sheets/sheet_detail.html:138
 msgid "All municipalities"
 msgstr "جميع البلديات"
 
@@ -1065,6 +1048,11 @@ msgstr "مصدر مساعدة"
 #: apps/sources/templates/sources/referencesource_detail.html:15
 msgid "Uploaded by"
 msgstr "تم التحميل بواسطة"
+
+#: apps/sources/templates/sources/auxsource_detail.html:22
+#: apps/sources/templates/sources/referencesource_detail.html:22
+msgid "About"
+msgstr "حول"
 
 #: apps/sources/templates/sources/auxsource_detail.html:25
 #: apps/sources/templates/sources/referencesource_detail.html:25
@@ -1398,29 +1386,10 @@ msgstr "نهاية الفترة"
 msgid "The end date for this %(class)s"
 msgstr ""
 
-#: commons/templates/base.html:43
-msgid "Home"
-msgstr "بيت"
-
-#: commons/templates/base.html:46
-msgid "Municipalities"
-msgstr "البلديات"
-
-#: commons/templates/base.html:47
-msgid "API"
-msgstr ""
-
-#: commons/templates/base.html:93
-msgid "Privacy"
-msgstr "خصوصية"
-
-#: commons/templates/base.html:94
-msgid "Terms"
-msgstr "شروط"
-
-#: commons/templates/base.html:95
-msgid "Contact"
-msgstr "اتصالاتصل"
+#: commons/templates/base.html:36 settings/base.py:351
+#, fuzzy
+msgid "Open Local Budgets"
+msgstr "فتح الميزانيات الإسرائيلي"
 
 #: commons/templates/comments/_preview.html:4
 #: commons/templates/comments/_preview.html:13
@@ -1745,21 +1714,57 @@ msgstr ""
 "أدخل أية كلمات رئيسية ذات الصلة بالميزانية، وسنقوم بإستعادة سجلات مطابقة "
 "بالنسبة لك."
 
-#: settings/base.py:210
+#: settings/base.py:208
 msgid "Hebrew"
 msgstr "العبرية"
 
-#: settings/base.py:211
+#: settings/base.py:209
 msgid "English"
 msgstr "الإنجليزية"
 
-#: settings/base.py:212
+#: settings/base.py:210
 msgid "Arabic"
 msgstr "العربية"
 
-#: settings/base.py:213
+#: settings/base.py:211
 msgid "Russian"
 msgstr "الروسية"
+
+#~ msgid "According to the"
+#~ msgstr "وفقا لل"
+
+#~ msgid "The official classificatory scheme, in effect since"
+#~ msgstr "مخطط التصنيفية الرسمية، في الواقع منذ"
+
+#~ msgid "See all budget data"
+#~ msgstr "انظر جميع بيانات الموازنة"
+
+#~ msgid "Alternative taxonomies"
+#~ msgstr "التصنيفات البديله"
+
+#~ msgid "By"
+#~ msgstr "من قبل"
+
+#~ msgid "View through this taxonomy"
+#~ msgstr "انظر من خلال هذا التصنيف"
+
+#~ msgid "There are no taxonomies currently available."
+#~ msgstr "لا يوجد تصنيفات متوفرة حاليا"
+
+#~ msgid "Home"
+#~ msgstr "بيت"
+
+#~ msgid "Municipalities"
+#~ msgstr "البلديات"
+
+#~ msgid "Privacy"
+#~ msgstr "خصوصية"
+
+#~ msgid "Terms"
+#~ msgstr "شروط"
+
+#~ msgid "Contact"
+#~ msgstr "اتصالاتصل"
 
 #~ msgid "Describe for this entry."
 #~ msgstr "وصف لهذا الدخول"

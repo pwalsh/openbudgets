@@ -60,6 +60,9 @@ CACHES = {
     }
 }
 
+# REST FRAMEWORK CONF
+REST_FRAMEWORK['PAGINATE_BY'] = 50
+
 # CELERY CONF
 BROKER_URL = 'django://'
 
@@ -101,7 +104,7 @@ DEVSTRAP = {
         'commons',
         'contexts',
         'entities',
-        'interactions',
+        #'interactions',
         'international',
         'pages',
         'sources',
