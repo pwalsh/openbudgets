@@ -13,8 +13,9 @@ requirejs.config({
         project_modules     : '../projects/explorer/modules',
         project_widgets     : '../projects/explorer/widgets',
         project_mixins      : '../projects/explorer/mixins',
-        dictionary          : '../projects/explorer/i18n',
-        api                 : '../src/api'
+        dictionary          : '../projects/explorer/dictionary',
+        api                 : '../src/api',
+        i18n                : '../src/i18n'
     },
     shim    : {
         eventbox                : ['setImmediate'],

@@ -31,14 +31,6 @@
     padding: 0 .5rem;
     overflow: hidden;
     background-color: #c4c4d3;
-    -webkit-transition-duration: .2s;
-       -moz-transition-duration: .2s;
-         -o-transition-duration: .2s;
-            transition-duration: .2s;
-    -webkit-transition-property: -webkit-transform;
-       -moz-transition-property: -moz-transform;
-         -o-transition-property: -o-transform;
-            transition-property: -ms-transform, transform;
     -webkit-transform: translateX(-100%);
        -moz-transform: translateX(-100%);
          -o-transform: translateX(-100%);

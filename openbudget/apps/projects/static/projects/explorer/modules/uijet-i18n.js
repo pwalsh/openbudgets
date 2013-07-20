@@ -1,11 +1,25 @@
 define([
     'uijet_dir/uijet',
-    'dictionary',
+    'i18n',
     'uijet_dir/widgets/Base'
-], function (uijet, dictionary) {
+], function (uijet, i18n) {
 
     var I18N_ATTRIBUTE = 'data-i18n',
-        I18N_ATTR_ATTRIBUTE = 'data-i18n-attr';
+        I18N_ATTR_ATTRIBUTE = 'data-i18n-attr',
+        normalizeToElement = function (el) {
+            if ( el ) {
+                if ( typeof el == 'string' ) {
+                    return document.querySelector(el);
+                }
+                else if ( el.nodeType === 1 ) {
+                    return el;
+                }
+                else if ( el[0] && el[0].nodeType === 1 ) {
+                    return el[0];
+                }
+            }
+            return null;
+        };
 
     uijet.Mixin('Translated', {
         translated  : true,
@@ -17,16 +31,7 @@ define([
     })
 
     .use({
-        _translate  : function (context) {
-            if ( dictionary ) {
-                uijet.$('[' + I18N_ATTRIBUTE + ']', context || document).each(function (i, el) {
-                    var $el = uijet.$(el),
-                        translation = dictionary[$el.attr(I18N_ATTRIBUTE)],
-                        attr = $el.attr(I18N_ATTR_ATTRIBUTE);
-                    translation && (attr ? $el.attr(attr, translation) : $el.text(translation));
-                });
-            }
-        },
+        _translate  : i18n,
         translate   : function (dfrd) {
             this._translate();
             dfrd && dfrd.resolve();
@@ -35,7 +40,8 @@ define([
     })
     .use({
         translate   : function () {
-            uijet._translate(this.options.translate_context || this.$element);
+            var context = normalizeToElement(this.options.translate_context);
+            uijet._translate(context || this.$element[0]);
             return this;
         }
     }, uijet.BaseWidget.prototype)
