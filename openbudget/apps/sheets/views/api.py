@@ -324,7 +324,7 @@ class SheetItemList(generics.ListAPIView):
 class SheetItemDetail(generics.RetrieveAPIView):
     """API endpoint that represents a single budget item."""
 
-    model = models.DenormalizedSheetItem
+    model = models.SheetItem
     queryset = model.objects.related_map()
     serializer_class = serializers.SheetItemBase
 
