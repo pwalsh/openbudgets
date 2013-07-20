@@ -70,19 +70,19 @@ class SheetBase(serializers.HyperlinkedModelSerializer):
 class SheetItemBase(serializers.HyperlinkedModelSerializer):
     """The default serialized representation of sheet items."""
 
-    node = TemplateNodeMin()
+    #node = TemplateNodeMin()
+    node = serializers.Field('node.id')
     code = serializers.Field('node.code')
     name = serializers.Field('node.name')
     name_en = serializers.Field('node.name_en')
     name_ar = serializers.Field('node.name_ar')
     name_ru = serializers.Field('node.name_ru')
-    parent = serializers.Field('node.parent.code')
-    path = serializers.Field('node.parent.path')
+    path = serializers.Field('node.path')
     direction = serializers.Field('node.direction')
 
     class Meta:
         model = models.SheetItem
-        fields = ['id', 'url', 'code', 'name', 'parent', 'path', 'direction', 'budget',
+        fields = ['id', 'url', 'code', 'name', 'path', 'direction', 'budget',
                   'actual', 'description', 'node', 'discussion'] + \
                  translated_fields(models.TemplateNode)
 

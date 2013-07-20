@@ -276,7 +276,7 @@ class SheetItemList(generics.ListAPIView):
 
         elif parents:
             parents = parents.split(',')
-            queryset = queryset.filter(node__parent__code__in=parents)
+            queryset = queryset.filter(node__parent__pk__in=parents)
 
         # BUDGET_GT: return sheet items with a budget amount greater than the
         # given amount.
