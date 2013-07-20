@@ -276,7 +276,7 @@ class SheetItemList(generics.ListAPIView):
 
         elif parents:
             parents = parents.split(',')
-            queryset = queryset.filter(node__parent__code__in=parents)
+            queryset = queryset.filter(node__parent__pk__in=parents)
 
         # BUDGET_GT: return sheet items with a budget amount greater than the
         # given amount.
@@ -324,7 +324,7 @@ class SheetItemList(generics.ListAPIView):
 class SheetItemDetail(generics.RetrieveAPIView):
     """API endpoint that represents a single budget item."""
 
-    model = models.DenormalizedSheetItem
+    model = models.SheetItem
     queryset = model.objects.related_map()
     serializer_class = serializers.SheetItemBase
 
