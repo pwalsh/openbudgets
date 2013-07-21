@@ -165,7 +165,7 @@ define([
             },
             app_events  : {
                 'legends_list.delete'           : function () {
-                    if ( this.awake ) {
+                    if ( this.awake && uijet.Resource('LegendItems').length ) {
                         this.render();
                     }
                 },
