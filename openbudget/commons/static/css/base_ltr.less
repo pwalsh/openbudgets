@@ -20,6 +20,7 @@
 
 /* PALETTE */
 @bluegrey: hsl(240, 15%, 84%);
+@grey: hsl(240, 14%, 92%);
 @strongblue: hsl(240, 82%, 15%);
 @midblue: hsl(240, 26%, 36%);
 
@@ -105,14 +106,22 @@ a {
     .height(100%);
 }
 
-#avatar {
-    width: 60px;
-    height: 60px;
-    -webkit-border-radius: 30px;
-    -moz-border-radius: 30px;
+.account {
+
+    #avatar {
+        width: 60px;
+        height: 60px;
+        -webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+    }
+
+    .actions {
+        display: none;
+        .background-color(@grey);
+        a {.display-block;}
+    }
+
 }
-
-
 
 textarea {
     height: 5em;
