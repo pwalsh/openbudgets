@@ -2,8 +2,19 @@
   fill: none;
   stroke: none;
 }
-.x_axis line.mark {
+.x_axis .mark line {
     stroke: #646e78;
+}
+.x_axis .mark text {
+    visibility: visible;
+}
+.x_axis .tick:first-of-type text, .x_axis .tick:last-of-type text {
+    display: none;
+}
+.x_axis text {
+    visibility: hidden;
+    font-size: 3.261rem;
+    fill: #8989A8
 }
 .y_axis line {
     stroke: #d0d0dc;
@@ -53,6 +64,7 @@
     top: 174px;
     left: 0;
     right: 0;
+    z-index: 1;
     bottom: 88px;
     height: auto;
     overflow: visible;
