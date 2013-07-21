@@ -93,7 +93,7 @@ msgstr "תנאי שימוש"
 
 #: static/projects/explorer/dictionary.js:21
 msgid "Credits"
-msgstr "קדיטים"
+msgstr "קרדיטים"
 
 #: static/projects/explorer/dictionary.js:22
 msgid "Loading..."
