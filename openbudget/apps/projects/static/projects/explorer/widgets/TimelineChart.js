@@ -11,6 +11,7 @@ define([
         period = uijet.utils.prop('period'),
         amount = uijet.utils.prop('amount'),
         dateParser = d3.time.format('%Y').parse,
+        commas = d3.format(','),
         periodParser = function (d) {
             d.period = dateParser(d.period);
         };
@@ -296,8 +297,8 @@ define([
                 .attr('class', 'value_label')
                 .attr('transform', 'translate(0,-10)');
 
-            added_label_texts.append('text')
-                .attr('class', 'title');
+//            added_label_texts.append('text')
+//                .attr('class', 'title');
 
             added_label_texts.append('text')
                 .attr('class', 'amount');
@@ -313,12 +314,12 @@ define([
             labels.selectAll('text')
                 .attr('fill', function (d) { return d.color; });
             labels.selectAll('.amount')
-                .text(function (d) { return d.amount; })
+                .text(function (d) { return commas(d.amount); })
                 .attr('x', function () {
                     return - (this.getBBox().width + 10);
                 });
-            labels.selectAll('.title')
-                .text(function (d) { return d.muni + ': ' + d.title; });
+//            labels.selectAll('.title')
+//                .text(function (d) { return d.muni + ': ' + d.title; });
 
             d3.selectAll('.value_label')
                 .attr('transform', function (d, i) {
