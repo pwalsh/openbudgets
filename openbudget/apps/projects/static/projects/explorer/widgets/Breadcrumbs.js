@@ -69,7 +69,7 @@ define([
                     dont_wake       : true,
                     wrapper_class   : 'hide',
                     menu            : {
-                        mixins          : ['Templated'],
+                        mixins          : ['Templated', 'Translated'],
                         float_position  : 'top: 2rem',
                         signals         : {
                             pre_select  : function ($selected) {
