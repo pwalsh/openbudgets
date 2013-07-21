@@ -1,7 +1,7 @@
 // NAV PANEL UX
 (function () {
 
-    $('#nav-anchor').hover(function (event) {
+    $('#nav-anchor').mouseenter(function (event) {
         event.preventDefault();
         $('#nav-panel').show();
     });
@@ -12,6 +12,16 @@
 
     $('#nav-panel-close').click(function () {
         $('#nav-panel').hide();
+    });
+
+}());
+
+// USER PANEL UX
+(function () {
+
+    $('.account').hover(function (event) {
+        event.preventDefault();
+        $('.actions').toggle();
     });
 
 }());
