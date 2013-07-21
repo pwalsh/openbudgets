@@ -9,6 +9,9 @@ define([
         this.current_index = null;
         this.$element.removeClass('picking');
         this.picking = false;
+        this.resource.each(function (model) {
+            model.set('disabled', false);
+        });
     }
 
     uijet.Factory('LegendItem', {
@@ -18,22 +21,25 @@ define([
             template_name   : 'legend_item',
             dont_fetch      : true,
             data_events     : {
-                'change:state'  : function (model, state) {
+                'change:state'      : function (model, state) {
                     var count = state.selected.length;
                     this.$element.find('.selected_nodes_count').text(count);
                     uijet.publish('selected_nodes_count.updated', count);
                 },
-                'change:muni'   : function (model, value) {
+                'change:muni'       : function (model, value) {
                     this.$element.find('.entity').text(value.get('name'));
                 },
-                'change:color'  : function (model, color) {
+                'change:color'      : function (model, color) {
                     this.setColor(color);
                 },
-                'change:title'  : function (model, value) {
+                'change:title'      : function (model, value) {
                     uijet.publish('legend_item_title.updated', {
                         id      : model.id,
                         title   : value
                     });
+                },
+                'change:disabled'   : function (model, value) {
+                    value ? this.disable() : this.enable();
                 }
             },
             signals         : {

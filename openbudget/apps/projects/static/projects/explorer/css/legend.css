@@ -10,6 +10,9 @@
 .legend_item:hover {
     background-color: #c4c4d3;
 }
+.legend_item.disabled {
+    color: #aaaac0;
+}
 .legend_item_color {
     content: '';
     display: block;
@@ -22,6 +25,10 @@
     border-radius: 7px;
     background-color: transparent;
 }
+.disabled .legend_item_color {
+    background-color: #aaaac0 !important;
+}
+
 .legend_item_buttons {
     position: absolute;
     top: 0;
@@ -66,6 +73,9 @@
 }
 .picking .legend_item_title {
     display: none;
+}
+.disabled .legend_item_count {
+    color: #bdbdce;
 }
 
 .legend_item_delete {

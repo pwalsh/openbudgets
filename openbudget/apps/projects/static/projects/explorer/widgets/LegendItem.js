@@ -117,6 +117,16 @@ define([
         },
         updateTitle     : function (title) {
             this.resource.set({ title : title });
+        },
+        enable          : function () {
+            this.disabled = false;
+            this.$element.removeClass('disabled');
+            return this;
+        },
+        disable         : function () {
+            this.disabled = true;
+            this.$element.addClass('disabled');
+            return this;
         }
     });
 
