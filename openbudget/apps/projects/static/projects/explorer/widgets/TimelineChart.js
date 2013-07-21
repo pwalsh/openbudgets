@@ -27,22 +27,29 @@ define([
         prepareElement  : function () {
             this._super();
             var element = this.$element[0],
+                padding = 20,
+                left_sidebar_width = 100,
                 width = element.offsetWidth,
+                // need to expand the width of the SVG element to be able to draw y axis labels outside the chart area
+                svg_width = width + padding + left_sidebar_width,
                 height = element.offsetHeight,
 //                x = d3.time.scale()
                 x = d3.time.scale()
-                    .range([20, width - 20]),
+                    .range([padding, width - padding]),
                 y = d3.scale.linear()
-                    .range([height - 20, 20]),
+                    .range([height, padding]),
                 x_axis = d3.svg.axis()
                     .scale(x)
                     .orient('bottom')
                     .ticks(d3.time.years),
                 y_axis = d3.svg.axis()
                     .scale(y)
-                    .orient('right')
+                    .orient('left')
                     .ticks(Y_TICKS);
 
+            this.padding = padding;
+            this.left_sidebar_width = left_sidebar_width;
+            this.svg_width = svg_width;
             this.width = width;
             this.height = height;
             this.x_axis = x_axis;
@@ -54,9 +61,18 @@ define([
                 .x( function(d) { return x(d.period); } )
                 .y( function(d) { return y(d.amount); } );
 
-            this.svg = d3.select(this.$element[0]).append('svg')
-                .attr('width', width)
+            this.svg_element = d3.select(this.$element[0]).append('svg')
+                .attr('width', svg_width)
                 .attr('height', height);
+            this.svg = this.svg_element.append('g')
+                .attr('transform', 'translate(' + (svg_width - width) + ',0)')
+                .append('svg')
+                    .attr('width', width)
+                    .attr('height', height);
+            this.mouse_target = this.svg.append('rect')
+                .attr('height', height)
+                .attr('width', width)
+                .attr('id', 'mouse_target');
             return this;
         },
         _draw           : function () {
@@ -78,10 +94,10 @@ define([
         draw            : function (series) {
             var line = this.line,
                 colors = this.colors,
-                width = this.width,
                 ids = [],
-                data = [];
-
+                data = [],
+                y_max;
+            
             series.forEach(function (item) {
                 var id = item.id + '-' + item.get('updated'),
                     actual_id = id + '-actual',
@@ -107,6 +123,8 @@ define([
                 });
             });
 
+            y_max = d3.max(data, function (d) { return d3.max(d.values, amount); });
+
             this.colors.domain(ids);
 
             this.x_scale.domain([
@@ -114,15 +132,15 @@ define([
                 d3.max(data, function (d) { return d3.max(d.values, period); })
             ]);
             this.y_scale.domain([
-                d3.min(data, function (d) { return d3.min(d.values, amount); }),
-                d3.max(data, function (d) { return d3.max(d.values, amount); })
+                0,
+                y_max
             ]);
 
             // clean axes
             this.svg.selectAll('.axis')
                 .remove();
 
-            this.svg.append('g')
+            this.svg.insert('g', '#mouse_target')
                 .attr('class', 'axis x_axis')
                 .attr('transform', 'translate(0,' + (this.height - 20) + ')')
                 .call(this.x_axis)
@@ -131,13 +149,13 @@ define([
                     .attr('y2', '0')
                     .attr('y1', -this.height);
 
-            this.svg.append('g')
+            this.svg_element.insert('g', ':first-child')
                 .attr('class', 'axis y_axis')
-//                .attr('transform', 'translate(10,0)')
+                .attr('transform', 'translate(' + this.left_sidebar_width + ',0)')
                 .call(this.y_axis)
                 .selectAll('line')
-//                    .attr('x2', 20)
-                    .attr('x1', this.width);
+                    .attr('x2', this.padding)
+                    .attr('x1', this.width + this.padding);
 
             this.svg.selectAll('.timeline').remove();
 
@@ -147,7 +165,7 @@ define([
                 });
 
             timelines.enter()
-                .append('g')
+                .insert('g', '#mouse_target')
                     .attr('class', 'timeline')
                     .append('path')
                         .attr('class', 'line')
@@ -156,8 +174,8 @@ define([
                         })
                         .style('stroke', function(d) { return colors(d.id); });
 
-            this.svg.on('mouseover', this.hoverOn.bind(this));
-            this.svg.on('mouseout', this.hoverOff.bind(this));
+            this.mouse_target.on('mouseover', this.hoverOn.bind(this));
+            this.mouse_target.on('mouseout', this.hoverOff.bind(this));
         },
         timeContext     : function (from, to) {
             var domain = this.x_scale.domain(),
@@ -187,15 +205,15 @@ define([
 
             // reset mouseover handler
             this.hoverOff();
-            this.svg.on('mouseover', this.hoverOn.bind(this));
+            this.mouse_target.on('mouseover', this.hoverOn.bind(this));
 
             return this;
         },
         hoverOn         : function () {
-            this.svg.on('mousemove', this.mousemove());
+            this.mouse_target.on('mousemove', this.mousemove());
         },
         hoverOff        : function () {
-            this.svg.on('mousemove', null);
+            this.mouse_target.on('mousemove', null);
             this.hoverMark();
             this.current_hovered_index = null;
         },

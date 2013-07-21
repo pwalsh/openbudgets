@@ -154,7 +154,7 @@ define([
             adapters    : ['TimelineChart'],
             resource    : 'TimeSeries',
             style       : {
-                padding : 20
+                padding : '20px 20px 0'
             },
             data_events : {
                 reset   : function (collection) {

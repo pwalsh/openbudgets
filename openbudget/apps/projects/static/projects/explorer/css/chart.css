@@ -55,6 +55,7 @@
     right: 0;
     bottom: 88px;
     height: auto;
+    overflow: visible;
 }
 
 #chart_footer {
@@ -98,6 +99,11 @@
 }
 #chart_period_start_wrapper {
     left: 0;
+}
+
+#mouse_target {
+    z-index: 1001;
+    fill: transparent;
 }
 
 #viz_actions_menu {
