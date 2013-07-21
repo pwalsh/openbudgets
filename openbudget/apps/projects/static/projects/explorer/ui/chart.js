@@ -26,8 +26,12 @@ define([
                 },
                 app_events      : {
                     'chart.fetched' : function (collection) {
-                        this.setData({ periods : collection.periods() })
-                            .render();
+                        var periods = collection.periods();
+                        this.setData({
+                            periods         : periods, 
+                            periods_cache   : periods 
+                        })
+                        .render();
                     }
                 }
             }
@@ -183,11 +187,23 @@ define([
         config  : {
             element     : '#chart_period_start',
             menu        : {
-                signals : {
+                signals     : {
                     post_render : function () {
                         this.floatPosition('top: -' + this.$wrapper[0].offsetHeight + 'px;')
                             .select(':first-child')
                             .publish('rendered');
+                    }
+                },
+                app_events  : {
+                    'chart_period_end.selected' : function ($selected) {
+                        if ( this.has_data ) {
+                            //TODO: assuming text is a number representing a year
+                            var end_period = +$selected.text();
+                            this.data.periods = this.data.periods_cache.filter(function (period) {
+                                return period <= end_period;
+                            });
+                            this.render();
+                        }
                     }
                 }
             },
@@ -200,11 +216,23 @@ define([
         config  : {
             element     : '#chart_period_end',
             menu        : {
-                signals : {
+                signals     : {
                     post_render : function () {
                         this.floatPosition('top: -' + this.$wrapper[0].offsetHeight + 'px;')
                             .select(':last-child')
                             .publish('rendered');
+                    }
+                },
+                app_events  : {
+                    'chart_period_start.selected'   : function ($selected) {
+                        if ( this.has_data ) {
+                            //TODO: assuming text is a number representing a year
+                            var start_period = +$selected.text();
+                            this.data.periods = this.data.periods_cache.filter(function (period) {
+                                return period >= start_period;
+                            });
+                            this.render();
+                        }
                     }
                 }
             },
