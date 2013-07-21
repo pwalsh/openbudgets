@@ -189,9 +189,15 @@ define([
             menu        : {
                 signals     : {
                     post_render : function () {
-                        this.floatPosition('top: -' + this.$wrapper[0].offsetHeight + 'px;')
-                            .select(':first-child')
-                            .publish('rendered');
+                        this.floatPosition('top: -' + this.$wrapper[0].offsetHeight + 'px;');
+                        if ( this.silent_render ) {
+                            this.setSelected(this.$element.find(':first-child'));
+                            this.silent_render = false;
+                        }
+                        else {
+                            this.select(':first-child');
+                        }
+                        this.publish('rendered');
                     }
                 },
                 app_events  : {
@@ -202,6 +208,7 @@ define([
                             this.data.periods = this.data.periods_cache.filter(function (period) {
                                 return period <= end_period;
                             });
+                            this.silent_render = true;
                             this.render();
                         }
                     }
@@ -218,9 +225,15 @@ define([
             menu        : {
                 signals     : {
                     post_render : function () {
-                        this.floatPosition('top: -' + this.$wrapper[0].offsetHeight + 'px;')
-                            .select(':last-child')
-                            .publish('rendered');
+                        this.floatPosition('top: -' + this.$wrapper[0].offsetHeight + 'px;');
+                        if ( this.silent_render ) {
+                            this.setSelected(this.$element.find(':last-child'));
+                            this.silent_render = false;
+                        }
+                        else {
+                            this.select(':last-child');
+                        }
+                        this.publish('rendered');
                     }
                 },
                 app_events  : {
@@ -231,6 +244,7 @@ define([
                             this.data.periods = this.data.periods_cache.filter(function (period) {
                                 return period >= start_period;
                             });
+                            this.silent_render = true;
                             this.render();
                         }
                     }
