@@ -3,15 +3,16 @@ define([
     'resources',
     'project_widgets/ClearableTextInput',
     'project_widgets/Breadcrumbs',
-    'project_widgets/FilterCrumb'
+    'project_widgets/FilterCrumb',
+    'project_widgets/Select'
 ], function (uijet, resources) {
 
     uijet.Resource('Breadcrumbs', uijet.Collection({
         model   : resources.Node
     }))
     .Resource('NodesListState', uijet.Model(), {
-        search  : null,
-        selected: null
+        search      : null,
+        selected    : null
     });
 
     var attributeNullifier = function (attr) {
@@ -24,6 +25,15 @@ define([
         nullifySearchQuery = attributeNullifier('search'),
         clearText = function () {
             this.$content.text(gettext('Main'));
+        },
+        amountTypeChanged = function (model, value) {
+            if ( value === this.options.amount_type ) {
+                this.activate().disable();
+                uijet.publish('amount_type.updated', this.options.amount_type);
+            }
+            else {
+                this.enable().deactivate();
+            }
         };
 
     return [{
@@ -47,7 +57,10 @@ define([
                 'filter_selected.clicked'       : function () {
                     this.resource.set({ selected : true });
                 },
-                'legends_list.change_state'     : 'wake+',
+                'legends_list.change_state'     : function (data) {
+                    this.resource.set('amount_type', data.amount_type);
+                    this.wake(data);
+                },
                 'entities_list.selected'        : nullifySearchQuery
             }
         }
@@ -299,6 +312,40 @@ define([
         type    : 'Pane',
         config  : {
             element : '#nodes_picker_footer'
+        }
+    }, {
+        type    : 'Button',
+        config  : {
+            element     : '#summarize_budget',
+            resource    : 'NodesListState',
+            amount_type : 'budget',
+            data_events : {
+                'change:amount_type': amountTypeChanged
+            },
+            signals     : {
+                pre_click   : function () {
+                    if ( ! this.activated ) {
+                        this.resource.set('amount_type', 'budget');
+                    }
+                }
+            }
+        }
+    }, {
+        type    : 'Button',
+        config  : {
+            element     : '#summarize_actual',
+            resource    : 'NodesListState',
+            amount_type : 'actual',
+            data_events : {
+                'change:amount_type': amountTypeChanged
+            },
+            signals     : {
+                pre_click   : function () {
+                    if ( ! this.activated ) {
+                        this.resource.set('amount_type', 'actual');
+                    }
+                }
+            }
         }
     }, {
         type    : 'Button',

@@ -91,16 +91,18 @@ define([
                     muni_id = muni.id,
                     nodes = legend_item.get('nodes'),
                     title = legend_item.get('title'),
+                    type = legend_item.get('amount_type'),
                     muni_name = muni.get('name'),
                     model = this.resource.get(legend_item.cid),
                     now = Date.now();
 
                 if ( model ) {
                     model.set({
-                        muni_id : muni_id,
-                        nodes   : nodes,
-                        title   : title,
-                        muni    : muni_name
+                        muni_id     : muni_id,
+                        nodes       : nodes,
+                        title       : title,
+                        muni        : muni_name,
+                        amount_type : type
                     });
                     if ( model.hasChanged() ) {
                         model.set({ updated : now });
@@ -108,12 +110,13 @@ define([
                 }
                 else {
                     model = new TimeSeriesModel({
-                        id      : legend_item.id,
-                        muni_id : muni_id,
-                        nodes   : nodes,
-                        title   : title,
-                        muni    : muni_name,
-                        updated : now
+                        id          : legend_item.id,
+                        muni_id     : muni_id,
+                        nodes       : nodes,
+                        title       : title,
+                        muni        : muni_name,
+                        amount_type : type,
+                        updated     : now
                     });
                 }
                 return model;

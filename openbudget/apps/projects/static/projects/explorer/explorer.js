@@ -103,7 +103,7 @@ define([
                 colors      : [],
                 setColors   : function () {
                     this.models.forEach(function (model, index) {
-                        model.set('color', this.colors[index * 2]);
+                        model.set('color', this.colors[index]);
                     }, this);
                 }
             }))

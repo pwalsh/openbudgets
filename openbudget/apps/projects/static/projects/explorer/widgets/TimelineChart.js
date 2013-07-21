@@ -21,7 +21,7 @@ define([
         },
         init            : function () {
             this._super.apply(this, arguments);
-            this.colors = d3.scale.category20();
+            this.colors = d3.scale.category10();
             uijet.publish('chart_colors', this.colors.range());
         },
         prepareElement  : function () {
@@ -100,26 +100,19 @@ define([
             
             series.forEach(function (item) {
                 var id = item.id + '-' + item.get('updated'),
-                    actual_id = id + '-actual',
-                    budget_id = id + '-budget',
                     title = item.get('title'),
                     muni = item.get('muni'),
+                    type = item.get('amount_type'),
+                    series_type_index = type === 'actual' ? 0 : 1,
                     item_series = item.toSeries();
-                item_series[0].forEach(periodParser);
-                item_series[1].forEach(periodParser);
-                ids.push(actual_id, budget_id);
+                item_series[series_type_index].forEach(periodParser);
+                ids.push(id);
                 data.push({
-                    id      : actual_id,
-                    title   : title + ' actual',
-                    type    : 'actual',
+                    id      : id,
+                    title   : title,
+                    type    : type,
                     muni    : muni,
-                    values  : item_series[0]
-                }, {
-                    id      : budget_id,
-                    title   : title + ' budget',
-                    type    : 'budget',
-                    muni    : muni,
-                    values  : item_series[1]
+                    values  : item_series[series_type_index]
                 });
             });
 
@@ -137,7 +130,7 @@ define([
             ]);
 
             // clean axes
-            this.svg.selectAll('.axis')
+            this.svg_element.selectAll('.axis')
                 .remove();
 
             this.svg.insert('g', '#mouse_target')

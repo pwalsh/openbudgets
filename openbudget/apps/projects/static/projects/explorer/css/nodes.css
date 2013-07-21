@@ -6,6 +6,27 @@
     padding-right: .3rem;
 }
 
+.summarize_data_button {
+    padding: .9rem;
+}
+.summarize_data_button:before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-top: 2px;
+    margin-left: .5rem;
+    border-radius: 5px;
+    border: 1px solid #141450;
+}
+.summarize_data_button.activated {
+    color: white;
+}
+.summarize_data_button.activated:before {
+    border-color: white;
+    background-color: white;
+}
+
 #picker_done {
     position: absolute;
     top: 50%;
@@ -139,4 +160,13 @@
     font-size: 1.3rem;
     font-weight: bold;
     color: #1d7680;
+}
+
+#sheet_type_picker {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 114px;
+    font-size: 1.3rem;
+    font-weight: bold;
 }
