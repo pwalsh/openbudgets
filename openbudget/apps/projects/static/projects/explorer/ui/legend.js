@@ -130,6 +130,9 @@ define([
                         .scroll()
                         .$element.removeClass('picking');
                     this.picking = false;
+                },
+                'amount_type.updated'   : function (type) {
+                    this.resource.at(this.current_index).set('amount_type', type);
                 }
             }
         }

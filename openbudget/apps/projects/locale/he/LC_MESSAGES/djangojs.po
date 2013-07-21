@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-17 18:39+0300\n"
+"POT-Creation-Date: 2013-07-21 13:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,136 +18,152 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: static/projects/explorer/dictionary.js:3
+msgid "Open Muni Budget | Budget Explorer"
+msgstr "תקציב מקומי פתוח | סייר התקציב"
+
+#: static/projects/explorer/dictionary.js:4
+msgid "Enter"
+msgstr "כניסה"
+
+#: static/projects/explorer/dictionary.js:5
+msgid "Welcome to Budget Explorer 5000"
+msgstr "ברוכים הבאים לסייר התקציב 5000"
+
+#: static/projects/explorer/dictionary.js:6
+msgid "Choose entity"
+msgstr "בחירת רשות"
+
+#: static/projects/explorer/dictionary.js:7
+msgid "Search"
+msgstr "חיפוש"
+
+#: static/projects/explorer/dictionary.js:8
+msgid "Choose budget items:"
+msgstr "בחירת סעיפי תקציב"
+
+#: static/projects/explorer/dictionary.js:9
+#: static/projects/explorer/ui/nodes.js:27
+msgid "Main"
+msgstr "ראשי"
+
+#: static/projects/explorer/dictionary.js:10
+msgid "Code"
+msgstr "קוד סעיף"
+
+#: static/projects/explorer/dictionary.js:11
+msgid "Name"
+msgstr "שם סעיף"
+
+#: static/projects/explorer/dictionary.js:12
+msgid "Type"
+msgstr "סוג"
+
+#: static/projects/explorer/dictionary.js:13
+msgid "Done"
+msgstr "אישור"
+
+#: static/projects/explorer/dictionary.js:14
+msgid "Add"
+msgstr "הוספה"
+
+#: static/projects/explorer/dictionary.js:15
+msgid "Home"
+msgstr "דף הבית"
+
+#: static/projects/explorer/dictionary.js:16
+msgid "Munis"
+msgstr "רשויות"
+
+#: static/projects/explorer/dictionary.js:17
+msgid "Projects"
+msgstr "פרויקטים"
+
+#: static/projects/explorer/dictionary.js:18
+msgid "About"
+msgstr "אודות"
+
+#: static/projects/explorer/dictionary.js:19
+msgid "API"
+msgstr ""
+
+#: static/projects/explorer/dictionary.js:20
+msgid "Terms"
+msgstr "תנאי שימוש"
+
+#: static/projects/explorer/dictionary.js:21
+msgid "Credits"
+msgstr "קדיטים"
+
+#: static/projects/explorer/dictionary.js:22
+msgid "Loading..."
+msgstr "טוען..."
+
+#: static/projects/explorer/dictionary.js:23
+msgid "Open Muni Budget"
+msgstr "תקציב מקומי פתוח"
+
+#: static/projects/explorer/dictionary.js:24
+msgid "Compare"
+msgstr "השוואות"
+
+#: static/projects/explorer/dictionary.js:25
+msgid "New"
+msgstr "חדש"
+
+#: static/projects/explorer/dictionary.js:26
+msgid "Duplicate"
+msgstr "שכפול"
+
+#: static/projects/explorer/dictionary.js:27
+msgid "Delete"
+msgstr "מחיקה"
+
+#: static/projects/explorer/dictionary.js:28
+msgid "Export"
+msgstr "יצוא"
+
+#: static/projects/explorer/dictionary.js:29
+msgid "Publish"
+msgstr "פרסום"
+
+#: static/projects/explorer/dictionary.js:30
+msgid "Save"
+msgstr "שמירה"
+
+#: static/projects/explorer/dictionary.js:31
+msgid "Show selected only"
+msgstr "הראה רק מסומנים"
+
+#: static/projects/explorer/dictionary.js:32
+msgid "Free text search"
+msgstr "חיפוש טקסט חופשי"
+
+#: static/projects/explorer/dictionary.js:33
+msgid "Search for"
+msgstr "חפש"
+
+#: static/projects/explorer/dictionary.js:34
+msgid "Guest"
+msgstr "אורח"
+
+#: static/projects/explorer/dictionary.js:35
+msgid "Summarize data of:"
+msgstr "סכם נתוני:"
+
+#: static/projects/explorer/dictionary.js:36
+msgid "Budget"
+msgstr "תכנון"
+
+#: static/projects/explorer/dictionary.js:37
+msgid "Actual"
+msgstr "ביצוע"
+
 #: static/projects/explorer/explorer.js:20
 #: static/projects/explorer/controllers/LegendsList.js:9
 msgid "Insert title"
 msgstr "כתיבת כותרת"
 
-#: static/projects/explorer/i18n.js:3
-msgid "Open Muni Budget | Budget Explorer"
-msgstr "תקציב מקומי פתוח | סייר התקציב"
-
-#: static/projects/explorer/i18n.js:4
-msgid "Enter"
-msgstr "כניסה"
-
-#: static/projects/explorer/i18n.js:5
-msgid "Welcome to Budget Explorer 5000"
-msgstr "ברוכים הבאים לסייר התקציב 5000"
-
-#: static/projects/explorer/i18n.js:6
-msgid "Choose entity"
-msgstr "בחירת רשות"
-
-#: static/projects/explorer/i18n.js:7
-msgid "Search"
-msgstr "חיפוש"
-
-#: static/projects/explorer/i18n.js:8
-msgid "Choose budget items:"
-msgstr "בחירת סעיפי תקציב"
-
-#: static/projects/explorer/i18n.js:9 static/projects/explorer/ui/nodes.js:26
-msgid "Main"
-msgstr "ראשי"
-
-#: static/projects/explorer/i18n.js:10
-msgid "Code"
-msgstr "קוד סעיף"
-
-#: static/projects/explorer/i18n.js:11
-msgid "Name"
-msgstr "שם סעיף"
-
-#: static/projects/explorer/i18n.js:12
-msgid "Type"
-msgstr "סוג"
-
-#: static/projects/explorer/i18n.js:13
-msgid "Done"
-msgstr "אישור"
-
-#: static/projects/explorer/i18n.js:14
-msgid "Add"
-msgstr "הוספה"
-
-#: static/projects/explorer/i18n.js:15
-msgid "Home"
-msgstr "דף הבית"
-
-#: static/projects/explorer/i18n.js:16
-msgid "Munis"
-msgstr "רשויות"
-
-#: static/projects/explorer/i18n.js:17
-msgid "Projects"
-msgstr "פרויקטים"
-
-#: static/projects/explorer/i18n.js:18
-msgid "About"
-msgstr "אודות"
-
-#: static/projects/explorer/i18n.js:19
-msgid "API"
-msgstr ""
-
-#: static/projects/explorer/i18n.js:20
-msgid "Terms"
-msgstr "תנאי שימוש"
-
-#: static/projects/explorer/i18n.js:21
-msgid "Credits"
-msgstr "קדיטים"
-
-#: static/projects/explorer/i18n.js:22
-msgid "Loading..."
-msgstr "טוען..."
-
-#: static/projects/explorer/i18n.js:23
-msgid "Open Muni Budget"
-msgstr "תקציב מקומי פתוח"
-
-#: static/projects/explorer/i18n.js:24
-msgid "Compare"
-msgstr "השוואות"
-
-#: static/projects/explorer/i18n.js:25
-msgid "New"
-msgstr "חדש"
-
-#: static/projects/explorer/i18n.js:26
-msgid "Duplicate"
-msgstr "שכפול"
-
-#: static/projects/explorer/i18n.js:27
-msgid "Delete"
-msgstr "מחיקה"
-
-#: static/projects/explorer/i18n.js:28
-msgid "Export"
-msgstr "יצוא"
-
-#: static/projects/explorer/i18n.js:29
-msgid "Publish"
-msgstr "פרסום"
-
-#: static/projects/explorer/i18n.js:30
-msgid "Save"
-msgstr "שמירה"
-
-#: static/projects/explorer/i18n.js:31
-msgid "Show selected only"
-msgstr "הראה רק מסומנים"
-
-#: static/projects/explorer/i18n.js:32
-msgid "Free text search"
-msgstr "חיפוש טקסט חופשי"
-
-#: static/projects/explorer/i18n.js:33
-#, fuzzy
-msgid "Search for"
-msgstr "חפש"
-
-#: static/projects/explorer/ui/nodes.js:316
+#: static/projects/explorer/ui/nodes.js:370
 msgid "%(count)s results found"
 msgstr "נמצאו %(count)s תוצאות"

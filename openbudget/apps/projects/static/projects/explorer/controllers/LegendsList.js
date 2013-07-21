@@ -8,7 +8,8 @@ define([
             var model = new explorer.LegendItemModel(state || {
                 title       : gettext('Insert title'),
                 muni        : '',
-                nodes       : []
+                nodes       : [],
+                amount_type : 'actual'
             });
             this.resource.add(model);
             return model;
@@ -26,7 +27,7 @@ define([
                     signals : {
                         post_full_render: '-legend_item_added'
                     },
-                    color   : this.resource.colors[index * 2],
+                    color   : this.resource.colors[index],
                     picking : this.picking
                 }
             }, true);
@@ -70,7 +71,8 @@ define([
             }
             this.publish('change_state', {
                 entity_id   : muni.get('id'),
-                selection   : model.get('state')
+                selection   : model.get('state'),
+                amount_type : model.get('amount_type')
             });
         },
         deleteItem      : function (index) {
