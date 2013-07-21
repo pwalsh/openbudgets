@@ -33,7 +33,7 @@ Ubuntu
 Here we go::
 
     # Our core system dependencies
-    sudo apt-get install python-dev mercurial git-core nodejs redis python-pip
+    sudo apt-get install python-dev mercurial git-core nodejs redis-server python-pip
 
     # Python packages we want installed globally
     sudo pip install virtualenv virtualenvwrapper
