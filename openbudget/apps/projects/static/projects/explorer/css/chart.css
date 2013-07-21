@@ -19,6 +19,9 @@
 .y_axis line {
     stroke: #d0d0dc;
 }
+.y_axis text {
+    font-weight: bold;
+}
 .chart_period_button {
     padding: 1.3rem;
     font-size: 3.261rem;
@@ -75,8 +78,8 @@
     bottom: 0;
     left: 0;
     right: 0;
+    z-index: 1;
     height: 88px;
-    background-color: #d0d0dc;
 }
 #chart_footer .uijet_select_menu li {
     padding: .4rem;
