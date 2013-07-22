@@ -63,10 +63,16 @@
     display: none;
 }
 .legend_item_count,
-.legend_item_title {
+.legend_item_title,
+.legend_item .uijet_contenteditable_input {
+    padding: 0;
     font-size: .9rem;
+    line-height: 1.2rem;
     color: #8989a8;
     font-weight: bold;
+    border: none;
+    outline: none;
+    background-color: transparent;
 }
 .picking .legend_item_count {
     display: block;
