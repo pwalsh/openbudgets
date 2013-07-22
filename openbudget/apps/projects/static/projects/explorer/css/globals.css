@@ -5,6 +5,9 @@ body, html {
     font: 13px/1.231 Arial, sans-serif;
     color: #141450;
 }
+input, textarea {
+    font: 13px/1.231 Arial, sans-serif;
+}
 svg {
     direction: ltr;
 }
