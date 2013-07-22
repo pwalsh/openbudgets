@@ -2,11 +2,22 @@
   fill: none;
   stroke: none;
 }
-.x_axis line.mark {
+.x_axis .mark line {
     stroke: #646e78;
+}
+.x_axis .mark text {
+    visibility: visible;
+}
+.x_axis text {
+    visibility: hidden;
+    font-size: 3.261rem;
+    fill: #8989A8
 }
 .y_axis line {
     stroke: #d0d0dc;
+}
+.y_axis text {
+    font-weight: bold;
 }
 .chart_period_button {
     padding: 1.3rem;
@@ -53,6 +64,7 @@
     top: 174px;
     left: 0;
     right: 0;
+    z-index: 1;
     bottom: 88px;
     height: auto;
     overflow: visible;
@@ -63,8 +75,8 @@
     bottom: 0;
     left: 0;
     right: 0;
+    z-index: 1;
     height: 88px;
-    background-color: #d0d0dc;
 }
 #chart_footer .uijet_select_menu li {
     padding: .4rem;
@@ -84,8 +96,11 @@
     height: 130px;
     padding: 20px 20px 0;
 }
-#chart_heading h1 {
+#chart_heading h1, #chart_heading .uijet_contenteditable_input {
     font-size: 3.261rem;
+    font-weight: bold;
+    border: none;
+    outline: none;
 }
 #chart_heading p {
     font-size: .977rem;

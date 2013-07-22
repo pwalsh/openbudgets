@@ -11,6 +11,7 @@ define([
         period = uijet.utils.prop('period'),
         amount = uijet.utils.prop('amount'),
         dateParser = d3.time.format('%Y').parse,
+        commas = d3.format(','),
         periodParser = function (d) {
             d.period = dateParser(d.period);
         };
@@ -63,12 +64,12 @@ define([
 
             this.svg_element = d3.select(this.$element[0]).append('svg')
                 .attr('width', svg_width)
-                .attr('height', height);
+                .attr('height', height + 70);
             this.svg = this.svg_element.append('g')
                 .attr('transform', 'translate(' + (svg_width - width) + ',0)')
                 .append('svg')
                     .attr('width', width)
-                    .attr('height', height);
+                    .attr('height', height + 70);
             this.mouse_target = this.svg.append('rect')
                 .attr('height', height)
                 .attr('width', width)
@@ -135,12 +136,8 @@ define([
 
             this.svg.insert('g', '#mouse_target')
                 .attr('class', 'axis x_axis')
-                .attr('transform', 'translate(0,' + (this.height - 20) + ')')
-                .call(this.x_axis)
-                .selectAll('line')
-                    .attr('x1', 0)
-                    .attr('y2', '0')
-                    .attr('y1', -this.height);
+                .attr('transform', 'translate(0,' + (this.height + this.padding) + ')')
+                .call(this.x_axis);
 
             this.svg_element.insert('g', ':first-child')
                 .attr('class', 'axis y_axis')
@@ -172,7 +169,8 @@ define([
         },
         timeContext     : function (from, to) {
             var domain = this.x_scale.domain(),
-                line = this.line;
+                line = this.line,
+                from_value, to_value, x_axis;
             if ( ! from ) {
                 from = domain[0];
             }
@@ -185,13 +183,25 @@ define([
             else {
                 to = dateParser(to);
             }
+
+            from_value = from.valueOf();
+            to_value = to.valueOf();
+
             this.x_scale.domain([from, to]);
-            this.svg.select('.x_axis')
-                .call(this.x_axis)
+
+            x_axis = this.svg.select('.x_axis');
+            x_axis.call(this.x_axis)
                 .selectAll('line')
                     .attr('x1', 0)
-                    .attr('y2', '0')
-                    .attr('y1', -(this.height - 20));
+                    .attr('y2', -this.padding)
+                    .attr('y1', -(this.height));
+            x_axis.selectAll('text')
+                .each(function (d) {
+                    var value = d.valueOf(),
+                        hide = value === to_value || value === from_value;
+                    d3.select(this).classed('hide', hide);
+                });
+
             this.svg.selectAll('.line').attr('d', function (d) {
                 return line(d.values);
             });
@@ -244,13 +254,13 @@ define([
             if ( value ) {
                 //TODO: this is based on assumption that data is yearly
                 var year = value.getFullYear();
-                d3.select('.x_axis').selectAll('line').classed('mark', function (d) {
+                d3.select('.x_axis').selectAll('.tick').classed('mark', function (d) {
                     return d.getFullYear() === year;
                 });
                 this.markValues(value);
             }
             else {
-                d3.select('line.mark').classed('mark', false);
+                d3.select('.tick.mark').classed('mark', false);
                 d3.selectAll('.value_circle').remove();
             }
         },
@@ -296,8 +306,8 @@ define([
                 .attr('class', 'value_label')
                 .attr('transform', 'translate(0,-10)');
 
-            added_label_texts.append('text')
-                .attr('class', 'title');
+//            added_label_texts.append('text')
+//                .attr('class', 'title');
 
             added_label_texts.append('text')
                 .attr('class', 'amount');
@@ -313,12 +323,12 @@ define([
             labels.selectAll('text')
                 .attr('fill', function (d) { return d.color; });
             labels.selectAll('.amount')
-                .text(function (d) { return d.amount; })
+                .text(function (d) { return commas(d.amount); })
                 .attr('x', function () {
                     return - (this.getBBox().width + 10);
                 });
-            labels.selectAll('.title')
-                .text(function (d) { return d.muni + ': ' + d.title; });
+//            labels.selectAll('.title')
+//                .text(function (d) { return d.muni + ': ' + d.title; });
 
             d3.selectAll('.value_label')
                 .attr('transform', function (d, i) {

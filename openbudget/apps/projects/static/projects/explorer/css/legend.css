@@ -10,6 +10,10 @@
 .legend_item:hover {
     background-color: #c4c4d3;
 }
+.legend_item.disabled {
+    color: #aaaac0;
+    background-color: transparent;
+}
 .legend_item_color {
     content: '';
     display: block;
@@ -22,6 +26,10 @@
     border-radius: 7px;
     background-color: transparent;
 }
+.disabled .legend_item_color {
+    background-color: #aaaac0 !important;
+}
+
 .legend_item_buttons {
     position: absolute;
     top: 0;
@@ -56,16 +64,25 @@
     display: none;
 }
 .legend_item_count,
-.legend_item_title {
+.legend_item_title,
+.legend_item .uijet_contenteditable_input {
+    padding: 0;
     font-size: .9rem;
+    line-height: 1.2rem;
     color: #8989a8;
     font-weight: bold;
+    border: none;
+    outline: none;
+    background-color: transparent;
 }
 .picking .legend_item_count {
     display: block;
 }
 .picking .legend_item_title {
     display: none;
+}
+.disabled .legend_item_count {
+    color: #bdbdce;
 }
 
 .legend_item_delete {
@@ -131,6 +148,4 @@
 
 #legends_list_overlay {
     position: absolute;
-    background-color: #d0d0dc;
-    opacity: .8;
 }

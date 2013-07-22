@@ -34,7 +34,8 @@ define(function() {
         'guest'                 : gettext('Guest'),
         'summarize-data'        : gettext('Summarize data of:'),
         'budget'                : gettext('Budget'),
-        'actual'                : gettext('Actual')
+        'actual'                : gettext('Actual'),
+        'selected-items'        : gettext('selected items')
     };
 
 });

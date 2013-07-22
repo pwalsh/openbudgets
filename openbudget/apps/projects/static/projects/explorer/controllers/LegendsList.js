@@ -54,7 +54,12 @@ define([
         selectItem      : function (index) {
             var model, muni;
             if ( index !== this.current_index ) {
-                model = this.resource.at(index);
+                this.resource.where({
+                    disabled: false
+                }).forEach(function (model) {
+                    model.set('disabled', true);
+                });
+                model = this.resource.at(index).set('disabled', false);
                 muni = model.get('muni');
                 this.current_index = index;
                 if ( muni ) {
