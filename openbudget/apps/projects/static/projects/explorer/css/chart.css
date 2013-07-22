@@ -97,6 +97,7 @@
     padding: 20px 20px 0;
 }
 #chart_heading h1, #chart_heading .uijet_contenteditable_input {
+    padding: 0;
     font-size: 3.261rem;
     font-weight: bold;
     border: none;
