@@ -54,10 +54,8 @@ define([
                     this.search_active = true;
                     this.active_filters++;
 
-                    if ( this.active_filters === 1 ) {
-                        this.filter(this.resource.byAncestor, this.scope)
-                            .render();
-                    }
+                    this.filter(this.resource.byAncestor, this.scope)
+                        .render();
                 }
             }
             this.filterBySearch(query);
@@ -77,6 +75,9 @@ define([
             else if ( state ) {
                 this.selected_active = true;
                 this.active_filters++;
+
+                this.filter(this.resource.byAncestor, this.scope)
+                    .render();
             }
             this.filterBySelected(state);
             return this;

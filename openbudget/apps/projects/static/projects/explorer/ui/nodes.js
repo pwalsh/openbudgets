@@ -54,8 +54,8 @@ define([
             app_events      : {
                 'search_crumb_remove.clicked'   : nullifySearchQuery,
                 'selected_crumb_remove.clicked' : attributeNullifier('selected'),
-                'filter_selected.clicked'       : function () {
-                    this.resource.set({ selected : true });
+                'filters_search_menu.selected'  : function (data) {
+                    data.type === 'selected' && this.resource.set({ selected : true });
                 },
                 'legends_list.change_state'     : function (data) {
                     this.resource.set('amount_type', data.amount_type);
@@ -94,7 +94,10 @@ define([
                 'add_legend.clicked'            : clearText,
                 'legends_list.selected'         : clearText,
                 'legends_list.last_deleted'     : clearText,
-                'filters_search_menu.selected'  : 'sleep',
+                'filters_search_menu.selected'  : function (data) {
+                    if ( data.type === 'search' )
+                        this.sleep();
+                },
                 'nodes_search.entered'          : 'wake',
                 'nodes_search.cancelled'        : 'wake',
                 'search_crumb_remove.clicked'   : 'wake'
@@ -214,10 +217,11 @@ define([
                 'nodes_search_clear.clicked'    : function () {
                     this.resource.set({ search : '' });
                 },
-                'filters_search_menu.selected'  : function (data) {console.log(data);
+                'filters_search_menu.selected'  : function (data) {
                     if ( data.value )
                         this.resource.set({ search : data.value });
-                    this.wake();
+                    if ( data.type === 'search')
+                        this.wake();
                 }
             }
         }
@@ -256,7 +260,10 @@ define([
                 'nodes_search.entered'          : function (query) {
                     query !== null && this.wake();
                 },
-                'filters_search_menu.selected'  : 'sleep',
+                'filters_search_menu.selected'  : function (data) {
+                    if ( data.type === 'search' )
+                        this.sleep();
+                },
                 'search.changed'                : function (data) {
                     var query = data.args[1];
                     this.setContent(query || '');
@@ -372,7 +379,12 @@ define([
                     }
                 },
                 'search.changed'        : function (data) {
-                    if ( ! data.args[1] ) {
+                    if ( ! data.args[1] && ! data.args[0].get('selected') ) {
+                        this.sleep();
+                    }
+                },
+                'selected.changed'      : function (data) {
+                    if ( ! data.args[1] && ! data.args[0].get('search') ) {
                         this.sleep();
                     }
                 }
