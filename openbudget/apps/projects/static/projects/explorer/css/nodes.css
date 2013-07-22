@@ -1,9 +1,20 @@
 .filtercrumb_remove {
     padding: 0;
 }
-.filtercrumb_remove:before {
-    content: 'X';
-    padding-right: .3rem;
+.filtercrumb_remove:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: -1.5rem;
+    width: 11px;
+    height: 11px;
+    margin-top: -4px;
+    background: url(../img/x_for_search.png) center no-repeat;
+}
+
+.uijet_filtercrumb {
+    position: relative;
 }
 
 .summarize_data_button {
@@ -169,6 +180,13 @@
     font-size: 1.3rem;
     font-weight: bold;
     color: #1d7680;
+}
+
+#search_crumb:before {
+    content: '>';
+    padding-left: 5px;
+    vertical-align: bottom;
+    color: #d0d0dc;
 }
 
 #sheet_type_picker {

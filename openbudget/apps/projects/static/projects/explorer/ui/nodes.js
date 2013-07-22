@@ -250,6 +250,7 @@ define([
         config  : {
             element     : '#search_crumb',
             dont_wake   : true,
+            extra_class : 'hide',
             dom_events  : {
                 click   : function () {
                     uijet.publish('filters_search_menu.selected', {
@@ -257,6 +258,14 @@ define([
                         value   : this.$content.text()
                     });
                     this.sleep();
+                }
+            },
+            signals     : {
+                pre_wake    : function () {
+                    this.$element.removeClass('hide');
+                },
+                pre_sleep   : function () {
+                    this.$element.addClass('hide');
                 }
             },
             app_events  : {
@@ -280,30 +289,11 @@ define([
             }
         }
     }, {
-        type    : 'Button',
-        config  : {
-            element     : '#filter_selected',
-            dont_wake   : true,
-            app_events  : {
-                'selected.changed'  : function (data) {
-                    var state = data.args[1];
-                    if ( state !== null ) {
-                        this.options.dont_wake = true;
-                        this.sleep();
-                    }
-                    else {
-                        this.options.dont_wake = false;
-                        this.wake();
-                    }
-                }
-            }
-        }
-    }, {
         type    : 'FilterCrumb',
         config  : {
             element     : '#selected_crumb',
             dont_wake   : true,
-            content     : 'Selected',
+            content     : gettext('Selected'),
             app_events  : {
                 'selected.changed'  : function (data) {
                     var state = data.args[1];
