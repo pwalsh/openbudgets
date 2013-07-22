@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-21 19:57+0300\n"
+"POT-Creation-Date: 2013-07-22 19:00+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -159,10 +159,18 @@ msgstr "תכנון"
 msgid "Actual"
 msgstr "ביצוע"
 
+#: static/projects/explorer/dictionary.js:38
+msgid "selected items"
+msgstr "סעיפים נבחרים"
+
 #: static/projects/explorer/explorer.js:20
 #: static/projects/explorer/controllers/LegendsList.js:9
 msgid "Insert title"
 msgstr "כתיבת כותרת"
+
+#: static/projects/explorer/ui/nodes.js:296
+msgid "Selected"
+msgstr "נבחרים"
 
 #: static/projects/explorer/ui/nodes.js:370
 msgid "%(count)s results found"
