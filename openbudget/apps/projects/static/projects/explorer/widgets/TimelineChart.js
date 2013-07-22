@@ -169,7 +169,8 @@ define([
         },
         timeContext     : function (from, to) {
             var domain = this.x_scale.domain(),
-                line = this.line;
+                line = this.line,
+                from_value, to_value, x_axis;
             if ( ! from ) {
                 from = domain[0];
             }
@@ -182,13 +183,25 @@ define([
             else {
                 to = dateParser(to);
             }
+
+            from_value = from.valueOf();
+            to_value = to.valueOf();
+
             this.x_scale.domain([from, to]);
-            this.svg.select('.x_axis')
-                .call(this.x_axis)
+
+            x_axis = this.svg.select('.x_axis');
+            x_axis.call(this.x_axis)
                 .selectAll('line')
                     .attr('x1', 0)
                     .attr('y2', -this.padding)
                     .attr('y1', -(this.height));
+            x_axis.selectAll('text')
+                .each(function (d) {
+                    var value = d.valueOf(),
+                        hide = value === to_value || value === from_value;
+                    d3.select(this).classed('hide', hide);
+                });
+
             this.svg.selectAll('.line').attr('d', function (d) {
                 return line(d.values);
             });
