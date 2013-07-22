@@ -134,11 +134,13 @@ define([
                 },
                 app_events      : {
                     'nodes_search.entered'  : function (query) {
-                        var index = this.prev_search_terms.indexOf(query);
-                        if ( ~ index ) {
-                            this.prev_search_terms.splice(index, 1);
+                        if ( query ) {
+                            index = this.prev_search_terms.indexOf(query);
+                            if ( ~ index ) {
+                                this.prev_search_terms.splice(index, 1);
+                            }
+                            this.prev_search_terms.unshift(query);
                         }
-                        this.prev_search_terms.unshift(query);
                     }
                 }
             }
@@ -171,7 +173,7 @@ define([
             keys        : {
                 // enter
                 13          : function (e) {
-                    var value = e.target.value;
+                    var value = e.target.value.trim();
                     value || nullifySearchQuery.call(this);
                     this.publish('entered', value || null)
                         .sleep();
@@ -183,11 +185,12 @@ define([
                         .sleep();
                 },
                 'default'   : function (e) {
-                    var val = e.target.value;
-                    this.publish('changed', e.target.value);
+                    var val = e.target.value,
+                        clean = val.trim();
+                    this.publish('changed', clean);
                     this.$shadow_text.text(val);
                     this.publish('move_button', val ? this.$shadow_text.width() : 0);
-                    this.resource.set({ search : val });
+                    this.resource.set({ search : clean });
                 }
             },
             signals     : {
