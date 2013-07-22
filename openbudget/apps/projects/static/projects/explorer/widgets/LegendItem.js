@@ -46,9 +46,19 @@ define([
                     element     : this.$element.find(button_class_prefix + 'remove'),
                     id          : id + '_remove',
                     container   : id,
-                    dont_wake   : ! in_picker_view,
-                    app_events      : {
-                        'nodes_picker.awake'    : 'wake',
+                    resource    : this.resource,
+                    dont_wake   : true,
+                    signals     : {
+                        post_init   : function () {
+                            in_picker_view && this.wake();
+                        }
+                    },
+                    app_events  : {
+                        'legends_list.selected' : function (index) {
+                            if ( this.resource.collection.at(index) === this.resource ) {
+                                this.wake();
+                            }
+                        },
                         'chart_reset'           : 'sleep',
                         'picker_done.clicked'   : 'sleep'
                     }

@@ -12,6 +12,7 @@
 }
 .legend_item.disabled {
     color: #aaaac0;
+    background-color: transparent;
 }
 .legend_item_color {
     content: '';
