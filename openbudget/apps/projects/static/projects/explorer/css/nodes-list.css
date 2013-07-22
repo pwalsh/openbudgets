@@ -19,6 +19,7 @@
 }
 .node_cell_select {
     width: 54px;
+    padding: 0;
 }
 .node_cell_type {
     width: 47px;
@@ -32,8 +33,8 @@
 
 .selectbox {
     display: inline-block;
-    width: 13px;
-    height: 13px;
+    width: 100%;
+    height: 100%;
     vertical-align: middle;
     background: url(../img/check_box_empty.png) center no-repeat;
 }
