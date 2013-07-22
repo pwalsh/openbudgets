@@ -136,7 +136,7 @@ define([
 
             this.svg.insert('g', '#mouse_target')
                 .attr('class', 'axis x_axis')
-                .attr('transform', 'translate(0,' + (this.height + this.padding) + ')')
+                .attr('transform', 'translate(0,' + (this.height + this.padding - 3) + ')')
                 .call(this.x_axis);
 
             this.svg_element.insert('g', ':first-child')
@@ -193,7 +193,7 @@ define([
             x_axis.call(this.x_axis)
                 .selectAll('line')
                     .attr('x1', 0)
-                    .attr('y2', -this.padding)
+                    .attr('y2', -this.padding + 3)
                     .attr('y1', -(this.height));
             x_axis.selectAll('text')
                 .each(function (d) {

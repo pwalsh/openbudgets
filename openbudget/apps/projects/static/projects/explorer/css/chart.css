@@ -61,7 +61,7 @@
 }
 #chart_wrapper {
     position: absolute;
-    top: 174px;
+    top: 165px;
     left: 0;
     right: 0;
     z-index: 1;
@@ -93,18 +93,21 @@
     top: 44px;
     left: 0;
     right: 0;
-    height: 130px;
-    padding: 20px 20px 0;
+    height: 121px;
+    padding: 11px 20px 0;
 }
 #chart_heading h1, #chart_heading .uijet_contenteditable_input {
+    margin-top: -8px;
     padding: 0;
     font-size: 3.261rem;
-    font-weight: bold;
+    font-weight: normal;
     border: none;
     outline: none;
+    background: transparent;
 }
 #chart_heading p {
     font-size: .977rem;
+    font-weight: bold;
 }
 
 #chart_period_end_wrapper {
