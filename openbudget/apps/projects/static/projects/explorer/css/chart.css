@@ -8,9 +8,6 @@
 .x_axis .mark text {
     visibility: visible;
 }
-.x_axis .tick:first-of-type text, .x_axis .tick:last-of-type text {
-    display: none;
-}
 .x_axis text {
     visibility: hidden;
     font-size: 3.261rem;
@@ -99,8 +96,11 @@
     height: 130px;
     padding: 20px 20px 0;
 }
-#chart_heading h1 {
+#chart_heading h1, #chart_heading .uijet_contenteditable_input {
     font-size: 3.261rem;
+    font-weight: bold;
+    border: none;
+    outline: none;
 }
 #chart_heading p {
     font-size: .977rem;
