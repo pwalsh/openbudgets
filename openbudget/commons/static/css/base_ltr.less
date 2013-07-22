@@ -23,6 +23,8 @@
 @grey: hsl(240, 14%, 92%);
 @strongblue: hsl(240, 82%, 15%);
 @midblue: hsl(240, 26%, 36%);
+@green: hsl(186, 51%, 59%);
+@dark-green: hsl(186, 63%, 31%);
 
 body, html {
     background-color: @bluegrey;
@@ -37,23 +39,90 @@ a {
     color: @strongblue;
 }
 
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.6;
+}
+
+#overlay-close {
+    cursor: pointer;
+    display: none;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+
+#overlay-login {
+    display: none;
+    .background-color(@white);
+    width: 50%;
+    height: auto;
+    position: fixed;
+    top: 25%;
+    left: 25%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#overlay-register {
+    display: none;
+    .background-color(@white);
+    width: 50%;
+    height: auto;
+    position: fixed;
+    top: 25%;
+    left: 25%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#overlay-password-reset {
+    display: none;
+    .background-color(@white);
+    width: 50%;
+    height: auto;
+    position: fixed;
+    top: 25%;
+    left: 25%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
 #nav-panel {
     display: none;
     position: fixed;
     top: 0;
+    cursor: pointer;
     .layout-object(300px);
     .padding-top(18px);
     .padding-bottom(18px);
-    .padding-left(40px);
+    .padding-left(50px);
     .padding-right(16px);
     .height(100%);
     .background-color(@green);
 
-    nav {
-        .width(100%);
+    #app_logo {
+        .padding-vertical(35px);
+    }
 
-        a {
-            .display-block;
+    header {
+        nav {
+            .width(100%);
+
+            a {
+                .display-block;
+                .font-size(@em-unit * 3);
+                line-height: @em-unit;
+                color: @white;
+                text-decoration: none;
+                .padding-bottom(26px);
+                .padding-horizontal(0); /*overriding adaptabl crap*/
+            }
         }
     }
 
@@ -61,11 +130,16 @@ a {
         position: absolute;
         left: 40;
         bottom: 0;
-        height: 64px;
+        height: 94px;
 
         nav a {
+            font-weight: bold;
+            text-decoration: none;
             .display-inline-block;
             .padding-reset();
+            .padding-right(26px);
+            .font-size(@em-unit);
+            color: @dark-green;
         }
     }
 }

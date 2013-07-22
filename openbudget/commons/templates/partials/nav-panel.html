@@ -1,0 +1,36 @@
+{% load i18n subdomainurls international %}
+
+
+<header>
+{% block header %}
+    <div id="app_logo">
+        <a href="{% url 'home' %}"><img src="{{ STATIC_URL }}img/app_logo.png"/></a>
+    </div>
+    <nav>
+        {% spaceless %}
+        {% block nav %}
+        <a href="{% url 'home' %}">{% trans 'Home' %}</a>
+        <a href="{% url 'entity_list' %}">{% trans 'Entities' %}</a>
+        <a href="{% url 'project_list' %}">{% trans 'Projects' %}</a>
+        <a href="{% url 'page' slug='about' %}">{% trans 'About' %}</a>
+        {% endblock nav %}
+        {% endspaceless %}
+    </nav>
+{% endblock header %}
+</header>
+<footer>
+    {% block footer %}
+    <div id="sponsor_logo">
+        <a href="http://www.hasadna.org.il/" target="_blank"><img src="{{ STATIC_URL }}img/sponsor_logo.png"/></a>
+    </div>
+    <div>
+        {% language_switch request.get_full_path %}
+    </div>
+    <nav>
+        <a href="{% url 'api' subdomain='api' %}">{% trans 'API' %}</a>
+        <a href="{% url 'page' slug='privacy' %}">{% trans 'Privacy' %}</a>
+        <a href="{% url 'page' slug='terms' %}">{% trans 'Terms' %}</a>
+        <a href="{% url 'contact' %}">{% trans 'Contact' %}</a>
+    </nav>
+    {% endblock footer %}
+</footer>

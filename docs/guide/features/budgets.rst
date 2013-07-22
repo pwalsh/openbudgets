@@ -71,7 +71,7 @@ A workflow for this use case:
 * Not every node needs to have an item. But, every item shoudl have a node.
 
 2. Data adheres to a static template, scope by period
-++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Almost exactly the same as the previous use case, but where there are multiple Budget Templates for the given entity, but each one is unique to a specific period of time.
 

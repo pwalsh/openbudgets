@@ -873,23 +873,23 @@ The Adaptabl button.
   background-color: #efd634;
 }
 .green {
-  color: #2dd280;
+  color: #61c1cc;
 }
 .green-bg {
-  background-color: #2dd280;
+  background-color: #61c1cc;
 }
 .green.button {
   border-width: 1px;
   border-style: solid;
-  border-color: #2dd280;
+  border-color: #61c1cc;
   border-width: 1px;
   border-style: solid;
-  border-color: #2dd280;
-  background-color: #40bf80;
+  border-color: #61c1cc;
+  background-color: #71b5bc;
   color: #ffffff;
 }
 .green.button:hover {
-  background-color: #2dd280;
+  background-color: #61c1cc;
 }
 .blue {
   color: #2badee;
@@ -1803,23 +1803,23 @@ The Adaptabl button.
   background-color: #efd634;
 }
 .green {
-  color: #2dd280;
+  color: #61c1cc;
 }
 .green-bg {
-  background-color: #2dd280;
+  background-color: #61c1cc;
 }
 .green.button {
   border-width: 1px;
   border-style: solid;
-  border-color: #2dd280;
+  border-color: #61c1cc;
   border-width: 1px;
   border-style: solid;
-  border-color: #2dd280;
-  background-color: #40bf80;
+  border-color: #61c1cc;
+  background-color: #71b5bc;
   color: #ffffff;
 }
 .green.button:hover {
-  background-color: #2dd280;
+  background-color: #61c1cc;
 }
 .blue {
   color: #2badee;
@@ -1957,10 +1957,63 @@ h6 {
 a {
   color: #070746;
 }
+#overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.6;
+}
+#overlay-close {
+  cursor: pointer;
+  display: none;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+#overlay-login {
+  display: none;
+  background-color: #ffffff;
+  background-color: #ffffff;
+  width: 50%;
+  height: auto;
+  position: fixed;
+  top: 25%;
+  left: 25%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+#overlay-register {
+  display: none;
+  background-color: #ffffff;
+  background-color: #ffffff;
+  width: 50%;
+  height: auto;
+  position: fixed;
+  top: 25%;
+  left: 25%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+#overlay-password-reset {
+  display: none;
+  background-color: #ffffff;
+  background-color: #ffffff;
+  width: 50%;
+  height: auto;
+  position: fixed;
+  top: 25%;
+  left: 25%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
 #nav-panel {
   display: none;
   position: fixed;
   top: 0;
+  cursor: pointer;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -1997,30 +2050,59 @@ a {
   padding-top: 18px;
   padding-bottom: 18px;
   padding-bottom: 18px;
-  padding-left: 40px;
-  padding-left: 40px;
+  padding-left: 50px;
+  padding-left: 50px;
   padding-right: 16px;
   padding-right: 16px;
   height: 100%;
   height: 100%;
-  background-color: #2dd280;
-  background-color: #2dd280;
+  background-color: #61c1cc;
+  background-color: #61c1cc;
 }
-#nav-panel nav {
+#nav-panel #app_logo {
+  padding-top: 35px;
+  padding-top: 35px;
+  padding-bottom: 35px;
+  padding-bottom: 35px;
+  padding-top: 35px;
+  padding-top: 35px;
+  padding-bottom: 35px;
+  padding-bottom: 35px;
+}
+#nav-panel header nav {
   width: 100%;
   width: 100%;
 }
-#nav-panel nav a {
+#nav-panel header nav a {
   display: block;
   display: block;
+  font-size: 3em;
+  font-size: 3em;
+  line-height: 1em;
+  color: #ffffff;
+  text-decoration: none;
+  padding-bottom: 26px;
+  padding-bottom: 26px;
+  padding-left: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-right: 0;
+  padding-left: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-right: 0;
+  /*overriding adaptabl crap*/
+
 }
 #nav-panel footer {
   position: absolute;
   left: 40;
   bottom: 0;
-  height: 64px;
+  height: 94px;
 }
 #nav-panel footer nav a {
+  font-weight: bold;
+  text-decoration: none;
   display: inline-block;
   display: inline-block;
   padding-left: 0;
@@ -2031,6 +2113,11 @@ a {
   padding-right: 0;
   padding-top: 0;
   padding-bottom: 0;
+  padding-right: 26px;
+  padding-right: 26px;
+  font-size: 1em;
+  font-size: 1em;
+  color: #1d7781;
 }
 #nav-anchor {
   display: inline-block;
@@ -2880,8 +2967,8 @@ footer nav {
   color: white;
 }
 .taxonomy-status.published {
-  background-color: #2dd280;
-  background-color: #2dd280;
+  background-color: #61c1cc;
+  background-color: #61c1cc;
 }
 .taxonomy-status.draft {
   background-color: #ee902b;
@@ -3042,11 +3129,23 @@ footer nav {
   background-color: #a6a6a6;
 }
 /*...BOOM...*/
+#overlay-close {
+  right: none;
+  left: 10px;
+}
 #nav-panel {
   right: 0;
+  padding-right: 50px;
+  padding-right: 50px;
 }
 #nav-panel footer {
   right: 40;
+}
+#nav-panel footer nav a {
+  padding-right: 0;
+  padding-right: 0;
+  padding-left: 26px;
+  padding-left: 26px;
 }
 #action-panel {
   padding-right: 40px;

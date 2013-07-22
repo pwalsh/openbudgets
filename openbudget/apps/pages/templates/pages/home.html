@@ -8,33 +8,6 @@
         <h1>
             {% blocktrans %}Welcome to Open Budget{% endblocktrans %}
         </h1>
-        <p>
-            {% blocktrans %}
-            This is the demo site. Please have a look around. There is some test data that should give a basic overview of the current feature set.
-            {% endblocktrans %}
-        </p>
-        <p>
-            {% blocktrans %}
-            Some features are only visible to logged in users. To login, use the following credentials:
-            {% endblocktrans %}
-            <br /><br />
-            <strong>{% trans 'Username' %}:</strong> admin
-            <br />
-            <strong>{% trans 'Password' %}:</strong> morelove!
-            <br /><br />
-            <a class="button blue" href="{% url 'auth_login' %}?next=/">
-                Login now
-            </a>
-        </p>
-
-        {% if user.is_authenticated %}
-        <h3>
-            {% trans 'Now that you are logged in...' %}
-        </h3>
-        <p>
-            You should make sure to see your <a href="{% url 'account_detail' user.uuid %}" title="">user account page</a> and follow some of the links there too.
-        </p>
-        {% endif %}
     </div>
 </section>
 {% endblock content %}

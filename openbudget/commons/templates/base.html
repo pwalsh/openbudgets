@@ -34,37 +34,14 @@
     <body class="{{ LANGUAGE_CODE }}{% if LANGUAGE_BIDI %} rtl{% else %} ltr{% endif %}">
 
         <section id="nav-panel">
-            <header>
-            {% block header %}
-                <nav>
-                    {% spaceless %}
-                    {% block nav %}
-                    <a href="{% url 'home' %}">{% trans 'Home' %}</a>
-                    <a href="{% url 'page' slug='about' %}">{% trans 'About' %}</a>
-                    <a href="{% url 'project_list' %}">{% trans 'Projects' %}</a>
-                    <a href="{% url 'entity_list' %}">{% trans 'Municipalities' %}</a>
-                    <a href="{% url 'api' subdomain='api' %}">{% trans 'API' %}</a>
-                    {% endblock nav %}
-                    {% endspaceless %}
-                </nav>
-            {% endblock header %}
-            </header>
-            <footer>
-                {% block footer %}
-                <div>
-                    {% language_switch request.get_full_path %}
-                </div>
-                <nav>
-                    <a href="{% url 'page' slug='privacy' %}">{% trans 'Privacy' %}</a>
-                    <a href="{% url 'page' slug='terms' %}">{% trans 'Terms' %}</a>
-                    <a href="{% url 'contact' %}">{% trans 'Contact' %}</a>
-                </nav>
-                {% endblock footer %}
-            </footer>
+            {% include 'partials/nav-panel.html' %}
         </section>
 
         <section id="action-panel">
             <span id="nav-anchor"><a href="{% url 'home' %}" title="{% trans "Back to the home page" %}">{% trans 'Open Local Budgets' %} {% if LANGUAGE_BIDI %}&#9668;{% else %}&#9658;{% endif %}</a></span>
+            {% block actions %}
+
+            {% endblock actions %}
         </section>
 
         <section id="content-panel">
@@ -87,12 +64,30 @@
         </section>
 
         <section id="append-panel">
-            {% include 'accounts/partials/_account_tools.html' %}
+            {% include 'accounts/partials/account_tools.html' %}
         </section>
 
+
+        {% block overlays %}
+
+        <div id="overlay"><span id="overlay-close"><img src="{{ STATIC_URL }}img/close.png" /></span></div>
+
+        {% include 'accounts/partials/account_login.html' %}
+        {% include 'accounts/partials/account_register.html' %}
+        {% include 'accounts/partials/account_password_reset.html' %}
+
+        {% if user.is_authenticated %}
+        {% include 'accounts/partials/account_password_change.html' %}
+        {% endif %}
+
+        {% endblock overlays %}
+
+
         {% block js_body %}
+
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <script src="{{ STATIC_URL }}js/base.js"></script>
+
         {% endblock js_body %}
     </body>
 </html>

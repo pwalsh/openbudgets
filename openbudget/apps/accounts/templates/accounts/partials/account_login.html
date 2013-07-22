@@ -1,0 +1,23 @@
+{% load i18n form_extras %}
+
+<section id="overlay-login">
+    <form action="{% url 'auth_login' %}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            {% field_generator login_form.username %}
+            {% field_generator login_form.password %}
+            {% include 'partials/_form_action_login.html' %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+        </fieldset>
+        <div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a class="password-reset-link" href="{% url 'auth_password_reset' %}" title="Forgot password? Reset it here">{% trans 'Forgot password' %}?</a>
+            &nbsp;|&nbsp;
+            <a class="register-link" href="{% url 'registration_register' %}" title="Register for Free">{% trans 'Register for free' %}</a>
+        </div>
+
+        {% if form.errors %}
+            <p>Your username and password didn't match. Please try again.</p>
+        {% endif %}
+    </form>
+</section>

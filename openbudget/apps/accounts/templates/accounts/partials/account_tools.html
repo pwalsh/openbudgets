@@ -9,6 +9,6 @@
         <a href="{% url 'auth_logout' %}">{% trans 'Logout' %}</a>
     </div>
     {% else %}
-    <a href="{% url 'auth_login' %}">{% trans 'Login' %}</a>
+    <a class="login-link" href="{% url 'auth_login' %}">{% trans 'Login' %}</a>
     {% endif %}
 </div>

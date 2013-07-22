@@ -1,6 +1,8 @@
 """Custom context processors for Omuni"""
-
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, \
+    PasswordChangeForm
 from django.contrib.sites.models import Site
+from registration.forms import RegistrationFormUniqueEmail
 
 
 def get_site(request):
@@ -13,3 +15,22 @@ def get_site(request):
     site = Site.objects.get(pk=1)
 
     return {'site': site}
+
+
+def auth_forms(request):
+
+    auth_forms = {}
+
+    login_form = AuthenticationForm
+    registration_form = RegistrationFormUniqueEmail
+    password_reset_form = PasswordResetForm
+    password_change_form = PasswordChangeForm
+
+    auth_forms['login_form'] = login_form
+    auth_forms['registration_form'] = registration_form
+    auth_forms['password_reset_form'] = password_reset_form
+
+    if request.user.is_authenticated:
+        auth_forms['password_change_form'] = password_change_form
+
+    return auth_forms

@@ -25,3 +25,39 @@
     });
 
 }());
+
+// OVERLAYS
+(function () {
+
+    $('#overlay-close, #overlay').click(function (event) {
+        $('[id^="overlay"]').hide();
+    });
+
+    $('.login-link').click(function (event) {
+        event.preventDefault();
+        $('#overlay, #overlay-close').show();
+        $('#overlay-login').show();
+        $('#overlay-register').hide();
+        $('#overlay-password-reset').hide();
+        $('#overlay-password-change').hide();
+    });
+
+    $('.register-link').click(function (event) {
+        event.preventDefault();
+        $('#overlay, #overlay-close').show();
+        $('#overlay-register').show();
+        $('#overlay-login').hide();
+        $('#overlay-password-reset').hide();
+        $('#overlay-password-change').hide();
+    });
+
+    $('.password-reset-link').click(function (event) {
+        event.preventDefault();
+        $('#overlay, #overlay-close').show();
+        $('#overlay-password-reset').show();
+        $('#overlay-register').hide();
+        $('#overlay-login').hide();
+        $('#overlay-password-change').hide();
+    });
+
+}());

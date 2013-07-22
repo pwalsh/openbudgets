@@ -1,0 +1,28 @@
+{% load i18n form_extras %}
+
+<section id="overlay-register">
+    register
+    <br /><br />
+
+
+    <div class="box-3 _float-left">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <fieldset>
+                {% field_generator registration_form.username %}
+                {% field_generator registration_form.email %}
+                {% field_generator registration_form.password1 %}
+                {% field_generator registration_form.password2 %}
+            </fieldset>
+            <fieldset>
+                {% include 'partials/_form_action_submit.html' %}
+            </fieldset>
+        </form>
+    </div>
+
+
+
+
+
+    <a class="login-link" href="{% url 'auth_login' %}" title="Login">{% trans 'Login' %}</a>
+</section>

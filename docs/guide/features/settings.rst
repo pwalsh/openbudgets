@@ -1,5 +1,5 @@
 Settings
-=======
+========
 
 Overview
 --------
@@ -33,7 +33,7 @@ Budgets
 
 OPENBUDGET_PERIOD_RANGES
 ~~~~~~~~~~~~~~~~~~~~~~~~
-Supported budget ranges for this instance. Used in various places to simply date selection forms and several methods to extract budget periods.
+Supported budget ranges for this instance. Used in various places to specify date selection forms and several methods to extract budget periods.
 
 options - ('monthly', 'quarterly', 'half-yearly', 'yearly', 'bi-yearly')
 
