@@ -71,7 +71,7 @@ How to import::
 
 Example implementation:
 
-https://github.com/hasadna/omuni-budget/blob/develop/openbudget/apps/budgets/serializers.py
+https://github.com/hasadna/omuni-budget/blob/develop/openbudget/apps/sheets/serializers.py
 
 Django OAuth Toolkit
 ~~~~~~~~~~~~~~~~~~~~
@@ -95,7 +95,7 @@ For example, if an Open Budget instance is installed on openmuni.org.il:
 
 * API root: https://api.openmuni.org.il/
 * API version: https://api.openmuni.org.il/v1/
-* API endpoint: https://api.openmuni.org.il/v1/budgets/
+* API endpoint: https://api.openmuni.org.il/v1/sheets/
 
 
 Writing an API Client
@@ -118,7 +118,7 @@ API_VERSION = "v1"
 This provides your client will all the information it needs to get the correct endpoints on intialization, by follow a flow as follows:
 
 
-1. On initialization, hit the API_INDEX, and get the URL for v1 from the returned JSON object.
+1. On initialization, hit the API_INDEX, and get the URL for v1 (API_VERSION) from the returned JSON object.
 
 The returned object will look something like this:
 
@@ -136,7 +136,7 @@ The returned object will look something like this:
 
 Something like this:
 
-API_ROUTES = {"entities":"http://api.domain.com/v1/entities/","budgets":"http://api.domain.com/v1/budgets/"}
+API_ROUTES = {"Entities":"http://api.domain.com/v1/entities/","Sheets":"http://api.domain.com/v1/sheets/","Sheet Items":"http://api.domain.com/v1/sheet/items/"}
 
 API_ROUTES.entities # all entities
 
@@ -169,6 +169,7 @@ The common pattern is:
 * **?ordering=[(-)FIELD_NAME]** - order results by the given field. Prepend "-" to the field name to reverse the order. Available field names are listed below per endpoint.
 * **?search=[STRING]** - filter the results according to matches for the search query. Available searchable fields are listed, below per endpoint.
 * **?[FIELD_NAME]=[VALUE]** - Filter based on value of a field. Depending on the field, value could be an integer, a string, or "true"/"false" for boolean matches. Available fields are listed below, per endpoint.
+
 Also note, pluralized field names (e.g: "parents" can take multiple comma-separated values).
 
 
