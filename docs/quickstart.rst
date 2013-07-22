@@ -16,7 +16,7 @@ System requirements
 
 In order to work on the project, your system will need Python, Node.js, Git and Mercurial. You'll also need a handful of Python packages and Node.js modules installed globally.
 
-Our Quickstart only supports Debian flavors of Linux, and Mac OS X. If you can test the installation on other systems, please make a pull request updating this Quickstart with the required changes.
+Our Quickstart only supports Ubuntu and Fedora flavors of Linux, and Mac OS X. If you can test the installation on other systems, please make a pull request updating this Quickstart with the required changes.
 
 
 **IMPORTANT: Please make sure you meet the system requirements before moving on to the installation of the project.**

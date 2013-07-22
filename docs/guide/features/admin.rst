@@ -99,12 +99,12 @@ Data Translations
 -----------------
 
 Database
-++++++++
+~~~~~~~~
 
 We are using ModelTranslation to translate data in the database. One of the great advantages of using ModelTranslation is that translations can occur "in place". Every translatable field has a small widget to switch between languages, and add new translations.
 
 Codebase
-++++++++
+~~~~~~~~
 
 All strings in the codebase are translated via Django's built in features, on top of gettext. When then use Rosetta to expose these files for editing via the admin.
 
