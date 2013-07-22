@@ -154,6 +154,15 @@
     font-size: 3.261rem;
     font-weight: normal;
 }
+#nodes_scope_name_content {
+    line-height: 150%;
+}
+
+#nodes_search_wrapper {
+    position: absolute;
+    bottom: 8px;
+    right: 18px;
+}
 
 #results_count {
     padding: 1rem 24px;
