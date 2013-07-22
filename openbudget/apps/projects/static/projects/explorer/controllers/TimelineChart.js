@@ -5,6 +5,10 @@ define([
 ], function (uijet, resources, api) {
 
     function sortByPeriod (a, b) { return a.period - b.period; }
+    function addFloats (a, b) {
+        var res = a + b;
+        return +(res).toPrecision((res | 0).toString().length + 2);
+    }
 
     var TimeSeriesModel = uijet.Model({
         url : function () {
@@ -25,8 +29,8 @@ define([
                     };
                 }
                 else {
-                    series[period].budget += +item.budget;
-                    series[period].actual += +item.actual; 
+                    series[period].budget = addFloats(series[period].budget, +item.budget);
+                    series[period].actual = addFloats(series[period].actual, +item.actual); 
                 }
             });
             return {
