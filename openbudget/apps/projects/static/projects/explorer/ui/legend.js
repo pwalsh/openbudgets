@@ -17,7 +17,7 @@ define([
     uijet.Factory('LegendItem', {
         type    : 'LegendItem',
         config  : {
-            mixins          : ['Templated'],
+            mixins          : ['Templated', 'Translated'],
             template_name   : 'legend_item',
             dont_fetch      : true,
             data_events     : {
