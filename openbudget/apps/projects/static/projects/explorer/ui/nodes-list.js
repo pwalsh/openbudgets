@@ -1,11 +1,10 @@
 define([
     'uijet_dir/uijet',
     'resources',
-    'api',
     'project_widgets/FilteredList',
     'project_mixins/Diverted',
     'controllers/NodesList'
-], function (uijet, resources, api) {
+], function (uijet, resources) {
 
     return [{
         type    : 'Pane',
