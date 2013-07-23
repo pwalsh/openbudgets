@@ -14,7 +14,7 @@ class AccountBaseSerializer(serializers.HyperlinkedModelSerializer):
 class AccountMin(serializers.ModelSerializer):
     """A minimal serializer for use as a nested entity representation."""
 
-    avatar = serializers.Field(source='get_avatar')
+    avatar = serializers.Field(source='avatar')
 
     class Meta:
         model = models.Account
