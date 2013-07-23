@@ -4,7 +4,8 @@ define([
     'project_widgets/ClearableTextInput',
     'project_widgets/Breadcrumbs',
     'project_widgets/FilterCrumb',
-    'project_widgets/Select'
+    'project_widgets/Select',
+    'project_mixins/Delayed'
 ], function (uijet, resources) {
 
     uijet.Resource('Breadcrumbs', uijet.Collection({
@@ -54,8 +55,8 @@ define([
             app_events      : {
                 'search_crumb_remove.clicked'   : nullifySearchQuery,
                 'selected_crumb_remove.clicked' : attributeNullifier('selected'),
-                'filter_selected.clicked'       : function () {
-                    this.resource.set({ selected : true });
+                'filters_search_menu.selected'  : function (data) {
+                    data.type === 'selected' && this.resource.set({ selected : true });
                 },
                 'legends_list.change_state'     : function (data) {
                     this.resource.set('amount_type', data.amount_type);
@@ -94,7 +95,10 @@ define([
                 'add_legend.clicked'            : clearText,
                 'legends_list.selected'         : clearText,
                 'legends_list.last_deleted'     : clearText,
-                'filters_search_menu.selected'  : 'sleep',
+                'filters_search_menu.selected'  : function (data) {
+                    if ( data.type === 'search' )
+                        this.sleep();
+                },
                 'nodes_search.entered'          : 'wake',
                 'nodes_search.cancelled'        : 'wake',
                 'search_crumb_remove.clicked'   : 'wake'
@@ -103,10 +107,37 @@ define([
     }, {
         type    : 'DropmenuButton',
         config  : {
-            element : '#filters_search',
-            menu    : {
+            element     : '#filters_search',
+            mixins      : ['Delayed'],
+            click_event : 'mouseover',
+            dom_events  : {
+                mouseout: function (e) {
+                    this.instead(this.publish, 800, 'mouse_left');
+                },
+                click   : function () {
+                    uijet.publish('filters_search_menu.selected', {
+                        type: 'search'
+                    });
+                }
+            },
+            signals     : {
+                pre_click   : 'cancel'
+            },
+            menu        : {
                 mixins          : ['Templated', 'Translated'],
                 float_position  : 'top: 3rem',
+                dom_events      : {
+                    mouseout: function (e) {
+                        var visual_target = document.elementFromPoint(e.pageX, e.pageY);
+                        if ( ! this.$element[0].contains(visual_target) ) {
+                            this.mouse_over = false;
+                            this.sleep();
+                        }
+                    },
+                    mouseover: function (e) {
+                        this.mouse_over = true;
+                    }
+                },
                 signals         : {
                     post_init   : function () {
                         this.prev_search_terms = [];
@@ -130,12 +161,17 @@ define([
                     }
                 },
                 app_events      : {
-                    'nodes_search.entered'  : function (query) {
-                        var index = this.prev_search_terms.indexOf(query);
-                        if ( ~ index ) {
-                            this.prev_search_terms.splice(index, 1);
+                    'filters_search.mouse_left' : function () {
+                        this.mouse_over || this.sleep();
+                    },
+                    'nodes_search.entered'      : function (query) {
+                        if ( query ) {
+                            var index = this.prev_search_terms.indexOf(query);
+                            if ( ~ index ) {
+                                this.prev_search_terms.splice(index, 1);
+                            }
+                            this.prev_search_terms.unshift(query);
                         }
-                        this.prev_search_terms.unshift(query);
                     }
                 }
             }
@@ -168,7 +204,7 @@ define([
             keys        : {
                 // enter
                 13          : function (e) {
-                    var value = e.target.value;
+                    var value = e.target.value.trim();
                     value || nullifySearchQuery.call(this);
                     this.publish('entered', value || null)
                         .sleep();
@@ -180,11 +216,12 @@ define([
                         .sleep();
                 },
                 'default'   : function (e) {
-                    var val = e.target.value;
-                    this.publish('changed', e.target.value);
+                    var val = e.target.value,
+                        clean = val.trim();
+                    this.publish('changed', clean);
                     this.$shadow_text.text(val);
                     this.publish('move_button', val ? this.$shadow_text.width() : 0);
-                    this.resource.set({ search : val });
+                    this.resource.set({ search : clean });
                 }
             },
             signals     : {
@@ -214,11 +251,25 @@ define([
                 'nodes_search_clear.clicked'    : function () {
                     this.resource.set({ search : '' });
                 },
-                'filters_search_menu.selected'  : function (data) {console.log(data);
+                'filters_search_menu.selected'  : function (data) {
                     if ( data.value )
                         this.resource.set({ search : data.value });
-                    this.wake();
+                    if ( data.type === 'search')
+                        this.wake();
+                },
+                'nodes_search_exit.clicked'     : function () {
+                    nullifySearchQuery.call(this);
+                    this.publish('cancelled').sleep();
                 }
+            }
+        }
+    }, {
+        type    : 'Button',
+        config  : {
+            element     : '#nodes_search_exit',
+            container   : 'nodes_search',
+            signals     : {
+                pre_click   : 'sleep'
             }
         }
     }, {
@@ -229,6 +280,11 @@ define([
             data_events : {
                 change  : 'render',
                 reset   : 'render'
+            },
+            signals     : {
+                post_sleep  : function () {
+                    this.resource.reset([]);
+                }
             },
             app_events  : {
                 'nodes_list.selected'   : function (selected) {
@@ -243,6 +299,7 @@ define([
         config  : {
             element     : '#search_crumb',
             dont_wake   : true,
+            extra_class : 'hide',
             dom_events  : {
                 click   : function () {
                     uijet.publish('filters_search_menu.selected', {
@@ -252,11 +309,22 @@ define([
                     this.sleep();
                 }
             },
+            signals     : {
+                pre_wake    : function () {
+                    this.$element.removeClass('hide');
+                },
+                pre_sleep   : function () {
+                    this.$element.addClass('hide');
+                }
+            },
             app_events  : {
                 'nodes_search.entered'          : function (query) {
                     query !== null && this.wake();
                 },
-                'filters_search_menu.selected'  : 'sleep',
+                'filters_search_menu.selected'  : function (data) {
+                    if ( data.type === 'search' )
+                        this.sleep();
+                },
                 'search.changed'                : function (data) {
                     var query = data.args[1];
                     this.setContent(query || '');
@@ -270,30 +338,11 @@ define([
             }
         }
     }, {
-        type    : 'Button',
-        config  : {
-            element     : '#filter_selected',
-            dont_wake   : true,
-            app_events  : {
-                'selected.changed'  : function (data) {
-                    var state = data.args[1];
-                    if ( state !== null ) {
-                        this.options.dont_wake = true;
-                        this.sleep();
-                    }
-                    else {
-                        this.options.dont_wake = false;
-                        this.wake();
-                    }
-                }
-            }
-        }
-    }, {
         type    : 'FilterCrumb',
         config  : {
             element     : '#selected_crumb',
             dont_wake   : true,
-            content     : 'Selected',
+            content     : gettext('Selected'),
             app_events  : {
                 'selected.changed'  : function (data) {
                     var state = data.args[1];
@@ -372,7 +421,12 @@ define([
                     }
                 },
                 'search.changed'        : function (data) {
-                    if ( ! data.args[1] ) {
+                    if ( ! data.args[1] && ! data.args[0].get('selected') ) {
+                        this.sleep();
+                    }
+                },
+                'selected.changed'      : function (data) {
+                    if ( ! data.args[1] && ! data.args[0].get('search') ) {
                         this.sleep();
                     }
                 }

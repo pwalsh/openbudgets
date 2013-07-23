@@ -22,7 +22,8 @@ define([
         search      : function (term, as_docs) {
             var results = [],
                 fields = this.fields,
-                re;
+                d = 0,
+                re, doc, field;
             if ( this.clean_term ) {
                 term = this.clean_term(term);
             } 
@@ -31,15 +32,14 @@ define([
             } catch (e) {
                 re = new RegExp(void 0, this.query_flags);
             }
-            this.documents.forEach(function (item) {
-                var field;
+            for ( ; doc = this.documents[d]; d++ ) {
                 for ( field in fields ) {
-                    if ( field in item && re.test(item[field]) ) {
-                        results.push(as_docs ? item : item[this.ref]);
+                    if ( field in doc && re.test(doc[field]) ) {
+                        results.push(as_docs ? doc : doc[this.ref]);
                         break;
                     }
                 }
-            }, this);
+            }
             return results;
         }
     };

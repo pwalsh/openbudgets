@@ -42,6 +42,8 @@ define([
             return this;
         },
         change          : function (value, silent) {
+            //! String.prototype.trim
+            value = value.trim();
             this.$element.text(value || this.$input.attr('placeholder'));
             this.last_value = value;
             silent || this.publish('updated', value);

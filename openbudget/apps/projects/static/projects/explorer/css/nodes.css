@@ -1,9 +1,21 @@
 .filtercrumb_remove {
     padding: 0;
 }
-.filtercrumb_remove:before {
-    content: 'X';
-    padding-right: .3rem;
+.filtercrumb_remove:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: -1.5rem;
+    width: 11px;
+    height: 11px;
+    margin-top: -4px;
+    background: url(../img/x_for_search.png) center no-repeat;
+}
+
+.uijet_filtercrumb {
+    position: relative;
+    cursor: pointer;
 }
 
 .summarize_data_button {
@@ -49,17 +61,20 @@
 
 #filters_search {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: -1rem;
+    left: -1rem;
     width: 25px;
     height: 25px;
-    padding: 0;
+    padding: 1rem;
     background: url(../img/search_icon.png) center no-repeat;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
 }
 #filters_search_wrapper {
     position: absolute;
     top: 50%;
-    left: -3.261rem;
+    left: -5rem;
     width: 25px;
     height: 25px;
     margin-top: -9px;
@@ -146,7 +161,7 @@
 
 #nodes_scope_name {
     position: absolute;
-    bottom: 8px;
+    bottom: 0;
     right: 18px;
     z-index: 1;
     width: auto;
@@ -154,12 +169,38 @@
     font-size: 3.261rem;
     font-weight: normal;
 }
+#nodes_scope_name_content {
+    line-height: 150%;
+}
+
+#nodes_search_exit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    background: url(../img/x_for_adding_line.png) center no-repeat;
+}
+
+#nodes_search_wrapper {
+    position: absolute;
+    bottom: 0;
+    right: 18px;
+}
 
 #results_count {
     padding: 1rem 24px;
     font-size: 1.3rem;
     font-weight: bold;
     color: #1d7680;
+}
+
+#search_crumb:before {
+    content: '>';
+    padding-left: 5px;
+    vertical-align: bottom;
+    color: #d0d0dc;
 }
 
 #sheet_type_picker {

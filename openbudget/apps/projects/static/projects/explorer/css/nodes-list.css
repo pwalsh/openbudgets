@@ -33,8 +33,8 @@
 
 .selectbox {
     display: inline-block;
-    width: 100%;
-    height: 100%;
+    width: 54px;
+    height: 43px;
     vertical-align: middle;
     background: url(../img/check_box_empty.png) center no-repeat;
 }

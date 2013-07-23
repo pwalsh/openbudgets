@@ -47,8 +47,9 @@ define([
             },
             dom_events  : {
                 keyup   : function (e) {
-                    var val = e.target.value;
-                    this.publish('changed', e.target.value);
+                    var val = e.target.value,
+                        clean = val.trim();
+                    this.publish('changed', clean);
                     this.$shadow_text.text(val);
                     this.publish('move_button', val ? this.$shadow_text.width() : 0);
                 }

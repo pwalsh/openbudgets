@@ -5,6 +5,10 @@ body, html {
     font: 13px/1.231 Arial, sans-serif;
     color: #141450;
 }
+input, textarea {
+    font: 13px/1.231 Arial, sans-serif;
+    color: #141450;
+}
 svg {
     direction: ltr;
 }
@@ -47,6 +51,7 @@ svg {
 }
 .uijet_clearabletextinput {
     width: 100%;
+    padding: 0;
     font-size: 3.261rem;
     line-height: 150%;
     border: none;

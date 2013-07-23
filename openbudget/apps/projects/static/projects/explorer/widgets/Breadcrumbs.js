@@ -18,7 +18,6 @@ define([
                     element     : '#node_breadcrumb_main',
                     container   : this.id,
                     dont_wake   : true,
-                    disabled    : true,
                     signals     : {
                         pre_appear      : function () {
                             this.$element.removeClass('hide');
@@ -29,14 +28,7 @@ define([
                     },
                     app_events  : {
                         'nodes_breadcrumbs.hide_root'   : 'sleep',
-                        'nodes_breadcrumbs.enable_root' : function () {
-                            this.wake();
-                            this.enable();
-                        },
-                        'nodes_breadcrumbs.disable_root': function () {
-                            this.wake();
-                            this.disable();
-                        }
+                        'nodes_breadcrumbs.show_root'   : 'wake'
                     }
                 }
             }, {
@@ -137,20 +129,23 @@ define([
         },
         render      : function () {
             var length = this.resource.length,
+                $title = uijet.$('#nodes_picker_header_description'),
                 history;
             this._super();
 
+            length ? $title.addClass('hide') : $title.removeClass('hide');
+
             switch ( length ) {
                 case 0:
-                    this.publish('disable_root')
+                    this.publish('hide_root')
                         .publish('hide_back');
                     break;
                 case 1:
-                    this.publish('enable_root')
+                    this.publish('show_root')
                         .publish('hide_back');
                     break;
                 case 2:
-                    this.publish('enable_root')
+                    this.publish('show_root')
                         .publish('set_back', this.resource.at(length - 2).attributes);
                     break;
                 default:

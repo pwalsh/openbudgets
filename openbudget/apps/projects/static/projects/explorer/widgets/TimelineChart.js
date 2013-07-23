@@ -136,7 +136,7 @@ define([
 
             this.svg.insert('g', '#mouse_target')
                 .attr('class', 'axis x_axis')
-                .attr('transform', 'translate(0,' + (this.height + this.padding) + ')')
+                .attr('transform', 'translate(0,' + (this.height + this.padding - 3) + ')')
                 .call(this.x_axis);
 
             this.svg_element.insert('g', ':first-child')
@@ -193,7 +193,7 @@ define([
             x_axis.call(this.x_axis)
                 .selectAll('line')
                     .attr('x1', 0)
-                    .attr('y2', -this.padding)
+                    .attr('y2', -this.padding + 3)
                     .attr('y1', -(this.height));
             x_axis.selectAll('text')
                 .each(function (d) {
@@ -206,19 +206,25 @@ define([
                 return line(d.values);
             });
 
-            // reset mouseover handler
-            this.hoverOff();
-            this.mouse_target.on('mouseover', this.hoverOn.bind(this));
+            if ( this.hover_on ) {
+                // reset mouseover handler
+                this.hoverOff()
+                    .hoverOn();
+            }
 
             return this;
         },
         hoverOn         : function () {
+            this.hover_on = true;
             this.mouse_target.on('mousemove', this.mousemove());
+            return this;
         },
         hoverOff        : function () {
+            this.hover_on = false;
             this.mouse_target.on('mousemove', null);
             this.hoverMark();
             this.current_hovered_index = null;
+            return this;
         },
         mousemove       : function () {
             var x = this.x_scale,
