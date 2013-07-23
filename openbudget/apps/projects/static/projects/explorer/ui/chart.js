@@ -11,6 +11,15 @@ define([
         this.context.author_name = name;
     }
 
+    function initPeriodsSelectedHandler () {
+        if ( this.period_selectors_started ) {
+            this.hoverOn();
+        }
+        else {
+            this.period_selectors_started = true;
+        }
+    }
+
     uijet.Factory('ChartPeriodSelect', {
         type    : 'Select',
         config  : {
@@ -168,16 +177,18 @@ define([
                 }
             },
             app_events  : {
-                'legends_list.delete'           : function () {
+                'legends_list.delete'               : function () {
                     if ( this.awake && uijet.Resource('LegendItems').length ) {
                         this.render();
                     }
                 },
-                'legend_item_title.updated'     : 'setTitle+',
-                'chart_period_start.selected'   : function ($selected) {
+                'legend_item_title.updated'         : 'setTitle+',
+                'chart_period_start_menu.rendered'  : initPeriodsSelectedHandler,
+                'chart_period_end_menu.rendered'    : initPeriodsSelectedHandler,
+                'chart_period_start.selected'       : function ($selected) {
                     this.timeContext($selected.text());
                 },
-                'chart_period_end.selected'     : function ($selected) {
+                'chart_period_end.selected'         : function ($selected) {
                     this.timeContext(null, $selected.text());
                 }
             }

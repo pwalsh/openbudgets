@@ -206,19 +206,25 @@ define([
                 return line(d.values);
             });
 
-            // reset mouseover handler
-            this.hoverOff();
-            this.mouse_target.on('mouseover', this.hoverOn.bind(this));
+            if ( this.hover_on ) {
+                // reset mouseover handler
+                this.hoverOff()
+                    .hoverOn();
+            }
 
             return this;
         },
         hoverOn         : function () {
+            this.hover_on = true;
             this.mouse_target.on('mousemove', this.mousemove());
+            return this;
         },
         hoverOff        : function () {
+            this.hover_on = false;
             this.mouse_target.on('mousemove', null);
             this.hoverMark();
             this.current_hovered_index = null;
+            return this;
         },
         mousemove       : function () {
             var x = this.x_scale,
