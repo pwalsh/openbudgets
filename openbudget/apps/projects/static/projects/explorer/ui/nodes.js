@@ -281,6 +281,11 @@ define([
                 change  : 'render',
                 reset   : 'render'
             },
+            signals     : {
+                post_sleep  : function () {
+                    this.resource.reset([]);
+                }
+            },
             app_events  : {
                 'nodes_list.selected'   : function (selected) {
                     this.resource.reset(
