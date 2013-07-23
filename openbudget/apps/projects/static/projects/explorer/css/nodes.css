@@ -15,6 +15,7 @@
 
 .uijet_filtercrumb {
     position: relative;
+    cursor: pointer;
 }
 
 .summarize_data_button {
@@ -73,7 +74,7 @@
 #filters_search_wrapper {
     position: absolute;
     top: 50%;
-    left: -3.261rem;
+    left: -5rem;
     width: 25px;
     height: 25px;
     margin-top: -9px;
@@ -170,6 +171,16 @@
 }
 #nodes_scope_name_content {
     line-height: 150%;
+}
+
+#nodes_search_exit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    background: url(../img/x_for_adding_line.png) center no-repeat;
 }
 
 #nodes_search_wrapper {

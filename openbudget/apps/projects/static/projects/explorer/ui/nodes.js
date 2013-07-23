@@ -256,7 +256,20 @@ define([
                         this.resource.set({ search : data.value });
                     if ( data.type === 'search')
                         this.wake();
+                },
+                'nodes_search_exit.clicked'     : function () {
+                    nullifySearchQuery.call(this);
+                    this.publish('cancelled').sleep();
                 }
+            }
+        }
+    }, {
+        type    : 'Button',
+        config  : {
+            element     : '#nodes_search_exit',
+            container   : 'nodes_search',
+            signals     : {
+                pre_click   : 'sleep'
             }
         }
     }, {
