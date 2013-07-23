@@ -5,6 +5,7 @@ from django.utils.translation import ugettext as _
 from openbudget.settings import base as settings
 from openbudget.apps.interactions.models import Star, Follow
 from openbudget.commons.mixins.models import UUIDModel
+from django_gravatar.helpers import get_gravatar_url
 
 
 class Account(UUIDModel, AbstractUser):
@@ -16,6 +17,11 @@ class Account(UUIDModel, AbstractUser):
         default=settings.LANGUAGE_CODE,
         help_text=_('Set your preferred language for the app')
     )
+
+    @property
+    def avatar(self):
+        response = get_gravatar_url(self.email, size=80)
+        return response
 
     @property
     def comments(self):

@@ -3,7 +3,7 @@
 
 <div class="account">
     {% if user.is_authenticated %}
-    <a id="avatar" href="{% url 'account_detail' user.uuid %}"><img src="{% gravatar_url user.email 60 %}" /></a>
+    <a id="avatar" href="{% url 'account_detail' user.uuid %}"><img src="{{ user.avatar }}" /></a>
     <div class="actions">
         <a href="{% url 'account_detail' user.uuid %}">{% trans 'Account' %}</a>
         <a href="{% url 'auth_logout' %}">{% trans 'Logout' %}</a>
