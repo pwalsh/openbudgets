@@ -1,5 +1,6 @@
 define([
     'uijet_dir/uijet',
+    'widgets/Overlay',
     'project_widgets/LegendItem',
     'controllers/LegendsList'
 ], function (uijet) {
