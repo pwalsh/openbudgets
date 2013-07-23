@@ -4,7 +4,8 @@ define([
     'project_widgets/ClearableTextInput',
     'project_widgets/Breadcrumbs',
     'project_widgets/FilterCrumb',
-    'project_widgets/Select'
+    'project_widgets/Select',
+    'project_mixins/Delayed'
 ], function (uijet, resources) {
 
     uijet.Resource('Breadcrumbs', uijet.Collection({
@@ -106,10 +107,37 @@ define([
     }, {
         type    : 'DropmenuButton',
         config  : {
-            element : '#filters_search',
-            menu    : {
+            element     : '#filters_search',
+            mixins      : ['Delayed'],
+            click_event : 'mouseover',
+            dom_events  : {
+                mouseout: function (e) {
+                    this.instead(this.publish, 800, 'mouse_left');
+                },
+                click   : function () {
+                    uijet.publish('filters_search_menu.selected', {
+                        type: 'search'
+                    });
+                }
+            },
+            signals     : {
+                pre_click   : 'cancel'
+            },
+            menu        : {
                 mixins          : ['Templated', 'Translated'],
                 float_position  : 'top: 3rem',
+                dom_events      : {
+                    mouseout: function (e) {
+                        var visual_target = document.elementFromPoint(e.pageX, e.pageY);
+                        if ( ! this.$element[0].contains(visual_target) ) {
+                            this.mouse_over = false;
+                            this.sleep();
+                        }
+                    },
+                    mouseover: function (e) {
+                        this.mouse_over = true;
+                    }
+                },
                 signals         : {
                     post_init   : function () {
                         this.prev_search_terms = [];
@@ -133,9 +161,12 @@ define([
                     }
                 },
                 app_events      : {
-                    'nodes_search.entered'  : function (query) {
+                    'filters_search.mouse_left' : function () {
+                        this.mouse_over || this.sleep();
+                    },
+                    'nodes_search.entered'      : function (query) {
                         if ( query ) {
-                            index = this.prev_search_terms.indexOf(query);
+                            var index = this.prev_search_terms.indexOf(query);
                             if ( ~ index ) {
                                 this.prev_search_terms.splice(index, 1);
                             }
