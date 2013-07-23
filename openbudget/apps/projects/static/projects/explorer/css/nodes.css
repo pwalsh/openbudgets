@@ -60,12 +60,15 @@
 
 #filters_search {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: -1rem;
+    left: -1rem;
     width: 25px;
     height: 25px;
-    padding: 0;
+    padding: 1rem;
     background: url(../img/search_icon.png) center no-repeat;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
 }
 #filters_search_wrapper {
     position: absolute;
