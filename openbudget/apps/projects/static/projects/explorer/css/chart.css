@@ -96,7 +96,7 @@
     height: 121px;
     padding: 11px 20px 0;
 }
-#chart_heading h1, #chart_heading .uijet_contenteditable_input {
+#chart_heading_title, #chart_heading .uijet_contenteditable_input {
     margin-top: -8px;
     padding: 0;
     font-size: 3.261rem;
@@ -134,5 +134,7 @@
     background-color: #d0d0dc;
 }
 #viz_actions_menu_left {
-    float: left;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
