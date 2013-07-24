@@ -5,12 +5,6 @@ define([
     'controllers/TimelineChart'
 ], function (uijet) {
 
-    function updateAuthorName () {
-        var name = uijet.Resource('Author').name();
-        ! this.context && (this.context = {});
-        this.context.author_name = name;
-    }
-
     function initPeriodsSelectedHandler () {
         if ( this.period_selectors_started ) {
             this.hoverOn();
@@ -117,29 +111,19 @@ define([
             element     : '#chart_heading',
             mixins      : ['Templated'],
             resource    : 'ProjectState',
+            dont_fetch  : true,
             data_events : {
                 'change:title'  : 'title_changed'
             },
             signals     : {
-                post_init   : function () {
-                    var author_model = uijet.Resource('Author');
-                    author_model.on('change', function () {
-                        updateAuthorName.call(this);
-                        if ( this.has_content ) {
-                            uijet.$('#state_author_name').text(this.context.author_name);
-                        }
-                    }.bind(this));
-                },
                 pre_wake    : function () {
-                    updateAuthorName.call(this);
                     return ! this.has_content;
                 },
                 post_render : function () {
                     uijet.start({
                         type    : 'ContentEditable',
                         config  : {
-                            element     : '#chart_heading h1',
-                            id          : this.id + '_title',
+                            element     : '#chart_heading_title',
                             container   : this.id,
                             input       : {
                                 name: 'title'

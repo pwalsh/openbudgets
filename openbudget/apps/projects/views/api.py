@@ -30,14 +30,26 @@ class StateList(generics.ListCreateAPIView):
 
     model = models.State
     queryset = model.objects.related_map()
-    serializer_class = serializers.StateBaseSerializer
     search_fields = ['author__first_name', 'author__last_name', 'project__name']
 
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            # base serializer for creating States
+            return serializers.StateBaseSerializer
+        # State list/retrieve serializer
+        return serializers.StateReadSerializer
 
-class StateDetail(generics.RetrieveUpdateAPIView):
+
+class StateDetail(generics.RetrieveUpdateDestroyAPIView):
     """Called via an API endpoint that represents a single state object."""
 
     model = models.State
     queryset = model.objects.related_map()
     lookup_field = 'uuid'
-    serializer_class = serializers.StateBaseSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            # State list/retrieve serializer
+            return serializers.StateReadSerializer
+        # base serializer for creating States
+        return serializers.StateBaseSerializer

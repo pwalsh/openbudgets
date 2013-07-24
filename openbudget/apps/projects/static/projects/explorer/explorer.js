@@ -108,28 +108,7 @@ define([
                 }
             }))
 
-            .Resource('ProjectState', resources.State, default_state)
-
-            // create a User model instance for representing the author of the state
-            .Resource('Author', Backbone.Model.extend.call(resources.User, {
-                name: function () {
-                    var first = this.get('first_name'),
-                        last = this.get('last_name');
-                    if ( first || last ) {
-                        return first + ' ' + last;
-                    }
-                    else {
-                        return this.get('username');
-                    }
-                }
-            }), {
-                id  : uijet.Resource('ProjectState').get('author')
-            });
-
-            // once API routes are set init the router and sync the author
-            explorer.routes_set_promise.then(function () {
-                uijet.Resource('Author').fetch();
-            });
+            .Resource('ProjectState', resources.State, default_state);
 
             /*
              * Register handlers to events in UI

@@ -54,11 +54,15 @@ define([
          */
         User = uijet.Model({
             idAttribute : 'id',
-            urlRoot     : function () {
-                return api.getRoute('accounts');
-            },
-            url         : function () {
-                return this.urlRoot() + (this.id ? this.id + '/' : '');
+            name: function () {
+                var first = this.get('first_name'),
+                    last = this.get('last_name');
+                if ( first || last ) {
+                    return first + ' ' + last;
+                }
+                else {
+                    return gettext('Guest');
+                }
             }
         }),
         /*
@@ -210,6 +214,12 @@ define([
             },
             url         : function () {
                 return this.urlRoot() + (this.id ? this.id + '/' : '');
+            },
+            parse       : function (response) {
+                var user = new User(response.author);
+                response.author_model = user;
+                response.author = user.id;
+                return response;
             }
         });
 
