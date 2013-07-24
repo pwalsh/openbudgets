@@ -6,7 +6,8 @@ define([
     uijet.Adapter('LegendsList', {
         createItemModel : function (state) {
             var model = new explorer.LegendItemModel(state || {
-                title       : gettext('Insert title'),
+                title       : '',
+                placeholder : gettext('Insert title'),
                 muni        : '',
                 nodes       : [],
                 amount_type : 'actual'

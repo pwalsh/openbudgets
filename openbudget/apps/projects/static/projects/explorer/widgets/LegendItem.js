@@ -37,7 +37,8 @@ define([
                     id          : id + '_title',
                     container   : id,
                     input       : {
-                        name: 'title'
+                        name    : 'title',
+                        value   : this.resource.get('title')
                     }
                 }
             }, {

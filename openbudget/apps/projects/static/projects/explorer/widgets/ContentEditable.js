@@ -16,13 +16,12 @@ define([
                 ._wrap();
 
             var input_ops = this.options.input;
-
-            this.$input = uijet.$('<input>', {
+            
+            this.$input = uijet.$('<input>', uijet.utils.extend({
                 type        : 'text',
-                name        : input_ops.name,
                 placeholder : this.$element.text(),
                 'class'     : 'uijet_contenteditable_input hide'
-            }).appendTo(this.$wrapper);
+            }, input_ops)).appendTo(this.$wrapper);
 
             this.$input.on({
                 blur    : this.blur.bind(this),
