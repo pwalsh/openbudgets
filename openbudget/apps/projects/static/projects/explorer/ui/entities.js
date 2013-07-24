@@ -108,15 +108,23 @@ define([
                 },
                 post_render     : function () {
                     this.$children = this.$element.children();
-                    this.publish('rendered');
+                    if ( this.queued_filters ) {
+                        this.publish('rendered');
+                        setImmediate(this.filterChildren.bind(this));
+                    }
                 },
                 pre_select      : function ($selected) {
                     return +$selected.attr('data-id');
                 }
             },
             app_events      : {
-                'entity_field.changed'  : 'filterBySearch+',
-                'entities_list.filtered': 'scroll'
+                'entity_field.changed'  : function (value) {
+                    this.filterBySearch(value || null);
+                    if ( ! this.queued_filters ) {
+                        this.filterChildren();
+                        uijet.utils.requestAnimFrame(this.scroll.bind(this));
+                    }
+                }
             }
         }
     }];

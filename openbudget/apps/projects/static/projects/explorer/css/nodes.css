@@ -211,3 +211,7 @@
     font-size: 1.3rem;
     font-weight: bold;
 }
+
+#selected_crumb {
+    top: -1rem;
+}

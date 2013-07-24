@@ -60,6 +60,7 @@ define([
                 },
                 'legends_list.change_state'     : function (data) {
                     this.resource.set('amount_type', data.amount_type);
+                    //TODO: on legend item adding this causes wake to be called twice and nodes_list.render is called twice
                     this.wake(data);
                 },
                 'entities_list.selected'        : nullifySearchQuery
@@ -414,18 +415,18 @@ define([
             element     : '#results_count',
             dont_wake   : true,
             app_events  : {
-                'nodes_list.filtered'   : function (count) {
+                'nodes_list.filter_count'   : function (count) {
                     if ( typeof count == 'number' ) {
                         this.$element.text(interpolate(gettext('%(count)s results found'), { count : count }, true));
                         this.wake();
                     }
                 },
-                'search.changed'        : function (data) {
+                'search.changed'            : function (data) {
                     if ( ! data.args[1] && ! data.args[0].get('selected') ) {
                         this.sleep();
                     }
                 },
-                'selected.changed'      : function (data) {
+                'selected.changed'          : function (data) {
                     if ( ! data.args[1] && ! data.args[0].get('search') ) {
                         this.sleep();
                     }

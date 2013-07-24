@@ -76,7 +76,6 @@ define([
             signals         : {
                 post_init       : function () {
                     this.scope = null;
-                    this.active_filters = 0;
                 },
                 pre_wake        : function () {
                     // usually on first load when there's no context, just bail out
@@ -85,10 +84,10 @@ define([
                     var entity_id = this.context.entity_id,
                         selection;
                     if ( entity_id ) {
+                        // change view back to main 
+                        this.scope = null;
                         if ( this.latest_entity_id !== entity_id ) {
                             this.latest_entity_id = entity_id;
-                            // this makes sure search index is rebuilt and view is re-rendered
-                            this.scope_changed = true;
                             // this makes sure the resource will execute fetch to sync with remote server
                             this.dont_fetch = false;
                             this.has_data = false;
@@ -102,12 +101,10 @@ define([
                         }
                         else {
                             this.dont_fetch = true;
-                            this.scope_changed = false;
                             this.resetSelection(this.context.selection)
                                 .publish('selection', { reset : true });
                         }
-                        // change view back to main 
-                        this.scope = null;
+                        this.rescope(null);
                         this.filter(this.resource.roots);
                     }
                 },
@@ -118,16 +115,11 @@ define([
                     }
                     return false;
                 },
-                post_fetch_data : 'spinOff',
-                pre_render      : function () {
-                    if ( this.scope_changed ) {
-                        this.publish('scope_changed', this.resource.get(this.scope));
-                        if ( this.has_data ) {
-                            this.scope_changed = false;
-                            this.buildIndex();
-                        }
-                    }
-                    this.has_content && this.$element.addClass('invisible');
+                post_fetch_data : function () {
+                    this.active_filters ?
+                        this.redraw(null) :
+                        this.rescope(null);
+                    this.spinOff();
                 },
                 post_render     : function () {
                     this.$children = this.$element.children();
@@ -136,13 +128,16 @@ define([
                         this.resetSelection(this.context.selection)
                             .publish('selection', { reset : true });
                     }
-                    if ( this.active_filters ) {
-                        this.filterItems();
+                    if ( this.queued_filters ) {
+                        this.publish('rendered');
+                    }
+                    else if ( this.active_filters ) {
+                        this.filterChildren();
                     }
                     else {
-                        this.scroll()
-                            .$element.removeClass('invisible');
+                        this.scroll();
                     }
+
                     this._finally();
                 },
                 pre_select      : function ($selected, e) {
@@ -159,17 +154,21 @@ define([
                 post_select     : function ($selected) {
                     var node_id = +$selected.attr('data-id') || null;
                     this.redraw(node_id);
+                },
+                post_filtered   : function (count) {
+                    this.publish('filter_count', count)
+                        ._prepareScrolledSize();
+                    uijet.utils.requestAnimFrame( this.scroll.bind(this) );
                 }
             },
             app_events      : {
                 'legends_list.last_deleted'                 : 'sleep',
                 'search.changed'                            : 'updateSearchFilter+',
                 'selected.changed'                          : 'updateSelectedFilter+',
-                'nodes_list.filtered'                       : function () {
-                    this.scroll()
-                        .$element.removeClass('invisible');
+                'nodes_list.filtered'                       : 'filterChildren',
+                'node_breadcrumb_main.clicked'              : function () {
+                    this.redraw(null);
                 },
-                'node_breadcrumb_main.clicked'              : 'redraw',
                 'node_breadcrumb_back.clicked'              : function (data) {
                     this.redraw(data.context.id);
                 },
@@ -192,8 +191,8 @@ define([
                             state = resource.get(id).get('selected');
                         $node.attr('data-selected', state);
                     });
-                    if ( this.selected_active ) {
-                        this.filterBySelected(uijet.Resource('NodesListState').get('selected'));
+                    if ( this.active_filters & this.filter_flags['selected'] ) {
+                        this.updateSelectedFilter(true)
                     }
                 }
             }
