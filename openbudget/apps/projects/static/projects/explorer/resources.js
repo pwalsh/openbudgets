@@ -145,6 +145,7 @@ define([
                         }
                         parent_ids[node.parent].push(node.id);
                     }
+                    node.direction = gettext(node.direction);
                 }
                 /*
                  * second loop
