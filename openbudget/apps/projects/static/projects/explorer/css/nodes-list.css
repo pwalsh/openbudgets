@@ -68,7 +68,7 @@
 #nodes_list li:hover {
     background-color: #ffffcd;
 }
-#nodes_list li.search_removed, #nodes_list li.selected_removed {
+#nodes_list li.removed {
     display: none;
 }
 #nodes_list_container {

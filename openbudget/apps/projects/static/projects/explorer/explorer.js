@@ -33,7 +33,7 @@ define([
     api.getVersion();
 
     explorer = {
-        router      : Router({
+        router          : Router({
             routes  : {
                 ':uuid' : function (uuid) {
                     var state = uijet.Resource('ProjectState');
@@ -58,7 +58,7 @@ define([
                 }
             }
         }),
-        start       : function (options) {
+        start           : function (options) {
             /*
              * Get an OAuth2 token
              */
@@ -108,28 +108,7 @@ define([
                 }
             }))
 
-            .Resource('ProjectState', resources.State, default_state)
-
-            // create a User model instance for representing the author of the state
-            .Resource('Author', Backbone.Model.extend.call(resources.User, {
-                name: function () {
-                    var first = this.get('first_name'),
-                        last = this.get('last_name');
-                    if ( first || last ) {
-                        return first + ' ' + last;
-                    }
-                    else {
-                        return this.get('username');
-                    }
-                }
-            }), {
-                id  : uijet.Resource('ProjectState').get('author')
-            });
-
-            // once API routes are set init the router and sync the author
-            explorer.routes_set_promise.then(function () {
-                uijet.Resource('Author').fetch();
-            });
+            .Resource('ProjectState', resources.State, default_state);
 
             /*
              * Register handlers to events in UI
@@ -139,8 +118,11 @@ define([
                     Backbone.history.start({ root : 'static/projects/explorer/index.html' });
                 });
             })
-            .subscribe('viz_save.clicked', explorer.saveState)
             .subscribe('viz_new.clicked', explorer.clearState)
+            .subscribe('viz_save.clicked', explorer.saveState)
+            .subscribe('viz_duplicate.clicked', explorer.duplicateState)
+            .subscribe('viz_delete.clicked', explorer.deleteState)
+
 
             /*
              * Starting uijet
@@ -151,7 +133,7 @@ define([
                 templates_extension : 'ms'
             });
         },
-        setToken    : function (token) {
+        setToken        : function (token) {
             this.auth_token = token;
             $.ajaxSetup({
                 headers : {
@@ -161,25 +143,21 @@ define([
             uijet.publish('authenticated');
             return this;
         },
-        clearState  : function () {
-            uijet.Resource('TimeSeries').reset();
-            uijet.Resource('LegendItems').reset();
-            uijet.Resource('ProjectState').set(default_state);
-            explorer.router.navigate('');
-        },
-        saveState   : function () {
+        _getChartState  : function () {
             var chart_data = uijet.Resource('TimeSeries').toJSON(),
                 legend = uijet.Resource('LegendItems'),
                 selection_states = legend.pluck('state'),
-                selection_titles = legend.pluck('title'),
-                state_model = uijet.Resource('ProjectState');
+                selection_titles = legend.pluck('title');
 
             chart_data.forEach(function (series, i) {
                 series.state = selection_states[i];
                 series.title = selection_titles[i];
             });
+            return chart_data;
+        },
+        _saveState      : function (state_model) {
             state_model.save({ config : {
-                chart   : chart_data,
+                chart   : explorer._getChartState(),
                 title   : state_model.get('title')
             } }, {
                 success : function () {
@@ -188,6 +166,34 @@ define([
                 },
                 error   : function () {
                     uijet.publish('state_save_failed');
+                    console.error.apply(console, arguments);
+                }
+            });
+        },
+        clearState      : function () {
+            uijet.Resource('TimeSeries').reset();
+            uijet.Resource('LegendItems').reset();
+            uijet.Resource('ProjectState').set(default_state);
+            explorer.router.navigate('');
+        },
+        duplicateState  : function () {
+            var state_clone = uijet.Resource('ProjectState').clone();
+            state_clone.unset('uuid').unset('id').unset('url');
+            //TODO: check if logged in user is same as state author and if yes set state author to user
+            explorer._saveState(state_clone);
+        },
+        saveState       : function () {
+            explorer._saveState(uijet.Resource('ProjectState'));
+        },
+        deleteState     : function () {
+            //TODO: check (again) if logged in user is really the state author
+            uijet.Resource('ProjectState').destroy({
+                success : function () {
+                    uijet.publish('state_deleted');
+                    explorer.router.navigate('');
+                },
+                error   : function () {
+                    uijet.publish('state_delete_failed');
                     console.error.apply(console, arguments);
                 }
             });

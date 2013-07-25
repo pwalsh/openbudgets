@@ -5,12 +5,6 @@ define([
     'controllers/TimelineChart'
 ], function (uijet) {
 
-    function updateAuthorName () {
-        var name = uijet.Resource('Author').name();
-        ! this.context && (this.context = {});
-        this.context.author_name = name;
-    }
-
     function initPeriodsSelectedHandler () {
         if ( this.period_selectors_started ) {
             this.hoverOn();
@@ -18,6 +12,10 @@ define([
         else {
             this.period_selectors_started = true;
         }
+    }
+
+    function enableMenuButton () {
+        this.spinOff().enable();
     }
 
     uijet.Factory('ChartPeriodSelect', {
@@ -42,6 +40,23 @@ define([
                         })
                         .render();
                     }
+                }
+            }
+        }
+    })
+    .Factory('ChartMenuButton', {
+        type    : 'Button',
+        config  : {
+            adapters        : ['Spin'],
+            spinner_options : {
+                lines   : 10,
+                length  : 8,
+                radius  : 6,
+                width   : 4
+            },
+            signals         : {
+                pre_click   : function () {
+                    this.disable().spin()
                 }
             }
         }
@@ -76,16 +91,6 @@ define([
     }, {
         type    : 'Button',
         config  : {
-            element : '#viz_duplicate'
-        }
-    }, {
-        type    : 'Button',
-        config  : {
-            element : '#viz_delete'
-        }
-    }, {
-        type    : 'Button',
-        config  : {
             element : '#viz_export'
         }
     }, {
@@ -94,21 +99,31 @@ define([
             element : '#viz_publish'
         }
     }, {
-        type    : 'Button',
+        //TODO: handle state actions errors (delete/save)
+        factory : 'ChartMenuButton',
         config  : {
-            element         : '#viz_save',
-            adapters        : ['Spin'],
-            spinner_options : {
-                lines   : 10,
-                length  : 8,
-                radius  : 6,
-                width   : 4
-            },
-            signals         : {
-                pre_click   : 'spin'
-            },
-            app_events      : {
-                state_saved : 'spinOff'
+            element     : '#viz_delete',
+            app_events  : {
+                state_deleted       : enableMenuButton,
+                state_delete_failed : enableMenuButton
+            }
+        }
+    }, {
+        factory : 'ChartMenuButton',
+        config  : {
+            element     : '#viz_duplicate',
+            app_events  : {
+                state_saved         : enableMenuButton,
+                state_save_failed   : enableMenuButton
+            }
+        }
+    }, {
+        factory : 'ChartMenuButton',
+        config  : {
+            element     : '#viz_save',
+            app_events  : {
+                state_saved         : enableMenuButton,
+                state_save_failed   : enableMenuButton
             }
         }
     }, {
@@ -117,29 +132,19 @@ define([
             element     : '#chart_heading',
             mixins      : ['Templated'],
             resource    : 'ProjectState',
+            dont_fetch  : true,
             data_events : {
                 'change:title'  : 'title_changed'
             },
             signals     : {
-                post_init   : function () {
-                    var author_model = uijet.Resource('Author');
-                    author_model.on('change', function () {
-                        updateAuthorName.call(this);
-                        if ( this.has_content ) {
-                            uijet.$('#state_author_name').text(this.context.author_name);
-                        }
-                    }.bind(this));
-                },
                 pre_wake    : function () {
-                    updateAuthorName.call(this);
                     return ! this.has_content;
                 },
                 post_render : function () {
                     uijet.start({
                         type    : 'ContentEditable',
                         config  : {
-                            element     : '#chart_heading h1',
-                            id          : this.id + '_title',
+                            element     : '#chart_heading_title',
                             container   : this.id,
                             input       : {
                                 name: 'title'

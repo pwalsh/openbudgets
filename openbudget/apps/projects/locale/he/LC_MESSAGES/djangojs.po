@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-22 19:00+0300\n"
+"POT-Creation-Date: 2013-07-25 08:46+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,7 +43,7 @@ msgid "Choose budget items:"
 msgstr "בחירת סעיפי תקציב"
 
 #: static/projects/explorer/dictionary.js:9
-#: static/projects/explorer/ui/nodes.js:27
+#: static/projects/explorer/ui/nodes.js:28
 msgid "Main"
 msgstr "ראשי"
 
@@ -144,6 +144,7 @@ msgid "Search for"
 msgstr "חפש"
 
 #: static/projects/explorer/dictionary.js:34
+#: static/projects/explorer/resources.js:64
 msgid "Guest"
 msgstr "אורח"
 
@@ -164,14 +165,20 @@ msgid "selected items"
 msgstr "סעיפים נבחרים"
 
 #: static/projects/explorer/explorer.js:20
-#: static/projects/explorer/controllers/LegendsList.js:9
+#: static/projects/explorer/controllers/LegendsList.js:10
 msgid "Insert title"
 msgstr "כתיבת כותרת"
 
-#: static/projects/explorer/ui/nodes.js:296
+#: static/projects/explorer/ui/nodes.js:346
 msgid "Selected"
 msgstr "נבחרים"
 
-#: static/projects/explorer/ui/nodes.js:370
+#: static/projects/explorer/ui/nodes.js:420
 msgid "%(count)s results found"
 msgstr "נמצאו %(count)s תוצאות"
+
+msgid "EXPENDITURE"
+msgstr "הוצאות"
+
+msgid "REVENUE"
+msgstr "הכנסות"

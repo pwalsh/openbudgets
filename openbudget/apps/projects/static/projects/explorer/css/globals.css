@@ -5,6 +5,10 @@ body, html {
     font: 13px/1.231 Arial, sans-serif;
     color: #141450;
 }
+em {
+    color: #ff0059;
+    font-style: normal;
+}
 input, textarea {
     font: 13px/1.231 Arial, sans-serif;
     color: #141450;
@@ -81,6 +85,10 @@ svg {
 }
 .uijet_menu li {
     white-space: nowrap;
+}
+
+.invisible {
+    visibility: hidden !important;
 }
 
 .section_description {

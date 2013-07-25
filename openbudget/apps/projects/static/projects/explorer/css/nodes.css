@@ -113,6 +113,7 @@
     overflow: visible;
     font-size: 1.3rem;
     font-weight: bold;
+    color: #4f1c15;
 }
 #nodes_breadcrumbs .uijet_button {
     padding: 0;
@@ -210,4 +211,8 @@
     left: 114px;
     font-size: 1.3rem;
     font-weight: bold;
+}
+
+#selected_crumb {
+    top: -1rem;
 }

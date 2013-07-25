@@ -6,12 +6,21 @@ define([
     var arraySort = Array.prototype.sort;
 
     uijet.Adapter('NodesList', {
+        // optimization hack to not call `this._prepareScrolledSize()` after `render()`
+        scrolled            : false,
+        rescope             : function (scope) {
+            this.scope = scope || null;
+            this.publish('scope_changed', this.scope && this.resource.get(this.scope));
+            if ( this.has_data ) {
+                this.buildIndex();
+            }
+            return this;
+        },
         redraw              : function (scope) {
             var filter = this.active_filters ?
                     this.resource.byAncestor :
                     this.resource.byParent; 
-            this.scope_changed = true;
-            this.scope = scope || null;
+            this.rescope(scope);
             return this.filter(filter, this.scope)
                        .render();
         },
@@ -39,47 +48,30 @@ define([
             return this;
         },
         updateSearchFilter  : function (data) {
-            var query = data.args[1];
-            if ( query === null ) {
-                this.search_active = false;
-                this.active_filters--;
+            var query = uijet.utils.isObj(data) ? data.args[1] : data,
+                filters_active = !!this.active_filters;
 
-                if ( ! this.active_filters ) {
-                    this.filter(this.resource.byParent, this.scope)
-                        .render();
-                }
-            }
-            else {
-                if ( ! this.search_active ) {
-                    this.search_active = true;
-                    this.active_filters++;
-
-                    this.filter(this.resource.byAncestor, this.scope)
-                        .render();
-                }
-            }
             this.filterBySearch(query);
-            return this;
+
+            return this._updateFilter(!!this.active_filters !== filters_active);
         },
         updateSelectedFilter: function (data) {
-            var state = data.args[1];
-            if ( state === null ) {
-                this.selected_active = false;
-                this.active_filters--;
+            var state = uijet.utils.isObj(data) ? data.args[1] : data,
+                filters_active = !!this.active_filters;
 
-                if ( ! this.active_filters ) {
-                    this.filter(this.resource.byParent, this.scope)
-                        .render();
+            this.filterBySelected(state);
+
+            return this._updateFilter(!!this.active_filters !== filters_active);
+        },
+        _updateFilter       : function (redraw) {
+            if ( this.has_data && this.$children ) {
+                if ( redraw ) {
+                    this.redraw(this.scope);
+                }
+                else {
+                    this.publish('filtered');
                 }
             }
-            else if ( state ) {
-                this.selected_active = true;
-                this.active_filters++;
-
-                this.filter(this.resource.byAncestor, this.scope)
-                    .render();
-            }
-            this.filterBySelected(state);
             return this;
         },
         resetSelection      : function (state) {

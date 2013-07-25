@@ -54,11 +54,18 @@ define([
          */
         User = uijet.Model({
             idAttribute : 'id',
-            urlRoot     : function () {
-                return api.getRoute('accounts');
+            name        : function () {
+                var first = this.get('first_name'),
+                    last = this.get('last_name');
+                if ( first || last ) {
+                    return first + ' ' + last;
+                }
+                else {
+                    return gettext('Guest');
+                }
             },
-            url         : function () {
-                return this.urlRoot() + (this.id ? this.id + '/' : '');
+            avatar      : function () {
+                return this.get('avatar').replace(/s=\d+[^&]/i, 's=90');
             }
         }),
         /*
@@ -141,6 +148,7 @@ define([
                         }
                         parent_ids[node.parent].push(node.id);
                     }
+                    node.direction = gettext(node.direction);
                 }
                 /*
                  * second loop
@@ -210,6 +218,12 @@ define([
             },
             url         : function () {
                 return this.urlRoot() + (this.id ? this.id + '/' : '');
+            },
+            parse       : function (response) {
+                var user = new User(response.author);
+                response.author_model = user;
+                response.author = user.id;
+                return response;
             }
         });
 
