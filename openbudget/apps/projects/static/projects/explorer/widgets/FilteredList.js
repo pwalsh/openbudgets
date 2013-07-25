@@ -89,11 +89,11 @@ define([
                     filter = function (i, item) {
                         return ~ ids.indexOf(+uijet.$(item).attr('data-id'));
                     };
-                    this.$children.filter(filter).removeClass(class_name);
+                    this.$last_filter_result = this.$children.filter(filter).removeClass(class_name);
                     this.$children.not(filter).addClass(class_name);
                 }
             }
-            this.notify('post_filtered', ids ? ids.length : null);
+            this.notify('post_filtered', ids || null);
             return this;
         },
         queueFilter         : function (filter_name, value) {

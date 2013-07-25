@@ -115,11 +115,31 @@ define([
                 },
                 pre_select      : function ($selected) {
                     return +$selected.attr('data-id');
+                },
+                post_filtered   : function (ids) {
+                    var search_term = this.last_search_term;
+                    uijet.utils.requestAnimFrame( function () {
+                        var resource = this.resource,
+                            highlight = this.highlight;
+                        if ( this.$last_filter_result ) {
+                            this.$last_filter_result.each(function (i, item) {
+                                var text = resource.get(+item.getAttribute('data-id')).get('name');
+                                if ( search_term ) {
+                                    item.innerHTML = highlight(text, search_term);
+                                }
+                                else {
+                                    item.innerHTML = '';
+                                    item.appendChild(document.createTextNode(text));
+                                }
+                            });
+                        }
+                    }.bind(this) );
                 }
             },
             app_events      : {
                 'entity_field.changed'  : function (value) {
-                    this.filterBySearch(value || null);
+                    this.last_search_term = value || null;
+                    this.filterBySearch(this.last_search_term);
                     if ( ! this.queued_filters ) {
                         this.filterChildren();
                         uijet.utils.requestAnimFrame(this.scroll.bind(this));

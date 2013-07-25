@@ -51,12 +51,15 @@ define([
     })
 
     .use({
-        index   : function (options) {
+        index       : function (options) {
             this.search_index = new uijet.search.Index(options || this.options.search);
             return this;
         },
-        search  : function () {
+        search      : function () {
             return this.search_index.search.apply(this.search_index, arguments);
+        },
+        highlight   : function (text, term) {
+            return text.replace(term, '<em>' + term + '</em>');
         }
     }, uijet.BaseWidget.prototype);
 

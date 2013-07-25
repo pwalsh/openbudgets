@@ -155,9 +155,26 @@ define([
                     var node_id = +$selected.attr('data-id') || null;
                     this.redraw(node_id);
                 },
-                post_filtered   : function (count) {
-                    this.publish('filter_count', count)
+                post_filtered   : function (ids) {
+                    this.publish('filter_count', ids ? ids.length : null)
                         ._prepareScrolledSize();
+
+                    var search_term = uijet.Resource('NodesListState').get('search');
+                    uijet.utils.requestAnimFrame( function () {
+                        var resource = this.resource,
+                            highlight = this.highlight;
+                        this.$last_filter_result.each(function (i, item) {
+                            var text = resource.get(+item.getAttribute('data-id')).get('name'),
+                                name = uijet.$(item).find('.node_cell_name')[0];
+                            if ( search_term ) {
+                                name.innerHTML = highlight(text, search_term);
+                            }
+                            else {
+                                name.innerHTML = '';
+                                name.appendChild(document.createTextNode(text));
+                            }
+                        });
+                    }.bind(this) );
                     uijet.utils.requestAnimFrame( this.scroll.bind(this) );
                 }
             },
