@@ -77,12 +77,13 @@ define([
             return this.models.map(function (model) {
                 var attrs = model.attributes;
                 return {
-                    title   : attrs.title,
-                    nodes   : attrs.nodes,
-                    muni    : new resources.Muni({
+                    title       : attrs.title,
+                    nodes       : attrs.nodes,
+                    muni        : new resources.Muni({
                         id  : attrs.muni_id,
                         name: attrs.muni
-                    })
+                    }),
+                    amount_type : attrs.amount_type
                 };
             });
         }
