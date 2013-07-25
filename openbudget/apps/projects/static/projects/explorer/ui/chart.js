@@ -14,6 +14,10 @@ define([
         }
     }
 
+    function enableMenuButton () {
+        this.spinOff().enable();
+    }
+
     uijet.Factory('ChartPeriodSelect', {
         type    : 'Select',
         config  : {
@@ -36,6 +40,23 @@ define([
                         })
                         .render();
                     }
+                }
+            }
+        }
+    })
+    .Factory('ChartMenuButton', {
+        type    : 'Button',
+        config  : {
+            adapters        : ['Spin'],
+            spinner_options : {
+                lines   : 10,
+                length  : 8,
+                radius  : 6,
+                width   : 4
+            },
+            signals         : {
+                pre_click   : function () {
+                    this.disable().spin()
                 }
             }
         }
@@ -70,16 +91,6 @@ define([
     }, {
         type    : 'Button',
         config  : {
-            element : '#viz_duplicate'
-        }
-    }, {
-        type    : 'Button',
-        config  : {
-            element : '#viz_delete'
-        }
-    }, {
-        type    : 'Button',
-        config  : {
             element : '#viz_export'
         }
     }, {
@@ -88,21 +99,31 @@ define([
             element : '#viz_publish'
         }
     }, {
-        type    : 'Button',
+        //TODO: handle state actions errors (delete/save)
+        factory : 'ChartMenuButton',
         config  : {
-            element         : '#viz_save',
-            adapters        : ['Spin'],
-            spinner_options : {
-                lines   : 10,
-                length  : 8,
-                radius  : 6,
-                width   : 4
-            },
-            signals         : {
-                pre_click   : 'spin'
-            },
-            app_events      : {
-                state_saved : 'spinOff'
+            element     : '#viz_delete',
+            app_events  : {
+                state_deleted       : enableMenuButton,
+                state_delete_failed : enableMenuButton
+            }
+        }
+    }, {
+        factory : 'ChartMenuButton',
+        config  : {
+            element     : '#viz_duplicate',
+            app_events  : {
+                state_saved         : enableMenuButton,
+                state_save_failed   : enableMenuButton
+            }
+        }
+    }, {
+        factory : 'ChartMenuButton',
+        config  : {
+            element     : '#viz_save',
+            app_events  : {
+                state_saved         : enableMenuButton,
+                state_save_failed   : enableMenuButton
             }
         }
     }, {
