@@ -54,7 +54,7 @@ define([
          */
         User = uijet.Model({
             idAttribute : 'id',
-            name: function () {
+            name        : function () {
                 var first = this.get('first_name'),
                     last = this.get('last_name');
                 if ( first || last ) {
@@ -63,6 +63,9 @@ define([
                 else {
                     return gettext('Guest');
                 }
+            },
+            avatar      : function () {
+                return this.get('avatar').replace(/s=\d+[^&]/i, 's=90');
             }
         }),
         /*

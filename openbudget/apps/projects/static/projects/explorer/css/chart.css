@@ -125,6 +125,16 @@
     fill: transparent;
 }
 
+#state_author_avatar {
+    display: inline-block;
+    margin-left: 10px;
+    border-radius: 45px;
+}
+#state_title_container {
+    display: inline-block;
+    vertical-align: top;
+}
+
 #viz_actions_menu {
     position: absolute;
     top: 0;
