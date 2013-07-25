@@ -2,10 +2,16 @@
 
 from django.template import Library
 
+
 register = Library()
 
+
 @register.inclusion_tag('partials/_form_field.html')
-def field_generator(field, hidden=0, custom_label='', custom_class='', inline_styles=''):
+def field_generator(field, hidden=0,
+                    custom_label='',
+                    custom_class='',
+                    inline_styles='',
+                    placeholder=''):
     """Returns a customized chunk of HTML for the given form field"""
     if custom_label:
         field.label = custom_label

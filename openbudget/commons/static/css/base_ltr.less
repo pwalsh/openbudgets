@@ -1,30 +1,22 @@
 @import "../lib/adaptabl/adaptabl";
 
-/* MONKEY PATCHING ADAPTABL */
-
-/*don't want layout because of sticky footer - fix in adaptabl*/
-
-@import "../lib/adaptabl/src/core";
-@import "../lib/adaptabl/src/elements";
-@import "../lib/adaptabl/src/box";
-/*@import "src/layout";*/
-@import "../lib/adaptabl/src/typography";
-@import "../lib/adaptabl/src/buttons";
-@import "../lib/adaptabl/src/colors";
-@import "../lib/adaptabl/src/helpers";
-
 .row(@width: 100%) {
     .layout-object(@width);
     .clear;
 }
 
+
+
 /* PALETTE */
 @bluegrey: hsl(240, 15%, 84%);
 @grey: hsl(240, 14%, 92%);
+@lightgrey: hsl(240, 14%, 96%);
 @strongblue: hsl(240, 82%, 15%);
 @midblue: hsl(240, 26%, 36%);
 @green: hsl(186, 51%, 59%);
+@midgreen: hsl(177, 99%, 40%);
 @dark-green: hsl(186, 63%, 31%);
+@pink: hsl(339, 100%, 50%);
 
 body, html {
     background-color: @bluegrey;
@@ -46,7 +38,7 @@ a {
     width: 100%;
     height: 100%;
     background-color: black;
-    opacity: 0.6;
+    opacity: 0.5;
 }
 
 #overlay-close {
@@ -57,41 +49,136 @@ a {
     right: 10px;
 }
 
-#overlay-login {
+.overlay-object(@top: 50%, @left: 50%) {
+    .layout-object(290px);
+    .background-color(@bluegrey);
     display: none;
-    .background-color(@white);
-    width: 50%;
+    cursor: pointer;
     height: auto;
     position: fixed;
-    top: 25%;
-    left: 25%;
+    top: @top;
+    left: @left;
     overflow-y: scroll;
     overflow-x: hidden;
+
+    h3 {
+        .padding-top(@em-unit);
+    }
+
+    input, .notices, .possibilities, h3 {
+        .padding-horizontal(18px);
+        border: none;
+
+
+    }
+
+    input {
+                height: 2em;
+        border-bottom: 1px solid @bluegrey;
+    }
+}
+
+#overlay-login {
+    .overlay-object(40%, 35%);
 }
 
 #overlay-register {
-    display: none;
-    .background-color(@white);
-    width: 50%;
-    height: auto;
-    position: fixed;
-    top: 25%;
-    left: 25%;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    .overlay-object;
 }
 
 #overlay-password-reset {
-    display: none;
-    .background-color(@white);
-    width: 50%;
-    height: auto;
-    position: fixed;
-    top: 25%;
-    left: 25%;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    .overlay-object;
 }
+
+input {
+        border-radius: 0;
+    border: none;
+
+}
+
+.field {
+    position: relative;
+
+    .help {
+        position: absolute;
+        top: 4px;
+        left: 18px;
+        font-size: @em-unit * 0.75;
+        color: darken(@bluegrey, 15%);
+    }
+}
+
+.button {
+    border-radius: 0;
+    border: none;
+    -webkit-border-radius: 0 !important;
+    background-color: hsl(240, 13%, 73%);
+    color: @strongblue;
+}
+
+.possibilities {
+    .row;
+
+    a {
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .forgot {
+        .layout-object(50%);
+        a {
+            color: darken(@bluegrey, 15%);
+            font-size: 0.875em;
+        }
+
+    }
+
+    .new {
+        .layout-object(50%);
+        a {
+            color: @strongblue;
+            font-size: 0.875em;
+        }
+
+    }
+}
+
+.awareness {
+    .row;
+
+    .notices {
+        .layout-object(70%);
+        color: @pink;
+        height: 2em;
+        line-height: 2em;
+    }
+
+    .action {
+        .layout-object(30%);
+    }
+}
+
+input {
+    .margin-reset();
+    .padding-reset();
+    background-color: @lightgrey;
+
+    &:focus {
+        background-color: @white;
+    }
+}
+
+/*
+:invalid {
+    background: #ffdddd;
+         }
+:valid{
+      background:#ddffdd;
+      }
+::-webkit-validation-bubble{display:none;}
+::-webkit-validation-bubble-top-outer-arrow{display:none;}
+::-webkit-validation-bubble-top-inner-arrow{display:none;}
+::-webkit-validation-bubble-message{display:none;}
+*/
 
 #nav-panel {
     display: none;
