@@ -12,6 +12,9 @@
     margin-top: -4px;
     background: url(../img/x_for_search.png) center no-repeat;
 }
+.filter_content {
+    display: inline-block;
+}
 
 .uijet_filtercrumb {
     position: relative;

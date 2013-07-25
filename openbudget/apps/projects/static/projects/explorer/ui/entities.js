@@ -120,7 +120,7 @@ define([
                     var search_term = this.last_search_term;
                     uijet.utils.requestAnimFrame( function () {
                         var resource = this.resource,
-                            highlight = this.highlight;
+                            highlight = this.highlight.bind(this);
                         if ( this.$last_filter_result ) {
                             this.$last_filter_result.each(function (i, item) {
                                 var text = resource.get(+item.getAttribute('data-id')).get('name');
