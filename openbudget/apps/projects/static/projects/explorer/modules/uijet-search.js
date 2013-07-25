@@ -59,7 +59,13 @@ define([
             return this.search_index.search.apply(this.search_index, arguments);
         },
         highlight   : function (text, term) {
-            return text.replace(term, '<em>' + term + '</em>');
+            var re;
+            try {
+                re = new RegExp(term, this.search_index.query_flags);
+            } catch (e) {
+                re = new RegExp(void 0, this.search_index.query_flags);
+            }
+            return text.replace(re, '<em>$&</em>');
         }
     }, uijet.BaseWidget.prototype);
 

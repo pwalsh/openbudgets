@@ -162,7 +162,7 @@ define([
                     var search_term = uijet.Resource('NodesListState').get('search');
                     uijet.utils.requestAnimFrame( function () {
                         var resource = this.resource,
-                            highlight = this.highlight;
+                            highlight = this.highlight.bind(this);
                         this.$last_filter_result.each(function (i, item) {
                             var text = resource.get(+item.getAttribute('data-id')).get('name'),
                                 name = uijet.$(item).find('.node_cell_name')[0];
