@@ -1,7 +1,17 @@
 from django import forms
 from django.utils.translation import ugettext as _
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, \
+    AuthenticationForm
 from openbudget.apps.accounts.models import Account
+
+
+class CustomAuthenticationForm(AuthenticationForm):
+    email = forms.EmailField(widget=forms.TextInput(
+        attrs={'placeholder': _('Enter Email'), 'type': 'email'}),
+        help_text=_('Press enter to finish'))
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'placeholder': _('Enter Password'), 'type': 'password'}),
+        help_text=_('Press enter to finish'))
 
 
 class AccountForm(forms.ModelForm):

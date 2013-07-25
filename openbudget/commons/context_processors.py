@@ -3,6 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, \
     PasswordChangeForm
 from django.contrib.sites.models import Site
 from registration.forms import RegistrationFormUniqueEmail
+from openbudget.apps.accounts.forms import CustomAuthenticationForm
 
 
 def get_site(request):
@@ -21,7 +22,7 @@ def auth_forms(request):
 
     auth_forms = {}
 
-    login_form = AuthenticationForm
+    login_form = CustomAuthenticationForm
     registration_form = RegistrationFormUniqueEmail
     password_reset_form = PasswordResetForm
     password_change_form = PasswordChangeForm

@@ -120,6 +120,7 @@ INSTALLED_APPS = (
     'haystack',
     'djcelery',
     'subdomains',
+    'floppyforms',
     'registration',
     'rest_framework',
     'modeltranslation',

@@ -1,10 +1,38 @@
 {% load i18n form_extras %}
 
 <section id="overlay-login">
-    <form action="{% url 'auth_login' %}" method="post">
+
+    <form action="{% url 'auth_login' %}" method="post" novalidate>
+        {% csrf_token %}
+        <h3>{% trans 'Login for registered users' %}</h3>
+        <div class="possibilities">
+            <div class="new">
+                <a class="register-link" href="{% url 'registration_register' %}" title="Register for Free">{% trans 'New user' %}?</a>
+            </div>
+            <div class="forgot">
+                <a class="password-reset-link" href="{% url 'auth_password_reset' %}" title="Forgot password? Reset it here">{% trans 'Forgot password' %}?</a>
+            </div>
+        </div>
+        <fieldset>
+            {% field_generator login_form.email %}
+            {% field_generator login_form.password %}
+        </fieldset>
+            <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+        <div class="awareness">
+            <div class="notices">
+                notices
+            </div>
+            <div class="action">
+                {% include 'partials/_form_action_login.html' %}
+            </div>
+        </div>
+    </form>
+
+    {% comment %}
+    <form action="{% url 'auth_login' %}" method="post" novalidate>
         {% csrf_token %}
         <fieldset>
-            {% field_generator login_form.username %}
+            {% field_generator login_form.email %}
             {% field_generator login_form.password %}
             {% include 'partials/_form_action_login.html' %}
             <input type="hidden" name="next" value="{{ request.get_full_path }}" />
@@ -20,4 +48,6 @@
             <p>Your username and password didn't match. Please try again.</p>
         {% endif %}
     </form>
+    {% endcomment %}
+
 </section>
