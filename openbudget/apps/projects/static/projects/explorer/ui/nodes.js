@@ -46,7 +46,17 @@ define([
             animation_type  : 'fade',
             resource        : 'NodesListState',
             data_events     : {
-                'change:search'     : '-search.changed',
+                'change:search'     : function (model, value) {
+                    var field = 'search',
+                        prev = model.previous(field),
+                        was_null = prev === null;
+                    if ( value === '' ) {
+                        model.set(field, null, was_null && { silent : true });
+                    }
+                    else {
+                        uijet.publish('search.changed', { args : arguments });
+                    }
+                },
                 'change:selected'   : '-selected.changed'
             },
             signals         : {
