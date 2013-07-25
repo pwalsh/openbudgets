@@ -6,7 +6,7 @@
     "fields": {
         "object_id": 1,
         "content_type": ["sheets", "sheet"],
-        "added_by": ["admin"],
+        "added_by": ["admin@example.com"],
         "uuid": "de79ce65b9494405a3473843c6a71b52",
         "name": "Offically released budget PDF",
         "url": "http://somesourceurl.com/",
@@ -24,7 +24,7 @@
     "fields": {
         "object_id": 1,
         "content_type": ["sheets", "sheet"],
-        "added_by": ["admin"],
+        "added_by": ["admin@example.com"],
         "uuid": "01b8905001224b449f35a6e09d97d184",
         "name": "Additional data from Muni Leaks",
         "url": "http://somesourceurlforthis.org/",

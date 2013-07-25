@@ -675,6 +675,20 @@ The Adaptabl button.
 A bunch of helper mixins that cover really common CSS rules.
 
 */
+.box-2 {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: right;
+  width: 50%;
+}
+.box-3 {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: right;
+  width: 33%;
+}
 /* PALETTE */
 body,
 html {
@@ -692,6 +706,57 @@ h6 {
 a {
   color: #070746;
 }
+/******************/
+/****  FORMS   ****/
+/******************/
+.field {
+  position: relative;
+}
+.field .help {
+  position: absolute;
+  top: 4px;
+  left: 18px;
+  font-size: 0.75em;
+  color: #a4a4bc;
+}
+.field input {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 18px;
+  padding-right: 18px;
+  height: 2em;
+  border: none;
+  border-radius: 0;
+  -webkit-border-radius: 0 !important;
+  border-bottom: 1px solid #d0d0dc;
+  background-color: #f3f3f6;
+}
+.field input:focus {
+  background-color: #ffffff;
+}
+.field .button {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  border-radius: 0;
+  border: none;
+  border-bottom: none;
+  border-radius: 0;
+  -webkit-border-radius: 0 !important;
+  background-color: #b1b1c3;
+  color: #070746;
+}
+/******************/
+/**** OVERLAYS ****/
+/******************/
+/* The background for all overlay objects */
 #overlay {
   display: none;
   position: fixed;
@@ -701,13 +766,14 @@ a {
   background-color: black;
   opacity: 0.5;
 }
-#overlay-close {
-  cursor: pointer;
+#overlay .close {
   display: none;
+  cursor: pointer;
   position: fixed;
   top: 10px;
   right: 10px;
 }
+/* A mixin that declares the base style of all overlay objects */
 #overlay-login {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -724,20 +790,50 @@ a {
   overflow-y: scroll;
   overflow-x: hidden;
 }
+#overlay-login h3,
+#overlay-login .notices,
+#overlay-login .options {
+  padding-left: 18px;
+  padding-right: 18px;
+}
 #overlay-login h3 {
   padding-top: 1em;
 }
-#overlay-login input,
-#overlay-login .notices,
-#overlay-login .possibilities,
-#overlay-login h3 {
-  padding-left: 18px;
-  padding-right: 18px;
-  border: none;
+#overlay-login a {
+  text-decoration: none;
+  font-weight: bold;
 }
-#overlay-login input {
+#overlay-login a.weak {
+  color: #a4a4bc;
+  font-size: 0.875em;
+}
+#overlay-login a.strong {
+  color: #070746;
+  font-size: 0.875em;
+}
+#overlay-login .notices {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: right;
+  width: 70%;
+  color: #ff0059;
   height: 2em;
-  border-bottom: 1px solid #d0d0dc;
+  line-height: 2em;
+}
+#overlay-login .action {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: right;
+  width: 30%;
+}
+#overlay-login .options {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: right;
+  width: 50%;
 }
 #overlay-register {
   -webkit-box-sizing: border-box;
@@ -750,25 +846,55 @@ a {
   cursor: pointer;
   height: auto;
   position: fixed;
-  top: 50%;
-  left: 50%;
+  top: 40%;
+  left: 35%;
   overflow-y: scroll;
   overflow-x: hidden;
+}
+#overlay-register h3,
+#overlay-register .notices,
+#overlay-register .options {
+  padding-left: 18px;
+  padding-right: 18px;
 }
 #overlay-register h3 {
   padding-top: 1em;
 }
-#overlay-register input,
-#overlay-register .notices,
-#overlay-register .possibilities,
-#overlay-register h3 {
-  padding-left: 18px;
-  padding-right: 18px;
-  border: none;
+#overlay-register a {
+  text-decoration: none;
+  font-weight: bold;
 }
-#overlay-register input {
+#overlay-register a.weak {
+  color: #a4a4bc;
+  font-size: 0.875em;
+}
+#overlay-register a.strong {
+  color: #070746;
+  font-size: 0.875em;
+}
+#overlay-register .notices {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: right;
+  width: 70%;
+  color: #ff0059;
   height: 2em;
-  border-bottom: 1px solid #d0d0dc;
+  line-height: 2em;
+}
+#overlay-register .action {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: right;
+  width: 30%;
+}
+#overlay-register .options {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: right;
+  width: 50%;
 }
 #overlay-password-reset {
   -webkit-box-sizing: border-box;
@@ -781,102 +907,33 @@ a {
   cursor: pointer;
   height: auto;
   position: fixed;
-  top: 50%;
-  left: 50%;
+  top: 40%;
+  left: 35%;
   overflow-y: scroll;
   overflow-x: hidden;
+}
+#overlay-password-reset h3,
+#overlay-password-reset .notices,
+#overlay-password-reset .options {
+  padding-left: 18px;
+  padding-right: 18px;
 }
 #overlay-password-reset h3 {
   padding-top: 1em;
 }
-#overlay-password-reset input,
-#overlay-password-reset .notices,
-#overlay-password-reset .possibilities,
-#overlay-password-reset h3 {
-  padding-left: 18px;
-  padding-right: 18px;
-  border: none;
-}
-#overlay-password-reset input {
-  height: 2em;
-  border-bottom: 1px solid #d0d0dc;
-}
-input {
-  border-radius: 0;
-  border: none;
-}
-.field {
-  position: relative;
-}
-.field .help {
-  position: absolute;
-  top: 4px;
-  left: 18px;
-  font-size: 0.75em;
-  color: #a4a4bc;
-}
-.button {
-  border-radius: 0;
-  border: none;
-  -webkit-border-radius: 0 !important;
-  background-color: #b1b1c3;
-  color: #070746;
-}
-.possibilities {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  float: right;
-  width: 100%;
-  clear: both;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  float: right;
-  width: 100%;
-  clear: both;
-}
-.possibilities a {
+#overlay-password-reset a {
   text-decoration: none;
   font-weight: bold;
 }
-.possibilities .forgot {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  float: right;
-  width: 50%;
-}
-.possibilities .forgot a {
+#overlay-password-reset a.weak {
   color: #a4a4bc;
   font-size: 0.875em;
 }
-.possibilities .new {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  float: right;
-  width: 50%;
-}
-.possibilities .new a {
+#overlay-password-reset a.strong {
   color: #070746;
   font-size: 0.875em;
 }
-.awareness {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  float: right;
-  width: 100%;
-  clear: both;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  float: right;
-  width: 100%;
-  clear: both;
-}
-.awareness .notices {
+#overlay-password-reset .notices {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -886,39 +943,23 @@ input {
   height: 2em;
   line-height: 2em;
 }
-.awareness .action {
+#overlay-password-reset .action {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: right;
   width: 30%;
 }
-input {
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 0;
-  margin-bottom: 0;
-  padding-left: 0;
-  padding-right: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-  background-color: #f3f3f6;
+#overlay-password-reset .options {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: right;
+  width: 50%;
 }
-input:focus {
-  background-color: #ffffff;
-}
-/*
-:invalid {
-    background: #ffdddd;
-         }
-:valid{
-      background:#ddffdd;
-      }
-::-webkit-validation-bubble{display:none;}
-::-webkit-validation-bubble-top-outer-arrow{display:none;}
-::-webkit-validation-bubble-top-inner-arrow{display:none;}
-::-webkit-validation-bubble-message{display:none;}
-*/
+/******************/
+/****  PANELS  ****/
+/******************/
 #nav-panel {
   display: none;
   position: fixed;
@@ -960,6 +1001,7 @@ input:focus {
   left: 40;
   bottom: 0;
   height: 94px;
+  font-size: 0.75em;
 }
 #nav-panel footer nav a {
   font-weight: bold;
@@ -1028,287 +1070,6 @@ input:focus {
 }
 .account .actions a {
   display: block;
-}
-textarea {
-  height: 5em;
-  min-height: 5em;
-}
-nav a {
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-}
-#home .demo {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  margin: 0 auto;
-  width: 50%;
-  float: right;
-}
-.user-widget {
-  float: left;
-  text-align: left;
-}
-footer nav {
-  font-size: 0.875em;
-}
-.langs {
-  margin-right: 2em;
-  font-size: 0.75em;
-}
-.searchbox-container {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  margin: 0 auto;
-  width: 50%;
-  float: right;
-}
-.searchbox {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  float: right;
-  width: 450px;
-  display: inline-block;
-  padding-top: 1em;
-}
-.footer-links {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  margin: 0 auto;
-  width: 50%;
-  float: right;
-  text-align: left;
-}
-.searchbox input[type="text"] {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  float: right;
-  width: 65%;
-  display: inline-block;
-  height: 2.875em;
-  line-height: 2.875em;
-  padding-left: 0.75em;
-}
-.searchbox input[type="submit"] {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  margin: 0 auto;
-  width: 30%;
-  float: left;
-  display: inline-block;
-}
-.search-result-object {
-  float: left;
-  width: 20%;
-  margin: 2.5%;
-}
-.search-result-object .label {
-  padding: 0.25em;
-  margin: 0.5em 0;
-}
-.interactions {
-  display: inline-block;
-  float: left;
-  text-align: left;
-  height: 2em;
-}
-.interaction {
-  display: inline-block;
-  width: 90px;
-  font-size: 0.5em;
-  line-height: 1em;
-  height: 1em;
-  margin-left: 0.25em;
-  margin-right: 0.25em;
-}
-.box-2 {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  float: right;
-  width: 50%;
-}
-.box-3 {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  float: right;
-  width: 33%;
-}
-.context {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  float: right;
-  width: 33%;
-}
-.budget-actions,
-.actual-actions {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  float: right;
-  width: 33%;
-}
-.budget-info,
-.actual-info {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  margin: 0 auto;
-  width: 67%;
-  float: right;
-}
-.interaction input[type="submit"] {
-  /*background-color: @yellow;*/
-
-}
-.interaction:hover input[type="submit"] {
-  /*background-color: darken(@yellow, 10%);*/
-
-}
-.discussion {
-  float: right;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  margin: 0 auto;
-  width: 50%;
-  background-color: #ffffff;
-  margin: 1em 0;
-  padding: 0.5em;
-}
-.discussion label {
-  background-color: #ffffff;
-}
-.account .star,
-.account .follow,
-.account .comment,
-.account .taxonomy,
-.account .file {
-  background-color: #ffffff;
-  margin-right: 1.5em;
-  margin-bottom: 0.5em;
-  padding: 0.5em;
-  font-size: 0.875em;
-}
-.account .star:before {
-  content: "\2605";
-}
-.account .follow:before {
-  content: "\274A";
-}
-.account .comment:before {
-  content: "\27A6";
-}
-.account .taxonomy:before {
-  content: "\2744";
-}
-.account .comment-quote {
-  font-size: 0.875em;
-}
-.entity-preview {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  float: right;
-  width: 23%;
-  background-color: #ffffff;
-  margin-left: 1%;
-  margin-right: 1%;
-  margin-bottom: 0.5em;
-  padding: 0.25em 0.25em 0 0.25em;
-}
-.entity-preview .more {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  margin: 0 auto;
-  width: 25%;
-  float: left;
-  text-align: left;
-}
-.entity-preview h3 {
-  font-size: 0.875em;
-}
-.entity-preview .context {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  float: right;
-  width: 100%;
-  float: left;
-  text-align: left;
-  font-size: 0.825em;
-  padding: 0.125em 0.5em 0.125em 0.125em;
-  margin-top: 0.25em;
-  margin-left: -1%;
-}
-.entity-preview .data-status {
-  font-size: 0.825em;
-}
-.taxonomy-status {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  margin: 0 auto;
-  width: 25%;
-  display: inline-block;
-  text-align: center;
-  float: left;
-  color: white;
-}
-.taxonomy-status.published {
-  background-color: #61c1cc;
-}
-.taxonomy-status.draft {
-  background-color: #ee902b;
-}
-.tagged-sheet {
-  text-decoration: none;
-  padding: 0.25em;
-  background-color: #5abff2;
-  color: #ffffff;
-  font-size: 0.875em;
-}
-.tagged-sheet:hover {
-  color: #f5f5f5;
-}
-.budget-item {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  float: right;
-  width: 100%;
-  float: right;
-  width: 24%;
-  background-color: #ffffff;
-  margin: 0.5%;
-  padding: 0.5%;
-  font-size: 0.75em;
-}
-.project {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  float: right;
-  width: 29%;
-  text-align: center;
-  font-size: 0.875em;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  margin-left: 1em;
-  margin-right: 1em;
-  margin-top: 1em;
-  margin-bottom: 1em;
-  background-color: #a6a6a6;
 }
 /*...BOOM...*/
 #overlay-close {

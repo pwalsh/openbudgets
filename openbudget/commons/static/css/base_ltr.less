@@ -5,7 +5,13 @@
     .clear;
 }
 
+.box-2 {
+    .layout-object(50%);
+}
 
+.box-3 {
+    .layout-object(33%);
+}
 
 /* PALETTE */
 @bluegrey: hsl(240, 15%, 84%);
@@ -31,6 +37,55 @@ a {
     color: @strongblue;
 }
 
+/******************/
+/****  FORMS   ****/
+/******************/
+
+.field {
+    position: relative;
+
+    .help {
+        position: absolute;
+        top: 4px;
+        left: 18px;
+        font-size: @em-unit * 0.75;
+        color: darken(@bluegrey, 15%);
+    }
+
+    input {
+        .margin-reset();
+        .padding-reset();
+        .padding-horizontal(18px);
+        height: 2em;
+        border: none;
+        border-radius: 0;
+        -webkit-border-radius: 0 !important;
+        border-bottom: 1px solid @bluegrey;
+        background-color: @lightgrey;
+
+        &:focus {
+            background-color: @white;
+        }
+    }
+
+    .button {
+        .margin-reset();
+        border-radius: 0;
+        border: none;
+        border-bottom: none;
+        border-radius: 0;
+        -webkit-border-radius: 0 !important;
+        background-color: hsl(240, 13%, 73%);
+        color: @strongblue;
+    }
+}
+
+
+/******************/
+/**** OVERLAYS ****/
+/******************/
+
+/* The background for all overlay objects */
 #overlay {
     display: none;
     position: fixed;
@@ -39,16 +94,17 @@ a {
     height: 100%;
     background-color: black;
     opacity: 0.5;
+
+    .close {
+        display: none;
+        cursor: pointer;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+    }
 }
 
-#overlay-close {
-    cursor: pointer;
-    display: none;
-    position: fixed;
-    top: 10px;
-    right: 10px;
-}
-
+/* A mixin that declares the base style of all overlay objects */
 .overlay-object(@top: 50%, @left: 50%) {
     .layout-object(290px);
     .background-color(@bluegrey);
@@ -61,89 +117,28 @@ a {
     overflow-y: scroll;
     overflow-x: hidden;
 
+    h3, .notices, .options {
+        .padding-horizontal(18px);
+    }
+
     h3 {
         .padding-top(@em-unit);
     }
 
-    input, .notices, .possibilities, h3 {
-        .padding-horizontal(18px);
-        border: none;
-
-
-    }
-
-    input {
-                height: 2em;
-        border-bottom: 1px solid @bluegrey;
-    }
-}
-
-#overlay-login {
-    .overlay-object(40%, 35%);
-}
-
-#overlay-register {
-    .overlay-object;
-}
-
-#overlay-password-reset {
-    .overlay-object;
-}
-
-input {
-        border-radius: 0;
-    border: none;
-
-}
-
-.field {
-    position: relative;
-
-    .help {
-        position: absolute;
-        top: 4px;
-        left: 18px;
-        font-size: @em-unit * 0.75;
-        color: darken(@bluegrey, 15%);
-    }
-}
-
-.button {
-    border-radius: 0;
-    border: none;
-    -webkit-border-radius: 0 !important;
-    background-color: hsl(240, 13%, 73%);
-    color: @strongblue;
-}
-
-.possibilities {
-    .row;
-
     a {
         text-decoration: none;
         font-weight: bold;
-    }
-    .forgot {
-        .layout-object(50%);
-        a {
+
+        &.weak {
             color: darken(@bluegrey, 15%);
             font-size: 0.875em;
         }
 
-    }
-
-    .new {
-        .layout-object(50%);
-        a {
+        &.strong {
             color: @strongblue;
             font-size: 0.875em;
         }
-
     }
-}
-
-.awareness {
-    .row;
 
     .notices {
         .layout-object(70%);
@@ -155,30 +150,28 @@ input {
     .action {
         .layout-object(30%);
     }
-}
 
-input {
-    .margin-reset();
-    .padding-reset();
-    background-color: @lightgrey;
-
-    &:focus {
-        background-color: @white;
+    .options {
+        .layout-object(50%);
     }
 }
 
-/*
-:invalid {
-    background: #ffdddd;
-         }
-:valid{
-      background:#ddffdd;
-      }
-::-webkit-validation-bubble{display:none;}
-::-webkit-validation-bubble-top-outer-arrow{display:none;}
-::-webkit-validation-bubble-top-inner-arrow{display:none;}
-::-webkit-validation-bubble-message{display:none;}
-*/
+#overlay-login {
+    .overlay-object(40%, 35%);
+}
+
+#overlay-register {
+    .overlay-object(40%, 35%);
+}
+
+#overlay-password-reset {
+    .overlay-object(40%, 35%);
+}
+
+
+/******************/
+/****  PANELS  ****/
+/******************/
 
 #nav-panel {
     display: none;
@@ -218,6 +211,7 @@ input {
         left: 40;
         bottom: 0;
         height: 94px;
+        .font-size(0.75em);
 
         nav a {
             font-weight: bold;
@@ -282,246 +276,4 @@ input {
         a {.display-block;}
     }
 
-}
-
-textarea {
-    height: 5em;
-    min-height: 5em;
-}
-
-nav a {
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-}
-
-#home {
-
-    .demo {
-        .box(50%);
-        .float;
-    }
-}
-
-.user-widget {
-    .-float;
-    .-alignment;
-}
-
-footer nav {
-    font-size: 0.875em;
-}
-
-.langs {
-    margin-right: 2em;
-    font-size: 0.75em;
-}
-
-.searchbox-container {
-    .box(50%);
-    .float;
-}
-
-.searchbox {
-    .layout-object(450px);
-    display: inline-block;
-    padding-top: 1em;
-}
-
-.footer-links {
-    .box(50%);
-    .float;
-    .-alignment;
-}
-
-.searchbox input[type="text"] {
-    .layout-object(65%);
-    display: inline-block;
-    height: 2.875em;
-    line-height: 2.875em;
-    padding-left: 0.75em;
-}
-
-.searchbox input[type="submit"] {
-    .box(30%);
-    .-float;
-    display: inline-block;
-}
-
-.search-result-object {
-    float: left;
-    width: 20%;
-    margin: 2.5%;
-}
-
-.search-result-object .label {
-    padding: 0.25em;
-    margin: 0.5em 0;
-}
-
-.interactions {
-    display: inline-block;
-    .-float;
-    .-alignment;
-    .height(2em);
-}
-
-.interaction {
-    display: inline-block;
-    width: 90px;
-    font-size: 0.5em;
-    line-height: 1em;
-    height: 1em;
-    margin-left: 0.25em;
-    margin-right: 0.25em;
-}
-
-.box-2 {
-    .layout-object(50%);
-}
-
-.box-3 {
-    .layout-object(33%);
-}
-
-.context {
-    .layout-object(33%);
-}
-
-.budget-actions, .actual-actions {
-    .layout-object(33%);
-}
-
-.budget-info, .actual-info {
-    .box(67%);
-    .float;
-}
-
-.interaction input[type="submit"] {
-    /*background-color: @yellow;*/
-}
-
-.interaction:hover input[type="submit"] {
-    /*background-color: darken(@yellow, 10%);*/
-}
-
-.discussion {
-    .float;
-    .box(50%);
-    background-color: lighten(@grey, 45%);
-    margin: 1em 0;
-    padding: 0.5em;
-
-    label {
-        background-color: lighten(@grey, 45%);
-    }
-}
-
-.account {
-
-    .star, .follow, .comment, .taxonomy, .file {
-        background-color: lighten(@grey, 40%);
-        margin-right: 1.5em;
-        margin-bottom: 0.5em;
-        padding: 0.5em;
-        font-size: 0.875em;
-    }
-
-    .star:before {
-        content: "\2605";
-    }
-
-    .follow:before {
-        content: "\274A";
-    }
-
-    .comment:before {
-        content: "\27A6";
-    }
-
-    .taxonomy:before {
-        content: "\2744";
-    }
-
-    .comment-quote {
-        font-size: 0.875em;
-    }
-}
-
-.entity-preview {
-    .layout-object(23%);
-    .background-color(lighten(@grey, 40%));
-    .margin-horizontal(1%);
-    margin-bottom: 0.5em;
-    padding: 0.25em 0.25em 0 0.25em;
-
-    .more {
-        .box(25%);
-        .-float;
-        .-alignment;
-    }
-
-    h3 {
-        font-size: 0.875em;
-    }
-
-    .context {
-        .layout-object;
-        .-float;
-        .-alignment;
-        font-size: 0.825em;
-        padding: 0.125em 0.5em 0.125em 0.125em;
-        margin-top: 0.25em;
-        margin-left: -1%;
-    }
-
-    .data-status {
-        font-size: 0.825em;
-    }
-}
-
-.taxonomy-status {
-    .box(25%);
-    .display-inline-block;
-    .align-center;
-    .-float;
-    color: white;
-
-    &.published {
-        .green-bg;
-    }
-
-    &.draft {
-        .orange-bg;
-    }
-}
-
-.tagged-sheet {
-    text-decoration: none;
-    padding: 0.25em;
-    background-color: lighten(@blue, 10%);
-    color: @white;
-    font-size: 0.875em;
-
-    &:hover {
-        color: darken(@white, 4%);
-    }
-}
-
-.budget-item {
-    .layout-object;
-    .float;
-    width: 24%;
-    background-color: lighten(@grey, 45%);
-    margin: 0.5%;
-    padding: 0.5%;
-    font-size: 0.75em;
-}
-
-.project {
-    .layout-object(29%);
-    .align-center;
-    .font-size(0.875em);
-    .padding-all(0.5em);
-    .margin-all;
-    background-color: lighten(grey, 15%);
 }

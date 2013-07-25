@@ -17,7 +17,7 @@ class AccountAdmin(UserAdmin):
     form = AccountChangeForm
     add_form = AccountCreationForm
     fieldsets = (
-        (_('Account credentials'), {'fields': ('username', 'password', 'email', 'first_name', 'last_name', 'is_active')}),
+        (_('Account credentials'), {'fields': ('password', 'email', 'first_name', 'last_name', 'is_active')}),
     )
 
 
@@ -61,6 +61,6 @@ admin.site.unregister(Site)
 admin.site.unregister(RegistrationProfile)
 
 # Open Budget Accounts admin config
-admin.site.register(CoreTeamAccount, CoreTeamAccountAdmin)
-admin.site.register(ContentTeamAccount, ContentTeamAccountAdmin)
-admin.site.register(PublicAccount, PublicAccountAdmin)
+#admin.site.register(CoreTeamAccount, CoreTeamAccountAdmin)
+#admin.site.register(ContentTeamAccount, ContentTeamAccountAdmin)
+#admin.site.register(PublicAccount, PublicAccountAdmin)

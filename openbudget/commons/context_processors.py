@@ -1,9 +1,7 @@
 """Custom context processors for Omuni"""
-from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, \
-    PasswordChangeForm
 from django.contrib.sites.models import Site
-from registration.forms import RegistrationFormUniqueEmail
-from openbudget.apps.accounts.forms import CustomAuthenticationForm
+from openbudget.apps.accounts.forms import CustomAuthenticationForm, \
+    CustomRegistrationForm, CustomPasswordResetForm, CustomPasswordChangeForm
 
 
 def get_site(request):
@@ -23,9 +21,9 @@ def auth_forms(request):
     auth_forms = {}
 
     login_form = CustomAuthenticationForm
-    registration_form = RegistrationFormUniqueEmail
-    password_reset_form = PasswordResetForm
-    password_change_form = PasswordChangeForm
+    registration_form = CustomRegistrationForm
+    password_reset_form = CustomPasswordResetForm
+    password_change_form = CustomPasswordChangeForm
 
     auth_forms['login_form'] = login_form
     auth_forms['registration_form'] = registration_form
