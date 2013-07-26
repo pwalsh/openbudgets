@@ -1,10 +1,26 @@
 
 //******************/
+//****  FORMS   ****/
+//******************/
+(function () {
+
+    $('input').focus(function (event) {
+        $(this).siblings('.help').show();
+    });
+
+    $('input').blur(function (event) {
+        $(this).siblings('.help').hide();
+    });
+
+}());
+
+
+//******************/
 //**** OVERLAYS ****/
 //******************/
 (function () {
 
-    $('#overlay .close').click(function (event) {
+    $('#overlay .close, .disabled-event-catcher').click(function (event) {
         $('[id^="overlay"]').hide();
     });
 

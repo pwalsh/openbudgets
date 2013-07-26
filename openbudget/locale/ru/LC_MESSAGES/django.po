@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-17 23:42+0300\n"
+"POT-Creation-Date: 2013-07-26 12:28+0300\n"
 "PO-Revision-Date: 2013-05-29 18:10+0000\n"
 "Last-Translator: Amir Aharoni <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -107,39 +107,122 @@ msgstr "Последние действия"
 msgid "Account credentials"
 msgstr "Мандат счёта"
 
-#: apps/accounts/models.py:17
+#: apps/accounts/forms.py:12
+msgid "Enter to finish"
+msgstr ""
+
+#: apps/accounts/forms.py:16 apps/accounts/forms.py:35
+#: apps/accounts/forms.py:70
+#, fuzzy
+msgid "Enter Email"
+msgstr "Электронная почта"
+
+#: apps/accounts/forms.py:19 apps/accounts/forms.py:41
+#, fuzzy
+msgid "Enter Password"
+msgstr "Поменять ваш пароль"
+
+#: apps/accounts/forms.py:29 apps/accounts/models.py:48
+msgid "First Name"
+msgstr ""
+
+#: apps/accounts/forms.py:32 apps/accounts/models.py:52
+#, fuzzy
+msgid "Last Name"
+msgstr "Название"
+
+#: apps/accounts/forms.py:38
+msgid "Confirm Email"
+msgstr ""
+
+#: apps/accounts/forms.py:44
+#, fuzzy
+msgid "Confirm Password"
+msgstr "Поменять ваш пароль"
+
+#: apps/accounts/forms.py:51
+msgid "A user with that email already exists."
+msgstr ""
+
+#: apps/accounts/forms.py:59
+msgid "The two email fields didn't match."
+msgstr ""
+
+#: apps/accounts/forms.py:63
+msgid "The two password fields didn't match."
+msgstr ""
+
+#: apps/accounts/forms.py:76
+#, fuzzy
+msgid "Enter Current Password"
+msgstr "Поменять ваш пароль"
+
+#: apps/accounts/forms.py:79
+msgid "Enter New Password"
+msgstr ""
+
+#: apps/accounts/forms.py:82
+msgid "Confirm New Password"
+msgstr ""
+
+#: apps/accounts/models.py:56
+#, fuzzy
+msgid "Email Address"
+msgstr "Послать письмо оформителям"
+
+#: apps/accounts/models.py:60
+msgid "staff status"
+msgstr ""
+
+#: apps/accounts/models.py:62
+msgid "Designates whether the user can log into this admin site."
+msgstr ""
+
+#: apps/accounts/models.py:66
+msgid "active"
+msgstr ""
+
+#: apps/accounts/models.py:68
+msgid ""
+"Designates whether this user should be treated as active. Unselect this "
+"instead of deleting accounts."
+msgstr ""
+
+#: apps/accounts/models.py:75
 msgid "Set your preferred language for the app"
 msgstr "Установка предпочтительного языка для приложения"
 
-#: apps/accounts/models.py:42
-msgid "User profile"
-msgstr "Профиль пользователя"
+#: apps/accounts/models.py:128
+#, fuzzy
+msgid "User Account"
+msgstr "Счёт"
 
-#: apps/accounts/models.py:43
-msgid "User profiles"
-msgstr "Профили пользователей"
+#: apps/accounts/models.py:129
+#, fuzzy
+msgid "User Accounts"
+msgstr "Счёт"
 
-#: apps/accounts/models.py:82
+#: apps/accounts/models.py:168
 msgid "Core team user"
 msgstr "Пользователь из основной группы"
 
-#: apps/accounts/models.py:83
+#: apps/accounts/models.py:169
 msgid "Core team users"
 msgstr "Пользователи из основной группы"
 
-#: apps/accounts/models.py:105
+#: apps/accounts/models.py:191
 msgid "Content team user"
 msgstr "Пользователь из группы содержания"
 
-#: apps/accounts/models.py:106
+#: apps/accounts/models.py:192
 msgid "Content team users"
 msgstr "Пользователи из группы содержания"
 
-#: apps/accounts/models.py:128
+#: apps/accounts/models.py:214
 msgid "Public user"
 msgstr "Общественный пользователь"
 
-#: apps/accounts/models.py:129
+#: apps/accounts/models.py:215
 msgid "Public users"
 msgstr "Общественные пользователи"
 
@@ -148,7 +231,6 @@ msgid "Your account"
 msgstr "Ваш счёт"
 
 #: apps/accounts/templates/accounts/account_detail.html:18
-#: apps/pages/templates/pages/home.html:21
 msgid "Username"
 msgstr "Имя пользователя"
 
@@ -223,15 +305,47 @@ msgstr ""
 msgid "You do not have any API projects."
 msgstr "Вы не написали ни одного примечания."
 
-#: apps/accounts/templates/accounts/partials/_account_tools.html:6
+#: apps/accounts/templates/accounts/partials/account_login.html:6
+msgid "Login for registered users"
+msgstr ""
+
+#: apps/accounts/templates/accounts/partials/account_login.html:9
+#: apps/accounts/templates/accounts/partials/account_password_reset.html:9
+msgid "New user"
+msgstr ""
+
+#: apps/accounts/templates/accounts/partials/account_login.html:12
+#: commons/templates/registration/login.html:25
+msgid "Forgot password"
+msgstr ""
+
+#: apps/accounts/templates/accounts/partials/account_password_change.html:6
+msgid "Password Change"
+msgstr ""
+
+#: apps/accounts/templates/accounts/partials/account_password_reset.html:6
+msgid "Password Reset"
+msgstr ""
+
+#: apps/accounts/templates/accounts/partials/account_password_reset.html:12
+#: apps/accounts/templates/accounts/partials/account_register.html:9
+msgid "Registered user"
+msgstr ""
+
+#: apps/accounts/templates/accounts/partials/account_register.html:6
+#, fuzzy
+msgid "Registration"
+msgstr "Описание предмета"
+
+#: apps/accounts/templates/accounts/partials/account_tools.html:8
 msgid "Account"
 msgstr "Счёт"
 
-#: apps/accounts/templates/accounts/partials/_account_tools.html:6
+#: apps/accounts/templates/accounts/partials/account_tools.html:9
 msgid "Logout"
 msgstr ""
 
-#: apps/accounts/templates/accounts/partials/_account_tools.html:10
+#: apps/accounts/templates/accounts/partials/account_tools.html:12
 #: apps/interactions/templates/interactions/partials/_comment_form.html:11
 #: commons/templates/partials/_form_action_login.html:2
 msgid "Login"
@@ -585,30 +699,6 @@ msgstr ""
 msgid "Welcome to Open Budget"
 msgstr ""
 
-#: apps/pages/templates/pages/home.html:12
-msgid ""
-"\n"
-"            This is the demo site. Please have a look around. There is some "
-"test data that should give a basic overview of the current feature set.\n"
-"            "
-msgstr ""
-
-#: apps/pages/templates/pages/home.html:17
-msgid ""
-"\n"
-"            Some features are only visible to logged in users. To login, use "
-"the following credentials:\n"
-"            "
-msgstr ""
-
-#: apps/pages/templates/pages/home.html:23
-msgid "Password"
-msgstr ""
-
-#: apps/pages/templates/pages/home.html:32
-msgid "Now that you are logged in..."
-msgstr ""
-
 #: apps/projects/models.py:36
 #, fuzzy
 msgid "The name of this project"
@@ -645,6 +735,7 @@ msgstr ""
 
 #: apps/projects/models.py:70
 #: apps/projects/templates/projects/project_list.html:6
+#: commons/templates/partials/nav-panel.html:14
 msgid "Projects"
 msgstr ""
 
@@ -1033,6 +1124,7 @@ msgstr ""
 
 #: apps/sources/templates/sources/auxsource_detail.html:22
 #: apps/sources/templates/sources/referencesource_detail.html:22
+#: commons/templates/partials/nav-panel.html:15
 msgid "About"
 msgstr "Об этом"
 
@@ -1347,7 +1439,11 @@ msgstr ""
 msgid "The end date for this %(class)s"
 msgstr ""
 
-#: commons/templates/base.html:36 settings/base.py:351
+#: commons/templates/base.html:41
+msgid "Back to the home page"
+msgstr ""
+
+#: commons/templates/base.html:41
 #, fuzzy
 msgid "Open Local Budgets"
 msgstr "Бюджеты"
@@ -1393,6 +1489,10 @@ msgstr ""
 msgid "What do you have to say"
 msgstr ""
 
+#: commons/templates/partials/_form_action_cancel.html:2
+msgid "Cancel"
+msgstr ""
+
 #: commons/templates/partials/_form_action_change.html:2
 msgid "Change"
 msgstr ""
@@ -1419,6 +1519,30 @@ msgstr ""
 
 #: commons/templates/partials/_pagination.html:14
 msgid "Next"
+msgstr ""
+
+#: commons/templates/partials/nav-panel.html:12
+msgid "Home"
+msgstr ""
+
+#: commons/templates/partials/nav-panel.html:13
+msgid "Entities"
+msgstr ""
+
+#: commons/templates/partials/nav-panel.html:30
+msgid "API"
+msgstr ""
+
+#: commons/templates/partials/nav-panel.html:31
+msgid "Privacy"
+msgstr ""
+
+#: commons/templates/partials/nav-panel.html:32
+msgid "Terms"
+msgstr ""
+
+#: commons/templates/partials/nav-panel.html:33
+msgid "Contact"
 msgstr ""
 
 #: commons/templates/registration/activate.html:6
@@ -1464,10 +1588,6 @@ msgstr ""
 
 #: commons/templates/registration/login.html:6
 msgid "Log in to your account"
-msgstr ""
-
-#: commons/templates/registration/login.html:25
-msgid "Forgot password"
 msgstr ""
 
 #: commons/templates/registration/login.html:27
@@ -1581,12 +1701,12 @@ msgstr ""
 msgid "Create an account today"
 msgstr ""
 
-#: commons/templates/rest_framework/api.html:6
-#: commons/templates/rest_framework/api.html:12
+#: commons/templates/rest_framework/api.html:11
+#: commons/templates/rest_framework/api.html:17
 msgid "Open Budget API"
 msgstr ""
 
-#: commons/templates/rest_framework/api.html:15
+#: commons/templates/rest_framework/api.html:20
 msgid "App Home"
 msgstr ""
 
@@ -1659,21 +1779,27 @@ msgid ""
 "            "
 msgstr ""
 
-#: settings/base.py:208
+#: settings/base.py:210
 msgid "Hebrew"
 msgstr ""
 
-#: settings/base.py:209
+#: settings/base.py:211
 msgid "English"
 msgstr ""
 
-#: settings/base.py:210
+#: settings/base.py:212
 msgid "Arabic"
 msgstr ""
 
-#: settings/base.py:211
+#: settings/base.py:213
 msgid "Russian"
 msgstr ""
+
+#~ msgid "User profile"
+#~ msgstr "Профиль пользователя"
+
+#~ msgid "User profiles"
+#~ msgstr "Профили пользователей"
 
 #~ msgid "According to the"
 #~ msgstr "В соответствии с"

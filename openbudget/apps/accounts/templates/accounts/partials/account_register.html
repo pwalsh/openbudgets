@@ -4,31 +4,31 @@
     <form action="{% url 'registration_register' %}" method="post" novalidate>
         {% csrf_token %}
         <h3>{% trans 'Registration' %}</h3>
-        <div class="possibilities">
-            <div class="new">
-                <a class="login-link" href="{% url 'auth_login' %}" title="Login">{% trans 'Registered user' %}?</a>
+        <div class="row">
+            <div class="options">
+                <a class="login-link strong" href="{% url 'auth_login' %}" title="Login">{% trans 'Registered user' %}?</a>
             </div>
-            <div class="forgot">
+            <div class="options">
                 &nbsp;
             </div>
         </div>
         <fieldset>
-                {% field_generator registration_form.first_name %}
-                {% field_generator registration_form.last_name %}
+                {% field_generator registration_form.first_name custom_class="half first" help=0 %}
+                {% field_generator registration_form.last_name custom_class="half" help=0 %}
                 {% field_generator registration_form.email %}
                 {% field_generator registration_form.email_confirm %}
                 {% field_generator registration_form.password1 %}
                 {% field_generator registration_form.password2 %}
                 <input type="hidden" name="next" value="{{ request.get_full_path }}" />
         </fieldset>
-        <div class="awareness">
+        <div class="row">
             <div class="notices">
                 notices
                 {{ registration_form.non_field_errors }}
                 {{ registration_form.errors }}
             </div>
             <div class="action">
-                {% include 'partials/_form_action_submit.html' %}
+                {% include 'partials/_form_action_cancel.html' %}
             </div>
         </div>
     </form>

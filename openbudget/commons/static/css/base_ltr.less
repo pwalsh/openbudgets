@@ -40,23 +40,42 @@ a {
 /******************/
 /****  FORMS   ****/
 /******************/
+:disabled, .disabled {
+    background-color: hsl(240, 13%, 73%);
+    color: @strongblue;
+        border: none;
+        border-radius: 0;
+        -webkit-border-radius: 0 !important;
+    margin-bottom: 0;
+            .margin-reset();
+        .padding-reset();
+font-weight: bold;
+
+    &:hover {
+        background-color: hsl(240, 13%, 73%);
+        color: @strongblue;
+    }
+}
 
 .field {
+    .layout-object;
     position: relative;
 
     .help {
+        display: none;
         position: absolute;
-        top: 4px;
+        top: 8px;
         left: 18px;
         font-size: @em-unit * 0.75;
         color: darken(@bluegrey, 15%);
     }
 
     input {
+        color: @strongblue;
         .margin-reset();
         .padding-reset();
         .padding-horizontal(18px);
-        height: 2em;
+        height: 2.5em;
         border: none;
         border-radius: 0;
         -webkit-border-radius: 0 !important;
@@ -66,10 +85,12 @@ a {
         &:focus {
             background-color: @white;
         }
+
     }
 
     .button {
         .margin-reset();
+        font-weight: bold;
         border-radius: 0;
         border: none;
         border-bottom: none;
@@ -77,6 +98,13 @@ a {
         -webkit-border-radius: 0 !important;
         background-color: hsl(240, 13%, 73%);
         color: @strongblue;
+    }
+
+    &.half {
+        .width(50%);
+    }
+    &.half.first input {
+        border-right: 1px solid @bluegrey;
     }
 }
 
@@ -105,7 +133,7 @@ a {
 }
 
 /* A mixin that declares the base style of all overlay objects */
-.overlay-object(@top: 50%, @left: 50%) {
+.overlay-object(@top: 25%, @left: 35%) {
     .layout-object(290px);
     .background-color(@bluegrey);
     display: none;
@@ -122,50 +150,73 @@ a {
     }
 
     h3 {
-        .padding-top(@em-unit);
+        .padding-top(@em-unit / 2);
+        .margin-bottom(0);
+        .font-size(@em-unit);
+        font-weight: bold;
     }
 
     a {
         text-decoration: none;
         font-weight: bold;
+        font-size: 0.875em;
 
         &.weak {
             color: darken(@bluegrey, 15%);
-            font-size: 0.875em;
         }
 
         &.strong {
             color: @strongblue;
-            font-size: 0.875em;
         }
     }
 
     .notices {
         .layout-object(70%);
         color: @pink;
-        height: 2em;
-        line-height: 2em;
+        font-size: 0.875em;
+        height: 2.5em;
+        line-height: 2.5em;
     }
 
     .action {
         .layout-object(30%);
+        position: relative;
+    }
+
+    /* Disabled inputs don't catch events.
+    We place this on top of the action,
+    as long as the submit is disabled
+    */
+    .disabled-event-catcher {
+        position: absolute;
+        height: 2em;
+        top: 0;
+        left: 0;
+        left: 0;
+        width: 100%;
     }
 
     .options {
         .layout-object(50%);
+        .font-size(0.875em);
+        .height(2em);
+
+        &:last-of-type {
+            text-align: right;
+        }
     }
 }
 
 #overlay-login {
-    .overlay-object(40%, 35%);
+    .overlay-object();
 }
 
 #overlay-register {
-    .overlay-object(40%, 35%);
+    .overlay-object();
 }
 
 #overlay-password-reset {
-    .overlay-object(40%, 35%);
+    .overlay-object();
 }
 
 

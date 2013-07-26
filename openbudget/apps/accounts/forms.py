@@ -9,13 +9,15 @@ from registration.forms import RegistrationFormUniqueEmail
 from openbudget.apps.accounts.models import Account
 
 
+ENTER_FORM_HELP = _('Enter to finish')
+
 class CustomAuthenticationForm(AuthenticationForm):
     email = forms.EmailField(widget=forms.TextInput(
         attrs={'placeholder': _('Enter Email'), 'type': 'email'}),
-        help_text=_('Press enter to finish'))
+        help_text=ENTER_FORM_HELP)
     password = forms.CharField(widget=forms.PasswordInput(
         attrs={'placeholder': _('Enter Password'), 'type': 'password'}),
-        help_text=_('Press enter to finish'))
+        help_text=ENTER_FORM_HELP)
 
 
 class CustomRegistrationForm(forms.Form):
@@ -25,22 +27,22 @@ class CustomRegistrationForm(forms.Form):
 
     first_name = forms.CharField(widget=forms.TextInput(
         attrs={'placeholder': _('First Name'), 'type': 'text'}),
-        help_text=_('Press enter to finish'))
+        help_text=ENTER_FORM_HELP)
     last_name = forms.CharField(widget=forms.TextInput(
         attrs={'placeholder': _('Last Name'), 'type': 'text'}),
-        help_text=_('Press enter to finish'))
+        help_text=ENTER_FORM_HELP)
     email = forms.EmailField(widget=forms.TextInput(
         attrs={'placeholder': _('Enter Email'), 'type': 'email'}),
-        help_text=_('Press enter to finish'))
+        help_text=ENTER_FORM_HELP)
     email_confirm = forms.EmailField(widget=forms.TextInput(
         attrs={'placeholder': _('Confirm Email'), 'type': 'email'}),
-        help_text=_('Press enter to finish'))
+        help_text=ENTER_FORM_HELP)
     password1 = forms.CharField(widget=forms.PasswordInput(
         attrs={'placeholder': _('Enter Password'), 'type': 'password'}),
-        help_text=_('Press enter to finish'))
+        help_text=ENTER_FORM_HELP)
     password2 = forms.CharField(widget=forms.PasswordInput(
         attrs={'placeholder': _('Confirm Password'), 'type': 'password'}),
-        help_text=_('Press enter to finish'))
+        help_text=ENTER_FORM_HELP)
 
     def clean_email(self):
 
@@ -66,19 +68,19 @@ class CustomRegistrationForm(forms.Form):
 class CustomPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(widget=forms.TextInput(
         attrs={'placeholder': _('Enter Email'), 'type': 'email'}),
-        help_text=_('Press enter to finish'))
+        help_text=ENTER_FORM_HELP)
 
 
 class CustomPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(widget=forms.PasswordInput(
         attrs={'placeholder': _('Enter Current Password'), 'type': 'password'}),
-        help_text=_('Press enter to finish'))
+        help_text=ENTER_FORM_HELP)
     new_password1 = forms.CharField(widget=forms.PasswordInput(
         attrs={'placeholder': _('Enter New Password'), 'type': 'password'}),
-        help_text=_('Press enter to finish'))
+        help_text=ENTER_FORM_HELP)
     new_password2 = forms.CharField(widget=forms.PasswordInput(
         attrs={'placeholder': _('Confirm New Password'), 'type': 'password'}),
-        help_text=_('Press enter to finish'))
+        help_text=ENTER_FORM_HELP)
 
 
 class AccountForm(forms.ModelForm):

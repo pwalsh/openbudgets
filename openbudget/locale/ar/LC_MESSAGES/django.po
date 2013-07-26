@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-17 23:42+0300\n"
+"POT-Creation-Date: 2013-07-26 12:28+0300\n"
 "PO-Revision-Date: 2013-07-04 14:04+0000\n"
 "Last-Translator: Paul Walsh <paulywalsh@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -107,39 +107,124 @@ msgstr "الإجراءات الأخيرة"
 msgid "Account credentials"
 msgstr "اعتماد الحساب"
 
-#: apps/accounts/models.py:17
+#: apps/accounts/forms.py:12
+msgid "Enter to finish"
+msgstr ""
+
+#: apps/accounts/forms.py:16 apps/accounts/forms.py:35
+#: apps/accounts/forms.py:70
+#, fuzzy
+msgid "Enter Email"
+msgstr "البريد الإلكتروني"
+
+#: apps/accounts/forms.py:19 apps/accounts/forms.py:41
+#, fuzzy
+msgid "Enter Password"
+msgstr "كلمة السر"
+
+#: apps/accounts/forms.py:29 apps/accounts/models.py:48
+msgid "First Name"
+msgstr ""
+
+#: apps/accounts/forms.py:32 apps/accounts/models.py:52
+#, fuzzy
+msgid "Last Name"
+msgstr "آخر تعديل"
+
+#: apps/accounts/forms.py:38
+msgid "Confirm Email"
+msgstr ""
+
+#: apps/accounts/forms.py:44
+#, fuzzy
+msgid "Confirm Password"
+msgstr "كلمة السر"
+
+#: apps/accounts/forms.py:51
+msgid "A user with that email already exists."
+msgstr ""
+
+#: apps/accounts/forms.py:59
+msgid "The two email fields didn't match."
+msgstr ""
+
+#: apps/accounts/forms.py:63
+msgid "The two password fields didn't match."
+msgstr ""
+
+#: apps/accounts/forms.py:76
+#, fuzzy
+msgid "Enter Current Password"
+msgstr "أدخل كلمة المرور الجديدة"
+
+#: apps/accounts/forms.py:79
+#, fuzzy
+msgid "Enter New Password"
+msgstr "أدخل كلمة المرور الجديدة"
+
+#: apps/accounts/forms.py:82
+#, fuzzy
+msgid "Confirm New Password"
+msgstr "أدخل كلمة المرور الجديدة"
+
+#: apps/accounts/models.py:56
+#, fuzzy
+msgid "Email Address"
+msgstr "المصممين البريد الإلكتروني"
+
+#: apps/accounts/models.py:60
+msgid "staff status"
+msgstr ""
+
+#: apps/accounts/models.py:62
+msgid "Designates whether the user can log into this admin site."
+msgstr ""
+
+#: apps/accounts/models.py:66
+msgid "active"
+msgstr ""
+
+#: apps/accounts/models.py:68
+msgid ""
+"Designates whether this user should be treated as active. Unselect this "
+"instead of deleting accounts."
+msgstr ""
+
+#: apps/accounts/models.py:75
 msgid "Set your preferred language for the app"
 msgstr "تعيين لغتك المفضلة للتطبيق"
 
-#: apps/accounts/models.py:42
-msgid "User profile"
-msgstr "بروفيل المستخدم"
+#: apps/accounts/models.py:128
+#, fuzzy
+msgid "User Account"
+msgstr "حساب"
 
-#: apps/accounts/models.py:43
-msgid "User profiles"
-msgstr "بروفيل المستخدمين"
+#: apps/accounts/models.py:129
+#, fuzzy
+msgid "User Accounts"
+msgstr "حساب"
 
-#: apps/accounts/models.py:82
+#: apps/accounts/models.py:168
 msgid "Core team user"
 msgstr "مستخدم الفريق الأساسي"
 
-#: apps/accounts/models.py:83
+#: apps/accounts/models.py:169
 msgid "Core team users"
 msgstr "مستخدمين الفريق الأساسي"
 
-#: apps/accounts/models.py:105
+#: apps/accounts/models.py:191
 msgid "Content team user"
 msgstr "مستخدم فريق المحتوى"
 
-#: apps/accounts/models.py:106
+#: apps/accounts/models.py:192
 msgid "Content team users"
 msgstr "المستخدمين فريق المحتوى"
 
-#: apps/accounts/models.py:128
+#: apps/accounts/models.py:214
 msgid "Public user"
 msgstr "مستخدم عام"
 
-#: apps/accounts/models.py:129
+#: apps/accounts/models.py:215
 msgid "Public users"
 msgstr "مستخدمين عامين"
 
@@ -148,7 +233,6 @@ msgid "Your account"
 msgstr "ملفك الشخصي"
 
 #: apps/accounts/templates/accounts/account_detail.html:18
-#: apps/pages/templates/pages/home.html:21
 msgid "Username"
 msgstr "اسم المستخدم"
 
@@ -222,15 +306,50 @@ msgstr ""
 msgid "You do not have any API projects."
 msgstr ""
 
-#: apps/accounts/templates/accounts/partials/_account_tools.html:6
+#: apps/accounts/templates/accounts/partials/account_login.html:6
+msgid "Login for registered users"
+msgstr ""
+
+#: apps/accounts/templates/accounts/partials/account_login.html:9
+#: apps/accounts/templates/accounts/partials/account_password_reset.html:9
+msgid "New user"
+msgstr ""
+
+#: apps/accounts/templates/accounts/partials/account_login.html:12
+#: commons/templates/registration/login.html:25
+msgid "Forgot password"
+msgstr "نسيت كلمة المرور"
+
+#: apps/accounts/templates/accounts/partials/account_password_change.html:6
+#, fuzzy
+msgid "Password Change"
+msgstr "كلمة السر"
+
+#: apps/accounts/templates/accounts/partials/account_password_reset.html:6
+#, fuzzy
+msgid "Password Reset"
+msgstr "كلمة السر"
+
+#: apps/accounts/templates/accounts/partials/account_password_reset.html:12
+#: apps/accounts/templates/accounts/partials/account_register.html:9
+#, fuzzy
+msgid "Registered user"
+msgstr "تسجيل"
+
+#: apps/accounts/templates/accounts/partials/account_register.html:6
+#, fuzzy
+msgid "Registration"
+msgstr "تسجيل"
+
+#: apps/accounts/templates/accounts/partials/account_tools.html:8
 msgid "Account"
 msgstr "حساب"
 
-#: apps/accounts/templates/accounts/partials/_account_tools.html:6
+#: apps/accounts/templates/accounts/partials/account_tools.html:9
 msgid "Logout"
 msgstr "الخروج"
 
-#: apps/accounts/templates/accounts/partials/_account_tools.html:10
+#: apps/accounts/templates/accounts/partials/account_tools.html:12
 #: apps/interactions/templates/interactions/partials/_comment_form.html:11
 #: commons/templates/partials/_form_action_login.html:2
 msgid "Login"
@@ -596,37 +715,6 @@ msgstr "صفحات"
 msgid "Welcome to Open Budget"
 msgstr "مرحبا بكم في الميزانية المفتوحة"
 
-#: apps/pages/templates/pages/home.html:12
-#, fuzzy
-msgid ""
-"\n"
-"            This is the demo site. Please have a look around. There is some "
-"test data that should give a basic overview of the current feature set.\n"
-"            "
-msgstr ""
-"\n"
-"هذا هو الموقع التجريبي. يرجى إلقاء نظرة حولها. هناك بعض بيانات الاختبار التي "
-"ينبغي أن تعطي نظرة عامة أساسية من الملامح الحالية"
-
-#: apps/pages/templates/pages/home.html:17
-msgid ""
-"\n"
-"            Some features are only visible to logged in users. To login, use "
-"the following credentials:\n"
-"            "
-msgstr ""
-"\n"
-"بعض الملامح تظهر فقط للتسجيل في المستخدمين. للدخول، واستخدام أوراق الاعتماد "
-"التالية:"
-
-#: apps/pages/templates/pages/home.html:23
-msgid "Password"
-msgstr "كلمة السر"
-
-#: apps/pages/templates/pages/home.html:32
-msgid "Now that you are logged in..."
-msgstr "والآن بعد أن قمت بتسجيل الدخول ..."
-
 #: apps/projects/models.py:36
 msgid "The name of this project"
 msgstr "اسم هذا المشروع"
@@ -662,6 +750,7 @@ msgstr "مشروع"
 
 #: apps/projects/models.py:70
 #: apps/projects/templates/projects/project_list.html:6
+#: commons/templates/partials/nav-panel.html:14
 msgid "Projects"
 msgstr "مشاريع"
 
@@ -1051,6 +1140,7 @@ msgstr "تم التحميل بواسطة"
 
 #: apps/sources/templates/sources/auxsource_detail.html:22
 #: apps/sources/templates/sources/referencesource_detail.html:22
+#: commons/templates/partials/nav-panel.html:15
 msgid "About"
 msgstr "حول"
 
@@ -1386,7 +1476,12 @@ msgstr "نهاية الفترة"
 msgid "The end date for this %(class)s"
 msgstr ""
 
-#: commons/templates/base.html:36 settings/base.py:351
+#: commons/templates/base.html:41
+#, fuzzy
+msgid "Back to the home page"
+msgstr "عودة إلى الميزانية"
+
+#: commons/templates/base.html:41
 #, fuzzy
 msgid "Open Local Budgets"
 msgstr "فتح الميزانيات الإسرائيلي"
@@ -1435,6 +1530,10 @@ msgstr "تعليقات"
 msgid "What do you have to say"
 msgstr "ماذا لديك لتقوله"
 
+#: commons/templates/partials/_form_action_cancel.html:2
+msgid "Cancel"
+msgstr ""
+
 #: commons/templates/partials/_form_action_change.html:2
 msgid "Change"
 msgstr "تغيير"
@@ -1462,6 +1561,31 @@ msgstr "صفحة"
 #: commons/templates/partials/_pagination.html:14
 msgid "Next"
 msgstr "التالي"
+
+#: commons/templates/partials/nav-panel.html:12
+msgid "Home"
+msgstr "بيت"
+
+#: commons/templates/partials/nav-panel.html:13
+#, fuzzy
+msgid "Entities"
+msgstr "كيانات"
+
+#: commons/templates/partials/nav-panel.html:30
+msgid "API"
+msgstr ""
+
+#: commons/templates/partials/nav-panel.html:31
+msgid "Privacy"
+msgstr "خصوصية"
+
+#: commons/templates/partials/nav-panel.html:32
+msgid "Terms"
+msgstr "شروط"
+
+#: commons/templates/partials/nav-panel.html:33
+msgid "Contact"
+msgstr "اتصالاتصل"
 
 #: commons/templates/registration/activate.html:6
 #: commons/templates/registration/activation_complete.html:6
@@ -1507,10 +1631,6 @@ msgstr "يمكنك الان"
 #: commons/templates/registration/login.html:6
 msgid "Log in to your account"
 msgstr "الدخول إلى حسابك"
-
-#: commons/templates/registration/login.html:25
-msgid "Forgot password"
-msgstr "نسيت كلمة المرور"
 
 #: commons/templates/registration/login.html:27
 msgid "Register for free"
@@ -1631,12 +1751,12 @@ msgstr ""
 msgid "Create an account today"
 msgstr "إنشاء حساب اليوم"
 
-#: commons/templates/rest_framework/api.html:6
-#: commons/templates/rest_framework/api.html:12
+#: commons/templates/rest_framework/api.html:11
+#: commons/templates/rest_framework/api.html:17
 msgid "Open Budget API"
 msgstr ""
 
-#: commons/templates/rest_framework/api.html:15
+#: commons/templates/rest_framework/api.html:20
 msgid "App Home"
 msgstr "التطبيق الرئيسية"
 
@@ -1714,21 +1834,52 @@ msgstr ""
 "أدخل أية كلمات رئيسية ذات الصلة بالميزانية، وسنقوم بإستعادة سجلات مطابقة "
 "بالنسبة لك."
 
-#: settings/base.py:208
+#: settings/base.py:210
 msgid "Hebrew"
 msgstr "العبرية"
 
-#: settings/base.py:209
+#: settings/base.py:211
 msgid "English"
 msgstr "الإنجليزية"
 
-#: settings/base.py:210
+#: settings/base.py:212
 msgid "Arabic"
 msgstr "العربية"
 
-#: settings/base.py:211
+#: settings/base.py:213
 msgid "Russian"
 msgstr "الروسية"
+
+#~ msgid "User profile"
+#~ msgstr "بروفيل المستخدم"
+
+#~ msgid "User profiles"
+#~ msgstr "بروفيل المستخدمين"
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "            This is the demo site. Please have a look around. There is "
+#~ "some test data that should give a basic overview of the current feature "
+#~ "set.\n"
+#~ "            "
+#~ msgstr ""
+#~ "\n"
+#~ "هذا هو الموقع التجريبي. يرجى إلقاء نظرة حولها. هناك بعض بيانات الاختبار "
+#~ "التي ينبغي أن تعطي نظرة عامة أساسية من الملامح الحالية"
+
+#~ msgid ""
+#~ "\n"
+#~ "            Some features are only visible to logged in users. To login, "
+#~ "use the following credentials:\n"
+#~ "            "
+#~ msgstr ""
+#~ "\n"
+#~ "بعض الملامح تظهر فقط للتسجيل في المستخدمين. للدخول، واستخدام أوراق "
+#~ "الاعتماد التالية:"
+
+#~ msgid "Now that you are logged in..."
+#~ msgstr "والآن بعد أن قمت بتسجيل الدخول ..."
 
 #~ msgid "According to the"
 #~ msgstr "وفقا لل"
@@ -1751,20 +1902,8 @@ msgstr "الروسية"
 #~ msgid "There are no taxonomies currently available."
 #~ msgstr "لا يوجد تصنيفات متوفرة حاليا"
 
-#~ msgid "Home"
-#~ msgstr "بيت"
-
 #~ msgid "Municipalities"
 #~ msgstr "البلديات"
-
-#~ msgid "Privacy"
-#~ msgstr "خصوصية"
-
-#~ msgid "Terms"
-#~ msgstr "شروط"
-
-#~ msgid "Contact"
-#~ msgstr "اتصالاتصل"
 
 #~ msgid "Describe for this entry."
 #~ msgstr "وصف لهذا الدخول"

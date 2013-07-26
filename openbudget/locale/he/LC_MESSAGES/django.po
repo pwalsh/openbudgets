@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-17 23:42+0300\n"
+"POT-Creation-Date: 2013-07-26 12:28+0300\n"
 "PO-Revision-Date: 2013-05-23 17:58+0000\n"
 "Last-Translator: Ram Ezrach <ram.ezrach@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106,39 +106,116 @@ msgstr "פעולות אחרונות"
 msgid "Account credentials"
 msgstr "אישורי חשבון"
 
-#: apps/accounts/models.py:17
+#: apps/accounts/forms.py:12
+msgid "Enter to finish"
+msgstr "Enter לסיום"
+
+#: apps/accounts/forms.py:16 apps/accounts/forms.py:35
+#: apps/accounts/forms.py:70
+msgid "Enter Email"
+msgstr "הקלד כתובת מייל"
+
+#: apps/accounts/forms.py:19 apps/accounts/forms.py:41
+msgid "Enter Password"
+msgstr "הקלד סיסמה"
+
+#: apps/accounts/forms.py:29 apps/accounts/models.py:48
+msgid "First Name"
+msgstr "שם פרטי"
+
+#: apps/accounts/forms.py:32 apps/accounts/models.py:52
+msgid "Last Name"
+msgstr "שם משפחה"
+
+#: apps/accounts/forms.py:38
+msgid "Confirm Email"
+msgstr "הקלד כתובת מייל שנית"
+
+#: apps/accounts/forms.py:44
+msgid "Confirm Password"
+msgstr "הקלד סיסמה שנית"
+
+#: apps/accounts/forms.py:51
+msgid "A user with that email already exists."
+msgstr ""
+
+#: apps/accounts/forms.py:59
+msgid "The two email fields didn't match."
+msgstr ""
+
+#: apps/accounts/forms.py:63
+msgid "The two password fields didn't match."
+msgstr ""
+
+#: apps/accounts/forms.py:76
+msgid "Enter Current Password"
+msgstr "הזן את הסיסמא החדשה שלך"
+
+#: apps/accounts/forms.py:79
+msgid "Enter New Password"
+msgstr "הזן את הסיסמא החדשה שלך"
+
+#: apps/accounts/forms.py:82
+msgid "Confirm New Password"
+msgstr "הזן את הסיסמא החדשה שלך"
+
+#: apps/accounts/models.py:56
+msgid "Email Address"
+msgstr "מעצבי דוא\"ל"
+
+#: apps/accounts/models.py:60
+msgid "staff status"
+msgstr ""
+
+#: apps/accounts/models.py:62
+msgid "Designates whether the user can log into this admin site."
+msgstr ""
+
+#: apps/accounts/models.py:66
+msgid "active"
+msgstr ""
+
+#: apps/accounts/models.py:68
+msgid ""
+"Designates whether this user should be treated as active. Unselect this "
+"instead of deleting accounts."
+msgstr ""
+
+#: apps/accounts/models.py:75
 msgid "Set your preferred language for the app"
 msgstr "קבעו את השפה המעודפת עליכם באפליקציה"
 
-#: apps/accounts/models.py:42
-msgid "User profile"
-msgstr "פרופיל משתמש"
+#: apps/accounts/models.py:128
+#, fuzzy
+msgid "User Account"
+msgstr "חשבון"
 
-#: apps/accounts/models.py:43
-msgid "User profiles"
-msgstr "פרופילי משתמש"
+#: apps/accounts/models.py:129
+#, fuzzy
+msgid "User Accounts"
+msgstr "חשבון"
 
-#: apps/accounts/models.py:82
+#: apps/accounts/models.py:168
 msgid "Core team user"
 msgstr "משתמש קבוצת ליבה"
 
-#: apps/accounts/models.py:83
+#: apps/accounts/models.py:169
 msgid "Core team users"
 msgstr "משתמשי קבוצת ליבה"
 
-#: apps/accounts/models.py:105
+#: apps/accounts/models.py:191
 msgid "Content team user"
 msgstr "משתמש קבוצת תוכן"
 
-#: apps/accounts/models.py:106
+#: apps/accounts/models.py:192
 msgid "Content team users"
 msgstr "משתמשי קבוצת תוכן"
 
-#: apps/accounts/models.py:128
+#: apps/accounts/models.py:214
 msgid "Public user"
 msgstr "משתמש ציבורי"
 
-#: apps/accounts/models.py:129
+#: apps/accounts/models.py:215
 msgid "Public users"
 msgstr "משתמשים ציבוריים"
 
@@ -147,7 +224,6 @@ msgid "Your account"
 msgstr "החשבון שלך"
 
 #: apps/accounts/templates/accounts/account_detail.html:18
-#: apps/pages/templates/pages/home.html:21
 msgid "Username"
 msgstr "שם משתמש"
 
@@ -223,15 +299,47 @@ msgstr "פרויקטים"
 msgid "You do not have any API projects."
 msgstr "עדיין לא הגבת"
 
-#: apps/accounts/templates/accounts/partials/_account_tools.html:6
+#: apps/accounts/templates/accounts/partials/account_login.html:6
+msgid "Login for registered users"
+msgstr "כניסה למשתמש רשום"
+
+#: apps/accounts/templates/accounts/partials/account_login.html:9
+#: apps/accounts/templates/accounts/partials/account_password_reset.html:9
+msgid "New user"
+msgstr "משתמש חדש"
+
+#: apps/accounts/templates/accounts/partials/account_login.html:12
+#: commons/templates/registration/login.html:25
+msgid "Forgot password"
+msgstr "שכחת סיסמא"
+
+#: apps/accounts/templates/accounts/partials/account_password_change.html:6
+#, fuzzy
+msgid "Password Change"
+msgstr "שכחת סיסמא"
+
+#: apps/accounts/templates/accounts/partials/account_password_reset.html:6
+msgid "Password Reset"
+msgstr "שכחת סיסמא"
+
+#: apps/accounts/templates/accounts/partials/account_password_reset.html:12
+#: apps/accounts/templates/accounts/partials/account_register.html:9
+msgid "Registered user"
+msgstr "משתמש רשום"
+
+#: apps/accounts/templates/accounts/partials/account_register.html:6
+msgid "Registration"
+msgstr "הרשמה"
+
+#: apps/accounts/templates/accounts/partials/account_tools.html:8
 msgid "Account"
 msgstr "חשבון"
 
-#: apps/accounts/templates/accounts/partials/_account_tools.html:6
+#: apps/accounts/templates/accounts/partials/account_tools.html:9
 msgid "Logout"
 msgstr "צא"
 
-#: apps/accounts/templates/accounts/partials/_account_tools.html:10
+#: apps/accounts/templates/accounts/partials/account_tools.html:12
 #: apps/interactions/templates/interactions/partials/_comment_form.html:11
 #: commons/templates/partials/_form_action_login.html:2
 msgid "Login"
@@ -589,34 +697,6 @@ msgstr "עמודים"
 msgid "Welcome to Open Budget"
 msgstr "ברוכים הבאים לתקציב הפתוח"
 
-#: apps/pages/templates/pages/home.html:12
-msgid ""
-"\n"
-"            This is the demo site. Please have a look around. There is some "
-"test data that should give a basic overview of the current feature set.\n"
-"            "
-msgstr ""
-
-#: apps/pages/templates/pages/home.html:17
-#, fuzzy
-msgid ""
-"\n"
-"            Some features are only visible to logged in users. To login, use "
-"the following credentials:\n"
-"            "
-msgstr ""
-"\n"
-"חלק מהאפיונים גלויים רק למשתמשים מחוברים. כדי להתחבר, יש למלא את השדות הבאים:"
-
-#: apps/pages/templates/pages/home.html:23
-#, fuzzy
-msgid "Password"
-msgstr "שכחת סיסמא"
-
-#: apps/pages/templates/pages/home.html:32
-msgid "Now that you are logged in..."
-msgstr ""
-
 #: apps/projects/models.py:36
 #, fuzzy
 msgid "The name of this project"
@@ -654,6 +734,7 @@ msgstr "פרויקטים"
 
 #: apps/projects/models.py:70
 #: apps/projects/templates/projects/project_list.html:6
+#: commons/templates/partials/nav-panel.html:14
 msgid "Projects"
 msgstr "פרויקטים"
 
@@ -1038,6 +1119,7 @@ msgstr "הועלה על ידי"
 
 #: apps/sources/templates/sources/auxsource_detail.html:22
 #: apps/sources/templates/sources/referencesource_detail.html:22
+#: commons/templates/partials/nav-panel.html:15
 msgid "About"
 msgstr "אודות"
 
@@ -1352,7 +1434,12 @@ msgstr "תאריך סיום"
 msgid "The end date for this %(class)s"
 msgstr ""
 
-#: commons/templates/base.html:36 settings/base.py:351
+#: commons/templates/base.html:41
+#, fuzzy
+msgid "Back to the home page"
+msgstr "בחזרה לתקציב"
+
+#: commons/templates/base.html:41
 msgid "Open Local Budgets"
 msgstr "התקציב מקומי פתוח"
 
@@ -1396,6 +1483,10 @@ msgstr "תגובות"
 msgid "What do you have to say"
 msgstr "מה יש לך להגיד"
 
+#: commons/templates/partials/_form_action_cancel.html:2
+msgid "Cancel"
+msgstr "ביטול"
+
 #: commons/templates/partials/_form_action_change.html:2
 msgid "Change"
 msgstr "שנה"
@@ -1423,6 +1514,31 @@ msgstr "עמוד"
 #: commons/templates/partials/_pagination.html:14
 msgid "Next"
 msgstr "הבא"
+
+#: commons/templates/partials/nav-panel.html:12
+msgid "Home"
+msgstr "בית"
+
+#: commons/templates/partials/nav-panel.html:13
+#, fuzzy
+msgid "Entities"
+msgstr "רשויות"
+
+#: commons/templates/partials/nav-panel.html:30
+msgid "API"
+msgstr ""
+
+#: commons/templates/partials/nav-panel.html:31
+msgid "Privacy"
+msgstr "פרטיות"
+
+#: commons/templates/partials/nav-panel.html:32
+msgid "Terms"
+msgstr "תנאים"
+
+#: commons/templates/partials/nav-panel.html:33
+msgid "Contact"
+msgstr "צור קשר"
 
 #: commons/templates/registration/activate.html:6
 #: commons/templates/registration/activation_complete.html:6
@@ -1468,10 +1584,6 @@ msgstr ""
 #: commons/templates/registration/login.html:6
 msgid "Log in to your account"
 msgstr "התחבר לחשבון שלך"
-
-#: commons/templates/registration/login.html:25
-msgid "Forgot password"
-msgstr "שכחת סיסמא"
 
 #: commons/templates/registration/login.html:27
 msgid "Register for free"
@@ -1589,12 +1701,12 @@ msgstr ""
 msgid "Create an account today"
 msgstr "צור חשבון היום"
 
-#: commons/templates/rest_framework/api.html:6
-#: commons/templates/rest_framework/api.html:12
+#: commons/templates/rest_framework/api.html:11
+#: commons/templates/rest_framework/api.html:17
 msgid "Open Budget API"
 msgstr ""
 
-#: commons/templates/rest_framework/api.html:15
+#: commons/templates/rest_framework/api.html:20
 msgid "App Home"
 msgstr ""
 
@@ -1669,21 +1781,38 @@ msgid ""
 "            "
 msgstr ""
 
-#: settings/base.py:208
+#: settings/base.py:210
 msgid "Hebrew"
 msgstr "עברית"
 
-#: settings/base.py:209
+#: settings/base.py:211
 msgid "English"
 msgstr "אנגלית"
 
-#: settings/base.py:210
+#: settings/base.py:212
 msgid "Arabic"
 msgstr "ערבית"
 
-#: settings/base.py:211
+#: settings/base.py:213
 msgid "Russian"
 msgstr "רוסית"
+
+#~ msgid "User profile"
+#~ msgstr "פרופיל משתמש"
+
+#~ msgid "User profiles"
+#~ msgstr "פרופילי משתמש"
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "            Some features are only visible to logged in users. To login, "
+#~ "use the following credentials:\n"
+#~ "            "
+#~ msgstr ""
+#~ "\n"
+#~ "חלק מהאפיונים גלויים רק למשתמשים מחוברים. כדי להתחבר, יש למלא את השדות "
+#~ "הבאים:"
 
 #~ msgid "According to the"
 #~ msgstr "לפי ה"
@@ -1700,20 +1829,8 @@ msgstr "רוסית"
 #~ msgid "There are no taxonomies currently available."
 #~ msgstr "אין כרגע טקסונומיות זמינות"
 
-#~ msgid "Home"
-#~ msgstr "בית"
-
 #~ msgid "Municipalities"
 #~ msgstr "רשויות"
-
-#~ msgid "Privacy"
-#~ msgstr "פרטיות"
-
-#~ msgid "Terms"
-#~ msgstr "תנאים"
-
-#~ msgid "Contact"
-#~ msgstr "צור קשר"
 
 #~ msgid "Describe for this entry."
 #~ msgstr "תאר ערך זה"
@@ -1780,9 +1897,6 @@ msgstr "רוסית"
 
 #~ msgid "Your email address."
 #~ msgstr "אימייל"
-
-#~ msgid "Your first name."
-#~ msgstr "שם פרטי"
 
 #~ msgid "Your last name."
 #~ msgstr "שם משפחה"

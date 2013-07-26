@@ -1,4 +1,4 @@
-<div class="field {{ custom_class }}" {% if inline_styles %}style="{{ inline_styles }}{% endif %}">
+<div class="field{% if custom_class %} {{ custom_class }}{% endif %}" {% if inline_styles %}style="{{ inline_styles }}"{% endif %}>
     {{ field }}
-    {% if field.help_text %}<span class="help">{{ field.help_text }}</span>{% endif %}
+    {% if help %}<span class="help">{{ field.help_text }}</span>{% endif %}
 </div>
