@@ -40,16 +40,16 @@ a {
 /******************/
 /****  FORMS   ****/
 /******************/
-:disabled, .disabled {
+.button:disabled, .button.disabled {
     background-color: hsl(240, 13%, 73%);
     color: @strongblue;
-        border: none;
-        border-radius: 0;
-        -webkit-border-radius: 0 !important;
+    border: none;
+    border-radius: 0;
+    -webkit-border-radius: 0 !important;
     margin-bottom: 0;
-            .margin-reset();
-        .padding-reset();
-font-weight: bold;
+    .margin-reset();
+    .padding-reset();
+    font-weight: bold;
 
     &:hover {
         background-color: hsl(240, 13%, 73%);
@@ -57,20 +57,33 @@ font-weight: bold;
     }
 }
 
+.button {
+    .margin-reset();
+    font-weight: bold;
+    border-radius: 0;
+    border: none;
+    border-bottom: none;
+    border-radius: 0;
+    -webkit-border-radius: 0 !important;
+    background-color: hsl(177, 100%, 40%);
+    color: @white;
+}
+
 .field {
     .layout-object;
     position: relative;
 
     .help {
-        display: none;
-        position: absolute;
         top: 8px;
         left: 18px;
-        font-size: @em-unit * 0.75;
+        display: none;
+        position: absolute;
         color: darken(@bluegrey, 15%);
+        font-size: @em-unit * 0.75;
     }
 
     input {
+        cursor: pointer;
         color: @strongblue;
         .margin-reset();
         .padding-reset();
@@ -86,18 +99,19 @@ font-weight: bold;
             background-color: @white;
         }
 
-    }
+        &.invalid {
+            padding-left: 18px;
+            background-image:url('/static/img/invalid.png');
+            background-repeat: no-repeat;
+            background-position: 18px 12px;
+        }
 
-    .button {
-        .margin-reset();
-        font-weight: bold;
-        border-radius: 0;
-        border: none;
-        border-bottom: none;
-        border-radius: 0;
-        -webkit-border-radius: 0 !important;
-        background-color: hsl(240, 13%, 73%);
-        color: @strongblue;
+        &.valid {
+            padding-left: 18px;
+            background-image:url('/static/img/valid.png');
+            background-repeat: no-repeat;
+            background-position: 18px 12px;
+        }
     }
 
     &.half {
@@ -137,7 +151,6 @@ font-weight: bold;
     .layout-object(290px);
     .background-color(@bluegrey);
     display: none;
-    cursor: pointer;
     height: auto;
     position: fixed;
     top: @top;
@@ -189,6 +202,7 @@ font-weight: bold;
     */
     .disabled-event-catcher {
         position: absolute;
+        cursor: pointer;
         height: 2em;
         top: 0;
         left: 0;

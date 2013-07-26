@@ -10,13 +10,16 @@ from openbudget.apps.accounts.models import Account
 
 
 ENTER_FORM_HELP = _('Enter to finish')
+EMAIL_REGEX = '[^@]+@[^@]+\.[a-zA-Z]{2,6}'
 
 class CustomAuthenticationForm(AuthenticationForm):
     email = forms.EmailField(widget=forms.TextInput(
-        attrs={'placeholder': _('Enter Email'), 'type': 'email'}),
+        attrs={'placeholder': _('Enter Email'), 'type': 'email',
+               'required': '', 'pattern': EMAIL_REGEX}),
         help_text=ENTER_FORM_HELP)
     password = forms.CharField(widget=forms.PasswordInput(
-        attrs={'placeholder': _('Enter Password'), 'type': 'password'}),
+        attrs={'placeholder': _('Enter Password'), 'type': 'password',
+               'required': '', 'pattern': '.{6,}'}),
         help_text=ENTER_FORM_HELP)
 
 
@@ -26,22 +29,28 @@ class CustomRegistrationForm(forms.Form):
     required_css_class = 'required'
 
     first_name = forms.CharField(widget=forms.TextInput(
-        attrs={'placeholder': _('First Name'), 'type': 'text'}),
+        attrs={'placeholder': _('First Name'), 'type': 'text', 'required': '',
+               'pattern': '.{2,}'}),
         help_text=ENTER_FORM_HELP)
     last_name = forms.CharField(widget=forms.TextInput(
-        attrs={'placeholder': _('Last Name'), 'type': 'text'}),
+        attrs={'placeholder': _('Last Name'), 'type': 'text', 'required': '',
+               'pattern': '.{2,}'}),
         help_text=ENTER_FORM_HELP)
     email = forms.EmailField(widget=forms.TextInput(
-        attrs={'placeholder': _('Enter Email'), 'type': 'email'}),
+        attrs={'placeholder': _('Enter Email'), 'type': 'email',
+               'required': '', 'pattern': EMAIL_REGEX}),
         help_text=ENTER_FORM_HELP)
     email_confirm = forms.EmailField(widget=forms.TextInput(
-        attrs={'placeholder': _('Confirm Email'), 'type': 'email'}),
+        attrs={'placeholder': _('Confirm Email'), 'type': 'email',
+               'required': '', 'pattern': EMAIL_REGEX}),
         help_text=ENTER_FORM_HELP)
     password1 = forms.CharField(widget=forms.PasswordInput(
-        attrs={'placeholder': _('Enter Password'), 'type': 'password'}),
+        attrs={'placeholder': _('Enter Password'), 'type': 'password',
+               'required': '', 'pattern': '.{6,}'}),
         help_text=ENTER_FORM_HELP)
     password2 = forms.CharField(widget=forms.PasswordInput(
-        attrs={'placeholder': _('Confirm Password'), 'type': 'password'}),
+        attrs={'placeholder': _('Confirm Password'), 'type': 'password',
+               'required': '', 'pattern': '.{6,}'}),
         help_text=ENTER_FORM_HELP)
 
     def clean_email(self):
@@ -67,19 +76,23 @@ class CustomRegistrationForm(forms.Form):
 
 class CustomPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(widget=forms.TextInput(
-        attrs={'placeholder': _('Enter Email'), 'type': 'email'}),
+        attrs={'placeholder': _('Enter Email'), 'type': 'email',
+               'required': '', 'pattern': EMAIL_REGEX}),
         help_text=ENTER_FORM_HELP)
 
 
 class CustomPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(widget=forms.PasswordInput(
-        attrs={'placeholder': _('Enter Current Password'), 'type': 'password'}),
+        attrs={'placeholder': _('Enter Current Password'), 'type': 'password',
+               'required': '', 'pattern': '.{6,}'}),
         help_text=ENTER_FORM_HELP)
     new_password1 = forms.CharField(widget=forms.PasswordInput(
-        attrs={'placeholder': _('Enter New Password'), 'type': 'password'}),
+        attrs={'placeholder': _('Enter New Password'), 'type': 'password',
+               'required': '', 'pattern': '.{6,}'}),
         help_text=ENTER_FORM_HELP)
     new_password2 = forms.CharField(widget=forms.PasswordInput(
-        attrs={'placeholder': _('Confirm New Password'), 'type': 'password'}),
+        attrs={'placeholder': _('Confirm New Password'), 'type': 'password',
+               'required': '', 'pattern': '.{6,}'}),
         help_text=ENTER_FORM_HELP)
 
 

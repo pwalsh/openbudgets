@@ -709,8 +709,8 @@ a {
 /******************/
 /****  FORMS   ****/
 /******************/
-:disabled,
-.disabled {
+.button:disabled,
+.button.disabled {
   background-color: #b1b1c3;
   color: #070746;
   border: none;
@@ -727,10 +727,24 @@ a {
   padding-bottom: 0;
   font-weight: bold;
 }
-:disabled:hover,
-.disabled:hover {
+.button:disabled:hover,
+.button.disabled:hover {
   background-color: #b1b1c3;
   color: #070746;
+}
+.button {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-weight: bold;
+  border-radius: 0;
+  border: none;
+  border-bottom: none;
+  border-radius: 0;
+  -webkit-border-radius: 0 !important;
+  background-color: #00ccc2;
+  color: #ffffff;
 }
 .field {
   -webkit-box-sizing: border-box;
@@ -741,14 +755,15 @@ a {
   position: relative;
 }
 .field .help {
-  display: none;
-  position: absolute;
   top: 8px;
   left: 18px;
-  font-size: 0.75em;
+  display: none;
+  position: absolute;
   color: #a4a4bc;
+  font-size: 0.75em;
 }
 .field input {
+  cursor: pointer;
   color: #070746;
   margin-left: 0;
   margin-right: 0;
@@ -770,19 +785,17 @@ a {
 .field input:focus {
   background-color: #ffffff;
 }
-.field .button {
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 0;
-  margin-bottom: 0;
-  font-weight: bold;
-  border-radius: 0;
-  border: none;
-  border-bottom: none;
-  border-radius: 0;
-  -webkit-border-radius: 0 !important;
-  background-color: #b1b1c3;
-  color: #070746;
+.field input.invalid {
+  padding-left: 18px;
+  background-image: url('/static/img/invalid.png');
+  background-repeat: no-repeat;
+  background-position: 18px 12px;
+}
+.field input.valid {
+  padding-left: 18px;
+  background-image: url('/static/img/valid.png');
+  background-repeat: no-repeat;
+  background-position: 18px 12px;
 }
 .field.half {
   width: 50%;
@@ -819,7 +832,6 @@ a {
   width: 290px;
   background-color: #d0d0dc;
   display: none;
-  cursor: pointer;
   height: auto;
   position: fixed;
   top: 25%;
@@ -876,6 +888,7 @@ a {
 }
 #overlay-login .disabled-event-catcher {
   position: absolute;
+  cursor: pointer;
   height: 2em;
   top: 0;
   left: 0;
@@ -902,7 +915,6 @@ a {
   width: 290px;
   background-color: #d0d0dc;
   display: none;
-  cursor: pointer;
   height: auto;
   position: fixed;
   top: 25%;
@@ -959,6 +971,7 @@ a {
 }
 #overlay-register .disabled-event-catcher {
   position: absolute;
+  cursor: pointer;
   height: 2em;
   top: 0;
   left: 0;
@@ -985,7 +998,6 @@ a {
   width: 290px;
   background-color: #d0d0dc;
   display: none;
-  cursor: pointer;
   height: auto;
   position: fixed;
   top: 25%;
@@ -1042,6 +1054,7 @@ a {
 }
 #overlay-password-reset .disabled-event-catcher {
   position: absolute;
+  cursor: pointer;
   height: 2em;
   top: 0;
   left: 0;

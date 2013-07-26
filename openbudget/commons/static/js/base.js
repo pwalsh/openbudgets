@@ -4,7 +4,27 @@
 //******************/
 (function () {
 
+    $('form').h5Validate({
+        errorClass: 'invalid',
+        validClass: 'valid',
+        focusout: true,
+        focusin: false,
+        change: false,
+        keyup: false
+    });
+
+    //
+    var $inputs = $('form :input');
+    var values = {};
+    $inputs.each(function () {
+        $(this).bind('validated', function (event) {
+            console.log(event);
+        });
+    });
+    //
+
     $('input').focus(function (event) {
+        $(this).removeClass('invalid valid');
         $(this).siblings('.help').show();
     });
 
