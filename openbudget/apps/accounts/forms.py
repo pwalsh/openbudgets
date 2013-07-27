@@ -96,6 +96,19 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         help_text=ENTER_FORM_HELP)
 
 
+class AccountNameForm(forms.ModelForm):
+
+    first_name = forms.CharField(widget=forms.TextInput(
+        attrs={'placeholder': _('First Name'), 'type': 'text', 'required': '',
+               'pattern': '.{2,}'}))
+    last_name = forms.CharField(widget=forms.TextInput(
+        attrs={'placeholder': _('Last Name'), 'type': 'text', 'required': '',
+               'pattern': '.{2,}'}))
+
+    class Meta:
+        model = Account
+        fields = ('first_name', 'last_name')
+
 class AccountForm(forms.ModelForm):
 
     class Meta:

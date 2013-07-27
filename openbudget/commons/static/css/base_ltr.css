@@ -706,6 +706,47 @@ h6 {
 a {
   color: #070746;
 }
+#name-form input {
+  color: #070746;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: 36px;
+  height: 48px;
+  border: none;
+  border-radius: 0;
+  -webkit-border-radius: 0 !important;
+  border-bottom: none;
+  background-color: transparent;
+}
+#name-form input:focus {
+  border-bottom: 1px solid #9191ac;
+}
+#name-form input.invalid {
+  padding-left: 18px;
+  background-image: url('/static/img/invalid.png');
+  background-repeat: no-repeat;
+  background-position: 18px 12px;
+}
+#name-form input.valid {
+  padding-left: 18px;
+  background-image: url('/static/img/valid.png');
+  background-repeat: no-repeat;
+  background-position: 18px 12px;
+}
+.avatar,
+.avatar img {
+  width: 90px;
+  height: 90px;
+  -webkit-border-radius: 45px;
+  -moz-border-radius: 45px;
+  border-radius: 45px;
+}
 /******************/
 /****  FORMS   ****/
 /******************/
@@ -802,6 +843,160 @@ a {
 }
 .field.half.first input {
   border-right: 1px solid #d0d0dc;
+}
+/*user profile*/
+.identity {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 100%;
+  clear: both;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 100%;
+  clear: both;
+  margin-top: 2.5em;
+}
+.identity .avatar {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 40%;
+}
+.identity .name {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 60%;
+  font-size: 2.5em;
+  line-height: 1em;
+  color: #e8e8ed;
+}
+.identity .email {
+  color: #e8e8ed;
+}
+.identity .email,
+.identity .language,
+.identity .password,
+.identity .developer {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 100%;
+  margin-top: 0.5em;
+}
+.identity .email a,
+.identity .language a,
+.identity .password a,
+.identity .developer a {
+  text-decoration: none;
+  font-weight: bold;
+}
+#filter {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 100%;
+  clear: both;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 100%;
+  clear: both;
+}
+#filter select {
+  background: transparent;
+  width: 60px;
+  padding: 5px;
+  font-size: 1em;
+  border: 0;
+  border-radius: 0;
+  -webkit-appearance: none;
+  color: #070746;
+  font-weight: bold;
+  line-height: 1em;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+#filter .arrow {
+  content: 'this';
+}
+#activities {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 100%;
+  clear: both;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 100%;
+  clear: both;
+  margin-top: 2.5em;
+}
+#activities h1 {
+  font-size: 2.5em;
+}
+#activities .activity {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 100%;
+  clear: both;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 100%;
+  clear: both;
+  height: 120px;
+}
+#activities .activity .desc {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 80%;
+  padding-left: 0;
+  padding-right: 10%;
+  padding-top: 1em;
+}
+#activities .activity .snippet {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 20%;
+  background-color: #f3f3f6;
+  height: 120px;
+  border-top: 1px solid #d0d0dc;
+}
+#activities .activity .snippet:first-of-type {
+  border-top: none;
+}
+#activities .activity h3 {
+  font-size: 1em;
+  margin-bottom: 0.5em;
+}
+#activities .activity h3 .sub {
+  color: #f3f3f6;
+}
+#activities .activity h2 {
+  font-size: 2.5em;
+  line-height: 1em;
 }
 /******************/
 /**** OVERLAYS ****/
@@ -1073,6 +1268,89 @@ a {
 #overlay-password-reset .options:last-of-type {
   text-align: right;
 }
+#overlay-password-change {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 290px;
+  background-color: #d0d0dc;
+  display: none;
+  height: auto;
+  position: fixed;
+  top: 25%;
+  left: 35%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  /* Disabled inputs don't catch events.
+    We place this on top of the action,
+    as long as the submit is disabled
+    */
+
+}
+#overlay-password-change h3,
+#overlay-password-change .notices,
+#overlay-password-change .options {
+  padding-left: 18px;
+  padding-right: 18px;
+}
+#overlay-password-change h3 {
+  padding-top: 0.5em;
+  margin-bottom: 0;
+  font-size: 1em;
+  font-weight: bold;
+}
+#overlay-password-change a {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.875em;
+}
+#overlay-password-change a.weak {
+  color: #a4a4bc;
+}
+#overlay-password-change a.strong {
+  color: #070746;
+}
+#overlay-password-change .notices {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 70%;
+  color: #ff0059;
+  font-size: 0.875em;
+  height: 2.5em;
+  line-height: 2.5em;
+}
+#overlay-password-change .action {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 30%;
+  position: relative;
+}
+#overlay-password-change .disabled-event-catcher {
+  position: absolute;
+  cursor: pointer;
+  height: 2em;
+  top: 0;
+  left: 0;
+  left: 0;
+  width: 100%;
+}
+#overlay-password-change .options {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 50%;
+  font-size: 0.875em;
+  height: 2em;
+}
+#overlay-password-change .options:last-of-type {
+  text-align: right;
+}
 /******************/
 /****  PANELS  ****/
 /******************/
@@ -1137,6 +1415,7 @@ a {
 }
 #nav-anchor a {
   text-decoration: none;
+  font-weight: bold;
 }
 #action-panel {
   -webkit-box-sizing: border-box;
@@ -1159,9 +1438,10 @@ a {
   padding-top: 18px;
   padding-bottom: 18px;
   padding-left: 40px;
-  padding-right: 40px;
+  padding-right: 0;
   height: 100%;
   background-color: #ffffff;
+  overflow: scroll;
 }
 #append-panel {
   -webkit-box-sizing: border-box;
@@ -1173,12 +1453,6 @@ a {
   padding-bottom: 18px;
   padding-left: 16px;
   height: 100%;
-}
-.account #avatar {
-  width: 60px;
-  height: 60px;
-  -webkit-border-radius: 30px;
-  -moz-border-radius: 30px;
 }
 .account .actions {
   display: none;

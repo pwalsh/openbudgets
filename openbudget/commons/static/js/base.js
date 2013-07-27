@@ -71,6 +71,15 @@
         $('#overlay-password-change').hide();
     });
 
+    $('.password-change-link').click(function (event) {
+        event.preventDefault();
+        $('#overlay, #overlay .close').show();
+        $('#overlay-password-change').show();
+        $('#overlay-register').hide();
+        $('#overlay-login').hide();
+        $('#overlay-password-show').hide();
+    });
+
 }());
 
 

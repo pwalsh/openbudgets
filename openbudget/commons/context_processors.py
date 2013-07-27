@@ -19,17 +19,11 @@ def get_site(request):
 def auth_forms(request):
 
     auth_forms = {}
-
-    login_form = CustomAuthenticationForm
-    registration_form = CustomRegistrationForm
-    password_reset_form = CustomPasswordResetForm
-    password_change_form = CustomPasswordChangeForm
-
-    auth_forms['login_form'] = login_form
-    auth_forms['registration_form'] = registration_form
-    auth_forms['password_reset_form'] = password_reset_form
+    auth_forms['login_form'] = CustomAuthenticationForm
+    auth_forms['registration_form'] = CustomRegistrationForm
+    auth_forms['password_reset_form'] = CustomPasswordResetForm
 
     if request.user.is_authenticated:
-        auth_forms['password_change_form'] = password_change_form
+        auth_forms['password_change_form'] = CustomPasswordChangeForm
 
     return auth_forms
