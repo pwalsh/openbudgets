@@ -13,7 +13,7 @@ ENTER_FORM_HELP = _('Enter to finish')
 EMAIL_REGEX = '[^@]+@[^@]+\.[a-zA-Z]{2,6}'
 
 class CustomAuthenticationForm(AuthenticationForm):
-    email = forms.EmailField(widget=forms.TextInput(
+    username = forms.EmailField(widget=forms.TextInput(
         attrs={'placeholder': _('Enter Email'), 'type': 'email',
                'required': '', 'pattern': EMAIL_REGEX}),
         help_text=ENTER_FORM_HELP)
