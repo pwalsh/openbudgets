@@ -228,7 +228,7 @@ ACCOUNT_ACTIVATION_DAYS = 7
 
 AUTH_USER_MODEL = 'accounts.Account'
 
-LOGIN_URL = '/accounts/auth/login/'
+LOGIN_URL = '/accounts/login/'
 
 LOGIN_REDIRECT_URL = '/'
 
