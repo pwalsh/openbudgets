@@ -873,14 +873,12 @@ msgid "Add your comments to this discussion."
 msgstr ""
 
 #: apps/sheets/models.py:528
-#, fuzzy
 msgid "sheet item comment"
-msgstr "פריט תקציב"
+msgstr "דברי הסבר"
 
 #: apps/sheets/models.py:529
-#, fuzzy
 msgid "sheet item comments"
-msgstr "פריטי תקציב"
+msgstr "דברי הסבר"
 
 #: apps/sheets/models.py:565
 msgid "A descriptive text for this template node underlying this sheet item."
