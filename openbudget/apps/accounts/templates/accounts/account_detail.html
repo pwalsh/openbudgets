@@ -52,30 +52,16 @@
 
 <section id="activities">
     <h1>{% trans 'Activities' %}</h1>
-    <div>
-        {% for activity in activities %}
-        <div class="activity">
-            and activity
+    {% for comment in user.item_comments.all %}
+    <div class="activity">
+        <div class="desc">
+            <h3>{{ comment.get_verbose_name }}<span class="sub">{{ comment.created_on }}</span></h3>
+            <h2>{{ comment.item.node.name }}</h2>
         </div>
-        {% endfor %}
-        <div class="activity">
-            <div class="desc">
-                <h3>Comparisons<span class="sub">17.01.2012</span></h3>
-                <h2>Heading which will liely be big and long because it is</h2>
-            </div>
-            <div class="snippet">
-                &nbsp;
-            </div>
-        </div>
-        <div class="activity">
-            <div class="desc">
-                <h3>Comparisons<span class="sub">17.01.2012</span></h3>
-                <h2>Heading which will liely be big and long because it is</h2>
-            </div>
-            <div class="snippet">
-                &nbsp;
-            </div>
+        <div class="snippet">
+            {{ comment.comment }}
         </div>
     </div>
+    {% endfor %}
 </section>
 {% endblock content %}
