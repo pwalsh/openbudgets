@@ -10,15 +10,21 @@
     <div id="form_container">
         <h2 id="import_message"></h2>
         <p id="import_message_exp" class="hide">{% blocktrans %}
-            File has been uploaded and validated, and will now be saved to the database.
-            You will receive an email once saving process is complete.
+            The uploaded data has been successfully validated. We are now initiating a task to save the data into the database. When this task is completed, you will receive an email to confirm the availability of the data.
         {% endblocktrans %}</p>
         <ul id="import_errors"></ul>
         <form id="import_form">
             <fieldset>
-                <legend>{% trans 'Choose the data type for import' %}:</legend>
-                <label><input type="radio" name="type" value="template"/>{% trans 'Template' %}</label>
-                <label><input type="radio" name="type" value="sheet"/>{% trans 'Sheet' %}</label>
+                <h2>{% trans 'Data Type' %}</h2>
+                <p>{% trans 'Select the type of data that you would like to import.' %}</p>
+                <div class="field">
+                    <label>{% trans 'Template' %}</label>
+                    <input type="radio" name="type" value="template"/>
+                </div>
+                <div class="field">
+                    <label>{% trans 'Sheet' %}</label>
+                    <input type="radio" name="type" value="sheet"/>
+                </div>
             </fieldset>
             <fieldset id="import_form_type_ext"></fieldset>
             <label for="sourcefile_input">{% trans 'Source file' %}:</label><input type="file" name="sourcefile" id="sourcefile_input"/>
