@@ -1040,8 +1040,6 @@ a {
   position: fixed;
   top: 25%;
   left: 35%;
-  overflow-y: scroll;
-  overflow-x: hidden;
   /* Disabled inputs don't catch events.
     We place this on top of the action,
     as long as the submit is disabled
@@ -1123,8 +1121,6 @@ a {
   position: fixed;
   top: 25%;
   left: 35%;
-  overflow-y: scroll;
-  overflow-x: hidden;
   /* Disabled inputs don't catch events.
     We place this on top of the action,
     as long as the submit is disabled
@@ -1206,8 +1202,6 @@ a {
   position: fixed;
   top: 25%;
   left: 35%;
-  overflow-y: scroll;
-  overflow-x: hidden;
   /* Disabled inputs don't catch events.
     We place this on top of the action,
     as long as the submit is disabled
@@ -1289,8 +1283,6 @@ a {
   position: fixed;
   top: 25%;
   left: 35%;
-  overflow-y: scroll;
-  overflow-x: hidden;
   /* Disabled inputs don't catch events.
     We place this on top of the action,
     as long as the submit is disabled
