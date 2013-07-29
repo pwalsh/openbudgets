@@ -11,28 +11,59 @@
         changeHandler = function () {
             var valid = true,
                 $this = $(this);
+            $this.next().hide();
             if ( this.type in validation_map ) {
                 valid = validation_map[this.type].test(this.value);
             }
             if ( valid ) {
                 $this.addClass(valid_class);
                 $this.removeClass(invalid_class);
-                $this.parents('form').trigger('validate');
+                $this.closest('form').trigger('validate');
             }
             else {
                 $this.addClass(invalid_class);
                 $this.removeClass(valid_class);
             }
         },
+        editHandler = function (e) {
+            var $this = $(this);
+            $this.removeClass('valid invalid')
+                .next()
+                    .show();
+        },
         validateHandler = function () {
-            debugger;
+            var valid = false,
+                $form = $(this).find('input').each(function () {
+                            if ( this.type in validation_map ) {
+                                if ( ! validation_map[this.type].test($(this).val()) ) {
+                                    valid = false;
+                                    // break
+                                    return false;
+                                }
+                            }
+                            valid = true;
+                        });
+            $form.trigger(valid ? 'valid' : 'invalid');
+        },
+        validHandler = function () {
+            $(this).find('.mock-button').addClass('hide')
+                .end().find('input[type=submit]').removeClass('hide');
+        },
+        invalidHandler = function () {
+            $(this).find('input[type=submit]').addClass('hide')
+                .end().find('.mock-button').removeClass('hide');
         },
         validation_map = {};
 
-    $forms.on('validate', validateHandler)
+    $forms.on({
+            validate: validateHandler,
+            valid   : validHandler,
+            invalid : invalidHandler
+        })
         .each(function (i, form) {
             $(form).find('input')
-                .on('change focusout', changeHandler)
+                .on('change', changeHandler)
+                .on('focus', editHandler)
                 .each(function (i, input) {
                     var $input = $(input),
                         pattern = $input.attr('pattern'),
