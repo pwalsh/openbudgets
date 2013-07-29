@@ -6,8 +6,9 @@ define([
     'ui/entities',
     'ui/nodes',
     'ui/nodes-list',
+    'ui/nodes-footer',
     'ui/chart'
-], function (uijet, explorer, legend, site_menu, entities, nodes, nodes_list, chart) {
+], function (uijet, explorer, legend, site_menu, entities, nodes, nodes_list, nodes_footer, chart) {
 
     uijet.declare([{
         type    : 'Pane',
@@ -23,6 +24,7 @@ define([
         .declare(site_menu)
         .declare(entities)
         .declare(nodes)
+        .declare(nodes_footer)
         .declare(nodes_list)
         .declare(chart);
 

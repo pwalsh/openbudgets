@@ -75,7 +75,7 @@ define([
             if ( ! muni ) {
                 muni = model.get('muni');
             }
-            this.publish('change_state', {
+            this.publish('select_state', {
                 entity_id   : muni.get('id'),
                 selection   : model.get('state'),
                 amount_type : model.get('amount_type')
