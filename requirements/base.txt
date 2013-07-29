@@ -6,7 +6,7 @@ pillow==2.1.0
 pytz==2013b
 tablib==0.9.11
 raven==3.3.9
-whoosh==2.4.1
+whoosh==2.5.0
 celery==3.0.19
 gdata==2.0.18
 factory-boy==2.0.2
