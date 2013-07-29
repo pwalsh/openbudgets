@@ -690,6 +690,9 @@ A bunch of helper mixins that cover really common CSS rules.
   width: 33%;
 }
 /* PALETTE */
+.hide {
+  display: none;
+}
 body,
 html {
   background-color: #d0d0dc;
@@ -1481,6 +1484,11 @@ a {
 }
 .account .actions a {
   display: block;
+}
+.mock-button {
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
 }
 /*...BOOM...*/
 .field.half.first input {
