@@ -9,7 +9,6 @@ class AccountFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Account
     password = 'letmein'
 
-    username = factory.Sequence(lambda n: 'username{0}'.format(n))
     email = factory.Sequence(lambda n: 'p{0}@here.com'.format(n))
     first_name = factory.Sequence(lambda n: 'first_name{0}'.format(n))
     last_name = factory.Sequence(lambda n: 'last_name{0}'.format(n))
@@ -19,7 +18,10 @@ class AccountFactory(factory.DjangoModelFactory):
     last_login = factory.Sequence(
         lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
     )
-    date_joined = factory.Sequence(
+    created_on = factory.Sequence(
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
+    )
+    last_modified = factory.Sequence(
         lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
     )
 

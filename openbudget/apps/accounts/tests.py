@@ -15,7 +15,7 @@ class UserTestCase(TestCase):
 
         for user in self.users:
             self.client.login(
-                username=user.username,
+                email=user.email,
                 password='letmein'
             )
             detailview = reverse(
@@ -32,7 +32,7 @@ class UserTestCase(TestCase):
 
         for user in self.users:
             self.client.login(
-                username=user.username,
+                email=user.email,
                 password='letmein'
             )
             updateview = reverse(
@@ -49,7 +49,7 @@ class UserTestCase(TestCase):
 
         for user in self.users:
             self.client.login(
-                username=user.username,
+                email=user.email,
                 password='letmein'
             )
             updateview = reverse(
@@ -62,7 +62,6 @@ class UserTestCase(TestCase):
             self.assertContains(response, user.email)
 
             valid_data = {
-                'username': user.username,
                 'email': user.email,
                 'first_name': user.first_name,
                 'last_name': user.last_name,
@@ -119,7 +118,7 @@ class UserTestCase(TestCase):
             random_user = random.choice(self.users)
 
             self.client.login(
-                username=random_user.username,
+                email=random_user.email,
                 password='letmein'
             )
 
@@ -140,7 +139,7 @@ class UserTestCase(TestCase):
             random_user = random.choice(other_users)
 
             self.client.login(
-                username=random_user.username,
+                email=random_user.email,
                 password='letmein'
             )
 
@@ -157,7 +156,6 @@ class UserTestCase(TestCase):
                 args=(user.uuid,)
             )
             valid_data = {
-                'username': user.username,
                 'email': user.email,
                 'first_name': user.first_name,
                 'last_name': user.last_name,
@@ -190,12 +188,11 @@ class UserTestCase(TestCase):
             random_user = random.choice(other_users)
 
             self.client.login(
-                username=random_user.username,
+                email=random_user.email,
                 password='letmein'
             )
 
             valid_data = {
-                'username': user.username,
                 'email': user.email,
                 'first_name': user.first_name,
                 'last_name': user.last_name,

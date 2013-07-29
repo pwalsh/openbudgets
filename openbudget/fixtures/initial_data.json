@@ -5,17 +5,17 @@
     "pk": 1,
     "fields": {
         "uuid": "6cd238ac63974392834ad62699c1cf10",
-        "username": "admin",
-        "first_name": "Open Budget",
-        "last_name": "Administrator",
-        "email": "admin@example.com",
+        "first_name": "Project",
+        "last_name": "Admin",
+        "email": "contact@openmuni.org.il",
         "password": "sha1$d0ac3$d37cb4b152d98c9727f7d696795f2d6ad9438ee4",
         "is_staff": 1,
         "is_active": 1,
         "is_superuser": 1,
         "groups": [1],
         "last_login": "2013-01-01T09:00:00+02:00",
-        "date_joined": "2013-01-01T09:00:00+02:00"
+        "created_on": "2013-01-01T09:00:00+02:00",
+        "last_modified": "2013-01-01T09:00:00+02:00"
     }
 },
 

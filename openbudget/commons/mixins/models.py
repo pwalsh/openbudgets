@@ -12,6 +12,16 @@ class ClassMethodMixin(object):
         value = cls.__name__.lower()
         return value
 
+    @classmethod
+    def get_verbose_name(cls):
+        value = cls._meta.verbose_name
+        return value
+
+    @classmethod
+    def get_verbose_name_plural(cls):
+        value = cls._meta.verbose_name_plural
+        return value
+
 
 class TimeStampedModel(models.Model):
     """A mixin to add timestamps to models that inherit it."""

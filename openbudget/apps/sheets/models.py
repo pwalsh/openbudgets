@@ -515,7 +515,7 @@ class SheetItemComment(TimeStampedModel, UUIDModel, ClassMethodMixin):
     )
     user = models.ForeignKey(
         Account,
-        related_name='comments'
+        related_name='item_comments'
     )
 
     comment = models.TextField(

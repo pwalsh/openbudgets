@@ -1,27 +1,33 @@
 {% load i18n form_extras %}
 
 <section id="overlay-register">
-
-    <form action="" method="post" novalidate>
-
-    </form>
-
-    {% comment %}
-    <div class="box-3 _float-left">
-        <form action="" method="POST">
-            {% csrf_token %}
-            <fieldset>
-                {% field_generator registration_form.username %}
+    <form id="overlay-register-form" action="{% url 'registration_register' %}" method="post" novalidate>
+        {% csrf_token %}
+        <h3>{% trans 'Registration' %}</h3>
+        <div class="row">
+            <div class="options">
+                <a class="login-link strong" href="{% url 'auth_login' %}" title="Login">{% trans 'Registered user' %}?</a>
+            </div>
+            <div class="options">
+                &nbsp;
+            </div>
+        </div>
+        <fieldset>
+                {% field_generator registration_form.first_name custom_class="half first" help=0 %}
+                {% field_generator registration_form.last_name custom_class="half" help=0 %}
                 {% field_generator registration_form.email %}
+                {% field_generator registration_form.email_confirm %}
                 {% field_generator registration_form.password1 %}
                 {% field_generator registration_form.password2 %}
-            </fieldset>
-            <fieldset>
-                {% include 'partials/_form_action_submit.html' %}
-            </fieldset>
-        </form>
-    </div>
-    <a class="login-link" href="{% url 'auth_login' %}" title="Login">{% trans 'Login' %}</a>
-    {% endcomment %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+        </fieldset>
+        <div class="row">
+            <div class="notices">
 
+            </div>
+            <div class="action">
+                {% include 'partials/_form_action_cancel.html' %}
+            </div>
+        </div>
+    </form>
 </section>

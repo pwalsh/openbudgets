@@ -6,7 +6,7 @@
     "fields": {
         "created_on": "2013-03-28T11:27:38.158Z",
         "last_modified": "2013-03-28T11:27:38.158Z",
-        "user": ["admin"],
+        "user": ["contact@openmuni.org.il"],
         "content_type": ["sheets", "sheet"],
         "object_id": 1
     }
@@ -18,7 +18,7 @@
     "fields": {
         "created_on": "2013-03-28T11:27:48.571Z",
         "last_modified": "2013-03-28T11:27:48.571Z",
-        "user": ["admin"],
+        "user": ["contact@openmuni.org.il"],
         "content_type": ["sheets", "sheet"],
         "object_id": 2
     }
@@ -30,7 +30,7 @@
     "fields": {
         "created_on": "2013-03-28T11:28:06.439Z",
         "last_modified": "2013-03-28T11:28:06.439Z",
-        "user": ["admin"],
+        "user": ["contact@openmuni.org.il"],
         "content_type": ["sheets", "sheet"],
         "object_id": 3
     }
@@ -42,7 +42,7 @@
     "fields": {
         "created_on": "2013-03-28T11:27:19.943Z",
         "last_modified": "2013-03-28T11:27:19.943Z",
-        "user": ["admin"],
+        "user": ["contact@openmuni.org.il"],
         "content_type": ["entities", "entity"],
         "object_id": 7
     }
@@ -59,7 +59,7 @@
         "object_pk": "5",
         "site": 1,
         "is_removed": false,
-        "user": ["admin"],
+        "user": ["contact@openmuni.org.il"],
         "content_type": ["sheets", "sheetitem"],
         "is_public": true,
         "user_name": "Concerned Citizen",

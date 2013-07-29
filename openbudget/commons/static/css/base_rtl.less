@@ -9,9 +9,26 @@
 
 /*...BOOM...*/
 
-#overlay-close {
-    right: none;
-    left: 10px;
+.field {
+    &.half.first input {
+        border-left: 1px solid @bluegrey;
+    }
+}
+
+#overlay {
+    .close {
+        right: none;
+        left: 10px;
+    }
+}
+
+.overlay-object {
+        .options {
+
+        &:last-of-type {
+            text-align: left;
+        }
+    }
 }
 
 #nav-panel {
@@ -35,4 +52,20 @@
 
 #append-panel {
     .padding-right(16px);
+}
+
+#content-panel {
+
+    .padding-right(40px);
+    .padding-left(0);
+}
+
+#activities {
+    .activity {
+
+        .desc {
+            .padding-right(0);
+            .padding-left(10%);
+        }
+    }
 }

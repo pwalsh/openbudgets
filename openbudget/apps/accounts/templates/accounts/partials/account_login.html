@@ -1,53 +1,31 @@
 {% load i18n form_extras %}
 
 <section id="overlay-login">
-
     <form action="{% url 'auth_login' %}" method="post" novalidate>
         {% csrf_token %}
         <h3>{% trans 'Login for registered users' %}</h3>
-        <div class="possibilities">
-            <div class="new">
-                <a class="register-link" href="{% url 'registration_register' %}" title="Register for Free">{% trans 'New user' %}?</a>
+        <div class="row">
+            <div class="options">
+                <a class="register-link strong" href="{% url 'registration_register' %}" title="Register for Free">{% trans 'New user' %}?</a>
             </div>
-            <div class="forgot">
-                <a class="password-reset-link" href="{% url 'auth_password_reset' %}" title="Forgot password? Reset it here">{% trans 'Forgot password' %}?</a>
+            <div class="options">
+                <a class="password-reset-link weak" href="{% url 'auth_password_reset' %}" title="Forgot password? Reset it here">{% trans 'Forgot password' %}?</a>
             </div>
         </div>
         <fieldset>
-            {% field_generator login_form.email %}
+            {% field_generator login_form.username %}
             {% field_generator login_form.password %}
-        </fieldset>
             <input type="hidden" name="next" value="{{ request.get_full_path }}" />
-        <div class="awareness">
+        </fieldset>
+        <div class="row">
             <div class="notices">
                 notices
+                {{ login_form.non_field_errors }}
+                {{ login_form.errors }}
             </div>
             <div class="action">
-                {% include 'partials/_form_action_login.html' %}
+                {% include 'partials/_form_action_cancel.html' %}
             </div>
         </div>
     </form>
-
-    {% comment %}
-    <form action="{% url 'auth_login' %}" method="post" novalidate>
-        {% csrf_token %}
-        <fieldset>
-            {% field_generator login_form.email %}
-            {% field_generator login_form.password %}
-            {% include 'partials/_form_action_login.html' %}
-            <input type="hidden" name="next" value="{{ request.get_full_path }}" />
-        </fieldset>
-        <div>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a class="password-reset-link" href="{% url 'auth_password_reset' %}" title="Forgot password? Reset it here">{% trans 'Forgot password' %}?</a>
-            &nbsp;|&nbsp;
-            <a class="register-link" href="{% url 'registration_register' %}" title="Register for Free">{% trans 'Register for free' %}</a>
-        </div>
-
-        {% if form.errors %}
-            <p>Your username and password didn't match. Please try again.</p>
-        {% endif %}
-    </form>
-    {% endcomment %}
-
 </section>

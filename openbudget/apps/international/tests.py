@@ -107,7 +107,7 @@ class InternationalCase(TestCase):
 
             for user in self.users:
                 self.client.login(
-                    username=user.username,
+                    email=user.email,
                     password='letmein'
                 )
 
