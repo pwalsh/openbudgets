@@ -1,7 +1,7 @@
 {% load i18n form_extras %}
 
 <section id="overlay-register">
-    <form id="overlay-register-form" action="{% url 'registration_register' %}" method="post" novalidate>
+    <form class="modal" action="{% url 'registration_register' %}" method="post" novalidate>
         {% csrf_token %}
         <h3>{% trans 'Registration' %}</h3>
         <div class="row">
@@ -22,9 +22,7 @@
                 <input type="hidden" name="next" value="{{ request.get_full_path }}" />
         </fieldset>
         <div class="row">
-            <div class="notices">
-
-            </div>
+            <div class="notices"></div>
             <div class="action">
                 {% include 'partials/_form_action_cancel.html' %}
             </div>
