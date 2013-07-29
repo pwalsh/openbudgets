@@ -800,6 +800,7 @@ a {
   position: relative;
 }
 .field .help {
+  pointer-events: none;
   top: 8px;
   left: 18px;
   display: none;
