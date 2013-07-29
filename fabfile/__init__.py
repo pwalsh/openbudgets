@@ -135,7 +135,7 @@ def project_bootstrap():
 @roles('web')
 def db_load():
     puts(green('Loading data to postgres.'))
-    local = '/Users/paulwalsh/Desktop/postgres.sql'
+    local = '/Users/paulwalsh/Desktop/omuni.sql'
     remote = MACHINE['DIR_USER_HOME'] + '/' + KEY + '.sql'
     file_upload(remote, local)
     run('dropdb ' + KEY)
