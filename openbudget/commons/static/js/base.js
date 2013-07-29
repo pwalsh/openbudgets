@@ -4,47 +4,64 @@
 //******************/
 (function () {
 
-    var form = $('form'),
-        notices = $('form .notices'),
-        $inputs = $('form :input'),
-        values = {},
-        request;
+    var $forms = $('form.modal'),
+        valid_class = 'valid',
+        invalid_class = 'invalid',
+        help_class = 'help',
+        changeHandler = function () {
+            var valid = true,
+                $this = $(this);
+            if ( this.type in validation_map ) {
+                valid = validation_map[this.type].test(this.value);
+            }
+            if ( valid ) {
+                $this.addClass(valid_class);
+                $this.removeClass(invalid_class);
+                $this.parents('form').trigger('validate');
+            }
+            else {
+                $this.addClass(invalid_class);
+                $this.removeClass(valid_class);
+            }
+        },
+        validateHandler = function () {
+            debugger;
+        },
+        validation_map = {};
 
-    $('form').h5Validate({
-        errorClass: 'invalid',
-        validClass: 'valid',
-        focusout: true,
-        focusin: false,
-        change: false,
-        keyup: false
-    });
+    $forms.on('validate', validateHandler)
+        .each(function (i, form) {
+            $(form).find('input')
+                .on('change focusout', changeHandler)
+                .each(function (i, input) {
+                    var $input = $(input),
+                        pattern = $input.attr('pattern'),
+                        type = input.type;
+                    if ( pattern && ! (type in validation_map) ) {
+                        validation_map[type] = RegExp(pattern);
+                    }
+                });
+        });
 
-    $('input').focus(function (event) {
-        $(this).removeClass('invalid valid');
-        $(this).siblings('.help').show();
-    });
-
-    $('input').blur(function (event) {
-        $(this).siblings('.help').hide();
-    });
-
-    form.submit(function(event) {
+    $forms.submit(function(event) {
+        var $form = $(this),
+            notices = $form.find('.notices');
         event.preventDefault();
 
-        request = $.ajax({
-            type: form.attr("method"),
-            url: form.attr("action"),
-            data: form.serialize(),
+        $.ajax({
+            type: $form.attr("method"),
+            url: $form.attr("action"),
+            data: $form.serialize(),
             dataType: "json"
-        });
+        })
 
         //form_submit.val('Wait please').attr('disabled', 'disabled');
 
-        request.done(function(response) {
+        .done(function(response) {
             notices.html(response.data);
-        });
+        })
 
-        request.fail(function(jqXHR, textStatus) {
+        .fail(function(jqXHR, textStatus) {
             notices.html('FAIL: ' + textStatus);
         });
     });
