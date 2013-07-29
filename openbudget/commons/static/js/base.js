@@ -57,7 +57,7 @@
 //******************/
 (function () {
 
-    $('#overlay .close, .disabled-event-catcher').click(function (event) {
+    $('#overlay .close, .mock-button').click(function (event) {
         $('[id^="overlay"]').hide();
     });
 
