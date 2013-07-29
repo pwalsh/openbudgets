@@ -7,16 +7,6 @@ define([
 ], function (uijet, resources) {
 
     return [{
-        type    : 'Pane',
-        config  : {
-            element     : '#nodes_list_container',
-            app_events  : {
-                'entities_list.selected': function (id) {
-                    this.wake({ entity_id : id });
-                }
-            }
-        }
-    }, {
         type    : 'List',
         config  : {
             element     : '#nodes_list_header',
@@ -57,7 +47,7 @@ define([
             filters         : {
                 search  : 'search',
                 selected: function (state) {
-                    if ( state !== null )
+                    if ( state === true )
                         return this.resource.where({ selected : 'selected' })
                                             .map(uijet.utils.prop('id'));
                     else
@@ -75,63 +65,76 @@ define([
             data_events     : {},
             signals         : {
                 post_init       : function () {
-                    this.scope = null;
+                    var state_model = uijet.Resource('NodesListState');
+
+                    state_model.on('change:entity_id', function (model, entity_id) {
+                        this.dont_fetch = false;
+                        this.has_data = false;
+                        this.rebuild_index = true;
+                        uijet.utils.extend(true, this.options.fetch_options, {
+                            data: {
+                                page_by : 4000,
+                                latest  : 'True',
+                                entity  : entity_id
+                            }
+                        });
+                    }, this);
+
+                    state_model.on('change:selection', function (model, selection) {
+                        if ( this.has_data ) {
+                            this.resetSelection(selection)
+                                .publish('selection', { reset : true });
+                        }
+                        else {
+                            this.reselect = true;
+                        }
+                    }, this);
                 },
                 pre_wake        : function () {
                     // usually on first load when there's no context, just bail out
                     if ( ! this.context ) return false;
 
-                    var entity_id = this.context.entity_id,
-                        selection;
-                    if ( entity_id ) {
-                        // change view back to main 
-                        this.scope = null;
-                        if ( this.latest_entity_id !== entity_id ) {
-                            this.latest_entity_id = entity_id;
-                            // this makes sure the resource will execute fetch to sync with remote server
-                            this.dont_fetch = false;
-                            this.has_data = false;
-                            uijet.utils.extend(true, this.options.fetch_options, {
-                                data: {
-                                    page_by : 4000,
-                                    latest  : 'True',
-                                    entity  : entity_id
-                                }
-                            });
+                    if ( this.context.entity_id ) {
+                        // change view back to main
+                        this.setScope(null);
+
+                        var state = uijet.Resource('NodesListState');
+                        this.updateFlags(state.attributes);
+
+                        if ( this.active_filters ) {
+                            this.filter(this.resource.byAncestor)
                         }
                         else {
-                            this.dont_fetch = true;
-                            this.resetSelection(this.context.selection)
-                                .publish('selection', { reset : true });
+                            this.filter(this.resource.roots);
                         }
-                        this.rescope(null);
-                        this.filter(this.resource.roots);
+                    }
+                    else {
+                        console.error('Nodes list started without a given entity ID.', this.context);
                     }
                 },
-                pre_update      : function () {
-                    if ( ! this.has_data ) {
-                        this.spin();
-                        return true;
-                    }
-                    return false;
-                },
+                pre_update      : 'spin',
                 post_fetch_data : function () {
-                    this.active_filters ?
-                        this.redraw(null) :
-                        this.rescope(null);
+                    if ( this.queued_filters ) {
+                        this.queued_filters = false;
+                        this.filter(this.resource.byAncestor);
+                    }
+                    if ( this.reselect ) {
+                        this.reselect = false;
+                        this.resetSelection(this.context.selection);
+                    }
+                    if ( this.rebuild_index ) {
+                        // clear FilterList's cache
+                        this.rebuild_index = false;
+                        this.cached_results = {};
+                        this.$last_filter_result = null;
+                        // rebuild index
+                        this.buildIndex();
+                    }
                     this.spinOff();
                 },
                 post_render     : function () {
                     this.$children = this.$element.children();
-                    if ( ! this.dont_fetch ) {
-                        this.dont_fetch = true;
-                        this.resetSelection(this.context.selection)
-                            .publish('selection', { reset : true });
-                    }
-                    if ( this.queued_filters ) {
-                        this.publish('rendered');
-                    }
-                    else if ( this.active_filters ) {
+                    if ( this.active_filters ) {
                         this.filterChildren();
                     }
                     else {
@@ -163,7 +166,7 @@ define([
                     uijet.utils.requestAnimFrame( function () {
                         var resource = this.resource,
                             highlight = this.highlight.bind(this);
-                        this.$last_filter_result.each(function (i, item) {
+                        (this.$last_filter_result || this.$children).each(function (i, item) {
                             var model = resource.get(+item.getAttribute('data-id')),
                                 name_text = model.get('name'),
                                 code_text = model.get('code'),
@@ -200,14 +203,7 @@ define([
                 'nodes_breadcrumbs_history_menu.selected'   : 'post_select+',
                 'nodes_list_header.selected'                : 'sortNodes+',
                 'nodes_list.selection'                      : function () {
-                    var resource = this.resource,
-                        filter = this.active_filters ?
-                            this.resource.byAncestor :
-                            this.resource.byParent; 
-                    this.filter(filter.call(this.resource, this.scope));
-                    if ( this.desc === false ) {
-                        this.filtered.reverse();
-                    }
+                    var resource = this.resource;
                     // update DOM with collection's state
                     this.$children.each(function (i, node) {
                         var $node = uijet.$(node),
@@ -216,7 +212,7 @@ define([
                         $node.attr('data-selected', state);
                     });
                     if ( this.active_filters & this.filter_flags['selected'] ) {
-                        this.updateSelectedFilter(true)
+                        this.updateSelectedFilter(true);
                     }
                 }
             }

@@ -25,6 +25,18 @@ define([
 
             return this._super.apply(this, arguments);
         },
+        updateFlags         :function (flags) {
+            var new_state = 0,
+                flag, value;
+            for ( flag in flags ) {
+                if ( flag in this.filter_flags ) {
+                    value = !!flags[flag];
+                    value && (new_state |= this.filter_flags[flag]);
+                }
+            }
+            this.active_filters = new_state;
+            return this;
+        },
         runFilter           : function (filter_name, value) {
             var results = null;
             if ( value === null ) {
@@ -66,11 +78,9 @@ define([
             return this;
         },
         clearFilter         : function (name) {
-            if ( this.active_filters & this.filter_flags[name] ) {
-                this.active_filters &= ~this.filter_flags[name];
-                delete this.cached_values[name];
-                delete this.cached_results[name];
-            }
+            this.active_filters &= ~this.filter_flags[name];
+            delete this.cached_values[name];
+            delete this.cached_results[name];
             return this;
         },
         filterChildren      : function () {
@@ -78,12 +88,14 @@ define([
                 ids, filter;
             if ( ! this.active_filters ) {
                 this.$children.removeClass(class_name);
+                this.$last_filter_result = this.$children;
             }
             else {
                 ids = this._intersectResults();
 
                 if ( ! ids.length ) {
                     this.$children.addClass(class_name);
+                    this.$last_filter_result = null;
                 }
                 else {
                     filter = function (i, item) {
@@ -107,20 +119,10 @@ define([
                 }
             }
             else {
-                var rendered_event = this.id + '.rendered';
                 this.queued_filters = true;
 
                 this.cached_values[filter_name] = value;
                 this.active_filters |= this.filter_flags[filter_name];
-
-                this.subscribe(rendered_event, function () {
-                    var filter;
-                    this.unsubscribe(rendered_event);
-                    for ( filter in this.cached_values ) {
-                        this.filterItems(filter, this.cached_values[filter]);
-                    }
-                    this.queued_filters = false;
-                });
             }
         },
         _intersectResults   : function () {

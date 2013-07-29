@@ -13,28 +13,18 @@ define([
     }))
     .Resource('NodesListState', uijet.Model(), {
         search      : null,
-        selected    : null
+        selected    : null,
+        legend_item : null
     });
 
     var attributeNullifier = function (attr) {
             return function () {
-                var obj = {};
-                obj[attr] = null;
-                this.resource.set(obj);
+                this.resource.set(attr, null);
             };
         },
         nullifySearchQuery = attributeNullifier('search'),
         clearText = function () {
             this.$content.text(gettext('Main'));
-        },
-        amountTypeChanged = function (model, value) {
-            if ( value === this.options.amount_type ) {
-                this.activate().disable();
-                uijet.publish('amount_type.updated', this.options.amount_type);
-            }
-            else {
-                this.enable().deactivate();
-            }
         };
 
     return [{
@@ -68,12 +58,22 @@ define([
                 'filters_search_menu.selected'  : function (data) {
                     data.type === 'selected' && this.resource.set({ selected : true });
                 },
-                'legends_list.change_state'     : function (data) {
-                    this.resource.set('amount_type', data.amount_type);
-                    //TODO: on legend item adding this causes wake to be called twice and nodes_list.render is called twice
+                'legends_list.select_state'     : function (data) {
+                    this.resource.set({
+                        amount_type : data.amount_type,
+                        entity_id   : data.entity_id
+                    })
+                    .set('selection', data.selection);
+
                     this.wake(data);
                 },
-                'entities_list.selected'        : nullifySearchQuery
+                'entities_list.selected'        : function () {
+                    this.resource.clear();
+                    this.resource.set({
+                        search  : null,
+                        selected: null
+                    }, { silent : true });
+                }
             }
         }
     }, {
@@ -357,88 +357,13 @@ define([
             app_events  : {
                 'selected.changed'  : function (data) {
                     var state = data.args[1];
-                    if ( state === null ) {
+                    if ( state === null || state === void 0 ) {
                         this.options.dont_wake = true;
                         this.sleep();
                     }
                     else {
                         this.options.dont_wake = false;
                         this.wake();
-                    }
-                }
-            }
-        }
-    }, {
-        type    : 'Pane',
-        config  : {
-            element : '#nodes_picker_footer'
-        }
-    }, {
-        type    : 'Button',
-        config  : {
-            element     : '#summarize_budget',
-            resource    : 'NodesListState',
-            amount_type : 'budget',
-            data_events : {
-                'change:amount_type': amountTypeChanged
-            },
-            signals     : {
-                pre_click   : function () {
-                    if ( ! this.activated ) {
-                        this.resource.set('amount_type', 'budget');
-                    }
-                }
-            }
-        }
-    }, {
-        type    : 'Button',
-        config  : {
-            element     : '#summarize_actual',
-            resource    : 'NodesListState',
-            amount_type : 'actual',
-            data_events : {
-                'change:amount_type': amountTypeChanged
-            },
-            signals     : {
-                pre_click   : function () {
-                    if ( ! this.activated ) {
-                        this.resource.set('amount_type', 'actual');
-                    }
-                }
-            }
-        }
-    }, {
-        type    : 'Button',
-        config  : {
-            element     : '#picker_done',
-            app_events  : {
-                'entities_list.selected'        : 'disable',
-                'legends_list.delete'           : 'enable',
-                'selected_nodes_count.updated'  : function (count) {
-                    count ? this.enable() : this.disable();
-                }
-            }
-        }
-    }, {
-        type    : 'Pane',
-        config  : {
-            element     : '#results_count',
-            dont_wake   : true,
-            app_events  : {
-                'nodes_list.filter_count'   : function (count) {
-                    if ( typeof count == 'number' ) {
-                        this.$element.text(interpolate(gettext('%(count)s results found'), { count : count }, true));
-                        this.wake();
-                    }
-                },
-                'search.changed'            : function (data) {
-                    if ( ! data.args[1] && ! data.args[0].get('selected') ) {
-                        this.sleep();
-                    }
-                },
-                'selected.changed'          : function (data) {
-                    if ( ! data.args[1] && ! data.args[0].get('search') ) {
-                        this.sleep();
                     }
                 }
             }

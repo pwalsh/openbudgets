@@ -8,11 +8,17 @@ define([
     uijet.Adapter('NodesList', {
         // optimization hack to not call `this._prepareScrolledSize()` after `render()`
         scrolled            : false,
-        rescope             : function (scope) {
-            this.scope = scope || null;
-            this.publish('scope_changed', this.scope && this.resource.get(this.scope));
-            if ( this.has_data ) {
-                this.buildIndex();
+        setScope            : function (scope) {
+            scope = scope || null;
+            if ( scope !== this.scope ) {
+                this.scope = scope;
+                if ( this.has_data ) {
+                    this.publish('scope_changed', this.scope && this.resource.get(this.scope));
+                    this.buildIndex();
+                }
+                else {
+                    this.rebuild_index = true;
+                }
             }
             return this;
         },
@@ -20,16 +26,21 @@ define([
             var filter = this.active_filters ?
                     this.resource.byAncestor :
                     this.resource.byParent; 
-            this.rescope(scope);
+            this.setScope(scope);
             return this.filter(filter, this.scope)
                        .render();
         },
         buildIndex          : function () {
+            this.cached_results = {};
             this.index()
                 .search_index.add(
                     this.resource.byAncestor(this.scope)
                         .map(uijet.utils.prop('attributes'))
                 );
+            if ( this.active_filters ) {
+                // refill cache
+                this.filterItems();
+            }
             return this;
         },
         sortNodes           : function (data) {
@@ -51,6 +62,10 @@ define([
             var query = uijet.utils.isObj(data) ? data.args[1] : data,
                 filters_active = !!this.active_filters;
 
+            if ( query === void 0 ) {
+                return this.clearFilter('search');
+            }
+
             this.filterBySearch(query);
 
             return this._updateFilter(!!this.active_filters !== filters_active);
@@ -58,6 +73,10 @@ define([
         updateSelectedFilter: function (data) {
             var state = uijet.utils.isObj(data) ? data.args[1] : data,
                 filters_active = !!this.active_filters;
+
+            if ( state === void 0 ) {
+                return this.clearFilter('selected');
+            }
 
             this.filterBySelected(state);
 
