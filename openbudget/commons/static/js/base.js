@@ -18,18 +18,18 @@
             if ( valid ) {
                 $this.addClass(valid_class);
                 $this.removeClass(invalid_class);
-                $this.closest('form').trigger('validate');
             }
             else {
                 $this.addClass(invalid_class);
                 $this.removeClass(valid_class);
             }
+            $this.closest('form').trigger(valid ? 'validate' : 'invalid');
         },
         editHandler = function (e) {
             var $this = $(this);
-            $this.removeClass('valid invalid')
+            $this.removeClass(valid_class + ' ' + invalid_class)
                 .next()
-                    .show();
+                    .show('block');
         },
         validateHandler = function () {
             var valid = false,
@@ -42,7 +42,7 @@
                                 }
                             }
                             valid = true;
-                        });
+                        }).end();
             $form.trigger(valid ? 'valid' : 'invalid');
         },
         validHandler = function () {
