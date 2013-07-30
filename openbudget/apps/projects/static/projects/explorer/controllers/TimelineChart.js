@@ -78,6 +78,7 @@ define([
                 var attrs = model.attributes;
                 return {
                     title       : attrs.title,
+                    placeholder : attrs.title || gettext('Insert title'),
                     nodes       : attrs.nodes,
                     muni        : new resources.Muni({
                         id  : attrs.muni_id,
