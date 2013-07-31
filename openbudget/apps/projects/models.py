@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from jsonfield import JSONField
 from oauth2_provider.models import Application
+from autoslug import AutoSlugField
 from openbudget.settings import base as settings
 from openbudget.apps.accounts.models import Account
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, ClassMethodMixin
@@ -34,6 +35,11 @@ class Project(TimeStampedModel, UUIDModel, ClassMethodMixin):
         _('Name'),
         max_length=255,
         help_text=_('The name of this project')
+    )
+    slug = AutoSlugField(
+        db_index=True,
+        populate_from='name',
+        unique=True
     )
     description = models.TextField(
         _('Description'),
