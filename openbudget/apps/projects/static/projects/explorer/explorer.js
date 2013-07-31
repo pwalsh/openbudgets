@@ -123,7 +123,10 @@ define([
              */
             uijet.subscribe('startup', function () {
                 explorer.routes_set_promise.then(function () {
-                    Backbone.history.start({ root : 'static/projects/explorer/index.html' });
+                    Backbone.history.start({
+                        pushState   : true,
+                        root        : '/projects/ext/explorer/'
+                    });
                 });
             })
             .subscribe('viz_new.clicked', explorer.clearState)

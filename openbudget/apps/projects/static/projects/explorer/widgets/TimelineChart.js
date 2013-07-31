@@ -278,7 +278,7 @@ define([
                 width = this.width,
                 color = this.colors,
                 added_label, added_label_texts;
-            d3.selectAll('.timeline').each(function (d, i) {
+            this.svg.selectAll('.timeline').each(function (d, i) {
                 d.values.some(function (point_datum) {
                     if ( point_datum.period.valueOf() === x_value.valueOf() ) {
                         datums.push({
