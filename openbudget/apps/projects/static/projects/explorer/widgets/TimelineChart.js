@@ -38,7 +38,7 @@ define([
                 x = d3.time.scale()
                     .range([padding, width - padding]),
                 y = d3.scale.linear()
-                    .range([height, padding]),
+                    .range([height, padding + 10]),
                 x_axis = d3.svg.axis()
                     .scale(x)
                     .orient('bottom')
