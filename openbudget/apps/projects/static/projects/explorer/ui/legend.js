@@ -166,6 +166,7 @@ define([
         type    : 'Select',
         config  : {
             element     : '#normalization_selector',
+            dont_wake   : true,
             menu        : {
                 element         : '#normalization_menu',
                 float_position  : 'top:44px;left:0px',
@@ -180,6 +181,14 @@ define([
                 }
             },
             app_events  : {
+                legend_item_removed         : function () {
+                    if ( ! uijet.Resource('LegendItems').length )
+                        this.sleep();
+                },
+                legend_item_added           : function () {
+                    if ( uijet.Resource('LegendItems').length === 1 )
+                        this.wake();
+                },
                 'normalization_menu.awake'  : 'activate',
                 'normalization_menu.asleep' : 'deactivate'
             }
