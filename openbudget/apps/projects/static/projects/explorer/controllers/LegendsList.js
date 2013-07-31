@@ -10,7 +10,7 @@ define([
                 placeholder : gettext('Insert title'),
                 muni        : '',
                 nodes       : [],
-                amount_type : 'actual'
+                amount_type : 'budget'
             });
             this.resource.add(model);
             return model;
