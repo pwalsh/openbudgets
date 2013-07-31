@@ -29,6 +29,10 @@ define([
         if ( ! ('X-CSRFToken' in settings.headers) )
             settings.headers['X-CSRFToken'] = api.getCSRFToken();
     });
+    $(window).on('resize', function () {
+        uijet.publish('app.resize');
+    });
+
     // get version endpoint
     api.getVersion();
 
@@ -46,7 +50,7 @@ define([
                                 var config = JSON.parse(model.get('config')),
                                     series = config.chart,
                                     legend_data = uijet.Resource('TimeSeries').reset(series).extractLegend();
-                                model.set('title', config.title);
+                                model.set('title', config.title || gettext('Insert title'));
                                 legend_data.forEach(function (item, i) {
                                     item.state = series[i].state;
                                     item.title = series[i].title;

@@ -86,6 +86,10 @@ svg {
 .uijet_menu li {
     white-space: nowrap;
 }
+.uijet_select_wrapper {
+    height: auto;
+    overflow: visible;
+}
 
 .invisible {
     visibility: hidden !important;

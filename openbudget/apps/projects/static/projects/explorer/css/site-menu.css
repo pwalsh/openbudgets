@@ -56,7 +56,10 @@
     background: url(../img/x_icon_for_cover.png) center no-repeat;
 }
 #site_menu_open {
-    padding: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 18px 42px;
     color: #7070a0;
 }
 #site_menu_open:after {

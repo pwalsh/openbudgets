@@ -1,7 +1,7 @@
 .legend_item {
     position: relative;
     height: 3.384rem;
-    padding: .3rem 3.4rem .3rem 1rem;
+    padding: .3rem 5.4rem .3rem 1rem;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -19,7 +19,7 @@
     display: block;
     position: absolute;
     top: 50%;
-    right: 1.5rem;
+    right: 3.3rem;
     width: 13px;
     height: 13px;
     margin-top: -7px;
@@ -97,16 +97,19 @@
 .legend_item_remove {
     position: absolute;
     top: 50%;
-    left: 2rem;
+    left: 1rem;
     width: 12px;
     height: 12px;
-    margin-top: -6px;
-    padding: 0;
+    margin-top: -21px;
+    padding: 21px;
     background: url(../img/x_for_adding_line.png) center no-repeat;
 }
 
 #add_legend {
-    padding: 1rem 1.5rem 1rem 1rem;
+    position: relative;
+    width: 100%;
+    height: 44px;
+    padding: 1rem 3.3rem 1rem 1rem;
 }
 #add_legend:hover {
     background-color: #c4c4d3;
@@ -133,8 +136,8 @@
     left: 2rem;
     width: 12px;
     height: 12px;
-    margin-top: -6px;
-    padding: 0;
+    margin-top: -21px;
+    padding: 21px;
     background: url(../img/x_for_adding_line.png) center no-repeat;
 }
 
@@ -148,4 +151,40 @@
 
 #legends_list_overlay {
     position: absolute;
+}
+
+#legends_list_wrapper {
+    height: auto;
+}
+
+#normalization_menu {
+    width: 100%;
+    background-color: #c4c4d3;
+}
+#normalization_menu li {
+    padding: .4rem;
+    text-align: right;
+    font-size: 1.3rem;
+}
+#normalization_menu li:hover {
+    background-color: #bdbdce;
+}
+#normalization_selector {
+    width: 100%;
+    height: 44px;
+    padding: 1rem 3.3rem 1rem 1rem;
+}
+#normalization_selector:hover {
+    background-color: #c4c4d3;
+}
+#normalization_selector_content:after {
+    content: '';
+    display: inline-block;
+    height: 1rem;
+    width: 12px;
+    margin-right: 5px;
+    background: url(../img/arrow_down_normalize.png) center no-repeat;
+}
+#normalization_selector_menu_wrapper {
+    width: 100%;
 }

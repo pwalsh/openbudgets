@@ -86,6 +86,13 @@
                             <span id="add_legend_cancel"></span>
                         </span>
                         <ul id="legends_list"></ul>
+                        <span id="normalization_selector">
+                            <span id="normalization_selector_content" data-i18n="normalize-by"></span>
+                            <ul id="normalization_menu">
+                                <li data-i18n="population" data-key="population"></li>
+                                <li data-i18n="ground-surface" data-key="ground_surface"></li>
+                            </ul>
+                        </span>
                     </section>
                 </div>
                 <div id="selected_muni_pane">
@@ -111,6 +118,7 @@
     </div>
     <script>
         var API_VERSION = 'v1';
+        //var API_INDEX = 'http://api.dev.openmuni.org.il/';
         //var gettext = window.gettext || function (v) { return v; };
         //var ngettext = window.gettext || function (v1, vn, n) { return v1; };
         //var interpolate = window.interpolate || function (fmts, d, named) { return fmts; };

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-25 08:46+0300\n"
+"POT-Creation-Date: 2013-07-30 11:01+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,7 +43,7 @@ msgid "Choose budget items:"
 msgstr "בחירת סעיפי תקציב"
 
 #: static/projects/explorer/dictionary.js:9
-#: static/projects/explorer/ui/nodes.js:28
+#: static/projects/explorer/ui/nodes.js:27
 msgid "Main"
 msgstr "ראשי"
 
@@ -145,8 +145,8 @@ msgstr "חפש"
 
 #: static/projects/explorer/dictionary.js:34
 #: static/projects/explorer/resources.js:64
-msgid "Guest"
-msgstr "אורח"
+msgid "Guest:"
+msgstr "אורח:"
 
 #: static/projects/explorer/dictionary.js:35
 msgid "Summarize data of:"
@@ -164,20 +164,33 @@ msgstr "ביצוע"
 msgid "selected items"
 msgstr "סעיפים נבחרים"
 
+#: static/projects/explorer/dictionary.js:39
+msgid "Normalize data by"
+msgstr "נרמל נתונים לפי"
+
+#: static/projects/explorer/dictionary.js:40
+msgid "Population"
+msgstr "אוכלוסיה"
+
+#: static/projects/explorer/dictionary.js:41
+msgid "Ground Surface"
+msgstr "שטח"
+
 #: static/projects/explorer/explorer.js:20
 #: static/projects/explorer/controllers/LegendsList.js:10
+#: static/projects/explorer/controllers/TimelineChart.js:81
 msgid "Insert title"
 msgstr "כתיבת כותרת"
 
-#: static/projects/explorer/ui/nodes.js:346
-msgid "Selected"
-msgstr "נבחרים"
-
-#: static/projects/explorer/ui/nodes.js:420
+#: static/projects/explorer/ui/nodes-footer.js:75
 msgid "%(count)s results found"
 msgstr "נמצאו %(count)s תוצאות"
 
-msgid "EXPENDITURE"
+#: static/projects/explorer/ui/nodes.js:356
+msgid "Selected"
+msgstr "נבחרים"
+
+ msgid "EXPENDITURE"
 msgstr "הוצאות"
 
 msgid "REVENUE"

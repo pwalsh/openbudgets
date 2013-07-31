@@ -26,7 +26,8 @@ define([
                     resource: model,
                     index   : index,
                     signals : {
-                        post_full_render: '-legend_item_added'
+                        post_full_render: '-legend_item_added',
+                        pre_destroy     : '-legend_item_removed'
                     },
                     color   : this.resource.colors[index],
                     picking : this.picking
@@ -111,7 +112,7 @@ define([
             else {
                 uijet.publish('welcome');
             }
-            this.scroll();
+            this.sizeAndScroll();
         },
         updateSelection : function (data) {
             if ( data && data.reset ) return;
@@ -152,6 +153,21 @@ define([
                 }
             });
             return this;
+        },
+        sizeAndScroll   : function () {
+            var $wrapper = this.$wrapper,
+                // -44 for normalization_selector
+                max_height = $wrapper[0].offsetParent.offsetHeight - 44,
+                el_height = this.$element[0].offsetHeight;
+            if ( ! this.picking ) {
+                // -44 for add_legend
+                max_height -= 44;
+            }
+            this.$wrapper.css({
+                'max-height': max_height + 'px',
+                height      : (el_height > max_height ? max_height : el_height) + 'px'
+            });
+            return this.scroll();
         }
     });
 

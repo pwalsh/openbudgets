@@ -61,7 +61,7 @@ define([
                     return first + ' ' + last;
                 }
                 else {
-                    return gettext('Guest');
+                    return gettext('Guest:');
                 }
             },
             avatar      : function () {

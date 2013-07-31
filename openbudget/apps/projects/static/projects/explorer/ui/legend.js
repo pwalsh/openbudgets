@@ -2,6 +2,8 @@ define([
     'uijet_dir/uijet',
     'widgets/Overlay',
     'project_widgets/LegendItem',
+    'project_widgets/Select',
+    'project_mixins/Delayed',
     'controllers/LegendsList'
 ], function (uijet) {
 
@@ -13,6 +15,15 @@ define([
         this.resource.each(function (model) {
             model.set('disabled', false);
         });
+    }
+
+    function positionNormalizationMenu () {
+        var height = this.$wrapper[0].offsetHeight,
+            container = uijet.$element.find('#legend_controls')[0],
+            selector = uijet.$element.find('#normalization_selector')[0],
+            container_h = container.offsetHeight,
+            top = uijet.utils.getOffsetOf(selector, container).y;
+        this.$wrapper.css('top', (container_h - top < height ? -height : 44) + 'px');
     }
 
     uijet.Factory('LegendItem', {
@@ -68,10 +79,11 @@ define([
         type    : 'Button',
         config  : {
             element     : '#add_legend',
-            position    : 'top:44px left:277px',
             signals     : {
-                pre_click   : 'disable',
-                pre_wake    : 'awaking'
+                pre_click       : 'disable',
+                pre_wake        : 'awaking',
+                post_appear     : function () { this.$element.removeClass('hide'); },
+                post_disappear  : function () { this.$element.addClass('hide'); }
             },
             app_events  : {
                 'entities_list.selected'    : 'enable',
@@ -101,10 +113,6 @@ define([
             mixins      : ['Scrolled'],
             adapters    : ['LegendsList', 'jqWheelScroll'],
             resource    : 'LegendItems',
-            position    : 'top|45px left:277px bottom',
-            style       : {
-                height  : 'auto'
-            },
             data_events : {
                 remove  : function () { this.resource.setColors(); },
                 add     : function () { this.resource.setColors(); },
@@ -117,6 +125,7 @@ define([
                 chart_colors                : function (colors) {
                     this.resource.colors = colors;
                 },
+                'app.resize'                : 'sizeAndScroll',
                 'legends_list.duplicate'    : 'addItem+',
                 'legends_list.selected'     : 'selectItem+',
                 'legends_list.delete'       : 'removeItem+',
@@ -124,28 +133,55 @@ define([
                     this.addItem()
                         .setEntity(muni_id)
                         .updateState();
+                    uijet.utils.requestAnimFrame(
+                        this.scrollTo.bind(this, this.$element.find('.legend_item:not(.disabled)'))
+                    );
                 },
                 'nodes_list.selection'      : 'updateSelection+',
                 'picker_done.clicked'       : chartMode,
                 'chart_reset'               : chartMode,
                 'add_legend_cancel.clicked' : chartMode,
-                'legend_item_added'         : 'scroll',
+                'legend_item_added'         : function () {
+                    this.sizeAndScroll();
+                    uijet.utils.requestAnimFrame(
+                        this.scrollTo.bind(this, this.$element.find('.legend_item:last-child'))
+                    );
+                },
                 'nodes_picker.awake'        : function () {
-                    this.position({ top : 0 })
-                        .scroll()
-                        .$element.addClass('picking');
+                    this.$element.addClass('picking');
                     this.picking = true;
+                    this.sizeAndScroll();
                 },
                 'add_legend.awaking'        : function () {
-                    var top = this.processed_position.top;
-                    this.position({ top : top.size + (top.unit || 'px') })
-                        .scroll()
-                        .$element.removeClass('picking');
+                    this.$element.removeClass('picking');
                     this.picking = false;
+                    this.sizeAndScroll();
                 },
                 'amount_type.updated'       : function (type) {
                     this.resource.at(this.current_index).set('amount_type', type);
                 }
+            }
+        }
+    }, {
+        type    : 'Select',
+        config  : {
+            element     : '#normalization_selector',
+            menu        : {
+                element         : '#normalization_menu',
+                float_position  : 'top:44px;left:0px',
+                signals         : {
+                    post_wake   : 'awake',
+                    post_sleep  : 'asleep'
+                },
+                app_events      : {
+                    'app.resize'            : positionNormalizationMenu,
+                    'legend_item_added'     : positionNormalizationMenu,
+                    'legend_item_removed'   : positionNormalizationMenu
+                }
+            },
+            app_events  : {
+                'normalization_menu.awake'  : 'activate',
+                'normalization_menu.asleep' : 'deactivate'
             }
         }
     }];
