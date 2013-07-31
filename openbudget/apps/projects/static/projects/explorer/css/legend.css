@@ -172,7 +172,7 @@
     height: 1rem;
     width: 12px;
     float: left;
-    margin-right: 5px;
+    margin: 2px 5px;
     background: url(../img/arrow_down_normalize.png) center no-repeat;
 }
 #normalization_selector_menu {
