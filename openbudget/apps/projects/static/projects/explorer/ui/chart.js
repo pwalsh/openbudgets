@@ -27,6 +27,8 @@ define([
                 template_name   : 'chart_period_select',
                 wrapper_class   : 'chart_period_select_wrapper',
                 signals         : {
+                    post_wake   : 'opened',
+                    post_sleep  : 'closed',
                     pre_wake    : function () {
                         return false;
                     }
@@ -229,7 +231,13 @@ define([
                 }
             },
             app_events  : {
-                'chart_period_start_menu.rendered'  : 'wake'
+                'chart_period_start_menu.rendered'  : 'wake',
+                'chart_period_start_menu.opened'    : function () {
+                    this.$wrapper.addClass('opened');
+                },
+                'chart_period_start_menu.closed'    : function () {
+                    this.$wrapper.removeClass('opened');
+                }
             }
         }
     }, {
@@ -273,7 +281,13 @@ define([
                 }
             },
             app_events  : {
-                'chart_period_end_menu.rendered': 'wake'
+                'chart_period_end_menu.rendered': 'wake',
+                'chart_period_end_menu.opened'  : function () {
+                    this.$wrapper.addClass('opened');
+                },
+                'chart_period_end_menu.closed'  : function () {
+                    this.$wrapper.removeClass('opened');
+                }
             }
         }
     }];

@@ -22,7 +22,6 @@
 .chart_period_button {
     padding: 1.3rem;
     font-size: 3.261rem;
-    background: url(../img/arrow_down_normalize.png) left center no-repeat;
 }
 .chart_period_select {
     position: absolute;
@@ -30,6 +29,9 @@
     width: auto;
     height: auto;
     overflow: visible;
+}
+.chart_period_select.opened {
+    background-color: #d0d0dc;
 }
 .float.chart_period_select_wrapper {
     width: 100%;
@@ -111,8 +113,22 @@
     font-weight: bold;
 }
 
+#chart_period_end:after {
+    content: '';
+    display: inline-block;
+    width: 22px;
+    height: 2rem;
+    background: url(../img/arrow_down_normalize.png) center no-repeat;
+}
 #chart_period_end_wrapper {
     right: 0;
+}
+#chart_period_start:before {
+    content: '';
+    display: inline-block;
+    width: 22px;
+    height: 2rem;
+    background: url(../img/arrow_down_normalize.png) center no-repeat;
 }
 #chart_period_start {
     background-position: right center;
