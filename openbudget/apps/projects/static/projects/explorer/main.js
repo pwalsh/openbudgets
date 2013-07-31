@@ -24,7 +24,8 @@ requirejs.config({
     }
 });
 requirejs([
-    'ui/main'
+    'ui/main',
+    '../js/base'
 ], function (Explorer) {
 
     Explorer.start({
