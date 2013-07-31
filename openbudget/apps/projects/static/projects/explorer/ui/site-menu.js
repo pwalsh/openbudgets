@@ -16,11 +16,7 @@ define([
             dont_wake       : true,
             animation_type  : 'slide',
             dom_events      : {
-                mouseout: function (e) {
-                    if ( ! this.$element[0].contains(document.elementFromPoint(e.pageX, e.pageY)) ) {
-                        this.sleep();
-                    }
-                }
+                mouseleave  : 'sleep'
             },
             app_events      : {
                 'site_menu_open.clicked'    : 'wake',
