@@ -30,16 +30,6 @@ define([
                     pre_wake    : function () {
                         return false;
                     }
-                },
-                app_events      : {
-                    'chart.fetched' : function (collection) {
-                        var periods = collection.periods();
-                        this.setData({
-                            periods         : periods, 
-                            periods_cache   : periods 
-                        })
-                        .render();
-                    }
                 }
             }
         }
@@ -130,7 +120,7 @@ define([
         type    : 'Pane',
         config  : {
             element     : '#chart_heading',
-            mixins      : ['Templated'],
+            mixins      : ['Templated', 'Translated'],
             resource    : 'ProjectState',
             dont_fetch  : true,
             data_events : {
@@ -217,12 +207,20 @@ define([
                     }
                 },
                 app_events  : {
+                    'chart.fetched' : function (collection) {
+                        var periods = collection.periods().slice(0, -1);
+                        this.setData({
+                            periods         : periods, 
+                            periods_cache   : periods 
+                        })
+                        .render();
+                    },
                     'chart_period_end.selected' : function ($selected) {
                         if ( this.has_data ) {
                             //TODO: assuming text is a number representing a year
                             var end_period = +$selected.text();
                             this.data.periods = this.data.periods_cache.filter(function (period) {
-                                return period <= end_period;
+                                return period < end_period;
                             });
                             this.silent_render = true;
                             this.render();
@@ -253,12 +251,20 @@ define([
                     }
                 },
                 app_events  : {
+                    'chart.fetched' : function (collection) {
+                        var periods = collection.periods().slice(1);
+                        this.setData({
+                            periods         : periods, 
+                            periods_cache   : periods 
+                        })
+                        .render();
+                    },
                     'chart_period_start.selected'   : function ($selected) {
                         if ( this.has_data ) {
                             //TODO: assuming text is a number representing a year
                             var start_period = +$selected.text();
                             this.data.periods = this.data.periods_cache.filter(function (period) {
-                                return period >= start_period;
+                                return period > start_period;
                             });
                             this.silent_render = true;
                             this.render();
