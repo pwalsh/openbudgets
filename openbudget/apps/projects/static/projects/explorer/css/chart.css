@@ -84,7 +84,8 @@
     font-size: 1.3rem;
     background-color: #c4c4d3;
 }
-#chart_footer .uijet_select_menu li:hover {
+#chart_footer .uijet_select_menu li:hover,
+#chart_footer .uijet_select_menu li.selected {
     background-color: #8989a8;
 }
 
