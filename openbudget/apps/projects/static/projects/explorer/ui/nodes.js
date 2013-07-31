@@ -1,10 +1,10 @@
 define([
     'uijet_dir/uijet',
     'resources',
+    'composites/Select',
     'project_widgets/ClearableTextInput',
     'project_widgets/Breadcrumbs',
     'project_widgets/FilterCrumb',
-    'project_widgets/Select',
     'project_mixins/Delayed'
 ], function (uijet, resources) {
 

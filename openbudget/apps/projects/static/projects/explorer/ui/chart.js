@@ -1,7 +1,7 @@
 define([
     'uijet_dir/uijet',
+    'composites/Select',
     'project_widgets/TimelineChart',
-    'project_widgets/Select',
     'controllers/TimelineChart'
 ], function (uijet) {
 

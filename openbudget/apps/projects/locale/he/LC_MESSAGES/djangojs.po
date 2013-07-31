@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-30 11:01+0300\n"
+"POT-Creation-Date: 2013-07-31 13:08+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -165,18 +165,23 @@ msgid "selected items"
 msgstr "סעיפים נבחרים"
 
 #: static/projects/explorer/dictionary.js:39
-msgid "Normalize data by"
-msgstr "נרמל נתונים לפי"
+msgid "Normalize data"
+msgstr "נרמל נתונים"
 
 #: static/projects/explorer/dictionary.js:40
+msgid "Don't normalize"
+msgstr "ללא"
+
+#: static/projects/explorer/dictionary.js:41
 msgid "Population"
 msgstr "אוכלוסיה"
 
-#: static/projects/explorer/dictionary.js:41
+#: static/projects/explorer/dictionary.js:42
 msgid "Ground Surface"
-msgstr "שטח"
+msgstr "שטח רשות"
 
 #: static/projects/explorer/explorer.js:20
+#: static/projects/explorer/explorer.js:55
 #: static/projects/explorer/controllers/LegendsList.js:10
 #: static/projects/explorer/controllers/TimelineChart.js:81
 msgid "Insert title"
@@ -190,7 +195,7 @@ msgstr "נמצאו %(count)s תוצאות"
 msgid "Selected"
 msgstr "נבחרים"
 
- msgid "EXPENDITURE"
+msgid "EXPENDITURE"
 msgstr "הוצאות"
 
 msgid "REVENUE"

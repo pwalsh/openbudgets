@@ -36,7 +36,8 @@ define(function() {
         'budget'                : gettext('Budget'),
         'actual'                : gettext('Actual'),
         'selected-items'        : gettext('selected items'),
-        'normalize-by'          : gettext('Normalize data by'),
+        'normalize-data'        : gettext('Normalize data'),
+        'no-normalization'      : gettext("Don't normalize"),
         'population'            : gettext('Population'),
         'ground-surface'        : gettext('Ground Surface')
     };
