@@ -15,9 +15,10 @@ define([
 ], function (uijet, resources, api, Backbone, Router, $, Ebox, Q, Mustache) {
 
     var default_state = {
-            project : 1,
-            author  : 1,
-            title   : gettext('Insert title')
+            project     : 1,
+            author      : 1,
+            title       : gettext('Insert title'),
+            description : ''
         },
         explorer;
 
@@ -50,7 +51,10 @@ define([
                                 var config = JSON.parse(model.get('config')),
                                     series = config.chart,
                                     legend_data = uijet.Resource('TimeSeries').reset(series).extractLegend();
-                                model.set('title', config.title || gettext('Insert title'));
+                                model.set({
+                                    title       : config.title || gettext('Insert title'),
+                                    description : config.description || ''
+                                });
                                 legend_data.forEach(function (item, i) {
                                     item.state = series[i].state;
                                     item.title = series[i].title;
@@ -161,8 +165,9 @@ define([
         },
         _saveState      : function (state_model) {
             state_model.save({ config : {
-                chart   : explorer._getChartState(),
-                title   : state_model.get('title')
+                chart       : explorer._getChartState(),
+                title       : state_model.get('title'),
+                description : state_model.get('description')
             } }, {
                 success : function () {
                     uijet.publish('state_saved');
