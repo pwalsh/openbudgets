@@ -26,9 +26,9 @@ requirejs.config({
 requirejs([
     'ui/main',
     '../js/base'
-], function (Explorer) {
+], function (explorer) {
 
-    Explorer.start({
+    explorer.start({
         AUTH_URL: window.AUTH_URL,
         auth    : {
             client_id       : '751be246011e8a6198d7',
