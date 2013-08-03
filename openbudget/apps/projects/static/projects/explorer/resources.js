@@ -91,7 +91,27 @@ define([
          * TemplateNode Model
          */
         Node = uijet.Model({
-            idAttribute : 'id'
+            idAttribute : 'id',
+            branchName  : function (from_id) {
+                var ancestors = this.attributes.ancestors,
+                    index = from_id ? ancestors.indexOf(from_id) : null,
+                    result = [],
+                    ancestors_len = ancestors.length;
+
+                if ( index === null ) {
+                    index = 0;
+                }
+                else if ( ~ index ) {
+                    index += 1;
+                }
+
+                while ( ancestors_len > index ) {
+                    ancestors_len -= 1;
+                    result.unshift(this.collection.get(ancestors[ancestors_len]).get('name'));
+                }
+
+                return result;
+            }
         }),
         /*
          * TemplateNodes Collection

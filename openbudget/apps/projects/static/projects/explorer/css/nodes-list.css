@@ -17,6 +17,9 @@
 .node_cell_code {
     padding-right: .461rem;
 }
+.node_cell_name > span + span:before {
+    content: ' > ';
+}
 .node_cell_select {
     width: 54px;
     padding: 0;
