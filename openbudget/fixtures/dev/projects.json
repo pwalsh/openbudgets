@@ -20,12 +20,13 @@
         "auth": 1,
         "owner": 1,
         "author": 1,
-        "name": "Cat Health: An Inquiry",
-        "description": "we love cats.",
+        "name": "Comparisons",
+        "description": "Budget Comparisons Visualization",
         "featured": true,
         "uuid": "de79ce65b9494405a3473843c6a71b52",
         "created_on": "2013-03-28T11:27:48.571Z",
-        "last_modified": "2013-03-28T11:27:48.571Z"
+        "last_modified": "2013-03-28T11:27:48.571Z",
+        "slug": "comparisons"
     }
 },
 
@@ -54,7 +55,8 @@
         "featured": true,
         "uuid": "de79ce65b9494405a3473843c6a71b51",
         "created_on": "2013-03-28T11:27:48.571Z",
-        "last_modified": "2013-03-28T11:27:48.571Z"
+        "last_modified": "2013-03-28T11:27:48.571Z",
+        "slug": "flowers-or-food"
     }
 }
 
