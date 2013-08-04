@@ -271,14 +271,16 @@ define([
             }
         },
         markValues      : function (x_value) {
-            var labels,
+            var markers,
                 datums = [],
                 x = this.x_scale,
                 y = this.y_scale,
                 width = this.width,
                 color = this.colors,
-                added_label, added_label_texts;
-            d3.selectAll('.timeline').each(function (d, i) {
+                label_transforms = [],
+                labels_y_margin = 20,
+                marker_values, added_markers, added_label_texts;
+            this.svg.selectAll('.timeline').each(function (d, i) {
                 d.values.some(function (point_datum) {
                     if ( point_datum.period.valueOf() === x_value.valueOf() ) {
                         datums.push({
@@ -301,14 +303,14 @@ define([
                 d.color = color(d.id);
             });
 
-            labels = this.svg.selectAll('.value_circle').data(datums, function (d) { return d.id + d.period; });
+            markers = this.svg.selectAll('.value_circle').data(datums, function (d) { return d.id + d.period; });
 
-            labels.exit().remove();
+            markers.exit().remove();
 
-            added_label = labels.enter().append('g')
+            added_markers = markers.enter().append('g')
                 .attr('class', 'value_circle');
             
-            added_label_texts = added_label.append('g')
+            added_label_texts = added_markers.append('g')
                 .attr('class', 'value_label')
                 .attr('transform', 'translate(0,-10)');
 
@@ -318,17 +320,17 @@ define([
             added_label_texts.append('text')
                 .attr('class', 'amount');
 
-            added_label.append('circle');
+            added_markers.append('circle');
 
-            labels.sort(function (a, b) { return a.amount - b.amount; });
+            markers.sort(function (a, b) { return a.amount - b.amount; });
 
-            labels.attr('transform', function (d) {
+            markers.attr('transform', function (d) {
                 return 'translate(' + d.x + ',' + d.y + ')';
             });
 
-            labels.selectAll('text')
+            markers.selectAll('text')
                 .attr('fill', function (d) { return d.color; });
-            labels.selectAll('.amount')
+            markers.selectAll('.amount')
                 .text(function (d) { return commas(d.amount); })
                 .attr('x', function () {
                     return - (this.getBBox().width + 10);
@@ -336,8 +338,10 @@ define([
 //            labels.selectAll('.title')
 //                .text(function (d) { return d.muni + ': ' + d.title; });
 
-            d3.selectAll('.value_label')
-                .attr('transform', function (d, i) {
+            
+
+            marker_values = d3.selectAll('.value_label')
+                .each(function (d, i) {
                     var y_pos = -10,
                         x_pos = 0,
                         matrix = this.getCTM(),
@@ -349,13 +353,10 @@ define([
                         dy = prev_y - (d.y - 10);
                         // make sure we have a margin of 20px between labels' texts
                         if ( dy <= 0 ) {
-                            y_pos = prev_y - d.y - 30
+                            y_pos = prev_y - d.y - (labels_y_margin + 10);
                         }
-                        else if ( dy < 20 ) {
-                            y_pos = -30;
-                        }
-                        else {
-                            y_pos = -10;
+                        else if ( dy < labels_y_margin ) {
+                            y_pos -= labels_y_margin;
                         }
                     }
                     // cache title position
@@ -373,10 +374,39 @@ define([
                         x_pos = 0;
                     }
 
-                    return 'translate(' + x_pos + ',' + y_pos + ')';
+                    label_transforms.push([x_pos, y_pos, bbox.y + matrix.f]);
                 });
 
-            labels.select('circle')
+            var prev_title_y = null, current_transform;
+            for ( var l = label_transforms.length; l--; ) {
+                current_transform = label_transforms[l];
+                // if this is first iteration
+                if ( prev_title_y === null ) {
+                    // if current_position + y_translation < 0 -> exceeding canvas' height
+                    if ( current_transform[2] + current_transform[1] < 0 ) {
+                        // this is first iteration so just drop highest title to y=0
+                        current_transform[1] = -current_transform[2];
+                    }
+                    // cache previous calculated title y position
+                    prev_title_y = current_transform.pop() + current_transform[1];
+                }
+                // on subsequent iterations
+                else {
+                    // if current_position - previous_position < labels_y_margin -> less than minimal margin
+                    if ( current_transform[2] + current_transform[1] - prev_title_y - labels_y_margin < 0 ) {
+                        // new y_translation = previous_position - current_position + labels_y_margin
+                        current_transform[1] = prev_title_y - current_transform[2] + labels_y_margin;
+                    }
+                    // cache previous calculated title y position
+                    prev_title_y = current_transform[1] + current_transform.pop();
+                }
+            }
+
+            marker_values.attr('transform', function (d, i) {
+                return 'translate(' + label_transforms[i].join() + ')';
+            });
+
+            markers.select('circle')
                 .attr('r', 5)
                 .style('fill', function (d) { return d.color; });
         },

@@ -2,7 +2,6 @@ define([
     'uijet_dir/uijet',
     'resources',
     'project_widgets/FilteredList',
-    'project_mixins/Diverted',
     'controllers/NodesList'
 ], function (uijet, resources) {
 
@@ -28,7 +27,7 @@ define([
         type    : 'FilteredList',
         config  : {
             element         : '#nodes_list',
-            mixins          : ['Templated', 'Scrolled', 'Diverted'],
+            mixins          : ['Templated', 'Scrolled'],
             adapters        : ['jqWheelScroll', 'Spin', 'NodesList'],
             resource        : 'LatestSheet',
             position        : 'fluid',
@@ -163,28 +162,7 @@ define([
                         ._prepareScrolledSize();
 
                     var search_term = uijet.Resource('NodesListState').get('search');
-                    uijet.utils.requestAnimFrame( function () {
-                        var resource = this.resource,
-                            highlight = this.highlight.bind(this);
-                        (this.$last_filter_result || this.$children).each(function (i, item) {
-                            var model = resource.get(+item.getAttribute('data-id')),
-                                name_text = model.get('name'),
-                                code_text = model.get('code'),
-                                $item = uijet.$(item),
-                                name = $item.find('.node_cell_name')[0],
-                                code = $item.find('.node_cell_code')[0];
-                            if ( search_term ) {
-                                name.innerHTML = highlight(name_text, search_term);
-                                code.innerHTML = highlight(code_text, search_term);
-                            }
-                            else {
-                                name.innerHTML = '';
-                                code.innerHTML = '';
-                                name.appendChild(document.createTextNode(name_text));
-                                code.appendChild(document.createTextNode(code_text));
-                            }
-                        });
-                    }.bind(this) );
+                    uijet.utils.requestAnimFrame( this.toggleHighlight.bind(this, search_term) );
                     uijet.utils.requestAnimFrame( this.scroll.bind(this) );
                 }
             },

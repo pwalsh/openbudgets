@@ -7,14 +7,14 @@ requirejs.config({
         widgets             : 'uijet/widgets',
         composites          : 'uijet/composites',
         modules             : 'uijet/modules',
-        explorer            : '../projects/explorer/explorer',
-        ui                  : '../projects/explorer/ui',
-        resources           : '../projects/explorer/resources',
-        controllers         : '../projects/explorer/controllers',
-        project_modules     : '../projects/explorer/modules',
-        project_widgets     : '../projects/explorer/widgets',
-        project_mixins      : '../projects/explorer/mixins',
-        dictionary          : '../projects/explorer/dictionary',
+        comparisons            : '../projects/comparisons/comparisons',
+        ui                  : '../projects/comparisons/ui',
+        resources           : '../projects/comparisons/resources',
+        controllers         : '../projects/comparisons/controllers',
+        project_modules     : '../projects/comparisons/modules',
+        project_widgets     : '../projects/comparisons/widgets',
+        project_mixins      : '../projects/comparisons/mixins',
+        dictionary          : '../projects/comparisons/dictionary',
         api                 : '../src/api',
         i18n                : '../src/i18n'
     },
@@ -24,10 +24,11 @@ requirejs.config({
     }
 });
 requirejs([
-    'ui/main'
-], function (Explorer) {
+    'ui/main',
+    '../js/base'
+], function (comparisons) {
 
-    Explorer.start({
+    comparisons.start({
         AUTH_URL: window.AUTH_URL,
         auth    : {
             client_id       : '751be246011e8a6198d7',

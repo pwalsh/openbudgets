@@ -1,8 +1,8 @@
 define(function() {
     return {
-        'document-title'        : gettext('Open Muni Budget | Budget Explorer'),
+        'document-title'        : gettext('Open Muni Budget | Budget Comparisons Visualization'),
         enter                   : gettext('Enter'),
-        'welcome-message'       : gettext('Welcome to Budget Explorer 5000'),
+        'welcome-message'       : gettext('Welcome to Budget Comparisons 5000'),
         'choose-entity'         : gettext('Choose entity'),
         'search-placeholder'    : gettext('Search'),
         'choose-budget-item'    : gettext('Choose budget items:'),

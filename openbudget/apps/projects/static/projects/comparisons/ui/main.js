@@ -1,6 +1,6 @@
 define([
     'uijet_dir/uijet',
-    'explorer',
+    'comparisons',
     'ui/legend',
     'ui/site-menu',
     'ui/entities',
@@ -8,7 +8,7 @@ define([
     'ui/nodes-list',
     'ui/nodes-footer',
     'ui/chart'
-], function (uijet, explorer, legend, site_menu, entities, nodes, nodes_list, nodes_footer, chart) {
+], function (uijet, comparisons, legend, site_menu, entities, nodes, nodes_list, nodes_footer, chart) {
 
     uijet.declare([{
         type    : 'Pane',
@@ -28,5 +28,5 @@ define([
         .declare(nodes_list)
         .declare(chart);
 
-    return explorer;
+    return comparisons;
 });
