@@ -2,7 +2,6 @@ define([
     'uijet_dir/uijet',
     'resources',
     'project_widgets/FilteredList',
-    'project_mixins/Diverted',
     'controllers/NodesList'
 ], function (uijet, resources) {
 
@@ -28,7 +27,7 @@ define([
         type    : 'FilteredList',
         config  : {
             element         : '#nodes_list',
-            mixins          : ['Templated', 'Scrolled', 'Diverted'],
+            mixins          : ['Templated', 'Scrolled'],
             adapters        : ['jqWheelScroll', 'Spin', 'NodesList'],
             resource        : 'LatestSheet',
             position        : 'fluid',
