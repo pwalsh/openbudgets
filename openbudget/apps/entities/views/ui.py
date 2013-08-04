@@ -16,4 +16,4 @@ class EntityList(ListView):
 
 class EntityDetail(DetailView):
     model = Entity
-    template_name = 'entities/entity_detail.html'
+    template_name = 'entities/explorer.html'

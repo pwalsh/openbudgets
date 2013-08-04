@@ -1,0 +1,66 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}entities/explorer/css/main.css"/>
+    <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico" />
+    <title>{% block metatitle %}{{ page.title }} | {{ site.name }}{% endblock metatitle %}</title>
+</head>
+<body>
+    <div id="explorer" class="uijet_app">
+        <section id="main_container" class="top_container">
+            <header id="sheet_header">
+                <span id="sheet_selector">
+                    <ul id="sheet_selector_menu">
+                        {% for period in object.periods %}<li>{{ period }}</li>{% endfor %}
+                    </ul>
+                </span>
+                <div id="items_breadcrumbs"></div>
+                <h2 id="items_scope_name">
+                    <span id="items_scope_name_content">{% trans 'Main' %}</span>
+                    <span id="search_crumb"></span>
+                </h2>
+            </header>
+            <section id="items_list_container">
+                <ul id="items_list_header">
+                    <li class="items_list_header_node" data-column="select"></li>
+                    <li class="items_list_header_node" data-column="type"></li>
+                    <li class="items_list_header_node" data-column="code">{% trans 'Code' %}</li>
+                    <li class="items_list_header_node" data-column="name">{% trans 'Name' %}</li>
+                    <li class="items_list_header_node" data-column="direction">{% trans 'Direction' %}</li>
+                    <li class="items_list_header_node" data-column="budget">{% trans 'Budget' %}</li>
+                    <li class="items_list_header_node" data-column="actual">{% trans 'Actual' %}</li>
+                </ul>
+                <ul id="items_list"></ul>
+            </section>
+        </section>
+        <section id="right_container" class="top_container">
+            <span id="site_menu_open" class="small_heading">{% trans 'Open Muni Budget' %}</span>
+            <h1 id="muni_name" class="right_menu_heading">{{ object.name }}</h1>
+            <div id="site_menu">
+                <span id="site_menu_close"></span>
+                <div id="site_menu_items">
+                    <a href="/" class="site_menu_item">{% trans 'Home' %}</a>
+                    <a href="/entities" class="site_menu_item">{% trans 'Munis' %}</a>
+                    <a href="/projects" class="site_menu_item">{% trans 'Projects' %}</a>
+                    <a href="/about" class="site_menu_item">{% trans 'About' %}</a>
+                </div>
+                <footer>
+                    <a href="http://http://www.hasadna.org.il/" id="hasadna_link"></a>
+                    <a href="api.dev.openmuni.org.il/" class="site_menu_footer_item">{% trans 'API' %}</a>
+                    <a href="/terms" class="site_menu_footer_item">{% trans 'Terms' %}</a>
+                    <a href="/privacy" class="site_menu_footer_item">{% trans 'Credits' %}</a>
+                </footer>
+            </div>
+        </section>
+    </div>
+    <script>
+        var API_INDEX = 'http://api.{{ site|safe }}/',
+            API_VERSION = 'v1';
+    </script>
+    <script src="{% url 'projects_js_i18n' %}"></script>
+    <script src="{{ STATIC_URL }}lib/require.js" data-main="{{ STATIC_URL }}entities/explorer/main"></script>
+</body>
+</html>

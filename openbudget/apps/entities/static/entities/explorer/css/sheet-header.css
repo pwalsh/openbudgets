@@ -1,0 +1,21 @@
+#items_scope_name {
+    position: absolute;
+    top: 60px;
+    right: 18px;
+    z-index: 1;
+    width: auto;
+    height: auto;
+    font-size: 3.261rem;
+    font-weight: normal;
+}
+#items_scope_name_content {
+    line-height: 150%;
+}
+
+#sheet_header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+}

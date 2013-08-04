@@ -6,6 +6,6 @@ urlpatterns = patterns('',
 
     url(r'^$', EntityList.as_view(), name='entity_list'),
 
-    url(r'^(?P<slug>[-\w]+)/$', EntityDetail.as_view(), name='entity_detail'),
+    url(r'^(?P<slug>[-\w]+)/', EntityDetail.as_view(), name='entity_detail'),
 
 )

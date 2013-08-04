@@ -1,0 +1,107 @@
+body, html {
+    height: 100%;
+    direction: rtl;
+    text-align: right;
+    font: 13px/1.231 Arial, sans-serif;
+    color: #141450;
+}
+em {
+    color: #ff0059;
+    font-style: normal;
+}
+input, textarea {
+    font: 13px/1.231 Arial, sans-serif;
+    color: #141450;
+}
+svg {
+    direction: ltr;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color: #d0d0dc;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #d0d0dc;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #d0d0dc;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #d0d0dc;
+}
+
+.ui-v-scroller {
+    position: absolute;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    z-index: 1;
+    width: 8px;
+    opacity: 0.3;
+}
+.ui-v-scroller-grip {
+    position: absolute;
+    top: 0;
+    right: -1px;
+    z-index: 1;
+    width: 6px;
+    height: 20px;
+    background-color: darkslategray;
+    cursor: pointer;
+}
+
+.uijet_contenteditable_input {
+    display: block;
+}
+.uijet_clearabletextinput {
+    width: 100%;
+    padding: 0;
+    font-size: 3.261rem;
+    line-height: 150%;
+    border: none;
+    outline: none;
+}
+.uijet_clearabletextinput_wrapper {
+    display: inline-block;
+    width: 80%;
+    height: auto;
+}
+.uijet_clearabletextinput_wrapper .shadow_text {
+    visibility: hidden !important;
+    position: absolute;
+    right: 0;
+    font-size: 3.261rem;
+}
+.uijet_button.uijet_clear_button {
+    position: absolute;
+    display: block;
+    right: 0;
+    top: 50%;
+    height: 11px;
+    width: 11px;
+    margin-top: -6px;
+    padding: 0;
+    background: url(../img/x_for_search.png) center no-repeat;
+}
+.uijet_menu li {
+    white-space: nowrap;
+}
+.uijet_select_wrapper {
+    height: auto;
+    overflow: visible;
+}
+
+.top_container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    padding: 18px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.small_heading {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
