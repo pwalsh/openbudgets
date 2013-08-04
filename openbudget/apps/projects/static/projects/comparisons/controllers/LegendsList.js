@@ -1,11 +1,11 @@
 define([
     'uijet_dir/uijet',
-    'explorer'
-], function (uijet, explorer) {
+    'comparisons'
+], function (uijet, comparisons) {
 
     uijet.Adapter('LegendsList', {
         createItemModel : function (state) {
-            var model = new explorer.LegendItemModel(state || {
+            var model = new comparisons.LegendItemModel(state || {
                 title       : '',
                 placeholder : gettext('Insert title'),
                 muni        : '',

@@ -65,6 +65,7 @@ define([
             } catch (e) {
                 re = new RegExp(void 0, this.search_index.query_flags);
             }
+            // '$&' is a placeholder for the matched search term
             return text.replace(re, '<em>$&</em>');
         }
     }, uijet.BaseWidget.prototype);

@@ -1,10 +1,10 @@
 define([
     'uijet_dir/uijet',
     'api',
-    'explorer',
+    'comparisons',
     'project_widgets/ClearableTextInput',
     'project_widgets/FilteredList'
-], function (uijet, api, explorer) {
+], function (uijet, api, comparisons) {
 
     return [{
         type    : 'Pane',
@@ -76,7 +76,7 @@ define([
             mixins          : ['Templated', 'Scrolled', 'Deferred'],
             adapters        : ['jqWheelScroll', 'Spin'],
             resource        : 'Munis',
-            promise         : explorer.routes_set_promise,
+            promise         : comparisons.routes_set_promise,
             position        : 'top|120px bottom fluid',
             fetch_options   : {
                 data: {

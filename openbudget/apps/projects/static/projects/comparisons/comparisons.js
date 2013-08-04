@@ -20,7 +20,7 @@ define([
             title       : gettext('Insert title'),
             description : ''
         },
-        explorer;
+        comparisons;
 
     // make sure all jQuery requests (foreign and domestic) have a CSRF token 
     $(document).ajaxSend(function (event, xhr, settings) {
@@ -37,7 +37,7 @@ define([
     // get version endpoint
     api.getVersion();
 
-    explorer = {
+    comparisons = {
         router          : Router({
             routes  : {
                 ':uuid' : function (uuid) {
@@ -80,11 +80,11 @@ define([
 //                            uijet.publish('api_routes_set');
 //                        }
 //                    });
-//                    explorer.setToken(auth_response.access_token);
+//                    comparisons.setToken(auth_response.access_token);
 //                }
 //            });
             var routes_deferred = uijet.Promise();
-            explorer.routes_set_promise = routes_deferred.promise();
+            comparisons.routes_set_promise = routes_deferred.promise();
 
             // set the API's routes
             api.getRoutes({
@@ -122,25 +122,25 @@ define([
              * Register handlers to events in UI
              */
             uijet.subscribe('startup', function () {
-                explorer.routes_set_promise.then(function () {
+                comparisons.routes_set_promise.then(function () {
                     Backbone.history.start({
                         pushState   : true,
-                        root        : '/projects/ext/explorer/'
+                        root        : '/projects/ext/comparisons/'
                     });
                 });
             })
-            .subscribe('viz_new.clicked', explorer.clearState)
-            .subscribe('viz_save.clicked', explorer.saveState)
-            .subscribe('viz_duplicate.clicked', explorer.duplicateState)
-            .subscribe('viz_delete.clicked', explorer.deleteState)
+            .subscribe('viz_new.clicked', comparisons.clearState)
+            .subscribe('viz_save.clicked', comparisons.saveState)
+            .subscribe('viz_duplicate.clicked', comparisons.duplicateState)
+            .subscribe('viz_delete.clicked', comparisons.deleteState)
 
 
             /*
              * Starting uijet
              */
             .init({
-                element             : '#explorer',
-                templates_path      : '/static/projects/explorer/templates/',
+                element             : '#comparisons',
+                templates_path      : '/static/projects/comparisons/templates/',
                 templates_extension : 'ms'
             });
         },
@@ -168,13 +168,13 @@ define([
         },
         _saveState      : function (state_model) {
             state_model.save({ config : {
-                chart       : explorer._getChartState(),
+                chart       : comparisons._getChartState(),
                 title       : state_model.get('title'),
                 description : state_model.get('description')
             } }, {
                 success : function () {
                     uijet.publish('state_saved');
-                    explorer.router.navigate(state_model.get('uuid'));
+                    comparisons.router.navigate(state_model.get('uuid'));
                 },
                 error   : function () {
                     uijet.publish('state_save_failed');
@@ -186,23 +186,23 @@ define([
             uijet.Resource('TimeSeries').reset();
             uijet.Resource('LegendItems').reset();
             uijet.Resource('ProjectState').set(default_state);
-            explorer.router.navigate('');
+            comparisons.router.navigate('');
         },
         duplicateState  : function () {
             var state_clone = uijet.Resource('ProjectState').clone();
             state_clone.unset('uuid').unset('id').unset('url');
             //TODO: check if logged in user is same as state author and if yes set state author to user
-            explorer._saveState(state_clone);
+            comparisons._saveState(state_clone);
         },
         saveState       : function () {
-            explorer._saveState(uijet.Resource('ProjectState'));
+            comparisons._saveState(uijet.Resource('ProjectState'));
         },
         deleteState     : function () {
             //TODO: check (again) if logged in user is really the state author
             uijet.Resource('ProjectState').destroy({
                 success : function () {
                     uijet.publish('state_deleted');
-                    explorer.router.navigate('');
+                    comparisons.router.navigate('');
                 },
                 error   : function () {
                     uijet.publish('state_delete_failed');
@@ -212,5 +212,5 @@ define([
         }
     };
 
-    return explorer;
+    return comparisons;
 });
