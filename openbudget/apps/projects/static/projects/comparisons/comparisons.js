@@ -10,8 +10,8 @@ define([
     'modules/engine/mustache',
     'modules/xhr/jquery',
     'modules/animation/uijet-transit',
-    'project_modules/uijet-i18n',
-    'project_modules/uijet-search'
+    'modules/uijet-search',
+    'project_modules/uijet-i18n'
 ], function (uijet, resources, api, Backbone, Router, $, Ebox, Q, Mustache) {
 
     var default_state = {
