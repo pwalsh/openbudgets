@@ -95,7 +95,7 @@ DEVSTRAP = {
         'locale/he/strings',
         'dev/interactions',
         'dev/sources',
-        'dev/projects'
+        'projects'
     ),
     'TESTS': (
         'accounts',

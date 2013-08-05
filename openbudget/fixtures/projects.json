@@ -1,0 +1,25 @@
+[
+
+{
+    "model": "projects.Project",
+    "pk": 1,
+    "fields": {
+        "uuid": "de79ce65b9494405a3473843c6a71b52",
+        "user": 1,
+        "author": 1,
+        "name": "השוואות",
+        "name_en": "Comparisons",
+        "description": "",
+        "description_en": "A charting tool for making comparative analysis of budgetary data.",
+        "featured": true,
+        "redirect_uris": "http://obudget.dev:8000/",
+        "client_type": "authorization-code",
+        "client_id": "751be246011e8a6198d7",
+        "client_secret": "c62cb3b66fcbe46b82ecda2ed146b7bfe24fdea4",
+        "created_on": "2013-03-28T11:27:48.571Z",
+        "last_modified": "2013-03-28T11:27:48.571Z",
+        "slug": "comparisons"
+    }
+}
+
+]
