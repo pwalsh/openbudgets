@@ -17,3 +17,8 @@ class EntityList(ListView):
 class EntityDetail(DetailView):
     model = Entity
     template_name = 'entities/explorer.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(EntityDetail, self).get_context_data(**kwargs)
+        context['periods'] = self.object.periods
+        return context
