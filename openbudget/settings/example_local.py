@@ -1,4 +1,5 @@
-from openbudget.settings.base import *
+# Uncomment if you are overriding any settings that are defined in settings.base
+#from openbudget.settings.base import *
 
 
 ######################################################################
@@ -59,3 +60,12 @@ from openbudget.settings.base import *
 #        },
 #    },
 #}
+
+# Uncomment to enable redis as a celery backend in development
+# You'll also need some extra dependencies:
+# pip install -r requirements/deploy.txt
+#BROKER_URL = REDIS_URL
+#
+#CELERY_RESULT_BACKEND = BROKER_URL
+#
+#CELERY_RESULT_DBURI = ''
