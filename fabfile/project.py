@@ -127,19 +127,22 @@ def stop():
 @task
 @roles('web')
 def ensure_dependencies():
-    from_pip()
-    from_volo()
+    install_pip()
+    install_volo()
 
 
-def from_pip():
+@task
+@roles('web')
+def install_pip():
     with prefix(WORKON):
         run('pip install -U -r requirements/base.txt')
         run('pip install -U -r requirements/deploy.txt')
         run(DEACTIVATE)
 
+
 @task
 @roles('web')
-def from_volo():
+def install_volo():
     with prefix(WORKON):
         run('volo add -f -noprompt')
         run(DEACTIVATE)
