@@ -170,13 +170,10 @@ define([
             menu        : {
                 element         : '#normalization_selector_menu',
                 float_position  : 'top:44px',
+                initial         : ':first-child',
                 signals         : {
                     post_wake   : 'opened',
-                    post_sleep  : 'closed',
-                    post_init   : function () {
-                        this.publish('initialized', this.$wrapper || this.$element);
-                        this.setSelected(this.$element.find(':first-child'));
-                    }
+                    post_sleep  : 'closed'
                 },
                 app_events      : {
                     'app.resize'            : positionNormalizationMenu,
@@ -186,19 +183,16 @@ define([
             },
             content     : uijet.$('#normalization_selector_selection'),
             app_events  : {
-                legend_item_removed                         : function () {
+                legend_item_removed                 : function () {
                     if ( ! uijet.Resource('LegendItems').length )
                         this.sleep();
                 },
-                legend_item_added                           : function () {
+                legend_item_added                   : function () {
                     if ( uijet.Resource('LegendItems').length === 1 )
                         this.wake();
                 },
-                'normalization_selector_menu.initialized'   : function ($menu) {
-                    this.$wrapper.append($menu);
-                },
-                'normalization_selector_menu.opened'        : 'activate',
-                'normalization_selector_menu.closed'        : 'deactivate'
+                'normalization_selector_menu.opened': 'activate',
+                'normalization_selector_menu.closed': 'deactivate'
             }
         }
     }];

@@ -10,8 +10,8 @@ define([
     'modules/engine/mustache',
     'modules/xhr/jquery',
     'modules/animation/uijet-transit',
-    'modules/search/uijet-search'
-//    'project_modules/uijet-i18n',
+    'modules/search/uijet-search',
+    'project_modules/uijet-i18n'
 ], function (uijet, resources, api, Backbone, Router, $, Ebox, Q, Mustache) {
 
     var explorer;

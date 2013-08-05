@@ -28,18 +28,30 @@ define([
         };
 
     return [{
+        type    : 'Select',
+        config  : {
+            element : '#sheet_selector',
+            menu    : {
+                element         : '#sheet_selector_menu',
+                float_position  : 'top:44px',
+                initial         : ':first-child'
+            },
+            content : uijet.$('#sheet_selector_content'),
+            sync    : true
+        }
+    }, {
         type    : 'Pane',
         config  : {
             element     : '#sheet_scope_name',
             signals     : {
                 post_init   : function () {
-                    this.$content = this.$element.find('#nodes_scope_name_content');
+                    this.$content = this.$element.find('#sheet_scope_name_content');
                 }
             },
             app_events  : {
-                'nodes_list.scope_changed'      : function (scope_node_model) {
-                    if ( scope_node_model ) {
-                        this.$content.text(scope_node_model.get('name'));
+                'items_list.scope_changed'      : function (scope_item_model) {
+                    if ( scope_item_model ) {
+                        this.$content.text(scope_item_model.get('name'));
                     }
                     else {
                         clearText.call(this);
@@ -52,8 +64,8 @@ define([
                     if ( data.type === 'search' )
                         this.sleep();
                 },
-                'nodes_search.entered'          : 'wake',
-                'nodes_search.cancelled'        : 'wake',
+                'items_search.entered'          : 'wake',
+                'items_search.cancelled'        : 'wake',
                 'search_crumb_remove.clicked'   : 'wake'
             }
         }
@@ -113,7 +125,7 @@ define([
                     'filters_search.mouse_left' : function () {
                         this.mouse_over || this.sleep();
                     },
-                    'nodes_search.entered'      : function (query) {
+                    'items_search.entered'      : function (query) {
                         if ( query ) {
                             var index = this.prev_search_terms.indexOf(query);
                             if ( ~ index ) {

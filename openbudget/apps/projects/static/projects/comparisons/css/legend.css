@@ -158,6 +158,7 @@
 }
 
 #normalization_selector {
+    position: relative;
     width: 100%;
     height: 44px;
     padding: 1rem 3.3rem 1rem 1rem;

@@ -77,8 +77,10 @@ define([
             return this;
         },
         _draw           : function () {
-            return this.publish('fetched', this.resource)
+            this.publish('fetched', this.resource)
                 .draw(this.resource.models);
+            this.notify('fetched');
+            return this;
         },
         render          : function () {
             this._super();

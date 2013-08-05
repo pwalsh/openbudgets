@@ -25,7 +25,6 @@ define([
             menu            : {
                 mixins          : ['Templated'],
                 template_name   : 'chart_period_select',
-                wrapper_class   : 'chart_period_select_wrapper',
                 signals         : {
                     post_wake   : 'opened',
                     post_sleep  : 'closed',
@@ -166,6 +165,12 @@ define([
             style       : {
                 padding : '20px 20px 0'
             },
+            signals     : {
+                fetched : function () {
+                    var periods = this.resource.periods();
+                    this.timeContext(String(periods[0]), String(periods[periods.length - 1]));
+                }
+            },
             data_events : {
                 reset   : function (collection) {
                     uijet.publish('chart_reset', {
@@ -196,16 +201,10 @@ define([
             element     : '#chart_period_start',
             menu        : {
                 signals     : {
-                    post_render : function () {
+                    rendered: function () {
                         this.floatPosition('top: -' + this.$wrapper[0].offsetHeight + 'px;');
-                        if ( this.silent_render ) {
-                            this.setSelected(this.$element.find(':first-child'));
-                            this.silent_render = false;
-                        }
-                        else {
-                            this.select(':first-child');
-                        }
-                        this.publish('rendered');
+                        this.setSelected(this.$element.find(':first-child'));
+                        this.publish('rendered', this.$selected);
                     }
                 },
                 app_events  : {
@@ -216,6 +215,7 @@ define([
                             periods_cache   : periods 
                         })
                         .render();
+                        this.notify('rendered');
                     },
                     'chart_period_end.selected' : function ($selected) {
                         if ( this.has_data ) {
@@ -224,14 +224,17 @@ define([
                             this.data.periods = this.data.periods_cache.filter(function (period) {
                                 return period < end_period;
                             });
-                            this.silent_render = true;
                             this.render();
+                            this.notify('rendered');
                         }
                     }
                 }
             },
             app_events  : {
-                'chart_period_start_menu.rendered'  : 'wake',
+                'chart_period_start_menu.rendered'  : function ($selected) {
+                    this.options.content.text($selected.text());
+                    this.wake();
+                },
                 'chart_period_start_menu.opened'    : function () {
                     this.$wrapper.addClass('opened');
                 },
@@ -246,26 +249,21 @@ define([
             element     : '#chart_period_end',
             menu        : {
                 signals     : {
-                    post_render : function () {
+                    rendered: function () {
                         this.floatPosition('top: -' + this.$wrapper[0].offsetHeight + 'px;');
-                        if ( this.silent_render ) {
-                            this.setSelected(this.$element.find(':last-child'));
-                            this.silent_render = false;
-                        }
-                        else {
-                            this.select(':last-child');
-                        }
-                        this.publish('rendered');
+                        this.setSelected(this.$element.find(':last-child'));
+                        this.publish('rendered', this.$selected);
                     }
                 },
                 app_events  : {
-                    'chart.fetched' : function (collection) {
+                    'chart.fetched'                 : function (collection) {
                         var periods = collection.periods().slice(1);
                         this.setData({
                             periods         : periods, 
                             periods_cache   : periods 
                         })
                         .render();
+                        this.notify('rendered');
                     },
                     'chart_period_start.selected'   : function ($selected) {
                         if ( this.has_data ) {
@@ -274,17 +272,20 @@ define([
                             this.data.periods = this.data.periods_cache.filter(function (period) {
                                 return period > start_period;
                             });
-                            this.silent_render = true;
                             this.render();
+                            this.notify('rendered');
                         }
                     }
                 }
             },
             app_events  : {
-                'chart_period_end_menu.rendered': 'wake',
+                'chart_period_end_menu.rendered': function ($selected) {
+                    this.options.content.text($selected.text());
+                    this.wake();
+                },
                 'chart_period_end_menu.opened'  : function () {
                     this.$wrapper.addClass('opened');
-                },
+                },      
                 'chart_period_end_menu.closed'  : function () {
                     this.$wrapper.removeClass('opened');
                 }

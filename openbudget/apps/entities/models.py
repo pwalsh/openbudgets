@@ -199,6 +199,10 @@ class Entity(TimeStampedModel, ClassMethodMixin):
         return Entity.objects.related_map().filter(division=self.division).\
             exclude(id=self.id)
 
+    @property
+    def periods(self):
+        return [sheet.period for sheet in self.sheets.all()]
+
     class Meta:
         ordering = ('division__domain', 'division__index', 'name')
         verbose_name = _('entity')

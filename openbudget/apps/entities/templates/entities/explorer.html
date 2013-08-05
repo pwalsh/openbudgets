@@ -13,19 +13,22 @@
         <section id="main_container" class="top_container">
             <header id="sheet_header">
                 <span id="sheet_selector">
+                    <span id="sheet_selector_content"></span>
                     <ul id="sheet_selector_menu">
-                        {% for period in object.periods %}<li>{{ period }}</li>{% endfor %}
+                        {% for period in periods %}<li>{{ period }}</li>{% endfor %}
                     </ul>
                 </span>
                 <div id="items_breadcrumbs"></div>
-                <h2 id="items_scope_name">
-                    <span id="items_scope_name_content">{% trans 'Main' %}</span>
+                <h2 id="sheet_scope_name">
+                    <span id="sheet_scope_name_content">{% trans 'Main' %}</span>
                     <span id="search_crumb"></span>
                 </h2>
+                <input type="text" name="items_search" id="items_search" placeholder="{% trans 'Search' %}"/>
+                <span id="filters_search"></span>
+                <span id="items_search_exit"></span>
             </header>
             <section id="items_list_container">
                 <ul id="items_list_header">
-                    <li class="items_list_header_node" data-column="select"></li>
                     <li class="items_list_header_node" data-column="type"></li>
                     <li class="items_list_header_node" data-column="code">{% trans 'Code' %}</li>
                     <li class="items_list_header_node" data-column="name">{% trans 'Name' %}</li>

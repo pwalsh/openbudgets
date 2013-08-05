@@ -20,17 +20,15 @@
     font-weight: bold;
 }
 .chart_period_button {
-    padding: 1.3rem;
-    font-size: 3.261rem;
-}
-.chart_period_select {
     position: absolute;
     top: 0;
     width: auto;
     height: auto;
+    padding: 1.3rem;
     overflow: visible;
+    font-size: 3.261rem;
 }
-.chart_period_select.opened {
+.chart_period_button.opened {
     background-color: #d0d0dc;
 }
 .float.chart_period_select_wrapper {
@@ -113,15 +111,15 @@
     font-weight: bold;
 }
 
+#chart_period_end {
+    right: 0;
+}
 #chart_period_end:after {
     content: '';
     display: inline-block;
     width: 22px;
     height: 2rem;
     background: url(../img/arrow_down_normalize.png) center no-repeat;
-}
-#chart_period_end_wrapper {
-    right: 0;
 }
 #chart_period_start:before {
     content: '';
@@ -131,10 +129,16 @@
     background: url(../img/arrow_down_normalize.png) center no-repeat;
 }
 #chart_period_start {
+    left: 0;
     background-position: right center;
 }
-#chart_period_start_wrapper {
+#chart_period_start_menu_wrapper {
     left: 0;
+    width: 100%;
+}
+#chart_period_end_menu_wrapper {
+    right: 0;
+    width: 100%;
 }
 
 #mouse_target {

@@ -1,4 +1,4 @@
-#items_scope_name {
+#sheet_scope_name {
     position: absolute;
     top: 60px;
     right: 18px;
@@ -8,7 +8,7 @@
     font-size: 3.261rem;
     font-weight: normal;
 }
-#items_scope_name_content {
+#sheet_scope_name_content {
     line-height: 150%;
 }
 
