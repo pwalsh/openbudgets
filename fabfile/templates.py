@@ -137,3 +137,63 @@ env BEATRECORD=/celerybeat-schedule.db
 exec su -s /bin/sh -c 'exec "$0" "$@"' $USER -- $ENVIRONMENT$PYTHON $PROJECT$MANAGE celery worker --beat --schedule=$PROJECT$BEATRECORD --concurrency=$CONCURRENCY --maxtasksperchild=$MAX_TASKS_PER_CHILD --logfile=$LOGS$LOGFILE
 
 """
+
+production_settings = """### Generated via Fabric on ${ACTION_DATE}
+from openbudget.settings.base import *
+
+
+DEBUG = False
+
+TEMPLATE_DEBUG = DEBUG
+
+MODELTRANSLATION_DEBUG = DEBUG
+
+SECRET_KEY = '${SECRET_KEY}'
+
+ALLOWED_HOSTS = ${ALLOWED_HOSTS}
+
+SESSION_COOKIE_DOMAIN = ${SESSION_COOKIE_DOMAIN}
+
+EMAIL_HOST_USER = ${EMAIL_HOST_USER}
+
+EMAIL_HOST_PASSWORD = ${EMAIL_HOST_PASSWORD}
+
+ADMINS = ${ADMINS}
+
+SENTRY_DSN = ${SENTRY_DSN}
+
+BROKER_URL = REDIS_URL
+
+CELERY_RESULT_BACKEND = BROKER_URL
+
+CELERY_RESULT_DBURI = ''
+
+INTERNAL_IPS = ()
+
+DEBUG_TOOLBAR_CONFIG = {}
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': ${DATABASE_NAME},
+        'USER': ${DATABASE_USER},
+        'PASSWORD': ${PASSWORD},
+        'HOST': '',
+        'PORT': '',
+        'OPTIONS': {
+            'autocommit': True,
+        }
+    }
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': REDIS['HOST'] + ':' + str(REDIS['PORT']),
+        'OPTIONS': {
+            'DB': REDIS['DB'],
+            'PARSER_CLASS': 'redis.connection.HiredisParser'
+        },
+    },
+}
+"""
