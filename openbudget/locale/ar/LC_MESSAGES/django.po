@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-27 18:27+0300\n"
+"POT-Creation-Date: 2013-08-05 16:53+0300\n"
 "PO-Revision-Date: 2013-07-04 14:04+0000\n"
 "Last-Translator: Paul Walsh <paulywalsh@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,7 +75,7 @@ msgstr ""
 msgid "Open Budget Repository"
 msgstr "فتح مستودع الميزانية"
 
-#: dashboard.py:104
+#: dashboard.py:104 apps/entities/templates/entities/explorer.html:54
 msgid "Credits"
 msgstr "ائتمانات"
 
@@ -122,11 +122,13 @@ msgstr "البريد الإلكتروني"
 msgid "Enter Password"
 msgstr "كلمة السر"
 
-#: apps/accounts/forms.py:32 apps/accounts/models.py:48
+#: apps/accounts/forms.py:32 apps/accounts/forms.py:102
+#: apps/accounts/models.py:50
 msgid "First Name"
 msgstr ""
 
-#: apps/accounts/forms.py:36 apps/accounts/models.py:52
+#: apps/accounts/forms.py:36 apps/accounts/forms.py:105
+#: apps/accounts/models.py:54
 #, fuzzy
 msgid "Last Name"
 msgstr "آخر تعديل"
@@ -167,91 +169,91 @@ msgstr "أدخل كلمة المرور الجديدة"
 msgid "Confirm New Password"
 msgstr "أدخل كلمة المرور الجديدة"
 
-#: apps/accounts/models.py:56
+#: apps/accounts/models.py:58
 #, fuzzy
 msgid "Email Address"
 msgstr "المصممين البريد الإلكتروني"
 
-#: apps/accounts/models.py:60
+#: apps/accounts/models.py:62
 msgid "staff status"
 msgstr ""
 
-#: apps/accounts/models.py:62
+#: apps/accounts/models.py:64
 msgid "Designates whether the user can log into this admin site."
 msgstr ""
 
-#: apps/accounts/models.py:66
+#: apps/accounts/models.py:68
 msgid "active"
 msgstr ""
 
-#: apps/accounts/models.py:68
+#: apps/accounts/models.py:70
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
 msgstr ""
 
-#: apps/accounts/models.py:75
+#: apps/accounts/models.py:77
 msgid "Set your preferred language for the app"
 msgstr "تعيين لغتك المفضلة للتطبيق"
 
-#: apps/accounts/models.py:128
+#: apps/accounts/models.py:130
 #, fuzzy
 msgid "User Account"
 msgstr "حساب"
 
-#: apps/accounts/models.py:129
+#: apps/accounts/models.py:131
 #, fuzzy
 msgid "User Accounts"
 msgstr "حساب"
 
-#: apps/accounts/models.py:168
+#: apps/accounts/models.py:170
 msgid "Core team user"
 msgstr "مستخدم الفريق الأساسي"
 
-#: apps/accounts/models.py:169
+#: apps/accounts/models.py:171
 msgid "Core team users"
 msgstr "مستخدمين الفريق الأساسي"
 
-#: apps/accounts/models.py:191
+#: apps/accounts/models.py:193
 msgid "Content team user"
 msgstr "مستخدم فريق المحتوى"
 
-#: apps/accounts/models.py:192
+#: apps/accounts/models.py:194
 msgid "Content team users"
 msgstr "المستخدمين فريق المحتوى"
 
-#: apps/accounts/models.py:214
+#: apps/accounts/models.py:216
 msgid "Public user"
 msgstr "مستخدم عام"
 
-#: apps/accounts/models.py:215
+#: apps/accounts/models.py:217
 msgid "Public users"
 msgstr "مستخدمين عامين"
 
-#: apps/accounts/templates/accounts/account_detail.html:23
+#: apps/accounts/templates/accounts/account_detail.html:26
 msgid "Change your password"
 msgstr "تغيير كلمة السر الخاصة بك"
 
-#: apps/accounts/templates/accounts/account_detail.html:26
+#: apps/accounts/templates/accounts/account_detail.html:29
 #, fuzzy
 msgid "Manage projects"
 msgstr "موضوع بيانات"
 
-#: apps/accounts/templates/accounts/account_detail.html:43
+#: apps/accounts/templates/accounts/account_detail.html:46
 msgid "Show everything"
 msgstr ""
 
-#: apps/accounts/templates/accounts/account_detail.html:44
+#: apps/accounts/templates/accounts/account_detail.html:47
 #, fuzzy
 msgid "Item comments"
 msgstr "للتعليق"
 
-#: apps/accounts/templates/accounts/account_detail.html:45
+#: apps/accounts/templates/accounts/account_detail.html:48
 #, fuzzy
 msgid "Vizualization states"
 msgstr "حالة النشر"
 
-#: apps/accounts/templates/accounts/account_detail.html:51
+#: apps/accounts/templates/accounts/account_detail.html:54
 #, fuzzy
 msgid "Activities"
 msgstr "كيانات"
@@ -338,9 +340,9 @@ msgid "&#8362;"
 msgstr ""
 
 #: apps/entities/models.py:41 apps/entities/models.py:109
-#: apps/entities/models.py:160 apps/projects/models.py:34
-#: apps/sheets/models.py:44 apps/sheets/models.py:119
-#: apps/taxonomies/models.py:98
+#: apps/entities/models.py:160
+#: apps/entities/templates/entities/explorer.html:31 apps/sheets/models.py:44
+#: apps/sheets/models.py:119 apps/taxonomies/models.py:98
 msgid "Name"
 msgstr "اسم"
 
@@ -439,7 +441,7 @@ msgstr "اسم هذا المجال الكياني"
 msgid "The name of this entity."
 msgstr "اسم هذا الكيان"
 
-#: apps/entities/models.py:166 apps/projects/models.py:39
+#: apps/entities/models.py:166 apps/projects/models.py:28
 #: apps/sheets/models.py:50 apps/sheets/models.py:365
 #: apps/sheets/models.py:421
 msgid "Description"
@@ -449,7 +451,8 @@ msgstr "وصف"
 msgid "A short text for this entity, useful as an overview."
 msgstr ""
 
-#: apps/entities/models.py:171 apps/sheets/models.py:125
+#: apps/entities/models.py:171
+#: apps/entities/templates/entities/explorer.html:30 apps/sheets/models.py:125
 #: apps/sheets/templates/sheets/sheet_item_detail.html:6
 #: commons/templates/search/search.html:65
 #: commons/templates/search/search.html:80
@@ -525,6 +528,64 @@ msgstr "الاتصال بنا"
 #: apps/entities/templates/entities/entity_list.html:20
 msgid "More"
 msgstr "إضافي"
+
+#: apps/entities/templates/entities/explorer.html:22
+msgid "Main"
+msgstr ""
+
+#: apps/entities/templates/entities/explorer.html:32
+#, fuzzy
+msgid "Direction"
+msgstr "وصف"
+
+#: apps/entities/templates/entities/explorer.html:33
+#: apps/sheets/templates/sheets/sheet_detail.html:6
+#: apps/sheets/templates/sheets/sheet_detail.html:39
+msgid "Budget"
+msgstr "ميزانية"
+
+#: apps/entities/templates/entities/explorer.html:34
+#: apps/sheets/templates/sheets/sheet_detail.html:41
+msgid "Actual"
+msgstr "واقعي"
+
+#: apps/entities/templates/entities/explorer.html:40
+#, fuzzy
+msgid "Open Muni Budget"
+msgstr "فتح الميزانيات الإسرائيلي"
+
+#: apps/entities/templates/entities/explorer.html:45
+#: commons/templates/partials/nav-panel.html:12
+msgid "Home"
+msgstr "بيت"
+
+#: apps/entities/templates/entities/explorer.html:46
+msgid "Munis"
+msgstr ""
+
+#: apps/entities/templates/entities/explorer.html:47
+#: apps/projects/models.py:62
+#: apps/projects/templates/projects/project_list.html:6
+#: commons/templates/partials/nav-panel.html:14
+msgid "Projects"
+msgstr "مشاريع"
+
+#: apps/entities/templates/entities/explorer.html:48
+#: apps/sources/templates/sources/auxsource_detail.html:22
+#: apps/sources/templates/sources/referencesource_detail.html:22
+#: commons/templates/partials/nav-panel.html:15
+msgid "About"
+msgstr "حول"
+
+#: apps/entities/templates/entities/explorer.html:52
+#: commons/templates/partials/nav-panel.html:30
+msgid "API"
+msgstr ""
+
+#: apps/entities/templates/entities/explorer.html:53
+#: commons/templates/partials/nav-panel.html:32
+msgid "Terms"
+msgstr "شروط"
 
 #: apps/interactions/models.py:63
 #: apps/interactions/templatetags/interactions.py:40
@@ -665,70 +726,58 @@ msgstr "صفحات"
 msgid "Welcome to Open Budget"
 msgstr "مرحبا بكم في الميزانية المفتوحة"
 
-#: apps/projects/models.py:36
-msgid "The name of this project"
-msgstr "اسم هذا المشروع"
-
-#: apps/projects/models.py:40
+#: apps/projects/models.py:29
 msgid "Provide a short description of this project"
 msgstr "قدم وصفا موجزا لهذا المشروع"
 
-#: apps/projects/models.py:43
+#: apps/projects/models.py:32
 msgid "Featured"
 msgstr "متميز"
 
-#: apps/projects/models.py:47 apps/projects/models.py:94
-#: commons/templates/comments/_preview.html:33
-msgid "Preview"
-msgstr "عرض مسبق"
+#: apps/projects/models.py:36 apps/projects/models.py:86
+msgid "Screenshot"
+msgstr ""
 
-#: apps/projects/models.py:52
-msgid "A preview image for this visualization"
+#: apps/projects/models.py:39
+#, fuzzy
+msgid "A screenshot for this visualization"
 msgstr "صورة عرض مسبق لهذا التصور"
 
-#: apps/projects/models.py:55 apps/projects/models.py:102
+#: apps/projects/models.py:47 apps/projects/models.py:92
 msgid "Data and configuration"
 msgstr "البيانات والتكوين"
 
-#: apps/projects/models.py:58
+#: apps/projects/models.py:50
 msgid "JSON serialized configuration object of the visualization."
 msgstr ""
 
-#: apps/projects/models.py:69
+#: apps/projects/models.py:61
 msgid "Project"
 msgstr "مشروع"
 
-#: apps/projects/models.py:70
-#: apps/projects/templates/projects/project_list.html:6
-#: commons/templates/partials/nav-panel.html:14
-msgid "Projects"
-msgstr "مشاريع"
-
-#: apps/projects/models.py:99
+#: apps/projects/models.py:89
 #, fuzzy
-msgid "A preview image for this state"
+msgid "A screenshot for this state"
 msgstr "صورة عرض مسبق لهذا التصور"
 
-#: apps/projects/models.py:105
+#: apps/projects/models.py:95
 msgid "JSON serialized configuration object of the state."
 msgstr ""
 
-#: apps/projects/models.py:116
+#: apps/projects/models.py:106
 msgid "State"
 msgstr ""
 
-#: apps/projects/models.py:117
+#: apps/projects/models.py:107
 msgid "States"
 msgstr ""
 
-#: apps/projects/templates/projects/project_detail.html:21
 #: apps/projects/templates/projects/project_list.html:20
 msgid "Author"
 msgstr "كاتب"
 
-#: apps/projects/templates/projects/project_detail.html:22
 #: apps/projects/templates/projects/project_list.html:21
-#: commons/mixins/models.py:26
+#: commons/mixins/models.py:36
 msgid "Last modified"
 msgstr "آخر تعديل"
 
@@ -922,11 +971,6 @@ msgstr ""
 msgid "denormalized sheet items"
 msgstr ""
 
-#: apps/sheets/templates/sheets/sheet_detail.html:6
-#: apps/sheets/templates/sheets/sheet_detail.html:39
-msgid "Budget"
-msgstr "ميزانية"
-
 #: apps/sheets/templates/sheets/sheet_detail.html:32
 msgid "Items"
 msgstr "بنود "
@@ -939,10 +983,6 @@ msgstr "في المجموع"
 #: apps/sheets/templates/sheets/sheet_detail.html:41
 msgid "NIS"
 msgstr "شيقل"
-
-#: apps/sheets/templates/sheets/sheet_detail.html:41
-msgid "Actual"
-msgstr "واقعي"
 
 #: apps/sheets/templates/sheets/sheet_detail.html:56
 msgid "Export this Budget"
@@ -1088,12 +1128,6 @@ msgstr "مصدر مساعدة"
 msgid "Uploaded by"
 msgstr "تم التحميل بواسطة"
 
-#: apps/sources/templates/sources/auxsource_detail.html:22
-#: apps/sources/templates/sources/referencesource_detail.html:22
-#: commons/templates/partials/nav-panel.html:15
-msgid "About"
-msgstr "حول"
-
 #: apps/sources/templates/sources/auxsource_detail.html:25
 #: apps/sources/templates/sources/referencesource_detail.html:25
 msgid "Retreived from"
@@ -1198,19 +1232,19 @@ msgstr "سلسلة"
 msgid "A word or some such."
 msgstr "كلمة أو بعض من هذا القبيل"
 
-#: apps/transport/tasks.py:77
+#: apps/transport/tasks.py:75
 msgid "[OPEN BUDGET]: Data import success"
 msgstr ""
 
-#: apps/transport/tasks.py:78
+#: apps/transport/tasks.py:76
 msgid "The data import succeeded for "
 msgstr ""
 
-#: apps/transport/tasks.py:81
+#: apps/transport/tasks.py:79
 msgid "[OPEN BUDGET]: Data import failure"
 msgstr ""
 
-#: apps/transport/tasks.py:82
+#: apps/transport/tasks.py:80
 msgid "The data import failed for "
 msgstr ""
 
@@ -1377,55 +1411,59 @@ msgstr "استيراد النجاح"
 #: apps/transport/templates/transport/importer.html:12
 msgid ""
 "\n"
-"            File has been uploaded and validated, and will now be saved to "
-"the database.\n"
-"            You will receive an email once saving process is complete.\n"
+"            The uploaded data has been successfully validated. We are now "
+"initiating a task to save the data into the database. When this task is "
+"completed, you will receive an email to confirm the availability of the "
+"data.\n"
 "        "
 msgstr ""
-"\n"
-"تم تحميل الملف والتحقق من صحتها، وسيتم الآن حفظه لقاعدة البيانات.\n"
-"سوف تتلقى رسالة بريد إلكتروني حين تتتم عملية الحفظ"
+
+#: apps/transport/templates/transport/importer.html:18
+#, fuzzy
+msgid "Data Type"
+msgstr "موضوع بيانات"
 
 #: apps/transport/templates/transport/importer.html:19
-msgid "Choose the data type for import"
-msgstr "اختار نوع البيانات للاستيراد"
+msgid "Select the type of data that you would like to import."
+msgstr ""
 
-#: apps/transport/templates/transport/importer.html:20
+#: apps/transport/templates/transport/importer.html:21
 #, fuzzy
 msgid "Template"
 msgstr "نموذج الميزانية"
 
-#: apps/transport/templates/transport/importer.html:21
+#: apps/transport/templates/transport/importer.html:25
 msgid "Sheet"
 msgstr ""
 
-#: apps/transport/templates/transport/importer.html:24
+#: apps/transport/templates/transport/importer.html:30
 msgid "Source file"
 msgstr "الملف المصدر"
 
-#: apps/transport/templates/transport/importer.html:25
+#: apps/transport/templates/transport/importer.html:31
+#: commons/templates/partials/_form_action_cancel.html:2
 #: commons/templates/partials/_form_action_submit.html:2
 msgid "Submit"
 msgstr "قدم"
 
-#: commons/mixins/models.py:20
+#: commons/mixins/models.py:30
 msgid "Created on"
 msgstr "تم إنشائه يوم"
 
-#: commons/mixins/models.py:61
+#: commons/mixins/models.py:71
 msgid "Period start"
 msgstr "بداية الفترة"
 
-#: commons/mixins/models.py:65
+#: commons/mixins/models.py:75
 #, python-format
 msgid "The start date for this %(class)s"
 msgstr ""
 
-#: commons/mixins/models.py:76
+#: commons/mixins/models.py:86
 msgid "Period end"
 msgstr "نهاية الفترة"
 
-#: commons/mixins/models.py:80
+#: commons/mixins/models.py:90
 #, python-format
 msgid "The end date for this %(class)s"
 msgstr ""
@@ -1435,7 +1473,7 @@ msgstr ""
 msgid "Back to the home page"
 msgstr "عودة إلى الميزانية"
 
-#: commons/templates/base.html:41
+#: commons/templates/base.html:41 settings/base.py:318
 #, fuzzy
 msgid "Open Local Budgets"
 msgstr "فتح الميزانيات الإسرائيلي"
@@ -1472,6 +1510,10 @@ msgstr "أو إجراء تغييرات"
 msgid "Post"
 msgstr "لصق"
 
+#: commons/templates/comments/_preview.html:33
+msgid "Preview"
+msgstr "عرض مسبق"
+
 #: commons/templates/comments/list.html:7
 msgid "This discussion has"
 msgstr "هذه المناقشة لديه"
@@ -1484,7 +1526,7 @@ msgstr "تعليقات"
 msgid "What do you have to say"
 msgstr "ماذا لديك لتقوله"
 
-#: commons/templates/partials/_form_action_cancel.html:2
+#: commons/templates/partials/_form_action_cancel.html:3
 msgid "Cancel"
 msgstr ""
 
@@ -1520,26 +1562,14 @@ msgstr "صفحة"
 msgid "Next"
 msgstr "التالي"
 
-#: commons/templates/partials/nav-panel.html:12
-msgid "Home"
-msgstr "بيت"
-
 #: commons/templates/partials/nav-panel.html:13
 #, fuzzy
 msgid "Entities"
 msgstr "كيانات"
 
-#: commons/templates/partials/nav-panel.html:30
-msgid "API"
-msgstr ""
-
 #: commons/templates/partials/nav-panel.html:31
 msgid "Privacy"
 msgstr "خصوصية"
-
-#: commons/templates/partials/nav-panel.html:32
-msgid "Terms"
-msgstr "شروط"
 
 #: commons/templates/partials/nav-panel.html:33
 msgid "Contact"
@@ -1792,21 +1822,38 @@ msgstr ""
 "أدخل أية كلمات رئيسية ذات الصلة بالميزانية، وسنقوم بإستعادة سجلات مطابقة "
 "بالنسبة لك."
 
-#: settings/base.py:210
+#: settings/base.py:42
 msgid "Hebrew"
 msgstr "العبرية"
 
-#: settings/base.py:211
+#: settings/base.py:43
 msgid "English"
 msgstr "الإنجليزية"
 
-#: settings/base.py:212
+#: settings/base.py:44
 msgid "Arabic"
 msgstr "العربية"
 
-#: settings/base.py:213
+#: settings/base.py:45
 msgid "Russian"
 msgstr "الروسية"
+
+#~ msgid "The name of this project"
+#~ msgstr "اسم هذا المشروع"
+
+#~ msgid ""
+#~ "\n"
+#~ "            File has been uploaded and validated, and will now be saved "
+#~ "to the database.\n"
+#~ "            You will receive an email once saving process is complete.\n"
+#~ "        "
+#~ msgstr ""
+#~ "\n"
+#~ "تم تحميل الملف والتحقق من صحتها، وسيتم الآن حفظه لقاعدة البيانات.\n"
+#~ "سوف تتلقى رسالة بريد إلكتروني حين تتتم عملية الحفظ"
+
+#~ msgid "Choose the data type for import"
+#~ msgstr "اختار نوع البيانات للاستيراد"
 
 #~ msgid "Your account"
 #~ msgstr "ملفك الشخصي"
