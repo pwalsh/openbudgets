@@ -137,10 +137,11 @@ def from_pip():
         run('pip install -U -r requirements/deploy.txt')
         run(DEACTIVATE)
 
-
+@task
+@roles('web')
 def from_volo():
     with prefix(WORKON):
-        run('volo add -noprompt')
+        run('volo add -f -noprompt')
         run(DEACTIVATE)
 
 
