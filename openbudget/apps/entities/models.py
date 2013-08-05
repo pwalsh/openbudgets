@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from autoslug import AutoSlugField
@@ -212,3 +213,13 @@ class Entity(TimeStampedModel, ClassMethodMixin):
     @models.permalink
     def get_absolute_url(self):
         return 'entity_detail', [self.slug]
+
+    def clean(self):
+
+        if self.division.index == 0 and self.parent:
+            raise ValidationError('An entity of the top division cannot have a'
+                                  ' parent.')
+
+        if self.division.index != 0 and not self.parent:
+            raise ValidationError('Entities of this division must have a'
+                                  ' parent.')
