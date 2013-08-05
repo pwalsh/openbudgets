@@ -1,8 +1,16 @@
+import logging
 import cuisine
 from fabric.api import prefix, task, roles, run, sudo
 from utilities import notify
 import templates
 from conf import PROJECT, MACHINE, KEY
+
+try:
+    from sensitive import SENSITIVE
+except ImportError as e:
+    logging.warning('the SENSITIVE object does not exist. Creating it as an'
+                    ' empty dictionary.')
+    SENSITIVE = {}
 
 
 WORKON = 'workon ' + KEY
@@ -19,6 +27,7 @@ def bootstrap():
     validate()
     migrate()
     collectstatic()
+    ensure_production_settings()
     ensure_nginx()
     ensure_gunicorn()
     ensure_celery()
@@ -34,6 +43,7 @@ def upgrade():
     validate()
     migrate()
     collectstatic()
+    ensure_production_settings()
     ensure_nginx()
     ensure_gunicorn()
     ensure_celery()
@@ -141,20 +151,16 @@ def make_environment():
         + MACHINE['DIR_PROJECTS'] + '/' + KEY)
 
 
-
-
-
-
 @task
 @roles('web')
-def db_load():
-    notify('Loading data to postgres.')
-    local = '/Users/paulwalsh/Desktop/postgres_9.1.sql'
-    remote = MACHINE['DIR_USER_HOME'] + '/' + KEY + '.sql'
-    cuisine.file_upload(remote, local)
-    run('dropdb ' + KEY)
-    run('createdb ' + KEY)
-    run('psql ' + KEY + ' < ' + remote)
+def ensure_production_settings():
+    notify('Configuring production settings.')
+    context = SENSITIVE
+    cuisine.mode_sudo()
+    content = cuisine.text_template(templates.production_settings, context)
+    cuisine.file_write(PROJECT['ROOT'] + '/openbudget/settings/production.py',
+                       content)
+    restart()
 
 
 @task
@@ -225,3 +231,15 @@ def ensure_celery():
     content = cuisine.text_template(templates.celery_supervisor, context)
     cuisine.file_write('/etc/supervisor/conf.d/' + KEY + '-celery.conf', content)
     restart()
+
+
+@task
+@roles('web')
+def db_load():
+    notify('Loading data to postgres.')
+    local = '/Users/paulwalsh/Desktop/postgres_9.1.sql'
+    remote = MACHINE['DIR_USER_HOME'] + '/' + KEY + '.sql'
+    cuisine.file_upload(remote, local)
+    run('dropdb ' + KEY)
+    run('createdb ' + KEY)
+    run('psql ' + KEY + ' < ' + remote)
