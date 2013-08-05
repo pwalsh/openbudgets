@@ -1,9 +1,9 @@
+from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from jsonfield import JSONField
-from oauth2_provider.models import Application
+from oauth2_provider.models import AbstractApplication
 from autoslug import AutoSlugField
-from openbudget.settings import base as settings
 from openbudget.apps.accounts.models import Account
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, ClassMethodMixin
 
@@ -15,31 +15,14 @@ class ProjectManager(models.Manager):
         return self.select_related()
 
 
-class Project(TimeStampedModel, UUIDModel, ClassMethodMixin):
+class Project(AbstractApplication, TimeStampedModel, UUIDModel, ClassMethodMixin):
     """API Project object, comprised of initial data + some meta data."""
 
     objects = ProjectManager()
 
-    auth = models.OneToOneField(
-        Application,
-    )
-    owner = models.ForeignKey(
-        Account,
-        related_name='owner_projects'
-    )
     author = models.ForeignKey(
         Account,
         related_name='author_projects'
-    )
-    name = models.CharField(
-        _('Name'),
-        max_length=255,
-        help_text=_('The name of this project')
-    )
-    slug = AutoSlugField(
-        db_index=True,
-        populate_from='name',
-        unique=True
     )
     description = models.TextField(
         _('Description'),
@@ -49,13 +32,16 @@ class Project(TimeStampedModel, UUIDModel, ClassMethodMixin):
         _('Featured'),
         default=False,
     )
-    preview = models.ImageField(
-        _('Preview'),
-        # TODO: write a function to customize upload to user directory
-        upload_to=settings.MEDIA_ROOT,
+    screenshot = models.URLField(
+        _('Screenshot'),
         blank=True,
         null=True,
-        help_text=_('A preview image for this visualization')
+        help_text=_('A screenshot for this visualization')
+    )
+    slug = AutoSlugField(
+        db_index=True,
+        populate_from='name',
+        unique=True
     )
     config = JSONField(
         _('Data and configuration'),
@@ -96,13 +82,11 @@ class State(TimeStampedModel, UUIDModel, ClassMethodMixin):
         Account,
         related_name='saved_states'
     )
-    preview = models.ImageField(
-        _('Preview'),
-        # TODO: write a function to customize upload to user directory
-        upload_to=settings.MEDIA_ROOT,
+    screenshot = models.URLField(
+        _('Screenshot'),
         blank=True,
         null=True,
-        help_text=_('A preview image for this state')
+        help_text=_('A screenshot for this state')
     )
     config = JSONField(
         _('Data and configuration'),

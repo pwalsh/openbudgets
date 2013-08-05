@@ -1,49 +1,6 @@
 [
 
 {
-    "model": "accounts.Account",
-    "pk": 1,
-    "fields": {
-        "uuid": "6cd238ac63974392834ad62699c1cf10",
-        "first_name": "Project",
-        "last_name": "Admin",
-        "email": "contact@openmuni.org.il",
-        "password": "sha1$d0ac3$d37cb4b152d98c9727f7d696795f2d6ad9438ee4",
-        "is_staff": 1,
-        "is_active": 1,
-        "is_superuser": 1,
-        "groups": [1],
-        "last_login": "2013-01-01T09:00:00+02:00",
-        "created_on": "2013-01-01T09:00:00+02:00",
-        "last_modified": "2013-01-01T09:00:00+02:00"
-    }
-},
-
-{
-    "model": "auth.Group",
-    "pk": 1,
-    "fields": {
-        "name": "Core Team"
-    }
-},
-
-{
-    "model": "auth.Group",
-    "pk": 2,
-    "fields": {
-        "name": "Content Team"
-    }
-},
-
-{
-    "model": "auth.Group",
-    "pk": 3,
-    "fields": {
-        "name": "Public Users"
-    }
-},
-
-{
     "model": "transport.String",
     "pk": 1,
     "fields": {
@@ -168,42 +125,6 @@
     "pk": 13,
     "fields": {
         "string": "actual",
-        "created_on": "2012-01-01T09:00:00+03:00",
-        "last_modified": "2012-01-01T09:00:00+03:00"
-    }
-},
-
-{
-    "model": "pages.Page",
-    "pk": 1,
-    "fields": {
-        "title": "Privacy",
-        "slug": "privacy",
-        "content": "Privacy statement of the site.",
-        "created_on": "2012-01-01T09:00:00+03:00",
-        "last_modified": "2012-01-01T09:00:00+03:00"
-    }
-},
-
-{
-    "model": "pages.Page",
-    "pk": 2,
-    "fields": {
-        "title": "Terms",
-        "slug": "terms",
-        "content": "Terms and conditions of the site.",
-        "created_on": "2012-01-01T09:00:00+03:00",
-        "last_modified": "2012-01-01T09:00:00+03:00"
-    }
-},
-
-{
-    "model": "pages.Page",
-    "pk": 3,
-    "fields": {
-        "title": "About",
-        "slug": "about",
-        "content": "About the site. Who created it, the goals, and so on.",
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }

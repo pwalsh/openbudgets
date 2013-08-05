@@ -9,12 +9,6 @@ class ProjectListView(ListView):
 
 class ProjectDetailView(DetailView):
     model = Project
-    template_name = 'projects/project_detail.html'
-    slug_field = 'uuid'
-
-
-class ProjectView(DetailView):
-    model = Project
 
     def get_template_names(self):
-        return ['projects/ext/%s.html' % self.object.slug]
+        return ['projects/ext/{slug}.html'.format(slug=self.object.slug)]

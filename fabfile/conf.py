@@ -41,7 +41,7 @@ PROJECT = {
                 'en.dev.openmuni.org.il', 'he.dev.openmuni.org.il',
                 'ar.dev.openmuni.org.il', 'ru.dev.openmuni.org.il'],
     'REPO': 'https://github.com/hasadna/omuni-budget',
-    'DEFAULT_BRANCH': 'develop',
+    'BRANCH': 'develop',
     'ROOT': MACHINE['DIR_PROJECTS'] + '/' + KEY,
     'ENV': MACHINE['DIR_ENVIRONMENTS'] + '/' + KEY,
     'LOGS': {
