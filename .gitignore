@@ -6,6 +6,7 @@
 *.db
 *.pyc
 openbudget/settings/production.py
+openbudget/settings/local.py
 docs/_build
 docs/_static
 docs/_templates
