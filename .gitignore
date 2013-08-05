@@ -7,6 +7,7 @@
 *.pyc
 openbudget/settings/production.py
 openbudget/settings/local.py
+fabfile/sensitive.py
 docs/_build
 docs/_static
 docs/_templates
