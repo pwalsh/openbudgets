@@ -38,7 +38,7 @@
         </section>
 
         <section id="action-panel">
-            <span id="nav-anchor"><a href="{% url 'home' %}" title="{% trans "Back to the home page" %}">{% trans 'Open Local Budgets' %} {% if LANGUAGE_BIDI %}&#9668;{% else %}&#9658;{% endif %}</a></span>
+            <span id="nav-anchor"><a href="{% url 'home' %}" title="{% trans "Back to the home page" %}">{{ name }} {% if LANGUAGE_BIDI %}&#9668;{% else %}&#9658;{% endif %}</a></span>
             {% block actions %}
 
             {% endblock actions %}

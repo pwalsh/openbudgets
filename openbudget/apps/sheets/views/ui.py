@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.views.generic import DetailView, ListView
@@ -5,7 +6,6 @@ from django.utils.translation import ugettext as _
 from django.shortcuts import render
 from openbudget.apps.sheets import models
 from openbudget.apps.entities.models import Entity
-from openbudget.settings import base as settings
 
 
 def budget_browser(request):
@@ -37,7 +37,7 @@ class SheetDetail(DetailView):
         queryset = self.get_queryset()
 
         entity = Entity.objects.get(slug=self.kwargs['entity_slug'])
-        ranges = settings.OPENBUDGET_PERIOD_RANGES
+        ranges = settings.OPENBUDGETS_PERIOD_RANGES
 
         # TODO: Support other ranges than yearly, including multiple ranges.
         # fragile, but works with current use case.

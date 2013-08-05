@@ -1,4 +1,5 @@
 from itertools import chain
+from django.conf import settings
 from django.db import models
 from django.db.models.loading import get_model
 from django.core.mail import send_mail
@@ -7,7 +8,6 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
 from django.contrib.comments.models import Comment
 from django.utils.translation import ugettext as _
 from django.utils import timezone
-from openbudget.settings import base as settings
 from openbudget.apps.interactions.models import Star, Follow
 from openbudget.commons.mixins.models import UUIDModel, TimeStampedModel
 from django_gravatar.helpers import get_gravatar_url
@@ -157,7 +157,7 @@ class CoreTeamAccountManager(models.Manager):
 
     def get_query_set(self):
         return super(CoreTeamAccountManager, self).get_query_set().filter(
-            groups=settings.OPENBUDGET_CORE_TEAM_ID)
+            groups=settings.OPENBUDGETS_CORE_TEAM_ID)
 
 
 class CoreTeamAccount(AccountProxyBase):
@@ -172,7 +172,7 @@ class CoreTeamAccount(AccountProxyBase):
 
     def save(self, *args, **kwargs):
         super(CoreTeamAccount, self).save(*args, **kwargs)
-        self.groups.add(settings.OPENBUDGET_CORE_TEAM_ID)
+        self.groups.add(settings.OPENBUDGETS_CORE_TEAM_ID)
 
 
 class ContentTeamAccountManager(models.Manager):
@@ -180,7 +180,7 @@ class ContentTeamAccountManager(models.Manager):
 
     def get_query_set(self):
         return super(ContentTeamAccountManager, self).get_query_set().filter(
-            groups=settings.OPENBUDGET_CONTENT_TEAM_ID)
+            groups=settings.OPENBUDGETS_CONTENT_TEAM_ID)
 
 
 class ContentTeamAccount(AccountProxyBase):
@@ -195,7 +195,7 @@ class ContentTeamAccount(AccountProxyBase):
 
     def save(self, *args, **kwargs):
         super(ContentTeamAccount, self).save(*args, **kwargs)
-        self.groups.add(settings.OPENBUDGET_CONTENT_TEAM_ID)
+        self.groups.add(settings.OPENBUDGETS_CONTENT_TEAM_ID)
 
 
 class PublicAccountManager(models.Manager):
@@ -203,7 +203,7 @@ class PublicAccountManager(models.Manager):
 
     def get_query_set(self):
         return super(PublicAccountManager, self).get_query_set().filter(
-            groups=settings.OPENBUDGET_PUBLIC_ID)
+            groups=settings.OPENBUDGETS_PUBLIC_ID)
 
 
 class PublicAccount(AccountProxyBase):
@@ -218,4 +218,4 @@ class PublicAccount(AccountProxyBase):
 
     def save(self, *args, **kwargs):
         super(PublicAccount, self).save(*args, **kwargs)
-        self.groups.add(settings.OPENBUDGET_PUBLIC_ID)
+        self.groups.add(settings.OPENBUDGETS_PUBLIC_ID)

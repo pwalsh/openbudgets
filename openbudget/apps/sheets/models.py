@@ -1,5 +1,6 @@
 from __future__ import division
 import datetime
+from django.conf import settings
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
@@ -10,7 +11,6 @@ from openbudget.apps.entities.models import Division, Entity
 from openbudget.apps.sources.models import ReferenceSource, AuxSource
 from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, \
     PeriodStartModel, PeriodicModel, ClassMethodMixin
-from openbudget.settings import base as settings
 
 
 PATH_SEPARATOR = '|'
@@ -75,7 +75,7 @@ class Template(TimeStampedModel, UUIDModel, PeriodStartModel, ClassMethodMixin):
         # TODO: Refactor to work with non-division templates.
 
         start, end = None, None
-        ranges = settings.OPENBUDGET_PERIOD_RANGES
+        ranges = settings.OPENBUDGETS_PERIOD_RANGES
 
         if len(ranges) == 1 and 'yearly' in ranges:
             start = self.period_start.year

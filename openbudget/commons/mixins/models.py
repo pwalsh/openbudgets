@@ -1,7 +1,7 @@
+from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from uuidfield import UUIDField
-from openbudget.settings import base as settings
 
 
 class ClassMethodMixin(object):
@@ -100,7 +100,7 @@ class PeriodicModel(PeriodStartModel):
         # TODO: Support ranges other than yearly, including multiple ranges.
 
         value = None
-        ranges = settings.OPENBUDGET_PERIOD_RANGES
+        ranges = settings.OPENBUDGETS_PERIOD_RANGES
 
         if len(ranges) == 1 and 'yearly' in ranges:
             value = self.period_start.year

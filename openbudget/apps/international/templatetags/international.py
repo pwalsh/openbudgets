@@ -4,10 +4,9 @@ Requires:
 * django-subdomains - this can easily be removed by directly querying the Sites table.
 """
 
-
+from django.conf import settings
 from django.template import Library
 from subdomains.utils import get_domain
-from openbudget.settings import base as settings
 
 
 register = Library()

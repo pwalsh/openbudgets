@@ -1,29 +1,46 @@
 from openbudget.settings.base import *
 
-DEBUG = True
 
-TEMPLATE_DEBUG = DEBUG
+######################################################################
+##                                                                  ##
+## RENAME THIS FILE TO local.py to provide your own local overrides ##
+##                                                                  ##
+######################################################################
 
-MODELTRANSLATION_DEBUG = DEBUG
+#EMAIL_HOST_USER = ''
 
-SESSION_COOKIE_DOMAIN = 'obudget.dev'
+#EMAIL_HOST_PASSWORD = ''
 
-ADMINS = (
-    ('', ''),
-    #('', ''),
-)
+#ADMINS = (
+#    ('', ''),
+#)
 
-MANAGERS = ADMINS
-
-
-
-# If you want to use postgresql in development, define it here, *and* do:
-# pip install -r requirements/deploy.txt
+# Uncomment MIDDLEWARE_CLASSES, INSTALLED_APPS, INTERNAL_IPS, and
+# DEBUG_TOOLBAR_CONFIG for debugging tools.
 #
+#MIDDLEWARE_CLASSES += (
+#    'debug_toolbar.middleware.DebugToolbarMiddleware',
+#    'django_pdb.middleware.PdbMiddleware',
+#)
+#
+#INSTALLED_APPS += (
+#    'debug_toolbar',
+#    'django_pdb',
+#)
+#
+#INTERNAL_IPS = ('127.0.0.1',)
+#
+#DEBUG_TOOLBAR_CONFIG = {
+#    'INTERCEPT_REDIRECTS': False,
+#}
+
+# Uncomment to use Postgresql in development.
+# You'll also need some extra dependencies:
+# pip install -r requirements/deploy.txt
 #DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#        'NAME': 'openbudget',
+#        'NAME': '',
 #        'USER': '',
 #        'PASSWORD': '',
 #        'HOST': '',
@@ -31,75 +48,14 @@ MANAGERS = ADMINS
 #    }
 #}
 
-MIDDLEWARE_CLASSES += (
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'django_pdb.middleware.PdbMiddleware',
-)
-
-INSTALLED_APPS += (
-    # kombu because we are using Celery's Django backend in dev
-    'kombu.transport.django',
-    # Tools for debugging
-    'debug_toolbar',
-    'django_pdb',
-)
-
-# CACHE CONF
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-    }
-}
-
-# REST FRAMEWORK CONF
-REST_FRAMEWORK['PAGINATE_BY'] = 50
-
-# CELERY CONF
-BROKER_URL = 'django://'
-
-CELERY_RESULT_BACKEND = 'database'
-
-CELERY_RESULT_DBURI = os.path.abspath(os.path.join(
-    os.path.dirname(PROJECT_ROOT), 'celery.db'))
-
-EMAIL_USE_TLS = True
-
-EMAIL_HOST = 'smtp.gmail.com'
-
-EMAIL_PORT = 587
-
-EMAIL_HOST_USER = ''
-
-EMAIL_HOST_PASSWORD = ''
-
-SENTRY_DSN = ''
-
-INTERNAL_IPS = ('127.0.0.1',)
-
-DEBUG_TOOLBAR_CONFIG = {
-    'INTERCEPT_REDIRECTS': False,
-}
-
-DEVSTRAP = {
-    'FIXTURES': (
-        'dev/sites',
-        'locale/he/strings',
-        'dev/interactions',
-        'dev/sources',
-        'projects'
-    ),
-    'TESTS': (
-        'accounts',
-        'api',
-        'sheets',
-        'commons',
-        'contexts',
-        'entities',
-        #'interactions',
-        'international',
-        'pages',
-        'sources',
-        'taxonomies',
-        'transport'
-    )
-}
+# Uncomment to enable caching during development
+#CACHES = {
+#    'default': {
+#        'BACKEND': 'redis_cache.RedisCache',
+#        'LOCATION': REDIS['HOST'] + ':' + str(REDIS['PORT']),
+#        'OPTIONS': {
+#            'DB': REDIS['DB'],
+#            'PARSER_CLASS': 'redis.connection.HiredisParser'
+#        },
+#    },
+#}

@@ -1,7 +1,7 @@
 import random
+from django.conf import settings
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-from openbudget.settings import base as settings
 from openbudget.apps.accounts.factories import AccountFactory
 from openbudget.commons.factories import SiteFactory
 from openbudget.apps.international.utilities import get_language_key

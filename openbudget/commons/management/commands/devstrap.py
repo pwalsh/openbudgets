@@ -1,8 +1,8 @@
 import os
 from optparse import make_option
+from django.conf import settings
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
-from openbudget.settings import local as settings
 
 
 class Command(BaseCommand):
@@ -80,12 +80,12 @@ class Command(BaseCommand):
 
         # load fixtures
         self.stdout.write("### Loading standard fixture data\n")
-        for fixture in settings.DEVSTRAP['FIXTURES']:
+        for fixture in settings.OPENBUDGETS_BOOTSTRAP['FIXTURES']:
             call_command('loaddata', fixture)
 
         # run tests
         if options['test']:
-            call_command('test', *settings.DEVSTRAP['TESTS'])
+            call_command('test', *settings.OPENBUDGETS_BOOTSTRAP['TESTS'])
 
         # wave goodbye
         self.stdout.write("### Development bootstrapping completed successfully\n")

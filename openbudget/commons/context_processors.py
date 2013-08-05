@@ -1,5 +1,7 @@
 """Custom context processors for Omuni"""
+from django.conf import settings
 from django.contrib.sites.models import Site
+from django.utils.translation import ugettext as _
 from openbudget.apps.accounts.forms import CustomAuthenticationForm, \
     CustomRegistrationForm, CustomPasswordResetForm, CustomPasswordChangeForm
 
@@ -27,3 +29,11 @@ def auth_forms(request):
         auth_forms['password_change_form'] = CustomPasswordChangeForm
 
     return auth_forms
+
+
+def openbudgets(request):
+    """Things that come from the settings of the project itself."""
+    openbudgets = {}
+    openbudgets['name'] = _(settings.OPENBUDGETS_NAME)
+
+    return openbudgets

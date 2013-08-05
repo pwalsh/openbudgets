@@ -1,10 +1,8 @@
-from celery.task import task
+from django.conf import settings
 from django.core.mail import send_mail
 from django.utils.translation import ugettext as _
+from celery.task import task
 from openbudget.apps.transport.incoming.parsers import get_parser
-# TODO: this can't use local
-from openbudget.settings import local as settings
-
 
 
 @task(name='tasks.denormalize_sheet')

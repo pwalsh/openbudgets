@@ -1,7 +1,7 @@
 import os
+from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.utils import translation
-from openbudget.settings import base as settings
 from openbudget.apps.transport.incoming.importers.initial import InitImporter
 
 

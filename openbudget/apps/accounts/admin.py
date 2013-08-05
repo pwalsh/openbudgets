@@ -1,10 +1,10 @@
+from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.sites.models import Site
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext as _
 from registration.models import RegistrationProfile
-from openbudget.settings import base as settings
 from openbudget.apps.accounts.models import Account, PublicAccount, ContentTeamAccount, \
     CoreTeamAccount
 from openbudget.apps.accounts.forms import AccountCreationForm, \
@@ -25,7 +25,7 @@ class CoreTeamAccountAdmin(AccountAdmin):
     """Admin form for Core Team members"""
 
     def queryset(self, request):
-        core_team_users = Group.objects.filter(id=settings.OPENBUDGET_CORE_TEAM_ID)
+        core_team_users = Group.objects.filter(id=settings.OPENBUDGETS_CORE_TEAM_ID)
         qs = super(CoreTeamAccountAdmin, self).queryset(request)
         qs = qs.filter(groups=core_team_users)
         return qs
@@ -35,7 +35,7 @@ class ContentTeamAccountAdmin(AccountAdmin):
     """Admin form for Content Team members"""
 
     def queryset(self, request):
-        content_team_users = Group.objects.filter(id=settings.OPENBUDGET_CONTENT_TEAM_ID)
+        content_team_users = Group.objects.filter(id=settings.OPENBUDGETS_CONTENT_TEAM_ID)
         qs = super(ContentTeamAccountAdmin, self).queryset(request)
         qs = qs.filter(groups=content_team_users)
         return qs
@@ -45,7 +45,7 @@ class PublicAccountAdmin(AccountAdmin):
     """Admin form for Public users"""
 
     def queryset(self, request):
-        public_users = Group.objects.filter(id=settings.OPENBUDGET_PUBLIC_ID)
+        public_users = Group.objects.filter(id=settings.OPENBUDGETS_PUBLIC_ID)
         qs = super(PublicAccountAdmin, self).queryset(request)
         qs = qs.filter(groups=public_users)
         return qs

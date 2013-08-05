@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 from django.core.mail import EmailMessage
-from openbudget.settings.base import TEMP_FILES_DIR, ADMINS, EMAIL_HOST_USER
+from openbudget.settings.base import OPENBUDGETS_TEMP_DIR, ADMINS, EMAIL_HOST_USER
 from openbudget.apps.international.utilities import translated_fields
 from openbudget.apps.transport.models import String
 from openbudget.apps.transport.incoming.parsers import get_parser, get_parser_key
@@ -158,7 +158,7 @@ class BaseImporter(object):
         """
         dt = datetime.now().isoformat()
 
-        attachment = TEMP_FILES_DIR + \
+        attachment = OPENBUDGETS_TEMP_DIR + \
             '/failed_import_{timestamp}_{filename}'.format(
                 timestamp=dt,
                 filename=unicode(self.sourcefile)
