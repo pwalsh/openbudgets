@@ -43,6 +43,7 @@
     bottom: 18px;
     left: 0;
     right: 0;
+    height: auto;
     padding-right: 50px;
     text-align: right;
 }
