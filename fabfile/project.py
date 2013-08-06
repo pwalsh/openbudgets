@@ -200,6 +200,7 @@ def ensure_gunicorn():
         'KEY': KEY,
         'APP_LOCATION': PROJECT['APP_LOCATION'],
         'APP_PORT': PROJECT['APP_PORT'],
+        'APP_TIMEOUT': PROJECT['APP_TIMEOUT'],
         'APP_WSGI': PROJECT['APP_WSGI'],
         'APP_WORKERS': PROJECT['APP_WORKERS'],
         'LOCATION': MACHINE['LOCATION'],
@@ -239,11 +240,44 @@ def ensure_celery():
 
 @task
 @roles('web')
-def db_load():
-    notify('Loading data to postgres.')
+def load_sites(target=None):
+    with prefix(WORKON):
+        run('python manage.py loaddata ' + target + '/sites.json')
+        run(DEACTIVATE)
+    restart()
+
+
+
+######################
+##    HACKY STUFF   ##
+######################
+
+@task
+@roles('web')
+def _db_load():
+    # a temp solution for now
+    notify('Loading database to postgres.')
     local = '/Users/paulwalsh/Desktop/postgres_9.1.sql'
     remote = MACHINE['DIR_USER_HOME'] + '/' + KEY + '.sql'
     cuisine.file_upload(remote, local)
     run('dropdb ' + KEY)
     run('createdb ' + KEY)
     run('psql ' + KEY + ' < ' + remote)
+
+@task
+@roles('web')
+def _entities_load():
+    # a temp solution for now
+    notify('Loading entities.')
+    domains = '/Users/paulwalsh/Desktop/open-muni-budgets/1_domains.csv'
+    divisions = '/Users/paulwalsh/Desktop/open-muni-budgets/2_divisions.csv'
+    entities = '/Users/paulwalsh/Desktop/open-muni-budgets/3_entities.csv'
+    domains_dest = PROJECT['ROOT'] + '/openbudget/fixtures/1_domains.csv'
+    divisions_dest = PROJECT['ROOT'] + '/openbudget/fixtures/2_divisions.csv'
+    entities_dest = PROJECT['ROOT'] + '/openbudget/fixtures/3_entities.csv'
+    cuisine.file_upload(domains_dest, domains)
+    cuisine.file_upload(divisions_dest, divisions)
+    cuisine.file_upload(entities_dest, entities)
+    with prefix(WORKON):
+        run('python manage.py loadcsv')
+        run(DEACTIVATE)
