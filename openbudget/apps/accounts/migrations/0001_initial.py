@@ -7,6 +7,8 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
+    needed_by = (("oauth2_provider", "0001_initial"),)
+
     def forwards(self, orm):
         # Adding model 'Account'
         db.create_table(u'accounts_account', (
