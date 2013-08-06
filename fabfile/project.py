@@ -1,6 +1,6 @@
 import logging
 import cuisine
-from fabric.api import prefix, task, roles, run, sudo
+from fabric.api import prefix, task, roles, run, sudo, local
 from utilities import notify
 import templates
 from conf import PROJECT, MACHINE, KEY
@@ -251,6 +251,17 @@ def load_sites(target=None):
 ######################
 ##    HACKY STUFF   ##
 ######################
+
+@task
+@roles('web')
+def _pg_dump():
+    # a temp solution for now
+    notify('Dumping database.')
+    local_file = '/Users/paulwalsh/Desktop/postgres_9.1.sql'
+    remote_file = MACHINE['DIR_USER_HOME'] + '/postgres_9.1.sql'
+    run('pg_dump ' + KEY + ' > ' + remote_file)
+    local('scp ' + KEY + '@' + MACHINE['LOCATION'] + ':' + remote_file + ' ' + local_file)
+
 
 @task
 @roles('web')
