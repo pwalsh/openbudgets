@@ -34,7 +34,11 @@ define([
             fetch_options   : {
                 reset   : true,
                 cache   : true,
-                expires : 8 * 3600
+                expires : 8 * 3600,
+                data    : {
+                    page_by : 4000,
+                    latest  : 'True'
+                }
             },
             search          : {
                 fields  : {
@@ -70,13 +74,7 @@ define([
                         this.dont_fetch = false;
                         this.has_data = false;
                         this.rebuild_index = true;
-                        uijet.utils.extend(true, this.options.fetch_options, {
-                            data: {
-                                page_by : 4000,
-                                latest  : 'True',
-                                entity  : entity_id
-                            }
-                        });
+                        this.options.fetch_options.data.entity = entity_id;
                     }, this);
 
                     state_model.on('change:selection', function (model, selection) {
