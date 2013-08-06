@@ -60,7 +60,7 @@ gunicorn_supervisor = """; Generated via Fabric on ${ACTION_DATE}
 
 [program:${KEY}-gunicorn]
 
-command=${PROJECT_ENV}/bin/gunicorn --bind ${APP_LOCATION}:${APP_PORT} --workers ${APP_WORKERS} ${APP_WSGI}
+command=${PROJECT_ENV}/bin/gunicorn --bind ${APP_LOCATION}:${APP_PORT} --timeout ${APP_TIMEOUT} --workers ${APP_WORKERS} ${APP_WSGI}
 
 environment=PATH="${PROJECT_ENV}/bin"
 directory=${PROJECT_ROOT}

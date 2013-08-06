@@ -33,6 +33,7 @@ PROJECT = {
     'APP_LOCATION': '127.0.0.1',
     'APP_PORT': 9999,
     'APP_WORKERS': 4,
+    'APP_TIMEOUT': 45,
     'CELERY_CONCURRENCY': 1,
     'CELERY_MAX_TASKS_PER_CHILD': 10,
     'APP_WSGI': 'openbudget.wsgi:application',
