@@ -13,7 +13,7 @@
         <section id="main_container" class="top_container">
             <header id="sheet_header">
                 <span id="sheet_selector">
-                    <span id="sheet_selector_content"></span>
+                    {% trans 'Budget' %}<span id="sheet_selector_content"></span>
                     <ul id="sheet_selector_menu">
                         {% for period in periods %}<li>{{ period }}</li>{% endfor %}
                     </ul>

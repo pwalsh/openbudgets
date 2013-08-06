@@ -1,3 +1,11 @@
+#sheet_header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+}
+
 #sheet_scope_name {
     position: absolute;
     top: 60px;
@@ -11,11 +19,30 @@
 #sheet_scope_name_content {
     line-height: 150%;
 }
+#sheet_selector_content {
+    padding: 0 .5rem;
+}
+#sheet_selector_content:after {
+    content: '';
+    display: inline-block;
+    height: 1rem;
+    width: 2rem;
+    background: url(../img/arrow_down_normalize.png) center no-repeat;
+}
 
-#sheet_header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 120px;
+#sheet_selector {
+    position: relative;
+    margin-right: 18px;
+    padding: 18px 0;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+#sheet_selector_menu li {
+    height: 44px;
+    padding-left: 2.5rem;
+    line-height: 44px;
+    text-align: left;
+}
+#sheet_selector_menu_wrapper {
+    width: 100%;
 }
