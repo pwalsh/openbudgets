@@ -34,7 +34,7 @@ define([
             menu    : {
                 element         : '#sheet_selector_menu',
                 float_position  : 'top:44px',
-                initial         : ':first-child'
+                initial         : ':last-child'
             },
             content : uijet.$('#sheet_selector_content'),
             sync    : true
