@@ -69,8 +69,10 @@ STATIC_ROOT = os.path.abspath(os.path.join(os.path.dirname(PROJECT_ROOT),
 STATICFILES_DIRS = (os.path.abspath(os.path.join(PROJECT_ROOT, 'commons',
                                                  'static')),)
 
-TEMPLATE_DIRS = (os.path.abspath(os.path.join(PROJECT_ROOT, 'commons',
-                                              'templates')),)
+TEMPLATE_DIRS = (
+    os.path.abspath(os.path.join(PROJECT_ROOT, 'commons', 'templates')),
+    os.path.abspath(os.path.join(PROJECT_ROOT, 'apps', 'entities', 'static', 'entities', 'explorer', 'templates')),
+)
 
 FIXTURE_DIRS = (os.path.abspath(os.path.join(PROJECT_ROOT, 'fixtures')),)
 
@@ -82,6 +84,7 @@ STATICFILES_FINDERS = (
 )
 
 TEMPLATE_LOADERS = (
+    'openbudget.commons.stache.PystacheFilesystemLoader',
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 )

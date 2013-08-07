@@ -32,3 +32,4 @@ jsonfield==0.9.17
 git+https://github.com/toastdriven/django-haystack.git
 git+https://github.com/mozilla/unicode-slugify
 hg+https://bitbucket.org/prjts/django-registration
+pystache==0.5.3
