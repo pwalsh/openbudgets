@@ -81,10 +81,10 @@ h3,
 h4,
 h5,
 h6 {
-  margin-left: 0;
-  margin-right: 0;
   margin-top: 0;
-  margin-bottom: 0.25em;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0.25em;
   color: #141452;
 }
 h1 {
@@ -166,10 +166,10 @@ legend {
   margin-right: 0;
   margin-top: 0;
   margin-bottom: 0;
-  padding-left: 0;
-  padding-right: 0;
   padding-top: 0;
+  padding-right: 0;
   padding-bottom: 0;
+  padding-left: 0;
 }
 button,
 input,
@@ -248,10 +248,10 @@ html input[disabled] {
 input[type="checkbox"],
 input[type="radio"] {
   box-sizing: border-box;
-  padding-left: 0;
-  padding-right: 0;
   padding-top: 0;
+  padding-right: 0;
   padding-bottom: 0;
+  padding-left: 0;
 }
 input[type="search"] {
   -webkit-appearance: textfield;
@@ -286,10 +286,10 @@ table {
   float: left;
   width: 300px;
   height: 100%;
-  padding-left: 18px 16px 18px 50px;
+  padding-top: 18px 16px 18px 50px;
   padding-right: 1em;
-  padding-top: 1em;
   padding-bottom: 1em;
+  padding-left: 1em;
   background-color: #00ccc2;
   z-index: 99;
   display: none;
@@ -311,8 +311,8 @@ table {
   color: #ffffff;
   text-decoration: none;
   padding-bottom: 26px;
-  padding-left: 0;
   padding-right: 0;
+  padding-left: 0;
   /*overriding adaptabl crap*/
 
 }
@@ -327,10 +327,10 @@ table {
   font-weight: bold;
   text-decoration: none;
   display: inline-block;
-  padding-left: 0;
-  padding-right: 0;
   padding-top: 0;
+  padding-right: 0;
   padding-bottom: 0;
+  padding-left: 0;
   padding-right: 26px;
   font-size: 1em;
   color: #026a74;
@@ -342,10 +342,10 @@ table {
   float: left;
   width: 300px;
   height: 100%;
-  padding-left: 18px 16px 18px 40px;
-  padding-right: 1em;
-  padding-top: 1em;
-  padding-bottom: 1em;
+  padding-top: 18px;
+  padding-right: 16px;
+  padding-bottom: 18px;
+  padding-left: 40px;
   background-color: #d0d0dc;
 }
 #panel-main {
@@ -355,10 +355,10 @@ table {
   float: left;
   width: 860px;
   height: 100%;
-  padding-left: 18px 0 18px 40px;
-  padding-right: 1em;
-  padding-top: 1em;
-  padding-bottom: 1em;
+  padding-top: 18px;
+  padding-right: 0;
+  padding-bottom: 18px;
+  padding-left: 40px;
   background-color: #ffffff;
 }
 #panel-append {
@@ -368,10 +368,10 @@ table {
   float: left;
   width: 100px;
   height: 100%;
-  padding-left: 18px 0 18px 16px;
-  padding-right: 1em;
-  padding-top: 1em;
-  padding-bottom: 1em;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 18px;
+  padding-left: 16px;
   background-color: #d0d0dc;
 }
 #nav-anchor {
@@ -381,14 +381,6 @@ table {
 #nav-anchor a {
   text-decoration: none;
   font-weight: bold;
-}
-.avatar,
-.avatar img {
-  width: 90px;
-  height: 90px;
-  -webkit-border-radius: 45px;
-  -moz-border-radius: 45px;
-  border-radius: 45px;
 }
 /* The background for all overlay objects */
 #overlay {
@@ -423,8 +415,8 @@ table {
 #overlay-login h3,
 #overlay-login .notices,
 #overlay-login .options {
-  padding-left: 18px;
   padding-right: 18px;
+  padding-left: 18px;
 }
 #overlay-login h3 {
   padding-top: 0.5em;
@@ -503,8 +495,8 @@ table {
 #overlay-register h3,
 #overlay-register .notices,
 #overlay-register .options {
-  padding-left: 18px;
   padding-right: 18px;
+  padding-left: 18px;
 }
 #overlay-register h3 {
   padding-top: 0.5em;
@@ -583,8 +575,8 @@ table {
 #overlay-password-reset h3,
 #overlay-password-reset .notices,
 #overlay-password-reset .options {
-  padding-left: 18px;
   padding-right: 18px;
+  padding-left: 18px;
 }
 #overlay-password-reset h3 {
   padding-top: 0.5em;
@@ -663,8 +655,8 @@ table {
 #overlay-password-change h3,
 #overlay-password-change .notices,
 #overlay-password-change .options {
-  padding-left: 18px;
   padding-right: 18px;
+  padding-left: 18px;
 }
 #overlay-password-change h3 {
   padding-top: 0.5em;
@@ -749,16 +741,16 @@ html input[disabled],
   margin-right: 0;
   margin-top: 0;
   margin-bottom: 0;
-  padding-left: 0;
-  padding-right: 0;
   padding-top: 0;
+  padding-right: 0;
   padding-bottom: 0;
+  padding-left: 0;
   border-top: 0;
   border-right: 0;
   border-bottom: 0;
   border-left: 0;
-  padding-left: 18px;
   padding-right: 18px;
+  padding-left: 18px;
 }
 input {
   border-bottom: 1px solid #d0d0dc;
@@ -802,12 +794,54 @@ input.valid {
 .field.half.first input {
   border-right: 1px solid #d0d0dc;
 }
+.account {
+  position: relative;
+  text-align: center;
+  width: 54px;
+  padding-top: 18px;
+}
+.account:hover {
+  background-color: #e8e8ed;
+}
+.account a.login-link {
+  color: #a1a1ba;
+}
+.account .name {
+  font-size: 0.875em;
+  line-height: 1em;
+}
 .account .actions {
+  position: absolute;
+  top: 50px;
+  left: 0;
   display: none;
-  background-color: #d0d0dc;
+  width: 186px;
+  background-color: #e8e8ed;
 }
 .account .actions a {
   display: block;
+  text-align: left;
+  text-decoration: none;
+  margin-left: 18px;
+  margin-right: 18px;
+  font-weight: bold;
+  border-bottom: 1px solid #d0d0dc;
+  height: 44px;
+  line-height: 44px;
+}
+.account .actions a:last-of-type {
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
+}
+.account .avatar,
+.account .avatar img {
+  width: 29px;
+  height: 29px;
+  -webkit-border-radius: 58px;
+  -moz-border-radius: 58px;
+  border-radius: 58px;
 }
 #filter {
   -webkit-box-sizing: border-box;
@@ -828,10 +862,10 @@ input.valid {
   color: #141452;
   font-weight: bold;
   line-height: 1em;
-  padding-left: 0;
-  padding-right: 0;
   padding-top: 0;
+  padding-right: 0;
   padding-bottom: 0;
+  padding-left: 0;
 }
 #filter .arrow {
   content: 'this';
@@ -948,10 +982,10 @@ nav a,
   width: 20%;
   background-color: #e8e8ed;
   height: 120px;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
+  padding-right: 0.5em;
+  padding-left: 0.5em;
   border-top: 1px solid #727297;
 }
 #activities .activity .snippet:first-of-type {

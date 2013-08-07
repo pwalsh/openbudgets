@@ -104,6 +104,12 @@
             .done(function(response) {
                 notices.html(response.data);
                 action.removeAttr('disabled');
+
+                // close the modal
+                $('[id^="overlay"]').hide();
+                // update to show user
+                // LOLz
+                location.reload(true);
             })
     
             .fail(function(jqXHR, textStatus) {

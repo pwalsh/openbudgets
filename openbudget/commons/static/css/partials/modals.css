@@ -41,8 +41,8 @@
 #overlay-login h3,
 #overlay-login .notices,
 #overlay-login .options {
-  padding-left: 18px;
   padding-right: 18px;
+  padding-left: 18px;
 }
 #overlay-login h3 {
   padding-top: 0.5em;
@@ -121,8 +121,8 @@
 #overlay-register h3,
 #overlay-register .notices,
 #overlay-register .options {
-  padding-left: 18px;
   padding-right: 18px;
+  padding-left: 18px;
 }
 #overlay-register h3 {
   padding-top: 0.5em;
@@ -201,8 +201,8 @@
 #overlay-password-reset h3,
 #overlay-password-reset .notices,
 #overlay-password-reset .options {
-  padding-left: 18px;
   padding-right: 18px;
+  padding-left: 18px;
 }
 #overlay-password-reset h3 {
   padding-top: 0.5em;
@@ -281,8 +281,8 @@
 #overlay-password-change h3,
 #overlay-password-change .notices,
 #overlay-password-change .options {
-  padding-left: 18px;
   padding-right: 18px;
+  padding-left: 18px;
 }
 #overlay-password-change h3 {
   padding-top: 0.5em;
