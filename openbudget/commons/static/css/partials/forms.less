@@ -2,6 +2,7 @@
 @import "mixins";
 
 .mock-button {
+    .object;
     .background-color(@midgrey);
     .bold;
     display: inline-block;
@@ -17,10 +18,10 @@ input, button, html input[type="button"], input[type="reset"], input[type="submi
     .margin-reset;
     .padding-reset;
     .border-reset;
+    .padding-horizontal(18px);
 }
 
-input, button, html input[type="button"], input[type="reset"], input[type="submit"] {
-    .padding-horizontal(18px);
+input {
     border-bottom: 1px solid @bluegrey;
     background-color: @lightgrey;
 

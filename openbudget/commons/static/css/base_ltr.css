@@ -726,6 +726,9 @@ table {
   text-align: right;
 }
 .mock-button {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   background-color: #b1b1c3;
   font-weight: bold;
   display: inline-block;
@@ -756,39 +759,23 @@ html input[disabled],
   border-right: 0;
   border-bottom: 0;
   border-left: 0;
-}
-input,
-button,
-html input[type="button"],
-input[type="reset"],
-input[type="submit"] {
   padding-left: 18px;
   padding-right: 18px;
+}
+input {
   border-bottom: 1px solid #d0d0dc;
   background-color: #f3f3f6;
 }
-input:focus,
-button:focus,
-html input[type="button"]:focus,
-input[type="reset"]:focus,
-input[type="submit"]:focus {
+input:focus {
   background-color: #ffffff;
 }
-input.invalid,
-button.invalid,
-html input[type="button"].invalid,
-input[type="reset"].invalid,
-input[type="submit"].invalid {
+input.invalid {
   padding-left: 18px;
   background-image: url('/static/img/invalid.png');
   background-repeat: no-repeat;
   background-position: 18px 12px;
 }
-input.valid,
-button.valid,
-html input[type="button"].valid,
-input[type="reset"].valid,
-input[type="submit"].valid {
+input.valid {
   padding-left: 18px;
   background-image: url('/static/img/valid.png');
   background-repeat: no-repeat;
