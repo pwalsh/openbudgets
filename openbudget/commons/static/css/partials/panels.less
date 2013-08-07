@@ -1,0 +1,96 @@
+/* @import "../../lib/adaptabl/src/normalize"; */
+@import "variables";
+@import "mixins";
+
+
+.panel(@width, @height: 100%) {
+    .layout-object(@width);
+    .height(@height);
+}
+
+#panel-nav {
+    .panel(300px);
+    .padding(18px 16px 18px 50px);
+    .background-color(@panel-nav);
+    z-index: 99;
+    display: none;
+    position: fixed;
+    top: 0;
+    cursor: pointer;
+
+
+
+
+
+    #app_logo {
+        .padding-vertical(35px);
+    }
+
+    header {
+        nav {
+            .width(100%);
+
+            a {
+                .display-block;
+                .font-size(@unit-em * 3);
+                line-height: @unit-em;
+                color: @white;
+                text-decoration: none;
+                .padding-bottom(26px);
+                .padding-horizontal(0); /*overriding adaptabl crap*/
+            }
+        }
+    }
+
+    footer {
+        position: absolute;
+        left: 40;
+        bottom: 0;
+        height: 94px;
+        .font-size(0.75em);
+
+        nav a {
+            font-weight: bold;
+            text-decoration: none;
+            .display-inline-block;
+            .padding-reset();
+            .padding-right(26px);
+            .font-size(@unit-em);
+            color: @dark-green;
+        }
+    }
+}
+
+#panel-action {
+    .panel(300px);
+    .padding(18px 16px 18px 40px);
+    .background-color(@panel-action)
+}
+
+#panel-main {
+    .panel(860px);
+    .padding(18px 0 18px 40px);
+    .background-color(@panel-main);
+}
+
+#panel-append {
+    .panel(100px);
+    .padding(18px 0 18px 16px);
+    .background-color(@panel-append);
+}
+
+#nav-anchor {
+    .display-inline-block;
+    cursor: pointer;
+
+    a {
+        text-decoration: none;
+        font-weight: bold;
+    }
+}
+
+.avatar, .avatar img {
+    width: 90px;
+    height: 90px;
+    .border-radius(45px);
+}

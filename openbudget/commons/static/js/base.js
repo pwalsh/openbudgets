@@ -172,15 +172,15 @@
     
         $('#nav-anchor').mouseenter(function (event) {
             event.preventDefault();
-            $('#nav-panel').show();
+            $('#panel-nav').show();
         });
     
-        $('#nav-panel').mouseleave(function () {
-            $('#nav-panel').hide();
+        $('#panel-nav').mouseleave(function () {
+            $('#panel-nav').hide();
         });
     
         $('#nav-panel-close').click(function () {
-            $('#nav-panel').hide();
+            $('#panel-nav').hide();
         });
     
     }());
