@@ -52,26 +52,59 @@ class AccountRegistrationView(RegistrationView):
     form_class = CustomRegistrationForm
 
     def render_to_json_response(self, context, **response_kwargs):
+
         data = json.dumps(context)
+
         response_kwargs['content_type'] = 'application/json'
+
         return HttpResponse(data, **response_kwargs)
 
     def form_invalid(self, form, request=None):
+
         response = super(AccountRegistrationView, self).form_invalid(form)
+
         if self.request.is_ajax():
-            data = {'data': form.errors}
-            return self.render_to_json_response(data, status=400)
+
+            # we are simplifying the errors because of the available UI space.
+            #
+            # 1. Check for email availability, return if error
+            #
+            # 2. Check for cross-field errors which here means:
+            #
+            #   (a) if the emails entering are not matching, return if error
+            #   (b) if the passwords entering are not matching, return if error
+
+            if 'email' in dict(form.errors):
+
+                chosen_error = form.errors['email'][0]
+
+            else:
+
+                chosen_error = form.errors['__all__'][0]
+
+            data = chosen_error
+
+            # JQuery is expecting a string, not an object.
+            #return self.render_to_json_response(data, status=400)
+            return HttpResponse(data)
+
         else:
+
             return response
 
     def form_valid(self, request, form):
+
         response = super(AccountRegistrationView, self).form_valid(request, form)
+
         if self.request.is_ajax():
             data = {
-                'data': 'a response for valid',
+                'data': _('Check your email to proceed'),
             }
+
             return self.render_to_json_response(data)
+
         else:
+
             return response
 
     def register(self, request, **cleaned_data):
@@ -82,25 +115,29 @@ class AccountRegistrationView(RegistrationView):
                                                  cleaned_data['password1']
         site = Site.objects.get_current()
 
-        print first_name, last_name, email, password, site
-
         # Custom user creation, as django-registration has username hardcoded.
         # this is usually wrapped in a model method.
         new_user = get_user_model().objects.create_user(email, first_name,
                                                         last_name, password)
         new_user.is_active = False
+
         new_user.save()
 
         # Customizing django-registration's create_profile method, as it
         # relies on the username
         # this is usually wrapped in a model method.
         salt = hashlib.sha1(str(random.random())).hexdigest()[:5]
+
         email = new_user.email
+
         if isinstance(email, unicode):
             email = email.encode('utf-8')
+
         activation_key = hashlib.sha1(salt+email).hexdigest()
+
         registration_profile = RegistrationProfile.objects.create(
             user=new_user, activation_key=activation_key)
+
         registration_profile.send_activation_email(site)
 
         signals.user_registered.send(sender=self.__class__,
@@ -109,9 +146,11 @@ class AccountRegistrationView(RegistrationView):
         return new_user
 
     def registration_allowed(self, request):
+
         return getattr(settings, 'REGISTRATION_OPEN', True)
 
     def get_success_url(self, request, user):
+
         return ('registration_complete', (), {})
 
 
