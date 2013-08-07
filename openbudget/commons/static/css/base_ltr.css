@@ -1,3 +1,6 @@
+@import url(http://fonts.googleapis.com/css?family=Alef:400,700);
+
+@import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
 /*! based on and adapted from :::: normalize.css v2.1.2 | MIT License | git.io/normalize */
 /* FOUNDATION */
 /* FLOW */
@@ -832,6 +835,17 @@ input.valid {
 }
 #filter .arrow {
   content: 'this';
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+nav a,
+#nav-anchor a {
+  font-weight: normal;
+  font-family: "Alef", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
 }
 .box-2 {
   -webkit-box-sizing: border-box;
