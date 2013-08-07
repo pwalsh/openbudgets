@@ -90,7 +90,7 @@ define([
             /*
              * Register resources
              */
-            uijet.Resource('LatestSheet', resources.Nodes);
+            uijet.Resource('LatestSheet', resources.Items);
 
             /*
              * Register handlers to events in UI

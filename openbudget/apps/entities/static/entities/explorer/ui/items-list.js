@@ -2,7 +2,8 @@ define([
     'uijet_dir/uijet',
     'resources',
     'project_widgets/FilteredList',
-    'controllers/ItemsList'
+    'controllers/ItemsList',
+    'ui/sheet'
 ], function (uijet, resources) {
 
     return [{
@@ -32,9 +33,13 @@ define([
             resource        : 'LatestSheet',
             position        : 'fluid',
             fetch_options   : {
-                reset   : true,
+                remove  : false,
                 cache   : true,
-                expires : 8 * 3600
+                expires : 8 * 3600,
+                data    : {
+                    page_by : 4000,
+                    parents : 'none'
+                }
             },
             search          : {
                 fields  : {
@@ -44,14 +49,7 @@ define([
                 }
             },
             filters         : {
-                search  : 'search',
-                selected: function (state) {
-                    if ( state === true )
-                        return this.resource.where({ selected : 'selected' })
-                                            .map(uijet.utils.prop('id'));
-                    else
-                        return null;
-                }
+                search  : 'search'
             },
             sorting         : {
                 name        : 'name',
@@ -65,27 +63,47 @@ define([
                 actual      : 'actual',
                 '-actual'   : resources.utils.reverseSorting('actual')
             },
-            data_events     : {},
+            data_events     : {
+                reset   : function () {
+                    this.has_data = true;
+                    delete this.$original_children;
+                }
+            },
             signals         : {
+                post_init       : function () {
+                    var state_model = uijet.Resource('ItemsListState');
+
+                    this.resource.reset(this.resource.parse(window.ITEMS_LIST));
+
+                    this.options.fetch_options.data.sheets = state_model.get('sheets');
+
+                    this.listenTo(state_model, 'change:sheet', function (model, value) {
+                        this.options.fetch_options.data.sheets = value;
+                    }.bind(this));
+                },
                 pre_wake        : function () {
                     // usually on first load when there's no context, just bail out
                     if ( ! this.context ) return false;
 
-//                    this.options.fetch_options.data = {
-//                        page_by : 4000
-//                    };
-                    // change view back to main
-                    this.setScope(null);
-
-                    var state = uijet.Resource('ItemsListState');
+                    var state = uijet.Resource('ItemsListState'),
+                        scope = this.context.scope || null;
                     this.updateFlags(state.attributes);
 
-                    if ( this.active_filters ) {
-                        this.filter(this.resource.byAncestor)
+                    if ( this.all_fetched ) {
+                        if ( this.active_filters ) {
+                            this.filter(this.resource.byAncestor)
+                        }
+                        else {
+                            this.filter(this.resource.roots);
+                        }
                     }
                     else {
-                        this.filter(this.resource.roots);
+                        delete this.filtered;
+                        this.has_data = false;
+                        this.options.fetch_options.data.parents = scope;
                     }
+                    // change view back to main
+                    this.setScope(scope);
                 },
                 pre_update      : 'spin',
                 post_fetch_data : function () {
@@ -93,18 +111,15 @@ define([
                         this.queued_filters = false;
                         this.filter(this.resource.byAncestor);
                     }
-                    if ( this.reselect ) {
-                        this.reselect = false;
-                        this.resetSelection(this.context.selection);
+                    else {
+                        this.filter(this.resource.byParent, this.scope);
                     }
-                    if ( this.rebuild_index ) {
-                        // clear FilterList's cache
-                        this.rebuild_index = false;
-                        this.cached_results = {};
-                        this.$last_filter_result = null;
-                        // rebuild index
-                        this.buildIndex();
+
+                    if ( this.scope_changed ) {
+                        this.scope_changed = false;
+                        this._publishScope();
                     }
+
                     this.spinOff();
                 },
                 post_render     : function () {
@@ -120,31 +135,27 @@ define([
                 },
                 pre_select      : function ($selected, e) {
                     var id = +$selected.attr('data-id');
-                    if ( uijet.$(e.target).hasClass('selectbox') ) {
-                        this.updateSelection(id)
-                            .publish('selection');
-                        return false;
-                    }
-                    else {
-                        return ! $selected[0].hasAttribute('data-leaf') && id;
-                    }
+                    return ! $selected[0].hasAttribute('data-leaf') && id;
                 },
                 post_select     : function ($selected) {
-                    var node_id = +$selected.attr('data-id') || null;
-                    this.redraw(node_id);
+                    var node_id = typeof $selected == 'number' ?
+                        $selected :
+                        +$selected.attr('data-id') || null;
+                    this.all_fetched ?
+                        this.redraw(node_id) :
+                        this.wake({ scope : node_id });
                 },
                 post_filtered   : function (ids) {
                     this.publish('filter_count', ids ? ids.length : null)
                         ._prepareScrolledSize();
 
-                    var search_term = uijet.Resource('NodesListState').get('search');
+                    var search_term = uijet.Resource('ItemsListState').get('search');
                     uijet.utils.requestAnimFrame( this.toggleHighlight.bind(this, search_term) );
                     uijet.utils.requestAnimFrame( this.scroll.bind(this) );
                 }
             },
             app_events      : {
                 'search.changed'                            : 'updateSearchFilter+',
-                'selected.changed'                          : 'updateSelectedFilter+',
                 'items_list.filtered'                       : 'filterChildren',
                 'item_breadcrumb_main.clicked'              : function () {
                     this.redraw(null);
@@ -154,20 +165,7 @@ define([
                 },
                 'items_breadcrumbs.selected'                : 'post_select+',
                 'items_breadcrumbs_history_menu.selected'   : 'post_select+',
-                'items_list_header.selected'                : 'sortItems+',
-                'items_list.selection'                      : function () {
-                    var resource = this.resource;
-                    // update DOM with collection's state
-                    this.$children.each(function (i, item) {
-                        var $item = uijet.$(item),
-                            id = +$item.attr('data-id'),
-                            state = resource.get(id).get('selected');
-                        $item.attr('data-selected', state);
-                    });
-                    if ( this.active_filters & this.filter_flags['selected'] ) {
-                        this.updateSelectedFilter(true);
-                    }
-                }
+                'items_list_header.selected'                : 'sortItems+'
             }
         }
     }];

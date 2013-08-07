@@ -1,3 +1,24 @@
+#items_breadcrumbs {
+    display: inline-block;
+    width: auto;
+    height: auto;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+#items_breadcrumbs li {
+    float: none;
+}
+#items_breadcrumbs li + li:before {
+    content: '\2190';
+    margin-left: .5rem;
+}
+
+#items_search_wrapper {
+    position: absolute;
+    top: 60px;
+    right: 18px;
+}
+
 #sheet_header {
     position: absolute;
     top: 0;
@@ -15,9 +36,6 @@
     height: auto;
     font-size: 3.261rem;
     font-weight: normal;
-}
-#sheet_scope_name_content {
-    line-height: 150%;
 }
 #sheet_selector_content {
     padding: 0 .5rem;
