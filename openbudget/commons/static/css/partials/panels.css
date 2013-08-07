@@ -20,7 +20,7 @@
   padding-right: 1em;
   padding-top: 1em;
   padding-bottom: 1em;
-  background-color: #61c1cc;
+  background-color: #00ccc2;
   z-index: 99;
   display: none;
   position: fixed;
@@ -63,7 +63,7 @@
   padding-bottom: 0;
   padding-right: 26px;
   font-size: 1em;
-  color: #1d7781;
+  color: #026a74;
 }
 #panel-action {
   -webkit-box-sizing: border-box;

@@ -56,10 +56,10 @@
   font-size: 0.875em;
 }
 #overlay-login a.weak {
-  color: #a4a4bc;
+  color: #050514;
 }
 #overlay-login a.strong {
-  color: #070746;
+  color: #141452;
 }
 #overlay-login .notices {
   -webkit-box-sizing: border-box;
@@ -136,10 +136,10 @@
   font-size: 0.875em;
 }
 #overlay-register a.weak {
-  color: #a4a4bc;
+  color: #050514;
 }
 #overlay-register a.strong {
-  color: #070746;
+  color: #141452;
 }
 #overlay-register .notices {
   -webkit-box-sizing: border-box;
@@ -216,10 +216,10 @@
   font-size: 0.875em;
 }
 #overlay-password-reset a.weak {
-  color: #a4a4bc;
+  color: #050514;
 }
 #overlay-password-reset a.strong {
-  color: #070746;
+  color: #141452;
 }
 #overlay-password-reset .notices {
   -webkit-box-sizing: border-box;
@@ -296,10 +296,10 @@
   font-size: 0.875em;
 }
 #overlay-password-change a.weak {
-  color: #a4a4bc;
+  color: #050514;
 }
 #overlay-password-change a.strong {
-  color: #070746;
+  color: #141452;
 }
 #overlay-password-change .notices {
   -webkit-box-sizing: border-box;

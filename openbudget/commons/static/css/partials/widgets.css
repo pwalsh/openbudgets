@@ -10,7 +10,7 @@
 /* BOX */
 .account .actions {
   display: none;
-  background-color: #e8e8ed;
+  background-color: #d0d0dc;
 }
 .account .actions a {
   display: block;
@@ -31,7 +31,7 @@
   border: 0;
   border-radius: 0;
   -webkit-appearance: none;
-  color: #070746;
+  color: #141452;
   font-weight: bold;
   line-height: 1em;
   padding-left: 0;

@@ -12,7 +12,7 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  background-color: #b1b1c3;
+  background-color: #d0d0dc;
   font-weight: bold;
   display: inline-block;
   cursor: pointer;
@@ -47,7 +47,7 @@ html input[disabled],
 }
 input {
   border-bottom: 1px solid #d0d0dc;
-  background-color: #f3f3f6;
+  background-color: #e8e8ed;
 }
 input:focus {
   background-color: #ffffff;
@@ -78,7 +78,7 @@ input.valid {
   left: 18px;
   display: none;
   position: absolute;
-  color: #a4a4bc;
+  color: #757599;
   font-size: 0.75em;
 }
 .field.half {

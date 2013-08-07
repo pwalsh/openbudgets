@@ -45,7 +45,7 @@ html {
   font-size: 1em;
   line-height: 1.5em;
   background-color: #d0d0dc;
-  color: #444474;
+  color: #727297;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
@@ -82,18 +82,18 @@ h6 {
   margin-right: 0;
   margin-top: 0;
   margin-bottom: 0.25em;
-  color: #070746;
+  color: #141452;
 }
 h1 {
   font-size: 2em;
 }
 a {
-  color: #070746;
+  color: #141452;
   background: transparent;
 }
 a:hover,
 a:active {
-  color: #09095d;
+  color: #191966;
   outline: 0;
 }
 a:focus {
@@ -222,7 +222,7 @@ input[type="submit"] {
   border-right: 0;
   border-bottom: 0;
   border-left: 0;
-  background-color: #01cbc1;
+  background-color: #00ccc2;
   color: #ffffff;
 }
 button:hover,
@@ -233,14 +233,14 @@ button:focus,
 html input[type="button"]:focus,
 input[type="reset"]:focus,
 input[type="submit"]:focus {
-  background-color: #01e4d9;
+  background-color: #00e6da;
   color: #ffffff;
 }
 button[disabled],
 html input[disabled] {
   cursor: default;
-  background-color: #e8e8ed;
-  color: #070746;
+  background-color: #d0d0dc;
+  color: #141452;
 }
 input[type="checkbox"],
 input[type="radio"] {
@@ -287,7 +287,7 @@ table {
   padding-right: 1em;
   padding-top: 1em;
   padding-bottom: 1em;
-  background-color: #61c1cc;
+  background-color: #00ccc2;
   z-index: 99;
   display: none;
   position: fixed;
@@ -330,7 +330,7 @@ table {
   padding-bottom: 0;
   padding-right: 26px;
   font-size: 1em;
-  color: #1d7781;
+  color: #026a74;
 }
 #panel-action {
   -webkit-box-sizing: border-box;
@@ -435,10 +435,10 @@ table {
   font-size: 0.875em;
 }
 #overlay-login a.weak {
-  color: #a4a4bc;
+  color: #050514;
 }
 #overlay-login a.strong {
-  color: #070746;
+  color: #141452;
 }
 #overlay-login .notices {
   -webkit-box-sizing: border-box;
@@ -518,10 +518,10 @@ table {
   font-size: 0.875em;
 }
 #overlay-register a.weak {
-  color: #a4a4bc;
+  color: #050514;
 }
 #overlay-register a.strong {
-  color: #070746;
+  color: #141452;
 }
 #overlay-register .notices {
   -webkit-box-sizing: border-box;
@@ -601,10 +601,10 @@ table {
   font-size: 0.875em;
 }
 #overlay-password-reset a.weak {
-  color: #a4a4bc;
+  color: #050514;
 }
 #overlay-password-reset a.strong {
-  color: #070746;
+  color: #141452;
 }
 #overlay-password-reset .notices {
   -webkit-box-sizing: border-box;
@@ -684,10 +684,10 @@ table {
   font-size: 0.875em;
 }
 #overlay-password-change a.weak {
-  color: #a4a4bc;
+  color: #050514;
 }
 #overlay-password-change a.strong {
-  color: #070746;
+  color: #141452;
 }
 #overlay-password-change .notices {
   -webkit-box-sizing: border-box;
@@ -735,7 +735,7 @@ table {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  background-color: #b1b1c3;
+  background-color: #d0d0dc;
   font-weight: bold;
   display: inline-block;
   cursor: pointer;
@@ -770,7 +770,7 @@ html input[disabled],
 }
 input {
   border-bottom: 1px solid #d0d0dc;
-  background-color: #f3f3f6;
+  background-color: #e8e8ed;
 }
 input:focus {
   background-color: #ffffff;
@@ -801,7 +801,7 @@ input.valid {
   left: 18px;
   display: none;
   position: absolute;
-  color: #a4a4bc;
+  color: #757599;
   font-size: 0.75em;
 }
 .field.half {
@@ -812,7 +812,7 @@ input.valid {
 }
 .account .actions {
   display: none;
-  background-color: #e8e8ed;
+  background-color: #d0d0dc;
 }
 .account .actions a {
   display: block;
@@ -833,7 +833,7 @@ input.valid {
   border: 0;
   border-radius: 0;
   -webkit-appearance: none;
-  color: #070746;
+  color: #141452;
   font-weight: bold;
   line-height: 1em;
   padding-left: 0;
@@ -883,10 +883,10 @@ input.valid {
   width: 60%;
   font-size: 2.5em;
   line-height: 1em;
-  color: #e8e8ed;
+  color: #d0d0dc;
 }
 .identity .email {
-  color: #e8e8ed;
+  color: #d0d0dc;
 }
 .identity .email,
 .identity .language,
@@ -943,13 +943,13 @@ input.valid {
   box-sizing: border-box;
   float: right;
   width: 20%;
-  background-color: #f3f3f6;
+  background-color: #e8e8ed;
   height: 120px;
   padding-left: 0.5em;
   padding-right: 0.5em;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
-  border-top: 1px solid #d0d0dc;
+  border-top: 1px solid #727297;
 }
 #activities .activity .snippet:first-of-type {
   border-top: none;
@@ -959,7 +959,7 @@ input.valid {
   margin-bottom: 0.5em;
 }
 #activities .activity h3 .sub {
-  color: #e8e8ed;
+  color: #d0d0dc;
 }
 #activities .activity h2 {
   font-size: 2.5em;

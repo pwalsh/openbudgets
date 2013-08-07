@@ -17,7 +17,7 @@
 /* A mixin that declares the base style of all overlay objects */
 .overlay-object(@top: 25%, @left: 35%) {
     .layout-object(290px);
-    .background-color(@bluegrey);
+    .background-color(@modal);
     display: none;
     height: auto;
     position: fixed;
@@ -41,17 +41,17 @@
         font-size: 0.875em;
 
         &.weak {
-            color: darken(@bluegrey, 15%);
+            color: darken(@color-link, 15%);
         }
 
         &.strong {
-            color: @strongblue;
+            color: @color-link;
         }
     }
 
     .notices {
         .layout-object(70%);
-        color: @pink;
+        color: @color-text-alert;
         font-size: 0.75em;
         height: 2.5em;
         line-height: 3.5em;
