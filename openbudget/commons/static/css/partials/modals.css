@@ -19,13 +19,6 @@
   background-color: black;
   opacity: 0.5;
 }
-#overlay .close {
-  display: none;
-  cursor: pointer;
-  position: fixed;
-  top: 10px;
-  right: 10px;
-}
 /* A mixin that declares the base style of all overlay objects */
 #overlay-login {
   -webkit-box-sizing: border-box;
@@ -75,9 +68,9 @@
   float: left;
   width: 70%;
   color: #ff0059;
-  font-size: 0.875em;
+  font-size: 0.75em;
   height: 2.5em;
-  line-height: 2.5em;
+  line-height: 3.5em;
 }
 #overlay-login .action {
   -webkit-box-sizing: border-box;
@@ -155,9 +148,9 @@
   float: left;
   width: 70%;
   color: #ff0059;
-  font-size: 0.875em;
+  font-size: 0.75em;
   height: 2.5em;
-  line-height: 2.5em;
+  line-height: 3.5em;
 }
 #overlay-register .action {
   -webkit-box-sizing: border-box;
@@ -235,9 +228,9 @@
   float: left;
   width: 70%;
   color: #ff0059;
-  font-size: 0.875em;
+  font-size: 0.75em;
   height: 2.5em;
-  line-height: 2.5em;
+  line-height: 3.5em;
 }
 #overlay-password-reset .action {
   -webkit-box-sizing: border-box;
@@ -315,9 +308,9 @@
   float: left;
   width: 70%;
   color: #ff0059;
-  font-size: 0.875em;
+  font-size: 0.75em;
   height: 2.5em;
-  line-height: 2.5em;
+  line-height: 3.5em;
 }
 #overlay-password-change .action {
   -webkit-box-sizing: border-box;

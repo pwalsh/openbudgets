@@ -1,12 +1,4 @@
 /*! based on and adapted from :::: normalize.css v2.1.2 | MIT License | git.io/normalize */
-/* FOUNDATION */
-/* FLOW */
-/* RESPONSE */
-/* COLORS */
-/* DESIGN */
-/* CORE */
-/* BUILDING BLOCKS */
-/* BOX */
 article,
 aside,
 details,
@@ -273,8 +265,16 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+/* FOUNDATION */
+/* FLOW */
+/* RESPONSE */
+/* COLORS */
+/* DESIGN */
 /* OPENBUDGETS SCHEME */
 /* SEMANTICS */
+/* CORE */
+/* BUILDING BLOCKS */
+/* BOX */
 /* @import "../../lib/adaptabl/src/normalize"; */
 #panel-nav {
   -webkit-box-sizing: border-box;
@@ -398,13 +398,6 @@ table {
   background-color: black;
   opacity: 0.5;
 }
-#overlay .close {
-  display: none;
-  cursor: pointer;
-  position: fixed;
-  top: 10px;
-  right: 10px;
-}
 /* A mixin that declares the base style of all overlay objects */
 #overlay-login {
   -webkit-box-sizing: border-box;
@@ -454,9 +447,9 @@ table {
   float: left;
   width: 70%;
   color: #ff0059;
-  font-size: 0.875em;
+  font-size: 0.75em;
   height: 2.5em;
-  line-height: 2.5em;
+  line-height: 3.5em;
 }
 #overlay-login .action {
   -webkit-box-sizing: border-box;
@@ -534,9 +527,9 @@ table {
   float: left;
   width: 70%;
   color: #ff0059;
-  font-size: 0.875em;
+  font-size: 0.75em;
   height: 2.5em;
-  line-height: 2.5em;
+  line-height: 3.5em;
 }
 #overlay-register .action {
   -webkit-box-sizing: border-box;
@@ -614,9 +607,9 @@ table {
   float: left;
   width: 70%;
   color: #ff0059;
-  font-size: 0.875em;
+  font-size: 0.75em;
   height: 2.5em;
-  line-height: 2.5em;
+  line-height: 3.5em;
 }
 #overlay-password-reset .action {
   -webkit-box-sizing: border-box;
@@ -694,9 +687,9 @@ table {
   float: left;
   width: 70%;
   color: #ff0059;
-  font-size: 0.875em;
+  font-size: 0.75em;
   height: 2.5em;
-  line-height: 2.5em;
+  line-height: 3.5em;
 }
 #overlay-password-change .action {
   -webkit-box-sizing: border-box;

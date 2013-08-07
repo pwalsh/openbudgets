@@ -2,10 +2,22 @@ import hashlib
 import random
 import json
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import get_user_model
 from django.views.generic import DetailView, UpdateView
 from django.contrib.sites.models import Site
+from django.utils.translation import ugettext as _
+from django.template.response import TemplateResponse
+from django.utils.http import is_safe_url
+from django.shortcuts import resolve_url
+from django.views.decorators.debug import sensitive_post_parameters
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login
+from django.contrib.sites.models import get_current_site
+from django.contrib.auth.tokens import default_token_generator
+from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
 from braces.views import LoginRequiredMixin
 from registration.views import RegistrationView
 from registration.models import RegistrationProfile
@@ -103,54 +115,55 @@ class AccountRegistrationView(RegistrationView):
         return ('registration_complete', (), {})
 
 
-from django.http import HttpResponseRedirect
-from django.template.response import TemplateResponse
-from django.utils.http import is_safe_url
-from django.shortcuts import resolve_url
-from django.views.decorators.debug import sensitive_post_parameters
-from django.views.decorators.cache import never_cache
-from django.views.decorators.csrf import csrf_protect
-from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, logout as auth_logout
-from django.contrib.sites.models import get_current_site
-from django.contrib.auth.tokens import default_token_generator
-from django.core.urlresolvers import reverse
-from django.contrib.auth.decorators import login_required
-
-
 @sensitive_post_parameters()
 @csrf_protect
 @never_cache
 def account_login(request, template_name='registration/login.html',
-          redirect_field_name=REDIRECT_FIELD_NAME,
-          authentication_form=CustomAuthenticationForm,
-          current_app=None, extra_context=None):
+                  redirect_field_name=REDIRECT_FIELD_NAME,
+                  authentication_form=CustomAuthenticationForm,
+                  current_app=None, extra_context=None):
 
     redirect_to = request.REQUEST.get(redirect_field_name, '')
 
-    print 'I AM HERE'
     if request.method == "POST":
-        form = authentication_form(data=request.POST)
-        if form.is_valid():
-            print 'YES'
-            if request.is_ajax():
-                print 'IS AJAX'
 
-            # Ensure the user-originating redirection url is safe.
+        form = authentication_form(data=request.POST)
+        next = request.POST['next']
+
+        if form.is_valid():
+
             if not is_safe_url(url=redirect_to, host=request.get_host()):
                 redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
 
-            # Okay, security check complete. Log the user in.
             auth_login(request, form.get_user())
 
             if request.session.test_cookie_worked():
                 request.session.delete_test_cookie()
 
+            if request.is_ajax():
+
+                data = {
+                    'data': _('Success'),
+                    'next': next
+                }
+
+                return HttpResponse(json.dumps(data), status=200)
+
             return HttpResponseRedirect(redirect_to)
 
-        else:
-            print 'form not valid'
-            print form
+        # TODO: check this out further. we have no form.not_valid() method
+        elif request.is_ajax():
+
+            data = {
+                'data': _('Incorrect credentials'),
+                'next': next
+            }
+
+            # JQuery is expecting a string, not an object
+            return HttpResponse(data['data'], status=400)
+
     else:
+
         form = authentication_form(request)
 
     request.session.set_test_cookie()
@@ -163,8 +176,10 @@ def account_login(request, template_name='registration/login.html',
         'site': current_site,
         'site_name': current_site.name,
     }
+
     if extra_context is not None:
         context.update(extra_context)
+
     return TemplateResponse(request, template_name, context,
                             current_app=current_app)
 
@@ -173,44 +188,85 @@ def account_login(request, template_name='registration/login.html',
 @csrf_protect
 @login_required
 def account_password_change(request,
-                    template_name='registration/password_change_form.html',
-                    post_change_redirect=None,
-                    password_change_form=CustomPasswordChangeForm,
-                    current_app=None, extra_context=None):
+                            template_name='registration/password_change_form.html',
+                            post_change_redirect=None,
+                            password_change_form=CustomPasswordChangeForm,
+                            current_app=None, extra_context=None):
+
     if post_change_redirect is None:
+
         post_change_redirect = reverse('django.contrib.auth.views.password_change_done')
+
     if request.method == "POST":
+
         form = password_change_form(user=request.user, data=request.POST)
+        next = request.POST['next']
+
         if form.is_valid():
+
             form.save()
+
+            if request.is_ajax():
+
+                data = {
+                    'data': _('Your password has been changed'),
+                    'next': next
+                }
+
+                return HttpResponse(json.dumps(data), status=200)
+
             return HttpResponseRedirect(post_change_redirect)
+
+        # TODO: check this out further. we have no form.not_valid() method
+        elif request.is_ajax():
+
+            data = {
+                'data': _('The form has errors. try again'),
+                'next': next
+            }
+
+            # JQuery is expecting a string, not an object
+            return HttpResponse(data['data'], status=400)
+
     else:
+
         form = password_change_form(user=request.user)
+
     context = {
         'form': form,
     }
+
     if extra_context is not None:
+
         context.update(extra_context)
+
     return TemplateResponse(request, template_name, context,
                             current_app=current_app)
 
 
 @csrf_protect
 def account_password_reset(request, is_admin_site=False,
-                   template_name='registration/password_reset_form.html',
-                   email_template_name='registration/password_reset_email.html',
-                   subject_template_name='registration/password_reset_subject.txt',
-                   password_reset_form=CustomPasswordResetForm,
-                   token_generator=default_token_generator,
-                   post_reset_redirect=None,
-                   from_email=None,
-                   current_app=None,
-                   extra_context=None):
+                           template_name='registration/password_reset_form.html',
+                           email_template_name='registration/password_reset_email.html',
+                           subject_template_name='registration/password_reset_subject.txt',
+                           password_reset_form=CustomPasswordResetForm,
+                           token_generator=default_token_generator,
+                           post_reset_redirect=None,
+                           from_email=None,
+                           current_app=None,
+                           extra_context=None):
+
     if post_reset_redirect is None:
+
         post_reset_redirect = reverse('django.contrib.auth.views.password_reset_done')
+
     if request.method == "POST":
+
         form = password_reset_form(request.POST)
+        next = request.POST['next']
+
         if form.is_valid():
+
             opts = {
                 'use_https': request.is_secure(),
                 'token_generator': token_generator,
@@ -219,17 +275,44 @@ def account_password_reset(request, is_admin_site=False,
                 'subject_template_name': subject_template_name,
                 'request': request,
             }
+
             if is_admin_site:
                 opts = dict(opts, domain_override=request.get_host())
             form.save(**opts)
+
+            if request.is_ajax():
+
+                data = {
+                    'data': _('Success. Check your inbox'),
+                    'next': next
+                }
+
+                return HttpResponse(json.dumps(data), status=200)
+
             return HttpResponseRedirect(post_reset_redirect)
+
+        # TODO: check this out further. we have no form.not_valid() method
+        elif request.is_ajax():
+
+            data = {
+                'data': _('Unknown email address'),
+                'next': next
+            }
+
+            # JQuery is expecting a string, not an object
+            return HttpResponse(data['data'], status=400)
+
     else:
+
         form = password_reset_form()
+
     context = {
         'form': form,
     }
+
     if extra_context is not None:
+
         context.update(extra_context)
+
     return TemplateResponse(request, template_name, context,
                             current_app=current_app)
-
