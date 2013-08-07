@@ -64,7 +64,7 @@
                     .end().find('.mock-button').removeClass('hide');
             },
             validation_map = {};
-    
+
         $forms.on({
                 validate: validateHandler,
                 valid   : validHandler,
@@ -83,26 +83,30 @@
                         }
                     });
             });
-    
+
         $forms.submit(function(event) {
             var $form = $(this),
                 notices = $form.find('.notices');
+
             event.preventDefault();
-    
+
             $.ajax({
                 type: $form.attr("method"),
                 url: $form.attr("action"),
                 data: $form.serialize(),
                 dataType: "json"
             })
-    
+
             //form_submit.val('Wait please').attr('disabled', 'disabled');
-    
+
             .done(function(response) {
+                console.log('DONE');
+                console.log(response);
                 notices.html(response.data);
             })
     
             .fail(function(jqXHR, textStatus) {
+                console.log('FAIL');
                 notices.html('FAIL: ' + textStatus);
             });
         });
@@ -115,7 +119,7 @@
     //******************/
     (function () {
     
-        $('#overlay .close, .mock-button').click(function (event) {
+        $('#overlay, .mock-button').click(function (event) {
             $('[id^="overlay"]').hide();
         });
     
@@ -123,7 +127,7 @@
             event.preventDefault();
             $('form').removeAttr('id');
             $('#overlay-login form').attr('id', 'active-form');
-            $('#overlay, #overlay .close').show();
+            $('#overlay').show();
             $('#overlay-login').show();
             $('#overlay-register').hide();
             $('#overlay-password-reset').hide();
@@ -134,7 +138,7 @@
             event.preventDefault();
             $('form').removeAttr('id');
             $('#overlay-register form').attr('id', 'active-form');
-            $('#overlay, #overlay .close').show();
+            $('#overlay').show();
             $('#overlay-register').show();
             $('#overlay-login').hide();
             $('#overlay-password-reset').hide();
@@ -145,7 +149,7 @@
             event.preventDefault();
             $('form').removeAttr('id');
             $('#overlay-password-reset form').attr('id', 'active-form');
-            $('#overlay, #overlay .close').show();
+            $('#overlay').show();
             $('#overlay-password-reset').show();
             $('#overlay-register').hide();
             $('#overlay-login').hide();
@@ -156,7 +160,7 @@
             event.preventDefault();
             $('form').removeAttr('id');
             $('#overlay-password-change form').attr('id', 'active-form');
-            $('#overlay, #overlay .close').show();
+            $('#overlay').show();
             $('#overlay-password-change').show();
             $('#overlay-register').hide();
             $('#overlay-login').hide();
