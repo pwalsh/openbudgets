@@ -23,9 +23,11 @@
     <div id="sponsor_logo">
         <a href="http://www.hasadna.org.il/" target="_blank"><img src="{{ STATIC_URL }}img/sponsor_logo.png"/></a>
     </div>
+    {% comment %}
     <div>
         {% language_switch request.get_full_path %}
     </div>
+    {% endcomment %}
     <nav>
         <a href="{% url 'api' subdomain='api' %}">{% trans 'API' %}</a>
         <a href="{% url 'page' slug='privacy' %}">{% trans 'Privacy' %}</a>
