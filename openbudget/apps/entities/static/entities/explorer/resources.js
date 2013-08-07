@@ -34,8 +34,8 @@ define([
                 collection, a_leaf, b_leaf;
 
             if ( a_parent === b_parent ) {
-                a_leaf = a_attrs.leaf_node;
-                b_leaf = b_attrs.leaf_node;
+                a_leaf = a_attrs.leaf_item;
+                b_leaf = b_attrs.leaf_item;
                 if ( a_leaf && ! b_leaf )
                     return -1;
                 else if ( b_leaf && ! a_leaf )
@@ -50,47 +50,9 @@ define([
             return nestingSort(a_parent, b_parent);
         },
         /*
-         * User (Account) Model
+         * SheetItem Model
          */
-        User = uijet.Model({
-            idAttribute : 'id',
-            name        : function () {
-                var first = this.get('first_name'),
-                    last = this.get('last_name');
-                if ( first || last ) {
-                    return first + ' ' + last;
-                }
-                else {
-                    return gettext('Guest:');
-                }
-            },
-            avatar      : function () {
-                return this.get('avatar').replace(/s=\d+[^&]/i, 's=90');
-            }
-        }),
-        /*
-         * Muni (Entity) Model
-         */
-        Muni = uijet.Model({
-            idAttribute : 'id'
-        }),
-        /*
-         * Munis (Entities) Collection
-         */
-        Munis = uijet.Collection({
-            model   : Muni,
-            url     : function () {
-                return api.getRoute('entities');
-            },
-            parse   : function (response) {
-                //! Array.prototype.filter
-                return response.results;
-            }
-        }),
-        /*
-         * TemplateNode Model
-         */
-        Node = uijet.Model({
+        Item = uijet.Model({
             idAttribute : 'id',
             branchName  : function (from_id) {
                 var ancestors = this.attributes.ancestors,
@@ -114,12 +76,12 @@ define([
             }
         }),
         /*
-         * TemplateNodes Collection
+         * SheetItems Collection
          */
-        Nodes = uijet.Collection({
-            model           : Node,
+        Items = uijet.Collection({
+            model           : Item,
             url             : function () {
-                return api.getRoute('templateNodes');
+                return api.getRoute('sheetItems');
             },
             comparator      : function (a, b) {
                 var a_attrs = a.attributes,
@@ -136,66 +98,38 @@ define([
                 return diff > 0 ? 1 : -1;
             },
             /**
-             * Setting `ancestors` array of `id`s, `leaf_node` boolean flag and
-             * `level` - a Number representing the level of the node in the tree.
+             * Setting `ancestors` array of `id`s, `leaf_item` boolean flag and
+             * `level` - a Number representing the level of the item in the tree.
              * 
              * @param {Object|Array} response
              * @returns {Object|Array} response
              */
             parse           : function (response) {
-                var results = response.results,
+                var results = response.results || response,
                     last = results.length - 1,
-                    paths_lookup = {},
-                    parent_ids = {},
-                    node, n, route, path, ancestor;
+                    item, n;
                 /* 
                  * first loop
                  *
-                 * init `ancestor` to `[]` 
-                 * create `paths_lookup` to look up nodes by `path`
-                 * create `parent_ids` to look up child nodes by `parent` (by id later)
+                 * init `ancestor` to `[]`
                  * set `level` by splitting `path` and checking its `length`
-                 * set `parent` to the parent's id
+                 * parse `actual` and `budget` to floats
+                 * translate `direction`
+                 * if no `children` or it's empty set `leaf_item` to `true`
                  */
-                for ( n = last; node = results[n]; n-- ) {
-                    node.ancestors = [];
-                    node.level = node.path.split('|').length - 1;
-                    paths_lookup[node.path] = node;
-                    if ( node.parent ) {
-                        node.parent = node.parent.id || node.parent;
-                        if ( ! parent_ids[node.parent] ) {
-                            parent_ids[node.parent] = [];
-                        }
-                        parent_ids[node.parent].push(node.id);
-                    }
-                    node.direction = gettext(node.direction);
-                }
-                /*
-                 * second loop
-                 * 
-                 * set `children` to the array in `parent_ids` using `id`
-                 * set `leaf_node` to `true` if `id` is not in `parent_ids`
-                 * fill `ancestors` array by ancestor `id`s ordered by `level` as index
-                 */
-                for ( n = last; node = results[n]; n-- ) {
-                    if ( parent_ids[node.id] ) {
-                        node.children = parent_ids[node.id];
-                    }
-                    else {
-                        node.leaf_node = true;
-                    }
-                    route = node.path.split('|').slice(1);
-                    while ( route.length ) {
-                        path = route.join('|');
-                        if ( path in paths_lookup ) {
-                            ancestor = paths_lookup[path];
-                            node.ancestors[ancestor.level] = ancestor.id;
-                        }
-                        route.shift();
+                for ( n = last; item = results[n]; n-- ) {
+                    item.ancestors || (item.ancestors = []);
+                    item.level = item.path.split('|').length - 1;
+
+                    item.actual = parseFloat(item.actual);
+                    item.budget = parseFloat(item.budget);
+
+                    item.direction = gettext(item.direction);
+
+                    if ( ! (item.children && item.children.length) ) {
+                        item.leaf_item = true;
                     }
                 }
-                paths_lookup = null;
-                parent_ids = null;
 
                 return results;
             },
@@ -203,57 +137,39 @@ define([
                 return this.byParent(null);
             },
             byParent        : function (parent_id) {
-                return this.where({
-                    parent  : parent_id
+                return this.filter(function (item) {
+                    var parent = item.attributes.parent;
+                    return (parent && parent.node) === parent_id;
                 });
             },
             byAncestor      : function (ancestor_id) {
                 if ( ancestor_id ) {
-                    return this.filter(function (node) {
-                        return ~ node.attributes.ancestors.indexOf(ancestor_id);
+                    return this.filter(function (item) {
+                        return ~ item.attributes.ancestors.indexOf(ancestor_id);
                     });
                 }
                 else {
                     return this.models;
                 }
             },
-            branch          : function (node_id) {
-                var tip_node, branch;
-                if ( node_id ) {
-                    tip_node = this.get(node_id);
+            branch          : function (item_id) {
+                var tip_item, branch;
+                if ( item_id ) {
+                    tip_item = this.get(item_id);
                     //! Array.prototype.map
-                    branch = tip_node.get('ancestors')
+                    branch = tip_item.get('ancestors')
                         .map( function (ancestor_id) {
                             return this.get(ancestor_id);
                         }, this );
-                    branch.push(tip_node);
+                    branch.push(tip_item);
                 }
                 return branch || [];
-            }
-        }),
-        State = uijet.Model({
-            idAttribute : 'uuid',
-            urlRoot     : function () {
-                return api.getRoute('projectStates');
-            },
-            url         : function () {
-                return this.urlRoot() + (this.id ? this.id + '/' : '');
-            },
-            parse       : function (response) {
-                var user = new User(response.author);
-                response.author_model = user;
-                response.author = user.id;
-                return response;
             }
         });
 
     return {
-        User    : User,
-        Muni    : Muni,
-        Munis   : Munis,
-        Node    : Node,
-        Nodes   : Nodes,
-        State   : State,
+        Item    : Item,
+        Items   : Items,
         utils   : {
             reverseSorting  : reverseSorting,
             nestingSort     : nestingSort

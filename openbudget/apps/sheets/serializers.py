@@ -67,10 +67,9 @@ class SheetBase(serializers.HyperlinkedModelSerializer):
                   'created_on', 'last_modified'] + translated_fields(model)
 
 
-class SheetItemBase(serializers.HyperlinkedModelSerializer):
-    """The default serialized representation of sheet items."""
+class SheetItemMinSerializer(serializers.HyperlinkedModelSerializer):
+    """A minimal serialized representation of sheet items."""
 
-    #node = TemplateNodeMin()
     node = serializers.Field('node.id')
     code = serializers.Field('node.code')
     name = serializers.Field('node.name')
@@ -83,7 +82,31 @@ class SheetItemBase(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.SheetItem
         fields = ['id', 'url', 'code', 'name', 'path', 'direction', 'budget',
-                  'actual', 'description', 'node', 'discussion'] + \
+                  'actual', 'description', 'node']\
+                 + translated_fields(models.TemplateNode)
+
+
+class SheetItemBase(serializers.HyperlinkedModelSerializer):
+    """The default serialized representation of sheet items."""
+
+    #node = TemplateNodeMin()
+    node = serializers.Field('node.id')
+    code = serializers.Field('node.code')
+    parent = SheetItemMinSerializer()
+    children = SheetItemMinSerializer(many=True)
+    ancestors = SheetItemMinSerializer(many=True)
+    # descendants = SheetItemMinSerializer(many=True)
+    name = serializers.Field('node.name')
+    name_en = serializers.Field('node.name_en')
+    name_ar = serializers.Field('node.name_ar')
+    name_ru = serializers.Field('node.name_ru')
+    path = serializers.Field('node.path')
+    direction = serializers.Field('node.direction')
+
+    class Meta:
+        model = models.SheetItem
+        fields = ['id', 'url', 'code', 'name', 'path', 'direction', 'budget',
+                  'actual', 'description', 'node', 'discussion', 'parent', 'children', 'ancestors'] + \
                  translated_fields(models.TemplateNode)
 
 

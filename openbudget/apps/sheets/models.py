@@ -493,6 +493,40 @@ class SheetItem(BaseItem, TimeStampedModel, UUIDModel, ClassMethodMixin):
         value = self.node.name
         return value
 
+    @property
+    def parent(self):
+        return self.sheet.sheetitems.get(node=self.node.parent)
+
+    @property
+    def children(self):
+        return self.sheet.sheetitems.filter(node__parent=self.node)
+
+    @property
+    def ancestors(self):
+        ancestors = []
+        current = self
+        try:
+            while current:
+                parent = current.parent
+                if parent:
+                    ancestors.append(parent)
+                current = parent
+        except SheetItem.DoesNotExist:
+            pass
+
+        ancestors.reverse()
+        return ancestors
+
+    @property
+    def descendants(self):
+        descendants = []
+        children = self.children
+        if children.count():
+            descendants += children
+            for child in children:
+                descendants += child.descendants
+        return descendants
+    
     class Meta:
         ordering = ['node']
         verbose_name = _('sheet item')

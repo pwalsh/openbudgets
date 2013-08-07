@@ -15,10 +15,12 @@
                 <span id="sheet_selector">
                     {% trans 'Budget' %}<span id="sheet_selector_content"></span>
                     <ul id="sheet_selector_menu">
-                        {% for period in periods %}<li>{{ period }}</li>{% endfor %}
+                        {% for sheet in sheets %}<li data-id="{{ sheet.id }}">{{ sheet.period }}</li>{% endfor %}
                     </ul>
                 </span>
-                <div id="items_breadcrumbs"></div>
+                <ul id="items_breadcrumbs">
+                    <li data-id="0">{% trans 'Main' %}</li>
+                </ul>
                 <h2 id="sheet_scope_name">
                     <span id="sheet_scope_name_content">{% trans 'Main' %}</span>
                     <span id="search_crumb"></span>
@@ -36,7 +38,9 @@
                     <li class="items_list_header_node" data-column="budget">{% trans 'Budget' %}</li>
                     <li class="items_list_header_node" data-column="actual">{% trans 'Actual' %}</li>
                 </ul>
-                <ul id="items_list"></ul>
+                <ul id="items_list">
+                    {{ items_list|safe }}
+                </ul>
             </section>
         </section>
         <section id="right_container" class="top_container">
@@ -62,6 +66,8 @@
     <script>
         var API_INDEX = 'http://api.{{ site|safe }}/',
             API_VERSION = 'v1';
+            ENTITY = {{ object_json|safe }},
+            ITEMS_LIST = {{ items_list_json|safe }};
     </script>
     <script src="{% url 'projects_js_i18n' %}"></script>
     <script src="{{ STATIC_URL }}lib/require.js" data-main="{{ STATIC_URL }}entities/explorer/main"></script>

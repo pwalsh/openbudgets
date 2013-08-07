@@ -8,13 +8,12 @@ define([
     'project_widgets/FilterCrumb'
 ], function (uijet, resources) {
 
-//    uijet.Resource('Breadcrumbs', uijet.Collection({
-//        model   : resources.Node
-//    }))
-    uijet.Resource('ItemsListState', uijet.Model(), {
-        search      : null,
-        selected    : null,
-        legend_item : null
+    uijet.Resource('Breadcrumbs', uijet.Collection({
+        model   : resources.Item
+    }))
+    .Resource('ItemsListState', uijet.Model(), {
+        search  : null,
+        sheets  : 5
     });
 
     var attributeNullifier = function (attr) {
@@ -31,13 +30,19 @@ define([
         type    : 'Select',
         config  : {
             element : '#sheet_selector',
+            resource: 'ItemsListState',
             menu    : {
                 element         : '#sheet_selector_menu',
                 float_position  : 'top:44px',
                 initial         : ':last-child'
             },
             content : uijet.$('#sheet_selector_content'),
-            sync    : true
+            sync    : true,
+            signals : {
+                post_select : function ($selected) {
+                    this.resource.set('sheets', $selected.attr('data-id'));
+                }
+            }
         }
     }, {
         type    : 'Pane',
@@ -57,9 +62,6 @@ define([
                         clearText.call(this);
                     }
                 },
-                'add_legend.clicked'            : clearText,
-                'legends_list.selected'         : clearText,
-                'legends_list.last_deleted'     : clearText,
                 'filters_search_menu.selected'  : function (data) {
                     if ( data.type === 'search' )
                         this.sleep();
@@ -233,28 +235,36 @@ define([
                 pre_click   : 'sleep'
             }
         }
-//    }, {
-//        type    : 'Breadcrumbs',
-//        config  : {
-//            element     : '#items_breadcrumbs',
-//            resource    : 'Breadcrumbs',
-//            data_events : {
-//                change  : 'render',
-//                reset   : 'render'
-//            },
-//            signals     : {
-//                post_sleep  : function () {
-//                    this.resource.reset([]);
-//                }
-//            },
-//            app_events  : {
-//                'items_list.selected'   : function (selected) {
-//                    this.resource.reset(
-//                        uijet.Resource('LatestSheet').branch(selected)
-//                    );
-//                }
-//            }
-//        }
+    }, {
+        type    : 'List',
+        config  : {
+            element     : '#items_breadcrumbs',
+            mixins      : ['Templated'],
+            resource    : 'Breadcrumbs',
+            dont_wake   : true,
+            dont_fetch  : true,
+            horizontal  : true,
+            data_events : {
+                reset   : 'render'
+            },
+            signals     : {
+                post_wake   : function () {
+                    return false;
+                },
+                pre_select  : function ($selected) {
+                    return +$selected.attr('data-id');
+                }
+            },
+            app_events  : {
+                'items_list.scope_changed'  : function (scope_model) {
+                    var ancestors = scope_model ?
+                        scope_model.get('ancestors') :
+                        [];
+                    this.resource.reset(ancestors);
+                    scope_model ? this.wake() : this.sleep();
+                }
+            }
+        }
     }, {
         type    : 'FilterCrumb',
         config  : {
