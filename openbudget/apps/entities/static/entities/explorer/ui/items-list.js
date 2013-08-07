@@ -100,7 +100,7 @@ define([
                     else {
                         delete this.filtered;
                         this.has_data = false;
-                        this.options.fetch_options.data.parents = scope;
+                        this.options.fetch_options.data.parents = scope || 'none';
                     }
                     // change view back to main
                     this.setScope(scope);
