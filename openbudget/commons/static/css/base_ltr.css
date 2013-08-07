@@ -239,7 +239,7 @@ input[type="submit"]:focus {
 button[disabled],
 html input[disabled] {
   cursor: default;
-  background-color: #d0d0dc;
+  background-color: #a1a1ba;
   color: #141452;
 }
 input[type="checkbox"],
@@ -435,7 +435,7 @@ table {
   font-size: 0.875em;
 }
 #overlay-login a.weak {
-  color: #050514;
+  color: #a4a4bc;
 }
 #overlay-login a.strong {
   color: #141452;
@@ -515,7 +515,7 @@ table {
   font-size: 0.875em;
 }
 #overlay-register a.weak {
-  color: #050514;
+  color: #a4a4bc;
 }
 #overlay-register a.strong {
   color: #141452;
@@ -595,7 +595,7 @@ table {
   font-size: 0.875em;
 }
 #overlay-password-reset a.weak {
-  color: #050514;
+  color: #a4a4bc;
 }
 #overlay-password-reset a.strong {
   color: #141452;
@@ -675,7 +675,7 @@ table {
   font-size: 0.875em;
 }
 #overlay-password-change a.weak {
-  color: #050514;
+  color: #a4a4bc;
 }
 #overlay-password-change a.strong {
   color: #141452;
@@ -723,8 +723,9 @@ table {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  background-color: #d0d0dc;
   font-weight: bold;
+  color: #141452;
+  background-color: #a1a1ba;
   display: inline-block;
   cursor: pointer;
   text-align: center;

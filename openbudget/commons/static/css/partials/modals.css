@@ -56,7 +56,7 @@
   font-size: 0.875em;
 }
 #overlay-login a.weak {
-  color: #050514;
+  color: #a4a4bc;
 }
 #overlay-login a.strong {
   color: #141452;
@@ -136,7 +136,7 @@
   font-size: 0.875em;
 }
 #overlay-register a.weak {
-  color: #050514;
+  color: #a4a4bc;
 }
 #overlay-register a.strong {
   color: #141452;
@@ -216,7 +216,7 @@
   font-size: 0.875em;
 }
 #overlay-password-reset a.weak {
-  color: #050514;
+  color: #a4a4bc;
 }
 #overlay-password-reset a.strong {
   color: #141452;
@@ -296,7 +296,7 @@
   font-size: 0.875em;
 }
 #overlay-password-change a.weak {
-  color: #050514;
+  color: #a4a4bc;
 }
 #overlay-password-change a.strong {
   color: #141452;
