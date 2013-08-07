@@ -62,24 +62,24 @@ class InternationalCase(TestCase):
         for lang in self.languages:
             self.assertContains(response, meta_string.format(lang=lang[0]))
 
-    def test_language_switch_presence(self):
-        """Checks that the language switch partial is present.
-
-        And, confirms that it contains an entry for each
-        supported language of this Open Budget instance.
-        """
-
-        template = 'international/partials/_language_switch.html'
-        partial_container = 'class="language-switch"'
-
-        response = self.client.get(self.home)
-
-        self.assertEqual(response.status_code, 200)
-        # TODO: Work out how we can test for "template used", when
-        # the template is loaded via a template tag
-        #self.assertTemplateUsed(response, template)
-        for _ in self.languages:
-            self.assertContains(response, partial_container)
+#    def test_language_switch_presence(self):
+#        """Checks that the language switch partial is present.
+#
+#        And, confirms that it contains an entry for each
+#        supported language of this Open Budget instance.
+#        """
+#
+#        template = 'international/partials/_language_switch.html'
+#        partial_container = 'class="language-switch"'
+#
+#        response = self.client.get(self.home)
+#
+#        self.assertEqual(response.status_code, 200)
+#        # TODO: Work out how we can test for "template used", when
+#        # the template is loaded via a template tag
+#        #self.assertTemplateUsed(response, template)
+#        for _ in self.languages:
+#            self.assertContains(response, partial_container)
 
     def test_get_language_key(self):
         """Checks that the correct language is set in the request context.
