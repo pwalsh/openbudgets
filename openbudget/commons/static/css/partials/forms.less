@@ -3,8 +3,9 @@
 
 .mock-button {
     .object;
-    .background-color(@midgrey);
     .bold;
+    .color(@color-button-disabled);
+    .background-color(@color-button-background-disabled);
     display: inline-block;
     cursor: pointer;
     text-align: center;
@@ -22,8 +23,8 @@ input, button, html input[type="button"], input[type="reset"], input[type="submi
 }
 
 input {
-    border-bottom: 1px solid @bluegrey;
-    background-color: @lightgrey;
+    border-bottom: 1px solid @grey;
+    background-color: @grey-light;
 
     &:focus {
         background-color: @white;
@@ -54,7 +55,7 @@ input {
         left: 18px;
         display: none;
         position: absolute;
-        color: darken(@bluegrey, 15%);
+        color: darken(@greyblue-light, 15%);
         font-size: @unit-em * 0.75;
     }
 
@@ -62,6 +63,6 @@ input {
         .width(50%);
     }
     &.half.first input {
-        border-right: 1px solid @bluegrey;
+        border-right: 1px solid @grey;
     }
 }

@@ -86,9 +86,13 @@
 
         $forms.submit(function(event) {
             var $form = $(this),
+                action = $form.find(':submit'),
+                mock_button = $form.find('.mock-button'),
                 notices = $form.find('.notices');
 
             event.preventDefault();
+
+            action.val('Wait').attr('disabled', 'disabled');
 
             $.ajax({
                 type: $form.attr("method"),
@@ -97,17 +101,21 @@
                 dataType: "json"
             })
 
-            //form_submit.val('Wait please').attr('disabled', 'disabled');
-
             .done(function(response) {
-                console.log('DONE');
-                console.log(response);
                 notices.html(response.data);
+                action.removeAttr('disabled');
+
+                // close the modal
+                $('[id^="overlay"]').hide();
+                // update to show user
+                // LOLz
+                location.reload(true);
             })
     
             .fail(function(jqXHR, textStatus) {
-                console.log('FAIL');
-                notices.html('FAIL: ' + textStatus);
+                notices.html(jqXHR.responseText);
+                action.val('Cancel').removeAttr('disabled').addClass('hide');
+                mock_button.removeClass('hide');
             });
         });
     

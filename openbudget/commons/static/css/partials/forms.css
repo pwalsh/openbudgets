@@ -12,8 +12,9 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  background-color: #b1b1c3;
   font-weight: bold;
+  color: #141452;
+  background-color: #a1a1ba;
   display: inline-block;
   cursor: pointer;
   text-align: center;
@@ -34,20 +35,20 @@ html input[disabled],
   margin-right: 0;
   margin-top: 0;
   margin-bottom: 0;
-  padding-left: 0;
-  padding-right: 0;
   padding-top: 0;
+  padding-right: 0;
   padding-bottom: 0;
+  padding-left: 0;
   border-top: 0;
   border-right: 0;
   border-bottom: 0;
   border-left: 0;
-  padding-left: 18px;
   padding-right: 18px;
+  padding-left: 18px;
 }
 input {
   border-bottom: 1px solid #d0d0dc;
-  background-color: #f3f3f6;
+  background-color: #e8e8ed;
 }
 input:focus {
   background-color: #ffffff;
@@ -78,7 +79,7 @@ input.valid {
   left: 18px;
   display: none;
   position: absolute;
-  color: #a4a4bc;
+  color: #757599;
   font-size: 0.75em;
 }
 .field.half {

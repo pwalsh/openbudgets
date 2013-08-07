@@ -2,14 +2,55 @@
 @import "mixins";
 
 .account {
+    position: relative;
+    .align-center;
+    .width(54px);
+    .padding-top(18px);
 
-    .actions {
-        display: none;
-        .background-color(@grey);
-        a {.display-block;}
+    &:hover {
+        .background-color(@grey-light);
     }
 
+    a.login-link {
+        .color(@greyblue-light);
+    }
+
+    .name {
+        .font-size(@unit-em * 0.875);
+        line-height: 1em;
+    }
+
+    .actions {
+        position: absolute;
+        top: 50px;
+        left: 0;
+        display: none;
+        .width(186px);
+        .background-color(@grey-light);
+        a {
+            .display-block;
+            .alignment;
+            text-decoration: none;
+            .margin-horizontal(18px);
+            .bold();
+            border-bottom: 1px solid @grey;
+            .height(44px);
+            line-height: 44px;
+
+            &:last-of-type {
+                .border-reset;
+            }
+        }
+    }
+
+    .avatar, .avatar img {
+        width: 29px;
+        height: 29px;
+        .border-radius(58px);
+    }
 }
+
+
 
 #filter {
     .row;

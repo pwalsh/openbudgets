@@ -16,11 +16,11 @@
   float: left;
   width: 300px;
   height: 100%;
-  padding-left: 18px 16px 18px 50px;
+  padding-top: 18px 16px 18px 50px;
   padding-right: 1em;
-  padding-top: 1em;
   padding-bottom: 1em;
-  background-color: #61c1cc;
+  padding-left: 1em;
+  background-color: #00ccc2;
   z-index: 99;
   display: none;
   position: fixed;
@@ -41,8 +41,8 @@
   color: #ffffff;
   text-decoration: none;
   padding-bottom: 26px;
-  padding-left: 0;
   padding-right: 0;
+  padding-left: 0;
   /*overriding adaptabl crap*/
 
 }
@@ -57,13 +57,13 @@
   font-weight: bold;
   text-decoration: none;
   display: inline-block;
-  padding-left: 0;
-  padding-right: 0;
   padding-top: 0;
+  padding-right: 0;
   padding-bottom: 0;
+  padding-left: 0;
   padding-right: 26px;
   font-size: 1em;
-  color: #1d7781;
+  color: #026a74;
 }
 #panel-action {
   -webkit-box-sizing: border-box;
@@ -72,10 +72,10 @@
   float: left;
   width: 300px;
   height: 100%;
-  padding-left: 18px 16px 18px 40px;
-  padding-right: 1em;
-  padding-top: 1em;
-  padding-bottom: 1em;
+  padding-top: 18px;
+  padding-right: 16px;
+  padding-bottom: 18px;
+  padding-left: 40px;
   background-color: #d0d0dc;
 }
 #panel-main {
@@ -85,10 +85,10 @@
   float: left;
   width: 860px;
   height: 100%;
-  padding-left: 18px 0 18px 40px;
-  padding-right: 1em;
-  padding-top: 1em;
-  padding-bottom: 1em;
+  padding-top: 18px;
+  padding-right: 0;
+  padding-bottom: 18px;
+  padding-left: 40px;
   background-color: #ffffff;
 }
 #panel-append {
@@ -98,10 +98,10 @@
   float: left;
   width: 100px;
   height: 100%;
-  padding-left: 18px 0 18px 16px;
-  padding-right: 1em;
-  padding-top: 1em;
-  padding-bottom: 1em;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 18px;
+  padding-left: 16px;
   background-color: #d0d0dc;
 }
 #nav-anchor {
@@ -111,12 +111,4 @@
 #nav-anchor a {
   text-decoration: none;
   font-weight: bold;
-}
-.avatar,
-.avatar img {
-  width: 90px;
-  height: 90px;
-  -webkit-border-radius: 45px;
-  -moz-border-radius: 45px;
-  border-radius: 45px;
 }

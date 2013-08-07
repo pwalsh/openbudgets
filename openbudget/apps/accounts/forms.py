@@ -57,7 +57,7 @@ class CustomRegistrationForm(forms.Form):
 
         existing = get_user_model().objects.filter(email__iexact=self.cleaned_data['email'])
         if existing.exists():
-            raise forms.ValidationError(_("A user with that email already exists."))
+            raise forms.ValidationError(_('This email is already registered'))
         else:
             return self.cleaned_data['email']
 
@@ -65,11 +65,11 @@ class CustomRegistrationForm(forms.Form):
 
         if 'email' in self.cleaned_data and 'email_confirm' in self.cleaned_data:
             if self.cleaned_data['email'] != self.cleaned_data['email_confirm']:
-                raise forms.ValidationError(_("The two email fields didn't match."))
+                raise forms.ValidationError(_('The emails do not match'))
 
         if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data:
             if self.cleaned_data['password1'] != self.cleaned_data['password2']:
-                raise forms.ValidationError(_("The two password fields didn't match."))
+                raise forms.ValidationError(_('The passwords do not match'))
 
         return self.cleaned_data
 

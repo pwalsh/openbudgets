@@ -4,11 +4,15 @@
 <div class="account">
     {% if user.is_authenticated %}
     <a class="avatar" href="{% url 'account_detail' user.uuid %}"><img src="{{ user.avatar }}" /></a>
+    <div class="name">
+        {{ user.first_name }}
+    </div>
     <div class="actions">
-        <a href="{% url 'account_detail' user.uuid %}">{% trans 'Account' %}</a>
+        <a href="{% url 'account_detail' user.uuid %}">{{ user.first_name }} {{ user.last_name }}</a>
         <a href="{% url 'auth_logout' %}">{% trans 'Logout' %}</a>
     </div>
     {% else %}
+    <a class="avatar login-link" href="{% url 'auth_login' %}"><img src="{{ user.avatar }}" /></a>
     <a class="login-link" href="{% url 'auth_login' %}">{% trans 'Login' %}</a>
     {% endif %}
 </div>

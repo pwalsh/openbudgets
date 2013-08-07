@@ -19,13 +19,6 @@
   background-color: black;
   opacity: 0.5;
 }
-#overlay .close {
-  display: none;
-  cursor: pointer;
-  position: fixed;
-  top: 10px;
-  right: 10px;
-}
 /* A mixin that declares the base style of all overlay objects */
 #overlay-login {
   -webkit-box-sizing: border-box;
@@ -48,8 +41,8 @@
 #overlay-login h3,
 #overlay-login .notices,
 #overlay-login .options {
-  padding-left: 18px;
   padding-right: 18px;
+  padding-left: 18px;
 }
 #overlay-login h3 {
   padding-top: 0.5em;
@@ -66,7 +59,7 @@
   color: #a4a4bc;
 }
 #overlay-login a.strong {
-  color: #070746;
+  color: #141452;
 }
 #overlay-login .notices {
   -webkit-box-sizing: border-box;
@@ -75,9 +68,9 @@
   float: left;
   width: 70%;
   color: #ff0059;
-  font-size: 0.875em;
+  font-size: 0.75em;
   height: 2.5em;
-  line-height: 2.5em;
+  line-height: 3.5em;
 }
 #overlay-login .action {
   -webkit-box-sizing: border-box;
@@ -128,8 +121,8 @@
 #overlay-register h3,
 #overlay-register .notices,
 #overlay-register .options {
-  padding-left: 18px;
   padding-right: 18px;
+  padding-left: 18px;
 }
 #overlay-register h3 {
   padding-top: 0.5em;
@@ -146,7 +139,7 @@
   color: #a4a4bc;
 }
 #overlay-register a.strong {
-  color: #070746;
+  color: #141452;
 }
 #overlay-register .notices {
   -webkit-box-sizing: border-box;
@@ -155,9 +148,9 @@
   float: left;
   width: 70%;
   color: #ff0059;
-  font-size: 0.875em;
+  font-size: 0.75em;
   height: 2.5em;
-  line-height: 2.5em;
+  line-height: 3.5em;
 }
 #overlay-register .action {
   -webkit-box-sizing: border-box;
@@ -208,8 +201,8 @@
 #overlay-password-reset h3,
 #overlay-password-reset .notices,
 #overlay-password-reset .options {
-  padding-left: 18px;
   padding-right: 18px;
+  padding-left: 18px;
 }
 #overlay-password-reset h3 {
   padding-top: 0.5em;
@@ -226,7 +219,7 @@
   color: #a4a4bc;
 }
 #overlay-password-reset a.strong {
-  color: #070746;
+  color: #141452;
 }
 #overlay-password-reset .notices {
   -webkit-box-sizing: border-box;
@@ -235,9 +228,9 @@
   float: left;
   width: 70%;
   color: #ff0059;
-  font-size: 0.875em;
+  font-size: 0.75em;
   height: 2.5em;
-  line-height: 2.5em;
+  line-height: 3.5em;
 }
 #overlay-password-reset .action {
   -webkit-box-sizing: border-box;
@@ -288,8 +281,8 @@
 #overlay-password-change h3,
 #overlay-password-change .notices,
 #overlay-password-change .options {
-  padding-left: 18px;
   padding-right: 18px;
+  padding-left: 18px;
 }
 #overlay-password-change h3 {
   padding-top: 0.5em;
@@ -306,7 +299,7 @@
   color: #a4a4bc;
 }
 #overlay-password-change a.strong {
-  color: #070746;
+  color: #141452;
 }
 #overlay-password-change .notices {
   -webkit-box-sizing: border-box;
@@ -315,9 +308,9 @@
   float: left;
   width: 70%;
   color: #ff0059;
-  font-size: 0.875em;
+  font-size: 0.75em;
   height: 2.5em;
-  line-height: 2.5em;
+  line-height: 3.5em;
 }
 #overlay-password-change .action {
   -webkit-box-sizing: border-box;

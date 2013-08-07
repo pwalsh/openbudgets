@@ -5,6 +5,13 @@
 @import "partials/modals";
 @import "partials/forms";
 @import "partials/widgets";
+@import url(http://fonts.googleapis.com/css?family=Alef:400,700);
+@import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
+
+h1, h2, h3, h4, h5, h6, nav a, #nav-anchor a {
+    font-weight: normal;
+    font-family: @font-heading;
+}
 
 .box-2 {
     .layout-object(50%);
@@ -67,10 +74,10 @@
 
         .snippet {
             .layout-object(20%);
-            background-color: @lightgrey;
+            background-color: @grey-light;
             .height(120px);
             .padding-all(@unit-em * 0.5);
-            border-top: 1px solid @bluegrey;
+            border-top: 1px solid @greyblue;
 
             &:first-of-type {
                 border-top: none;

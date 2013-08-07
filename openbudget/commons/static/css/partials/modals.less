@@ -12,20 +12,12 @@
     height: 100%;
     background-color: black;
     opacity: 0.5;
-
-    .close {
-        display: none;
-        cursor: pointer;
-        position: fixed;
-        top: 10px;
-        right: 10px;
-    }
 }
 
 /* A mixin that declares the base style of all overlay objects */
 .overlay-object(@top: 25%, @left: 35%) {
     .layout-object(290px);
-    .background-color(@bluegrey);
+    .background-color(@modal);
     display: none;
     height: auto;
     position: fixed;
@@ -49,20 +41,20 @@
         font-size: 0.875em;
 
         &.weak {
-            color: darken(@bluegrey, 15%);
+            color: darken(@grey, 15%);
         }
 
         &.strong {
-            color: @strongblue;
+            color: @color-link;
         }
     }
 
     .notices {
         .layout-object(70%);
-        color: @pink;
-        font-size: 0.875em;
+        color: @color-text-alert;
+        font-size: 0.75em;
         height: 2.5em;
-        line-height: 2.5em;
+        line-height: 3.5em;
     }
 
     .action {

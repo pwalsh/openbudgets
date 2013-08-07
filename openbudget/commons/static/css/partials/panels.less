@@ -18,10 +18,6 @@
     top: 0;
     cursor: pointer;
 
-
-
-
-
     #app_logo {
         .padding-vertical(35px);
     }
@@ -56,26 +52,26 @@
             .padding-reset();
             .padding-right(26px);
             .font-size(@unit-em);
-            color: @dark-green;
+            color: @stronggreen;
         }
     }
 }
 
 #panel-action {
     .panel(300px);
-    .padding(18px 16px 18px 40px);
-    .background-color(@panel-action)
+    .padding(18px; 16px; 18px; 40px);
+    .background-color(@panel-action);
 }
 
 #panel-main {
     .panel(860px);
-    .padding(18px 0 18px 40px);
+    .padding(18px; 0; 18px; 40px);
     .background-color(@panel-main);
 }
 
 #panel-append {
     .panel(100px);
-    .padding(18px 0 18px 16px);
+    .padding(0; 0; 18px; 16px);
     .background-color(@panel-append);
 }
 
@@ -87,10 +83,4 @@
         text-decoration: none;
         font-weight: bold;
     }
-}
-
-.avatar, .avatar img {
-    width: 90px;
-    height: 90px;
-    .border-radius(45px);
 }

@@ -8,12 +8,54 @@
 /* CORE */
 /* BUILDING BLOCKS */
 /* BOX */
+.account {
+  position: relative;
+  text-align: center;
+  width: 54px;
+  padding-top: 18px;
+}
+.account:hover {
+  background-color: #e8e8ed;
+}
+.account a.login-link {
+  color: #a1a1ba;
+}
+.account .name {
+  font-size: 0.875em;
+  line-height: 1em;
+}
 .account .actions {
+  position: absolute;
+  top: 50px;
+  left: 0;
   display: none;
+  width: 186px;
   background-color: #e8e8ed;
 }
 .account .actions a {
   display: block;
+  text-align: left;
+  text-decoration: none;
+  margin-left: 18px;
+  margin-right: 18px;
+  font-weight: bold;
+  border-bottom: 1px solid #d0d0dc;
+  height: 44px;
+  line-height: 44px;
+}
+.account .actions a:last-of-type {
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
+}
+.account .avatar,
+.account .avatar img {
+  width: 29px;
+  height: 29px;
+  -webkit-border-radius: 58px;
+  -moz-border-radius: 58px;
+  border-radius: 58px;
 }
 #filter {
   -webkit-box-sizing: border-box;
@@ -31,13 +73,13 @@
   border: 0;
   border-radius: 0;
   -webkit-appearance: none;
-  color: #070746;
+  color: #141452;
   font-weight: bold;
   line-height: 1em;
-  padding-left: 0;
-  padding-right: 0;
   padding-top: 0;
+  padding-right: 0;
   padding-bottom: 0;
+  padding-left: 0;
 }
 #filter .arrow {
   content: 'this';
