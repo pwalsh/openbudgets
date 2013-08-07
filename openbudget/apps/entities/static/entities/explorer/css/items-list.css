@@ -19,7 +19,7 @@
     width: 110px;
 }
 .item_cell_direction {
-    width: 74px;
+    width: 110px;
 }
 .item_cell_name > span + span:before {
     content: ' > ';
