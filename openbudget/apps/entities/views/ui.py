@@ -84,18 +84,26 @@ class EntityDetail(DetailView):
     template_name = 'entities/explorer.html'
 
     def get_context_data(self, **kwargs):
-        sheet = Sheet.objects.latest_of(self.object.id)
-        items = sheet.sheetitems.filter(node__parent__isnull=True)
-        renderer = JSONRenderer()
-        items_list = SheetItemUISerializer(items, many=True).data
-        sheets = []
-        for sheet in self.object.sheets.all():
-            sheets.append({
-                'id': sheet.id,
-                'period': sheet.period
-            })
 
         context = super(EntityDetail, self).get_context_data(**kwargs)
+
+        sheets = []
+        items_list = {}
+        renderer = JSONRenderer()
+
+        if self.object.sheets.all():
+
+            sheet = Sheet.objects.latest_of(self.object.id)
+            items = sheet.sheetitems.filter(node__parent__isnull=True)
+            items_list = SheetItemUISerializer(items, many=True).data
+
+            for sheet in self.object.sheets.all():
+                sheets.append({
+                    'id': sheet.id,
+                    'period': sheet.period
+                })
+
+
 
         context['sheets'] = sheets
         context['object_json'] = renderer.render(EntityDetailUISerializer(self.object).data)
