@@ -12,7 +12,7 @@
         <a href="{% url 'auth_logout' %}">{% trans 'Logout' %}</a>
     </div>
     {% else %}
-    <a class="avatar login-link" href="{% url 'auth_login' %}"><img src="{{ user.avatar }}" /></a>
+    <a class="avatar login-link" href="{% url 'auth_login' %}"><img src="{{ avatar_anon }}" /></a>
     <a class="login-link" href="{% url 'auth_login' %}">{% trans 'Login' %}</a>
     {% endif %}
 </div>

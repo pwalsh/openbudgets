@@ -332,6 +332,8 @@ OPENBUDGETS_PUBLIC_ID = 3
 
 OPENBUDGETS_PERIOD_RANGES = ('yearly',)
 
+OPENBUDGETS_AVATAR_ANON = STATIC_URL + 'img/avatar_anon.png'
+
 OPENBUDGETS_BOOTSTRAP = {
     'FIXTURES': (
         'dev/sites',
