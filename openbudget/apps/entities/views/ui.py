@@ -91,10 +91,12 @@ class EntityDetail(DetailView):
         items_list = {}
         renderer = JSONRenderer()
 
-        if self.object.sheets.all():
+        if self.object.sheets.exists():
 
+            #TODO: if we have a state of specific sheet/item then load the corresponding sheet instead latest
             sheet = Sheet.objects.latest_of(self.object.id)
-            items = sheet.sheetitems.filter(node__parent__isnull=True)
+            #TODO: if we have a state of specific item then load the children of that item instead of sheet's main scope
+            items = sheet.sheetitems.filter(node__parent__isnull=True).order_by('node__code')
             items_list = SheetItemUISerializer(items, many=True).data
 
             for sheet in self.object.sheets.all():
