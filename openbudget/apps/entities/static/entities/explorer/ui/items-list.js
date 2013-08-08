@@ -83,7 +83,12 @@ define([
                             sheets  : value,
                             scope   : null
                         });
-                    }.bind(this));
+                    })
+                    .listenTo(state_model, 'change:scope', function (model, scope) {
+                        this.wake({
+                            scope   : scope || null
+                        });
+                    });
                 },
                 pre_wake        : function () {
                     // usually on first load when there's no context, just bail out

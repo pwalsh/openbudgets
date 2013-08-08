@@ -34,29 +34,17 @@ define([
     explorer = {
         router          : Router({
             routes  : {
-                ':uuid' : function (uuid) {
-                    var state = uijet.Resource('ProjectState');
-                    if ( state.id !== uuid ) {
-                        state.set({
-                            uuid: uuid
-                        })
-                        .fetch({
-                            success : function (model) {
-                                var config = JSON.parse(model.get('config')),
-                                    series = config.chart,
-                                    legend_data = uijet.Resource('TimeSeries').reset(series).extractLegend();
-                                model.set({
-                                    title       : config.title || gettext('Insert title'),
-                                    description : config.description || ''
-                                });
-                                legend_data.forEach(function (item, i) {
-                                    item.state = series[i].state;
-                                    item.title = series[i].title;
-                                });
-                                uijet.Resource('LegendItems').reset(legend_data);
-                            }
-                        });
-                    }
+                'entities/:entity/:period/' : function (entity, period) {
+                    uijet.Resource('ItemsListState').set({
+                        period  : period,
+                        scope   : null
+                    });
+                },
+                'entities/:entity/:period/:uuid/' : function (entity, period, uuid) {
+                    uijet.Resource('ItemsListState').set({
+                        period  : period,
+                        scope   : uijet.Resource('LatestSheet').findWhere({ uuid : uuid }).get('node')
+                    });
                 }
             }
         }),
@@ -99,7 +87,7 @@ define([
                 explorer.routes_set_promise.then(function () {
                     Backbone.history.start({
                         pushState   : true,
-                        root        : '/entities/explorer/'
+                        root        : '/entities/' + window.ENTITY.slug + '/'
                     });
                 });
             })
