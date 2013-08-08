@@ -1,0 +1,1543 @@
+[
+
+{
+    "model": "contexts.Context",
+    "pk": 1,
+    "fields": {
+        "entity": 81,
+        "period_start": "2009-01-01",
+        "period_end": "2009-12-31",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00",
+        "data": {
+            "gini_index": {
+                "name": "מדד ג'יני",
+                "name_en": "Gini Index",
+                "name_ar": "مؤشر جيني",
+                "value": "0.4364",
+                "value_type": "index"
+            },
+            "socioeconomic_index": {
+                "name": "רמה דמוגרפית חברתית כלכלית",
+                "name_en": "Socio-Economic Index",
+                "name_ar": "مستوى الديموغرافية الاجتماعية والاقتصادية",
+                "value": "7",
+                "value_type": "scale/10"
+            },
+            "population": {
+                "name": "אוכלוסיה",
+                "name_en": "Population",
+                "name_ar": "عدد السكان",
+                "value": "15000",
+                "value_type": "number"
+            },
+            "population_male": {
+                "name": "אוכלוסיית הגברים",
+                "name_en": "Population - Male",
+                "name_ar": "عدد السكان الذكور (بالآلاف)",
+                "value": "7800",
+                "value_type": "number"
+            },
+            "population_female": {
+                "name": "אוכלוסיית הנשים",
+                "name_en": "Population - Female",
+                "name_ar": "عدد السكان النساء (بالآلاف)",
+                "value": "7200",
+                "value_type": "number"
+            },
+            "ground_surface": {
+                "name": "שטח הרשות",
+                "name_en": "Authority area",
+                "name_ar": "منطقة السلطة",
+                "value": "8176",
+                "value_type": "measurement_unit"
+            },
+            "schools_infant": {
+                "name": "בתי ספר יסודיים",
+                "name_en": "Infant School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_classrooms": {
+                "name": "כיתות בבתי ספר יסודיים",
+                "name_en": "Infant School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_students": {
+                "name": "תלמידים בתי ספר יסודיים",
+                "name_en": "Infant School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary": {
+                "name": "בתי ספר על יסודיים",
+                "name_en": "Primary Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_classrooms": {
+                "name": "כיתות בבתי ספר על יסודיים",
+                "name_en": "Primary School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_students": {
+                "name": "תלמידים בבתי ספר על יסודיים",
+                "name_en": "Primary School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle": {
+                "name": "חטיבות ביניים",
+                "name_en": "Middle School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_classrooms": {
+                "name": "כיתות בחטיבות ביניים",
+                "name_en": "Middle School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_students": {
+                "name": "תלמידים בחטיבות ביניים",
+                "name_en": "Middle School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high": {
+                "name": "בתי ספר תיכוניים",
+                "name_en": "High Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_classrooms": {
+                "name": "כיתות בבתי ספר תיכוניים",
+                "name_en": "High School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_students": {
+                "name": "תלמידים בבתי ספר תיכוניים",
+                "name_en": "High School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            }
+        }
+    }
+},
+
+{
+    "model": "contexts.Context",
+    "pk": 2,
+    "fields": {
+        "entity": 81,
+        "period_start": "2010-01-01",
+        "period_end": "2010-12-31",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00",
+        "data": {
+            "gini_index": {
+                "name": "מדד ג'יני",
+                "name_en": "Gini Index",
+                "name_ar": "مؤشر جيني",
+                "value": "0.4377",
+                "value_type": "index"
+            },
+            "socioeconomic_index": {
+                "name": "רמה דמוגרפית חברתית כלכלית",
+                "name_en": "Socio-Economic Index",
+                "name_ar": "مستوى الديموغرافية الاجتماعية والاقتصادية",
+                "value": "7",
+                "value_type": "scale/10"
+            },
+            "population": {
+                "name": "אוכלוסיה",
+                "name_en": "Population",
+                "name_ar": "عدد السكان",
+                "value": "15800",
+                "value_type": "number"
+            },
+            "population_male": {
+                "name": "אוכלוסיית הגברים",
+                "name_en": "Population - Male",
+                "name_ar": "عدد السكان الذكور (بالآلاف)",
+                "value": "8200",
+                "value_type": "number"
+            },
+            "population_female": {
+                "name": "אוכלוסיית הנשים",
+                "name_en": "Population - Female",
+                "name_ar": "عدد السكان النساء (بالآلاف)",
+                "value": "7600",
+                "value_type": "number"
+            },
+            "ground_surface": {
+                "name": "שטח הרשות",
+                "name_en": "Authority area",
+                "name_ar": "منطقة السلطة",
+                "value": "8176",
+                "value_type": "measurement_unit"
+            },
+            "schools_infant": {
+                "name": "בתי ספר יסודיים",
+                "name_en": "Infant School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_classrooms": {
+                "name": "כיתות בבתי ספר יסודיים",
+                "name_en": "Infant School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_students": {
+                "name": "תלמידים בתי ספר יסודיים",
+                "name_en": "Infant School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary": {
+                "name": "בתי ספר על יסודיים",
+                "name_en": "Primary Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_classrooms": {
+                "name": "כיתות בבתי ספר על יסודיים",
+                "name_en": "Primary School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_students": {
+                "name": "תלמידים בבתי ספר על יסודיים",
+                "name_en": "Primary School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle": {
+                "name": "חטיבות ביניים",
+                "name_en": "Middle School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_classrooms": {
+                "name": "כיתות בחטיבות ביניים",
+                "name_en": "Middle School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_students": {
+                "name": "תלמידים בחטיבות ביניים",
+                "name_en": "Middle School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high": {
+                "name": "בתי ספר תיכוניים",
+                "name_en": "High Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_classrooms": {
+                "name": "כיתות בבתי ספר תיכוניים",
+                "name_en": "High School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_students": {
+                "name": "תלמידים בבתי ספר תיכוניים",
+                "name_en": "High School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            }
+        }
+    }
+},
+
+{
+    "model": "contexts.Context",
+    "pk": 3,
+    "fields": {
+        "entity": 81,
+        "period_start": "2011-01-01",
+        "period_end": "2011-12-31",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00",
+        "data": {
+            "gini_index": {
+                "name": "מדד ג'יני",
+                "name_en": "Gini Index",
+                "name_ar": "مؤشر جيني",
+                "value": "0.4409",
+                "value_type": "index"
+            },
+            "socioeconomic_index": {
+                "name": "רמה דמוגרפית חברתית כלכלית",
+                "name_en": "Socio-Economic Index",
+                "name_ar": "مستوى الديموغرافية الاجتماعية والاقتصادية",
+                "value": "6",
+                "value_type": "scale/10"
+            },
+            "population": {
+                "name": "אוכלוסיה",
+                "name_en": "Population",
+                "name_ar": "عدد السكان",
+                "value": "17000",
+                "value_type": "number"
+            },
+            "population_male": {
+                "name": "אוכלוסיית הגברים",
+                "name_en": "Population - Male",
+                "name_ar": "عدد السكان الذكور (بالآلاف)",
+                "value": "8800",
+                "value_type": "number"
+            },
+            "population_female": {
+                "name": "אוכלוסיית הנשים",
+                "name_en": "Population - Female",
+                "name_ar": "عدد السكان النساء (بالآلاف)",
+                "value": "8200",
+                "value_type": "number"
+            },
+            "ground_surface": {
+                "name": "שטח הרשות",
+                "name_en": "Authority area",
+                "name_ar": "منطقة السلطة",
+                "value": "8176",
+                "value_type": "measurement_unit"
+            },
+            "schools_infant": {
+                "name": "בתי ספר יסודיים",
+                "name_en": "Infant School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_classrooms": {
+                "name": "כיתות בבתי ספר יסודיים",
+                "name_en": "Infant School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_students": {
+                "name": "תלמידים בתי ספר יסודיים",
+                "name_en": "Infant School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary": {
+                "name": "בתי ספר על יסודיים",
+                "name_en": "Primary Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_classrooms": {
+                "name": "כיתות בבתי ספר על יסודיים",
+                "name_en": "Primary School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_students": {
+                "name": "תלמידים בבתי ספר על יסודיים",
+                "name_en": "Primary School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle": {
+                "name": "חטיבות ביניים",
+                "name_en": "Middle School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_classrooms": {
+                "name": "כיתות בחטיבות ביניים",
+                "name_en": "Middle School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_students": {
+                "name": "תלמידים בחטיבות ביניים",
+                "name_en": "Middle School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high": {
+                "name": "בתי ספר תיכוניים",
+                "name_en": "High Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_classrooms": {
+                "name": "כיתות בבתי ספר תיכוניים",
+                "name_en": "High School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_students": {
+                "name": "תלמידים בבתי ספר תיכוניים",
+                "name_en": "High School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            }
+        }
+    }
+},
+
+{
+    "model": "contexts.Context",
+    "pk": 4,
+    "fields": {
+        "entity": 165,
+        "period_start": "2009-01-01",
+        "period_end": "2009-12-31",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00",
+        "data": {
+            "gini_index": {
+                "name": "מדד ג'יני",
+                "name_en": "Gini Index",
+                "name_ar": "مؤشر جيني",
+                "value": "",
+                "value_type": "ratio"
+            },
+            "socioeconomic_index": {
+                "name": "רמה דמוגרפית חברתית כלכלית",
+                "name_en": "Socio-Economic Index",
+                "name_ar": "مستوى الديموغرافية الاجتماعية والاقتصادية",
+                "value": "",
+                "value_type": "ratio"
+            },
+            "population": {
+                "name": "אוכלוסיה",
+                "name_en": "Population",
+                "name_ar": "عدد السكان",
+                "value": "",
+                "value_type": "number"
+            },
+            "population_male": {
+                "name": "אוכלוסיית הגברים",
+                "name_en": "Population - Male",
+                "name_ar": "عدد السكان الذكور (بالآلاف)",
+                "value": "",
+                "value_type": "number"
+            },
+            "population_female": {
+                "name": "אוכלוסיית הנשים",
+                "name_en": "Population - Female",
+                "name_ar": "عدد السكان النساء (بالآلاف)",
+                "value": "",
+                "value_type": "number"
+            },
+            "ground_surface": {
+                "name": "שטח הרשות",
+                "name_en": "Authority area",
+                "name_ar": "منطقة السلطة",
+                "value": "",
+                "value_type": "measurement_unit"
+            },
+            "schools_infant": {
+                "name": "בתי ספר יסודיים",
+                "name_en": "Infant School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_classrooms": {
+                "name": "כיתות בבתי ספר יסודיים",
+                "name_en": "Infant School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_students": {
+                "name": "תלמידים בתי ספר יסודיים",
+                "name_en": "Infant School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary": {
+                "name": "בתי ספר על יסודיים",
+                "name_en": "Primary Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_classrooms": {
+                "name": "כיתות בבתי ספר על יסודיים",
+                "name_en": "Primary School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_students": {
+                "name": "תלמידים בבתי ספר על יסודיים",
+                "name_en": "Primary School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle": {
+                "name": "חטיבות ביניים",
+                "name_en": "Middle School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_classrooms": {
+                "name": "כיתות בחטיבות ביניים",
+                "name_en": "Middle School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_students": {
+                "name": "תלמידים בחטיבות ביניים",
+                "name_en": "Middle School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high": {
+                "name": "בתי ספר תיכוניים",
+                "name_en": "High Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_classrooms": {
+                "name": "כיתות בבתי ספר תיכוניים",
+                "name_en": "High School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_students": {
+                "name": "תלמידים בבתי ספר תיכוניים",
+                "name_en": "High School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            }
+        }
+    }
+},
+
+{
+    "model": "contexts.Context",
+    "pk": 5,
+    "fields": {
+        "entity": 165,
+        "period_start": "2010-01-01",
+        "period_end": "2010-12-31",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00",
+        "data": {
+            "gini_index": {
+                "name": "מדד ג'יני",
+                "name_en": "Gini Index",
+                "name_ar": "مؤشر جيني",
+                "value": "",
+                "value_type": "ratio"
+            },
+            "socioeconomic_index": {
+                "name": "רמה דמוגרפית חברתית כלכלית",
+                "name_en": "Socio-Economic Index",
+                "name_ar": "مستوى الديموغرافية الاجتماعية والاقتصادية",
+                "value": "",
+                "value_type": "ratio"
+            },
+            "population": {
+                "name": "אוכלוסיה",
+                "name_en": "Population",
+                "name_ar": "عدد السكان",
+                "value": "",
+                "value_type": "number"
+            },
+            "population_male": {
+                "name": "אוכלוסיית הגברים",
+                "name_en": "Population - Male",
+                "name_ar": "عدد السكان الذكور (بالآلاف)",
+                "value": "",
+                "value_type": "number"
+            },
+            "population_female": {
+                "name": "אוכלוסיית הנשים",
+                "name_en": "Population - Female",
+                "name_ar": "عدد السكان النساء (بالآلاف)",
+                "value": "",
+                "value_type": "number"
+            },
+            "ground_surface": {
+                "name": "שטח הרשות",
+                "name_en": "Authority area",
+                "name_ar": "منطقة السلطة",
+                "value": "",
+                "value_type": "measurement_unit"
+            },
+            "schools_infant": {
+                "name": "בתי ספר יסודיים",
+                "name_en": "Infant School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_classrooms": {
+                "name": "כיתות בבתי ספר יסודיים",
+                "name_en": "Infant School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_students": {
+                "name": "תלמידים בתי ספר יסודיים",
+                "name_en": "Infant School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary": {
+                "name": "בתי ספר על יסודיים",
+                "name_en": "Primary Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_classrooms": {
+                "name": "כיתות בבתי ספר על יסודיים",
+                "name_en": "Primary School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_students": {
+                "name": "תלמידים בבתי ספר על יסודיים",
+                "name_en": "Primary School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle": {
+                "name": "חטיבות ביניים",
+                "name_en": "Middle School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_classrooms": {
+                "name": "כיתות בחטיבות ביניים",
+                "name_en": "Middle School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_students": {
+                "name": "תלמידים בחטיבות ביניים",
+                "name_en": "Middle School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high": {
+                "name": "בתי ספר תיכוניים",
+                "name_en": "High Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_classrooms": {
+                "name": "כיתות בבתי ספר תיכוניים",
+                "name_en": "High School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_students": {
+                "name": "תלמידים בבתי ספר תיכוניים",
+                "name_en": "High School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            }
+        }
+    }
+},
+
+{
+    "model": "contexts.Context",
+    "pk": 6,
+    "fields": {
+        "entity": 234,
+        "period_start": "2009-01-01",
+        "period_end": "2009-12-31",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00",
+        "data": {
+            "gini_index": {
+                "name": "מדד ג'יני",
+                "name_en": "Gini Index",
+                "name_ar": "مؤشر جيني",
+                "value": "",
+                "value_type": "ratio"
+            },
+            "socioeconomic_index": {
+                "name": "רמה דמוגרפית חברתית כלכלית",
+                "name_en": "Socio-Economic Index",
+                "name_ar": "مستوى الديموغرافية الاجتماعية والاقتصادية",
+                "value": "",
+                "value_type": "ratio"
+            },
+            "population": {
+                "name": "אוכלוסיה",
+                "name_en": "Population",
+                "name_ar": "عدد السكان",
+                "value": "",
+                "value_type": "number"
+            },
+            "population_male": {
+                "name": "אוכלוסיית הגברים",
+                "name_en": "Population - Male",
+                "name_ar": "عدد السكان الذكور (بالآلاف)",
+                "value": "",
+                "value_type": "number"
+            },
+            "population_female": {
+                "name": "אוכלוסיית הנשים",
+                "name_en": "Population - Female",
+                "name_ar": "عدد السكان النساء (بالآلاف)",
+                "value": "",
+                "value_type": "number"
+            },
+            "ground_surface": {
+                "name": "שטח הרשות",
+                "name_en": "Authority area",
+                "name_ar": "منطقة السلطة",
+                "value": "",
+                "value_type": "measurement_unit"
+            },
+            "schools_infant": {
+                "name": "בתי ספר יסודיים",
+                "name_en": "Infant School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_classrooms": {
+                "name": "כיתות בבתי ספר יסודיים",
+                "name_en": "Infant School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_students": {
+                "name": "תלמידים בתי ספר יסודיים",
+                "name_en": "Infant School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary": {
+                "name": "בתי ספר על יסודיים",
+                "name_en": "Primary Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_classrooms": {
+                "name": "כיתות בבתי ספר על יסודיים",
+                "name_en": "Primary School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_students": {
+                "name": "תלמידים בבתי ספר על יסודיים",
+                "name_en": "Primary School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle": {
+                "name": "חטיבות ביניים",
+                "name_en": "Middle School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_classrooms": {
+                "name": "כיתות בחטיבות ביניים",
+                "name_en": "Middle School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_students": {
+                "name": "תלמידים בחטיבות ביניים",
+                "name_en": "Middle School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high": {
+                "name": "בתי ספר תיכוניים",
+                "name_en": "High Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_classrooms": {
+                "name": "כיתות בבתי ספר תיכוניים",
+                "name_en": "High School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_students": {
+                "name": "תלמידים בבתי ספר תיכוניים",
+                "name_en": "High School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            }
+        }
+    }
+},
+
+{
+    "model": "contexts.Context",
+    "pk": 7,
+    "fields": {
+        "entity": 234,
+        "period_start": "2010-01-01",
+        "period_end": "2010-12-31",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00",
+        "data": {
+            "gini_index": {
+                "name": "מדד ג'יני",
+                "name_en": "Gini Index",
+                "name_ar": "مؤشر جيني",
+                "value": "",
+                "value_type": "ratio"
+            },
+            "socioeconomic_index": {
+                "name": "רמה דמוגרפית חברתית כלכלית",
+                "name_en": "Socio-Economic Index",
+                "name_ar": "مستوى الديموغرافية الاجتماعية والاقتصادية",
+                "value": "",
+                "value_type": "ratio"
+            },
+            "population": {
+                "name": "אוכלוסיה",
+                "name_en": "Population",
+                "name_ar": "عدد السكان",
+                "value": "",
+                "value_type": "number"
+            },
+            "population_male": {
+                "name": "אוכלוסיית הגברים",
+                "name_en": "Population - Male",
+                "name_ar": "عدد السكان الذكور (بالآلاف)",
+                "value": "",
+                "value_type": "number"
+            },
+            "population_female": {
+                "name": "אוכלוסיית הנשים",
+                "name_en": "Population - Female",
+                "name_ar": "عدد السكان النساء (بالآلاف)",
+                "value": "",
+                "value_type": "number"
+            },
+            "ground_surface": {
+                "name": "שטח הרשות",
+                "name_en": "Authority area",
+                "name_ar": "منطقة السلطة",
+                "value": "",
+                "value_type": "measurement_unit"
+            },
+            "schools_infant": {
+                "name": "בתי ספר יסודיים",
+                "name_en": "Infant School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_classrooms": {
+                "name": "כיתות בבתי ספר יסודיים",
+                "name_en": "Infant School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_students": {
+                "name": "תלמידים בתי ספר יסודיים",
+                "name_en": "Infant School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary": {
+                "name": "בתי ספר על יסודיים",
+                "name_en": "Primary Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_classrooms": {
+                "name": "כיתות בבתי ספר על יסודיים",
+                "name_en": "Primary School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_students": {
+                "name": "תלמידים בבתי ספר על יסודיים",
+                "name_en": "Primary School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle": {
+                "name": "חטיבות ביניים",
+                "name_en": "Middle School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_classrooms": {
+                "name": "כיתות בחטיבות ביניים",
+                "name_en": "Middle School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_students": {
+                "name": "תלמידים בחטיבות ביניים",
+                "name_en": "Middle School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high": {
+                "name": "בתי ספר תיכוניים",
+                "name_en": "High Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_classrooms": {
+                "name": "כיתות בבתי ספר תיכוניים",
+                "name_en": "High School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_students": {
+                "name": "תלמידים בבתי ספר תיכוניים",
+                "name_en": "High School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            }
+        }
+    }
+},
+
+{
+    "model": "contexts.Context",
+    "pk": 8,
+    "fields": {
+        "entity": 234,
+        "period_start": "2011-01-01",
+        "period_end": "2011-12-31",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00",
+        "data": {
+            "gini_index": {
+                "name": "מדד ג'יני",
+                "name_en": "Gini Index",
+                "name_ar": "مؤشر جيني",
+                "value": "",
+                "value_type": "ratio"
+            },
+            "socioeconomic_index": {
+                "name": "רמה דמוגרפית חברתית כלכלית",
+                "name_en": "Socio-Economic Index",
+                "name_ar": "مستوى الديموغرافية الاجتماعية والاقتصادية",
+                "value": "",
+                "value_type": "ratio"
+            },
+            "population": {
+                "name": "אוכלוסיה",
+                "name_en": "Population",
+                "name_ar": "عدد السكان",
+                "value": "",
+                "value_type": "number"
+            },
+            "population_male": {
+                "name": "אוכלוסיית הגברים",
+                "name_en": "Population - Male",
+                "name_ar": "عدد السكان الذكور (بالآلاف)",
+                "value": "",
+                "value_type": "number"
+            },
+            "population_female": {
+                "name": "אוכלוסיית הנשים",
+                "name_en": "Population - Female",
+                "name_ar": "عدد السكان النساء (بالآلاف)",
+                "value": "",
+                "value_type": "number"
+            },
+            "ground_surface": {
+                "name": "שטח הרשות",
+                "name_en": "Authority area",
+                "name_ar": "منطقة السلطة",
+                "value": "",
+                "value_type": "measurement_unit"
+            },
+            "schools_infant": {
+                "name": "בתי ספר יסודיים",
+                "name_en": "Infant School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_classrooms": {
+                "name": "כיתות בבתי ספר יסודיים",
+                "name_en": "Infant School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_students": {
+                "name": "תלמידים בתי ספר יסודיים",
+                "name_en": "Infant School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary": {
+                "name": "בתי ספר על יסודיים",
+                "name_en": "Primary Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_classrooms": {
+                "name": "כיתות בבתי ספר על יסודיים",
+                "name_en": "Primary School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_students": {
+                "name": "תלמידים בבתי ספר על יסודיים",
+                "name_en": "Primary School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle": {
+                "name": "חטיבות ביניים",
+                "name_en": "Middle School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_classrooms": {
+                "name": "כיתות בחטיבות ביניים",
+                "name_en": "Middle School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_students": {
+                "name": "תלמידים בחטיבות ביניים",
+                "name_en": "Middle School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high": {
+                "name": "בתי ספר תיכוניים",
+                "name_en": "High Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_classrooms": {
+                "name": "כיתות בבתי ספר תיכוניים",
+                "name_en": "High School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_students": {
+                "name": "תלמידים בבתי ספר תיכוניים",
+                "name_en": "High School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            }
+        }
+    }
+},
+
+{
+    "model": "contexts.Context",
+    "pk": 9,
+    "fields": {
+        "entity": 140,
+        "period_start": "2009-01-01",
+        "period_end": "2009-12-31",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00",
+        "data": {
+            "gini_index": {
+                "name": "מדד ג'יני",
+                "name_en": "Gini Index",
+                "name_ar": "مؤشر جيني",
+                "value": "",
+                "value_type": "ratio"
+            },
+            "socioeconomic_index": {
+                "name": "רמה דמוגרפית חברתית כלכלית",
+                "name_en": "Socio-Economic Index",
+                "name_ar": "مستوى الديموغرافية الاجتماعية والاقتصادية",
+                "value": "",
+                "value_type": "ratio"
+            },
+            "population": {
+                "name": "אוכלוסיה",
+                "name_en": "Population",
+                "name_ar": "عدد السكان",
+                "value": "",
+                "value_type": "number"
+            },
+            "population_male": {
+                "name": "אוכלוסיית הגברים",
+                "name_en": "Population - Male",
+                "name_ar": "عدد السكان الذكور (بالآلاف)",
+                "value": "",
+                "value_type": "number"
+            },
+            "population_female": {
+                "name": "אוכלוסיית הנשים",
+                "name_en": "Population - Female",
+                "name_ar": "عدد السكان النساء (بالآلاف)",
+                "value": "",
+                "value_type": "number"
+            },
+            "ground_surface": {
+                "name": "שטח הרשות",
+                "name_en": "Authority area",
+                "name_ar": "منطقة السلطة",
+                "value": "",
+                "value_type": "measurement_unit"
+            },
+            "schools_infant": {
+                "name": "בתי ספר יסודיים",
+                "name_en": "Infant School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_classrooms": {
+                "name": "כיתות בבתי ספר יסודיים",
+                "name_en": "Infant School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_students": {
+                "name": "תלמידים בתי ספר יסודיים",
+                "name_en": "Infant School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary": {
+                "name": "בתי ספר על יסודיים",
+                "name_en": "Primary Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_classrooms": {
+                "name": "כיתות בבתי ספר על יסודיים",
+                "name_en": "Primary School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_students": {
+                "name": "תלמידים בבתי ספר על יסודיים",
+                "name_en": "Primary School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle": {
+                "name": "חטיבות ביניים",
+                "name_en": "Middle School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_classrooms": {
+                "name": "כיתות בחטיבות ביניים",
+                "name_en": "Middle School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_students": {
+                "name": "תלמידים בחטיבות ביניים",
+                "name_en": "Middle School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high": {
+                "name": "בתי ספר תיכוניים",
+                "name_en": "High Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_classrooms": {
+                "name": "כיתות בבתי ספר תיכוניים",
+                "name_en": "High School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_students": {
+                "name": "תלמידים בבתי ספר תיכוניים",
+                "name_en": "High School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            }
+        }
+    }
+},
+
+{
+    "model": "contexts.Context",
+    "pk": 10,
+    "fields": {
+        "entity": 140,
+        "period_start": "2010-01-01",
+        "period_end": "2010-12-31",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00",
+        "data": {
+            "gini_index": {
+                "name": "מדד ג'יני",
+                "name_en": "Gini Index",
+                "name_ar": "مؤشر جيني",
+                "value": "",
+                "value_type": "ratio"
+            },
+            "socioeconomic_index": {
+                "name": "רמה דמוגרפית חברתית כלכלית",
+                "name_en": "Socio-Economic Index",
+                "name_ar": "مستوى الديموغرافية الاجتماعية والاقتصادية",
+                "value": "",
+                "value_type": "ratio"
+            },
+            "population": {
+                "name": "אוכלוסיה",
+                "name_en": "Population",
+                "name_ar": "عدد السكان",
+                "value": "",
+                "value_type": "number"
+            },
+            "population_male": {
+                "name": "אוכלוסיית הגברים",
+                "name_en": "Population - Male",
+                "name_ar": "عدد السكان الذكور (بالآلاف)",
+                "value": "",
+                "value_type": "number"
+            },
+            "population_female": {
+                "name": "אוכלוסיית הנשים",
+                "name_en": "Population - Female",
+                "name_ar": "عدد السكان النساء (بالآلاف)",
+                "value": "",
+                "value_type": "number"
+            },
+            "ground_surface": {
+                "name": "שטח הרשות",
+                "name_en": "Authority area",
+                "name_ar": "منطقة السلطة",
+                "value": "",
+                "value_type": "measurement_unit"
+            },
+            "schools_infant": {
+                "name": "בתי ספר יסודיים",
+                "name_en": "Infant School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_classrooms": {
+                "name": "כיתות בבתי ספר יסודיים",
+                "name_en": "Infant School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_students": {
+                "name": "תלמידים בתי ספר יסודיים",
+                "name_en": "Infant School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary": {
+                "name": "בתי ספר על יסודיים",
+                "name_en": "Primary Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_classrooms": {
+                "name": "כיתות בבתי ספר על יסודיים",
+                "name_en": "Primary School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_students": {
+                "name": "תלמידים בבתי ספר על יסודיים",
+                "name_en": "Primary School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle": {
+                "name": "חטיבות ביניים",
+                "name_en": "Middle School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_classrooms": {
+                "name": "כיתות בחטיבות ביניים",
+                "name_en": "Middle School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_students": {
+                "name": "תלמידים בחטיבות ביניים",
+                "name_en": "Middle School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high": {
+                "name": "בתי ספר תיכוניים",
+                "name_en": "High Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_classrooms": {
+                "name": "כיתות בבתי ספר תיכוניים",
+                "name_en": "High School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_students": {
+                "name": "תלמידים בבתי ספר תיכוניים",
+                "name_en": "High School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            }
+        }
+    }
+},
+
+{
+    "model": "contexts.Context",
+    "pk": 11,
+    "fields": {
+        "entity": 140,
+        "period_start": "2011-01-01",
+        "period_end": "2011-12-31",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00",
+        "data": {
+            "gini_index": {
+                "name": "מדד ג'יני",
+                "name_en": "Gini Index",
+                "name_ar": "مؤشر جيني",
+                "value": "",
+                "value_type": "ratio"
+            },
+            "socioeconomic_index": {
+                "name": "רמה דמוגרפית חברתית כלכלית",
+                "name_en": "Socio-Economic Index",
+                "name_ar": "مستوى الديموغرافية الاجتماعية والاقتصادية",
+                "value": "",
+                "value_type": "ratio"
+            },
+            "population": {
+                "name": "אוכלוסיה",
+                "name_en": "Population",
+                "name_ar": "عدد السكان",
+                "value": "",
+                "value_type": "number"
+            },
+            "population_male": {
+                "name": "אוכלוסיית הגברים",
+                "name_en": "Population - Male",
+                "name_ar": "عدد السكان الذكور (بالآلاف)",
+                "value": "",
+                "value_type": "number"
+            },
+            "population_female": {
+                "name": "אוכלוסיית הנשים",
+                "name_en": "Population - Female",
+                "name_ar": "عدد السكان النساء (بالآلاف)",
+                "value": "",
+                "value_type": "number"
+            },
+            "ground_surface": {
+                "name": "שטח הרשות",
+                "name_en": "Authority area",
+                "name_ar": "منطقة السلطة",
+                "value": "",
+                "value_type": "measurement_unit"
+            },
+            "schools_infant": {
+                "name": "בתי ספר יסודיים",
+                "name_en": "Infant School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_classrooms": {
+                "name": "כיתות בבתי ספר יסודיים",
+                "name_en": "Infant School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_infant_students": {
+                "name": "תלמידים בתי ספר יסודיים",
+                "name_en": "Infant School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary": {
+                "name": "בתי ספר על יסודיים",
+                "name_en": "Primary Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_classrooms": {
+                "name": "כיתות בבתי ספר על יסודיים",
+                "name_en": "Primary School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_primary_students": {
+                "name": "תלמידים בבתי ספר על יסודיים",
+                "name_en": "Primary School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle": {
+                "name": "חטיבות ביניים",
+                "name_en": "Middle School",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_classrooms": {
+                "name": "כיתות בחטיבות ביניים",
+                "name_en": "Middle School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_middle_students": {
+                "name": "תלמידים בחטיבות ביניים",
+                "name_en": "Middle School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high": {
+                "name": "בתי ספר תיכוניים",
+                "name_en": "High Schools",
+                "name_ar": "مدارس",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_classrooms": {
+                "name": "כיתות בבתי ספר תיכוניים",
+                "name_en": "High School Classrooms",
+                "name_ar": " صفوف",
+                "value": "",
+                "value_type": "number"
+            },
+            "schools_high_students": {
+                "name": "תלמידים בבתי ספר תיכוניים",
+                "name_en": "High School Students",
+                "name_ar": "طلاب",
+                "value": "",
+                "value_type": "number"
+            }
+        }
+    }
+}
+
+]

@@ -2,11 +2,6 @@
 
 @import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
 /*! based on and adapted from :::: normalize.css v2.1.2 | MIT License | git.io/normalize */
-/* FOUNDATION */
-/* FLOW */
-/* RESPONSE */
-/* COLORS */
-/* DESIGN */
 /* CORE */
 /* BUILDING BLOCKS */
 /* BOX */
@@ -83,8 +78,8 @@ h5,
 h6 {
   margin-top: 0;
   margin-right: 0;
-  margin-bottom: 0;
-  margin-left: 0.25em;
+  margin-bottom: 0.25em;
+  margin-left: 0;
   color: #141452;
 }
 h1 {
@@ -206,6 +201,7 @@ textarea.naked {
   border-width: 0;
   border-style: solid;
   border-color: #cccccc;
+  background-color: tranparent;
 }
 button,
 input {
@@ -276,6 +272,11 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+/* FOUNDATION */
+/* FLOW */
+/* RESPONSE */
+/* COLORS */
+/* DESIGN */
 /* OPENBUDGETS SCHEME */
 /* SEMANTICS */
 /* @import "../../lib/adaptabl/src/normalize"; */
@@ -348,18 +349,22 @@ table {
   padding-left: 40px;
   background-color: #d0d0dc;
 }
+#panel-action h1 {
+  margin-top: 1.25em;
+}
 #panel-main {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: left;
-  width: 860px;
+  width: 880px;
   height: 100%;
   padding-top: 18px;
   padding-right: 0;
   padding-bottom: 18px;
   padding-left: 40px;
   background-color: #ffffff;
+  overflow: auto;
 }
 #panel-append {
   -webkit-box-sizing: border-box;
@@ -800,7 +805,7 @@ input.valid {
   width: 54px;
   padding-top: 18px;
 }
-.account:hover {
+.account.auth:hover {
   background-color: #e8e8ed;
 }
 .account a.login-link {
@@ -1001,6 +1006,55 @@ nav a,
 #activities .activity h2 {
   font-size: 2.5em;
   line-height: 1em;
+}
+#entities-active {
+  margin-top: 4em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 260px;
+}
+#entities-active a {
+  display: block;
+  text-decoration: none;
+  padding-bottom: 1.375em;
+}
+#entities-active a:hover,
+#entities-active a:hover h3,
+#entities-active a:hover h4 {
+  color: #00ccc2;
+}
+#entities-active h3 {
+  font-size: 2em;
+  padding-bottom: 0.5em;
+}
+#entities-active h4 {
+  font-family: "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
+  font-size: 1em;
+  color: #a1a1ba;
+}
+#entities-inactive {
+  margin-top: 4em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 580px;
+}
+#entities-inactive h3 {
+  font-size: 2em;
+  padding-bottom: 0.5em;
+  margin-left: 0.25em;
+  border-bottom: 1px solid #a1a1ba;
+}
+.entity-index {
+  -moz-column-count: 3;
+  -webkit-column-count: 3;
+  column-count: 3;
+  -moz-column-gap: 2em;
+  -webkit-column-gap: 2em;
+  column-gap: 2em;
 }
 .hide {
   display: none !important;

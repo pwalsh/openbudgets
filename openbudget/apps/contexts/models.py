@@ -26,6 +26,7 @@ class Context(TimeStampedModel, PeriodicModel):
     on Entity detail pages, and the web API for visualizations:
 
     * population
+    * students
     * ground_surface
 
     """

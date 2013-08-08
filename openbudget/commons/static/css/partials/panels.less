@@ -61,12 +61,17 @@
     .panel(300px);
     .padding(18px; 16px; 18px; 40px);
     .background-color(@panel-action);
+
+    h1 {
+        .margin-top(@unit-em * 1.25);
+    }
 }
 
 #panel-main {
-    .panel(860px);
+    .panel(880px);
     .padding(18px; 0; 18px; 40px);
     .background-color(@panel-main);
+    .overflow();
 }
 
 #panel-append {

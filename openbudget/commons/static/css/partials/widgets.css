@@ -14,7 +14,7 @@
   width: 54px;
   padding-top: 18px;
 }
-.account:hover {
+.account.auth:hover {
   background-color: #e8e8ed;
 }
 .account a.login-link {

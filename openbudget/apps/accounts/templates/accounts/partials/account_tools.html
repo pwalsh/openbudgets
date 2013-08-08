@@ -1,7 +1,7 @@
 {% load i18n gravatar %}
 {% load url from future %}
 
-<div class="account">
+<div class="account{% if user.is_authenticated %} auth{% endif %}">
     {% if user.is_authenticated %}
     <a class="avatar" href="{% url 'account_detail' user.uuid %}"><img src="{{ user.avatar }}" /></a>
     <div class="name">
