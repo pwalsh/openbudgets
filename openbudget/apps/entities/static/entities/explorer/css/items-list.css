@@ -19,7 +19,7 @@
     width: 110px;
 }
 .item_cell_direction {
-    width: 110px;
+    width: 120px;
 }
 .item_cell_name > span + span:before {
     content: ' > ';
@@ -34,7 +34,7 @@
     width: 140px;
 }
 [data-column=direction] {
-    width: 110px;
+    width: 120px;
 }
 [data-column=type] {
     width: 54px;
@@ -43,19 +43,9 @@
     background-image: url(../img/nis_icon.png);
 }
 
-[data-selected=selected] .item_cell_code,
-[data-selected=partial] .item_cell_code,
-[data-selected=selected] .item_cell_direction,
-[data-selected=partial] .item_cell_direction {
-    color: #141450;
-}
-[data-selected=selected], [data-selected=partial] {
-    background-color: #ffffcd;
-}
-
 #items_list {
     display: table;
-    padding: 0 .5rem;
+    padding: 0 8px;
     text-align: right;
 }
 #items_list li {
@@ -81,7 +71,7 @@
 }
 #items_list_header {
     display: table;
-    padding: .5rem .5rem 0;
+    padding: 8px 8px 0;
 }
 #items_list_header li {
     display: table-cell;
@@ -108,6 +98,5 @@
     background: url(../img/arrow_down_tiny.png) center no-repeat;
 }   
 #items_list_header [data-column=code] {
-    padding-right: .461rem;
     width: 110px
 }
