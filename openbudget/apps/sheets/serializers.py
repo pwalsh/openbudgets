@@ -81,7 +81,7 @@ class SheetItemMinSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.SheetItem
-        fields = ['id', 'url', 'code', 'name', 'path', 'direction', 'budget',
+        fields = ['id', 'uuid', 'url', 'code', 'name', 'path', 'direction', 'budget',
                   'actual', 'description', 'node']\
                  + translated_fields(models.TemplateNode)
 
@@ -105,7 +105,7 @@ class SheetItemBase(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.SheetItem
-        fields = ['id', 'url', 'code', 'name', 'path', 'direction', 'budget',
+        fields = ['id', 'uuid', 'url', 'code', 'name', 'path', 'direction', 'budget',
                   'actual', 'description', 'node', 'discussion', 'parent', 'children', 'ancestors'] + \
                  translated_fields(models.TemplateNode)
 

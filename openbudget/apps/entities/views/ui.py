@@ -42,7 +42,7 @@ class SheetItemUISerializer(ModelSerializer):
 
     class Meta:
         model = SheetItem
-        fields = ['id', 'code', 'name', 'path', 'direction', 'budget',
+        fields = ['id', 'uuid', 'code', 'name', 'path', 'direction', 'budget',
                   'actual', 'description', 'node', 'parent', 'children', 'ancestors', 'discussion']\
                  + translated_fields(TemplateNode)
 
@@ -63,7 +63,7 @@ class EntityDetailUISerializer(ModelSerializer):
 
     class Meta:
         model = Entity
-        fields = ['id', 'name', 'description', 'code', 'sheets']\
+        fields = ['id', 'name', 'description', 'code', 'sheets', 'slug']\
                  + translated_fields(model)
 
 

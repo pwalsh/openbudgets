@@ -30,6 +30,7 @@ define([
         // optimization hack to not call `this._prepareScrolledSize()` after `render()`
         scrolled            : false,
         _publishScope       : function () {
+            uijet.Resource('ItemsListState').set('scope', this.scope);
             return this.publish(
                 'scope_changed',
                 this.scope && this.resource.findWhere({ node : this.scope })
@@ -41,11 +42,9 @@ define([
                 this.scope = scope;
                 if ( this.has_data ) {
                     this._publishScope();
-//                    this.buildIndex();
                 }
                 else {
                     this.scope_changed = true;
-//                    this.rebuild_index = true;
                 }
             }
             return this;

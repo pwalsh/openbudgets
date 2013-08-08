@@ -1,19 +1,34 @@
 define([
     'uijet_dir/uijet',
     'resources',
+    'explorer',
     'composites/DropmenuButton',
     'composites/Select',
     'project_widgets/ClearableTextInput',
     'project_widgets/FilterCrumb'
-], function (uijet, resources) {
+], function (uijet, resources, explorer) {
 
     uijet.Resource('Breadcrumbs', uijet.Collection({
         model   : resources.Item
     }))
     .Resource('ItemsListState', uijet.Model(), {
         search  : null,
-        sheet   : window.SHEET.id
+        sheet   : window.SHEET.id,
+        period  : window.SHEET.period
     });
+
+    var state_model = uijet.Resource('ItemsListState');
+
+    explorer.router
+        .listenTo(state_model, 'change:scope', function (model, value) {
+            var uuid = value ?
+                uijet.Resource('LatestSheet').findWhere({ node : value }).get('uuid') + '/' :
+                '';
+            this.navigate(state_model.get('period') + '/' + uuid);
+        })
+        .listenTo(state_model, 'change:period', function (model, value) { 
+            this.navigate(value + '/');
+        });
 
     var attributeNullifier = function (attr) {
             return function () {
@@ -41,9 +56,20 @@ define([
             },
             content     : uijet.$('#sheet_selector_content'),
             sync        : true,
+            data_events : {
+                'change:period'  : function (model, period) {
+                    var id = window.ENTITY.sheets.filter(function (sheet) {
+                            return sheet.period == period;
+                        })[0].id;
+                    this.select(this.$element.find('[data-id=' + id + ']'));
+                }
+            },
             signals     : {
                 post_select : function ($selected) {
-                    this.resource.set('sheet', +$selected.attr('data-id'));
+                    this.resource.set({
+                        sheet   : +$selected.attr('data-id'),
+                        period  : $selected.text()  
+                    });
                 }
             },
             app_events  : {
