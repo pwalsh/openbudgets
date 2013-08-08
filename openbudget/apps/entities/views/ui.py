@@ -86,6 +86,7 @@ class EntityDetail(DetailView):
     def get_context_data(self, **kwargs):
 
         context = super(EntityDetail, self).get_context_data(**kwargs)
+        period = self.kwargs.get('period', None)
 
         sheets = []
         items_list = {}
@@ -93,22 +94,30 @@ class EntityDetail(DetailView):
 
         if self.object.sheets.exists():
 
-            #TODO: if we have a state of specific sheet/item then load the corresponding sheet instead latest
-            sheet = Sheet.objects.latest_of(self.object.id)
+            if period:
+                try:
+                    #TODO: this assumes period is always a year, but need to refactor to use settings.OPENBUDGET_PERIOD_RANGES
+                    sheet = Sheet.objects.get(entity=self.object.id, period_start__year=period)
+                except Sheet.DoesNotExist:
+                    sheet = Sheet.objects.latest_of(self.object.id)
+            else:
+                sheet = Sheet.objects.latest_of(self.object.id)
+
             #TODO: if we have a state of specific item then load the children of that item instead of sheet's main scope
             items = sheet.sheetitems.filter(node__parent__isnull=True).order_by('node__code')
             items_list = SheetItemUISerializer(items, many=True).data
 
-            for sheet in self.object.sheets.all():
+            for s in self.object.sheets.all():
                 sheets.append({
-                    'id': sheet.id,
-                    'period': sheet.period
+                    'id': s.id,
+                    'period': s.period
                 })
 
 
 
         context['sheets'] = sheets
         context['object_json'] = renderer.render(EntityDetailUISerializer(self.object).data)
+        context['sheet_json'] = renderer.render(SheetUISerializer(sheet).data)
         context['items_list_json'] = renderer.render(items_list)
         context['items_list'] = render_to_string('items_list.ms', {
             'stache': items_list

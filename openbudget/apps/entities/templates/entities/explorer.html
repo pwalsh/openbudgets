@@ -67,6 +67,7 @@
         var API_INDEX = 'http://api.{{ site|safe }}/',
             API_VERSION = 'v1';
             ENTITY = {{ object_json|safe }},
+            SHEET = {{ sheet_json|safe }},
             ITEMS_LIST = {{ items_list_json|safe }};
     </script>
     <script src="{% url 'projects_js_i18n' %}"></script>

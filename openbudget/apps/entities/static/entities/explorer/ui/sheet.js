@@ -12,7 +12,7 @@ define([
     }))
     .Resource('ItemsListState', uijet.Model(), {
         search  : null,
-        sheet   : 5
+        sheet   : window.SHEET.id
     });
 
     var attributeNullifier = function (attr) {
@@ -33,7 +33,7 @@ define([
             menu        : {
                 element         : '#sheet_selector_menu',
                 float_position  : 'top:44px',
-                initial         : ':last-child',
+                initial         : '[data-id=' + window.SHEET.id + ']',
                 signals         : {
                     post_wake   : 'opened',
                     post_sleep  : 'closed'
@@ -43,7 +43,7 @@ define([
             sync        : true,
             signals     : {
                 post_select : function ($selected) {
-                    this.resource.set('sheet', $selected.attr('data-id'));
+                    this.resource.set('sheet', +$selected.attr('data-id'));
                 }
             },
             app_events  : {
