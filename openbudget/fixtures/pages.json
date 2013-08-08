@@ -28,9 +28,11 @@
     "model": "pages.Page",
     "pk": 3,
     "fields": {
-        "title": "About",
+        "title": "אודות",
+        "title_en": "About",
         "slug": "about",
-        "content": "About the site. Who created it, the goals, and so on.",
+        "content": "\u003cdiv class=\"section\"\u003e\r\n\u003ch3\u003eלמה אנחנו כאן?\u003c/h3\u003e\r\n\u003cp\u003e\r\nפתיחת תקציבי הרשויות המקומיות הוא כחלק מתפיסה עקרונית ורחבה של הטמעת עקרונות הממשל הפתוח (שקיפות, אחריותיות, השתתפות ציבורית) גם ברשויות המקומיות בישראל.  נקודת המוצא של תהליך זה היתה כי שקיפות התקציב הוא משימה בעלת חשיבות רבה - לא רק כדי להפוך את הרשויות המקומיות לדיווחיות יותר בפני התושבים, אבל גם כדי לאפשר הבנה טובה יותר של הנעשה ברשויות וקשר טוב יותר בין התושבים לבין הרשות.\r\n\u003c/p\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"section\"\u003e\r\n\u003ch3\u003eמה אפשר לעשות פה?\u003c/h3\u003e\r\n\u003cp\u003e\r\nלחקור נתוני תקציב של מבחר רשויות מקומיות [קישור ל-budget explorer]\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\nלהשוות נתוני תקציב של רשויות שונות [קישור ל-Viz]\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\nלבנות שאילותות מתוחכמות [קישור ל-query builder]\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\nלכל דבר אחר - אפשר לשלוח אימייל ל- \u003ca href=\"mailto:contact@openmuni.org.il\"\u003econtact@openmuni.org.il\u003c/a\u003e \r\n\u003c/p\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"section\"\u003e\r\n\u003ch3\u003eמקורות המידע\u003c/h3\u003e\r\n\u003cul\u003e\r\n\u003cli\u003eהמידע אודות התקציב - באדיבות הרשויות המקומיות \u003c/li\u003e\r\n\u003cli\u003eכל המידע הסטטיסטי על הרשויות - מאתר הלשכה המרכזית לסטטיסטיקה\u003c/li\u003e\r\n\u003c/ul\u003e\r\n\u003c/div\u003e\r\n\u003cdiv class=\"section\"\u003e\r\n\u003ch3\u003eאיך לעזור?\u003c/h3\u003e\r\n\u003cp\u003e\r\nהנה דף הויקי שלנו \r\n\u003c/p\u003e\r\n\u003cp\u003e\r\nהקוד שלנו זמין בגיטהאב כאן: \u003ca href=\"https://github.com/hasadna/omuni-budget\"\u003ehttps://github.com/hasadna/omuni-budget\u003c/a\u003e\r\n\u003c/p\u003e\r\n\u003cp\u003e\r\nהתיעוד של הפרוייקט נמצא כאן: \u003ca href=\"http://open-budget.readthedocs.org/en/latest/\"\u003ehttp://open-budget.readthedocs.org/en/latest/\u003c/a\u003e \r\n\u003c/p\u003e\r\n\u003cp\u003e\r\nאנחנו מודיעים הודעות ומפרסמים מידע מעניין כאן: \u003ca href=\"https://github.com/hasadna/omuni-budget\"\u003ehttps://github.com/hasadna/omuni-budget\u003c/a\u003e\r\n\u003c/p\u003e\r\n\u003c/div\u003e",
+        "content_en": "about this site.",
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }

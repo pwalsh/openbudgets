@@ -2,6 +2,11 @@
 
 @import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
 /*! based on and adapted from :::: normalize.css v2.1.2 | MIT License | git.io/normalize */
+/* FOUNDATION */
+/* FLOW */
+/* RESPONSE */
+/* COLORS */
+/* DESIGN */
 /* CORE */
 /* BUILDING BLOCKS */
 /* BOX */
@@ -272,11 +277,6 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-/* FOUNDATION */
-/* FLOW */
-/* RESPONSE */
-/* COLORS */
-/* DESIGN */
 /* OPENBUDGETS SCHEME */
 /* SEMANTICS */
 /* @import "../../lib/adaptabl/src/normalize"; */
@@ -886,6 +886,12 @@ nav a,
   font-weight: normal;
   font-family: "Alef", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
 }
+p {
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 1em;
+  margin-left: 0;
+}
 .box-2 {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1042,7 +1048,7 @@ nav a,
   float: left;
   width: 580px;
 }
-#entities-inactive h3 {
+#entities-inactive h2 {
   font-size: 2em;
   padding-bottom: 0.5em;
   margin-left: 0.25em;
@@ -1055,6 +1061,31 @@ nav a,
   -moz-column-gap: 2em;
   -webkit-column-gap: 2em;
   column-gap: 2em;
+}
+#text {
+  margin-top: 4em;
+}
+#text h2 {
+  font-size: 2em;
+  padding-bottom: 0.5em;
+  margin-left: 0.25em;
+  border-bottom: 1px solid #a1a1ba;
+}
+#text .section {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 580px;
+  float: right;
+  position: relative;
+}
+#text .section h3 {
+  font: "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  position: absolute;
+  top: 0;
+  right: -260px;
 }
 .hide {
   display: none !important;
