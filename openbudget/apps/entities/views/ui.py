@@ -91,6 +91,7 @@ class EntityDetail(DetailView):
         sheets = []
         items_list = {}
         renderer = JSONRenderer()
+        sheet = {}
 
         if self.object.sheets.exists():
 
