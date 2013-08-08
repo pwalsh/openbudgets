@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-08 22:38+0300\n"
+"POT-Creation-Date: 2013-08-08 23:37+0300\n"
 "PO-Revision-Date: 2013-05-23 17:58+0000\n"
 "Last-Translator: Ram Ezrach <ram.ezrach@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -513,6 +513,8 @@ msgid "Municipalities"
 msgstr "רשויות"
 
 #: apps/entities/templates/entities/entity_list.html:21
+#: apps/pages/templates/pages/page.html:15
+#: apps/pages/templates/pages/page.html:21
 msgid "Soon"
 msgstr "בקרוב"
 
@@ -714,6 +716,10 @@ msgstr "עמודים"
 #: apps/pages/templates/pages/home.html:9
 msgid "Welcome to Open Budget"
 msgstr "ברוכים הבאים לתקציב הפתוח"
+
+#: apps/pages/templates/pages/page.html:12 settings/base.py:325
+msgid "Open Local Budgets"
+msgstr "התקציב מקומי פתוח"
 
 #: apps/projects/models.py:29
 msgid "Provide a short description of this project"
@@ -1755,10 +1761,6 @@ msgstr "ערבית"
 #: settings/base.py:45
 msgid "Russian"
 msgstr "רוסית"
-
-#: settings/base.py:325
-msgid "Open Local Budgets"
-msgstr "התקציב מקומי פתוח"
 
 #~ msgid "contact us"
 #~ msgstr "צור קשר"
