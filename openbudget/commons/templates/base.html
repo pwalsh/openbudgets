@@ -38,8 +38,10 @@
         </section>
 
         <section id="panel-action">
-            <span id="nav-anchor"><a href="{% url 'home' %}" title="{% trans "Back to the home page" %}">{{ name }} {% if LANGUAGE_BIDI %}&#9668;{% else %}&#9658;{% endif %}</a></span>
+            <span id="nav-anchor"><a href="{% url 'home' %}" title="{% trans "Back to the home page" %}"><strong>{{ name_list.0 }} {{ name_list.1 }}</strong> {{ name_list.2 }} {% if LANGUAGE_BIDI %}›{% else %}›{% endif %}</a></span>
             {% block actions %}
+
+            <h1>{% block title %}{% endblock title %}</h1>
 
             {% endblock actions %}
         </section>
@@ -48,14 +50,9 @@
 
             {% block main %}
 
-                    {% block title %}
-                    <h1></h1>
-                    {% endblock title %}
-                <div>
-                    {%block content %}
+            {%block content %}
 
-                    {% endblock content %}
-                </div>
+            {% endblock content %}
 
             {% endblock main %}
 
