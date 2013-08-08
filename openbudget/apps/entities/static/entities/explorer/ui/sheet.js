@@ -4,7 +4,6 @@ define([
     'composites/DropmenuButton',
     'composites/Select',
     'project_widgets/ClearableTextInput',
-//    'project_widgets/Breadcrumbs',
     'project_widgets/FilterCrumb'
 ], function (uijet, resources) {
 
@@ -13,7 +12,7 @@ define([
     }))
     .Resource('ItemsListState', uijet.Model(), {
         search  : null,
-        sheets  : 5
+        sheet   : 5
     });
 
     var attributeNullifier = function (attr) {
@@ -29,19 +28,27 @@ define([
     return [{
         type    : 'Select',
         config  : {
-            element : '#sheet_selector',
-            resource: 'ItemsListState',
-            menu    : {
+            element     : '#sheet_selector',
+            resource    : 'ItemsListState',
+            menu        : {
                 element         : '#sheet_selector_menu',
                 float_position  : 'top:44px',
-                initial         : ':last-child'
-            },
-            content : uijet.$('#sheet_selector_content'),
-            sync    : true,
-            signals : {
-                post_select : function ($selected) {
-                    this.resource.set('sheets', $selected.attr('data-id'));
+                initial         : ':last-child',
+                signals         : {
+                    post_wake   : 'opened',
+                    post_sleep  : 'closed'
                 }
+            },
+            content     : uijet.$('#sheet_selector_content'),
+            sync        : true,
+            signals     : {
+                post_select : function ($selected) {
+                    this.resource.set('sheet', $selected.attr('data-id'));
+                }
+            },
+            app_events  : {
+                'sheet_selector_menu.opened': 'activate',
+                'sheet_selector_menu.closed': 'deactivate'
             }
         }
     }, {

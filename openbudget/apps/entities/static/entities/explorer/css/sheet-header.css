@@ -37,6 +37,16 @@
     font-size: 3.261rem;
     font-weight: normal;
 }
+
+#sheet_selector {
+    position: relative;
+    padding: 18px 18px 18px 0;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+#sheet_selector:hover, #sheet_selector.activated {
+    background-color: #d0d0dc;
+}
 #sheet_selector_content {
     padding: 0 .5rem;
 }
@@ -47,20 +57,17 @@
     width: 2rem;
     background: url(../img/arrow_down_normalize.png) center no-repeat;
 }
-
-#sheet_selector {
-    position: relative;
-    margin-right: 18px;
-    padding: 18px 0;
-    font-size: 1.3rem;
-    font-weight: bold;
-}
 #sheet_selector_menu li {
     height: 44px;
     padding-left: 2.5rem;
     line-height: 44px;
     text-align: left;
 }
+#sheet_selector_menu li:hover, #sheet_selector_menu li.selected {
+    background-color: #a1a1b9;
+}
 #sheet_selector_menu_wrapper {
+    background-color: #d0d0dc;
+    right: 0;
     width: 100%;
 }
