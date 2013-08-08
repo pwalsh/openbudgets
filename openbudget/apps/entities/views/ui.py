@@ -91,7 +91,7 @@ class EntityDetail(DetailView):
         sheets = []
         items_list = {}
         renderer = JSONRenderer()
-        sheet = {}
+        sheet = None
 
         if self.object.sheets.exists():
 
@@ -118,7 +118,7 @@ class EntityDetail(DetailView):
 
         context['sheets'] = sheets
         context['object_json'] = renderer.render(EntityDetailUISerializer(self.object).data)
-        context['sheet_json'] = renderer.render(SheetUISerializer(sheet).data)
+        context['sheet_json'] = renderer.render(SheetUISerializer(sheet).data) if sheet else '{}'
         context['items_list_json'] = renderer.render(items_list)
         context['items_list'] = render_to_string('items_list.ms', {
             'stache': items_list
