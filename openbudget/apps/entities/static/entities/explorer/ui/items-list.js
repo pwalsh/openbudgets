@@ -75,10 +75,14 @@ define([
 
                     this.resource.reset(this.resource.parse(window.ITEMS_LIST));
 
-                    this.options.fetch_options.data.sheets = state_model.get('sheets');
-
+                    this.options.fetch_options.data.sheets = state_model.get('sheet');
+                    
                     this.listenTo(state_model, 'change:sheet', function (model, value) {
-                        this.options.fetch_options.data.sheets = value;
+                        this.options.fetch_options.reset = true;
+                        this.wake({
+                            sheets  : value,
+                            scope   : null
+                        });
                     }.bind(this));
                 },
                 pre_wake        : function () {
@@ -86,7 +90,8 @@ define([
                     if ( ! this.context ) return false;
 
                     var state = uijet.Resource('ItemsListState'),
-                        scope = this.context.scope || null;
+                        scope = this.context.scope || null,
+                        sheet = this.context.sheets;
                     this.updateFlags(state.attributes);
 
                     if ( this.all_fetched ) {
@@ -101,12 +106,19 @@ define([
                         delete this.filtered;
                         this.has_data = false;
                         this.options.fetch_options.data.parents = scope || 'none';
+                        if ( sheet ) {
+                            this.options.fetch_options.data.sheets = sheet;
+                        }
                     }
                     // change view back to main
                     this.setScope(scope);
                 },
                 pre_update      : 'spin',
                 post_fetch_data : function () {
+                    // after we had to reset because of sheet change make sure turn reset off again
+                    if ( this.options.fetch_options.reset ) {
+                        this.options.fetch_options.reset = false;
+                    }
                     if ( this.queued_filters ) {
                         this.queued_filters = false;
                         this.filter(this.resource.byAncestor);
@@ -135,7 +147,7 @@ define([
                 },
                 pre_select      : function ($selected, e) {
                     var id = +$selected.attr('data-id');
-                    return ! $selected[0].hasAttribute('data-leaf') && id;
+                    return id;
                 },
                 post_select     : function ($selected) {
                     var node_id = typeof $selected == 'number' ?
