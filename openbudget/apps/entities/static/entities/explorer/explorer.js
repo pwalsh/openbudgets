@@ -36,14 +36,15 @@ define([
             routes  : {
                 'entities/:entity/:period/' : function (entity, period) {
                     uijet.Resource('ItemsListState').set({
-                        period  : period,
+                        period  : +period,
                         scope   : null
                     });
                 },
                 'entities/:entity/:period/:uuid/' : function (entity, period, uuid) {
+                    var item = uijet.Resource('LatestSheet').findWhere({ uuid : uuid });
                     uijet.Resource('ItemsListState').set({
-                        period  : period,
-                        scope   : uijet.Resource('LatestSheet').findWhere({ uuid : uuid }).get('node')
+                        period  : +period,
+                        scope   : item ? item.get('node') : +window.ITEM.node
                     });
                 }
             }
@@ -87,7 +88,8 @@ define([
                 explorer.routes_set_promise.then(function () {
                     Backbone.history.start({
                         pushState   : true,
-                        root        : '/entities/' + window.ENTITY.slug + '/'
+                        root        : '/entities/' + window.ENTITY.slug + '/',
+                        silent      : true
                     });
                 });
             })

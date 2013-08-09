@@ -1,4 +1,5 @@
 from django.template.loader import render_to_string
+from django.utils.translation import ugettext as _
 from django.views.generic import DetailView, ListView
 from rest_framework.renderers import JSONRenderer
 from rest_framework.serializers import ModelSerializer, Field
@@ -20,7 +21,7 @@ class SheetItemUIMinSerializer(ModelSerializer):
 
     class Meta:
         model = SheetItem
-        fields = ['id', 'code', 'name', 'path', 'direction', 'budget',
+        fields = ['id', 'uuid', 'code', 'name', 'path', 'direction', 'budget',
                   'actual', 'description', 'node']\
                  + translated_fields(TemplateNode)
 
@@ -99,11 +100,13 @@ class EntityDetail(DetailView):
 
         context = super(EntityDetail, self).get_context_data(**kwargs)
         period = self.kwargs.get('period', None)
+        item_uuid = self.kwargs.get('item_uuid', None)
 
         sheets = []
         items_list = {}
         renderer = JSONRenderer()
         sheet = None
+        scope_item = None
 
         if self.object.sheets.exists():
 
@@ -116,8 +119,15 @@ class EntityDetail(DetailView):
             else:
                 sheet = Sheet.objects.latest_of(self.object.id)
 
-            #TODO: if we have a state of specific item then load the children of that item instead of sheet's main scope
-            items = sheet.sheetitems.filter(node__parent__isnull=True).order_by('node__code')
+            if item_uuid:
+                try:
+                    scope_item = SheetItem.objects.get_queryset().get(uuid=item_uuid)
+                    items = sheet.sheetitems.filter(node__parent=scope_item.node).order_by('node__code')
+                except SheetItem.DoesNotExist:
+                    items = sheet.sheetitems.filter(node__parent__isnull=True).order_by('node__code')
+            else:
+                items = sheet.sheetitems.filter(node__parent__isnull=True).order_by('node__code')
+
             items_list = SheetItemUISerializer(items, many=True).data
 
             for s in self.object.sheets.all():
@@ -132,6 +142,22 @@ class EntityDetail(DetailView):
         context['object_json'] = renderer.render(EntityDetailUISerializer(self.object).data)
         context['sheet_json'] = renderer.render(SheetUISerializer(sheet).data) if sheet else '{}'
         context['items_list_json'] = renderer.render(items_list)
+
+        # rendering initial state of breadcrumbs
+        # setting initial scope name
+        if scope_item:
+            scope_item_serialized = SheetItemUISerializer(scope_item).data
+            context['scope_item_json'] = renderer.render(scope_item_serialized)
+            context['items_breadcrumbs'] = render_to_string('items_breadcrumbs.ms', {
+                'stache': scope_item_serialized['ancestors']
+            })
+            context['scope_name'] = scope_item_serialized['name']
+        else:
+            context['scope_item_json'] = '{}'
+            context['items_breadcrumbs'] = ''
+            context['scope_name'] = _('Main')
+
+        # rendering initial state of the items table
         context['items_list'] = render_to_string('items_list.ms', {
             'stache': items_list
         })

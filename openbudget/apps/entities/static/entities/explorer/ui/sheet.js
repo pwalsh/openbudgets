@@ -8,25 +8,42 @@ define([
     'project_widgets/FilterCrumb'
 ], function (uijet, resources, explorer) {
 
-    uijet.Resource('Breadcrumbs', uijet.Collection({
-        model   : resources.Item
-    }))
-    .Resource('ItemsListState', uijet.Model(), {
-        search  : null,
-        sheet   : window.SHEET.id,
-        period  : window.SHEET.period
-    });
+    uijet.Resource('Breadcrumbs',
+            uijet.Collection({
+            model   : resources.Item
+        }),
+        window.ITEM.ancestors || []
+    )
+    .Resource('ItemsListState',
+        uijet.Model(), {
+            search  : null,
+            sheet   : window.SHEET.id,
+            period  : +window.SHEET.period,
+            scope   : window.ITEM.uuid || null
+        }
+    );
 
     var state_model = uijet.Resource('ItemsListState');
 
     explorer.router
+
         .listenTo(state_model, 'change:scope', function (model, value) {
-            var uuid = value ?
-                uijet.Resource('LatestSheet').findWhere({ node : value }).get('uuid') + '/' :
-                '';
+            var uuid, item;
+            if ( value ) {
+                item = uijet.Resource('LatestSheet').findWhere({ node : value }) ||
+                        uijet.Resource('Breadcrumbs').findWhere({ node : value });
+                uuid = item ?
+                    item.get('uuid') :
+                    window.ITEM.uuid;
+                uuid +=  '/';
+            }
+            else {
+                uuid = '';
+            }
             this.navigate(state_model.get('period') + '/' + uuid);
         })
-        .listenTo(state_model, 'change:period', function (model, value) { 
+
+        .listenTo(state_model, 'change:period', function (model, value) {
             this.navigate(value + '/');
         });
 
@@ -68,7 +85,7 @@ define([
                 post_select : function ($selected) {
                     this.resource.set({
                         sheet   : +$selected.attr('data-id'),
-                        period  : $selected.text()  
+                        period  : +$selected.text()  
                     });
                 }
             },
@@ -289,10 +306,28 @@ define([
                 }
             },
             app_events  : {
+                'startup'                   : function () {
+                    if ( this.resource.length ) {
+                        // reset state
+                        this.has_data = true;
+                        this.$original_children = this.$element.children().first();
+                        // and wake
+                        this.wake();
+                    }
+                },
                 'items_list.scope_changed'  : function (scope_model) {
-                    var ancestors = scope_model ?
-                        scope_model.get('ancestors') :
-                        [];
+                    var ancestors;
+                    if ( scope_model ) {
+                        if ( scope_model.has('ancestors') ) {
+                            ancestors = scope_model.get('ancestors');
+                        }
+                        else {
+                            ancestors = this.resource.slice(0, this.resource.indexOf(scope_model));
+                        }
+                    }
+                    else {
+                        ancestors = [];
+                    }
                     this.resource.reset(ancestors);
                     scope_model ? this.wake() : this.sleep();
                 }

@@ -30,11 +30,15 @@ define([
         // optimization hack to not call `this._prepareScrolledSize()` after `render()`
         scrolled            : false,
         _publishScope       : function () {
+            var item_model;
             uijet.Resource('ItemsListState').set('scope', this.scope);
-            return this.publish(
-                'scope_changed',
-                this.scope && this.resource.findWhere({ node : this.scope })
-            );
+
+            item_model = this.scope ?
+                this.resource.findWhere({ node : this.scope }) ||
+                    uijet.Resource('Breadcrumbs').findWhere({ node : this.scope }) :
+                this.scope;
+
+            return this.publish('scope_changed', item_model);
         },
         setScope            : function (scope) {
             scope = scope || null;

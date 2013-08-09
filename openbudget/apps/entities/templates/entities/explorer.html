@@ -19,10 +19,10 @@
                     </ul>
                 </span>
                 <ul id="items_breadcrumbs">
-                    <li data-id="0">{% trans 'Main' %}</li>
+                    <li data-id="0">{% trans 'Main' %}</li>{{ items_breadcrumbs|safe }}
                 </ul>
                 <h2 id="sheet_scope_name">
-                    <span id="sheet_scope_name_content">{% trans 'Main' %}</span>
+                    <span id="sheet_scope_name_content">{{ scope_name }}</span>
                     <span id="search_crumb"></span>
                 </h2>
                 <input type="text" name="items_search" id="items_search" placeholder="{% trans 'Search' %}"/>
@@ -68,6 +68,7 @@
             API_VERSION = 'v1';
             ENTITY = {{ object_json|safe }},
             SHEET = {{ sheet_json|safe }},
+            ITEM = {{ scope_item_json|safe }},
             ITEMS_LIST = {{ items_list_json|safe }};
     </script>
     <script src="{% url 'projects_js_i18n' %}"></script>
