@@ -259,6 +259,14 @@ def load_sites(target=None):
     restart()
 
 
+@task
+@roles('web')
+def command(command):
+    with prefix(WORKON):
+        run(command)
+        run(DEACTIVATE)
+    restart()
+
 
 ######################
 ##    HACKY STUFF   ##
