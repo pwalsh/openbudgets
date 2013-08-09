@@ -187,6 +187,11 @@ class Entity(TimeStampedModel, ClassMethodMixin):
     )
 
     @property
+    def index(self):
+        """Returns the first letter of self.name, for indexing."""
+        return self.name[0]
+
+    @property
     def ultimate_parent(self):
         """Returns the ultimate parent of this object. If none, returns self."""
 
