@@ -719,7 +719,7 @@ msgstr "ברוכים הבאים לתקציב הפתוח"
 
 #: apps/pages/templates/pages/page.html:12 settings/base.py:325
 msgid "Open Local Budgets"
-msgstr "התקציב מקומי פתוח"
+msgstr "התקציב המקומי הפתוח"
 
 #: apps/projects/models.py:29
 msgid "Provide a short description of this project"
