@@ -11,8 +11,8 @@
 <section id="entities-active">
     {% for entity in entities_active %}
         <a href="{% url 'entity_detail' entity.slug %}">
-            <h3>{{ entity.name }}</h3>
-            <h4>{{ entity.division.name }}</h4>
+            <h2>{{ entity.name }}</h2>
+            <h3>{{ entity.division.name }}</h3>
         </a>
     {% endfor %}
 </section>

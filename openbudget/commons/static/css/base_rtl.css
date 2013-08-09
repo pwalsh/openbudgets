@@ -307,33 +307,24 @@ table {
 }
 #panel-nav header nav a {
   display: block;
-  font-size: 3em;
+  font-size: 2.75em;
   line-height: 1em;
   color: #ffffff;
   text-decoration: none;
   padding-bottom: 26px;
-  padding-right: 0;
-  padding-left: 0;
-  /*overriding adaptabl crap*/
-
 }
 #panel-nav footer {
   position: absolute;
   left: 40;
   bottom: 0;
-  height: 94px;
-  font-size: 0.75em;
+  height: 5em;
+  font-size: 1em;
 }
 #panel-nav footer nav a {
   font-weight: bold;
   text-decoration: none;
   display: inline-block;
-  padding-top: 0;
-  padding-right: 0;
-  padding-bottom: 0;
-  padding-left: 0;
   padding-right: 26px;
-  font-size: 1em;
   color: #026a74;
 }
 #panel-action {
@@ -350,7 +341,16 @@ table {
   background-color: #d0d0dc;
 }
 #panel-action h1 {
-  margin-top: 1.25em;
+  margin-top: 1em;
+  font-size: 2.75em;
+}
+#panel-action #nav-anchor {
+  display: inline-block;
+  cursor: pointer;
+}
+#panel-action #nav-anchor a {
+  text-decoration: none;
+  font-weight: bold;
 }
 #panel-main {
   -webkit-box-sizing: border-box;
@@ -366,6 +366,9 @@ table {
   background-color: #ffffff;
   overflow: auto;
 }
+#panel-main #aux {
+  height: 4em;
+}
 #panel-append {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -378,14 +381,6 @@ table {
   padding-bottom: 18px;
   padding-left: 16px;
   background-color: #d0d0dc;
-}
-#nav-anchor {
-  display: inline-block;
-  cursor: pointer;
-}
-#nav-anchor a {
-  text-decoration: none;
-  font-weight: bold;
 }
 /* The background for all overlay objects */
 #overlay {
@@ -893,7 +888,7 @@ h3,
 h4,
 h5,
 h6,
-nav a,
+header nav a,
 #nav-anchor a {
   font-weight: normal;
   font-family: "Alef", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
@@ -1025,13 +1020,18 @@ p {
   font-size: 2.5em;
   line-height: 1em;
 }
+/*******************/
+/*   ENTITY LIST   */
+/*******************/
 #entities-active {
-  margin-top: 4em;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: right;
   width: 260px;
+}
+#entities-active h2 {
+  font-size: 2.75em;
 }
 #entities-active a {
   display: block;
@@ -1039,21 +1039,24 @@ p {
   padding-bottom: 1.375em;
 }
 #entities-active a:hover,
-#entities-active a:hover h3,
-#entities-active a:hover h4 {
+#entities-active a:hover h2,
+#entities-active a:hover h3 {
   color: #00ccc2;
 }
-#entities-active h3 {
-  font-size: 2em;
+#entities-active h2 {
+  font-size: 2.75em;
   padding-bottom: 0.5em;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }
-#entities-active h4 {
+#entities-active h3 {
   font-family: "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
   font-size: 1em;
   color: #a1a1ba;
 }
 #entities-inactive {
-  margin-top: 4em;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -1061,8 +1064,11 @@ p {
   width: 580px;
 }
 #entities-inactive h2 {
-  font-size: 2em;
+  font-size: 2.75em;
+}
+#entities-inactive h2 {
   padding-bottom: 0.5em;
+  margin-bottom: 1em;
   margin-left: 0.25em;
   border-bottom: 1px solid #a1a1ba;
 }
@@ -1073,6 +1079,17 @@ p {
   -moz-column-gap: 2em;
   -webkit-column-gap: 2em;
   column-gap: 2em;
+}
+.entity-index h3 {
+  font-size: 22px;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 1em;
+  margin-left: 0;
+  font-weight: bold;
+}
+.entity-index .set {
+  margin-bottom: 3em;
 }
 #text {
   margin-top: 4em;
@@ -1109,7 +1126,7 @@ h3,
 h4,
 h5,
 h6,
-nav a,
+header nav a,
 #nav-anchor a {
   font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
 }
