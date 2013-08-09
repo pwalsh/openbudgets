@@ -7,10 +7,13 @@
 {% endblock title %}
 
 {% block content %}
+
 <section id="text">
 
-    <h2>{% trans 'Open Local Budgets' %}</h2>
-    {{ page.content }}
+    <h2>{{ name }}</h2>
+
+    {{ page.content|safe }}
+
 </section>
 
 {% endblock content %}
