@@ -3,7 +3,7 @@
   "volo": {
     "baseDir": "./openbudget/commons/static/lib",
     "dependencies": {
-      "uijet": "github:ydaniv/uijet/0.0.19",
+      "uijet": "github:ydaniv/uijet/0.0.20",
       "q": "github:kriskowal/q/v0.9.2",
       "eventbox": "github:ydaniv/eventbox/v0.1.2",
       "require": "github:jrburke/requirejs/2.1.5",
