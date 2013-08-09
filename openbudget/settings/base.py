@@ -319,6 +319,8 @@ CACHES = {
     }
 }
 
+SOUTH_TESTS_MIGRATE = False
+
 OPENBUDGETS_TEMP_DIR = os.path.abspath(
     os.path.join(os.path.dirname(PROJECT_ROOT), 'tmp'))
 
