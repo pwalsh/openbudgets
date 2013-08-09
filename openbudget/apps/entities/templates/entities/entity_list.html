@@ -3,30 +3,33 @@
 {% load url from future %}
 
 {% block title %}
-{% trans 'Opening Israeli Budgets' %}
+{% trans 'Municipalities' %}
 {% endblock title %}
 
 {% block content %}
-<p>
-    {% trans 'If there is missing data that you know how to source, or that you&apos;d like to see here, please' %} <a href="{% url 'contact' %}" title="{% trans 'contact us' %}">{% trans 'contact us' %}</a>
-</p>
 
-{% for entity in object_list %}
-<div class="entity-preview">
-    <h3>
-        {{ entity.name }}
+<section id="entities-active">
+    {% for entity in entities_active %}
+        <a href="{% url 'entity_detail' entity.slug %}">
+            <h2>{{ entity.name }}</h2>
+            <h3>{{ entity.division.name }}</h3>
+        </a>
+    {% endfor %}
+</section>
 
-        <span class="more">
-            <a class="button blue" href="{% url 'entity_detail' entity.slug %}" title="{{ entity.name }}">{% trans 'More' %}</a>
-        </span>
-    </h3>
-    <div>
-        <div class="context">
-            {{ entity.division__name }}
+<section id="entities-inactive">
+    <h2>{% trans 'Soon' %}</h2>
+    <div class="entity-index">
+    {% regroup entities_inactive by index as entity_index %}
+    {% for entity_set in entity_index %}
+        <div class="set">
+            <h3>{{ entity_set.grouper }}</h3>
+            {% for entity in entity_set.list %}
+            <p>{{ entity.name }}</p>
+            {% endfor %}
         </div>
+    {% endfor %}
     </div>
-</div>
-
-{% endfor %}
+</section>
 
 {% endblock content %}

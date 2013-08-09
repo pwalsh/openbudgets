@@ -83,8 +83,8 @@ h5,
 h6 {
   margin-top: 0;
   margin-right: 0;
-  margin-bottom: 0;
-  margin-left: 0.25em;
+  margin-bottom: 0.25em;
+  margin-left: 0;
   color: #141452;
 }
 h1 {
@@ -206,6 +206,7 @@ textarea.naked {
   border-width: 0;
   border-style: solid;
   border-color: #cccccc;
+  background-color: tranparent;
 }
 button,
 input {
@@ -306,33 +307,24 @@ table {
 }
 #panel-nav header nav a {
   display: block;
-  font-size: 3em;
+  font-size: 2.75em;
   line-height: 1em;
   color: #ffffff;
   text-decoration: none;
   padding-bottom: 26px;
-  padding-right: 0;
-  padding-left: 0;
-  /*overriding adaptabl crap*/
-
 }
 #panel-nav footer {
   position: absolute;
   left: 40;
   bottom: 0;
-  height: 94px;
-  font-size: 0.75em;
+  height: 5em;
+  font-size: 1em;
 }
 #panel-nav footer nav a {
   font-weight: bold;
   text-decoration: none;
   display: inline-block;
-  padding-top: 0;
-  padding-right: 0;
-  padding-bottom: 0;
-  padding-left: 0;
   padding-right: 26px;
-  font-size: 1em;
   color: #026a74;
 }
 #panel-action {
@@ -348,18 +340,34 @@ table {
   padding-left: 40px;
   background-color: #d0d0dc;
 }
+#panel-action h1 {
+  margin-top: 1em;
+  font-size: 2.75em;
+}
+#panel-action #nav-anchor {
+  display: inline-block;
+  cursor: pointer;
+}
+#panel-action #nav-anchor a {
+  text-decoration: none;
+  font-weight: bold;
+}
 #panel-main {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: right;
-  width: 860px;
+  width: 880px;
   height: 100%;
   padding-top: 18px;
-  padding-right: 0;
+  padding-right: 22px;
   padding-bottom: 18px;
-  padding-left: 40px;
+  padding-left: 22px;
   background-color: #ffffff;
+  overflow: auto;
+}
+#panel-main #aux {
+  height: 4em;
 }
 #panel-append {
   -webkit-box-sizing: border-box;
@@ -373,14 +381,6 @@ table {
   padding-bottom: 18px;
   padding-left: 16px;
   background-color: #d0d0dc;
-}
-#nav-anchor {
-  display: inline-block;
-  cursor: pointer;
-}
-#nav-anchor a {
-  text-decoration: none;
-  font-weight: bold;
 }
 /* The background for all overlay objects */
 #overlay {
@@ -812,7 +812,7 @@ input.valid {
   width: 54px;
   padding-top: 18px;
 }
-.account:hover {
+.account.auth:hover {
   background-color: #e8e8ed;
 }
 .account a.login-link {
@@ -882,30 +882,134 @@ input.valid {
 #filter .arrow {
   content: 'this';
 }
+.hide {
+  display: none !important;
+}
 h1,
 h2,
 h3,
 h4,
 h5,
 h6,
-nav a,
+header nav a,
 #nav-anchor a {
   font-weight: normal;
   font-family: "Alef", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
 }
-.box-2 {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  float: right;
-  width: 50%;
+p {
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 1em;
+  margin-left: 0;
 }
-.box-3 {
+/*******************/
+/*   GENERIC PAGE  */
+/*******************/
+#text a {
+  text-decoration: none;
+  color: #00ccc2;
+}
+#text h2 {
+  font-size: 2.75em;
+  padding-bottom: 0.5em;
+  margin-left: 0.25em;
+  margin-bottom: 2em;
+  border-bottom: 1px solid #a1a1ba;
+}
+#text .full {
+  font-weight: bold;
+  margin-bottom: 2em;
+  color: #141452;
+  font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
+}
+#text .section {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: right;
-  width: 33%;
+  width: 580px;
+  float: left;
+  margin-bottom: 1em;
+  position: relative;
+}
+#text .section h3 {
+  font: "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  position: absolute;
+  top: 0;
+  right: -256px;
+  width: 200px;
+}
+/*******************/
+/*   ENTITY LIST   */
+/*******************/
+#entities-active {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: right;
+  width: 278px;
+}
+#entities-active h2 {
+  font-size: 2.75em;
+}
+#entities-active a {
+  display: block;
+  text-decoration: none;
+  padding-bottom: 1.375em;
+}
+#entities-active a:hover,
+#entities-active a:hover h2,
+#entities-active a:hover h3 {
+  color: #00ccc2;
+}
+#entities-active h2 {
+  font-size: 2.75em;
+  padding-bottom: 0.5em;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+#entities-active h3 {
+  font-family: "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
+  font-size: 1em;
+  color: #a1a1ba;
+}
+#entities-inactive {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: right;
+  width: 558px;
+}
+#entities-inactive h2 {
+  font-size: 2.75em;
+}
+#entities-inactive h2 {
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+  margin-left: 0.25em;
+  border-bottom: 1px solid #a1a1ba;
+}
+.entity-index {
+  -moz-column-count: 3;
+  -webkit-column-count: 3;
+  column-count: 3;
+  -moz-column-gap: 2em;
+  -webkit-column-gap: 2em;
+  column-gap: 2em;
+}
+.entity-index h3 {
+  font-size: 22px;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 1em;
+  margin-left: 0;
+  font-weight: bold;
+}
+.entity-index .set {
+  margin-bottom: 3em;
 }
 /*user profile*/
 .identity {
@@ -1014,9 +1118,6 @@ nav a,
   font-size: 2.5em;
   line-height: 1em;
 }
-.hide {
-  display: none !important;
-}
 /*...BOOM...*/
 h1,
 h2,
@@ -1024,7 +1125,7 @@ h3,
 h4,
 h5,
 h6,
-nav a,
+header nav a,
 #nav-anchor a {
   font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
 }
@@ -1060,9 +1161,9 @@ nav a,
 }
 #panel-main {
   padding-top: 18px;
-  padding-right: 40px;
+  padding-right: 22px;
   padding-bottom: 18px;
-  padding-left: 0;
+  padding-left: 22px;
 }
 #panel-append {
   padding-top: 0;

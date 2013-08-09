@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-05 16:53+0300\n"
+"POT-Creation-Date: 2013-08-08 23:37+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,7 +73,7 @@ msgstr ""
 msgid "Open Budget Repository"
 msgstr ""
 
-#: dashboard.py:104 apps/entities/templates/entities/explorer.html:54
+#: dashboard.py:104 apps/entities/templates/entities/explorer.html:61
 msgid "Credits"
 msgstr ""
 
@@ -137,15 +137,15 @@ msgid "Confirm Password"
 msgstr ""
 
 #: apps/accounts/forms.py:60
-msgid "A user with that email already exists."
+msgid "This email is already registered"
 msgstr ""
 
 #: apps/accounts/forms.py:68
-msgid "The two email fields didn't match."
+msgid "The emails do not match"
 msgstr ""
 
 #: apps/accounts/forms.py:72
-msgid "The two password fields didn't match."
+msgid "The passwords do not match"
 msgstr ""
 
 #: apps/accounts/forms.py:86
@@ -273,171 +273,197 @@ msgstr ""
 msgid "Registration"
 msgstr ""
 
-#: apps/accounts/templates/accounts/partials/account_tools.html:8
-msgid "Account"
-msgstr ""
-
-#: apps/accounts/templates/accounts/partials/account_tools.html:9
+#: apps/accounts/templates/accounts/partials/account_tools.html:12
 msgid "Logout"
 msgstr ""
 
-#: apps/accounts/templates/accounts/partials/account_tools.html:12
+#: apps/accounts/templates/accounts/partials/account_tools.html:16
 #: apps/interactions/templates/interactions/partials/_comment_form.html:11
 #: commons/templates/partials/_form_action_login.html:2
 msgid "Login"
 msgstr ""
 
-#: apps/contexts/models.py:39
-msgid "Data object"
+#: apps/accounts/views/ui.py:101
+msgid "Check your email to proceed"
+msgstr ""
+
+#: apps/accounts/views/ui.py:185
+msgid "Success"
+msgstr ""
+
+#: apps/accounts/views/ui.py:197 commons/templates/registration/login.html:11
+msgid "Incorrect credentials"
+msgstr ""
+
+#: apps/accounts/views/ui.py:251
+msgid "Your password has been changed"
+msgstr ""
+
+#: apps/accounts/views/ui.py:263
+msgid "The form has errors. try again"
+msgstr ""
+
+#: apps/accounts/views/ui.py:325
+#: commons/templates/registration/password_reset_done.html:11
+msgid "Success. Check your inbox"
+msgstr ""
+
+#: apps/accounts/views/ui.py:337
+#: commons/templates/registration/password_reset_form.html:12
+msgid "Unknown email address"
 msgstr ""
 
 #: apps/contexts/models.py:40
+msgid "Data object"
+msgstr ""
+
+#: apps/contexts/models.py:41
 msgid "Contextual data as JSON for the Entity/Time Period."
 msgstr ""
 
-#: apps/entities/models.py:26
+#: apps/entities/models.py:27
 msgid "Metric"
 msgstr ""
 
-#: apps/entities/models.py:27
+#: apps/entities/models.py:28
 msgid "Imperial"
 msgstr ""
 
-#: apps/entities/models.py:30
+#: apps/entities/models.py:31
 msgid "Default"
 msgstr ""
 
-#: apps/entities/models.py:31
+#: apps/entities/models.py:32
 msgid "Dunams"
 msgstr ""
 
-#: apps/entities/models.py:34
+#: apps/entities/models.py:35
 msgid "&#36;"
 msgstr ""
 
-#: apps/entities/models.py:35
+#: apps/entities/models.py:36
 msgid "&#8362;"
 msgstr ""
 
-#: apps/entities/models.py:41 apps/entities/models.py:109
-#: apps/entities/models.py:160
-#: apps/entities/templates/entities/explorer.html:31 apps/sheets/models.py:44
+#: apps/entities/models.py:42 apps/entities/models.py:110
+#: apps/entities/models.py:161
+#: apps/entities/templates/entities/explorer.html:36 apps/sheets/models.py:44
 #: apps/sheets/models.py:119 apps/taxonomies/models.py:98
 msgid "Name"
 msgstr ""
 
-#: apps/entities/models.py:45
+#: apps/entities/models.py:46
 msgid "The name of this domain."
 msgstr ""
 
-#: apps/entities/models.py:48
+#: apps/entities/models.py:49
 msgid "Measurement System"
 msgstr ""
 
-#: apps/entities/models.py:52
+#: apps/entities/models.py:53
 msgid "The applicable measurement unit for this domain."
 msgstr ""
 
-#: apps/entities/models.py:55
+#: apps/entities/models.py:56
 msgid "Ground Surface Unit"
 msgstr ""
 
-#: apps/entities/models.py:59
+#: apps/entities/models.py:60
 msgid ""
 "Rarely to be touched, this field is for countries, like Israel, that use "
 "special units for measuring ground."
 msgstr ""
 
-#: apps/entities/models.py:63
+#: apps/entities/models.py:64
 msgid "Currency"
 msgstr ""
 
-#: apps/entities/models.py:67
+#: apps/entities/models.py:68
 msgid "The currency used for budgeting in this domain."
 msgstr ""
 
-#: apps/entities/models.py:77
+#: apps/entities/models.py:78
 msgid "domain"
 msgstr ""
 
-#: apps/entities/models.py:78
+#: apps/entities/models.py:79
 msgid "domains"
 msgstr ""
 
-#: apps/entities/models.py:99
+#: apps/entities/models.py:100
 msgid "The domain that this division belongs to."
 msgstr ""
 
-#: apps/entities/models.py:102 apps/pages/models.py:30
+#: apps/entities/models.py:103 apps/pages/models.py:30
 msgid "Index"
 msgstr ""
 
-#: apps/entities/models.py:104
+#: apps/entities/models.py:105
 msgid ""
 "Model the domain structure by positioning this division relative to others. "
 "0 is the highest level. Divisions of equivalent level  should have an equal "
 "value."
 msgstr ""
 
-#: apps/entities/models.py:112
+#: apps/entities/models.py:113
 msgid ""
 "The name of this division. Divisions under the same Domain must be named "
 "uniquely."
 msgstr ""
 
-#: apps/entities/models.py:116
+#: apps/entities/models.py:117
 msgid "Budgeting"
 msgstr ""
 
-#: apps/entities/models.py:119
+#: apps/entities/models.py:120
 msgid ""
 "Indicates whether entities that belong to this division are budgeting "
 "entities."
 msgstr ""
 
-#: apps/entities/models.py:129
+#: apps/entities/models.py:130
 msgid "division"
 msgstr ""
 
-#: apps/entities/models.py:130
+#: apps/entities/models.py:131
 msgid "divisions"
 msgstr ""
 
-#: apps/entities/models.py:157
+#: apps/entities/models.py:158
 msgid "The division that this entity belongs to."
 msgstr ""
 
-#: apps/entities/models.py:163
+#: apps/entities/models.py:164
 msgid "The name of this entity."
 msgstr ""
 
-#: apps/entities/models.py:166 apps/projects/models.py:28
+#: apps/entities/models.py:167 apps/projects/models.py:28
 #: apps/sheets/models.py:50 apps/sheets/models.py:365
 #: apps/sheets/models.py:421
 msgid "Description"
 msgstr ""
 
-#: apps/entities/models.py:168
+#: apps/entities/models.py:169
 msgid "A short text for this entity, useful as an overview."
 msgstr ""
 
-#: apps/entities/models.py:171
-#: apps/entities/templates/entities/explorer.html:30 apps/sheets/models.py:125
+#: apps/entities/models.py:172
+#: apps/entities/templates/entities/explorer.html:35 apps/sheets/models.py:125
 #: apps/sheets/templates/sheets/sheet_item_detail.html:6
 #: commons/templates/search/search.html:65
 #: commons/templates/search/search.html:80
 msgid "Code"
 msgstr ""
 
-#: apps/entities/models.py:174
+#: apps/entities/models.py:175
 msgid "An identifying code for this entity."
 msgstr ""
 
-#: apps/entities/models.py:203
+#: apps/entities/models.py:208
 msgid "entity"
 msgstr ""
 
-#: apps/entities/models.py:204
+#: apps/entities/models.py:209
 msgid "entities"
 msgstr ""
 
@@ -478,76 +504,75 @@ msgid "There are no Budgets this entity"
 msgstr ""
 
 #: apps/entities/templates/entities/entity_list.html:6
-msgid "Opening Israeli Budgets"
+msgid "Municipalities"
 msgstr ""
 
-#: apps/entities/templates/entities/entity_list.html:11
-msgid ""
-"If there is missing data that you know how to source, or that you&apos;d "
-"like to see here, please"
+#: apps/entities/templates/entities/entity_list.html:21
+#: apps/pages/templates/pages/page.html:15
+#: apps/pages/templates/pages/page.html:21
+msgid "Soon"
 msgstr ""
 
-#: apps/entities/templates/entities/entity_list.html:11
-msgid "contact us"
-msgstr ""
-
-#: apps/entities/templates/entities/entity_list.html:20
-msgid "More"
-msgstr ""
-
-#: apps/entities/templates/entities/explorer.html:22
-msgid "Main"
-msgstr ""
-
-#: apps/entities/templates/entities/explorer.html:32
-msgid "Direction"
-msgstr ""
-
-#: apps/entities/templates/entities/explorer.html:33
+#: apps/entities/templates/entities/explorer.html:16
+#: apps/entities/templates/entities/explorer.html:38
 #: apps/sheets/templates/sheets/sheet_detail.html:6
 #: apps/sheets/templates/sheets/sheet_detail.html:39
 msgid "Budget"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:34
+#: apps/entities/templates/entities/explorer.html:22
+#: apps/entities/templates/entities/explorer.html:25
+msgid "Main"
+msgstr ""
+
+#: apps/entities/templates/entities/explorer.html:28
+#: commons/templates/partials/_form_action_search.html:2
+msgid "Search"
+msgstr ""
+
+#: apps/entities/templates/entities/explorer.html:37
+msgid "Direction"
+msgstr ""
+
+#: apps/entities/templates/entities/explorer.html:39
 #: apps/sheets/templates/sheets/sheet_detail.html:41
 msgid "Actual"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:40
+#: apps/entities/templates/entities/explorer.html:47
 msgid "Open Muni Budget"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:45
+#: apps/entities/templates/entities/explorer.html:52
 #: commons/templates/partials/nav-panel.html:12
 msgid "Home"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:46
+#: apps/entities/templates/entities/explorer.html:53
 msgid "Munis"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:47
+#: apps/entities/templates/entities/explorer.html:54
 #: apps/projects/models.py:62
 #: apps/projects/templates/projects/project_list.html:6
 #: commons/templates/partials/nav-panel.html:14
 msgid "Projects"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:48
+#: apps/entities/templates/entities/explorer.html:55
 #: apps/sources/templates/sources/auxsource_detail.html:22
 #: apps/sources/templates/sources/referencesource_detail.html:22
 #: commons/templates/partials/nav-panel.html:15
 msgid "About"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:52
-#: commons/templates/partials/nav-panel.html:30
+#: apps/entities/templates/entities/explorer.html:59
+#: commons/templates/partials/nav-panel.html:33
 msgid "API"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:53
-#: commons/templates/partials/nav-panel.html:32
+#: apps/entities/templates/entities/explorer.html:60
+#: commons/templates/partials/nav-panel.html:35
 msgid "Terms"
 msgstr ""
 
@@ -687,6 +712,10 @@ msgstr ""
 msgid "Welcome to Open Budget"
 msgstr ""
 
+#: apps/pages/templates/pages/page.html:12 settings/base.py:325
+msgid "Open Local Budgets"
+msgstr ""
+
 #: apps/projects/models.py:29
 msgid "Provide a short description of this project"
 msgstr ""
@@ -799,7 +828,7 @@ msgid ""
 "node."
 msgstr ""
 
-#: apps/sheets/models.py:198 apps/sheets/models.py:563
+#: apps/sheets/models.py:198 apps/sheets/models.py:597
 msgid "Entry description"
 msgstr ""
 
@@ -872,39 +901,39 @@ msgstr ""
 msgid "The total actual amount of this entry."
 msgstr ""
 
-#: apps/sheets/models.py:498
+#: apps/sheets/models.py:532
 msgid "sheet item"
 msgstr ""
 
-#: apps/sheets/models.py:499
+#: apps/sheets/models.py:533
 msgid "sheet items"
 msgstr ""
 
-#: apps/sheets/models.py:522
+#: apps/sheets/models.py:556
 msgid "Comment"
 msgstr ""
 
-#: apps/sheets/models.py:523
+#: apps/sheets/models.py:557
 msgid "Add your comments to this discussion."
 msgstr ""
 
-#: apps/sheets/models.py:528
+#: apps/sheets/models.py:562
 msgid "sheet item comment"
 msgstr ""
 
-#: apps/sheets/models.py:529
+#: apps/sheets/models.py:563
 msgid "sheet item comments"
 msgstr ""
 
-#: apps/sheets/models.py:565
+#: apps/sheets/models.py:599
 msgid "A descriptive text for this template node underlying this sheet item."
 msgstr ""
 
-#: apps/sheets/models.py:570
+#: apps/sheets/models.py:604
 msgid "denormalized sheet item"
 msgstr ""
 
-#: apps/sheets/models.py:571
+#: apps/sheets/models.py:605
 msgid "denormalized sheet items"
 msgstr ""
 
@@ -1388,10 +1417,6 @@ msgstr ""
 msgid "Back to the home page"
 msgstr ""
 
-#: commons/templates/base.html:41 settings/base.py:318
-msgid "Open Local Budgets"
-msgstr ""
-
 #: commons/templates/comments/_preview.html:4
 #: commons/templates/comments/_preview.html:13
 msgid "Preview your comment"
@@ -1452,10 +1477,6 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: commons/templates/partials/_form_action_search.html:2
-msgid "Search"
-msgstr ""
-
 #: commons/templates/partials/_form_action_update.html:2
 msgid "Update"
 msgstr ""
@@ -1476,11 +1497,11 @@ msgstr ""
 msgid "Entities"
 msgstr ""
 
-#: commons/templates/partials/nav-panel.html:31
+#: commons/templates/partials/nav-panel.html:34
 msgid "Privacy"
 msgstr ""
 
-#: commons/templates/partials/nav-panel.html:33
+#: commons/templates/partials/nav-panel.html:36
 msgid "Contact"
 msgstr ""
 
@@ -1594,16 +1615,11 @@ msgid "Make sure it is hard for someone else, but easy for you, to remember"
 msgstr ""
 
 #: commons/templates/registration/password_reset_confirm.html:13
-#: commons/templates/registration/password_reset_form.html:12
 msgid "There was an error in the form. Try again"
 msgstr ""
 
 #: commons/templates/registration/password_reset_done.html:6
 msgid "Reset password mail sent"
-msgstr ""
-
-#: commons/templates/registration/password_reset_done.html:11
-msgid "Check your inbox and we&apos;ll get moving right along"
 msgstr ""
 
 #: commons/templates/registration/password_reset_done.html:14

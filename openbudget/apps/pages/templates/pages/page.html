@@ -2,10 +2,18 @@
 {% load i18n %}
 {% load url from future %}
 
-{% block main %}
-
+{% block title %}
 {{ page.title }}
-<br />
-{{ page.content }}
+{% endblock title %}
 
-{% endblock main %}
+{% block content %}
+
+<section id="text">
+
+    <h2>{{ name }}</h2>
+
+    {{ page.content|safe }}
+
+</section>
+
+{% endblock content %}

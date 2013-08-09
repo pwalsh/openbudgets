@@ -51,6 +51,18 @@ def upgrade():
 
 @task
 @roles('web')
+def deploy():
+    notify('Now starting the project deploy sequence')
+    fetch()
+    merge()
+    validate()
+    migrate()
+    collectstatic()
+    restart()
+
+
+@task
+@roles('web')
 def clone():
     with prefix(WORKON):
         run('git clone ' + PROJECT['REPO'] + ' .')
@@ -246,6 +258,14 @@ def load_sites(target=None):
         run(DEACTIVATE)
     restart()
 
+
+@task
+@roles('web')
+def command(command):
+    with prefix(WORKON):
+        run(command)
+        run(DEACTIVATE)
+    restart()
 
 
 ######################

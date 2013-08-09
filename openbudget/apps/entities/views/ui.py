@@ -72,10 +72,22 @@ class EntityList(ListView):
     template_name = 'entities/entity_list.html'
 
     def get_context_data(self, **kwargs):
+
         context = super(EntityList, self).get_context_data(**kwargs)
-        #TODO: change this now we have new manager
-        context['object_list'] = Entity.objects.filter(division__index=3).values\
-                ('name', 'slug', 'description', 'division__name')
+
+        self.object_list = self.object_list.filter(division__index=3)
+        entities_active = []
+        entities_inactive = []
+
+        for e in self.object_list:
+            if e.sheets.exists():
+                entities_active.append(e)
+            else:
+                entities_inactive.append(e)
+
+        context['entities_active'] = entities_active
+        context['entities_inactive'] = entities_inactive
+
         return context
 
 

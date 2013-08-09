@@ -35,5 +35,6 @@ def openbudgets(request):
     """Things that come from the settings of the project itself."""
     openbudgets = {}
     openbudgets['name'] = _(settings.OPENBUDGETS_NAME)
-
+    openbudgets['name_list'] = openbudgets['name'].split()
+    openbudgets['avatar_anon'] = settings.OPENBUDGETS_AVATAR_ANON
     return openbudgets

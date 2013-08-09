@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-07 17:56+0300\n"
+"POT-Creation-Date: 2013-08-08 23:37+0300\n"
 "PO-Revision-Date: 2013-05-23 17:58+0000\n"
 "Last-Translator: Ram Ezrach <ram.ezrach@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -138,15 +138,15 @@ msgid "Confirm Password"
 msgstr "הקלד סיסמה שנית"
 
 #: apps/accounts/forms.py:60
-msgid "A user with that email already exists."
+msgid "This email is already registered"
 msgstr ""
 
 #: apps/accounts/forms.py:68
-msgid "The two email fields didn't match."
+msgid "The emails do not match"
 msgstr ""
 
 #: apps/accounts/forms.py:72
-msgid "The two password fields didn't match."
+msgid "The passwords do not match"
 msgstr ""
 
 #: apps/accounts/forms.py:86
@@ -274,25 +274,55 @@ msgstr "משתמש רשום"
 msgid "Registration"
 msgstr "הרשמה"
 
-#: apps/accounts/templates/accounts/partials/account_tools.html:8
-msgid "Account"
-msgstr "חשבון"
-
-#: apps/accounts/templates/accounts/partials/account_tools.html:9
+#: apps/accounts/templates/accounts/partials/account_tools.html:12
 msgid "Logout"
 msgstr "צא"
 
-#: apps/accounts/templates/accounts/partials/account_tools.html:12
+#: apps/accounts/templates/accounts/partials/account_tools.html:16
 #: apps/interactions/templates/interactions/partials/_comment_form.html:11
 #: commons/templates/partials/_form_action_login.html:2
 msgid "Login"
 msgstr "כניסה"
 
-#: apps/contexts/models.py:39
+#: apps/accounts/views/ui.py:101
+msgid "Check your email to proceed"
+msgstr ""
+
+#: apps/accounts/views/ui.py:185
+msgid "Success"
+msgstr ""
+
+#: apps/accounts/views/ui.py:197 commons/templates/registration/login.html:11
+#, fuzzy
+msgid "Incorrect credentials"
+msgstr "אישורי חשבון"
+
+#: apps/accounts/views/ui.py:251
+#, fuzzy
+msgid "Your password has been changed"
+msgstr "הסיסמא שלך אופסה מחדש בהצלחה"
+
+#: apps/accounts/views/ui.py:263
+#, fuzzy
+msgid "The form has errors. try again"
+msgstr "היתה שגיאה בטופס, נסה שוב"
+
+#: apps/accounts/views/ui.py:325
+#: commons/templates/registration/password_reset_done.html:11
+msgid "Success. Check your inbox"
+msgstr ""
+
+#: apps/accounts/views/ui.py:337
+#: commons/templates/registration/password_reset_form.html:12
+#, fuzzy
+msgid "Unknown email address"
+msgstr "אימייל"
+
+#: apps/contexts/models.py:40
 msgid "Data object"
 msgstr ""
 
-#: apps/contexts/models.py:40
+#: apps/contexts/models.py:41
 msgid "Contextual data as JSON for the Entity/Time Period."
 msgstr ""
 
@@ -479,22 +509,14 @@ msgid "There are no Budgets this entity"
 msgstr "אין תקציבים לרשות זו"
 
 #: apps/entities/templates/entities/entity_list.html:6
-msgid "Opening Israeli Budgets"
-msgstr ""
+msgid "Municipalities"
+msgstr "רשויות"
 
-#: apps/entities/templates/entities/entity_list.html:11
-msgid ""
-"If there is missing data that you know how to source, or that you&apos;d "
-"like to see here, please"
-msgstr ""
-
-#: apps/entities/templates/entities/entity_list.html:11
-msgid "contact us"
-msgstr "צור קשר"
-
-#: apps/entities/templates/entities/entity_list.html:20
-msgid "More"
-msgstr "עוד"
+#: apps/entities/templates/entities/entity_list.html:21
+#: apps/pages/templates/pages/page.html:15
+#: apps/pages/templates/pages/page.html:21
+msgid "Soon"
+msgstr "בקרוב"
 
 #: apps/entities/templates/entities/explorer.html:16
 #: apps/entities/templates/entities/explorer.html:38
@@ -550,12 +572,12 @@ msgid "About"
 msgstr "אודות"
 
 #: apps/entities/templates/entities/explorer.html:59
-#: commons/templates/partials/nav-panel.html:30
+#: commons/templates/partials/nav-panel.html:33
 msgid "API"
 msgstr ""
 
 #: apps/entities/templates/entities/explorer.html:60
-#: commons/templates/partials/nav-panel.html:32
+#: commons/templates/partials/nav-panel.html:35
 msgid "Terms"
 msgstr "תנאים"
 
@@ -694,6 +716,10 @@ msgstr "עמודים"
 #: apps/pages/templates/pages/home.html:9
 msgid "Welcome to Open Budget"
 msgstr "ברוכים הבאים לתקציב הפתוח"
+
+#: apps/pages/templates/pages/page.html:12 settings/base.py:325
+msgid "Open Local Budgets"
+msgstr "התקציב מקומי פתוח"
 
 #: apps/projects/models.py:29
 msgid "Provide a short description of this project"
@@ -1476,11 +1502,11 @@ msgstr "הבא"
 msgid "Entities"
 msgstr "רשויות"
 
-#: commons/templates/partials/nav-panel.html:31
+#: commons/templates/partials/nav-panel.html:34
 msgid "Privacy"
 msgstr "פרטיות"
 
-#: commons/templates/partials/nav-panel.html:33
+#: commons/templates/partials/nav-panel.html:36
 msgid "Contact"
 msgstr "צור קשר"
 
@@ -1594,17 +1620,12 @@ msgid "Make sure it is hard for someone else, but easy for you, to remember"
 msgstr ""
 
 #: commons/templates/registration/password_reset_confirm.html:13
-#: commons/templates/registration/password_reset_form.html:12
 msgid "There was an error in the form. Try again"
 msgstr "היתה שגיאה בטופס, נסה שוב"
 
 #: commons/templates/registration/password_reset_done.html:6
 msgid "Reset password mail sent"
 msgstr "מייל איפוס סיסמא נשלח"
-
-#: commons/templates/registration/password_reset_done.html:11
-msgid "Check your inbox and we&apos;ll get moving right along"
-msgstr ""
 
 #: commons/templates/registration/password_reset_done.html:14
 msgid ""
@@ -1741,9 +1762,14 @@ msgstr "ערבית"
 msgid "Russian"
 msgstr "רוסית"
 
-#: settings/base.py:325
-msgid "Open Local Budgets"
-msgstr "התקציב מקומי פתוח"
+#~ msgid "contact us"
+#~ msgstr "צור קשר"
+
+#~ msgid "More"
+#~ msgstr "עוד"
+
+#~ msgid "Account"
+#~ msgstr "חשבון"
 
 #, fuzzy
 #~ msgid "The name of this project"
@@ -1824,9 +1850,6 @@ msgstr "התקציב מקומי פתוח"
 #~ msgid "There are no taxonomies currently available."
 #~ msgstr "אין כרגע טקסונומיות זמינות"
 
-#~ msgid "Municipalities"
-#~ msgstr "רשויות"
-
 #~ msgid "Describe for this entry."
 #~ msgstr "תאר ערך זה"
 
@@ -1889,9 +1912,6 @@ msgstr "התקציב מקומי פתוח"
 
 #~ msgid "Your username."
 #~ msgstr "שם משתמש"
-
-#~ msgid "Your email address."
-#~ msgstr "אימייל"
 
 #~ msgid "Your last name."
 #~ msgstr "שם משפחה"

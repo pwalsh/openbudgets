@@ -1,7 +1,7 @@
 {% load i18n gravatar %}
 {% load url from future %}
 
-<div class="account">
+<div class="account{% if user.is_authenticated %} auth{% endif %}">
     {% if user.is_authenticated %}
     <a class="avatar" href="{% url 'account_detail' user.uuid %}"><img src="{{ user.avatar }}" /></a>
     <div class="name">
@@ -12,7 +12,7 @@
         <a href="{% url 'auth_logout' %}">{% trans 'Logout' %}</a>
     </div>
     {% else %}
-    <a class="avatar login-link" href="{% url 'auth_login' %}"><img src="{{ user.avatar }}" /></a>
+    <a class="avatar login-link" href="{% url 'auth_login' %}"><img src="{{ avatar_anon }}" /></a>
     <a class="login-link" href="{% url 'auth_login' %}">{% trans 'Login' %}</a>
     {% endif %}
 </div>
