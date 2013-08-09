@@ -27,15 +27,20 @@ p {
 
 #text {
 
+    a {
+        text-decoration: none;
+        .color(@green);
+    }
+
     h2 {
         .biggest-text;
         .padding-bottom(@unit-em * 0.5);
         .margin-left(@unit-em * 0.25);
+        .margin-bottom(@unit-em * 2);
         border-bottom: 1px solid @greyblue-light;
     }
 
     .full {
-        .margin-top(@unit-em * 4);
         .bold;
         .margin-bottom(@unit-em * 2);
         .color(@strongblue);

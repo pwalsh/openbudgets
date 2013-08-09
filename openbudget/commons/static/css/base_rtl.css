@@ -905,14 +905,18 @@ p {
 /*******************/
 /*   GENERIC PAGE  */
 /*******************/
+#text a {
+  text-decoration: none;
+  color: #00ccc2;
+}
 #text h2 {
   font-size: 2.75em;
   padding-bottom: 0.5em;
   margin-left: 0.25em;
+  margin-bottom: 2em;
   border-bottom: 1px solid #a1a1ba;
 }
 #text .full {
-  margin-top: 4em;
   font-weight: bold;
   margin-bottom: 2em;
   color: #141452;
