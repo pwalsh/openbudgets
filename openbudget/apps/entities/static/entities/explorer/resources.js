@@ -69,7 +69,7 @@ define([
 
                 while ( ancestors_len > index ) {
                     ancestors_len -= 1;
-                    result.unshift(this.collection.get(ancestors[ancestors_len]).get('name'));
+                    result.unshift(ancestors[ancestors_len].name);
                 }
 
                 return result;

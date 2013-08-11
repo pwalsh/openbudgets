@@ -121,9 +121,6 @@ define([
             element     : '#filters_search',
             click_event : 'mouseenter',
             dom_events  : {
-                mouseleave  : function (e) {
-                    this.publish('mouse_left');
-                },
                 click       : function () {
                     uijet.publish('filters_search_menu.selected', {
                         type: 'search'
@@ -131,11 +128,16 @@ define([
                 }
             },
             signals     : {
+                post_init   : function () {
+                    this.$wrapper.on('mouseleave', function (e) {
+                        this.publish('mouse_left');
+                    }.bind(this));
+                },
                 pre_click   : 'cancel'
             },
             menu        : {
                 mixins          : ['Templated', 'Translated'],
-                float_position  : 'top: 3rem',
+                float_position  : 'top: 66px',
                 dom_events      : {
                     mouseleave  : function () {
                         this.mouse_over = false;
@@ -241,7 +243,7 @@ define([
                     var initial = this.resource.get('search');
                     if ( initial === null ) {
                         initial = '';
-                        this.resource.set({ search : '' });
+                        this.resource.set({ search : null });
                     }
                     this.$element.val(initial);
                     this.$shadow_text.text(initial);
@@ -256,7 +258,7 @@ define([
             },
             app_events  : {
                 'items_search_clear.clicked'    : function () {
-                    this.resource.set({ search : '' });
+                    this.resource.set({ search : null });
                 },
                 'filters_search_menu.selected'  : function (data) {
                     if ( data.value )

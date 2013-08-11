@@ -1,3 +1,47 @@
+#filters_search {
+    width: 54px;
+    height: 66px;
+    padding: 0;
+    background: url(../img/glass_blue.png) center no-repeat;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+#filters_search_wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: auto;
+}
+#filters_search_wrapper:hover {
+    background-color: #d0d0dc;
+}
+#filters_search_menu {
+    font-size: 1.3rem;
+}
+#filters_search_menu li {
+    height: 44px;
+    line-height: 44px;
+    padding: 0 1rem;
+    text-align: right;
+}
+#filters_search_menu li[data-prefix]:before {
+    content: attr(data-prefix);
+    margin-left: 1rem;
+}
+#filters_search_menu li:first-child {
+    border-bottom: 1px solid white;
+}
+#filters_search_menu li:hover {
+    background-color: #a1a1b9;
+}
+#filters_search_menu_wrapper {
+    left: 0;
+    max-height: 320px;
+    background-color: #d0d0dc;
+}
+
 #items_breadcrumbs {
     display: inline-block;
     width: auto;
