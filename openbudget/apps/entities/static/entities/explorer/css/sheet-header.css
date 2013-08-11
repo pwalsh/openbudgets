@@ -1,3 +1,26 @@
+.filtercrumb_remove {
+    padding: 0;
+}
+.filtercrumb_remove:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: -1.5rem;
+    width: 11px;
+    height: 11px;
+    margin-top: -4px;
+    background: url(../img/x_for_search.png) center no-repeat;
+}
+.filter_content {
+    display: inline-block;
+}
+
+.uijet_filtercrumb {
+    position: relative;
+    cursor: pointer;
+}
+
 #filters_search {
     width: 54px;
     height: 66px;
@@ -71,6 +94,13 @@
     position: absolute;
     top: 60px;
     right: 18px;
+}
+
+#search_crumb:before {
+    content: '>';
+    padding-left: 5px;
+    vertical-align: bottom;
+    color: #d0d0dc;
 }
 
 #sheet_header {
