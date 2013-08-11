@@ -273,6 +273,9 @@ define([
                 'items_search_exit.clicked'     : function () {
                     nullifySearchQuery.call(this);
                     this.publish('cancelled').sleep();
+                },
+                'search_crumb_remove.clicked'   : function () {
+                    this.resource.set('search', null);
                 }
             }
         }
@@ -298,6 +301,10 @@ define([
                 reset   : 'render'
             },
             signals     : {
+                post_init   : function () {
+                    // reset sticky children to only the "main" breadcrumb
+                    this.$original_children = this.$element.children().first();
+                },
                 post_wake   : function () {
                     return false;
                 },
@@ -307,13 +314,16 @@ define([
             },
             app_events  : {
                 'startup'                   : function () {
+                    var wake = false;
                     if ( this.resource.length ) {
                         // reset state
                         this.has_data = true;
-                        this.$original_children = this.$element.children().first();
-                        // and wake
-                        this.wake();
+                        wake = true
                     }
+                    else if ( uijet.Resource('InitialItem').has('node') ) {
+                        wake = true
+                    }
+                    wake && this.wake();
                 },
                 'items_list.scope_changed'  : function (scope_model) {
                     var ancestors;
@@ -358,17 +368,16 @@ define([
             },
             app_events  : {
                 'items_search.entered'          : function (query) {
-                    query !== null && this.wake();
+                    if ( query !== null ) {
+                        this.setContent(query);
+                        this.wake();
+                    }
                 },
                 'filters_search_menu.selected'  : function (data) {
                     if ( data.type === 'search' )
                         this.sleep();
                 },
-                'search.changed'                : function (data) {
-                    var query = data.args[1];
-                    this.setContent(query || '');
-                    query === null && this.sleep();
-                }
+                'search_crumb_remove.clicked'   : 'sleep'
             }
         }
     }, {
