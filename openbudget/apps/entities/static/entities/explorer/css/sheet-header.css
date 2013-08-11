@@ -57,6 +57,16 @@
     margin-left: .5rem;
 }
 
+#items_search_exit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 54px;
+    height: 66px;
+    padding: 0;
+    background: url(../img/x_icon_blue.png) center no-repeat;
+}
+
 #items_search_wrapper {
     position: absolute;
     top: 60px;

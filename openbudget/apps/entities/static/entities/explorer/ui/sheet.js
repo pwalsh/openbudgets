@@ -122,6 +122,7 @@ define([
             click_event : 'mouseenter',
             dom_events  : {
                 click       : function () {
+                    this.sleep();
                     uijet.publish('filters_search_menu.selected', {
                         type: 'search'
                     });
@@ -129,9 +130,7 @@ define([
             },
             signals     : {
                 post_init   : function () {
-                    this.$wrapper.on('mouseleave', function (e) {
-                        this.publish('mouse_left');
-                    }.bind(this));
+                    this.$wrapper.on('mouseleave', this.publish.bind(this, 'mouse_left'));
                 },
                 pre_click   : 'cancel'
             },
@@ -167,7 +166,8 @@ define([
                             type    : type,
                             value   : value
                         };
-                    }
+                    },
+                    post_select : 'sleep'
                 },
                 app_events      : {
                     'filters_search.mouse_left' : function () {
@@ -183,6 +183,10 @@ define([
                         }
                     }
                 }
+            },
+            app_events  : {
+                'items_search.entered'  : 'wake',
+                'items_search.cancelled': 'wake'
             }
         }
     }, {
