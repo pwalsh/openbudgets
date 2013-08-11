@@ -5,6 +5,8 @@ define([
     'ui/sheet'
 ], function (uijet, resources) {
 
+    uijet.Resource('ItemsSearchResult', resources.Items);
+
     return [{
         type    : 'List',
         config  : {
@@ -72,6 +74,7 @@ define([
                 post_init       : function () {
                     var state_model = uijet.Resource('ItemsListState');
 
+                    this.scope = uijet.Resource('InitialItem').get('node') || null;
                     this.resource.reset(this.resource.parse(window.ITEMS_LIST));
                     this.index();
 
@@ -108,9 +111,10 @@ define([
                     if ( ! this.context ) return false;
 
                     var state = uijet.Resource('ItemsListState'),
-                        scope = this.context.scope || null,
+                        undef = void 0,
+                        scope = 'scope' in this.context ? this.context.scope || null : undef,
                         sheet = this.context.sheets,
-                        search = this.context.search;
+                        search = this.context.search || state.get('search');
 
                     this.search_active = !!search;
 
@@ -125,10 +129,10 @@ define([
                     }
                     else {
                         delete this.options.fetch_options.data.search;
-                        this.options.fetch_options.data.parents = scope || 'none';
+                        this.options.fetch_options.data.parents = (scope === undef ? this.scope : scope) || 'none';
                     }
-                    // change view back to main
-                    this.setScope(scope);
+                    // set scope if it's defined in the context
+                    scope !== undef && this.setScope(scope);
                 },
                 pre_update      : 'spin',
                 post_fetch_data : function (response) {
@@ -137,11 +141,9 @@ define([
                         this.options.fetch_options.reset = false;
                     }
                     if ( this.search_active ) {
-                        var search_result = [];
-                        response.results.forEach(function (item) {
-                            search_result.push(this.resource.get(item.id));
-                        }, this);
-                        this.filter(search_result);
+                        this.filter(uijet.Resource('ItemsSearchResult')
+                            .reset(response.results)
+                            .byAncestor(this.scope));
                     }
                     else {
                         this.filter(this.resource.byParent, this.scope);
@@ -176,8 +178,8 @@ define([
                 },
                 post_select     : function ($selected) {
                     var node_id = typeof $selected == 'number' ?
-                        $selected :
-                        +$selected.attr('data-id') || null;
+                            $selected :
+                            +$selected.attr('data-id') || null;
                     
                     this.wake({ scope : node_id });
                 }
