@@ -124,6 +124,7 @@ define([
                         delete this.options.fetch_options.data.parents;
                     }
                     else {
+                        delete this.options.fetch_options.data.search;
                         this.options.fetch_options.data.parents = scope || 'none';
                     }
                     // change view back to main
