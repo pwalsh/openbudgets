@@ -20,7 +20,7 @@ define([
             search  : null,
             sheet   : window.SHEET.id,
             period  : +window.SHEET.period,
-            scope   : window.ITEM.uuid || null
+            scope   : +window.ITEM.node || null
         }
     );
 
