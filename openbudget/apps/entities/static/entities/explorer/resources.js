@@ -56,14 +56,18 @@ define([
             idAttribute : 'id',
             branchName  : function (from_id) {
                 var ancestors = this.attributes.ancestors,
-                    index = from_id ? ancestors.indexOf(from_id) : null,
+                    index = from_id ? 0 : null,
                     result = [],
                     ancestors_len = ancestors.length;
 
-                if ( index === null ) {
-                    index = 0;
-                }
-                else if ( ~ index ) {
+                if ( index !== null ) {
+                    ancestors.some(function (ancestor) {
+                        if ( ancestor.node === from_id ) {
+                            return true
+                        }
+                        index++;
+                        return false;
+                    });
                     index += 1;
                 }
 
@@ -142,10 +146,12 @@ define([
                     return (parent && parent.node) === parent_id;
                 });
             },
-            byAncestor      : function (ancestor_id) {
-                if ( ancestor_id ) {
+            byAncestor      : function (ancestor_node) {
+                if ( ancestor_node ) {
                     return this.filter(function (item) {
-                        return ~ item.attributes.ancestors.indexOf(ancestor_id);
+                        return item.attributes.ancestors.some(function (ancestor) {
+                            return ancestor.node === ancestor_node
+                        });
                     });
                 }
                 else {
