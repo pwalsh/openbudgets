@@ -185,9 +185,6 @@ define([
                 }
             },
             app_events      : {
-                'search.changed'                            : function () {
-                    console.log(arguments);
-                },
                 'items_breadcrumbs.selected'                : 'post_select+',
                 'items_breadcrumbs_history_menu.selected'   : 'post_select+',
                 'items_list_header.selected'                : 'sortItems+'
