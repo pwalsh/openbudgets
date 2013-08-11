@@ -5,7 +5,8 @@ define([
     'composites/DropmenuButton',
     'composites/Select',
     'project_widgets/ClearableTextInput',
-    'project_widgets/FilterCrumb'
+    'project_widgets/FilterCrumb',
+    'project_mixins/Delayed'
 ], function (uijet, resources, explorer) {
 
     uijet.Resource('Breadcrumbs',
@@ -193,6 +194,7 @@ define([
         type    : 'ClearableTextInput',
         config  : {
             element     : '#items_search',
+            mixins      : ['Delayed'],
             resource    : 'ItemsListState',
             dont_wake   : true,
             button      : {
@@ -234,7 +236,9 @@ define([
                     this.publish('changed', clean);
                     this.$shadow_text.text(val);
                     this.publish('move_button', val ? this.$shadow_text.width() : 0);
-                    this.resource.set({ search : clean });
+                    this.instead(function (search) {
+                        this.resource.set(search);
+                    }, 500, { search : clean });
                 }
             },
             signals     : {
