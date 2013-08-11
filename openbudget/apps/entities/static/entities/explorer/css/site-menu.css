@@ -29,7 +29,7 @@
     width: 100%;
     height: 100%;
     padding: 169px 50px 35px;
-    background: #6ebec8 url(../img/logo_for_cover.png) 69px 35px no-repeat;
+    background: #00ccc2 url(../img/logo_for_cover.png) 69px 35px no-repeat;
     -webkit-transition-duration: 100ms;
 }
 #site_menu.slide_out {

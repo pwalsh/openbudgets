@@ -31,11 +31,9 @@ define([
             var uuid, item;
             if ( value ) {
                 item = uijet.Resource('LatestSheet').findWhere({ node : value }) ||
-                        uijet.Resource('Breadcrumbs').findWhere({ node : value });
-                uuid = item ?
-                    item.get('uuid') :
-                    window.ITEM.uuid;
-                uuid +=  '/';
+                        uijet.Resource('Breadcrumbs').findWhere({ node : value }) ||
+                        uijet.Resource('InitialItem');
+                uuid = item.get('uuid') + '/';
             }
             else {
                 uuid = '';
@@ -52,10 +50,7 @@ define([
                 this.resource.set(attr, null);
             };
         },
-        nullifySearchQuery = attributeNullifier('search'),
-        clearText = function () {
-            this.$content.text(gettext('Main'));
-        };
+        nullifySearchQuery = attributeNullifier('search');
 
     return [{
         type    : 'Select',
@@ -105,12 +100,11 @@ define([
             },
             app_events  : {
                 'items_list.scope_changed'      : function (scope_item_model) {
-                    if ( scope_item_model ) {
-                        this.$content.text(scope_item_model.get('name'));
-                    }
-                    else {
-                        clearText.call(this);
-                    }
+                    this.$content.text(
+                        scope_item_model ?
+                            scope_item_model.get('name') :
+                            gettext('Main')
+                    )
                 },
                 'filters_search_menu.selected'  : function (data) {
                     if ( data.type === 'search' )
@@ -368,6 +362,34 @@ define([
                     var query = data.args[1];
                     this.setContent(query || '');
                     query === null && this.sleep();
+                }
+            }
+        }
+    }, {
+        type    : 'Pane',
+        config  : {
+            element     : '#items_list_footer',
+            signals     : {
+                post_init   : function () {
+                    this.$code = this.$element.find('.item_cell_code');
+                    this.$direction = this.$element.find('.item_cell_direction');
+                    this.$budget = this.$element.find('.item_cell_budget');
+                    this.$actual = this.$element.find('.item_cell_actual');
+                }
+            },
+            app_events  : {
+                'items_list.scope_changed'      : function (scope_item_model) {
+                    var scope, code = '', direction = '', budget = '', actual = '';
+                    if ( scope_item_model ) {
+                        code = scope_item_model.get('code');
+                        direction = scope_item_model.get('direction');
+                        budget = scope_item_model.get('budget');
+                        actual = scope_item_model.get('actual');
+                    }
+                    this.$code.text(code);
+                    this.$direction.text(direction);
+                    this.$budget.text(budget);
+                    this.$actual.text(actual);
                 }
             }
         }

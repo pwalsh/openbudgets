@@ -35,7 +35,8 @@ define([
 
             item_model = this.scope ?
                 this.resource.findWhere({ node : this.scope }) ||
-                    uijet.Resource('Breadcrumbs').findWhere({ node : this.scope }) :
+                uijet.Resource('Breadcrumbs').findWhere({ node : this.scope }) ||
+                uijet.Resource('InitialItem') :
                 this.scope;
 
             return this.publish('scope_changed', item_model);
