@@ -186,8 +186,9 @@ define([
                 }
             },
             app_events  : {
-                'items_search.entered'  : 'wake',
-                'items_search.cancelled': 'wake'
+                'items_search.entered'          : 'wake',
+                'items_search.cancelled'        : 'wake',
+                'filters_search_menu.selected'  : 'sleep'
             }
         }
     }, {
