@@ -16,20 +16,31 @@
   float: left;
   width: 300px;
   height: 100%;
-  padding-top: 18px 16px 18px 50px;
-  padding-right: 1em;
-  padding-bottom: 1em;
-  padding-left: 1em;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-left: 40px;
   background-color: #00ccc2;
-  z-index: 99;
   display: none;
+  z-index: 99;
   position: fixed;
   top: 0;
   cursor: pointer;
 }
 #panel-nav #app_logo {
-  padding-top: 35px;
-  padding-bottom: 35px;
+  padding-top: 16px;
+  padding-right: 0;
+  padding-bottom: 78px;
+  padding-left: 0;
+  position: relative;
+}
+#panel-nav #app_logo #panel-nav-close {
+  background: url('/static/img/panel_nav_close.png') no-repeat;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 17px;
+  height: 17px;
 }
 #panel-nav header nav {
   width: 100%;
@@ -37,23 +48,49 @@
 #panel-nav header nav a {
   display: block;
   font-size: 2.75em;
-  line-height: 1em;
+  line-height: 1.25em;
   color: #ffffff;
   text-decoration: none;
-  padding-bottom: 26px;
+  font-weight: normal;
+}
+#panel-nav header nav a:hover {
+  color: #026a74;
 }
 #panel-nav footer {
   position: absolute;
   left: 40;
   bottom: 0;
-  height: 5em;
+  height: 6em;
   font-size: 1em;
 }
-#panel-nav footer nav a {
+#panel-nav footer #sponsor_logo {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 78px;
+  margin-bottom: 12px;
+}
+#panel-nav footer #sponsor_logo a {
+  color: #026a74;
+  font-size: 11px;
   font-weight: bold;
   text-decoration: none;
+}
+#panel-nav footer #sponsor_logo .img,
+#panel-nav footer #sponsor_logo .name {
+  float: right;
+  width: 30px;
+  padding-left: 0.25em;
+}
+#panel-nav footer #sponsor_logo .name {
+  line-height: 0.925em;
+}
+#panel-nav footer nav a {
+  font-size: 12px;
+  line-height: 1em;
   display: inline-block;
-  padding-right: 26px;
+  padding-right: 12px;
   color: #026a74;
 }
 #panel-action {
@@ -63,9 +100,9 @@
   float: left;
   width: 300px;
   height: 100%;
-  padding-top: 18px;
+  padding-top: 20px;
   padding-right: 16px;
-  padding-bottom: 18px;
+  padding-bottom: 20px;
   padding-left: 40px;
   background-color: #d0d0dc;
 }
@@ -79,7 +116,6 @@
 }
 #panel-action #nav-anchor a {
   text-decoration: none;
-  font-weight: bold;
 }
 #panel-main {
   -webkit-box-sizing: border-box;
@@ -88,9 +124,9 @@
   float: left;
   width: 880px;
   height: 100%;
-  padding-top: 18px;
+  padding-top: 20px;
   padding-right: 22px;
-  padding-bottom: 18px;
+  padding-bottom: 20px;
   padding-left: 22px;
   background-color: #ffffff;
   overflow: hidden;
