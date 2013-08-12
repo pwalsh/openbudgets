@@ -51,7 +51,9 @@
 }
 #filters_search_menu li[data-prefix]:before {
     content: attr(data-prefix);
-    margin-left: 1rem;
+}
+#filters_search_menu li[data-prefix]:after {
+    content: '"';
 }
 #filters_search_menu li:first-child {
     border-bottom: 1px solid white;
