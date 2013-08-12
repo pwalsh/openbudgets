@@ -4,9 +4,13 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
     <link rel="stylesheet" href="{{ STATIC_URL }}entities/explorer/css/main.css"/>
     <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico" />
     <title>{% block metatitle %}{{ page.title }} | {{ site.name }}{% endblock metatitle %}</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raven.js/1.0.8/raven.min.js"></script>
 </head>
 <body>
     <div id="explorer" class="uijet_app">
@@ -70,6 +74,19 @@
                 </footer>
             </div>
         </section>
+        {% block overlays %}
+
+            <div id="overlay"></div>
+    
+            {% include 'accounts/partials/account_login.html' %}
+            {% include 'accounts/partials/account_register.html' %}
+            {% include 'accounts/partials/account_password_reset.html' %}
+    
+            {% if user.is_authenticated %}
+                {% include 'accounts/partials/account_password_change.html' %}
+            {% endif %}
+
+        {% endblock overlays %}
     </div>
     <script>
         var API_INDEX = 'http://api.{{ site|safe }}/',
