@@ -156,7 +156,12 @@ class EntityDetail(DetailView):
         else:
             context['scope_item_json'] = '{}'
             context['items_breadcrumbs'] = ''
-            context['scope_item'] = {}
+            context['scope_item'] = {
+                'actual': reduce(lambda x, y: x + y['actual'], items_list, 0),
+                'budget': reduce(lambda x, y: x + y['budget'], items_list, 0),
+                'direction': '',
+                'code': ''
+            }
             context['scope_name'] = _('Main')
 
         # rendering initial state of the items table
