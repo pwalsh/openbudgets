@@ -40,7 +40,7 @@ define([
                 uuid = '';
             }
             if ( model.get('routing') ) {
-                model.get('routing', false);
+                model.set('routing', false);
             }
             else {
                 this.navigate(state_model.get('period') + '/' + uuid);
@@ -49,7 +49,7 @@ define([
 
         .listenTo(state_model, 'change:period', function (model, value) {
             if ( model.get('routing') ) {
-                model.get('routing', false);
+                model.set('routing', false);
             }
             else {
                 this.navigate(value + '/');
