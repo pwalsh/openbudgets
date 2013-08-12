@@ -3,6 +3,12 @@ define(function () {
     return [{
         type    : 'Button',
         config  : {
+            element     : '#right_edge_detector',
+            click_event : 'mouseover'
+        }
+    }, {
+        type    : 'Button',
+        config  : {
             element     : '#site_menu_open',
             click_event : 'mouseover'
         }
@@ -17,8 +23,9 @@ define(function () {
                 mouseleave  : 'sleep'
             },
             app_events      : {
-                'site_menu_open.clicked'    : 'wake',
-                'site_menu_close.clicked'   : 'sleep'
+                'site_menu_open.clicked'        : 'wake',
+                'right_edge_detector.clicked'   : 'wake',
+                'site_menu_close.clicked'       : 'sleep'
             }
         }
     }, {
