@@ -39,11 +39,21 @@ define([
             else {
                 uuid = '';
             }
-            this.navigate(state_model.get('period') + '/' + uuid);
+            if ( model.get('routing') ) {
+                model.get('routing', false);
+            }
+            else {
+                this.navigate(state_model.get('period') + '/' + uuid);
+            }
         })
 
         .listenTo(state_model, 'change:period', function (model, value) {
-            this.navigate(value + '/');
+            if ( model.get('routing') ) {
+                model.get('routing', false);
+            }
+            else {
+                this.navigate(value + '/');
+            }
         });
 
     var attributeNullifier = function (attr) {

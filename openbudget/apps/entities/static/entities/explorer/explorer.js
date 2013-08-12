@@ -37,14 +37,16 @@ define([
                 'entities/:entity/:period/' : function (entity, period) {
                     uijet.Resource('ItemsListState').set({
                         period  : +period,
-                        scope   : null
+                        scope   : null,
+                        routing : true
                     });
                 },
                 'entities/:entity/:period/:uuid/' : function (entity, period, uuid) {
                     var item = uijet.Resource('LatestSheet').findWhere({ uuid : uuid });
                     uijet.Resource('ItemsListState').set({
                         period  : +period,
-                        scope   : +(item || uijet.Resource('InitialItem')).get('node')
+                        scope   : +(item || uijet.Resource('InitialItem')).get('node'),
+                        routing : true
                     });
                 }
             }
