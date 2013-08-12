@@ -93,7 +93,7 @@
   padding-bottom: 18px;
   padding-left: 22px;
   background-color: #ffffff;
-  overflow: auto;
+  overflow: hidden;
 }
 #panel-main #aux {
   height: 4em;

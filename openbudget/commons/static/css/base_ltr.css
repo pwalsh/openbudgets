@@ -364,7 +364,7 @@ table {
   padding-bottom: 18px;
   padding-left: 22px;
   background-color: #ffffff;
-  overflow: auto;
+  overflow: hidden;
 }
 #panel-main #aux {
   height: 4em;
@@ -870,6 +870,10 @@ input.valid {
 #filter .arrow {
   content: 'this';
 }
+body,
+html {
+  overflow: hidden;
+}
 .hide {
   display: none !important;
 }
@@ -900,13 +904,11 @@ p {
 #text h2 {
   font-size: 2.75em;
   padding-bottom: 0.5em;
-  margin-left: 0.25em;
-  margin-bottom: 2em;
-  border-bottom: 1px solid #a1a1ba;
+  margin-bottom: 1em;
+  border-bottom: 1px solid #e8e8ed;
 }
 #text .full {
-  font-weight: bold;
-  margin-bottom: 2em;
+  margin-bottom: 2.75em;
   color: #141452;
   font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
 }
@@ -917,7 +919,7 @@ p {
   float: left;
   width: 580px;
   float: right;
-  margin-bottom: 1em;
+  margin-bottom: 2.75em;
   position: relative;
 }
 #text .section h3 {
