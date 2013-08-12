@@ -28,7 +28,7 @@
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico" />
 
         {% block js_head %}
-
+        <script src="//cdnjs.cloudflare.com/ajax/libs/raven.js/1.0.8/raven.min.js"></script>
         {% endblock js_head %}
     </head>
     <body class="{{ LANGUAGE_CODE }}{% if LANGUAGE_BIDI %} rtl{% else %} ltr{% endif %}">
