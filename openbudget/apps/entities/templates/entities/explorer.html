@@ -56,6 +56,7 @@
             </footer>
         </section>
         <section id="right_container" class="top_container">
+            <div id="right_edge_detector"></div>
             <span id="site_menu_open" class="small_heading">{% trans 'Open Muni Budget' %}</span>
             <h1 id="muni_name" class="right_menu_heading">{{ object.name }}</h1>
             <div id="site_menu">
@@ -96,7 +97,7 @@
             ITEM = {{ scope_item_json|safe }},
             ITEMS_LIST = {{ items_list_json|safe }};
     </script>
-    <script src="{% url 'projects_js_i18n' %}"></script>
+    <script src="{% url 'entities_js_i18n' %}"></script>
     <script src="{{ STATIC_URL }}lib/require.js" data-main="{{ STATIC_URL }}entities/explorer/main"></script>
 </body>
 </html>
