@@ -5,7 +5,8 @@ define([
     'composites/DropmenuButton',
     'composites/Select',
     'project_widgets/ClearableTextInput',
-    'project_widgets/FilterCrumb'
+    'project_widgets/FilterCrumb',
+    'project_mixins/Delayed'
 ], function (uijet, resources, explorer) {
 
     uijet.Resource('Breadcrumbs',
@@ -19,7 +20,7 @@ define([
             search  : null,
             sheet   : window.SHEET.id,
             period  : +window.SHEET.period,
-            scope   : window.ITEM.uuid || null
+            scope   : +window.ITEM.node || null
         }
     );
 
@@ -31,11 +32,9 @@ define([
             var uuid, item;
             if ( value ) {
                 item = uijet.Resource('LatestSheet').findWhere({ node : value }) ||
-                        uijet.Resource('Breadcrumbs').findWhere({ node : value });
-                uuid = item ?
-                    item.get('uuid') :
-                    window.ITEM.uuid;
-                uuid +=  '/';
+                        uijet.Resource('Breadcrumbs').findWhere({ node : value }) ||
+                        uijet.Resource('InitialItem');
+                uuid = item.get('uuid') + '/';
             }
             else {
                 uuid = '';
@@ -52,10 +51,7 @@ define([
                 this.resource.set(attr, null);
             };
         },
-        nullifySearchQuery = attributeNullifier('search'),
-        clearText = function () {
-            this.$content.text(gettext('Main'));
-        };
+        nullifySearchQuery = attributeNullifier('search');
 
     return [{
         type    : 'Select',
@@ -105,12 +101,11 @@ define([
             },
             app_events  : {
                 'items_list.scope_changed'      : function (scope_item_model) {
-                    if ( scope_item_model ) {
-                        this.$content.text(scope_item_model.get('name'));
-                    }
-                    else {
-                        clearText.call(this);
-                    }
+                    this.$content.text(
+                        scope_item_model ?
+                            scope_item_model.get('name') :
+                            gettext('Main')
+                    )
                 },
                 'filters_search_menu.selected'  : function (data) {
                     if ( data.type === 'search' )
@@ -127,21 +122,22 @@ define([
             element     : '#filters_search',
             click_event : 'mouseenter',
             dom_events  : {
-                mouseleave  : function (e) {
-                    this.publish('mouse_left');
-                },
                 click       : function () {
+                    this.sleep();
                     uijet.publish('filters_search_menu.selected', {
                         type: 'search'
                     });
                 }
             },
             signals     : {
+                post_init   : function () {
+                    this.$wrapper.on('mouseleave', this.publish.bind(this, 'mouse_left'));
+                },
                 pre_click   : 'cancel'
             },
             menu        : {
                 mixins          : ['Templated', 'Translated'],
-                float_position  : 'top: 3rem',
+                float_position  : 'top: 66px',
                 dom_events      : {
                     mouseleave  : function () {
                         this.mouse_over = false;
@@ -171,7 +167,8 @@ define([
                             type    : type,
                             value   : value
                         };
-                    }
+                    },
+                    post_select : 'sleep'
                 },
                 app_events      : {
                     'filters_search.mouse_left' : function () {
@@ -187,12 +184,18 @@ define([
                         }
                     }
                 }
+            },
+            app_events  : {
+                'items_search.entered'          : 'wake',
+                'items_search.cancelled'        : 'wake',
+                'filters_search_menu.selected'  : 'sleep'
             }
         }
     }, {
         type    : 'ClearableTextInput',
         config  : {
             element     : '#items_search',
+            mixins      : ['Delayed'],
             resource    : 'ItemsListState',
             dont_wake   : true,
             button      : {
@@ -234,7 +237,9 @@ define([
                     this.publish('changed', clean);
                     this.$shadow_text.text(val);
                     this.publish('move_button', val ? this.$shadow_text.width() : 0);
-                    this.resource.set({ search : clean });
+                    this.instead(function (search) {
+                        this.resource.set(search);
+                    }, 500, { search : clean });
                 }
             },
             signals     : {
@@ -247,7 +252,7 @@ define([
                     var initial = this.resource.get('search');
                     if ( initial === null ) {
                         initial = '';
-                        this.resource.set({ search : '' });
+                        this.resource.set({ search : null });
                     }
                     this.$element.val(initial);
                     this.$shadow_text.text(initial);
@@ -262,7 +267,7 @@ define([
             },
             app_events  : {
                 'items_search_clear.clicked'    : function () {
-                    this.resource.set({ search : '' });
+                    this.resource.set({ search : null });
                 },
                 'filters_search_menu.selected'  : function (data) {
                     if ( data.value )
@@ -273,6 +278,9 @@ define([
                 'items_search_exit.clicked'     : function () {
                     nullifySearchQuery.call(this);
                     this.publish('cancelled').sleep();
+                },
+                'search_crumb_remove.clicked'   : function () {
+                    this.resource.set('search', null);
                 }
             }
         }
@@ -298,6 +306,10 @@ define([
                 reset   : 'render'
             },
             signals     : {
+                post_init   : function () {
+                    // reset sticky children to only the "main" breadcrumb
+                    this.$original_children = this.$element.children().first();
+                },
                 post_wake   : function () {
                     return false;
                 },
@@ -307,13 +319,16 @@ define([
             },
             app_events  : {
                 'startup'                   : function () {
+                    var wake = false;
                     if ( this.resource.length ) {
                         // reset state
                         this.has_data = true;
-                        this.$original_children = this.$element.children().first();
-                        // and wake
-                        this.wake();
+                        wake = true
                     }
+                    else if ( uijet.Resource('InitialItem').has('node') ) {
+                        wake = true
+                    }
+                    wake && this.wake();
                 },
                 'items_list.scope_changed'  : function (scope_model) {
                     var ancestors;
@@ -358,16 +373,43 @@ define([
             },
             app_events  : {
                 'items_search.entered'          : function (query) {
-                    query !== null && this.wake();
+                    if ( query !== null ) {
+                        this.setContent(query);
+                        this.wake();
+                    }
                 },
                 'filters_search_menu.selected'  : function (data) {
                     if ( data.type === 'search' )
                         this.sleep();
                 },
-                'search.changed'                : function (data) {
-                    var query = data.args[1];
-                    this.setContent(query || '');
-                    query === null && this.sleep();
+                'search_crumb_remove.clicked'   : 'sleep'
+            }
+        }
+    }, {
+        type    : 'Pane',
+        config  : {
+            element     : '#items_list_footer',
+            signals     : {
+                post_init   : function () {
+                    this.$code = this.$element.find('.item_cell_code');
+                    this.$direction = this.$element.find('.item_cell_direction');
+                    this.$budget = this.$element.find('.item_cell_budget');
+                    this.$actual = this.$element.find('.item_cell_actual');
+                }
+            },
+            app_events  : {
+                'items_list.scope_changed'      : function (scope_item_model) {
+                    var scope, code = '', direction = '', budget = '', actual = '';
+                    if ( scope_item_model ) {
+                        code = scope_item_model.get('code');
+                        direction = scope_item_model.get('direction');
+                        budget = scope_item_model.get('budget');
+                        actual = scope_item_model.get('actual');
+                    }
+                    this.$code.text(code);
+                    this.$direction.text(direction);
+                    this.$budget.text(budget);
+                    this.$actual.text(actual);
                 }
             }
         }

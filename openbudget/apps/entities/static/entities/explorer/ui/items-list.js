@@ -1,10 +1,11 @@
 define([
     'uijet_dir/uijet',
     'resources',
-    'project_widgets/FilteredList',
     'controllers/ItemsList',
     'ui/sheet'
 ], function (uijet, resources) {
+
+    uijet.Resource('ItemsSearchResult', resources.Items);
 
     return [{
         type    : 'List',
@@ -25,7 +26,7 @@ define([
             }
         }
     }, {
-        type    : 'FilteredList',
+        type    : 'List',
         config  : {
             element         : '#items_list',
             mixins          : ['Templated', 'Scrolled'],
@@ -73,7 +74,9 @@ define([
                 post_init       : function () {
                     var state_model = uijet.Resource('ItemsListState');
 
+                    this.scope = uijet.Resource('InitialItem').get('node') || null;
                     this.resource.reset(this.resource.parse(window.ITEMS_LIST));
+                    this.index();
 
                     this.options.fetch_options.data.sheets = state_model.get('sheet');
                     
@@ -88,6 +91,19 @@ define([
                         this.wake({
                             scope   : scope || null
                         });
+                    })
+                    .listenTo(state_model, 'change:search', function (model, term) {
+                        var prev;
+                        if ( ! term ) {
+                            prev = state_model.previous('search');
+                            if ( ! prev ) {
+                                state_model.set('search', null, { silent : true });
+                                return;
+                            }
+                        }
+                        this.wake({
+                            search  : term
+                        });
                     });
                 },
                 pre_wake        : function () {
@@ -95,38 +111,39 @@ define([
                     if ( ! this.context ) return false;
 
                     var state = uijet.Resource('ItemsListState'),
-                        scope = this.context.scope || null,
-                        sheet = this.context.sheets;
-                    this.updateFlags(state.attributes);
+                        undef = void 0,
+                        scope = 'scope' in this.context ? this.context.scope || null : undef,
+                        sheet = this.context.sheets,
+                        search = this.context.search || state.get('search');
 
-                    if ( this.all_fetched ) {
-                        if ( this.active_filters ) {
-                            this.filter(this.resource.byAncestor)
-                        }
-                        else {
-                            this.filter(this.resource.roots);
-                        }
+                    this.search_active = !!search;
+
+                    delete this.filtered;
+                    this.has_data = false;
+                    if ( sheet ) {
+                        this.options.fetch_options.data.sheets = sheet;
+                    }
+                    if ( search ) {
+                        this.options.fetch_options.data.search = search;
+                        delete this.options.fetch_options.data.parents;
                     }
                     else {
-                        delete this.filtered;
-                        this.has_data = false;
-                        this.options.fetch_options.data.parents = scope || 'none';
-                        if ( sheet ) {
-                            this.options.fetch_options.data.sheets = sheet;
-                        }
+                        delete this.options.fetch_options.data.search;
+                        this.options.fetch_options.data.parents = (scope === undef ? this.scope : scope) || 'none';
                     }
-                    // change view back to main
-                    this.setScope(scope);
+                    // set scope if it's defined in the context
+                    scope !== undef && this.setScope(scope);
                 },
                 pre_update      : 'spin',
-                post_fetch_data : function () {
+                post_fetch_data : function (response) {
                     // after we had to reset because of sheet change make sure turn reset off again
                     if ( this.options.fetch_options.reset ) {
                         this.options.fetch_options.reset = false;
                     }
-                    if ( this.queued_filters ) {
-                        this.queued_filters = false;
-                        this.filter(this.resource.byAncestor);
+                    if ( this.search_active ) {
+                        this.filter(uijet.Resource('ItemsSearchResult')
+                            .reset(response.results)
+                            .byAncestor(this.scope));
                     }
                     else {
                         this.filter(this.resource.byParent, this.scope);
@@ -141,8 +158,14 @@ define([
                 },
                 post_render     : function () {
                     this.$children = this.$element.children();
-                    if ( this.active_filters ) {
-                        this.filterChildren();
+                    if ( this.search_active ) {
+                        var search_term = uijet.Resource('ItemsListState').get('search');
+
+                        this.publish('filter_count', this.$children.length)
+                            ._prepareScrolledSize();
+
+                        uijet.utils.requestAnimFrame( this.toggleHighlight.bind(this, search_term) );
+                        uijet.utils.requestAnimFrame( this.scroll.bind(this) );
                     }
                     else {
                         this.scroll();
@@ -151,35 +174,17 @@ define([
                     this._finally();
                 },
                 pre_select      : function ($selected, e) {
-                    var id = +$selected.attr('data-id');
-                    return id;
+                    return +$selected.attr('data-id');
                 },
                 post_select     : function ($selected) {
                     var node_id = typeof $selected == 'number' ?
-                        $selected :
-                        +$selected.attr('data-id') || null;
-                    this.all_fetched ?
-                        this.redraw(node_id) :
-                        this.wake({ scope : node_id });
-                },
-                post_filtered   : function (ids) {
-                    this.publish('filter_count', ids ? ids.length : null)
-                        ._prepareScrolledSize();
-
-                    var search_term = uijet.Resource('ItemsListState').get('search');
-                    uijet.utils.requestAnimFrame( this.toggleHighlight.bind(this, search_term) );
-                    uijet.utils.requestAnimFrame( this.scroll.bind(this) );
+                            $selected :
+                            +$selected.attr('data-id') || null;
+                    
+                    this.wake({ scope : node_id });
                 }
             },
             app_events      : {
-                'search.changed'                            : 'updateSearchFilter+',
-                'items_list.filtered'                       : 'filterChildren',
-                'item_breadcrumb_main.clicked'              : function () {
-                    this.redraw(null);
-                },
-                'item_breadcrumb_back.clicked'              : function (data) {
-                    this.redraw(data.context.id);
-                },
                 'items_breadcrumbs.selected'                : 'post_select+',
                 'items_breadcrumbs_history_menu.selected'   : 'post_select+',
                 'items_list_header.selected'                : 'sortItems+'

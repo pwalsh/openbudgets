@@ -42,6 +42,14 @@
                     {{ items_list|safe }}
                 </ul>
             </section>
+            <footer id="items_list_footer">
+                <span class="item_cell item_cell_type"></span>
+                <span class="item_cell item_cell_code">{{ scope_item.code }}</span>
+                <span class="item_cell item_cell_name"></span>
+                <span class="item_cell item_cell_direction">{{ scope_item.direction }}</span>
+                <span class="item_cell item_cell_budget">{{ scope_item.budget }}</span>
+                <span class="item_cell item_cell_actual">{{ scope_item.actual }}</span>
+            </footer>
         </section>
         <section id="right_container" class="top_container">
             <span id="site_menu_open" class="small_heading">{% trans 'Open Muni Budget' %}</span>

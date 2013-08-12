@@ -44,7 +44,7 @@ define([
                     var item = uijet.Resource('LatestSheet').findWhere({ uuid : uuid });
                     uijet.Resource('ItemsListState').set({
                         period  : +period,
-                        scope   : item ? item.get('node') : +window.ITEM.node
+                        scope   : +(item || uijet.Resource('InitialItem')).get('node')
                     });
                 }
             }
@@ -80,6 +80,7 @@ define([
              * Register resources
              */
             uijet.Resource('LatestSheet', resources.Items);
+            uijet.Resource('InitialItem', resources.Item, window.ITEM);
 
             /*
              * Register handlers to events in UI

@@ -151,10 +151,12 @@ class EntityDetail(DetailView):
             context['items_breadcrumbs'] = render_to_string('items_breadcrumbs.ms', {
                 'stache': scope_item_serialized['ancestors']
             })
+            context['scope_item'] = scope_item_serialized
             context['scope_name'] = scope_item_serialized['name']
         else:
             context['scope_item_json'] = '{}'
             context['items_breadcrumbs'] = ''
+            context['scope_item'] = {}
             context['scope_name'] = _('Main')
 
         # rendering initial state of the items table
