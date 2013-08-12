@@ -86,8 +86,12 @@ define([
                 }
             },
             app_events  : {
-                'sheet_selector_menu.opened': 'activate',
-                'sheet_selector_menu.closed': 'deactivate'
+                'sheet_selector_menu.opened'    : 'activate',
+                'sheet_selector_menu.closed'    : 'deactivate',
+                'filters_search_menu.selected'  : 'sleep',
+                'items_search.entered'          : 'wake',
+                'items_search.cancelled'        : 'wake',
+                'search_crumb_remove.clicked'   : 'wake'
             }
         }
     }, {
