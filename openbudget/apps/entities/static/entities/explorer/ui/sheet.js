@@ -61,7 +61,29 @@ define([
                 this.resource.set(attr, null);
             };
         },
-        nullifySearchQuery = attributeNullifier('search');
+        nullifySearchQuery = attributeNullifier('search'),
+        footerContentHandler = function (scope_item_model) {
+            var roots, code = '', direction = '', budget = '', actual = '';
+            if ( scope_item_model ) {
+                code = scope_item_model.get('code');
+                direction = scope_item_model.get('direction');
+                budget = scope_item_model.get('budget');
+                actual = scope_item_model.get('actual');
+            }
+            else if ( scope_item_model === null ) {
+                roots = uijet.Resource('LatestSheet').roots();
+                budget = roots.reduce(function (prev, current) {
+                    return (typeof prev == 'number' ? prev : prev.get('budget')) + current.get('budget');
+                });
+                actual = roots.reduce(function (prev, current) {
+                    return (typeof prev == 'number' ? prev : prev.get('actual')) + current.get('actual');
+                });
+            }
+            this.$code.text(code);
+            this.$direction.text(direction);
+            this.$budget.text(budget);
+            this.$actual.text(actual);
+        };
 
     return [{
         type    : 'Select',
@@ -91,7 +113,7 @@ define([
                 post_select : function ($selected) {
                     this.resource.set({
                         sheet   : +$selected.attr('data-id'),
-                        period  : +$selected.text()  
+                        period  : +$selected.text()
                     });
                 }
             },
@@ -403,6 +425,7 @@ define([
         type    : 'Pane',
         config  : {
             element     : '#items_list_footer',
+            resource    : 'ItemsListState',
             signals     : {
                 post_init   : function () {
                     this.$code = this.$element.find('.item_cell_code');
@@ -412,19 +435,8 @@ define([
                 }
             },
             app_events  : {
-                'items_list.scope_changed'      : function (scope_item_model) {
-                    var scope, code = '', direction = '', budget = '', actual = '';
-                    if ( scope_item_model ) {
-                        code = scope_item_model.get('code');
-                        direction = scope_item_model.get('direction');
-                        budget = scope_item_model.get('budget');
-                        actual = scope_item_model.get('actual');
-                    }
-                    this.$code.text(code);
-                    this.$direction.text(direction);
-                    this.$budget.text(budget);
-                    this.$actual.text(actual);
-                }
+                'items_list.scope_changed'  : footerContentHandler,
+                'items_list.sheet_changed'  : footerContentHandler
             }
         }
     }];

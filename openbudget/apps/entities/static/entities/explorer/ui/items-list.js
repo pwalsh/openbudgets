@@ -121,6 +121,7 @@ define([
                     delete this.filtered;
                     this.has_data = false;
                     if ( sheet ) {
+                        this.sheet_changed = true;
                         this.options.fetch_options.data.sheets = sheet;
                     }
                     if ( search ) {
@@ -136,6 +137,7 @@ define([
                 },
                 pre_update      : 'spin',
                 post_fetch_data : function (response) {
+                    var scope_changed = this.scope_changed;
                     // after we had to reset because of sheet change make sure turn reset off again
                     if ( this.options.fetch_options.reset ) {
                         this.options.fetch_options.reset = false;
@@ -149,9 +151,13 @@ define([
                         this.filter(this.resource.byParent, this.scope);
                     }
 
-                    if ( this.scope_changed ) {
+                    if ( scope_changed ) {
                         this.scope_changed = false;
                         this._publishScope();
+                    }
+                    if ( this.sheet_changed ) {
+                        this.sheet_changed = false;
+                        scope_changed || this.publish('sheet_changed', null);
                     }
 
                     this.spinOff();
