@@ -191,7 +191,7 @@
             $('#panel-nav').hide();
         });
     
-        $('#nav-panel-close').click(function () {
+        $('#panel-nav-close').click(function () {
             $('#panel-nav').hide();
         });
     

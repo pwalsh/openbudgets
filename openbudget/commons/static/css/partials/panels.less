@@ -10,16 +10,26 @@
 
 #panel-nav {
     .panel(300px);
-    .padding(18px 16px 18px 50px);
+    .padding(20px; 20px; 20px; 40px);
     .background-color(@panel-nav);
-    z-index: 99;
     display: none;
+    z-index: 99;
     position: fixed;
     top: 0;
     cursor: pointer;
 
     #app_logo {
-        .padding-vertical(35px);
+        .padding(16px; 0; 78px; 0);
+        position: relative;
+
+        #panel-nav-close {
+            background: url('/static/img/panel_nav_close.png') no-repeat;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 17px;
+            height: 17px;
+        }
     }
 
     header {
@@ -29,10 +39,14 @@
             a {
                 .display-block;
                 .biggest-text;
-                line-height: @unit-em;
+                line-height: @unit-em * 1.25em;
                 color: @white;
                 text-decoration: none;
-                .padding-bottom(26px);
+                font-weight: normal;
+
+                &:hover {
+                    .color(@stronggreen);
+                }
             }
         }
     }
@@ -41,14 +55,37 @@
         position: absolute;
         left: 40;
         bottom: 0;
-        height: @unit-em * 5;
+        height: @unit-em * 6;
         .font-size(@unit-em);
 
+        #sponsor_logo {
+            .layout-object(78px);
+            .margin-bottom(12px);
+
+            a {
+                .color(@stronggreen);
+                .font-size(11px);
+                .bold;
+                text-decoration: none;
+            }
+
+            .img, .name {
+                .-float;
+                .width(30px);
+                .padding-left(@unit-em * 0.25);
+            }
+
+            .name {
+                line-height: 0.925em;
+            }
+
+        }
+
         nav a {
-            font-weight: bold;
-            text-decoration: none;
+            .font-size(12px);
+            line-height: 1em;
             .display-inline-block;
-            .padding-right(26px);
+            .padding-right(12px);
             color: @stronggreen;
         }
     }
@@ -56,7 +93,7 @@
 
 #panel-action {
     .panel(300px);
-    .padding(18px; 16px; 18px; 40px);
+    .padding(20px; 16px; 20px; 40px);
     .background-color(@panel-action);
 
     h1 {
@@ -70,16 +107,15 @@
 
         a {
             text-decoration: none;
-            font-weight: bold;
         }
     }
 }
 
 #panel-main {
     .panel(880px);
-    .padding(18px; 22px; 18px; 22px);
+    .padding(20px; 22px; 20px; 22px);
     .background-color(@panel-main);
-    .overflow();
+    .overflow(hidden);
 
     #aux {
         .height(@unit-em * 4);

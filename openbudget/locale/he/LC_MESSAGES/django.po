@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-08 23:37+0300\n"
+"POT-Creation-Date: 2013-08-12 08:01+0300\n"
 "PO-Revision-Date: 2013-05-23 17:58+0000\n"
 "Last-Translator: Ram Ezrach <ram.ezrach@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,7 +74,8 @@ msgstr "מסמכי Grappelli"
 msgid "Open Budget Repository"
 msgstr "מאגר התקציב הפתוח"
 
-#: dashboard.py:104 apps/entities/templates/entities/explorer.html:61
+#: dashboard.py:104 apps/entities/templates/entities/explorer.html:69
+#: commons/templates/partials/nav-panel.html:37
 msgid "Credits"
 msgstr "קרדיטים"
 
@@ -464,11 +465,11 @@ msgstr "קוד"
 msgid "An identifying code for this entity."
 msgstr "קוד מקוצר רשמי של הרשות"
 
-#: apps/entities/models.py:208
+#: apps/entities/models.py:213
 msgid "entity"
 msgstr "רשות"
 
-#: apps/entities/models.py:209
+#: apps/entities/models.py:214
 msgid "entities"
 msgstr "רשויות"
 
@@ -513,8 +514,6 @@ msgid "Municipalities"
 msgstr "רשויות"
 
 #: apps/entities/templates/entities/entity_list.html:21
-#: apps/pages/templates/pages/page.html:15
-#: apps/pages/templates/pages/page.html:21
 msgid "Soon"
 msgstr "בקרוב"
 
@@ -526,7 +525,7 @@ msgid "Budget"
 msgstr "תקציב"
 
 #: apps/entities/templates/entities/explorer.html:22
-#: apps/entities/templates/entities/explorer.html:25
+#: apps/entities/views/ui.py:160
 msgid "Main"
 msgstr "ראשי"
 
@@ -544,40 +543,40 @@ msgstr "כיוון"
 msgid "Actual"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:47
+#: apps/entities/templates/entities/explorer.html:55
 msgid "Open Muni Budget"
 msgstr "תקציב מקומי פתוח"
 
-#: apps/entities/templates/entities/explorer.html:52
-#: commons/templates/partials/nav-panel.html:12
+#: apps/entities/templates/entities/explorer.html:60
+#: commons/templates/partials/nav-panel.html:13
 msgid "Home"
-msgstr "בית"
+msgstr "דף הבית"
 
-#: apps/entities/templates/entities/explorer.html:53
+#: apps/entities/templates/entities/explorer.html:61
 msgid "Munis"
 msgstr "רשויות"
 
-#: apps/entities/templates/entities/explorer.html:54
+#: apps/entities/templates/entities/explorer.html:62
 #: apps/projects/models.py:62
 #: apps/projects/templates/projects/project_list.html:6
-#: commons/templates/partials/nav-panel.html:14
+#: commons/templates/partials/nav-panel.html:15
 msgid "Projects"
 msgstr "פרויקטים"
 
-#: apps/entities/templates/entities/explorer.html:55
+#: apps/entities/templates/entities/explorer.html:63
 #: apps/sources/templates/sources/auxsource_detail.html:22
 #: apps/sources/templates/sources/referencesource_detail.html:22
-#: commons/templates/partials/nav-panel.html:15
+#: commons/templates/partials/nav-panel.html:16
 msgid "About"
 msgstr "אודות"
 
-#: apps/entities/templates/entities/explorer.html:59
+#: apps/entities/templates/entities/explorer.html:67
 #: commons/templates/partials/nav-panel.html:33
 msgid "API"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:60
-#: commons/templates/partials/nav-panel.html:35
+#: apps/entities/templates/entities/explorer.html:68
+#: commons/templates/partials/nav-panel.html:36
 msgid "Terms"
 msgstr "תנאים"
 
@@ -716,10 +715,6 @@ msgstr "עמודים"
 #: apps/pages/templates/pages/home.html:9
 msgid "Welcome to Open Budget"
 msgstr "ברוכים הבאים לתקציב הפתוח"
-
-#: apps/pages/templates/pages/page.html:12 settings/base.py:325
-msgid "Open Local Budgets"
-msgstr "התקציב המקומי הפתוח"
 
 #: apps/projects/models.py:29
 msgid "Provide a short description of this project"
@@ -1498,17 +1493,21 @@ msgstr "עמוד"
 msgid "Next"
 msgstr "הבא"
 
-#: commons/templates/partials/nav-panel.html:13
+#: commons/templates/partials/nav-panel.html:14
 msgid "Entities"
 msgstr "רשויות"
 
-#: commons/templates/partials/nav-panel.html:34
-msgid "Privacy"
-msgstr "פרטיות"
+#: commons/templates/partials/nav-panel.html:28 settings/base.py:329
+msgid "Public Knowledge Workshop"
+msgstr "הסדנא לידע ציבורי"
 
-#: commons/templates/partials/nav-panel.html:36
+#: commons/templates/partials/nav-panel.html:34
 msgid "Contact"
 msgstr "צור קשר"
+
+#: commons/templates/partials/nav-panel.html:35
+msgid "Privacy"
+msgstr "פרטיות"
 
 #: commons/templates/registration/activate.html:6
 #: commons/templates/registration/activation_complete.html:6
@@ -1761,6 +1760,10 @@ msgstr "ערבית"
 #: settings/base.py:45
 msgid "Russian"
 msgstr "רוסית"
+
+#: settings/base.py:327
+msgid "Open Local Budgets"
+msgstr "התקציב המקומי הפתוח"
 
 #~ msgid "contact us"
 #~ msgstr "צור קשר"
