@@ -74,23 +74,43 @@ define([
                 post_init       : function () {
                     var state_model = uijet.Resource('ItemsListState');
 
-                    this.scope = uijet.Resource('InitialItem').get('node') || null;
+                    this.scope = window.ITEM.node || null;
                     this.resource.reset(this.resource.parse(window.ITEMS_LIST));
                     this.index();
 
                     this.options.fetch_options.data.sheets = state_model.get('sheet');
                     
                     this.listenTo(state_model, 'change:sheet', function (model, value) {
-                        this.options.fetch_options.reset = true;
+                        var prev = model.previous('sheet'), prev_sheets, prev_sheet;
+
+                        // make sure we cache the previous sheet
+                        if ( prev ) {
+                            prev_sheets = uijet.Resource('PreviousSheets');
+
+                            // assigning in purpose to reuse as previous sheet
+                            if ( prev_sheet = prev_sheets.get(prev) ) {
+                                // update cache of previous Items collection with current LatestSheet state
+                                prev_sheet.get('items').set(this.resource.models, { remove : false });
+                            }
+                            else {
+                                prev_sheets.add({
+                                    id      : prev,
+                                    items   : this.resource.clone()
+                                });
+                            }
+                        }
+
                         this.wake({
                             sheets  : value,
-                            scope   : null
+                            scope   : model.hasChanged('scope') ? model.get('scope') : null
                         });
                     })
                     .listenTo(state_model, 'change:scope', function (model, scope) {
-                        this.wake({
-                            scope   : scope || null
-                        });
+                        if ( ! model.hasChanged('sheet') ) {
+                            this.wake({
+                                scope   : scope || null
+                            });
+                        }
                     })
                     .listenTo(state_model, 'change:search', function (model, term) {
                         var prev;
@@ -114,16 +134,36 @@ define([
                         undef = void 0,
                         scope = 'scope' in this.context ? this.context.scope || null : undef,
                         sheet = this.context.sheets,
-                        search = this.context.search || state.get('search');
+                        search = this.context.search || state.get('search'),
+                        prev_sheet;
+
+                    if ( sheet && (prev_sheet = uijet.Resource('PreviousSheets').get(sheet)) ) {
+                        this.resource = prev_sheet.get('items');
+                        // register current collection as the new instance
+                        uijet.Resource('LatestSheet', this.resource, true);
+                        scope = scope === -1 ?
+                            this.resource.findWhere({ uuid : state.get('uuid') }).get('node') :
+                            scope;
+                    }
+                    // if for some reason scope is still unknown reset it to `null`
+                    if ( scope === -1 ) {
+                        scope = null;
+                    }
 
                     this.search_active = !!search;
 
                     delete this.filtered;
                     this.has_data = false;
+
                     if ( sheet ) {
                         this.sheet_changed = true;
+                        if ( ! prev_sheet ) {
+                            // reuse this collection
+                            this.options.fetch_options.reset = true;
+                        }
                         this.options.fetch_options.data.sheets = sheet;
                     }
+
                     if ( search ) {
                         this.options.fetch_options.data.search = search;
                         delete this.options.fetch_options.data.parents;
@@ -132,6 +172,7 @@ define([
                         delete this.options.fetch_options.data.search;
                         this.options.fetch_options.data.parents = (scope === undef ? this.scope : scope) || 'none';
                     }
+
                     // set scope if it's defined in the context
                     scope !== undef && this.setScope(scope);
                 },
@@ -187,7 +228,7 @@ define([
                             $selected :
                             +$selected.attr('data-id') || null;
                     
-                    this.wake({ scope : node_id });
+                    uijet.Resource('ItemsListState').set('scope', node_id);
                 }
             },
             app_events      : {

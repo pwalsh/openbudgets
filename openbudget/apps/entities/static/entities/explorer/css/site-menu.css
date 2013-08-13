@@ -1,25 +1,8 @@
-.site_menu_item {
-    display: block;
-    margin-bottom: 20px;
-    font-size: 3.261rem;
-    line-height: 100%;
-    color: white;
-}
-.site_menu_footer_item {
-    display: inline-block;
-    font-size: 1.3em;
-    color: #1d7680;
-}
-.site_menu_footer_item + .site_menu_footer_item {
-    margin-right: 1.5rem;
-}
+@import url('/static/css/partials/rtl/panels.css');
 
-#hasadna_link {
-    float: right;
-    width: 87px;
-    height: 31px;
-    margin-top: -70px;
-    background: url(../img/sadna30x30_green.png) center no-repeat;
+/** patching panels.css */
+#panel-nav footer a#sponsor_logo {
+    float: none;
 }
 
 #right_edge_detector {
@@ -31,40 +14,26 @@
     height: 100%;
 }
 
-#site_menu {
+#panel-nav {
     position: absolute;
     top: 0;
-    left: 0;
+    right: -300px;
+    float: none;
     z-index: 1001;
-    width: 100%;
+    width: 300px;
     height: 100%;
-    padding: 169px 50px 35px;
-    background: #00ccc2 url(../img/logo_for_cover.png) 69px 35px no-repeat;
     -webkit-transition-duration: 100ms;
 }
-#site_menu.slide_out {
+#panel-nav.slide_out {
     -webkit-transition-timing-function: ease-in;
 }
-#site_menu.slide_in {
+#panel-nav.slide_in {
     -webkit-transition-timing-function: ease-out;
-}
-#site_menu footer {
-    position: absolute;
-    bottom: 18px;
-    left: 0;
-    right: 0;
-    height: auto;
-    padding-right: 50px;
-    text-align: right;
-}
-#site_menu_close {
-    position: absolute;
-    top: 18px;
-    left: 18px;
-    width: 14px;
-    height: 14px;
-    padding: 0;
-    background: url(../img/x_icon_for_cover.png) center no-repeat;
+    -webkit-transform: translate3d(-300px,0,0);
+    -moz-transform: translate(-300px,0);
+    -ms-transform: translate(-300px,0);
+    -o-transform: translate(-300px,0);
+    transform: translate(-300px,0);
 }
 #site_menu_open {
     position: absolute;

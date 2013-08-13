@@ -171,11 +171,22 @@ define([
                 }
                 return branch || [];
             }
+        }),
+        Sheet = uijet.Model({
+            idAttribute : 'id'
+        }),
+        /*
+         * Collection of SheetItems collections
+         */
+        Sheets = uijet.Collection({
+            model   : Sheet
         });
 
     return {
         Item    : Item,
         Items   : Items,
+        Sheet   : Sheet,
+        Sheets  : Sheets,
         utils   : {
             reverseSorting  : reverseSorting,
             nestingSort     : nestingSort

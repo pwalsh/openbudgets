@@ -59,22 +59,12 @@
             <div id="right_edge_detector"></div>
             <span id="site_menu_open" class="small_heading">{% trans 'Open Muni Budget' %}</span>
             <h1 id="muni_name" class="right_menu_heading">{{ object.name }}</h1>
-            <div id="site_menu">
-                <span id="site_menu_close"></span>
-                <div id="site_menu_items">
-                    <a href="/" class="site_menu_item">{% trans 'Home' %}</a>
-                    <a href="/entities" class="site_menu_item">{% trans 'Munis' %}</a>
-                    <a href="/projects" class="site_menu_item">{% trans 'Projects' %}</a>
-                    <a href="/about" class="site_menu_item">{% trans 'About' %}</a>
-                </div>
-                <footer>
-                    <a href="http://http://www.hasadna.org.il/" id="hasadna_link"></a>
-                    <a href="api.dev.openmuni.org.il/" class="site_menu_footer_item">{% trans 'API' %}</a>
-                    <a href="/terms" class="site_menu_footer_item">{% trans 'Terms' %}</a>
-                    <a href="/privacy" class="site_menu_footer_item">{% trans 'Credits' %}</a>
-                </footer>
-            </div>
         </section>
+
+        <div id="panel-nav">
+            {% include 'partials/nav-panel.html' %}
+        </div>
+
         {% block overlays %}
 
             <div id="overlay"></div>
