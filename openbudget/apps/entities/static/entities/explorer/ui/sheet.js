@@ -18,6 +18,10 @@ define([
                 navigate = false,
                 period, scope, uuid, item;
 
+            // sometimes search is changed to '' and then immediately and silently cleaned back to `null`
+            if ( ! changes )
+                return;
+
             if ( changes.routed ) {
                 model.set('routed', false, { silent : true });
                 return;
@@ -266,13 +270,15 @@ define([
                 },
                 'default'   : function (e) {
                     var val = e.target.value,
-                        clean = val.trim();
+                        clean = val.trim(),
+                        delay = clean.length > 1 ? 500 : 1500;
+
                     this.publish('changed', clean);
                     this.$shadow_text.text(val);
                     this.publish('move_button', val ? this.$shadow_text.width() : 0);
                     this.instead(function (search) {
                         this.resource.set(search);
-                    }, 500, { search : clean });
+                    }, delay, { search : clean });
                 }
             },
             signals     : {
