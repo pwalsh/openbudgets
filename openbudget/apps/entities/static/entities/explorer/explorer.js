@@ -31,27 +31,70 @@ define([
     // get version endpoint
     api.getVersion();
 
+    /*
+     * Register resources
+     */
+    uijet
+    .Resource('Breadcrumbs',
+        uijet.Collection({
+            model   : resources.Item
+        }),
+        window.ITEM.ancestors || []
+    )
+    .Resource('ItemsListState',
+        uijet.Model(), {
+            search  : null,
+            sheet   : window.SHEET.id,
+            period  : +window.SHEET.period,
+            scope   : +window.ITEM.node || null
+        }
+    )
+    .Resource('LatestSheet', resources.Items)
+    .Resource('PreviousSheets', resources.Sheets);
+
+    if ( window.ITEM.id ) {
+        // add initial item to LatestSheet
+        uijet.Resource('LatestSheet').add(window.ITEM);
+    }
+
     explorer = {
-        router          : Router({
+        router      : Router({
             routes  : {
+                'entities/:entity/' : function (entity) {
+                    this.navigate(uijet.Resource('ItemsListState').get('period') + '/', { 
+                        replace : true,
+                        silent  : true
+                    });
+                },
                 'entities/:entity/:period/' : function (entity, period) {
                     uijet.Resource('ItemsListState').set({
                         period  : +period,
                         scope   : null,
-                        routing : true
+                        routed  : true
                     });
                 },
                 'entities/:entity/:period/:uuid/' : function (entity, period, uuid) {
-                    var item = uijet.Resource('LatestSheet').findWhere({ uuid : uuid });
+                    var item = uijet.Resource('LatestSheet').findWhere({ uuid : uuid }),
+                        scope;
+
+                    if ( ! item ) {
+                        scope = -1;
+                    }
+                    else {
+                        scope = +item.get('node');
+                    }
+
                     uijet.Resource('ItemsListState').set({
+                        sheet   : explorer.getSheetId(period),
                         period  : +period,
-                        scope   : +(item || uijet.Resource('InitialItem')).get('node'),
-                        routing : true
+                        scope   : scope,
+                        uuid    : uuid,
+                        routed  : true
                     });
                 }
             }
         }),
-        start           : function (options) {
+        start       : function (options) {
             /*
              * Get an OAuth2 token
              */
@@ -78,11 +121,6 @@ define([
                     routes_deferred.resolve();
                 }
             });
-            /*
-             * Register resources
-             */
-            uijet.Resource('LatestSheet', resources.Items);
-            uijet.Resource('InitialItem', resources.Item, window.ITEM);
 
             /*
              * Register handlers to events in UI
@@ -91,8 +129,7 @@ define([
                 explorer.routes_set_promise.then(function () {
                     Backbone.history.start({
                         pushState   : true,
-                        root        : '/entities/' + window.ENTITY.slug + '/',
-                        silent      : true
+                        root        : '/entities/' + window.ENTITY.slug + '/'
                     });
                 });
             })
@@ -105,6 +142,11 @@ define([
                 templates_path      : '/static/entities/explorer/templates/',
                 templates_extension : 'ms'
             });
+        },
+        getSheetId  : function (period) {
+            return +window.ENTITY.sheets.filter(function (sheet) {
+                return sheet.period == period;
+            })[0].id;
         }
     };
 

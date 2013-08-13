@@ -9,50 +9,49 @@ define([
     'project_mixins/Delayed'
 ], function (uijet, resources, explorer) {
 
-    uijet.Resource('Breadcrumbs',
-            uijet.Collection({
-            model   : resources.Item
-        }),
-        window.ITEM.ancestors || []
-    )
-    .Resource('ItemsListState',
-        uijet.Model(), {
-            search  : null,
-            sheet   : window.SHEET.id,
-            period  : +window.SHEET.period,
-            scope   : +window.ITEM.node || null
-        }
-    );
-
     var state_model = uijet.Resource('ItemsListState');
 
     explorer.router
 
-        .listenTo(state_model, 'change:scope', function (model, value) {
-            var uuid, item;
-            if ( value ) {
-                item = uijet.Resource('LatestSheet').findWhere({ node : value }) ||
-                        uijet.Resource('Breadcrumbs').findWhere({ node : value }) ||
-                        uijet.Resource('InitialItem');
-                uuid = item.get('uuid') + '/';
-            }
-            else {
-                uuid = '';
-            }
-            if ( model.get('routing') ) {
-                model.set('routing', false);
-            }
-            else {
-                this.navigate(state_model.get('period') + '/' + uuid);
-            }
-        })
+        .listenTo(state_model, 'change', function (model, options) {
+            var changes = model.changedAttributes(),
+                navigate = false,
+                period, scope, uuid, item;
 
-        .listenTo(state_model, 'change:period', function (model, value) {
-            if ( model.get('routing') ) {
-                model.set('routing', false);
+            if ( changes.routed ) {
+                model.set('routed', false, { silent : true });
+                return;
+            }
+
+            if ( 'period' in changes ) {
+                navigate = true;
+                period = changes.period;
             }
             else {
-                this.navigate(value + '/');
+                period = model.get('period');
+            }
+
+            if ( 'scope' in changes ) {
+                navigate = true;
+                scope = changes.scope;
+            }
+            else if ( navigate ) {
+                scope = null;
+            } 
+            else {
+                scope = model.get('scope');
+            }
+
+            if ( navigate ) {
+                if ( scope ) {
+                    item = uijet.Resource('LatestSheet').findWhere({ node : scope }) ||
+                            uijet.Resource('Breadcrumbs').findWhere({ node : scope });
+                    uuid = item.get('uuid') + '/';
+                }
+                else {
+                    uuid = '';
+                }
+                this.navigate(period + '/' + uuid);
             }
         });
 
@@ -103,9 +102,7 @@ define([
             sync        : true,
             data_events : {
                 'change:period'  : function (model, period) {
-                    var id = window.ENTITY.sheets.filter(function (sheet) {
-                            return sheet.period == period;
-                        })[0].id;
+                    var id = explorer.getSheetId(period);
                     this.select(this.$element.find('[data-id=' + id + ']'));
                 }
             },
@@ -361,7 +358,7 @@ define([
                         this.has_data = true;
                         wake = true
                     }
-                    else if ( uijet.Resource('InitialItem').has('node') ) {
+                    else if ( window.ITEM.node ) {
                         wake = true
                     }
                     wake && this.wake();
