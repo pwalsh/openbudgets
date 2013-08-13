@@ -10,6 +10,9 @@ em {
     color: #ff0059;
     font-style: normal;
 }
+h1,h2, h3, header nav a {
+    font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
+}
 input, textarea {
     font: 13px/1.231 Arial, sans-serif;
     color: #141450;

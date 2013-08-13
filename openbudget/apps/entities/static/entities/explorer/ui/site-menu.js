@@ -15,7 +15,7 @@ define(function () {
     }, {
         type    : 'Pane',
         config  : {
-            element         : '#site_menu',
+            element         : '#panel-nav',
             mixins          : ['Transitioned'],
             dont_wake       : true,
             animation_type  : 'slide',
@@ -25,13 +25,13 @@ define(function () {
             app_events      : {
                 'site_menu_open.clicked'        : 'wake',
                 'right_edge_detector.clicked'   : 'wake',
-                'site_menu_close.clicked'       : 'sleep'
+                'panel-nav-close.clicked'       : 'sleep'
             }
         }
     }, {
         type    : 'Button',
         config  : {
-            element : '#site_menu_close'
+            element : '#panel-nav-close'
         }
     }];
 
