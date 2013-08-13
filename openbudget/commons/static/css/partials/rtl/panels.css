@@ -21,6 +21,7 @@
   padding-bottom: 20px;
   padding-left: 40px;
   background-color: #00ccc2;
+  display: none;
   z-index: 99;
   position: fixed;
   top: 0;
@@ -106,7 +107,7 @@
   background-color: #d0d0dc;
 }
 #panel-action h1 {
-  margin-top: 1em;
+  margin-top: 0.9em;
   font-size: 2.75em;
 }
 #panel-action #nav-anchor {
@@ -174,7 +175,7 @@
 }
 #panel-append {
   padding-top: 0;
-  padding-right: 2px;
-  padding-bottom: 18px;
+  padding-right: 20px;
+  padding-bottom: 20px;
   padding-left: 0;
 }

@@ -4,25 +4,24 @@
 
 /* The background for all overlay objects */
 #overlay {
-    display: none;
-    position: fixed;
-    cursor: pointer;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: black;
+    .display(none);
+    .position(absolute);
+    .coordinates(@top: 0);
+    .width(100%);
+    .height(100%);
+    .background-color(@black);
     opacity: 0.5;
 }
 
 /* A mixin that declares the base style of all overlay objects */
-.overlay-object(@top: 25%, @left: 35%) {
-    .layout-object(290px);
+.overlay-object(@width: 50%; @height: 50%) {
+    .layout-object(@width);
+    .height(@height);
+    .position(absolute);
+    .coordinates(0; 0; 0; 0);
+    .display(none);
+    .margin-all(auto);
     .background-color(@modal);
-    display: none;
-    height: auto;
-    position: fixed;
-    top: @top;
-    left: @left;
 
     h3, .notices, .options {
         .padding-horizontal(18px);
@@ -32,48 +31,34 @@
         .padding-top(@unit-em / 2);
         .margin-bottom(0);
         .font-size(@unit-em);
-        font-weight: bold;
+        .bold;
     }
 
     a {
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 0.875em;
+        .text-decoration;
+        .bold;
+        .font-size(0.875em);
 
         &.weak {
-            color: darken(@grey, 15%);
+            .color(darken(@grey, 15%));
         }
 
         &.strong {
-            color: @color-link;
+            .color(@color-link);
         }
     }
 
     .notices {
         .layout-object(70%);
-        color: @color-text-alert;
-        font-size: 0.75em;
-        height: 2.5em;
-        line-height: 3.5em;
+        .color(@color-text-alert);
+        .font-size(0.75em);
+        .height(2.5em);
+        .line-height(3.5em);
     }
 
     .action {
         .layout-object(30%);
-        position: relative;
-    }
-
-    /* Disabled inputs don't catch events.
-    We place this on top of the action,
-    as long as the submit is disabled
-    */
-    .disabled-event-catcher {
-        position: absolute;
-        cursor: pointer;
-        height: 2em;
-        top: 0;
-        left: 0;
-        left: 0;
-        width: 100%;
+        .position(relative);
     }
 
     .options {
@@ -82,25 +67,25 @@
         .height(2em);
 
         &:last-of-type {
-            text-align: right;
+            .text-align(right);
         }
     }
 }
 
 #overlay-login {
-    .overlay-object();
+    .overlay-object(290px; 180px);
 }
 
 #overlay-register {
-    .overlay-object();
+    .overlay-object(290px; 300px);
 }
 
 #overlay-password-reset {
-    .overlay-object();
+    .overlay-object(290px; 140px);
 }
 
 #overlay-password-change {
-    .overlay-object();
+    .overlay-object(290px; 300px);
 }
 
 

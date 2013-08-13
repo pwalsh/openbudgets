@@ -177,8 +177,6 @@
     
     }());
 
-
-
     // NAV PANEL UX
     (function () {
     
@@ -199,12 +197,11 @@
 
     // USER PANEL UX
     (function () {
-    
+
         $('.account').hover(function (event) {
-            event.preventDefault();
             $('.actions').toggle();
         });
-    
+
     }());
 
 }));

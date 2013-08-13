@@ -11,12 +11,14 @@
 /* The background for all overlay objects */
 #overlay {
   display: none;
-  position: fixed;
-  cursor: pointer;
+  position: absolute;
   top: 0;
+  right: auto;
+  bottom: auto;
+  left: auto;
   width: 100%;
   height: 100%;
-  background-color: black;
+  background-color: #000000;
   opacity: 0.5;
 }
 /* A mixin that declares the base style of all overlay objects */
@@ -26,17 +28,18 @@
   box-sizing: border-box;
   float: left;
   width: 290px;
-  background-color: #d0d0dc;
+  height: 180px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: none;
-  height: auto;
-  position: fixed;
-  top: 25%;
-  left: 35%;
-  /* Disabled inputs don't catch events.
-    We place this on top of the action,
-    as long as the submit is disabled
-    */
-
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  background-color: #d0d0dc;
 }
 #overlay-login h3,
 #overlay-login .notices,
@@ -80,14 +83,6 @@
   width: 30%;
   position: relative;
 }
-#overlay-login .disabled-event-catcher {
-  position: absolute;
-  cursor: pointer;
-  height: 2em;
-  top: 0;
-  left: 0;
-  width: 100%;
-}
 #overlay-login .options {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -106,17 +101,18 @@
   box-sizing: border-box;
   float: left;
   width: 290px;
-  background-color: #d0d0dc;
+  height: 300px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: none;
-  height: auto;
-  position: fixed;
-  top: 25%;
-  left: 35%;
-  /* Disabled inputs don't catch events.
-    We place this on top of the action,
-    as long as the submit is disabled
-    */
-
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  background-color: #d0d0dc;
 }
 #overlay-register h3,
 #overlay-register .notices,
@@ -160,14 +156,6 @@
   width: 30%;
   position: relative;
 }
-#overlay-register .disabled-event-catcher {
-  position: absolute;
-  cursor: pointer;
-  height: 2em;
-  top: 0;
-  left: 0;
-  width: 100%;
-}
 #overlay-register .options {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -186,17 +174,18 @@
   box-sizing: border-box;
   float: left;
   width: 290px;
-  background-color: #d0d0dc;
+  height: 140px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: none;
-  height: auto;
-  position: fixed;
-  top: 25%;
-  left: 35%;
-  /* Disabled inputs don't catch events.
-    We place this on top of the action,
-    as long as the submit is disabled
-    */
-
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  background-color: #d0d0dc;
 }
 #overlay-password-reset h3,
 #overlay-password-reset .notices,
@@ -240,14 +229,6 @@
   width: 30%;
   position: relative;
 }
-#overlay-password-reset .disabled-event-catcher {
-  position: absolute;
-  cursor: pointer;
-  height: 2em;
-  top: 0;
-  left: 0;
-  width: 100%;
-}
 #overlay-password-reset .options {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -266,17 +247,18 @@
   box-sizing: border-box;
   float: left;
   width: 290px;
-  background-color: #d0d0dc;
+  height: 300px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: none;
-  height: auto;
-  position: fixed;
-  top: 25%;
-  left: 35%;
-  /* Disabled inputs don't catch events.
-    We place this on top of the action,
-    as long as the submit is disabled
-    */
-
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  background-color: #d0d0dc;
 }
 #overlay-password-change h3,
 #overlay-password-change .notices,
@@ -319,14 +301,6 @@
   float: left;
   width: 30%;
   position: relative;
-}
-#overlay-password-change .disabled-event-catcher {
-  position: absolute;
-  cursor: pointer;
-  height: 2em;
-  top: 0;
-  left: 0;
-  width: 100%;
 }
 #overlay-password-change .options {
   -webkit-box-sizing: border-box;
