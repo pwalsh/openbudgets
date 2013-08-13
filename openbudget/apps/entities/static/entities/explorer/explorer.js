@@ -126,11 +126,19 @@ define([
              * Register handlers to events in UI
              */
             uijet.subscribe('startup', function () {
+                var root = '/entities/' + window.ENTITY.slug + '/';
                 explorer.routes_set_promise.then(function () {
                     Backbone.history.start({
                         pushState   : true,
-                        root        : '/entities/' + window.ENTITY.slug + '/'
+                        root        : root,
+                        silent      : true
                     });
+
+                    if ( /^entities\/[^\/]+\/?$/.test(Backbone.history.getFragment()) ) {
+                        explorer.router.navigate(uijet.Resource('ItemsListState').get('period') + '/', {
+                            replace : true
+                        });
+                    }
                 });
             })
 
