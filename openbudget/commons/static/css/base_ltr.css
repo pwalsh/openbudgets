@@ -48,7 +48,7 @@ html {
   font-size: 1em;
   line-height: 1.5em;
   background-color: #d0d0dc;
-  color: #727297;
+  color: #141452;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
@@ -940,6 +940,7 @@ input.valid {
   padding-bottom: 20px;
   padding-left: 40px;
   background-color: #00ccc2;
+  display: none;
   z-index: 99;
   position: fixed;
   top: 0;
