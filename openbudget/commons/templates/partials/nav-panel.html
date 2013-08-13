@@ -21,16 +21,11 @@
 </header>
 <footer>
     {% block footer %}
-    <div id="sponsor_logo">
-        <a href="http://www.hasadna.org.il/" target="_blank">
-            <img src="{{ STATIC_URL }}img/sponsor_logo.png"/>
-            <span class="name">
-                {{ sponsor_name_list.0 }}<br />
-                {{ sponsor_name_list.1 }}<br />
-                {{ sponsor_name_list.2 }}
-            </span>
-        </a>
-    </div>
+    <a id="sponsor_logo" href="http://www.hasadna.org.il/" target="_blank">
+        {{ sponsor_name_list.0 }}<br />
+        {{ sponsor_name_list.1 }}<br />
+        {{ sponsor_name_list.2 }}
+    </a>
     <nav>
         <a href="#">{% trans 'Credits' %}</a>
         <a href="{% url 'page' slug='terms' %}">{% trans 'Terms' %}</a>

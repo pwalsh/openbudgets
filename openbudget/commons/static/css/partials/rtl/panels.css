@@ -21,14 +21,12 @@
   padding-bottom: 20px;
   padding-left: 40px;
   background-color: #00ccc2;
-  display: none;
   z-index: 99;
   position: fixed;
   top: 0;
-  cursor: pointer;
 }
 #panel-nav #app_logo {
-  padding-top: 16px;
+  padding-top: 21px;
   padding-right: 0;
   padding-bottom: 78px;
   padding-left: 0;
@@ -41,11 +39,12 @@
   left: 0;
   width: 17px;
   height: 17px;
+  cursor: pointer;
 }
 #panel-nav header nav {
   width: 100%;
 }
-#panel-nav header nav a {
+#panel-nav header a {
   display: block;
   font-size: 2.75em;
   line-height: 1.25em;
@@ -53,7 +52,7 @@
   text-decoration: none;
   font-weight: normal;
 }
-#panel-nav header nav a:hover {
+#panel-nav header a:hover {
   color: #026a74;
 }
 #panel-nav footer {
@@ -63,28 +62,25 @@
   height: 6em;
   font-size: 1em;
 }
-#panel-nav footer #sponsor_logo {
+#panel-nav footer a#sponsor_logo {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: left;
-  width: 78px;
+  width: 73px;
   margin-bottom: 12px;
-}
-#panel-nav footer #sponsor_logo a {
+  padding-right: 40px;
+  background: url('/static/img/sponsor_logo.png') no-repeat right;
+  line-height: 0.925em;
   color: #026a74;
   font-size: 11px;
   font-weight: bold;
   text-decoration: none;
+  display: block;
 }
-#panel-nav footer #sponsor_logo .img,
-#panel-nav footer #sponsor_logo .name {
-  float: right;
-  width: 30px;
-  padding-left: 0.25em;
-}
-#panel-nav footer #sponsor_logo .name {
-  line-height: 0.925em;
+#panel-nav footer a#sponsor_logo:hover {
+  color: #ffffff;
+  background: url('/static/img/sponsor_logo_white.png') no-repeat right;
 }
 #panel-nav footer nav a {
   font-size: 12px;
@@ -92,6 +88,9 @@
   display: inline-block;
   padding-right: 12px;
   color: #026a74;
+}
+#panel-nav footer nav a:hover {
+  color: #ffffff;
 }
 #panel-action {
   -webkit-box-sizing: border-box;
@@ -101,7 +100,7 @@
   width: 300px;
   height: 100%;
   padding-top: 20px;
-  padding-right: 16px;
+  padding-right: 20px;
   padding-bottom: 20px;
   padding-left: 40px;
   background-color: #d0d0dc;
@@ -125,9 +124,9 @@
   width: 880px;
   height: 100%;
   padding-top: 20px;
-  padding-right: 22px;
+  padding-right: 20px;
   padding-bottom: 20px;
-  padding-left: 22px;
+  padding-left: 20px;
   background-color: #ffffff;
   overflow: hidden;
 }
@@ -143,7 +142,39 @@
   height: 100%;
   padding-top: 0;
   padding-right: 0;
-  padding-bottom: 18px;
-  padding-left: 16px;
+  padding-bottom: 20px;
+  padding-left: 20px;
   background-color: #d0d0dc;
+}
+#panel-nav {
+  padding-top: 20px;
+  padding-right: 40px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  right: 0;
+}
+#panel-nav footer {
+  right: 40;
+}
+#panel-nav footer nav a {
+  padding-right: 0;
+  padding-left: 12px;
+}
+#panel-action {
+  padding-top: 20px;
+  padding-right: 40px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+}
+#panel-main {
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+}
+#panel-append {
+  padding-top: 0;
+  padding-right: 2px;
+  padding-bottom: 18px;
+  padding-left: 0;
 }
