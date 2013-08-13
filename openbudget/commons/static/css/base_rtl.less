@@ -1,4 +1,17 @@
-@import "base_ltr.less";
+@import "../lib/adaptabl/src/normalize";
+@import "partials/variables";
+@import "partials/mixins";
+@import "partials/commons";
+
+@import "partials/rtl/forms";
+@import "partials/rtl/modals";
+@import "partials/rtl/pages";
+@import "partials/rtl/panels";
+@import "partials/rtl/widgets";
+
+@import url(http://fonts.googleapis.com/css?family=Alef:400,700);
+@import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
+
 
 @direction: rtl;
 @-direction: ltr;
@@ -7,67 +20,7 @@
 @float: right;
 @-float: left;
 
-/*...BOOM...*/
 
 h1, h2, h3, h4, h5, h6, header nav a, #nav-anchor a {
     font-family: @font-heading-rtl;
-}
-
-.field {
-    &.half.first input {
-        border-left: 1px solid @grey;
-    }
-}
-
-#overlay {
-    .close {
-        right: none;
-        left: 10px;
-    }
-}
-
-.overlay-object {
-        .options {
-
-        &:last-of-type {
-            text-align: left;
-        }
-    }
-}
-
-#panel-nav {
-
-    .padding(20px; 40px; 20px; 20px);
-    right: 0;
-
-    footer {
-        right: 40;
-
-        nav a {
-            .padding-right(0);
-            .padding-left(12px);
-        }
-    }
-}
-
-#panel-action {
-    .padding(18px; 40px; 18px; 16px);
-}
-
-#panel-main {
-    .padding(18px; 22px; 18px; 22px);
-}
-
-#panel-append {
-    .padding(0; 16px; 18px; 0);
-}
-
-#activities {
-    .activity {
-
-        .desc {
-            .padding-right(0);
-            .padding-left(10%);
-        }
-    }
 }

@@ -1,0 +1,93 @@
+/* FOUNDATION */
+/* FLOW */
+/* RESPONSE */
+/* COLORS */
+/* DESIGN */
+/* OPENBUDGETS SCHEME */
+/* SEMANTICS */
+/* CORE */
+/* BUILDING BLOCKS */
+/* BOX */
+.mock-button {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-weight: bold;
+  color: #141452;
+  background-color: #a1a1ba;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  height: 2.5em;
+  line-height: 2.5em;
+}
+input,
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"],
+button[disabled],
+html input[disabled],
+.mock-button {
+  width: 100%;
+  height: 2.5em;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
+  padding-right: 18px;
+  padding-left: 18px;
+}
+input {
+  border-bottom: 1px solid #d0d0dc;
+  background-color: #e8e8ed;
+}
+input:focus {
+  background-color: #ffffff;
+}
+input.invalid {
+  padding-left: 18px;
+  background-image: url('/static/img/invalid.png');
+  background-repeat: no-repeat;
+  background-position: 18px 12px;
+}
+input.valid {
+  padding-left: 18px;
+  background-image: url('/static/img/valid.png');
+  background-repeat: no-repeat;
+  background-position: 18px 12px;
+}
+.field {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 100%;
+  position: relative;
+}
+.field .help {
+  pointer-events: none;
+  top: 8px;
+  left: 18px;
+  display: none;
+  position: absolute;
+  color: #757599;
+  font-size: 0.75em;
+}
+.field.half {
+  width: 50%;
+}
+.field.half.first input {
+  border-right: 1px solid #d0d0dc;
+}
+.field.half.first input {
+  border-left: 1px solid #d0d0dc;
+}

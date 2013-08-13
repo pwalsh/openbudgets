@@ -1,6 +1,6 @@
 /* @import "../../lib/adaptabl/src/normalize"; */
-@import "variables";
-@import "mixins";
+@import "../variables";
+@import "../mixins";
 
 
 .panel(@width, @height: 100%) {
@@ -12,14 +12,12 @@
     .panel(300px);
     .padding(20px; 20px; 20px; 40px);
     .background-color(@panel-nav);
-    display: none;
     z-index: 99;
     position: fixed;
     top: 0;
-    cursor: pointer;
 
     #app_logo {
-        .padding(16px; 0; 78px; 0);
+        .padding(21px; 0; 78px; 0);
         position: relative;
 
         #panel-nav-close {
@@ -29,6 +27,7 @@
             left: 0;
             width: 17px;
             height: 17px;
+            cursor: pointer;
         }
     }
 
@@ -36,19 +35,21 @@
         nav {
             .width(100%);
 
-            a {
-                .display-block;
-                .biggest-text;
-                line-height: @unit-em * 1.25em;
-                color: @white;
-                text-decoration: none;
-                font-weight: normal;
+        }
 
-                &:hover {
-                    .color(@stronggreen);
-                }
+        a {
+            .display-block;
+            .biggest-text;
+            line-height: @unit-em * 1.25em;
+            color: @white;
+            text-decoration: none;
+            font-weight: normal;
+
+            &:hover {
+                .color(@stronggreen);
             }
         }
+
     }
 
     footer {
@@ -58,25 +59,22 @@
         height: @unit-em * 6;
         .font-size(@unit-em);
 
-        #sponsor_logo {
-            .layout-object(78px);
+        a#sponsor_logo {
+
+            .layout-object(73px);
             .margin-bottom(12px);
+            .padding-right(40px);
+            background: url('/static/img/sponsor_logo.png') no-repeat right;
+            line-height: 0.925em;
+            .color(@stronggreen);
+            .font-size(11px);
+            .bold;
+            text-decoration: none;
+            display: block;
 
-            a {
-                .color(@stronggreen);
-                .font-size(11px);
-                .bold;
-                text-decoration: none;
-            }
-
-            .img, .name {
-                .-float;
-                .width(30px);
-                .padding-left(@unit-em * 0.25);
-            }
-
-            .name {
-                line-height: 0.925em;
+            &:hover {
+                .color(@white);
+                background: url('/static/img/sponsor_logo_white.png') no-repeat right;
             }
 
         }
@@ -87,13 +85,17 @@
             .display-inline-block;
             .padding-right(12px);
             color: @stronggreen;
+
+            &:hover {
+                .color(@white);
+            }
         }
     }
 }
 
 #panel-action {
     .panel(300px);
-    .padding(20px; 16px; 20px; 40px);
+    .padding(20px; 20px; 20px; 40px);
     .background-color(@panel-action);
 
     h1 {
@@ -113,7 +115,7 @@
 
 #panel-main {
     .panel(880px);
-    .padding(20px; 22px; 20px; 22px);
+    .padding(20px; 20px; 20px; 20px);
     .background-color(@panel-main);
     .overflow(hidden);
 
@@ -124,6 +126,6 @@
 
 #panel-append {
     .panel(100px);
-    .padding(0; 0; 18px; 16px);
+    .padding(0; 0; 20px; 20px);
     .background-color(@panel-append);
 }
