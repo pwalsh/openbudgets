@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-14 09:45+0300\n"
+"POT-Creation-Date: 2013-08-14 09:53+0300\n"
 "PO-Revision-Date: 2013-05-29 18:10+0000\n"
 "Last-Translator: Amir Aharoni <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -526,7 +526,7 @@ msgstr ""
 
 #: apps/entities/templates/entities/entity_list.html:6
 #, fuzzy
-msgid "Municipalities"
+msgid "Localities"
 msgstr "Все муниципалитеты"
 
 #: apps/entities/templates/entities/entity_list.html:21

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-14 09:45+0300\n"
+"POT-Creation-Date: 2013-08-14 09:53+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -506,7 +506,7 @@ msgid "There are no Budgets this entity"
 msgstr ""
 
 #: apps/entities/templates/entities/entity_list.html:6
-msgid "Municipalities"
+msgid "Localities"
 msgstr ""
 
 #: apps/entities/templates/entities/entity_list.html:21
