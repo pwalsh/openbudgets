@@ -143,6 +143,9 @@
     width: 2rem;
     background: url(../img/arrow_down_normalize.png) center no-repeat;
 }
+#sheet_selector_menu {
+    visibility: hidden;
+}
 #sheet_selector_menu li {
     height: 44px;
     padding-left: 2.5rem;
