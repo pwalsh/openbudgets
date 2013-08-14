@@ -15,6 +15,7 @@
 }
 
 #panel-nav {
+    display: block;
     position: absolute;
     top: 0;
     right: -300px;
