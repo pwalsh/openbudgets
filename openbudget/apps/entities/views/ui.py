@@ -150,7 +150,6 @@ class EntityDetail(DetailView):
 
         context['items_list_json'] = renderer.render(items_list)
 
-
         # rendering initial state of breadcrumbs
         # setting initial scope name
         if scope_item:
@@ -161,11 +160,20 @@ class EntityDetail(DetailView):
             scope_item_serialized['actual'] = commas_format(scope_item_serialized['actual'])
 
             context['scope_item_json'] = renderer.render(scope_item_serialized)
+
+            # breadcrumbs
+            crumbs = scope_item_serialized['ancestors'] + [{
+                'name': scope_item_serialized['name'],
+                'node': scope_item_serialized['node']
+            }]
+
             context['items_breadcrumbs'] = render_to_string('items_breadcrumbs.ms', {
-                'stache': scope_item_serialized['ancestors']
+                'stache': crumbs
             })
+
             context['scope_item'] = scope_item_serialized
             context['scope_name'] = scope_item_serialized['name']
+
         else:
             context['scope_item_json'] = '{}'
             context['items_breadcrumbs'] = ''

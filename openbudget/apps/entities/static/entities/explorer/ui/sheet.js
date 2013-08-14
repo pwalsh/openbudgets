@@ -9,7 +9,10 @@ define([
     'project_mixins/Delayed'
 ], function (uijet, resources, explorer) {
 
-    var state_model = uijet.Resource('ItemsListState');
+    var closeSearchBreadcrumbsHandler = function () {
+            this.$element.removeClass('searching');
+        },
+        state_model = uijet.Resource('ItemsListState');
 
     explorer.router
 
@@ -353,42 +356,49 @@ define([
                     // reset sticky children to only the "main" breadcrumb
                     this.$original_children = this.$element.children().first();
                 },
-                post_wake   : function () {
-                    return false;
-                },
                 pre_select  : function ($selected) {
                     return +$selected.attr('data-id');
-                }
+                },
+                post_sleep  : closeSearchBreadcrumbsHandler
             },
             app_events  : {
-                'startup'                   : function () {
+                'startup'                       : function () {
                     var wake = false;
                     if ( this.resource.length ) {
                         // reset state
                         this.has_data = true;
-                        wake = true
+                        wake = true;
                     }
                     else if ( window.ITEM.node ) {
-                        wake = true
+                        wake = true;
                     }
+
                     wake && this.wake();
                 },
-                'items_list.scope_changed'  : function (scope_model) {
-                    var ancestors;
+                'items_list.scope_changed'      : function (scope_model) {
+                    var crumbs;
                     if ( scope_model ) {
                         if ( scope_model.has('ancestors') ) {
-                            ancestors = scope_model.get('ancestors');
+                            crumbs = scope_model.get('ancestors').slice();
+                            crumbs.push(scope_model);
                         }
                         else {
-                            ancestors = this.resource.slice(0, this.resource.indexOf(scope_model));
+                            crumbs = this.resource.slice(0, this.resource.indexOf(scope_model) + 1);
                         }
                     }
                     else {
-                        ancestors = [];
+                        crumbs = [];
                     }
-                    this.resource.reset(ancestors);
+                    this.resource.reset(crumbs);
                     scope_model ? this.wake() : this.sleep();
-                }
+                },
+                'filters_search_menu.selected'  : function () {
+                    this.$element.addClass('searching');
+                    this.wake();
+                },
+                'items_search.entered'          : closeSearchBreadcrumbsHandler,
+                'items_search.cancelled'        : closeSearchBreadcrumbsHandler,
+                'search_crumb_remove.clicked'   : closeSearchBreadcrumbsHandler
             }
         }
     }, {
