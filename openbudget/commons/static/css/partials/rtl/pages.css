@@ -22,7 +22,9 @@
   border-bottom: 1px solid #e8e8ed;
 }
 #text .full {
-  margin-bottom: 2.75em;
+  margin-bottom: 2em;
+  font-size: 1.375em;
+  font-weight: bold;
   color: #141452;
   font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
 }
@@ -37,12 +39,14 @@
   position: relative;
 }
 #text .section h3 {
-  font: "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
-  font-weight: bold;
   position: absolute;
   top: 0;
-  right: -256px;
-  width: 200px;
+  right: auto;
+  bottom: auto;
+  left: -256px;
+  width: 260px;
+  font-size: 1.375em;
+  font-weight: bold;
 }
 /*******************/
 /*   ENTITY LIST   */
@@ -223,6 +227,19 @@
 #activities .activity h2 {
   font-size: 2.5em;
   line-height: 1em;
+}
+/*******************/
+/*  GENERIC PAGES  */
+/*******************/
+#text .section h3 {
+  position: absolute;
+  top: 0;
+  right: -256px;
+  bottom: auto;
+  left: auto;
+  width: 270px;
+  font-size: 1.375em;
+  font-weight: bold;
 }
 #activities .activity .desc {
   padding-right: 0;

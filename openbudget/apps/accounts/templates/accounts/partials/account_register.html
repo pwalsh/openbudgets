@@ -3,7 +3,7 @@
 <section id="overlay-register">
     <form class="modal" action="{% url 'registration_register' %}" method="post" novalidate>
         {% csrf_token %}
-        <h3>{% trans 'Registration' %}</h3>
+        <h3>{% trans 'Registration' %}<span class="close"></span></h3>
         <div class="row">
             <div class="options">
                 <a class="login-link strong" href="{% url 'auth_login' %}" title="Login">{% trans 'Registered user' %}?</a>

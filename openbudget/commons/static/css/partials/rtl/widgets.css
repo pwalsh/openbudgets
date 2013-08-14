@@ -8,11 +8,14 @@
 /* CORE */
 /* BUILDING BLOCKS */
 /* BOX */
+/*******************/
+/* ACCOUNT WIDGET  */
+/*******************/
 .account {
   position: relative;
   text-align: center;
   width: 54px;
-  padding-top: 18px;
+  padding-top: 1.25em;
 }
 .account.auth:hover {
   background-color: #e8e8ed;
@@ -27,7 +30,9 @@
 .account .actions {
   position: absolute;
   top: 50px;
-  left: 0;
+  right: 0;
+  bottom: auto;
+  left: auto;
   display: none;
   width: 186px;
   background-color: #e8e8ed;
@@ -39,9 +44,9 @@
   margin-left: 18px;
   margin-right: 18px;
   font-weight: bold;
-  border-bottom: 1px solid #d0d0dc;
   height: 44px;
   line-height: 44px;
+  border-bottom: 1px solid #d0d0dc;
 }
 .account .actions a:last-of-type {
   border-top: 0;
@@ -57,7 +62,10 @@
   -moz-border-radius: 58px;
   border-radius: 58px;
 }
-#filter {
+/*******************/
+/*  FILTER WIDGET  */
+/*******************/
+.filter {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -65,22 +73,31 @@
   width: 100%;
   clear: both;
 }
-#filter select {
-  background: transparent;
-  width: 60px;
-  padding: 5px;
-  font-size: 1em;
-  border: 0;
-  border-radius: 0;
-  -webkit-appearance: none;
-  color: #141452;
-  font-weight: bold;
-  line-height: 1em;
+.filter select {
   padding-top: 0;
   padding-right: 0;
   padding-bottom: 0;
   padding-left: 0;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
+  background-color: transparent;
+  width: 60px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+  font-size: 1em;
+  line-height: 1em;
+  font-weight: bold;
+  color: #141452;
+  border-radius: 0;
+  -webkit-appearance: none;
 }
-#filter .arrow {
-  content: 'this';
+.account .actions {
+  top: 50px;
+  right: auto;
+  bottom: auto;
+  left: 0;
 }

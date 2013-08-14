@@ -1,11 +1,16 @@
 @import "../variables";
 @import "../mixins";
 
+
+/*******************/
+/* ACCOUNT WIDGET  */
+/*******************/
+
 .account {
-    position: relative;
-    .align-center;
+    .position(relative);
+    .text-align(center);
     .width(54px);
-    .padding-top(18px);
+    .padding-top(@unit-em * 1.25);
 
     &.auth:hover {
         .background-color(@grey-light);
@@ -17,25 +22,25 @@
 
     .name {
         .font-size(@unit-em * 0.875);
-        line-height: 1em;
+        .line-height(@unit-em);
     }
 
     .actions {
-        position: absolute;
-        top: 50px;
-        left: 0;
-        display: none;
+        .position(absolute);
+        .coordinates(@top: 50px; @right: 0);
+        .display(none);
         .width(186px);
         .background-color(@grey-light);
+
         a {
             .display-block;
             .alignment;
-            text-decoration: none;
+            .text-decoration;
             .margin-horizontal(18px);
-            .bold();
-            border-bottom: 1px solid @grey;
+            .bold;
             .height(44px);
-            line-height: 44px;
+            .line-height(44px);
+            border-bottom: 1px solid @grey;
 
             &:last-of-type {
                 .border-reset;
@@ -44,34 +49,34 @@
     }
 
     .avatar, .avatar img {
-        width: 29px;
-        height: 29px;
+        .width(29px);
+        .height(29px);
         .border-radius(58px);
     }
 }
 
 
+/*******************/
+/*  FILTER WIDGET  */
+/*******************/
 
-#filter {
+.filter {
     .row;
 
     select {
-       background: transparent;
-       width: 60px;
-       padding: 5px;
-       font-size: @unit-em;
-       border: 0;
-       border-radius: 0;
-       -webkit-appearance: none;
-       color: @strongblue;
-       font-weight: bold;
-       line-height: 1em;
-       .padding-reset();
+        .padding-reset;
+        .border-reset;
+        .background-color(transparent);
+        .width(60px);
+        .padding-all(5px);
+        .font-size(@unit-em);
+        .line-height(@unit-em);
+        .bold;
+        .color(@strongblue);
+        border-radius: 0;
+        -webkit-appearance: none;
     }
 
-    .arrow {
-        content: 'this';
-    }
 }
 
 

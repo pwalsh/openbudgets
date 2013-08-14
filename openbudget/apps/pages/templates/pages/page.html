@@ -6,6 +6,18 @@
 {{ page.title }}
 {% endblock title %}
 
+{% block actions-content %}
+
+{% if page.children %}
+<nav>
+{% for child in page.children.all %}
+    <a href="{% url 'page' child.slug %}" title="{{ child.title }}">{{ child.title }}</a>
+{% endfor %}
+    <a href="{% url 'contact' %}" title="{% trans 'Contact' %}">{% trans 'Contact' %}</a>
+</nav>
+{% endif %}
+{% endblock actions-content %}
+
 {% block content %}
 
 <section id="text">

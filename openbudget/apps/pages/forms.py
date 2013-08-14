@@ -2,8 +2,20 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 
+ENTER_FORM_HELP = _('Enter to finish')
+EMAIL_REGEX = '[^@]+@[^@]+\.[a-zA-Z]{2,6}'
+
+
 class ContactForm(forms.Form):
-    name = forms.CharField(help_text=_('We need your name to respond nicely!'))
-    email = forms.EmailField(help_text=_('We can&apos;t get back to you without it.'))
-    subject = forms.CharField(help_text=_('What is it about'))
-    message = forms.CharField(widget=forms.Textarea, help_text=_('What do you want to tell us'))
+    name = forms.CharField(widget=forms.TextInput(
+        attrs={'placeholder': _('Enter Name'), 'type': 'text',
+               'required': '', 'pattern': '.{6,}'}),
+        help_text=ENTER_FORM_HELP)
+    email = forms.EmailField(widget=forms.TextInput(
+        attrs={'placeholder': _('Enter Email'), 'type': 'email',
+               'required': '', 'pattern': EMAIL_REGEX}),
+        help_text=ENTER_FORM_HELP)
+    message = forms.CharField(widget=forms.Textarea(
+        attrs={'rows': '', 'cols': '', 'placeholder': _('Enter Message'), 'type': 'text',
+               'required': '', 'pattern': '.{20,}'}),
+        help_text=ENTER_FORM_HELP)

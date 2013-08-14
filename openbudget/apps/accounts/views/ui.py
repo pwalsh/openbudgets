@@ -26,7 +26,7 @@ from openbudget.apps.accounts.models import Account
 from openbudget.apps.accounts.forms import AccountNameForm, AccountForm, \
     CustomRegistrationForm, CustomAuthenticationForm, CustomPasswordChangeForm,\
     CustomPasswordResetForm
-from openbudget.commons.mixins.views import UserDataObjectMixin
+from openbudget.commons.mixins.views import UserDataObjectMixin, JSONResponseMixin
 
 
 class AccountDetailView(LoginRequiredMixin, UserDataObjectMixin, DetailView):
@@ -47,17 +47,9 @@ class AccountUpdateView(LoginRequiredMixin, UserDataObjectMixin, UpdateView):
     slug_field = 'uuid'
 
 
-class AccountRegistrationView(RegistrationView):
+class AccountRegistrationView(JSONResponseMixin, RegistrationView):
 
     form_class = CustomRegistrationForm
-
-    def render_to_json_response(self, context, **response_kwargs):
-
-        data = json.dumps(context)
-
-        response_kwargs['content_type'] = 'application/json'
-
-        return HttpResponse(data, **response_kwargs)
 
     def form_invalid(self, form, request=None):
 

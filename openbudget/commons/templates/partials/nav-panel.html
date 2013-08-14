@@ -21,16 +21,16 @@
 </header>
 <footer>
     {% block footer %}
-    <a id="sponsor_logo" href="http://www.hasadna.org.il/" target="_blank">
-        {{ sponsor_name_list.0 }}<br />
-        {{ sponsor_name_list.1 }}<br />
-        {{ sponsor_name_list.2 }}
-    </a>
     <nav>
+        <a id="sponsor_logo" href="http://www.hasadna.org.il/" target="_blank">
+            {{ sponsor_name_list.0 }}<br />
+            {{ sponsor_name_list.1 }}<br />
+            {{ sponsor_name_list.2 }}
+        </a>
         <a href="#">{% trans 'Credits' %}</a>
         <a href="{% url 'page' slug='terms' %}">{% trans 'Terms' %}</a>
         <a href="{% url 'page' slug='privacy' %}">{% trans 'Privacy' %}</a>
-        <a href="{% url 'page' slug='contact' %}">{% trans 'Contact' %}</a>
+        <a href="{% url 'page' slug='contact' %}" class="contact-link">{% trans 'Contact' %}</a>
         <a href="{% url 'api' subdomain='api' %}">{% trans 'API' %}</a>
     </nav>
     {% comment %}

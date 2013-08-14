@@ -39,7 +39,7 @@
                 var $this = $(this);
                 $this.removeClass(valid_class + ' ' + invalid_class)
                     .next()
-                        .show('block');
+                        .show();
             },
             validateHandler = function () {
                 var valid = false,
@@ -127,7 +127,7 @@
     //******************/
     (function () {
     
-        $('#overlay, .mock-button').click(function (event) {
+        $('#overlay, .mock-button, [id^="overlay"] .close').click(function (event) {
             $('[id^="overlay"]').hide();
         });
     
@@ -137,6 +137,7 @@
             $('#overlay-login form').attr('id', 'active-form');
             $('#overlay').show();
             $('#overlay-login').show();
+            $('#overlay-contact').hide();
             $('#overlay-register').hide();
             $('#overlay-password-reset').hide();
             $('#overlay-password-change').hide();
@@ -148,6 +149,7 @@
             $('#overlay-register form').attr('id', 'active-form');
             $('#overlay').show();
             $('#overlay-register').show();
+            $('#overlay-contact').hide();
             $('#overlay-login').hide();
             $('#overlay-password-reset').hide();
             $('#overlay-password-change').hide();
@@ -159,6 +161,7 @@
             $('#overlay-password-reset form').attr('id', 'active-form');
             $('#overlay').show();
             $('#overlay-password-reset').show();
+            $('#overlay-contact').hide();
             $('#overlay-register').hide();
             $('#overlay-login').hide();
             $('#overlay-password-change').hide();
@@ -170,41 +173,66 @@
             $('#overlay-password-change form').attr('id', 'active-form');
             $('#overlay').show();
             $('#overlay-password-change').show();
+            $('#overlay-contact').hide();
             $('#overlay-register').hide();
             $('#overlay-login').hide();
             $('#overlay-password-show').hide();
         });
-    
+
+        $('.contact-link').click(function (event) {
+            event.preventDefault();
+            $('form').removeAttr('id');
+            $('#overlay-contact form').attr('id', 'active-form');
+            $('#overlay').show();
+            $('#overlay-contact').show();
+            $('#overlay-password-change').hide();
+            $('#overlay-register').hide();
+            $('#overlay-login').hide();
+            $('#overlay-password-show').hide();
+            $('#panel-nav').hide();
+        });
+
     }());
-
-
 
     // NAV PANEL UX
     (function () {
-    
-        $('#nav-anchor').mouseenter(function (event) {
-            event.preventDefault();
-            $('#panel-nav').show();
-        });
-    
-        $('#panel-nav').mouseleave(function () {
-            $('#panel-nav').hide();
-        });
-    
-        $('#panel-nav-close').click(function () {
-            $('#panel-nav').hide();
-        });
+
+        $('#panel-action').mousemove(function(e){
+            var x = e.pageX - this.offsetLeft,
+            y = e.pageY - this.offsetTop;
+
+            if (x >= 295) {
+
+                $('#panel-nav').show();
+
+            } else {
+
+                $('#nav-anchor').mouseenter(function (event) {
+                    event.preventDefault();
+                    $('#panel-nav').show();
+                });
+
+                $('#panel-nav').mouseleave(function () {
+                    $('#panel-nav').hide();
+                });
+
+                $('#panel-nav-close').click(function () {
+                    $('#panel-nav').hide();
+                });
+
+            }
+
+         });
     
     }());
 
     // USER PANEL UX
     (function () {
-    
+
         $('.account').hover(function (event) {
-            event.preventDefault();
             $('.actions').toggle();
         });
-    
+
     }());
 
 }));

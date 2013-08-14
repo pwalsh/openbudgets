@@ -1,4 +1,5 @@
 import datetime
+import json
 import tablib
 from django.core.exceptions import PermissionDenied
 from django import http
@@ -86,3 +87,15 @@ class FileResponseMixin(object):
         elif format == 'xlsx':
             value = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         return value
+
+
+class JSONResponseMixin(object):
+    """A mixin for optional JSON responses in class-based views."""
+
+    def render_to_json_response(self, context, **response_kwargs):
+
+        data = json.dumps(context)
+
+        response_kwargs['content_type'] = 'application/json'
+
+        return http.HttpResponse(data, **response_kwargs)

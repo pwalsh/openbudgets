@@ -2,12 +2,17 @@
 {% load i18n %}
 {% load url from future %}
 
+{% block title %}
+{% trans 'Home' %}
+{% endblock title %}
+
 {% block content %}
-<section id="home">
-    <div class="demo">
-        <h1>
-            {% blocktrans %}Welcome to Open Budget{% endblocktrans %}
-        </h1>
-    </div>
+
+<section id="text">
+
+    <h2>{{ app_name }}</h2>
+
 </section>
+
 {% endblock content %}
+

@@ -307,10 +307,10 @@ p {
   color: #141452;
   background-color: #a1a1ba;
   display: inline-block;
-  cursor: pointer;
   text-align: center;
   height: 2.5em;
   line-height: 2.5em;
+  cursor: pointer;
 }
 input,
 button,
@@ -319,6 +319,7 @@ input[type="reset"],
 input[type="submit"],
 button[disabled],
 html input[disabled],
+textarea,
 .mock-button {
   width: 100%;
   height: 2.5em;
@@ -334,8 +335,17 @@ html input[disabled],
   border-right: 0;
   border-bottom: 0;
   border-left: 0;
-  padding-right: 18px;
-  padding-left: 18px;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+textarea {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  min-height: 16.5em;
+  background-color: #e8e8ed;
+}
+textarea:focus {
+  background-color: #ffffff;
 }
 input {
   border-bottom: 1px solid #d0d0dc;
@@ -345,16 +355,22 @@ input:focus {
   background-color: #ffffff;
 }
 input.invalid {
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
   padding-left: 18px;
   background-image: url('/static/img/invalid.png');
   background-repeat: no-repeat;
-  background-position: 18px 12px;
+  background-position: 94% 50%;
 }
 input.valid {
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
   padding-left: 18px;
   background-image: url('/static/img/valid.png');
   background-repeat: no-repeat;
-  background-position: 18px 12px;
+  background-position: 94% 50%;
 }
 .field {
   -webkit-box-sizing: border-box;
@@ -366,10 +382,12 @@ input.valid {
 }
 .field .help {
   pointer-events: none;
-  top: 8px;
-  left: 18px;
-  display: none;
   position: absolute;
+  top: 8px;
+  right: 18px;
+  bottom: auto;
+  left: auto;
+  display: none;
   color: #757599;
   font-size: 0.75em;
 }
@@ -379,18 +397,40 @@ input.valid {
 .field.half.first input {
   border-right: 1px solid #d0d0dc;
 }
+input.invalid {
+  padding-top: 0;
+  padding-right: 18px;
+  padding-bottom: 0;
+  padding-left: 0;
+  background-position: 6% 50%;
+}
+input.valid {
+  padding-top: 0;
+  padding-right: 18px;
+  padding-bottom: 0;
+  padding-left: 0;
+  background-position: 6% 50%;
+}
+.field .help {
+  top: 8px;
+  right: auto;
+  bottom: auto;
+  left: 18px;
+}
 .field.half.first input {
   border-left: 1px solid #d0d0dc;
 }
 /* The background for all overlay objects */
 #overlay {
   display: none;
-  position: fixed;
-  cursor: pointer;
+  position: absolute;
   top: 0;
+  right: auto;
+  bottom: auto;
+  left: auto;
   width: 100%;
   height: 100%;
-  background-color: black;
+  background-color: #000000;
   opacity: 0.5;
 }
 /* A mixin that declares the base style of all overlay objects */
@@ -400,25 +440,27 @@ input.valid {
   box-sizing: border-box;
   float: right;
   width: 290px;
-  background-color: #d0d0dc;
+  height: 180px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: none;
-  height: auto;
-  position: fixed;
-  top: 25%;
-  left: 35%;
-  /* Disabled inputs don't catch events.
-    We place this on top of the action,
-    as long as the submit is disabled
-    */
-
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  background-color: #d0d0dc;
 }
 #overlay-login h3,
 #overlay-login .notices,
 #overlay-login .options {
-  padding-right: 18px;
-  padding-left: 18px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 #overlay-login h3 {
+  position: relative;
   padding-top: 0.5em;
   margin-bottom: 0;
   font-size: 1em;
@@ -434,6 +476,17 @@ input.valid {
 }
 #overlay-login a.strong {
   color: #141452;
+}
+#overlay-login .close {
+  position: absolute;
+  top: 0;
+  right: -37px;
+  bottom: auto;
+  left: auto;
+  height: 17px;
+  width: 17px;
+  cursor: pointer;
+  background: url('/static/img/close_white.png') no-repeat;
 }
 #overlay-login .notices {
   -webkit-box-sizing: border-box;
@@ -451,16 +504,9 @@ input.valid {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: right;
-  width: 30%;
+  width: 87px;
   position: relative;
-}
-#overlay-login .disabled-event-catcher {
-  position: absolute;
-  cursor: pointer;
-  height: 2em;
-  top: 0;
-  left: 0;
-  width: 100%;
+  float: left;
 }
 #overlay-login .options {
   -webkit-box-sizing: border-box;
@@ -474,34 +520,33 @@ input.valid {
 #overlay-login .options:last-of-type {
   text-align: right;
 }
-#overlay-login .options:last-of-type {
-  text-align: left;
-}
 #overlay-register {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: right;
   width: 290px;
-  background-color: #d0d0dc;
+  height: 300px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: none;
-  height: auto;
-  position: fixed;
-  top: 25%;
-  left: 35%;
-  /* Disabled inputs don't catch events.
-    We place this on top of the action,
-    as long as the submit is disabled
-    */
-
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  background-color: #d0d0dc;
 }
 #overlay-register h3,
 #overlay-register .notices,
 #overlay-register .options {
-  padding-right: 18px;
-  padding-left: 18px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 #overlay-register h3 {
+  position: relative;
   padding-top: 0.5em;
   margin-bottom: 0;
   font-size: 1em;
@@ -517,6 +562,17 @@ input.valid {
 }
 #overlay-register a.strong {
   color: #141452;
+}
+#overlay-register .close {
+  position: absolute;
+  top: 0;
+  right: -37px;
+  bottom: auto;
+  left: auto;
+  height: 17px;
+  width: 17px;
+  cursor: pointer;
+  background: url('/static/img/close_white.png') no-repeat;
 }
 #overlay-register .notices {
   -webkit-box-sizing: border-box;
@@ -534,16 +590,9 @@ input.valid {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: right;
-  width: 30%;
+  width: 87px;
   position: relative;
-}
-#overlay-register .disabled-event-catcher {
-  position: absolute;
-  cursor: pointer;
-  height: 2em;
-  top: 0;
-  left: 0;
-  width: 100%;
+  float: left;
 }
 #overlay-register .options {
   -webkit-box-sizing: border-box;
@@ -557,34 +606,33 @@ input.valid {
 #overlay-register .options:last-of-type {
   text-align: right;
 }
-#overlay-register .options:last-of-type {
-  text-align: left;
-}
 #overlay-password-reset {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: right;
   width: 290px;
-  background-color: #d0d0dc;
+  height: 140px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: none;
-  height: auto;
-  position: fixed;
-  top: 25%;
-  left: 35%;
-  /* Disabled inputs don't catch events.
-    We place this on top of the action,
-    as long as the submit is disabled
-    */
-
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  background-color: #d0d0dc;
 }
 #overlay-password-reset h3,
 #overlay-password-reset .notices,
 #overlay-password-reset .options {
-  padding-right: 18px;
-  padding-left: 18px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 #overlay-password-reset h3 {
+  position: relative;
   padding-top: 0.5em;
   margin-bottom: 0;
   font-size: 1em;
@@ -600,6 +648,17 @@ input.valid {
 }
 #overlay-password-reset a.strong {
   color: #141452;
+}
+#overlay-password-reset .close {
+  position: absolute;
+  top: 0;
+  right: -37px;
+  bottom: auto;
+  left: auto;
+  height: 17px;
+  width: 17px;
+  cursor: pointer;
+  background: url('/static/img/close_white.png') no-repeat;
 }
 #overlay-password-reset .notices {
   -webkit-box-sizing: border-box;
@@ -617,16 +676,9 @@ input.valid {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: right;
-  width: 30%;
+  width: 87px;
   position: relative;
-}
-#overlay-password-reset .disabled-event-catcher {
-  position: absolute;
-  cursor: pointer;
-  height: 2em;
-  top: 0;
-  left: 0;
-  width: 100%;
+  float: left;
 }
 #overlay-password-reset .options {
   -webkit-box-sizing: border-box;
@@ -640,34 +692,33 @@ input.valid {
 #overlay-password-reset .options:last-of-type {
   text-align: right;
 }
-#overlay-password-reset .options:last-of-type {
-  text-align: left;
-}
 #overlay-password-change {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: right;
   width: 290px;
-  background-color: #d0d0dc;
+  height: 300px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: none;
-  height: auto;
-  position: fixed;
-  top: 25%;
-  left: 35%;
-  /* Disabled inputs don't catch events.
-    We place this on top of the action,
-    as long as the submit is disabled
-    */
-
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  background-color: #d0d0dc;
 }
 #overlay-password-change h3,
 #overlay-password-change .notices,
 #overlay-password-change .options {
-  padding-right: 18px;
-  padding-left: 18px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 #overlay-password-change h3 {
+  position: relative;
   padding-top: 0.5em;
   margin-bottom: 0;
   font-size: 1em;
@@ -683,6 +734,17 @@ input.valid {
 }
 #overlay-password-change a.strong {
   color: #141452;
+}
+#overlay-password-change .close {
+  position: absolute;
+  top: 0;
+  right: -37px;
+  bottom: auto;
+  left: auto;
+  height: 17px;
+  width: 17px;
+  cursor: pointer;
+  background: url('/static/img/close_white.png') no-repeat;
 }
 #overlay-password-change .notices {
   -webkit-box-sizing: border-box;
@@ -700,16 +762,9 @@ input.valid {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: right;
-  width: 30%;
+  width: 87px;
   position: relative;
-}
-#overlay-password-change .disabled-event-catcher {
-  position: absolute;
-  cursor: pointer;
-  height: 2em;
-  top: 0;
-  left: 0;
-  width: 100%;
+  float: left;
 }
 #overlay-password-change .options {
   -webkit-box-sizing: border-box;
@@ -723,14 +778,115 @@ input.valid {
 #overlay-password-change .options:last-of-type {
   text-align: right;
 }
-#overlay-password-change .options:last-of-type {
-  text-align: left;
+#overlay-contact {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: right;
+  width: 600px;
+  height: 448px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  background-color: #d0d0dc;
+}
+#overlay-contact h3,
+#overlay-contact .notices,
+#overlay-contact .options {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+#overlay-contact h3 {
+  position: relative;
+  padding-top: 0.5em;
+  margin-bottom: 0;
+  font-size: 1em;
+  font-weight: bold;
+}
+#overlay-contact a {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.875em;
+}
+#overlay-contact a.weak {
+  color: #a4a4bc;
+}
+#overlay-contact a.strong {
+  color: #141452;
+}
+#overlay-contact .close {
+  position: absolute;
+  top: 0;
+  right: -37px;
+  bottom: auto;
+  left: auto;
+  height: 17px;
+  width: 17px;
+  cursor: pointer;
+  background: url('/static/img/close_white.png') no-repeat;
+}
+#overlay-contact .notices {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: right;
+  width: 70%;
+  color: #ff0059;
+  font-size: 0.75em;
+  height: 2.5em;
+  line-height: 3.5em;
+}
+#overlay-contact .action {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: right;
+  width: 87px;
+  position: relative;
+  float: left;
+}
+#overlay-contact .options {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: right;
+  width: 50%;
+  font-size: 0.875em;
+  height: 2em;
+}
+#overlay-contact .options:last-of-type {
+  text-align: right;
+}
+#overlay-contact h3 {
+  line-height: 4em;
+  padding-top: 0;
 }
 #overlay .close {
   right: none;
   left: 10px;
 }
-.overlay-object .options:last-of-type {
+#overlay-login .close,
+#overlay-register .close,
+#overlay-password-reset .close,
+#overlay-password-change .close,
+#overlay-contact .close {
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: -37px;
+}
+#overlay-login .options:last-of-type,
+#overlay-register .options:last-of-type,
+#overlay-password-reset .options:last-of-type,
+#overlay-password-change .options:last-of-type,
+#overlay-contact .options:last-of-type {
   text-align: left;
 }
 /*******************/
@@ -747,7 +903,9 @@ input.valid {
   border-bottom: 1px solid #e8e8ed;
 }
 #text .full {
-  margin-bottom: 2.75em;
+  margin-bottom: 2em;
+  font-size: 1.375em;
+  font-weight: bold;
   color: #141452;
   font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
 }
@@ -762,12 +920,14 @@ input.valid {
   position: relative;
 }
 #text .section h3 {
-  font: "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
-  font-weight: bold;
   position: absolute;
   top: 0;
-  right: -256px;
-  width: 200px;
+  right: auto;
+  bottom: auto;
+  left: -256px;
+  width: 260px;
+  font-size: 1.375em;
+  font-weight: bold;
 }
 /*******************/
 /*   ENTITY LIST   */
@@ -949,12 +1109,31 @@ input.valid {
   font-size: 2.5em;
   line-height: 1em;
 }
+/*******************/
+/*  GENERIC PAGES  */
+/*******************/
+#text .section h3 {
+  position: absolute;
+  top: 0;
+  right: -256px;
+  bottom: auto;
+  left: auto;
+  width: 270px;
+  font-size: 1.375em;
+  font-weight: bold;
+}
 #activities .activity .desc {
   padding-right: 0;
   padding-left: 10%;
 }
 /* @import "../../lib/adaptabl/src/normalize"; */
 #panel-nav {
+  position: absolute;
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  display: none;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -962,14 +1141,11 @@ input.valid {
   width: 300px;
   height: 100%;
   padding-top: 20px;
-  padding-right: 20px;
+  padding-right: 0;
   padding-bottom: 20px;
-  padding-left: 40px;
+  padding-left: 0;
   background-color: #00ccc2;
-  display: none;
   z-index: 99;
-  position: fixed;
-  top: 0;
 }
 #panel-nav #app_logo {
   padding-top: 21px;
@@ -979,13 +1155,15 @@ input.valid {
   position: relative;
 }
 #panel-nav #app_logo #panel-nav-close {
-  background: url('/static/img/panel_nav_close.png') no-repeat;
   position: absolute;
   top: 0;
-  left: 0;
+  right: 20px;
+  bottom: auto;
+  left: auto;
   width: 17px;
   height: 17px;
   cursor: pointer;
+  background: url('/static/img/close_green.png') no-repeat;
 }
 #panel-nav header nav {
   width: 100%;
@@ -993,6 +1171,10 @@ input.valid {
 #panel-nav header a {
   display: block;
   font-size: 2.75em;
+  padding-top: 0;
+  padding-right: 20px;
+  padding-bottom: 0;
+  padding-left: 40px;
   line-height: 1.25em;
   color: #ffffff;
   text-decoration: none;
@@ -1014,19 +1196,29 @@ input.valid {
   box-sizing: border-box;
   float: right;
   width: 73px;
-  margin-bottom: 12px;
-  padding-right: 40px;
-  background: url('/static/img/sponsor_logo.png') no-repeat right;
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+  padding-top: 0;
+  padding-right: 20px;
+  padding-bottom: 0;
+  padding-left: 40px;
+  font-size: 11px;
   line-height: 0.925em;
   color: #026a74;
-  font-size: 11px;
   font-weight: bold;
   text-decoration: none;
-  display: block;
+  background: url('/static/img/sponsor_logo.png') no-repeat left;
 }
 #panel-nav footer a#sponsor_logo:hover {
   color: #ffffff;
-  background: url('/static/img/sponsor_logo_white.png') no-repeat right;
+  background: url('/static/img/sponsor_logo_white.png') no-repeat left;
+}
+#panel-nav footer nav {
+  padding-top: 0;
+  padding-right: 20px;
+  padding-bottom: 0;
+  padding-left: 40px;
 }
 #panel-nav footer nav a {
   font-size: 12px;
@@ -1046,21 +1238,49 @@ input.valid {
   width: 300px;
   height: 100%;
   padding-top: 20px;
-  padding-right: 20px;
+  padding-right: 0;
   padding-bottom: 20px;
-  padding-left: 40px;
+  padding-left: 0;
   background-color: #d0d0dc;
 }
 #panel-action h1 {
-  margin-top: 1em;
+  margin-top: 0.9em;
   font-size: 2.75em;
+  padding-top: 0;
+  padding-right: 20px;
+  padding-bottom: 0;
+  padding-left: 40px;
 }
 #panel-action #nav-anchor {
   display: inline-block;
+  padding-top: 0;
+  padding-right: 20px;
+  padding-bottom: 0;
+  padding-left: 40px;
   cursor: pointer;
 }
 #panel-action #nav-anchor a {
   text-decoration: none;
+}
+#panel-action nav {
+  width: 100%;
+  margin-top: 0.5em;
+}
+#panel-action nav a {
+  display: block;
+  font-size: 2.75em;
+  padding-top: 0;
+  padding-right: 20px;
+  padding-bottom: 0;
+  padding-left: 40px;
+  font-size: 1em;
+  line-height: 3em;
+  color: #141452;
+  text-decoration: none;
+  font-weight: bold;
+}
+#panel-action nav a:hover {
+  background-color: #c4c4d3;
 }
 #panel-main {
   -webkit-box-sizing: border-box;
@@ -1093,23 +1313,60 @@ input.valid {
   background-color: #d0d0dc;
 }
 #panel-nav {
-  padding-top: 20px;
-  padding-right: 40px;
-  padding-bottom: 20px;
-  padding-left: 20px;
   right: 0;
+}
+#panel-nav #app_logo #panel-nav-close {
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: 20px;
+}
+#panel-nav header a {
+  padding-top: 0;
+  padding-right: 40px;
+  padding-bottom: 0;
+  padding-left: 20px;
 }
 #panel-nav footer {
   right: 40;
+}
+#panel-nav footer nav {
+  padding-top: 0;
+  padding-right: 40px;
+  padding-bottom: 0;
+  padding-left: 20px;
 }
 #panel-nav footer nav a {
   padding-right: 0;
   padding-left: 12px;
 }
-#panel-action {
-  padding-top: 20px;
+#panel-nav footer a#sponsor_logo {
+  padding-top: 0;
   padding-right: 40px;
-  padding-bottom: 20px;
+  padding-bottom: 0;
+  padding-left: 20px;
+  background: url('/static/img/sponsor_logo.png') no-repeat right;
+}
+#panel-nav footer a#sponsor_logo:hover {
+  color: #ffffff;
+  background: url('/static/img/sponsor_logo_white.png') no-repeat right;
+}
+#panel-action #nav-anchor {
+  padding-top: 0;
+  padding-right: 40px;
+  padding-bottom: 0;
+  padding-left: 20px;
+}
+#panel-action h1 {
+  padding-top: 0;
+  padding-right: 40px;
+  padding-bottom: 0;
+  padding-left: 20px;
+}
+#panel-action nav a {
+  padding-top: 0;
+  padding-right: 40px;
+  padding-bottom: 0;
   padding-left: 20px;
 }
 #panel-main {
@@ -1124,11 +1381,14 @@ input.valid {
   padding-bottom: 20px;
   padding-left: 0;
 }
+/*******************/
+/* ACCOUNT WIDGET  */
+/*******************/
 .account {
   position: relative;
   text-align: center;
   width: 54px;
-  padding-top: 18px;
+  padding-top: 1.25em;
 }
 .account.auth:hover {
   background-color: #e8e8ed;
@@ -1143,7 +1403,9 @@ input.valid {
 .account .actions {
   position: absolute;
   top: 50px;
-  left: 0;
+  right: 0;
+  bottom: auto;
+  left: auto;
   display: none;
   width: 186px;
   background-color: #e8e8ed;
@@ -1155,9 +1417,9 @@ input.valid {
   margin-left: 18px;
   margin-right: 18px;
   font-weight: bold;
-  border-bottom: 1px solid #d0d0dc;
   height: 44px;
   line-height: 44px;
+  border-bottom: 1px solid #d0d0dc;
 }
 .account .actions a:last-of-type {
   border-top: 0;
@@ -1173,7 +1435,10 @@ input.valid {
   -moz-border-radius: 58px;
   border-radius: 58px;
 }
-#filter {
+/*******************/
+/*  FILTER WIDGET  */
+/*******************/
+.filter {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -1181,24 +1446,33 @@ input.valid {
   width: 100%;
   clear: both;
 }
-#filter select {
-  background: transparent;
-  width: 60px;
-  padding: 5px;
-  font-size: 1em;
-  border: 0;
-  border-radius: 0;
-  -webkit-appearance: none;
-  color: #141452;
-  font-weight: bold;
-  line-height: 1em;
+.filter select {
   padding-top: 0;
   padding-right: 0;
   padding-bottom: 0;
   padding-left: 0;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
+  background-color: transparent;
+  width: 60px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+  font-size: 1em;
+  line-height: 1em;
+  font-weight: bold;
+  color: #141452;
+  border-radius: 0;
+  -webkit-appearance: none;
 }
-#filter .arrow {
-  content: 'this';
+.account .actions {
+  top: 50px;
+  right: auto;
+  bottom: auto;
+  left: 0;
 }
 h1,
 h2,

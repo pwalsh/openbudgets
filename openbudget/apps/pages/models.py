@@ -38,6 +38,7 @@ class Page(TimeStampedModel):
     )
     parent = models.ForeignKey(
         'self',
+        related_name='children',
         blank=True,
         null=True
     )

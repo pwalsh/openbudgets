@@ -8,11 +8,10 @@
     }
 }
 
-.overlay-object {
-        .options {
+#overlay-login .close, #overlay-register .close, #overlay-password-reset .close, #overlay-password-change .close, #overlay-contact .close {
+    .coordinates(@top: 0; @left: -37px);
+}
 
-        &:last-of-type {
-            text-align: left;
-        }
-    }
+#overlay-login .options:last-of-type, #overlay-register .options:last-of-type, #overlay-password-reset .options:last-of-type, #overlay-password-change .options:last-of-type, #overlay-contact .options:last-of-type  {
+    .text-align(left);
 }
