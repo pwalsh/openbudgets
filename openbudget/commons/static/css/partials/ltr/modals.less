@@ -28,6 +28,7 @@
     }
 
     h3 {
+        .position(relative);
         .padding-top(@unit-em / 2);
         .margin-bottom(0);
         .font-size(@unit-em);
@@ -48,6 +49,15 @@
         }
     }
 
+    .close {
+        .position(absolute);
+        .coordinates(@top: 0; @right: -37px);
+        .height(17px);
+        .width(17px);
+        .cursor(pointer);
+        background: url('/static/img/close_white.png') no-repeat;
+    }
+
     .notices {
         .layout-object(70%);
         .color(@color-text-alert);
@@ -57,8 +67,9 @@
     }
 
     .action {
-        .layout-object(30%);
+        .layout-object(87px);
         .position(relative);
+        .-float;
     }
 
     .options {
@@ -88,4 +99,12 @@
     .overlay-object(290px; 300px);
 }
 
+#overlay-contact {
+    .overlay-object(600px; 450px);
 
+    h3 {
+        .font-size(@unit-em * 1.375);
+        .line-height(3em);
+        .padding-top(0);
+    }
+}

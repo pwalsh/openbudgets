@@ -154,8 +154,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
-    'openbudget.commons.context_processors.get_site',
-    'openbudget.commons.context_processors.auth_forms',
+    'openbudget.commons.context_processors.site',
+    'openbudget.commons.context_processors.forms',
     'openbudget.commons.context_processors.openbudgets',
 )
 

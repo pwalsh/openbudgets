@@ -4,9 +4,10 @@ from django.contrib.sites.models import Site
 from django.utils.translation import ugettext as _
 from openbudget.apps.accounts.forms import CustomAuthenticationForm, \
     CustomRegistrationForm, CustomPasswordResetForm, CustomPasswordChangeForm
+from openbudget.apps.pages.forms import ContactForm
 
 
-def get_site(request):
+def site(request):
     """Returns a Site object for the global request context"""
     # If we will later map multiple hosts to the project
     #host = request.get_host()
@@ -18,17 +19,18 @@ def get_site(request):
     return {'site': site}
 
 
-def auth_forms(request):
+def forms(request):
 
-    auth_forms = {}
-    auth_forms['login_form'] = CustomAuthenticationForm
-    auth_forms['registration_form'] = CustomRegistrationForm
-    auth_forms['password_reset_form'] = CustomPasswordResetForm
+    forms = {}
+    forms['login_form'] = CustomAuthenticationForm
+    forms['registration_form'] = CustomRegistrationForm
+    forms['password_reset_form'] = CustomPasswordResetForm
+    forms['contact_form'] = ContactForm
 
     if request.user.is_authenticated:
-        auth_forms['password_change_form'] = CustomPasswordChangeForm
+        forms['password_change_form'] = CustomPasswordChangeForm
 
-    return auth_forms
+    return forms
 
 
 def openbudgets(request):

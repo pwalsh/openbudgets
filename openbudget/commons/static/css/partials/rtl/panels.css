@@ -34,7 +34,7 @@
   position: relative;
 }
 #panel-nav #app_logo #panel-nav-close {
-  background: url('/static/img/panel_nav_close.png') no-repeat;
+  background: url('/static/img/close_green.png') no-repeat;
   position: absolute;
   top: 0;
   left: 0;

@@ -28,6 +28,7 @@ input[type="reset"],
 input[type="submit"],
 button[disabled],
 html input[disabled],
+textarea,
 .mock-button {
   width: 100%;
   height: 2.5em;
@@ -43,8 +44,17 @@ html input[disabled],
   border-right: 0;
   border-bottom: 0;
   border-left: 0;
-  padding-right: 18px;
-  padding-left: 18px;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+textarea {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  min-height: 16.5em;
+  background-color: #e8e8ed;
+}
+textarea:focus {
+  background-color: #ffffff;
 }
 input {
   border-bottom: 1px solid #d0d0dc;

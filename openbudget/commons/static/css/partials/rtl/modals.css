@@ -48,6 +48,7 @@
   padding-left: 18px;
 }
 #overlay-login h3 {
+  position: relative;
   padding-top: 0.5em;
   margin-bottom: 0;
   font-size: 1em;
@@ -63,6 +64,17 @@
 }
 #overlay-login a.strong {
   color: #141452;
+}
+#overlay-login .close {
+  position: absolute;
+  top: 0;
+  right: -37px;
+  bottom: auto;
+  left: auto;
+  height: 17px;
+  width: 17px;
+  cursor: pointer;
+  background: url('/static/img/close_white.png') no-repeat;
 }
 #overlay-login .notices {
   -webkit-box-sizing: border-box;
@@ -121,6 +133,7 @@
   padding-left: 18px;
 }
 #overlay-register h3 {
+  position: relative;
   padding-top: 0.5em;
   margin-bottom: 0;
   font-size: 1em;
@@ -136,6 +149,17 @@
 }
 #overlay-register a.strong {
   color: #141452;
+}
+#overlay-register .close {
+  position: absolute;
+  top: 0;
+  right: -37px;
+  bottom: auto;
+  left: auto;
+  height: 17px;
+  width: 17px;
+  cursor: pointer;
+  background: url('/static/img/close_white.png') no-repeat;
 }
 #overlay-register .notices {
   -webkit-box-sizing: border-box;
@@ -194,6 +218,7 @@
   padding-left: 18px;
 }
 #overlay-password-reset h3 {
+  position: relative;
   padding-top: 0.5em;
   margin-bottom: 0;
   font-size: 1em;
@@ -209,6 +234,17 @@
 }
 #overlay-password-reset a.strong {
   color: #141452;
+}
+#overlay-password-reset .close {
+  position: absolute;
+  top: 0;
+  right: -37px;
+  bottom: auto;
+  left: auto;
+  height: 17px;
+  width: 17px;
+  cursor: pointer;
+  background: url('/static/img/close_white.png') no-repeat;
 }
 #overlay-password-reset .notices {
   -webkit-box-sizing: border-box;
@@ -267,6 +303,7 @@
   padding-left: 18px;
 }
 #overlay-password-change h3 {
+  position: relative;
   padding-top: 0.5em;
   margin-bottom: 0;
   font-size: 1em;
@@ -282,6 +319,17 @@
 }
 #overlay-password-change a.strong {
   color: #141452;
+}
+#overlay-password-change .close {
+  position: absolute;
+  top: 0;
+  right: -37px;
+  bottom: auto;
+  left: auto;
+  height: 17px;
+  width: 17px;
+  cursor: pointer;
+  background: url('/static/img/close_white.png') no-repeat;
 }
 #overlay-password-change .notices {
   -webkit-box-sizing: border-box;
@@ -314,10 +362,107 @@
 #overlay-password-change .options:last-of-type {
   text-align: right;
 }
+#overlay-contact {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 600px;
+  height: 450px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  background-color: #d0d0dc;
+}
+#overlay-contact h3,
+#overlay-contact .notices,
+#overlay-contact .options {
+  padding-right: 18px;
+  padding-left: 18px;
+}
+#overlay-contact h3 {
+  position: relative;
+  padding-top: 0.5em;
+  margin-bottom: 0;
+  font-size: 1em;
+  font-weight: bold;
+}
+#overlay-contact a {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.875em;
+}
+#overlay-contact a.weak {
+  color: #a4a4bc;
+}
+#overlay-contact a.strong {
+  color: #141452;
+}
+#overlay-contact .close {
+  position: absolute;
+  top: 0;
+  right: -37px;
+  bottom: auto;
+  left: auto;
+  height: 17px;
+  width: 17px;
+  cursor: pointer;
+  background: url('/static/img/close_white.png') no-repeat;
+}
+#overlay-contact .notices {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 70%;
+  color: #ff0059;
+  font-size: 0.75em;
+  height: 2.5em;
+  line-height: 3.5em;
+}
+#overlay-contact .action {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 30%;
+  position: relative;
+}
+#overlay-contact .options {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 50%;
+  font-size: 0.875em;
+  height: 2em;
+}
+#overlay-contact .options:last-of-type {
+  text-align: right;
+}
+#overlay-contact h3 {
+  font-size: 1.375em;
+  line-height: 3em;
+  padding-top: 0;
+}
 #overlay .close {
   right: none;
   left: 10px;
 }
-.overlay-object .options:last-of-type {
-  text-align: left;
+#overlay-login .close,
+#overlay-register .close,
+#overlay-password-reset .close,
+#overlay-password-change .close,
+#overlay-contact .close {
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: -37px;
 }

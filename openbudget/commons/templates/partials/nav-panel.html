@@ -30,7 +30,7 @@
         <a href="#">{% trans 'Credits' %}</a>
         <a href="{% url 'page' slug='terms' %}">{% trans 'Terms' %}</a>
         <a href="{% url 'page' slug='privacy' %}">{% trans 'Privacy' %}</a>
-        <a href="{% url 'page' slug='contact' %}">{% trans 'Contact' %}</a>
+        <a href="{% url 'page' slug='contact' %}" class="contact-link">{% trans 'Contact' %}</a>
         <a href="{% url 'api' subdomain='api' %}">{% trans 'API' %}</a>
     </nav>
     {% comment %}

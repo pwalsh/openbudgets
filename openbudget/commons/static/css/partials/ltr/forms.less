@@ -14,13 +14,23 @@
     .cursor;
 }
 
-input, button, html input[type="button"], input[type="reset"], input[type="submit"], button[disabled], html input[disabled], .mock-button {
+input, button, html input[type="button"], input[type="reset"], input[type="submit"], button[disabled], html input[disabled], textarea, .mock-button {
     .width;
     .height(@unit-em * 2.5);
     .margin-reset;
     .padding-reset;
     .border-reset;
-    .padding-horizontal(18px);
+    .padding-horizontal(20px);
+}
+
+textarea {
+    .padding-vertical(20px);
+    min-height: 16.5em;
+    .background-color(@grey-light);
+
+    &:focus {
+        .background-color(@white);
+    }
 }
 
 input {
