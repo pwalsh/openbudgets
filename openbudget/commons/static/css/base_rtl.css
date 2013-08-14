@@ -903,7 +903,9 @@ input.valid {
   border-bottom: 1px solid #e8e8ed;
 }
 #text .full {
-  margin-bottom: 2.75em;
+  margin-bottom: 2em;
+  font-size: 1.375em;
+  font-weight: bold;
   color: #141452;
   font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
 }
