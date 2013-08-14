@@ -1,7 +1,9 @@
 from django.views.generic import TemplateView, DetailView, FormView
 from django.http import HttpResponse
+from django.utils.translation import ugettext as _
 from openbudget.apps.pages.models import Page
 from openbudget.apps.pages.forms import ContactForm
+from openbudget.commons.mixins.views import JSONResponseMixin
 
 
 class HomeView(TemplateView):
@@ -13,11 +15,12 @@ class HomeView(TemplateView):
         return context
 
 
-class ContactView(FormView):
+class ContactView(JSONResponseMixin, FormView):
     form_class = ContactForm
     template_name = 'pages/contact.html'
+    success_url = '/contact/'
 
-    def form_invalid(self, form, request=None):
+    def form_invalid(self, form, *args, **kwargs):
 
         response = super(ContactView, self).form_invalid(form)
 
@@ -33,6 +36,10 @@ class ContactView(FormView):
 
                 chosen_error = form.errors['name'][0]
 
+            elif 'message' in dict(form.errors):
+
+                chosen_error = form.errors['message'][0]
+
             else:
 
                 chosen_error = form.errors['__all__'][0]
@@ -47,13 +54,15 @@ class ContactView(FormView):
 
             return response
 
-    def form_valid(self, request, form):
+    def form_valid(self, form, *args, **kwargs):
 
-        response = super(ContactView, self).form_valid(request, form)
+        response = super(ContactView, self).form_valid(form)
 
         if self.request.is_ajax():
+
             data = {
-                'data': _('Check your email to proceed'),
+                'data': _('Success'),
+                'next': self.request.POST['next']
             }
 
             return self.render_to_json_response(data)
