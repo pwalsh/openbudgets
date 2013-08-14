@@ -1286,6 +1286,7 @@ input.valid {
   background-color: #c4c4d3;
 }
 #panel-main {
+  position: relative;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
