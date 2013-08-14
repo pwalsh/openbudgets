@@ -92,8 +92,9 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: left;
-  width: 30%;
+  width: 87px;
   position: relative;
+  float: right;
 }
 #overlay-login .options {
   -webkit-box-sizing: border-box;
@@ -177,8 +178,9 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: left;
-  width: 30%;
+  width: 87px;
   position: relative;
+  float: right;
 }
 #overlay-register .options {
   -webkit-box-sizing: border-box;
@@ -262,8 +264,9 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: left;
-  width: 30%;
+  width: 87px;
   position: relative;
+  float: right;
 }
 #overlay-password-reset .options {
   -webkit-box-sizing: border-box;
@@ -347,8 +350,9 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: left;
-  width: 30%;
+  width: 87px;
   position: relative;
+  float: right;
 }
 #overlay-password-change .options {
   -webkit-box-sizing: border-box;
@@ -432,8 +436,9 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: left;
-  width: 30%;
+  width: 87px;
   position: relative;
+  float: right;
 }
 #overlay-contact .options {
   -webkit-box-sizing: border-box;
@@ -465,4 +470,10 @@
   right: auto;
   bottom: auto;
   left: -37px;
+}
+#overlay-login .options:last-of-type,
+#overlay-register,
+#overlay-password-reset,
+#overlay-password-change {
+  text-align: left;
 }

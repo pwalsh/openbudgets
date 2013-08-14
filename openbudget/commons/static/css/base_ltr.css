@@ -433,8 +433,8 @@ input.valid {
 #overlay-login h3,
 #overlay-login .notices,
 #overlay-login .options {
-  padding-right: 18px;
-  padding-left: 18px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 #overlay-login h3 {
   position: relative;
@@ -519,8 +519,8 @@ input.valid {
 #overlay-register h3,
 #overlay-register .notices,
 #overlay-register .options {
-  padding-right: 18px;
-  padding-left: 18px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 #overlay-register h3 {
   position: relative;
@@ -605,8 +605,8 @@ input.valid {
 #overlay-password-reset h3,
 #overlay-password-reset .notices,
 #overlay-password-reset .options {
-  padding-right: 18px;
-  padding-left: 18px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 #overlay-password-reset h3 {
   position: relative;
@@ -691,8 +691,8 @@ input.valid {
 #overlay-password-change h3,
 #overlay-password-change .notices,
 #overlay-password-change .options {
-  padding-right: 18px;
-  padding-left: 18px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 #overlay-password-change h3 {
   position: relative;
@@ -777,8 +777,8 @@ input.valid {
 #overlay-contact h3,
 #overlay-contact .notices,
 #overlay-contact .options {
-  padding-right: 18px;
-  padding-left: 18px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 #overlay-contact h3 {
   position: relative;
