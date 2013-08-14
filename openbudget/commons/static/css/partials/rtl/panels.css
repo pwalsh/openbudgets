@@ -47,6 +47,9 @@
   cursor: pointer;
   background: url('/static/img/close_green.png') no-repeat;
 }
+#panel-nav #app_logo #panel-nav-close:hover {
+  background: url('/static/img/close_white.png') no-repeat;
+}
 #panel-nav header nav {
   width: 100%;
 }
@@ -176,7 +179,6 @@
   padding-bottom: 20px;
   padding-left: 20px;
   background-color: #ffffff;
-  overflow: hidden;
 }
 #panel-main #aux {
   height: 4em;
