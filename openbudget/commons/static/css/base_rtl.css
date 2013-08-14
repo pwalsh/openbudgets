@@ -1128,6 +1128,12 @@ input.valid {
 }
 /* @import "../../lib/adaptabl/src/normalize"; */
 #panel-nav {
+  position: absolute;
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  display: none;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -1139,10 +1145,7 @@ input.valid {
   padding-bottom: 20px;
   padding-left: 40px;
   background-color: #00ccc2;
-  display: none;
   z-index: 99;
-  position: fixed;
-  top: 0;
 }
 #panel-nav #app_logo {
   padding-top: 21px;

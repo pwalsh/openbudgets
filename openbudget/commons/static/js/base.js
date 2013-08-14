@@ -201,7 +201,7 @@
             var x = e.pageX - this.offsetLeft,
             y = e.pageY - this.offsetTop;
 
-            if (x >= 290) {
+            if (x >= 295) {
 
                 $('#panel-nav').show();
 
