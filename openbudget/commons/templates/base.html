@@ -18,6 +18,7 @@
 
         <base href="{{ site.url }}" />
         <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/base_{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}.css" />
+        <link rel="stylesheet" href="/static/lib/jqScroll/jqscroll.css"/>
         {% block stylesheets %}
 
         {% endblock stylesheets %}
@@ -90,7 +91,10 @@
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <script src="{{ STATIC_URL }}js/base.js"></script>
-
+        <script src="/static/lib/jqScroll/jqscroll.js"></script>
+        <script>
+        var $scrolled = $('#entities-inactive').scroller();
+        </script>
         {% endblock js_body %}
     </body>
 </html>
