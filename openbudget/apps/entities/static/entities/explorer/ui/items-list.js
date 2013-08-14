@@ -65,6 +65,12 @@ define([
                 '-actual'   : resources.utils.reverseSorting('actual')
             },
             data_events     : {
+                request : function (resource, xhr, options) {
+                    if ( this.last_request && this.last_request.state() == 'pending' ) {
+                        this.last_request.abort();
+                    }
+                    this.last_request = xhr;
+                },
                 reset   : function () {
                     this.has_data = true;
                     delete this.$original_children;
@@ -121,7 +127,7 @@ define([
                                 return;
                             }
                         }
-                        this.wake({
+                        this._finally().wake({
                             search  : term
                         });
                     });
