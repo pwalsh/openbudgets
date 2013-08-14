@@ -23,3 +23,12 @@ def get_media_file_path(instance, filename):
         instance.get_class_name(),
         unicode(instance.uuid) + ext)
     return value
+
+
+def commas_format(value):
+    res = '{:,}'.format(value)
+    parts = res.split('.')
+    if parts[1] == '00':
+        res = parts[0]
+    return res
+
