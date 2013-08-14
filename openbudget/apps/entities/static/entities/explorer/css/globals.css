@@ -95,6 +95,10 @@ svg {
     overflow: visible;
 }
 
+.amount:before {
+    content: '\20aa';
+}
+
 .top_container {
     position: absolute;
     top: 0;
