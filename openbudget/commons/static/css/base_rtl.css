@@ -1141,9 +1141,9 @@ input.valid {
   width: 300px;
   height: 100%;
   padding-top: 20px;
-  padding-right: 20px;
+  padding-right: 0;
   padding-bottom: 20px;
-  padding-left: 40px;
+  padding-left: 0;
   background-color: #00ccc2;
   z-index: 99;
 }
@@ -1155,13 +1155,15 @@ input.valid {
   position: relative;
 }
 #panel-nav #app_logo #panel-nav-close {
-  background: url('/static/img/close_green.png') no-repeat;
   position: absolute;
   top: 0;
-  left: 0;
+  right: 20px;
+  bottom: auto;
+  left: auto;
   width: 17px;
   height: 17px;
   cursor: pointer;
+  background: url('/static/img/close_green.png') no-repeat;
 }
 #panel-nav header nav {
   width: 100%;
@@ -1169,6 +1171,10 @@ input.valid {
 #panel-nav header a {
   display: block;
   font-size: 2.75em;
+  padding-top: 0;
+  padding-right: 20px;
+  padding-bottom: 0;
+  padding-left: 40px;
   line-height: 1.25em;
   color: #ffffff;
   text-decoration: none;
@@ -1190,22 +1196,29 @@ input.valid {
   box-sizing: border-box;
   float: right;
   width: 73px;
-  margin-bottom: 24px;
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
   padding-top: 0;
-  padding-right: 0;
+  padding-right: 20px;
   padding-bottom: 0;
   padding-left: 40px;
-  background: url('/static/img/sponsor_logo.png') no-repeat left;
+  font-size: 11px;
   line-height: 0.925em;
   color: #026a74;
-  font-size: 11px;
   font-weight: bold;
   text-decoration: none;
-  display: block;
+  background: url('/static/img/sponsor_logo.png') no-repeat left;
 }
 #panel-nav footer a#sponsor_logo:hover {
   color: #ffffff;
   background: url('/static/img/sponsor_logo_white.png') no-repeat left;
+}
+#panel-nav footer nav {
+  padding-top: 0;
+  padding-right: 20px;
+  padding-bottom: 0;
+  padding-left: 40px;
 }
 #panel-nav footer nav a {
   font-size: 12px;
@@ -1272,14 +1285,28 @@ input.valid {
   background-color: #d0d0dc;
 }
 #panel-nav {
-  padding-top: 20px;
-  padding-right: 40px;
-  padding-bottom: 20px;
-  padding-left: 20px;
   right: 0;
+}
+#panel-nav #app_logo #panel-nav-close {
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: 20px;
+}
+#panel-nav header a {
+  padding-top: 0;
+  padding-right: 40px;
+  padding-bottom: 0;
+  padding-left: 20px;
 }
 #panel-nav footer {
   right: 40;
+}
+#panel-nav footer nav {
+  padding-top: 0;
+  padding-right: 40px;
+  padding-bottom: 0;
+  padding-left: 20px;
 }
 #panel-nav footer nav a {
   padding-right: 0;
@@ -1289,7 +1316,7 @@ input.valid {
   padding-top: 0;
   padding-right: 40px;
   padding-bottom: 0;
-  padding-left: 0;
+  padding-left: 20px;
   background: url('/static/img/sponsor_logo.png') no-repeat right;
 }
 #panel-nav footer a#sponsor_logo:hover {

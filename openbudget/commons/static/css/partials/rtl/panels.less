@@ -3,11 +3,26 @@
 
 #panel-nav {
 
-    .padding(20px; 40px; 20px; 20px);
     right: 0;
 
+    #app_logo {
+
+        #panel-nav-close {
+            .coordinates(@top: 0; @left: 20px);
+        }
+    }
+
+    header {
+        a {
+            .padding(0; 40px; 0; 20px);
+        }
+    }
     footer {
         right: 40;
+
+        nav {
+            .padding(0; 40px; 0; 20px);
+        }
 
         nav a {
             .padding-right(0);
@@ -16,7 +31,7 @@
 
         a#sponsor_logo {
 
-            .padding(0; 40px; 0; 0);
+            .padding(0; 40px; 0; 20px);
             background: url('/static/img/sponsor_logo.png') no-repeat right;
 
             &:hover {
