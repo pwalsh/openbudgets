@@ -18,18 +18,20 @@
 </section>
 
 <section id="entities-inactive">
-    <h2>{% trans 'Soon' %}</h2>
-    <div class="entity-index">
-    {% regroup entities_inactive by index as entity_index %}
-    {% for entity_set in entity_index %}
-        <div class="set">
-            <h3>{{ entity_set.grouper }}</h3>
-            {% for entity in entity_set.list %}
-            <p>{{ entity.name }}</p>
-            {% endfor %}
+    <div><!-- added for jqScroll -->
+        <h2>{% trans 'Soon' %}</h2>
+        <div class="entity-index">
+        {% regroup entities_inactive by index as entity_index %}
+        {% for entity_set in entity_index %}
+            <div class="set">
+                <h3>{{ entity_set.grouper }}</h3>
+                {% for entity in entity_set.list %}
+                <p>{{ entity.name }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
         </div>
-    {% endfor %}
-    </div>
+    </div><!-- added for jqScroll -->
 </section>
 
 {% endblock content %}
