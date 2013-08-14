@@ -32,15 +32,14 @@
         .layout-object(580px);
         .-float;
         .margin-bottom(@unit-em * 2.75);
-        position: relative;
+        .position(relative);
 
         h3 {
-            font: @sans-serif;
+            .position(absolute);
+            .coordinates(@top: 0; @left: -256px);
+            .width(260px);
+            .font-size(@unit-em * 1.375);
             .bold;
-            position: absolute;
-            top: 0;
-            right: -256px;
-            .width(200px);
         }
     }
 }

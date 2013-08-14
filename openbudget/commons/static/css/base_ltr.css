@@ -876,12 +876,14 @@ input.valid {
   position: relative;
 }
 #text .section h3 {
-  font: "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
-  font-weight: bold;
   position: absolute;
   top: 0;
-  right: -256px;
-  width: 200px;
+  right: auto;
+  bottom: auto;
+  left: -256px;
+  width: 260px;
+  font-size: 1.375em;
+  font-weight: bold;
 }
 /*******************/
 /*   ENTITY LIST   */
