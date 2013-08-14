@@ -6,6 +6,7 @@ from rest_framework.serializers import ModelSerializer, Field
 from openbudget.apps.entities.models import Entity
 from openbudget.apps.sheets.models import Sheet, SheetItem, TemplateNode
 from openbudget.apps.international.utilities import translated_fields
+from openbudget.commons.utilities import commas_format
 
 
 class SheetItemUIMinSerializer(ModelSerializer):
@@ -141,12 +142,24 @@ class EntityDetail(DetailView):
         context['sheets'] = sheets
         context['object_json'] = renderer.render(EntityDetailUISerializer(self.object).data)
         context['sheet_json'] = renderer.render(SheetUISerializer(sheet).data) if sheet else '{}'
+
+        # format numbers in items_list
+        for item in items_list:
+            item['f_budget'] = commas_format(item['budget'])
+            item['f_actual'] = commas_format(item['actual'])
+
         context['items_list_json'] = renderer.render(items_list)
+
 
         # rendering initial state of breadcrumbs
         # setting initial scope name
         if scope_item:
             scope_item_serialized = SheetItemUISerializer(scope_item).data
+
+            # format numbers
+            scope_item_serialized['budget'] = commas_format(scope_item_serialized['budget'])
+            scope_item_serialized['actual'] = commas_format(scope_item_serialized['actual'])
+
             context['scope_item_json'] = renderer.render(scope_item_serialized)
             context['items_breadcrumbs'] = render_to_string('items_breadcrumbs.ms', {
                 'stache': scope_item_serialized['ancestors']
@@ -157,8 +170,8 @@ class EntityDetail(DetailView):
             context['scope_item_json'] = '{}'
             context['items_breadcrumbs'] = ''
             context['scope_item'] = {
-                'actual': reduce(lambda x, y: x + y['actual'], items_list, 0),
-                'budget': reduce(lambda x, y: x + y['budget'], items_list, 0),
+                'actual': commas_format(reduce(lambda x, y: x + y['actual'], items_list, 0)),
+                'budget': commas_format(reduce(lambda x, y: x + y['budget'], items_list, 0)),
                 'direction': '',
                 'code': ''
             }

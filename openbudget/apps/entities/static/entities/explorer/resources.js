@@ -12,6 +12,11 @@ define([
             return function (obj) {
                 return obj[property];
             };
+        },
+        formatCommas: function (obj) {
+            var parts = obj.toString().split('.');
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return parts.join('.');
         }
     }, uijet.utils);
 
@@ -77,6 +82,11 @@ define([
                 }
 
                 return result;
+            },
+            commas      : function () { 
+                return function (text, render) {
+                    return uijet.utils.formatCommas(render(text));
+                };
             }
         }),
         /*
