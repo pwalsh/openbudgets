@@ -41,10 +41,10 @@
 #text .section h3 {
   position: absolute;
   top: 0;
-  right: -256px;
+  right: auto;
   bottom: auto;
-  left: auto;
-  width: 270px;
+  left: -256px;
+  width: 260px;
   font-size: 1.375em;
   font-weight: bold;
 }

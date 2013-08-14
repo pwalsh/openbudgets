@@ -44,8 +44,8 @@
 #overlay-login h3,
 #overlay-login .notices,
 #overlay-login .options {
-  padding-right: 18px;
-  padding-left: 18px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 #overlay-login h3 {
   position: relative;
@@ -130,8 +130,8 @@
 #overlay-register h3,
 #overlay-register .notices,
 #overlay-register .options {
-  padding-right: 18px;
-  padding-left: 18px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 #overlay-register h3 {
   position: relative;
@@ -216,8 +216,8 @@
 #overlay-password-reset h3,
 #overlay-password-reset .notices,
 #overlay-password-reset .options {
-  padding-right: 18px;
-  padding-left: 18px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 #overlay-password-reset h3 {
   position: relative;
@@ -302,8 +302,8 @@
 #overlay-password-change h3,
 #overlay-password-change .notices,
 #overlay-password-change .options {
-  padding-right: 18px;
-  padding-left: 18px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 #overlay-password-change h3 {
   position: relative;
@@ -372,7 +372,7 @@
   box-sizing: border-box;
   float: left;
   width: 600px;
-  height: 450px;
+  height: 448px;
   position: absolute;
   top: 0;
   right: 0;
@@ -388,8 +388,8 @@
 #overlay-contact h3,
 #overlay-contact .notices,
 #overlay-contact .options {
-  padding-right: 18px;
-  padding-left: 18px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 #overlay-contact h3 {
   position: relative;
@@ -453,8 +453,7 @@
   text-align: right;
 }
 #overlay-contact h3 {
-  font-size: 1.375em;
-  line-height: 3em;
+  line-height: 4em;
   padding-top: 0;
 }
 #overlay .close {
@@ -472,8 +471,9 @@
   left: -37px;
 }
 #overlay-login .options:last-of-type,
-#overlay-register,
-#overlay-password-reset,
-#overlay-password-change {
+#overlay-register .options:last-of-type,
+#overlay-password-reset .options:last-of-type,
+#overlay-password-change .options:last-of-type,
+#overlay-contact .options:last-of-type {
   text-align: left;
 }
