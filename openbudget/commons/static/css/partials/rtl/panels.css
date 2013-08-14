@@ -70,7 +70,10 @@
   float: left;
   width: 73px;
   margin-bottom: 12px;
+  padding-top: 0;
   padding-right: 40px;
+  padding-bottom: 0;
+  padding-left: 0;
   background: url('/static/img/sponsor_logo.png') no-repeat right;
   line-height: 0.925em;
   color: #026a74;
@@ -160,6 +163,17 @@
 #panel-nav footer nav a {
   padding-right: 0;
   padding-left: 12px;
+}
+#panel-nav footer a#sponsor_logo {
+  padding-top: 0;
+  padding-right: 40px;
+  padding-bottom: 0;
+  padding-left: 0;
+  background: url('/static/img/sponsor_logo.png') no-repeat right;
+}
+#panel-nav footer a#sponsor_logo:hover {
+  color: #ffffff;
+  background: url('/static/img/sponsor_logo_white.png') no-repeat right;
 }
 #panel-action {
   padding-top: 20px;
