@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-12 08:01+0300\n"
+"POT-Creation-Date: 2013-08-14 09:45+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,8 +73,7 @@ msgstr ""
 msgid "Open Budget Repository"
 msgstr ""
 
-#: dashboard.py:104 apps/entities/templates/entities/explorer.html:69
-#: commons/templates/partials/nav-panel.html:37
+#: dashboard.py:104 commons/templates/partials/nav-panel.html:30
 msgid "Credits"
 msgstr ""
 
@@ -106,12 +105,12 @@ msgstr ""
 msgid "Account credentials"
 msgstr ""
 
-#: apps/accounts/forms.py:12
+#: apps/accounts/forms.py:12 apps/pages/forms.py:5
 msgid "Enter to finish"
 msgstr ""
 
 #: apps/accounts/forms.py:17 apps/accounts/forms.py:40
-#: apps/accounts/forms.py:79
+#: apps/accounts/forms.py:79 apps/pages/forms.py:15
 msgid "Enter Email"
 msgstr ""
 
@@ -249,10 +248,12 @@ msgstr ""
 
 #: apps/accounts/templates/accounts/partials/account_login.html:9
 #: apps/accounts/templates/accounts/partials/account_password_reset.html:9
+#: apps/pages/templates/pages/partials/contact.html:9
 msgid "New user"
 msgstr ""
 
 #: apps/accounts/templates/accounts/partials/account_login.html:12
+#: apps/pages/templates/pages/partials/contact.html:12
 #: commons/templates/registration/login.html:25
 msgid "Forgot password"
 msgstr ""
@@ -284,7 +285,7 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: apps/accounts/views/ui.py:101
+#: apps/accounts/views/ui.py:101 apps/pages/views.py:56
 msgid "Check your email to proceed"
 msgstr ""
 
@@ -348,7 +349,7 @@ msgstr ""
 
 #: apps/entities/models.py:42 apps/entities/models.py:110
 #: apps/entities/models.py:161
-#: apps/entities/templates/entities/explorer.html:36 apps/sheets/models.py:44
+#: apps/entities/templates/entities/explorer.html:40 apps/sheets/models.py:44
 #: apps/sheets/models.py:119 apps/taxonomies/models.py:98
 msgid "Name"
 msgstr ""
@@ -449,7 +450,7 @@ msgid "A short text for this entity, useful as an overview."
 msgstr ""
 
 #: apps/entities/models.py:172
-#: apps/entities/templates/entities/explorer.html:35 apps/sheets/models.py:125
+#: apps/entities/templates/entities/explorer.html:39 apps/sheets/models.py:125
 #: apps/sheets/templates/sheets/sheet_item_detail.html:6
 #: commons/templates/search/search.html:65
 #: commons/templates/search/search.html:80
@@ -512,67 +513,34 @@ msgstr ""
 msgid "Soon"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:16
-#: apps/entities/templates/entities/explorer.html:38
+#: apps/entities/templates/entities/explorer.html:20
+#: apps/entities/templates/entities/explorer.html:42
 #: apps/sheets/templates/sheets/sheet_detail.html:6
 #: apps/sheets/templates/sheets/sheet_detail.html:39
 msgid "Budget"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:22
-#: apps/entities/views/ui.py:160
+#: apps/entities/templates/entities/explorer.html:26
+#: apps/entities/views/ui.py:165
 msgid "Main"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:28
+#: apps/entities/templates/entities/explorer.html:32
 #: commons/templates/partials/_form_action_search.html:2
 msgid "Search"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:37
+#: apps/entities/templates/entities/explorer.html:41
 msgid "Direction"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:39
+#: apps/entities/templates/entities/explorer.html:43
 #: apps/sheets/templates/sheets/sheet_detail.html:41
 msgid "Actual"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:55
-msgid "Open Muni Budget"
-msgstr ""
-
 #: apps/entities/templates/entities/explorer.html:60
-#: commons/templates/partials/nav-panel.html:13
-msgid "Home"
-msgstr ""
-
-#: apps/entities/templates/entities/explorer.html:61
-msgid "Munis"
-msgstr ""
-
-#: apps/entities/templates/entities/explorer.html:62
-#: apps/projects/models.py:62
-#: apps/projects/templates/projects/project_list.html:6
-#: commons/templates/partials/nav-panel.html:15
-msgid "Projects"
-msgstr ""
-
-#: apps/entities/templates/entities/explorer.html:63
-#: apps/sources/templates/sources/auxsource_detail.html:22
-#: apps/sources/templates/sources/referencesource_detail.html:22
-#: commons/templates/partials/nav-panel.html:16
-msgid "About"
-msgstr ""
-
-#: apps/entities/templates/entities/explorer.html:67
-#: commons/templates/partials/nav-panel.html:33
-msgid "API"
-msgstr ""
-
-#: apps/entities/templates/entities/explorer.html:68
-#: commons/templates/partials/nav-panel.html:36
-msgid "Terms"
+msgid "Open Muni Budget"
 msgstr ""
 
 #: apps/interactions/models.py:63
@@ -643,20 +611,12 @@ msgid ""
 "or discussion on the item."
 msgstr ""
 
-#: apps/pages/forms.py:6
-msgid "We need your name to respond nicely!"
+#: apps/pages/forms.py:11
+msgid "Enter Name"
 msgstr ""
 
-#: apps/pages/forms.py:7
-msgid "We can&apos;t get back to you without it."
-msgstr ""
-
-#: apps/pages/forms.py:8
-msgid "What is it about"
-msgstr ""
-
-#: apps/pages/forms.py:9
-msgid "What do you want to tell us"
+#: apps/pages/forms.py:19
+msgid "Enter Message"
 msgstr ""
 
 #: apps/pages/models.py:11 apps/taxonomies/models.py:41
@@ -707,8 +667,14 @@ msgstr ""
 msgid "pages"
 msgstr ""
 
-#: apps/pages/templates/pages/home.html:9
-msgid "Welcome to Open Budget"
+#: apps/pages/templates/pages/home.html:6
+#: commons/templates/partials/nav-panel.html:13
+msgid "Home"
+msgstr ""
+
+#: apps/pages/templates/pages/partials/contact.html:6
+#: commons/templates/partials/nav-panel.html:33
+msgid "Contact"
 msgstr ""
 
 #: apps/projects/models.py:29
@@ -737,6 +703,12 @@ msgstr ""
 
 #: apps/projects/models.py:61
 msgid "Project"
+msgstr ""
+
+#: apps/projects/models.py:62
+#: apps/projects/templates/projects/project_list.html:6
+#: commons/templates/partials/nav-panel.html:15
+msgid "Projects"
 msgstr ""
 
 #: apps/projects/models.py:89
@@ -1087,6 +1059,12 @@ msgstr ""
 #: apps/sources/templates/sources/auxsource_detail.html:15
 #: apps/sources/templates/sources/referencesource_detail.html:15
 msgid "Uploaded by"
+msgstr ""
+
+#: apps/sources/templates/sources/auxsource_detail.html:22
+#: apps/sources/templates/sources/referencesource_detail.html:22
+#: commons/templates/partials/nav-panel.html:16
+msgid "About"
 msgstr ""
 
 #: apps/sources/templates/sources/auxsource_detail.html:25
@@ -1492,16 +1470,16 @@ msgstr ""
 msgid "Entities"
 msgstr ""
 
-#: commons/templates/partials/nav-panel.html:28 settings/base.py:329
-msgid "Public Knowledge Workshop"
+#: commons/templates/partials/nav-panel.html:31
+msgid "Terms"
+msgstr ""
+
+#: commons/templates/partials/nav-panel.html:32
+msgid "Privacy"
 msgstr ""
 
 #: commons/templates/partials/nav-panel.html:34
-msgid "Contact"
-msgstr ""
-
-#: commons/templates/partials/nav-panel.html:35
-msgid "Privacy"
+msgid "API"
 msgstr ""
 
 #: commons/templates/registration/activate.html:6
@@ -1751,4 +1729,8 @@ msgstr ""
 
 #: settings/base.py:327
 msgid "Open Local Budgets"
+msgstr ""
+
+#: settings/base.py:329
+msgid "Public Knowledge Workshop"
 msgstr ""
