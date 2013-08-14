@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-14 09:53+0300\n"
+"POT-Creation-Date: 2013-08-14 15:04+0300\n"
 "PO-Revision-Date: 2013-05-23 17:58+0000\n"
 "Last-Translator: Ram Ezrach <ram.ezrach@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -286,39 +286,35 @@ msgstr "צא"
 msgid "Login"
 msgstr "כניסה"
 
-#: apps/accounts/views/ui.py:101 apps/pages/views.py:56
+#: apps/accounts/views/ui.py:93
 msgid "Check your email to proceed"
 msgstr ""
 
-#: apps/accounts/views/ui.py:185
+#: apps/accounts/views/ui.py:177 apps/pages/views.py:64
 msgid "Success"
 msgstr ""
 
-#: apps/accounts/views/ui.py:197 commons/templates/registration/login.html:11
-#, fuzzy
+#: apps/accounts/views/ui.py:189 commons/templates/registration/login.html:11
 msgid "Incorrect credentials"
-msgstr "אישורי חשבון"
+msgstr "שם משתמש או סיסמה שגויים"
 
-#: apps/accounts/views/ui.py:251
-#, fuzzy
+#: apps/accounts/views/ui.py:243
 msgid "Your password has been changed"
-msgstr "הסיסמא שלך אופסה מחדש בהצלחה"
+msgstr "הסיסמה שלך שונתה"
 
-#: apps/accounts/views/ui.py:263
-#, fuzzy
+#: apps/accounts/views/ui.py:255
 msgid "The form has errors. try again"
-msgstr "היתה שגיאה בטופס, נסה שוב"
+msgstr "ישנן שגיאות בטופס, נסה שוב"
 
-#: apps/accounts/views/ui.py:325
+#: apps/accounts/views/ui.py:317
 #: commons/templates/registration/password_reset_done.html:11
 msgid "Success. Check your inbox"
 msgstr ""
 
-#: apps/accounts/views/ui.py:337
+#: apps/accounts/views/ui.py:329
 #: commons/templates/registration/password_reset_form.html:12
-#, fuzzy
 msgid "Unknown email address"
-msgstr "אימייל"
+msgstr "כתובת אימיל לא ידועה"
 
 #: apps/contexts/models.py:40
 msgid "Data object"
@@ -454,8 +450,7 @@ msgstr "תיאור"
 msgid "A short text for this entity, useful as an overview."
 msgstr ""
 
-#: apps/entities/models.py:172
-#: apps/entities/templates/entities/explorer.html:39 apps/sheets/models.py:125
+#: apps/entities/models.py:172 apps/sheets/models.py:125
 #: apps/sheets/templates/sheets/sheet_item_detail.html:6
 #: commons/templates/search/search.html:65
 #: commons/templates/search/search.html:80
@@ -514,7 +509,7 @@ msgstr "אין תקציבים לרשות זו"
 msgid "Localities"
 msgstr "רשויות"
 
-#: apps/entities/templates/entities/entity_list.html:21
+#: apps/entities/templates/entities/entity_list.html:22
 msgid "Soon"
 msgstr "בקרוב"
 
@@ -523,10 +518,14 @@ msgstr "בקרוב"
 #: apps/sheets/templates/sheets/sheet_detail.html:6
 #: apps/sheets/templates/sheets/sheet_detail.html:39
 msgid "Budget"
-msgstr "תקציב"
+msgstr "תכנון"
+
+#: apps/entities/templates/entities/explorer.html:25
+msgid "Search under:"
+msgstr "חיפוש תחת:"
 
 #: apps/entities/templates/entities/explorer.html:26
-#: apps/entities/views/ui.py:165
+#: apps/entities/views/ui.py:178
 msgid "Main"
 msgstr "ראשי"
 
@@ -535,14 +534,18 @@ msgstr "ראשי"
 msgid "Search"
 msgstr "חיפוש"
 
+#: apps/entities/templates/entities/explorer.html:39
+msgid "Order"
+msgstr "סידורי"
+
 #: apps/entities/templates/entities/explorer.html:41
 msgid "Direction"
-msgstr "כיוון"
+msgstr "סוג"
 
 #: apps/entities/templates/entities/explorer.html:43
 #: apps/sheets/templates/sheets/sheet_detail.html:41
 msgid "Actual"
-msgstr ""
+msgstr "ביצוע"
 
 #: apps/entities/templates/entities/explorer.html:60
 msgid "Open Muni Budget"
@@ -664,11 +667,11 @@ msgid ""
 "lists."
 msgstr ""
 
-#: apps/pages/models.py:54
+#: apps/pages/models.py:55
 msgid "page"
 msgstr "עמוד"
 
-#: apps/pages/models.py:55
+#: apps/pages/models.py:56
 msgid "pages"
 msgstr "עמודים"
 
@@ -677,6 +680,7 @@ msgstr "עמודים"
 msgid "Home"
 msgstr "דף הבית"
 
+#: apps/pages/templates/pages/page.html:16
 #: apps/pages/templates/pages/partials/contact.html:6
 #: commons/templates/partials/nav-panel.html:33
 msgid "Contact"
@@ -987,7 +991,7 @@ msgstr "כל הרשויות"
 
 #: apps/sheets/templates/sheets/sheet_item_detail.html:12
 msgid "budget"
-msgstr "תקציב"
+msgstr "תכנון"
 
 #: apps/sheets/templates/sheets/sheet_item_detail.html:22
 msgid "Back to the Budget"
@@ -1391,7 +1395,7 @@ msgstr "תאריך סיום"
 msgid "The end date for this %(class)s"
 msgstr ""
 
-#: commons/templates/base.html:41
+#: commons/templates/base.html:42
 msgid "Back to the home page"
 msgstr "חזרה לעמוד הבית"
 

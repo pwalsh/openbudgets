@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/base_rtl.css" />
     <link rel="stylesheet" href="{{ STATIC_URL }}entities/explorer/css/main.css"/>
     <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico" />
     <title>{% block metatitle %}{{ page.title }} | {{ site.name }}{% endblock metatitle %}</title>
@@ -22,7 +23,7 @@
                         {% for sheet in sheets %}<li data-id="{{ sheet.id }}">{{ sheet.period }}</li>{% endfor %}
                     </ul>
                 </span>
-                <ul id="items_breadcrumbs">
+                <ul id="items_breadcrumbs" data-prefix="{% trans 'Search under:' %}">
                     <li data-id="0">{% trans 'Main' %}</li>{{ items_breadcrumbs|safe }}
                 </ul>
                 <h2 id="sheet_scope_name">
@@ -36,7 +37,7 @@
             <section id="items_list_container">
                 <ul id="items_list_header">
                     <li class="items_list_header_node" data-column="type"></li>
-                    <li class="items_list_header_node" data-column="code">{% trans 'Code' %}</li>
+                    <li class="items_list_header_node" data-column="code">{% trans 'Order' %}</li>
                     <li class="items_list_header_node" data-column="name">{% trans 'Name' %}</li>
                     <li class="items_list_header_node" data-column="direction">{% trans 'Direction' %}</li>
                     <li class="items_list_header_node" data-column="budget">{% trans 'Budget' %}</li>
@@ -51,8 +52,8 @@
                 <span class="item_cell item_cell_code">{{ scope_item.code }}</span>
                 <span class="item_cell item_cell_name"></span>
                 <span class="item_cell item_cell_direction">{{ scope_item.direction }}</span>
-                <span class="item_cell item_cell_budget">{{ scope_item.budget }}</span>
-                <span class="item_cell item_cell_actual">{{ scope_item.actual}}</span>
+                <span class="item_cell item_cell_budget amount">{{ scope_item.budget }}</span>
+                <span class="item_cell item_cell_actual amount">{{ scope_item.actual}}</span>
             </footer>
         </section>
         <section id="right_container" class="top_container">

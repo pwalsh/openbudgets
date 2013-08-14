@@ -14,7 +14,8 @@ define([
     'project_modules/uijet-i18n'
 ], function (uijet, resources, api, Backbone, Router, $, Ebox, Q, Mustache) {
 
-    var explorer;
+    var initial_crumbs,
+        explorer;
 
     // make sure all jQuery requests (foreign and domestic) have a CSRF token 
     $(document).ajaxSend(function (event, xhr, settings) {
@@ -31,6 +32,10 @@ define([
     // get version endpoint
     api.getVersion();
 
+    initial_crumbs = (window.ITEM.ancestors && window.ITEM.ancestors.slice()) || [];
+    if ( window.ITEM.id )
+        initial_crumbs.push(window.ITEM);
+
     /*
      * Register resources
      */
@@ -39,7 +44,7 @@ define([
         uijet.Collection({
             model   : resources.Item
         }),
-        window.ITEM.ancestors || []
+        initial_crumbs
     )
     .Resource('ItemsListState',
         uijet.Model(), {

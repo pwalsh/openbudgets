@@ -59,9 +59,10 @@ svg {
 }
 .uijet_clearabletextinput {
     width: 100%;
+    height: auto;
     padding: 0;
     font-size: 3.261rem;
-    line-height: 150%;
+    line-height: 100%;
     border: none;
     outline: none;
 }
@@ -93,6 +94,10 @@ svg {
 .uijet_select_wrapper {
     height: auto;
     overflow: visible;
+}
+
+.amount:before {
+    content: '\20aa';
 }
 
 .top_container {
