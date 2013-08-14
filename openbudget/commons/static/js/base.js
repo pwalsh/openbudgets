@@ -196,19 +196,33 @@
 
     // NAV PANEL UX
     (function () {
-    
-        $('#nav-anchor').mouseenter(function (event) {
-            event.preventDefault();
-            $('#panel-nav').show();
-        });
-    
-        $('#panel-nav').mouseleave(function () {
-            $('#panel-nav').hide();
-        });
-    
-        $('#panel-nav-close').click(function () {
-            $('#panel-nav').hide();
-        });
+
+        $('#panel-action').mousemove(function(e){
+            var x = e.pageX - this.offsetLeft,
+            y = e.pageY - this.offsetTop;
+
+            if (x >= 290) {
+
+                $('#panel-nav').show();
+
+            } else {
+
+                $('#nav-anchor').mouseenter(function (event) {
+                    event.preventDefault();
+                    $('#panel-nav').show();
+                });
+
+                $('#panel-nav').mouseleave(function () {
+                    $('#panel-nav').hide();
+                });
+
+                $('#panel-nav-close').click(function () {
+                    $('#panel-nav').hide();
+                });
+
+            }
+
+         });
     
     }());
 
