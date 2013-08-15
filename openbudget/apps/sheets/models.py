@@ -266,6 +266,15 @@ class TemplateNode(BaseNode, TimeStampedModel, UUIDModel):
     def __unicode__(self):
         return self.code
 
+    def clean(self):
+
+        if self.parent and not self.direction == self.parent.direction:
+            raise ValidationError('A node must have the same direction as its '
+                                  'parent.')
+
+        if self.parent is self:
+            raise ValidationError('A node cannot be its own parent.')
+
 
 def inverse_changed(sender, instance, action, reverse, model, pk_set, **kwargs):
     if action == 'pre_add':
