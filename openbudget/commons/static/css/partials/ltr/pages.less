@@ -84,20 +84,8 @@
 }
 
 #entities-inactive {
-    .position(absolute);
-    .overflow(hidden);
-    .object;
-    .width(558px);
-    /* #panel-main>#aux height + #panel-main padding */
-    top: @unit-em * 4 + 20px;
-    bottom: 20px;
-    right: 20px;
+    .layout-object(558px);
     .entity-list;
-
-    .scrolled-content {
-        position: absolute;
-        width: 100%;
-    }
 
     h2 {
         .padding-bottom(@unit-em * 0.5);

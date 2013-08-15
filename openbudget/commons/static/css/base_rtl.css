@@ -1165,6 +1165,9 @@ input.valid {
   cursor: pointer;
   background: url('/static/img/close_green.png') no-repeat;
 }
+#panel-nav #app_logo #panel-nav-close:hover {
+  background: url('/static/img/close_white.png') no-repeat;
+}
 #panel-nav header nav {
   width: 100%;
 }
@@ -1283,6 +1286,7 @@ input.valid {
   background-color: #c4c4d3;
 }
 #panel-main {
+  position: relative;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
