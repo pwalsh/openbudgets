@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-14 09:53+0300\n"
+"POT-Creation-Date: 2013-08-15 11:54+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -285,41 +285,73 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: apps/accounts/views/ui.py:101 apps/pages/views.py:56
+#: apps/accounts/views/ui.py:93
 msgid "Check your email to proceed"
 msgstr ""
 
-#: apps/accounts/views/ui.py:185
+#: apps/accounts/views/ui.py:177 apps/pages/views.py:64
 msgid "Success"
 msgstr ""
 
-#: apps/accounts/views/ui.py:197 commons/templates/registration/login.html:11
+#: apps/accounts/views/ui.py:189 commons/templates/registration/login.html:11
 msgid "Incorrect credentials"
 msgstr ""
 
-#: apps/accounts/views/ui.py:251
+#: apps/accounts/views/ui.py:243
 msgid "Your password has been changed"
 msgstr ""
 
-#: apps/accounts/views/ui.py:263
+#: apps/accounts/views/ui.py:255
 msgid "The form has errors. try again"
 msgstr ""
 
-#: apps/accounts/views/ui.py:325
+#: apps/accounts/views/ui.py:317
 #: commons/templates/registration/password_reset_done.html:11
 msgid "Success. Check your inbox"
 msgstr ""
 
-#: apps/accounts/views/ui.py:337
+#: apps/accounts/views/ui.py:329
 #: commons/templates/registration/password_reset_form.html:12
 msgid "Unknown email address"
 msgstr ""
 
-#: apps/contexts/models.py:40
+#: apps/contexts/models.py:28
+msgid "Population (Male)"
+msgstr ""
+
+#: apps/contexts/models.py:29
+msgid "Population (Female)"
+msgstr ""
+
+#: apps/contexts/models.py:30
+msgid "Population"
+msgstr ""
+
+#: apps/contexts/models.py:31
+msgid "Ground Surface"
+msgstr ""
+
+#: apps/contexts/models.py:32
+msgid "Students"
+msgstr ""
+
+#: apps/contexts/models.py:33
+msgid "Schools"
+msgstr ""
+
+#: apps/contexts/models.py:34
+msgid "Gini Index"
+msgstr ""
+
+#: apps/contexts/models.py:35
+msgid "Socio-Economic Index"
+msgstr ""
+
+#: apps/contexts/models.py:44
 msgid "Data object"
 msgstr ""
 
-#: apps/contexts/models.py:41
+#: apps/contexts/models.py:45
 msgid "Contextual data as JSON for the Entity/Time Period."
 msgstr ""
 
@@ -349,7 +381,7 @@ msgstr ""
 
 #: apps/entities/models.py:42 apps/entities/models.py:110
 #: apps/entities/models.py:161
-#: apps/entities/templates/entities/explorer.html:40 apps/sheets/models.py:44
+#: apps/entities/templates/entities/explorer.html:41 apps/sheets/models.py:44
 #: apps/sheets/models.py:119 apps/taxonomies/models.py:98
 msgid "Name"
 msgstr ""
@@ -449,8 +481,7 @@ msgstr ""
 msgid "A short text for this entity, useful as an overview."
 msgstr ""
 
-#: apps/entities/models.py:172
-#: apps/entities/templates/entities/explorer.html:39 apps/sheets/models.py:125
+#: apps/entities/models.py:172 apps/sheets/models.py:125
 #: apps/sheets/templates/sheets/sheet_item_detail.html:6
 #: commons/templates/search/search.html:65
 #: commons/templates/search/search.html:80
@@ -513,33 +544,41 @@ msgstr ""
 msgid "Soon"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:20
-#: apps/entities/templates/entities/explorer.html:42
+#: apps/entities/templates/entities/explorer.html:21
+#: apps/entities/templates/entities/explorer.html:43
 #: apps/sheets/templates/sheets/sheet_detail.html:6
 #: apps/sheets/templates/sheets/sheet_detail.html:39
 msgid "Budget"
 msgstr ""
 
 #: apps/entities/templates/entities/explorer.html:26
-#: apps/entities/views/ui.py:165
+msgid "Search under:"
+msgstr ""
+
+#: apps/entities/templates/entities/explorer.html:27
+#: apps/entities/views/ui.py:186
 msgid "Main"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:32
+#: apps/entities/templates/entities/explorer.html:33
 #: commons/templates/partials/_form_action_search.html:2
 msgid "Search"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:41
+#: apps/entities/templates/entities/explorer.html:40
+msgid "Order"
+msgstr ""
+
+#: apps/entities/templates/entities/explorer.html:42
 msgid "Direction"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:43
+#: apps/entities/templates/entities/explorer.html:44
 #: apps/sheets/templates/sheets/sheet_detail.html:41
 msgid "Actual"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:60
+#: apps/entities/templates/entities/explorer.html:61
 msgid "Open Muni Budget"
 msgstr ""
 
@@ -659,11 +698,11 @@ msgid ""
 "lists."
 msgstr ""
 
-#: apps/pages/models.py:54
+#: apps/pages/models.py:55
 msgid "page"
 msgstr ""
 
-#: apps/pages/models.py:55
+#: apps/pages/models.py:56
 msgid "pages"
 msgstr ""
 
@@ -672,6 +711,7 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
+#: apps/pages/templates/pages/page.html:16
 #: apps/pages/templates/pages/partials/contact.html:6
 #: commons/templates/partials/nav-panel.html:33
 msgid "Contact"
@@ -1386,7 +1426,7 @@ msgstr ""
 msgid "The end date for this %(class)s"
 msgstr ""
 
-#: commons/templates/base.html:41
+#: commons/templates/base.html:42
 msgid "Back to the home page"
 msgstr ""
 

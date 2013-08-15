@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-14 15:04+0300\n"
+"POT-Creation-Date: 2013-08-15 11:54+0300\n"
 "PO-Revision-Date: 2013-05-23 17:58+0000\n"
 "Last-Translator: Ram Ezrach <ram.ezrach@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -316,11 +316,43 @@ msgstr ""
 msgid "Unknown email address"
 msgstr "כתובת אימיל לא ידועה"
 
-#: apps/contexts/models.py:40
+#: apps/contexts/models.py:28
+msgid "Population (Male)"
+msgstr "אוכלוסיית הגברים"
+
+#: apps/contexts/models.py:29
+msgid "Population (Female)"
+msgstr "אוכלוסיית הנשים"
+
+#: apps/contexts/models.py:30
+msgid "Population"
+msgstr "אוכלוסיה"
+
+#: apps/contexts/models.py:31
+msgid "Ground Surface"
+msgstr "שטח הרשות"
+
+#: apps/contexts/models.py:32
+msgid "Students"
+msgstr "תלמידים"
+
+#: apps/contexts/models.py:33
+msgid "Schools"
+msgstr "בתי ספר"
+
+#: apps/contexts/models.py:34
+msgid "Gini Index"
+msgstr "מדד ג'יני"
+
+#: apps/contexts/models.py:35
+msgid "Socio-Economic Index"
+msgstr "רמה דמוגרפית חברתית כלכלית"
+
+#: apps/contexts/models.py:44
 msgid "Data object"
 msgstr ""
 
-#: apps/contexts/models.py:41
+#: apps/contexts/models.py:45
 msgid "Contextual data as JSON for the Entity/Time Period."
 msgstr ""
 
@@ -350,7 +382,7 @@ msgstr ""
 
 #: apps/entities/models.py:42 apps/entities/models.py:110
 #: apps/entities/models.py:161
-#: apps/entities/templates/entities/explorer.html:40 apps/sheets/models.py:44
+#: apps/entities/templates/entities/explorer.html:41 apps/sheets/models.py:44
 #: apps/sheets/models.py:119 apps/taxonomies/models.py:98
 msgid "Name"
 msgstr "שם"
@@ -509,45 +541,45 @@ msgstr "אין תקציבים לרשות זו"
 msgid "Localities"
 msgstr "רשויות"
 
-#: apps/entities/templates/entities/entity_list.html:22
+#: apps/entities/templates/entities/entity_list.html:21
 msgid "Soon"
 msgstr "בקרוב"
 
-#: apps/entities/templates/entities/explorer.html:20
-#: apps/entities/templates/entities/explorer.html:42
+#: apps/entities/templates/entities/explorer.html:21
+#: apps/entities/templates/entities/explorer.html:43
 #: apps/sheets/templates/sheets/sheet_detail.html:6
 #: apps/sheets/templates/sheets/sheet_detail.html:39
 msgid "Budget"
 msgstr "תכנון"
 
-#: apps/entities/templates/entities/explorer.html:25
+#: apps/entities/templates/entities/explorer.html:26
 msgid "Search under:"
 msgstr "חיפוש תחת:"
 
-#: apps/entities/templates/entities/explorer.html:26
-#: apps/entities/views/ui.py:178
+#: apps/entities/templates/entities/explorer.html:27
+#: apps/entities/views/ui.py:186
 msgid "Main"
 msgstr "ראשי"
 
-#: apps/entities/templates/entities/explorer.html:32
+#: apps/entities/templates/entities/explorer.html:33
 #: commons/templates/partials/_form_action_search.html:2
 msgid "Search"
 msgstr "חיפוש"
 
-#: apps/entities/templates/entities/explorer.html:39
+#: apps/entities/templates/entities/explorer.html:40
 msgid "Order"
 msgstr "סידורי"
 
-#: apps/entities/templates/entities/explorer.html:41
+#: apps/entities/templates/entities/explorer.html:42
 msgid "Direction"
 msgstr "סוג"
 
-#: apps/entities/templates/entities/explorer.html:43
+#: apps/entities/templates/entities/explorer.html:44
 #: apps/sheets/templates/sheets/sheet_detail.html:41
 msgid "Actual"
 msgstr "ביצוע"
 
-#: apps/entities/templates/entities/explorer.html:60
+#: apps/entities/templates/entities/explorer.html:61
 msgid "Open Muni Budget"
 msgstr "תקציב מקומי פתוח"
 
@@ -1875,9 +1907,6 @@ msgstr "הסדנא לידע ציבורי"
 #~ msgid "Demographic"
 #~ msgstr "דמוגרפי"
 
-#~ msgid "Population"
-#~ msgstr "אוכלוסיה"
-
 #~ msgid "Education"
 #~ msgstr "חינוך"
 
@@ -1886,9 +1915,6 @@ msgstr "הסדנא לידע ציבורי"
 
 #~ msgid "Primary schools"
 #~ msgstr "בתי ספר יסודיים "
-
-#~ msgid "Pre-schools"
-#~ msgstr "גנים"
 
 #~ msgid "State of Israel"
 #~ msgstr "מדינת ישראל"
