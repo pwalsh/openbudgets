@@ -1,0 +1,19 @@
+#left_container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 360px;
+}
+
+#items_comments_buttons_wrapper {
+    position: absolute;
+}
+
+#items_comments_container_wrapper {
+    position: absolute;
+    top: 147px;
+    bottom: 0;
+    right: 75px;
+    left: 0;
+}
