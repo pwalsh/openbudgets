@@ -22,14 +22,18 @@ class Context(TimeStampedModel, PeriodicModel):
 
     No particular keys are required at the data level.
 
-    Currently, Open Budget *expects* to find at least the following keys for use
-    on Entity detail pages, and the web API for visualizations:
-
-    * population
-    * students
-    * ground_surface
-
     """
+
+    KEYS = {
+        'population': _('Population (Male)'),
+        'population_male': _('Population (Female)'),
+        'population_female': _('Population'),
+        'ground_surface': _('Ground Surface'),
+        'students': _('Students'),
+        'schools': _('Schools'),
+        'gini_index': _('Gini Index'),
+        'socioeconomic_index': _('Socio-Economic Index')
+    }
 
     objects = ContextManager()
 
@@ -40,8 +44,6 @@ class Context(TimeStampedModel, PeriodicModel):
         _('Data object'),
         help_text=_('Contextual data as JSON for the Entity/Time Period.')
     )
-
-    # TODO: Enforce some period
 
     def __unicode__(self):
         return 'Contextual data for {entity} in {period}'.format(

@@ -1,3 +1,4 @@
+import datetime
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from openbudget.apps.contexts.serializers import ContextBaseSerializer
 from openbudget.apps.contexts.models import Context
@@ -18,6 +19,8 @@ class ContextList(ListAPIView):
         domains = self.request.QUERY_PARAMS.get('domains', None)
         divisions = self.request.QUERY_PARAMS.get('divisions', None)
         entities = self.request.QUERY_PARAMS.get('entities', None)
+        periods = self.request.QUERY_PARAMS.get('periods', None)
+        get_latest = self.request.QUERY_PARAMS.get('get_latest', None)
 
         # DOMAINS: return contexts used in the given domain(s).
         if domains:
@@ -32,7 +35,12 @@ class ContextList(ListAPIView):
         # ENTITIES: return contexts used by the given entity(-ies).
         if entities:
             entities = entities.split(',')
-            queryset = queryset.filter(entity=entities)
+            queryset = queryset.filter(entity__in=entities)
+
+        # PERIODS: return contexts matching the given period(s).
+        if periods:
+            periods = [datetime.date(int(p), 1, 1) for p in periods.split(',')]
+            queryset = queryset.filter(period_start__in=periods)
 
         return queryset
 

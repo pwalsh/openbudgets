@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-14 09:53+0300\n"
+"POT-Creation-Date: 2013-08-15 11:54+0300\n"
 "PO-Revision-Date: 2013-07-04 14:04+0000\n"
 "Last-Translator: Paul Walsh <paulywalsh@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -305,45 +305,77 @@ msgstr "الخروج"
 msgid "Login"
 msgstr "دخول"
 
-#: apps/accounts/views/ui.py:101 apps/pages/views.py:56
+#: apps/accounts/views/ui.py:93
 msgid "Check your email to proceed"
 msgstr ""
 
-#: apps/accounts/views/ui.py:185
+#: apps/accounts/views/ui.py:177 apps/pages/views.py:64
 msgid "Success"
 msgstr ""
 
-#: apps/accounts/views/ui.py:197 commons/templates/registration/login.html:11
+#: apps/accounts/views/ui.py:189 commons/templates/registration/login.html:11
 #, fuzzy
 msgid "Incorrect credentials"
 msgstr "اعتماد الحساب"
 
-#: apps/accounts/views/ui.py:251
+#: apps/accounts/views/ui.py:243
 #, fuzzy
 msgid "Your password has been changed"
 msgstr "قد تم إعادة تعيين كلمة المرور بنجاح"
 
-#: apps/accounts/views/ui.py:263
+#: apps/accounts/views/ui.py:255
 #, fuzzy
 msgid "The form has errors. try again"
 msgstr "كان هناك خطأ في النموذج. حاول مرة أخرى"
 
-#: apps/accounts/views/ui.py:325
+#: apps/accounts/views/ui.py:317
 #: commons/templates/registration/password_reset_done.html:11
 msgid "Success. Check your inbox"
 msgstr ""
 
-#: apps/accounts/views/ui.py:337
+#: apps/accounts/views/ui.py:329
 #: commons/templates/registration/password_reset_form.html:12
 #, fuzzy
 msgid "Unknown email address"
 msgstr "المصممين البريد الإلكتروني"
 
-#: apps/contexts/models.py:40
+#: apps/contexts/models.py:28
+msgid "Population (Male)"
+msgstr "عدد السكان الذكور"
+
+#: apps/contexts/models.py:29
+msgid "Population (Female)"
+msgstr "عدد السكان النساء"
+
+#: apps/contexts/models.py:30
+msgid "Population"
+msgstr "عدد السكان"
+
+#: apps/contexts/models.py:31
+msgid "Ground Surface"
+msgstr "منطقة السلطة"
+
+#: apps/contexts/models.py:32
+msgid "Students"
+msgstr ""
+
+#: apps/contexts/models.py:33
+msgid "Schools"
+msgstr "مدارس"
+
+#: apps/contexts/models.py:34
+msgid "Gini Index"
+msgstr "مؤشر جيني"
+
+#: apps/contexts/models.py:35
+msgid "Socio-Economic Index"
+msgstr "مستوى الديموغرافية الاجتماعية والاقتصادية"
+
+#: apps/contexts/models.py:44
 msgid "Data object"
 msgstr "موضوع بيانات"
 
-#: apps/contexts/models.py:41
+#: apps/contexts/models.py:45
 msgid "Contextual data as JSON for the Entity/Time Period."
 msgstr "البيانات السياقية كما جسون لكيان / الفترة الزمنية"
 
@@ -373,7 +405,7 @@ msgstr ""
 
 #: apps/entities/models.py:42 apps/entities/models.py:110
 #: apps/entities/models.py:161
-#: apps/entities/templates/entities/explorer.html:40 apps/sheets/models.py:44
+#: apps/entities/templates/entities/explorer.html:41 apps/sheets/models.py:44
 #: apps/sheets/models.py:119 apps/taxonomies/models.py:98
 msgid "Name"
 msgstr "اسم"
@@ -483,8 +515,7 @@ msgstr "وصف"
 msgid "A short text for this entity, useful as an overview."
 msgstr ""
 
-#: apps/entities/models.py:172
-#: apps/entities/templates/entities/explorer.html:39 apps/sheets/models.py:125
+#: apps/entities/models.py:172 apps/sheets/models.py:125
 #: apps/sheets/templates/sheets/sheet_item_detail.html:6
 #: commons/templates/search/search.html:65
 #: commons/templates/search/search.html:80
@@ -550,34 +581,43 @@ msgstr "البلديات"
 msgid "Soon"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:20
-#: apps/entities/templates/entities/explorer.html:42
+#: apps/entities/templates/entities/explorer.html:21
+#: apps/entities/templates/entities/explorer.html:43
 #: apps/sheets/templates/sheets/sheet_detail.html:6
 #: apps/sheets/templates/sheets/sheet_detail.html:39
 msgid "Budget"
 msgstr "ميزانية"
 
 #: apps/entities/templates/entities/explorer.html:26
-#: apps/entities/views/ui.py:165
+#, fuzzy
+msgid "Search under:"
+msgstr "بحث"
+
+#: apps/entities/templates/entities/explorer.html:27
+#: apps/entities/views/ui.py:186
 msgid "Main"
 msgstr ""
 
-#: apps/entities/templates/entities/explorer.html:32
+#: apps/entities/templates/entities/explorer.html:33
 #: commons/templates/partials/_form_action_search.html:2
 msgid "Search"
 msgstr "بحث"
 
-#: apps/entities/templates/entities/explorer.html:41
+#: apps/entities/templates/entities/explorer.html:40
+msgid "Order"
+msgstr ""
+
+#: apps/entities/templates/entities/explorer.html:42
 #, fuzzy
 msgid "Direction"
 msgstr "وصف"
 
-#: apps/entities/templates/entities/explorer.html:43
+#: apps/entities/templates/entities/explorer.html:44
 #: apps/sheets/templates/sheets/sheet_detail.html:41
 msgid "Actual"
 msgstr "واقعي"
 
-#: apps/entities/templates/entities/explorer.html:60
+#: apps/entities/templates/entities/explorer.html:61
 #, fuzzy
 msgid "Open Muni Budget"
 msgstr "فتح الميزانيات الإسرائيلي"
@@ -702,11 +742,11 @@ msgid ""
 "lists."
 msgstr "شبكة للسيطرة على ما إذا كان سيتم عرض الصفحة في قوائم التصفح الرئيسية."
 
-#: apps/pages/models.py:54
+#: apps/pages/models.py:55
 msgid "page"
 msgstr "صفحة"
 
-#: apps/pages/models.py:55
+#: apps/pages/models.py:56
 msgid "pages"
 msgstr "صفحات"
 
@@ -715,6 +755,7 @@ msgstr "صفحات"
 msgid "Home"
 msgstr "بيت"
 
+#: apps/pages/templates/pages/page.html:16
 #: apps/pages/templates/pages/partials/contact.html:6
 #: commons/templates/partials/nav-panel.html:33
 msgid "Contact"
@@ -1474,7 +1515,7 @@ msgstr "نهاية الفترة"
 msgid "The end date for this %(class)s"
 msgstr ""
 
-#: commons/templates/base.html:41
+#: commons/templates/base.html:42
 #, fuzzy
 msgid "Back to the home page"
 msgstr "عودة إلى الميزانية"
@@ -2052,9 +2093,6 @@ msgstr ""
 #~ msgid "Demographic"
 #~ msgstr "ديموغرافي"
 
-#~ msgid "Population"
-#~ msgstr "عدد السكان"
-
 #~ msgid "Education"
 #~ msgstr "تعليم"
 
@@ -2063,9 +2101,6 @@ msgstr ""
 
 #~ msgid "Primary schools"
 #~ msgstr "المدارس الابتدائية"
-
-#~ msgid "Pre-schools"
-#~ msgstr "رياض الأطفال"
 
 #~ msgid "There are no Budgets or Actuals for this entity"
 #~ msgstr "لا يوجد ميزانيات أو عمل لفعلي لهذا الكيان"

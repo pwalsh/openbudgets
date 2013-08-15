@@ -692,6 +692,7 @@ Filters
 * entities [INT, list of comma-separated INT] - returns contexts of the given entity id(s).
 * divisions [INT, list of comma-separated INT] - returns contexts under the given division id(s).
 * domains [INT, list of comma-separated INT] - returns contexts using the given domain id(s).
+* periods [INT, list of comma-separated INT] - returns contexts matching the given period(s).
 
 Example: http://api.dev.openmuni.org.il/v1/contexts/?entity=4,5
 
