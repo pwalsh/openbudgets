@@ -138,3 +138,13 @@ class SheetTimeline(serializers.ModelSerializer):
 
     def get_period(self, obj):
         return obj.sheet.period
+
+
+class SheetItemCommentBaseSerializer(serializers.ModelSerializer):
+    """
+    Base SheetItemComment serializer, for creating new SheetItemComment instances.
+    """
+
+    class Meta:
+        model = models.SheetItemComment
+        fields = ['uuid', 'id', 'user', 'item', 'comment', 'created_on', 'last_modified']

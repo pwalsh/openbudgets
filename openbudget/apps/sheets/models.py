@@ -540,8 +540,23 @@ class SheetItem(BaseItem, TimeStampedModel, UUIDModel, ClassMethodMixin):
         return self.node.code
 
 
+class SheetItemCommentManager(models.Manager):
+    """Exposes the related_map method for more efficient bulk select queries."""
+
+    def get_queryset(self):
+        return super(SheetItemCommentManager, self).select_related()
+
+    def related_map_min(self):
+        return self.select_related()
+
+    def related_map(self):
+        return self.related_map_min()
+
+
 class SheetItemComment(TimeStampedModel, UUIDModel, ClassMethodMixin):
     """Comments on sheet items."""
+
+    objects = SheetItemCommentManager()
 
     item = models.ForeignKey(
         SheetItem,
