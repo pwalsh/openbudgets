@@ -1,10 +1,5 @@
 @import url('/static/css/partials/rtl/panels.css');
 
-/** patching panels.css */
-#panel-nav footer a#sponsor_logo {
-    float: none;
-}
-
 #right_edge_detector {
     position: absolute;
     top: 0;
@@ -14,6 +9,7 @@
     height: 100%;
 }
 
+/** patching panels.css */
 #panel-nav {
     display: block;
     position: absolute;
@@ -25,6 +21,14 @@
     height: 100%;
     -webkit-transition-duration: 100ms;
 }
+#panel-nav header a {
+    font-size: 47px;
+    line-height: 55px;
+}
+#panel-nav footer a#sponsor_logo {
+    float: none;
+}
+
 #panel-nav.slide_out {
     -webkit-transition-timing-function: ease-in;
 }
@@ -36,6 +40,7 @@
     -o-transform: translate(-300px,0);
     transform: translate(-300px,0);
 }
+
 #site_menu_open {
     position: absolute;
     top: 0;
