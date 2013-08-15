@@ -7,6 +7,10 @@
     right: 0;
     width: 5px;
     height: 100%;
+    z-index: 1;
+}
+.comments_open #right_edge_detector {
+    right: 260px;
 }
 
 /** patching panels.css */
@@ -24,6 +28,9 @@
     -ms-transition-duration: 100ms;
     -o-transition-duration: 100ms;
     transition-duration: 100ms;
+}
+.comments_open #panel-nav {
+    right: -40px;
 }
 #panel-nav header a {
     font-size: 47px;
@@ -59,6 +66,17 @@
     right: 0;
     padding: 18px 42px;
     color: #7070a0;
+    z-index: 1;
+    -webkit-transition-duration: 100ms;
+    -moz-transition-duration: 100ms;
+    -ms-transition-duration: 100ms;
+    -o-transition-duration: 100ms;
+    transition-duration: 100ms;
+    -webkit-transition-timing-function: ease-in;
+    -moz-transition-timing-function: ease-in;
+    -ms-transition-timing-function: ease-in;
+    -o-transition-timing-function: ease-in;
+    transition-timing-function: ease-in;
 }
 #site_menu_open:after {
     content: '';

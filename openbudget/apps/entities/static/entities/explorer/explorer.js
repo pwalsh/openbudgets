@@ -149,10 +149,12 @@ define([
                 });
             })
             .subscribe('items_comments_close.clicked', function () {
+                uijet.$element.removeClass('comments_open');
                 app_transition_props[uijet.utils.getStyleProperty('transform')] = 'translateX(0)';
                 uijet.animate(uijet.$element, app_transition_props);
             })
             .subscribe('open_comments', function ($selected_item) {
+                uijet.$element.addClass('comments_open');
                 app_transition_props[uijet.utils.getStyleProperty('transform')] = 'translateX(260px)';
                 uijet.animate(uijet.$element, app_transition_props);
             })
