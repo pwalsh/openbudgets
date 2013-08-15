@@ -116,7 +116,9 @@ define([
 //                    explorer.setToken(auth_response.access_token);
 //                }
 //            });
-            var routes_deferred = uijet.Promise();
+            var routes_deferred = uijet.Promise(),
+                app_transition_props = {};
+
             explorer.routes_set_promise = routes_deferred.promise();
 
             // set the API's routes
@@ -145,6 +147,14 @@ define([
                         });
                     }
                 });
+            })
+            .subscribe('items_comments_close.clicked', function () {
+                app_transition_props[uijet.utils.getStyleProperty('transform')] = 'translateX(0)';
+                uijet.animate(uijet.$element, app_transition_props);
+            })
+            .subscribe('open_comments', function ($selected_item) {
+                app_transition_props[uijet.utils.getStyleProperty('transform')] = 'translateX(260px)';
+                uijet.animate(uijet.$element, app_transition_props);
             })
 
             /*
