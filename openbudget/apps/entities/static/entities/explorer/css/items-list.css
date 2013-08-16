@@ -57,6 +57,20 @@
 .item_comment_button:hover {
     display: block;
 }
+.item_comment_button.has_comments {
+    display: block;
+    padding-right: 30px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 1rem;
+    color: #8989a8;
+    background-image: url(../img/comment_white.png);
+}
+#items_list li:hover .item_comment_button.has_comments {
+    background-image: url(../img/comment_yellow.png);
+}
 
 .td_filler {
     position: relative;
