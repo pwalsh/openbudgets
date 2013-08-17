@@ -65,9 +65,19 @@
         </section>
         <section id="left_container" class="top_container">
             <span id="items_comments_close"></span>
-            <section id="items_comments_container">
-                
-            </section>
+            <div id="items_comments_container">
+                <h4 class="small_heading">{% trans 'Explanations' %}</h4>
+                <p id="item_description"></p>
+                <ul id="item_comments_list"></ul>
+                <div id="new_comment" class="hide">
+                    <textarea id="comment_text" name="comment" placeholder="{% trans 'Enter comment...' %}"></textarea>
+                    <div id="new_comment_buttons">
+                        <span id="new_comment_ok">{% trans 'Enter' %}</span><span 
+                            id="new_comment_cancel">{% trans 'Cancel' %}</span>
+                    </div>
+                </div>
+                <span id="add_comment" class="small_heading">{%  trans 'Add comment' %}</span>
+            </div>
         </section>
 
         <div id="panel-nav">

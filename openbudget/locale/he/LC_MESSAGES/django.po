@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-15 11:54+0300\n"
+"POT-Creation-Date: 2013-08-16 21:40+0300\n"
 "PO-Revision-Date: 2013-05-23 17:58+0000\n"
 "Last-Translator: Ram Ezrach <ram.ezrach@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -382,7 +382,7 @@ msgstr ""
 
 #: apps/entities/models.py:42 apps/entities/models.py:110
 #: apps/entities/models.py:161
-#: apps/entities/templates/entities/explorer.html:41 apps/sheets/models.py:44
+#: apps/entities/templates/entities/explorer.html:45 apps/sheets/models.py:44
 #: apps/sheets/models.py:119 apps/taxonomies/models.py:98
 msgid "Name"
 msgstr "שם"
@@ -473,8 +473,8 @@ msgid "The name of this entity."
 msgstr "שם הרשות"
 
 #: apps/entities/models.py:167 apps/projects/models.py:28
-#: apps/sheets/models.py:50 apps/sheets/models.py:365
-#: apps/sheets/models.py:421
+#: apps/sheets/models.py:50 apps/sheets/models.py:374
+#: apps/sheets/models.py:430
 msgid "Description"
 msgstr "תיאור"
 
@@ -545,43 +545,51 @@ msgstr "רשויות"
 msgid "Soon"
 msgstr "בקרוב"
 
-#: apps/entities/templates/entities/explorer.html:21
-#: apps/entities/templates/entities/explorer.html:43
+#: apps/entities/templates/entities/explorer.html:19
+msgid "Open Muni Budget"
+msgstr "תקציב מקומי פתוח"
+
+#: apps/entities/templates/entities/explorer.html:24
+#: apps/entities/templates/entities/explorer.html:47
 #: apps/sheets/templates/sheets/sheet_detail.html:6
 #: apps/sheets/templates/sheets/sheet_detail.html:39
 msgid "Budget"
 msgstr "תכנון"
 
-#: apps/entities/templates/entities/explorer.html:26
+#: apps/entities/templates/entities/explorer.html:29
 msgid "Search under:"
 msgstr "חיפוש תחת:"
 
-#: apps/entities/templates/entities/explorer.html:27
-#: apps/entities/views/ui.py:186
+#: apps/entities/templates/entities/explorer.html:30
+#: apps/entities/views/ui.py:201
 msgid "Main"
 msgstr "ראשי"
 
-#: apps/entities/templates/entities/explorer.html:33
+#: apps/entities/templates/entities/explorer.html:37
 #: commons/templates/partials/_form_action_search.html:2
 msgid "Search"
 msgstr "חיפוש"
 
-#: apps/entities/templates/entities/explorer.html:40
+#: apps/entities/templates/entities/explorer.html:44
 msgid "Order"
 msgstr "סידורי"
 
-#: apps/entities/templates/entities/explorer.html:42
+#: apps/entities/templates/entities/explorer.html:46
 msgid "Direction"
 msgstr "סוג"
 
-#: apps/entities/templates/entities/explorer.html:44
+#: apps/entities/templates/entities/explorer.html:48
 #: apps/sheets/templates/sheets/sheet_detail.html:41
 msgid "Actual"
 msgstr "ביצוע"
 
-#: apps/entities/templates/entities/explorer.html:61
-msgid "Open Muni Budget"
-msgstr "תקציב מקומי פתוח"
+#: apps/entities/templates/entities/explorer.html:69
+msgid "Explanations"
+msgstr "דברי הסבר"
+
+#: apps/entities/templates/entities/explorer.html:72
+msgid "Add comment"
+msgstr "הוספת תגובה"
 
 #: apps/interactions/models.py:63
 #: apps/interactions/templatetags/interactions.py:40
@@ -836,7 +844,7 @@ msgid ""
 "node."
 msgstr ""
 
-#: apps/sheets/models.py:198 apps/sheets/models.py:597
+#: apps/sheets/models.py:198 apps/sheets/models.py:621
 msgid "Entry description"
 msgstr "תיאור ערך"
 
@@ -852,96 +860,96 @@ msgstr "סעיף תקציבי"
 msgid "template nodes"
 msgstr "סעיפי תקציב"
 
-#: apps/sheets/models.py:274
+#: apps/sheets/models.py:283
 msgid "Inverse node can not point to self."
 msgstr ""
 
-#: apps/sheets/models.py:278
+#: apps/sheets/models.py:287
 msgid "Inverse node's direction can not be the same as self direction."
 msgstr ""
 
-#: apps/sheets/models.py:318
+#: apps/sheets/models.py:327
 msgid ""
 "Node with name: {name}; code: {code}; parent: {parent}; already exists in "
 "template: {template}"
 msgstr ""
 
-#: apps/sheets/models.py:327
+#: apps/sheets/models.py:336
 msgid "template/node relation"
 msgstr ""
 
-#: apps/sheets/models.py:328
+#: apps/sheets/models.py:337
 msgid "template/node relations"
 msgstr ""
 
-#: apps/sheets/models.py:368
+#: apps/sheets/models.py:377
 #, python-format
 msgid "Descriptive text for this %(class)s"
 msgstr ""
 
-#: apps/sheets/models.py:403
+#: apps/sheets/models.py:412
 msgid "sheet"
 msgstr ""
 
-#: apps/sheets/models.py:404
+#: apps/sheets/models.py:413
 msgid "sheets"
 msgstr ""
 
-#: apps/sheets/models.py:424
+#: apps/sheets/models.py:433
 msgid "Description that appears for this entry."
 msgstr ""
 
-#: apps/sheets/models.py:427
+#: apps/sheets/models.py:436
 #: apps/sheets/templates/sheets/sheet_item_detail.html:15
 msgid "Budget Amount"
 msgstr "סכום תכנון"
 
-#: apps/sheets/models.py:433
+#: apps/sheets/models.py:442
 msgid "The total budgeted amount of this entry."
 msgstr "סכום תכנון כולל לסעיף"
 
-#: apps/sheets/models.py:436
+#: apps/sheets/models.py:445
 #: apps/sheets/templates/sheets/sheet_item_detail.html:17
 msgid "Actual Amount"
 msgstr "סכום ביצוע"
 
-#: apps/sheets/models.py:442
+#: apps/sheets/models.py:451
 msgid "The total actual amount of this entry."
 msgstr "סכום ביצוע כולל לסעיף"
 
-#: apps/sheets/models.py:532
+#: apps/sheets/models.py:541
 msgid "sheet item"
 msgstr "פריט תקציב"
 
-#: apps/sheets/models.py:533
+#: apps/sheets/models.py:542
 msgid "sheet items"
 msgstr "פריטי תקציב"
 
-#: apps/sheets/models.py:556
+#: apps/sheets/models.py:580
 msgid "Comment"
 msgstr "תגובה"
 
-#: apps/sheets/models.py:557
+#: apps/sheets/models.py:581
 msgid "Add your comments to this discussion."
 msgstr ""
 
-#: apps/sheets/models.py:562
+#: apps/sheets/models.py:586
 msgid "sheet item comment"
 msgstr "דברי הסבר"
 
-#: apps/sheets/models.py:563
+#: apps/sheets/models.py:587
 msgid "sheet item comments"
 msgstr "דברי הסבר"
 
-#: apps/sheets/models.py:599
+#: apps/sheets/models.py:623
 msgid "A descriptive text for this template node underlying this sheet item."
 msgstr ""
 
-#: apps/sheets/models.py:604
+#: apps/sheets/models.py:628
 msgid "denormalized sheet item"
 msgstr ""
 
-#: apps/sheets/models.py:605
+#: apps/sheets/models.py:629
 msgid "denormalized sheet items"
 msgstr ""
 
