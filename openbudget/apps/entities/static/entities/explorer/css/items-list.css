@@ -9,7 +9,7 @@
     border-bottom: 1px solid #d0d0dc;
 }
 .item_cell_actual, .item_cell_budget {
-    width: 140px;
+    width: 170px;
 }
 .item_cell_code, .item_cell_direction {
     font-size: .9rem;
@@ -78,7 +78,7 @@
 }
 
 [data-column=actual], [data-column=budget] {
-    width: 140px;
+    width: 170px;
 }
 [data-column=direction] {
     width: 120px;
