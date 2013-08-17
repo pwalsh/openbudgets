@@ -21,15 +21,9 @@ svg {
     direction: ltr;
 }
 
-::-webkit-input-placeholder { /* WebKit browsers */
-    color: #d0d0dc;
-}
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color: #d0d0dc;
-}
-::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color: #d0d0dc;
-}
+::-webkit-input-placeholder, /* WebKit browsers */
+:-moz-placeholder, /* Mozilla Firefox 4 to 18 */
+::-moz-placeholder, /* Mozilla Firefox 19+ */
 :-ms-input-placeholder { /* Internet Explorer 10+ */
     color: #d0d0dc;
 }
