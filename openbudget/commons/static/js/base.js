@@ -235,4 +235,19 @@
 
     }());
 
+    // PROJECT GALLERY UX
+    (function () {
+
+        $('.project').mouseenter(function (event) {
+            $('.projects-public, .projects-developers').children().addClass('reduce');
+            $(this).removeClass('reduce').find('.detail').show();
+        });
+
+        $('.project').mouseleave(function (event) {
+            $('.projects-public, .projects-developers').children().removeClass('reduce');
+            $(this).find('.detail').hide();
+        });
+
+    }());
+
 }));
