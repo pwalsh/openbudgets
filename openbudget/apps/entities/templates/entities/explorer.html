@@ -64,6 +64,9 @@
             <h1 id="muni_name" class="right_menu_heading">{{ object.name }}</h1>
         </section>
         <section id="left_container" class="top_container">
+            <section id="panel-append">
+                {% include 'accounts/partials/account_tools.html' %}
+            </section>
             <span id="items_comments_close"></span>
             <div id="items_comments_container">
                 <h4 class="small_heading">{% trans 'Explanations' %}</h4>
