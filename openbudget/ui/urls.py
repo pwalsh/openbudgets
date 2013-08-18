@@ -26,7 +26,7 @@ urlpatterns = patterns('',
     url(r'^interactions/',
         include('openbudget.apps.interactions.urls')
     ),
-    url(r'^projects/',
+    url(r'^tools/',
         include('openbudget.apps.projects.urls.ui'),
     ),
     url(r'^taxonomies/',

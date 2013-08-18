@@ -18,6 +18,11 @@ class ProjectManager(models.Manager):
 class Project(AbstractApplication, TimeStampedModel, UUIDModel, ClassMethodMixin):
     """API Project object, comprised of initial data + some meta data."""
 
+    LABEL_CHOICES = (
+        ('public', _('For the General Public')),
+        ('developers', _('For Developers'))
+    )
+
     objects = ProjectManager()
 
     author = models.ForeignKey(
@@ -27,6 +32,12 @@ class Project(AbstractApplication, TimeStampedModel, UUIDModel, ClassMethodMixin
     description = models.TextField(
         _('Description'),
         help_text=_('Provide a short description of this project')
+    )
+    label = models.CharField(
+        max_length=50,
+        choices=LABEL_CHOICES,
+        default=LABEL_CHOICES[0][0],
+        help_text=_('Set your preferred language for the app')
     )
     featured = models.BooleanField(
         _('Featured'),

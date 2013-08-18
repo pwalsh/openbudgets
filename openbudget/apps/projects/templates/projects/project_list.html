@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n interactions %}
-{% load url from future %}
+{% load i18n interactions subdomainurls %}
 
 {% block title %}
 {% trans 'Projects' %}
@@ -11,17 +10,63 @@
 {% endblock interactions %}
 
 {% block content %}
-<section>
-{% for object in object_list %}
-    {% if object.featured %}
-    <div class="project">
-        <h2>{{ object.name }}</h2>
-        <p>{{ object.description }}</p>
-        <p>{% trans 'Author' %}: {{ object.author.first_name }} {{ object.author.last_name }}</p>
-        <p>{% trans 'Last modified' %}: {{ object.last_modified }}</p>
-        <a href="{% url 'project_detail' object.slug %}" title="">{% trans 'View' %}</a>
-    </div>
-    {% endif %}
-{% endfor %}
+
+<section class="projects-public">
+    <h2>&nbsp;</h2>
+    {% for project in projects_public %}
+    <a href="{% url 'project_detail' slug=project.slug %}" title="{{ project.name }}" class="project {{ project.slug }}{% if not project.featured %} soon{% endif %}">
+        <div class="preview">
+            {% if not project.featured %}
+            <div class="teaser">
+                <div class="decorator"></div>
+                <div class="message">{% trans 'Soon' %}</div>
+                <div class="decorator"></div>
+            </div>
+            <div class="teaser-decoration"></div>
+
+            {% else %}
+            <h3>{{ project.name }}</h3>
+            {% endif %}
+        </div>
+        <div class="detail">
+            <p>{{ project.description }}</p>
+            <h3>{{ project.name }}</h3>
+        </div>
+    </a>
+    {% endfor %}
+    <a href="http://open-budget.readthedocs.org/" title="{% trans 'Add a project' %}" class="project add">
+        <div class="detail">
+            <p>{% trans 'Add your own description goes here.' %}</p>
+            <h3>{% trans 'Add your own' %}</h3>
+        </div>
+    </a>
 </section>
+
+<section class="projects-developers">
+    <h2>{% trans 'For Developers' %}</h2>
+    <a href="{% url 'api' subdomain='api' %}" title="{% trans 'Add a project' %}" class="project api">
+        <div class="detail">
+            <p>{% trans 'API description goes here.' %}</p>
+            <h3>{% trans 'API' %}</h3>
+        </div>
+    </a>
+    {% for project in projects_developers %}
+    <a href="{% url 'project_detail' slug=project.slug %}" title="{{ project.name }}" class="project {{ project.slug }}{% if not project.featured %} soon{% endif %}">
+        <div class="preview">
+            {% if not project.featured %}
+            <p>
+                {% trans 'Soon' %}
+            </p>
+            {% else %}
+            <h3>{{ project.name }}</h3>
+            {% endif %}
+        </div>
+        <div class="detail">
+            <p>{{ project.description }}</p>
+            <h3>{{ project.name }}</h3>
+        </div>
+    </a>
+    {% endfor %}
+</section>
+
 {% endblock content %}

@@ -188,3 +188,111 @@
         }
     }
 }
+
+
+/*******************/
+/*  PROJECT LIST   */
+/*******************/
+
+.projects-public, .projects-developers {
+    .layout-object;
+    .margin-bottom(50px);
+
+    h2 {
+        .margin-right(20px);
+        .margin-bottom(16px);
+        .font-size(44px);
+    }
+}
+
+
+.project {
+    .position(relative);
+    .layout-object(240px);
+    .height(240px);
+    .margin-all(20px);
+    .text-align(center);
+    .border(3px; solid; @stronggreen);
+    background: url('/static/img/tools_default.png') no-repeat center;
+
+    &:hover  {
+        .cursor(pointer);
+    }
+}
+
+.detail, .preview {
+    h3 {
+        .position(absolute);
+        .coordinates(0; 0; 0; 0);
+        .margin(auto; auto; @unit-em; auto);
+        .height(@unit-em);
+        .color(@stronggreen);
+    }
+
+    p {
+        .position(absolute);
+        .coordinates(0; 0; 0; 0);
+        .margin(auto; auto; auto; auto);
+        .height(@unit-em * 2);
+        .width(80px);
+        .color(@stronggreen);
+        border-top: 3px solid @stronggreen;
+        border-bottom: 3px solid @stronggreen;
+        z-index: 99;
+    }
+}
+
+.detail {
+    .display(none);
+    .position(absolute);
+    .coordinates(@top: 0; @left: 0);
+    .width(234px);
+    .height(234px);
+    .background-color(@white);
+}
+
+.soon {
+    opacity: 0.5;
+
+    .teaser {
+        .position(absolute);
+        .coordinates(0; 0; 0; 0);
+        .margin(auto; auto; auto; auto);
+        .height(@unit-em * 1.5);
+        .color(@stronggreen);
+        border-top: 3px solid @stronggreen;
+        border-bottom: 3px solid @stronggreen;
+
+        .decorator {
+        .position(absolute);
+        .coordinates(0; 0; 0; 0);
+        .margin(auto; auto; auto; auto);
+        .height(@unit-em * 1.5);
+        .width(20px);
+        .color(@stronggreen);
+        border-top: 3px solid @stronggreen;
+        border-bottom: 3px solid @stronggreen;
+        }
+    }
+
+    h3 {
+        opacity: 0.9;
+    }
+}
+
+.add {
+    .border(3px; dashed; @grey);
+
+    p {
+        border-top: 3px solid @green;
+        border-bottom: 3px solid @green;
+    }
+}
+
+.reduce {
+    opacity: 0.2;
+}
+
+.comparisons, .query-builder, .api, .not-pie, .add {
+    background: url('/static/img/tools_default.png') no-repeat center;
+}

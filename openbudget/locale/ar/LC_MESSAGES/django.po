@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-15 11:54+0300\n"
+"POT-Creation-Date: 2013-08-15 21:13+0300\n"
 "PO-Revision-Date: 2013-07-04 14:04+0000\n"
 "Last-Translator: Paul Walsh <paulywalsh@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -192,7 +192,7 @@ msgid ""
 "instead of deleting accounts."
 msgstr ""
 
-#: apps/accounts/models.py:77
+#: apps/accounts/models.py:77 apps/projects/models.py:40
 msgid "Set your preferred language for the app"
 msgstr "تعيين لغتك المفضلة للتطبيق"
 
@@ -505,9 +505,9 @@ msgstr "اسم هذا المجال الكياني"
 msgid "The name of this entity."
 msgstr "اسم هذا الكيان"
 
-#: apps/entities/models.py:167 apps/projects/models.py:28
-#: apps/sheets/models.py:50 apps/sheets/models.py:365
-#: apps/sheets/models.py:421
+#: apps/entities/models.py:167 apps/projects/models.py:33
+#: apps/sheets/models.py:50 apps/sheets/models.py:374
+#: apps/sheets/models.py:430
 msgid "Description"
 msgstr "وصف"
 
@@ -761,71 +761,91 @@ msgstr "بيت"
 msgid "Contact"
 msgstr "اتصالاتصل"
 
-#: apps/projects/models.py:29
+#: apps/projects/models.py:22
+msgid "For the General Public"
+msgstr ""
+
+#: apps/projects/models.py:23
+#: apps/projects/templates/projects/project_list.html:32
+#, fuzzy
+msgid "For Developers"
+msgstr "المطورين البريد الإلكتروني"
+
+#: apps/projects/models.py:34
 msgid "Provide a short description of this project"
 msgstr "قدم وصفا موجزا لهذا المشروع"
 
-#: apps/projects/models.py:32
+#: apps/projects/models.py:43
 msgid "Featured"
 msgstr "متميز"
 
-#: apps/projects/models.py:36 apps/projects/models.py:86
+#: apps/projects/models.py:47 apps/projects/models.py:97
 msgid "Screenshot"
 msgstr ""
 
-#: apps/projects/models.py:39
+#: apps/projects/models.py:50
 #, fuzzy
 msgid "A screenshot for this visualization"
 msgstr "صورة عرض مسبق لهذا التصور"
 
-#: apps/projects/models.py:47 apps/projects/models.py:92
+#: apps/projects/models.py:58 apps/projects/models.py:103
 msgid "Data and configuration"
 msgstr "البيانات والتكوين"
 
-#: apps/projects/models.py:50
+#: apps/projects/models.py:61
 msgid "JSON serialized configuration object of the visualization."
 msgstr ""
 
-#: apps/projects/models.py:61
+#: apps/projects/models.py:72
 msgid "Project"
 msgstr "مشروع"
 
-#: apps/projects/models.py:62
-#: apps/projects/templates/projects/project_list.html:6
+#: apps/projects/models.py:73
+#: apps/projects/templates/projects/project_list.html:5
 #: commons/templates/partials/nav-panel.html:15
 msgid "Projects"
 msgstr "مشاريع"
 
-#: apps/projects/models.py:89
+#: apps/projects/models.py:100
 #, fuzzy
 msgid "A screenshot for this state"
 msgstr "صورة عرض مسبق لهذا التصور"
 
-#: apps/projects/models.py:95
+#: apps/projects/models.py:106
 msgid "JSON serialized configuration object of the state."
 msgstr ""
 
-#: apps/projects/models.py:106
+#: apps/projects/models.py:117
 msgid "State"
 msgstr ""
 
-#: apps/projects/models.py:107
+#: apps/projects/models.py:118
 msgid "States"
 msgstr ""
 
-#: apps/projects/templates/projects/project_list.html:20
+#: apps/projects/templates/projects/project_list.html:23
+#: apps/projects/templates/projects/project_list.html:33
+#, fuzzy
+msgid "Add a project"
+msgstr "موضوع بيانات"
+
+#: apps/projects/templates/projects/project_list.html:24
+msgid "Add your own"
+msgstr ""
+
+#: apps/projects/templates/projects/project_list.html:34
+#: commons/templates/partials/nav-panel.html:34
+msgid "API"
+msgstr ""
+
+#: apps/projects/templates/projects/project_list.html:43
 msgid "Author"
 msgstr "كاتب"
 
-#: apps/projects/templates/projects/project_list.html:21
+#: apps/projects/templates/projects/project_list.html:44
 #: commons/mixins/models.py:36
 msgid "Last modified"
 msgstr "آخر تعديل"
-
-#: apps/projects/templates/projects/project_list.html:22
-#: apps/sheets/templates/sheets/sheet_detail.html:44
-msgid "View"
-msgstr "رأي"
 
 #: apps/sheets/models.py:47
 #, fuzzy
@@ -887,7 +907,7 @@ msgid ""
 "node."
 msgstr ""
 
-#: apps/sheets/models.py:198 apps/sheets/models.py:597
+#: apps/sheets/models.py:198 apps/sheets/models.py:606
 msgid "Entry description"
 msgstr "وصف الدخول"
 
@@ -906,15 +926,15 @@ msgstr "عقدة قالب الميزانية"
 msgid "template nodes"
 msgstr "عقدة قالب الميزانيات"
 
-#: apps/sheets/models.py:274
+#: apps/sheets/models.py:283
 msgid "Inverse node can not point to self."
 msgstr "عقدة معكوس لا يمكن أن نشير إلى الذات"
 
-#: apps/sheets/models.py:278
+#: apps/sheets/models.py:287
 msgid "Inverse node's direction can not be the same as self direction."
 msgstr "اتجاه عقدة معكوس لا يمكن أن يكون نفس التوجيه الذات"
 
-#: apps/sheets/models.py:318
+#: apps/sheets/models.py:327
 msgid ""
 "Node with name: {name}; code: {code}; parent: {parent}; already exists in "
 "template: {template}"
@@ -922,93 +942,93 @@ msgstr ""
 "عقدة مع اسم: {اسم}؛ رمز: {رمز}؛ الوالد: {الأم}؛ موجود بالفعل في القالب: "
 "{قالب}"
 
-#: apps/sheets/models.py:327
+#: apps/sheets/models.py:336
 #, fuzzy
 msgid "template/node relation"
 msgstr "نموذج الميزانية/علاقة العقدة"
 
-#: apps/sheets/models.py:328
+#: apps/sheets/models.py:337
 #, fuzzy
 msgid "template/node relations"
 msgstr "نموذج الميزانية/علاقات العقدة"
 
-#: apps/sheets/models.py:368
+#: apps/sheets/models.py:377
 #, python-format
 msgid "Descriptive text for this %(class)s"
 msgstr ""
 
-#: apps/sheets/models.py:403
+#: apps/sheets/models.py:412
 msgid "sheet"
 msgstr ""
 
-#: apps/sheets/models.py:404
+#: apps/sheets/models.py:413
 msgid "sheets"
 msgstr ""
 
-#: apps/sheets/models.py:424
+#: apps/sheets/models.py:433
 msgid "Description that appears for this entry."
 msgstr "الوصف الذي يظهر لهذا الدخول"
 
-#: apps/sheets/models.py:427
+#: apps/sheets/models.py:436
 #: apps/sheets/templates/sheets/sheet_item_detail.html:15
 #, fuzzy
 msgid "Budget Amount"
 msgstr "بند الميزانية"
 
-#: apps/sheets/models.py:433
+#: apps/sheets/models.py:442
 #, fuzzy
 msgid "The total budgeted amount of this entry."
 msgstr "المبلغ الإجمالي لهذا الدخول"
 
-#: apps/sheets/models.py:436
+#: apps/sheets/models.py:445
 #: apps/sheets/templates/sheets/sheet_item_detail.html:17
 #, fuzzy
 msgid "Actual Amount"
 msgstr "البند الفعلي"
 
-#: apps/sheets/models.py:442
+#: apps/sheets/models.py:451
 #, fuzzy
 msgid "The total actual amount of this entry."
 msgstr "المبلغ الإجمالي لهذا الدخول"
 
-#: apps/sheets/models.py:532
+#: apps/sheets/models.py:541
 #, fuzzy
 msgid "sheet item"
 msgstr "بند الميزانية"
 
-#: apps/sheets/models.py:533
+#: apps/sheets/models.py:542
 #, fuzzy
 msgid "sheet items"
 msgstr "بنود الميزانية"
 
-#: apps/sheets/models.py:556
+#: apps/sheets/models.py:565
 #, fuzzy
 msgid "Comment"
 msgstr "تعليقات"
 
-#: apps/sheets/models.py:557
+#: apps/sheets/models.py:566
 msgid "Add your comments to this discussion."
 msgstr ""
 
-#: apps/sheets/models.py:562
+#: apps/sheets/models.py:571
 #, fuzzy
 msgid "sheet item comment"
 msgstr "بند الميزانية"
 
-#: apps/sheets/models.py:563
+#: apps/sheets/models.py:572
 #, fuzzy
 msgid "sheet item comments"
 msgstr "بنود الميزانية"
 
-#: apps/sheets/models.py:599
+#: apps/sheets/models.py:608
 msgid "A descriptive text for this template node underlying this sheet item."
 msgstr ""
 
-#: apps/sheets/models.py:604
+#: apps/sheets/models.py:613
 msgid "denormalized sheet item"
 msgstr ""
 
-#: apps/sheets/models.py:605
+#: apps/sheets/models.py:614
 msgid "denormalized sheet items"
 msgstr ""
 
@@ -1024,6 +1044,10 @@ msgstr "في المجموع"
 #: apps/sheets/templates/sheets/sheet_detail.html:41
 msgid "NIS"
 msgstr "شيقل"
+
+#: apps/sheets/templates/sheets/sheet_detail.html:44
+msgid "View"
+msgstr "رأي"
 
 #: apps/sheets/templates/sheets/sheet_detail.html:56
 msgid "Export this Budget"
@@ -1613,10 +1637,6 @@ msgstr "شروط"
 msgid "Privacy"
 msgstr "خصوصية"
 
-#: commons/templates/partials/nav-panel.html:34
-msgid "API"
-msgstr ""
-
 #: commons/templates/registration/activate.html:6
 #: commons/templates/registration/activation_complete.html:6
 msgid "Activation complete"
@@ -1875,12 +1895,12 @@ msgstr "العربية"
 msgid "Russian"
 msgstr "الروسية"
 
-#: settings/base.py:327
+#: settings/base.py:328
 #, fuzzy
 msgid "Open Local Budgets"
 msgstr "فتح الميزانيات الإسرائيلي"
 
-#: settings/base.py:329
+#: settings/base.py:330
 msgid "Public Knowledge Workshop"
 msgstr ""
 

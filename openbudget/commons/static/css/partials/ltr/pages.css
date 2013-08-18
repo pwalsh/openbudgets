@@ -228,3 +228,141 @@
   font-size: 2.5em;
   line-height: 1em;
 }
+/*******************/
+/*  PROJECT LIST   */
+/*******************/
+.projects-public,
+.projects-developers {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 100%;
+  margin-bottom: 50px;
+}
+.projects-public h2,
+.projects-developers h2 {
+  margin-right: 20px;
+  margin-bottom: 16px;
+  font-size: 44px;
+}
+.project {
+  position: relative;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 240px;
+  height: 240px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #026a74;
+  background: url('/static/img/tools_default.png') no-repeat center;
+}
+.project:hover {
+  cursor: pointer;
+}
+.detail h3,
+.preview h3 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin-top: auto;
+  margin-right: auto;
+  margin-bottom: 1em;
+  margin-left: auto;
+  height: 1em;
+  color: #026a74;
+}
+.detail p,
+.preview p {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin-top: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  height: 2em;
+  width: 80px;
+  color: #026a74;
+  border-top: 3px solid #026a74;
+  border-bottom: 3px solid #026a74;
+  z-index: 99;
+}
+.detail {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: 0;
+  width: 234px;
+  height: 234px;
+  background-color: #ffffff;
+}
+.soon {
+  opacity: 0.5;
+}
+.soon .teaser {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin-top: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  height: 1.5em;
+  color: #026a74;
+  border-top: 3px solid #026a74;
+  border-bottom: 3px solid #026a74;
+}
+.soon .teaser .decorator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin-top: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  height: 1.5em;
+  width: 20px;
+  color: #026a74;
+  border-top: 3px solid #026a74;
+  border-bottom: 3px solid #026a74;
+}
+.soon h3 {
+  opacity: 0.9;
+}
+.add {
+  border-width: 3px;
+  border-style: dashed;
+  border-color: #d0d0dc;
+}
+.add p {
+  border-top: 3px solid #00ccc2;
+  border-bottom: 3px solid #00ccc2;
+}
+.reduce {
+  opacity: 0.2;
+}
+.comparisons,
+.query-builder,
+.api,
+.not-pie,
+.add {
+  background: url('/static/img/tools_default.png') no-repeat center;
+}

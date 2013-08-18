@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-15 11:54+0300\n"
+"POT-Creation-Date: 2013-08-15 21:14+0300\n"
 "PO-Revision-Date: 2013-05-29 18:10+0000\n"
 "Last-Translator: Amir Aharoni <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -190,7 +190,7 @@ msgid ""
 "instead of deleting accounts."
 msgstr ""
 
-#: apps/accounts/models.py:77
+#: apps/accounts/models.py:77 apps/projects/models.py:40
 msgid "Set your preferred language for the app"
 msgstr "Установка предпочтительного языка для приложения"
 
@@ -488,9 +488,9 @@ msgstr ""
 msgid "The name of this entity."
 msgstr "Название этого шаблона бюджета."
 
-#: apps/entities/models.py:167 apps/projects/models.py:28
-#: apps/sheets/models.py:50 apps/sheets/models.py:365
-#: apps/sheets/models.py:421
+#: apps/entities/models.py:167 apps/projects/models.py:33
+#: apps/sheets/models.py:50 apps/sheets/models.py:374
+#: apps/sheets/models.py:430
 #, fuzzy
 msgid "Description"
 msgstr "Описание предмета"
@@ -740,70 +740,89 @@ msgstr ""
 msgid "Contact"
 msgstr ""
 
-#: apps/projects/models.py:29
+#: apps/projects/models.py:22
+msgid "For the General Public"
+msgstr ""
+
+#: apps/projects/models.py:23
+#: apps/projects/templates/projects/project_list.html:32
+#, fuzzy
+msgid "For Developers"
+msgstr "Послать письмо разработчикам"
+
+#: apps/projects/models.py:34
 msgid "Provide a short description of this project"
 msgstr ""
 
-#: apps/projects/models.py:32
+#: apps/projects/models.py:43
 msgid "Featured"
 msgstr ""
 
-#: apps/projects/models.py:36 apps/projects/models.py:86
+#: apps/projects/models.py:47 apps/projects/models.py:97
 msgid "Screenshot"
 msgstr ""
 
-#: apps/projects/models.py:39
+#: apps/projects/models.py:50
 msgid "A screenshot for this visualization"
 msgstr ""
 
-#: apps/projects/models.py:47 apps/projects/models.py:92
+#: apps/projects/models.py:58 apps/projects/models.py:103
 msgid "Data and configuration"
 msgstr ""
 
-#: apps/projects/models.py:50
+#: apps/projects/models.py:61
 msgid "JSON serialized configuration object of the visualization."
 msgstr ""
 
-#: apps/projects/models.py:61
+#: apps/projects/models.py:72
 msgid "Project"
 msgstr ""
 
-#: apps/projects/models.py:62
-#: apps/projects/templates/projects/project_list.html:6
+#: apps/projects/models.py:73
+#: apps/projects/templates/projects/project_list.html:5
 #: commons/templates/partials/nav-panel.html:15
 msgid "Projects"
 msgstr ""
 
-#: apps/projects/models.py:89
+#: apps/projects/models.py:100
 #, fuzzy
 msgid "A screenshot for this state"
 msgstr "Описательные тексты про %(class)s"
 
-#: apps/projects/models.py:95
+#: apps/projects/models.py:106
 msgid "JSON serialized configuration object of the state."
 msgstr ""
 
-#: apps/projects/models.py:106
+#: apps/projects/models.py:117
 msgid "State"
 msgstr ""
 
-#: apps/projects/models.py:107
+#: apps/projects/models.py:118
 msgid "States"
 msgstr ""
 
-#: apps/projects/templates/projects/project_list.html:20
+#: apps/projects/templates/projects/project_list.html:23
+#: apps/projects/templates/projects/project_list.html:33
+msgid "Add a project"
+msgstr ""
+
+#: apps/projects/templates/projects/project_list.html:24
+msgid "Add your own"
+msgstr ""
+
+#: apps/projects/templates/projects/project_list.html:34
+#: commons/templates/partials/nav-panel.html:34
+msgid "API"
+msgstr ""
+
+#: apps/projects/templates/projects/project_list.html:43
 msgid "Author"
 msgstr ""
 
-#: apps/projects/templates/projects/project_list.html:21
+#: apps/projects/templates/projects/project_list.html:44
 #: commons/mixins/models.py:36
 msgid "Last modified"
 msgstr ""
-
-#: apps/projects/templates/projects/project_list.html:22
-#: apps/sheets/templates/sheets/sheet_detail.html:44
-msgid "View"
-msgstr "Показать"
 
 #: apps/sheets/models.py:47
 #, fuzzy
@@ -865,7 +884,7 @@ msgid ""
 "node."
 msgstr ""
 
-#: apps/sheets/models.py:198 apps/sheets/models.py:597
+#: apps/sheets/models.py:198 apps/sheets/models.py:606
 msgid "Entry description"
 msgstr "Описание записи"
 
@@ -884,17 +903,17 @@ msgstr "Узел шаблона бюджета"
 msgid "template nodes"
 msgstr "Узлы шаблона бюджета"
 
-#: apps/sheets/models.py:274
+#: apps/sheets/models.py:283
 msgid "Inverse node can not point to self."
 msgstr "Перевёрнутый узел не может указывать сам на себя."
 
-#: apps/sheets/models.py:278
+#: apps/sheets/models.py:287
 msgid "Inverse node's direction can not be the same as self direction."
 msgstr ""
 "Направление перевёрнутого узла не может быть таким же, как собственное "
 "направление."
 
-#: apps/sheets/models.py:318
+#: apps/sheets/models.py:327
 msgid ""
 "Node with name: {name}; code: {code}; parent: {parent}; already exists in "
 "template: {template}"
@@ -902,91 +921,91 @@ msgstr ""
 "Свойства узла: name: {name}; code: {code}; parent: {parent}; already exists "
 "in template: {template}"
 
-#: apps/sheets/models.py:327
+#: apps/sheets/models.py:336
 #, fuzzy
 msgid "template/node relation"
 msgstr "Шаблон бюджета/Отношение узлов"
 
-#: apps/sheets/models.py:328
+#: apps/sheets/models.py:337
 #, fuzzy
 msgid "template/node relations"
 msgstr "Шаблон бюджета/Отношения узлов"
 
-#: apps/sheets/models.py:368
+#: apps/sheets/models.py:377
 #, python-format
 msgid "Descriptive text for this %(class)s"
 msgstr "Описательные тексты про %(class)s"
 
-#: apps/sheets/models.py:403
+#: apps/sheets/models.py:412
 msgid "sheet"
 msgstr ""
 
-#: apps/sheets/models.py:404
+#: apps/sheets/models.py:413
 msgid "sheets"
 msgstr ""
 
-#: apps/sheets/models.py:424
+#: apps/sheets/models.py:433
 msgid "Description that appears for this entry."
 msgstr "Описание для этой записи"
 
-#: apps/sheets/models.py:427
+#: apps/sheets/models.py:436
 #: apps/sheets/templates/sheets/sheet_item_detail.html:15
 #, fuzzy
 msgid "Budget Amount"
 msgstr "Предмет бюджета"
 
-#: apps/sheets/models.py:433
+#: apps/sheets/models.py:442
 msgid "The total budgeted amount of this entry."
 msgstr ""
 
-#: apps/sheets/models.py:436
+#: apps/sheets/models.py:445
 #: apps/sheets/templates/sheets/sheet_item_detail.html:17
 #, fuzzy
 msgid "Actual Amount"
 msgstr "Нынешний предмет"
 
-#: apps/sheets/models.py:442
+#: apps/sheets/models.py:451
 msgid "The total actual amount of this entry."
 msgstr ""
 
-#: apps/sheets/models.py:532
+#: apps/sheets/models.py:541
 #, fuzzy
 msgid "sheet item"
 msgstr "Предмет бюджета"
 
-#: apps/sheets/models.py:533
+#: apps/sheets/models.py:542
 #, fuzzy
 msgid "sheet items"
 msgstr "Предметы бюджета"
 
-#: apps/sheets/models.py:556
+#: apps/sheets/models.py:565
 #, fuzzy
 msgid "Comment"
 msgstr "Примечания"
 
-#: apps/sheets/models.py:557
+#: apps/sheets/models.py:566
 msgid "Add your comments to this discussion."
 msgstr ""
 
-#: apps/sheets/models.py:562
+#: apps/sheets/models.py:571
 #, fuzzy
 msgid "sheet item comment"
 msgstr "Предмет бюджета"
 
-#: apps/sheets/models.py:563
+#: apps/sheets/models.py:572
 #, fuzzy
 msgid "sheet item comments"
 msgstr "Предметы бюджета"
 
-#: apps/sheets/models.py:599
+#: apps/sheets/models.py:608
 msgid "A descriptive text for this template node underlying this sheet item."
 msgstr ""
 
-#: apps/sheets/models.py:604
+#: apps/sheets/models.py:613
 msgid "denormalized sheet item"
 msgstr ""
 
-#: apps/sheets/models.py:605
+#: apps/sheets/models.py:614
 msgid "denormalized sheet items"
 msgstr ""
 
@@ -1002,6 +1021,10 @@ msgstr "всего"
 #: apps/sheets/templates/sheets/sheet_detail.html:41
 msgid "NIS"
 msgstr "шек."
+
+#: apps/sheets/templates/sheets/sheet_detail.html:44
+msgid "View"
+msgstr "Показать"
 
 #: apps/sheets/templates/sheets/sheet_detail.html:56
 msgid "Export this Budget"
@@ -1567,10 +1590,6 @@ msgstr ""
 msgid "Privacy"
 msgstr ""
 
-#: commons/templates/partials/nav-panel.html:34
-msgid "API"
-msgstr ""
-
 #: commons/templates/registration/activate.html:6
 #: commons/templates/registration/activation_complete.html:6
 msgid "Activation complete"
@@ -1816,12 +1835,12 @@ msgstr ""
 msgid "Russian"
 msgstr ""
 
-#: settings/base.py:327
+#: settings/base.py:328
 #, fuzzy
 msgid "Open Local Budgets"
 msgstr "Бюджеты"
 
-#: settings/base.py:329
+#: settings/base.py:330
 msgid "Public Knowledge Workshop"
 msgstr ""
 

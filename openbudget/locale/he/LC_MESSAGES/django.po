@@ -183,7 +183,7 @@ msgid ""
 "instead of deleting accounts."
 msgstr ""
 
-#: apps/accounts/models.py:77
+#: apps/accounts/models.py:77 apps/projects/models.py:40
 msgid "Set your preferred language for the app"
 msgstr "קבעו את השפה המעודפת עליכם באפליקציה"
 
@@ -726,69 +726,88 @@ msgstr "דף הבית"
 msgid "Contact"
 msgstr "צור קשר"
 
-#: apps/projects/models.py:29
+#: apps/projects/models.py:22
+msgid "For the General Public"
+msgstr ""
+
+#: apps/projects/models.py:23
+#: apps/projects/templates/projects/project_list.html:32
+msgid "For Developers"
+msgstr "למפתחים"
+
+#: apps/projects/models.py:34
 msgid "Provide a short description of this project"
 msgstr ""
 
-#: apps/projects/models.py:32
+#: apps/projects/models.py:43
 msgid "Featured"
 msgstr ""
 
-#: apps/projects/models.py:36 apps/projects/models.py:86
+#: apps/projects/models.py:47 apps/projects/models.py:97
 msgid "Screenshot"
 msgstr ""
 
-#: apps/projects/models.py:39
+#: apps/projects/models.py:50
 msgid "A screenshot for this visualization"
 msgstr ""
 
-#: apps/projects/models.py:47 apps/projects/models.py:92
+#: apps/projects/models.py:58 apps/projects/models.py:103
 msgid "Data and configuration"
 msgstr ""
 
-#: apps/projects/models.py:50
+#: apps/projects/models.py:61
 msgid "JSON serialized configuration object of the visualization."
 msgstr ""
 
-#: apps/projects/models.py:61
+#: apps/projects/models.py:72
 msgid "Project"
 msgstr "פרויקט"
 
-#: apps/projects/models.py:62
-#: apps/projects/templates/projects/project_list.html:6
+#: apps/projects/models.py:73
+#: apps/projects/templates/projects/project_list.html:5
 #: commons/templates/partials/nav-panel.html:15
 msgid "Projects"
-msgstr "פרויקטים"
+msgstr "כלים"
 
-#: apps/projects/models.py:89
+#: apps/projects/models.py:100
 msgid "A screenshot for this state"
 msgstr "תצלום מסך של מצב זה"
 
-#: apps/projects/models.py:95
+#: apps/projects/models.py:106
 msgid "JSON serialized configuration object of the state."
 msgstr ""
 
-#: apps/projects/models.py:106
+#: apps/projects/models.py:117
 msgid "State"
 msgstr ""
 
-#: apps/projects/models.py:107
+#: apps/projects/models.py:118
 msgid "States"
 msgstr ""
 
-#: apps/projects/templates/projects/project_list.html:20
+#: apps/projects/templates/projects/project_list.html:23
+#: apps/projects/templates/projects/project_list.html:33
+#, fuzzy
+msgid "Add a project"
+msgstr "ניהול פרויקטים"
+
+#: apps/projects/templates/projects/project_list.html:24
+msgid "Add your own"
+msgstr ""
+
+#: apps/projects/templates/projects/project_list.html:34
+#: commons/templates/partials/nav-panel.html:34
+msgid "API"
+msgstr ""
+
+#: apps/projects/templates/projects/project_list.html:43
 msgid "Author"
 msgstr ""
 
-#: apps/projects/templates/projects/project_list.html:21
+#: apps/projects/templates/projects/project_list.html:44
 #: commons/mixins/models.py:36
 msgid "Last modified"
 msgstr "שונה לאחרונה"
-
-#: apps/projects/templates/projects/project_list.html:22
-#: apps/sheets/templates/sheets/sheet_detail.html:44
-msgid "View"
-msgstr ""
 
 #: apps/sheets/models.py:47
 msgid "The name of this template."
@@ -965,6 +984,10 @@ msgstr "סך הכל"
 #: apps/sheets/templates/sheets/sheet_detail.html:41
 msgid "NIS"
 msgstr "ש\"ח"
+
+#: apps/sheets/templates/sheets/sheet_detail.html:44
+msgid "View"
+msgstr ""
 
 #: apps/sheets/templates/sheets/sheet_detail.html:56
 msgid "Export this Budget"
@@ -1527,10 +1550,6 @@ msgstr "תנאים"
 msgid "Privacy"
 msgstr "פרטיות"
 
-#: commons/templates/partials/nav-panel.html:34
-msgid "API"
-msgstr ""
-
 #: commons/templates/registration/activate.html:6
 #: commons/templates/registration/activation_complete.html:6
 msgid "Activation complete"
@@ -1783,11 +1802,11 @@ msgstr "ערבית"
 msgid "Russian"
 msgstr "רוסית"
 
-#: settings/base.py:327
+#: settings/base.py:328
 msgid "Open Local Budgets"
 msgstr "התקציב המקומי הפתוח"
 
-#: settings/base.py:329
+#: settings/base.py:330
 msgid "Public Knowledge Workshop"
 msgstr "הסדנא לידע ציבורי"
 
