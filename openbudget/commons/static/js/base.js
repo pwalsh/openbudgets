@@ -52,7 +52,7 @@
                                     }
                                 }
                                 valid = true;
-                            });
+                            }).end();
                 $form.trigger(valid ? 'valid' : 'invalid');
             },
             validHandler = function () {
