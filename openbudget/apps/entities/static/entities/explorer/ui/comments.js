@@ -1,6 +1,5 @@
 define([
-    'uijet_dir/uijet',
-    'project_widgets/ContentEditable'
+    'uijet_dir/uijet'
 ], function (uijet) {
 
     return [{
@@ -94,6 +93,11 @@ define([
             signals     : {
                 post_init   : function () {
                     this.$textarea = this.$element.find('textarea');
+                    this.$textarea.on('keyup', function (e) {
+                        if ( this.scrollHeight > this.clientHeight ) {
+                            this.style.height = this.scrollHeight + 'px';
+                        }
+                    });
                 },
                 pre_wake    : function () {
                     this.$element.removeClass('hide');

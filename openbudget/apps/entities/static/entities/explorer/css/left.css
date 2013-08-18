@@ -4,8 +4,11 @@
 }
 
 #comment_text {
+    min-height: 2.5rem;
     padding: 0;
+    overflow: hidden;
     background-color: transparent;
+    resize: none;
 }
 #comment_text::-webkit-input-placeholder, /* WebKit browsers */
 #comment_text:-moz-placeholder, /* Mozilla Firefox 4 to 18 */
