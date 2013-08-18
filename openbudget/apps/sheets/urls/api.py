@@ -51,6 +51,11 @@ def sheets():
             name='sheetitem-detail'
         ),
         url(
+            r'^items/(?P<pk>\d+)/comments/$',
+            api.SheetItemCommentListCreate.as_view(),
+            name='sheetitemcomment-list-create'
+        ),
+        url(
             r'^timeline/(?P<entity_pk>\w+)/$',
             api.SheetItemTimeline.as_view(),
             name='sheetitem-timeline'
