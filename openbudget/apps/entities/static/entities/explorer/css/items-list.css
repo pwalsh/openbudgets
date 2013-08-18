@@ -1,6 +1,6 @@
 .item_cell {
     display: table-cell;
-    height: 44px;
+    height: auto;
     line-height: 44px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -9,7 +9,7 @@
     border-bottom: 1px solid #d0d0dc;
 }
 .item_cell_actual, .item_cell_budget {
-    width: 140px;
+    width: 170px;
 }
 .item_cell_code, .item_cell_direction {
     font-size: .9rem;
@@ -17,6 +17,17 @@
 }
 .item_cell_code {
     width: 110px;
+}
+.item_cell_comment {
+    position: relative;
+    width: 0;
+    padding: 0;
+    font-size: 0;
+    vertical-align: bottom;
+}
+.item_cell_comment .td_filler {
+    display: block;
+    vertical-align: bottom;
 }
 .item_cell_direction {
     width: 120px;
@@ -30,8 +41,44 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+
+.item_comment_button {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    width: 60px;
+    height: 44px;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-image: url(../img/comment_empty.png);
+}
+.item_comment_button:hover {
+    display: block;
+}
+.item_comment_button.has_comments {
+    display: block;
+    padding-right: 30px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 1rem;
+    color: #8989a8;
+    background-image: url(../img/comment_white.png);
+}
+#items_list li:hover .item_comment_button.has_comments {
+    background-image: url(../img/comment_yellow.png);
+}
+
+.td_filler {
+    position: relative;
+    width: 0;
+}
+
 [data-column=actual], [data-column=budget] {
-    width: 140px;
+    width: 170px;
 }
 [data-column=direction] {
     width: 120px;
@@ -57,6 +104,9 @@
 }
 #items_list li:hover {
     background-color: #ffffcd;
+}
+#items_list li:hover .item_comment_button {
+    display: block;
 }
 #items_list li.removed {
     display: none;
@@ -122,4 +172,9 @@
 }
 #items_list_footer .item_cell_type {
     background: none;
+}
+
+#items_list_wrapper {
+    overflow: visible !important;
+    clip: rect(0, auto, auto, -100px);
 }

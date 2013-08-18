@@ -355,3 +355,15 @@ class SheetItemTimeline(generics.ListAPIView):
         serialized_timeline = serializers.SheetTimeline(items, many=True).data
 
         return Response(serialized_timeline)
+
+
+class SheetItemCommentListCreate(generics.ListCreateAPIView):
+    """
+    Called via an API endpoint using GET it represents a list of SheetItemComments.
+    Called via an API endpoint using POST it creates a new of SheetItemComment.
+    """
+
+    model = models.SheetItemComment
+    queryset = model.objects.related_map()
+    serializer_class = serializers.SheetItemCommentBaseSerializer
+    search_fields = ['user__first_name', 'user__last_name', 'comment']

@@ -227,7 +227,15 @@ define([
                     this._finally();
                 },
                 pre_select      : function ($selected, e) {
-                    return +$selected.attr('data-id');
+                    var is_comment_button = uijet.$(e.target).hasClass('item_comment_button');
+
+                    if ( is_comment_button ) {
+                        uijet.publish('open_comments', $selected);
+                        return false;
+                    }
+                    else {
+                        return +$selected.attr('data-id');
+                    }
                 },
                 post_select     : function ($selected) {
                     var node_id = typeof $selected == 'number' ?

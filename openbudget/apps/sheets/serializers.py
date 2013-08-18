@@ -102,12 +102,28 @@ class SheetItemBase(serializers.HyperlinkedModelSerializer):
     name_ru = serializers.Field('node.name_ru')
     path = serializers.Field('node.path')
     direction = serializers.Field('node.direction')
+    has_comments = serializers.SerializerMethodField('get_has_comments')
+    comments_count = serializers.SerializerMethodField('get_comments_count')
 
     class Meta:
         model = models.SheetItem
-        fields = ['id', 'uuid', 'url', 'code', 'name', 'path', 'direction', 'budget',
-                  'actual', 'description', 'node', 'discussion', 'parent', 'children', 'ancestors'] + \
+        fields = ['id', 'uuid', 'url', 'code', 'name', 'path', 'direction', 'budget', 'actual',
+                  'description', 'node', 'discussion', 'has_comments', 'comments_count',
+                  'parent', 'children', 'ancestors'] + \
                  translated_fields(models.TemplateNode)
+
+    def get_has_comments(self, obj):
+        if len(obj.description):
+            return True
+        return obj.discussion.exists()
+
+    def get_comments_count(self, obj):
+        count = 0
+        if len(obj.description):
+            count = 1
+        count += obj.discussion.count()
+        return count
+
 
 
 class SheetDetail(SheetBase):
@@ -138,3 +154,13 @@ class SheetTimeline(serializers.ModelSerializer):
 
     def get_period(self, obj):
         return obj.sheet.period
+
+
+class SheetItemCommentBaseSerializer(serializers.ModelSerializer):
+    """
+    Base SheetItemComment serializer, for creating new SheetItemComment instances.
+    """
+
+    class Meta:
+        model = models.SheetItemComment
+        fields = ['uuid', 'id', 'user', 'item', 'comment', 'created_on', 'last_modified']

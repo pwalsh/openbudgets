@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-15 21:13+0300\n"
+"POT-Creation-Date: 2013-08-16 21:40+0300\n"
 "PO-Revision-Date: 2013-05-23 17:58+0000\n"
 "Last-Translator: Ram Ezrach <ram.ezrach@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -382,7 +382,7 @@ msgstr ""
 
 #: apps/entities/models.py:42 apps/entities/models.py:110
 #: apps/entities/models.py:161
-#: apps/entities/templates/entities/explorer.html:41 apps/sheets/models.py:44
+#: apps/entities/templates/entities/explorer.html:45 apps/sheets/models.py:44
 #: apps/sheets/models.py:119 apps/taxonomies/models.py:98
 msgid "Name"
 msgstr "שם"
@@ -472,7 +472,7 @@ msgstr ""
 msgid "The name of this entity."
 msgstr "שם הרשות"
 
-#: apps/entities/models.py:167 apps/projects/models.py:33
+#: apps/entities/models.py:167 apps/projects/models.py:28
 #: apps/sheets/models.py:50 apps/sheets/models.py:374
 #: apps/sheets/models.py:430
 msgid "Description"
@@ -545,43 +545,51 @@ msgstr "רשויות"
 msgid "Soon"
 msgstr "בקרוב"
 
-#: apps/entities/templates/entities/explorer.html:21
-#: apps/entities/templates/entities/explorer.html:43
+#: apps/entities/templates/entities/explorer.html:19
+msgid "Open Muni Budget"
+msgstr "תקציב מקומי פתוח"
+
+#: apps/entities/templates/entities/explorer.html:24
+#: apps/entities/templates/entities/explorer.html:47
 #: apps/sheets/templates/sheets/sheet_detail.html:6
 #: apps/sheets/templates/sheets/sheet_detail.html:39
 msgid "Budget"
 msgstr "תכנון"
 
-#: apps/entities/templates/entities/explorer.html:26
+#: apps/entities/templates/entities/explorer.html:29
 msgid "Search under:"
 msgstr "חיפוש תחת:"
 
-#: apps/entities/templates/entities/explorer.html:27
-#: apps/entities/views/ui.py:186
+#: apps/entities/templates/entities/explorer.html:30
+#: apps/entities/views/ui.py:201
 msgid "Main"
 msgstr "ראשי"
 
-#: apps/entities/templates/entities/explorer.html:33
+#: apps/entities/templates/entities/explorer.html:37
 #: commons/templates/partials/_form_action_search.html:2
 msgid "Search"
 msgstr "חיפוש"
 
-#: apps/entities/templates/entities/explorer.html:40
+#: apps/entities/templates/entities/explorer.html:44
 msgid "Order"
 msgstr "סידורי"
 
-#: apps/entities/templates/entities/explorer.html:42
+#: apps/entities/templates/entities/explorer.html:46
 msgid "Direction"
 msgstr "סוג"
 
-#: apps/entities/templates/entities/explorer.html:44
+#: apps/entities/templates/entities/explorer.html:48
 #: apps/sheets/templates/sheets/sheet_detail.html:41
 msgid "Actual"
 msgstr "ביצוע"
 
-#: apps/entities/templates/entities/explorer.html:61
-msgid "Open Muni Budget"
-msgstr "תקציב מקומי פתוח"
+#: apps/entities/templates/entities/explorer.html:69
+msgid "Explanations"
+msgstr "דברי הסבר"
+
+#: apps/entities/templates/entities/explorer.html:72
+msgid "Add comment"
+msgstr "הוספת תגובה"
 
 #: apps/interactions/models.py:63
 #: apps/interactions/templatetags/interactions.py:40
@@ -855,7 +863,7 @@ msgid ""
 "node."
 msgstr ""
 
-#: apps/sheets/models.py:198 apps/sheets/models.py:606
+#: apps/sheets/models.py:198 apps/sheets/models.py:621
 msgid "Entry description"
 msgstr "תיאור ערך"
 
@@ -936,31 +944,31 @@ msgstr "פריט תקציב"
 msgid "sheet items"
 msgstr "פריטי תקציב"
 
-#: apps/sheets/models.py:565
+#: apps/sheets/models.py:580
 msgid "Comment"
 msgstr "תגובה"
 
-#: apps/sheets/models.py:566
+#: apps/sheets/models.py:581
 msgid "Add your comments to this discussion."
 msgstr ""
 
-#: apps/sheets/models.py:571
+#: apps/sheets/models.py:586
 msgid "sheet item comment"
 msgstr "דברי הסבר"
 
-#: apps/sheets/models.py:572
+#: apps/sheets/models.py:587
 msgid "sheet item comments"
 msgstr "דברי הסבר"
 
-#: apps/sheets/models.py:608
+#: apps/sheets/models.py:623
 msgid "A descriptive text for this template node underlying this sheet item."
 msgstr ""
 
-#: apps/sheets/models.py:613
+#: apps/sheets/models.py:628
 msgid "denormalized sheet item"
 msgstr ""
 
-#: apps/sheets/models.py:614
+#: apps/sheets/models.py:629
 msgid "denormalized sheet items"
 msgstr ""
 

@@ -2,23 +2,23 @@ from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView, ListView
 from rest_framework.renderers import JSONRenderer
-from rest_framework.serializers import ModelSerializer, Field
+from rest_framework import serializers
 from openbudget.apps.entities.models import Entity
 from openbudget.apps.sheets.models import Sheet, SheetItem, TemplateNode
 from openbudget.apps.international.utilities import translated_fields
 from openbudget.commons.utilities import commas_format
 
 
-class SheetItemUIMinSerializer(ModelSerializer):
+class SheetItemUIMinSerializer(serializers.ModelSerializer):
 
-    node = Field('node.id')
-    code = Field('node.code')
-    name = Field('node.name')
-    name_en = Field('node.name_en')
-    name_ar = Field('node.name_ar')
-    name_ru = Field('node.name_ru')
-    path = Field('node.path')
-    direction = Field('node.direction')
+    node = serializers.Field('node.id')
+    code = serializers.Field('node.code')
+    name = serializers.Field('node.name')
+    name_en = serializers.Field('node.name_en')
+    name_ar = serializers.Field('node.name_ar')
+    name_ru = serializers.Field('node.name_ru')
+    path = serializers.Field('node.path')
+    direction = serializers.Field('node.direction')
 
     class Meta:
         model = SheetItem
@@ -27,31 +27,46 @@ class SheetItemUIMinSerializer(ModelSerializer):
                  + translated_fields(TemplateNode)
 
 
-class SheetItemUISerializer(ModelSerializer):
+class SheetItemUISerializer(serializers.ModelSerializer):
 
-    node = Field('node.id')
+    node = serializers.Field('node.id')
     parent = SheetItemUIMinSerializer()
     children = SheetItemUIMinSerializer(many=True)
     ancestors = SheetItemUIMinSerializer(many=True)
     # descendants = SheetItemUIMinSerializer(many=True)
-    code = Field('node.code')
-    name = Field('node.name')
-    name_en = Field('node.name_en')
-    name_ar = Field('node.name_ar')
-    name_ru = Field('node.name_ru')
-    path = Field('node.path')
-    direction = Field('node.direction')
+    code = serializers.Field('node.code')
+    name = serializers.Field('node.name')
+    name_en = serializers.Field('node.name_en')
+    name_ar = serializers.Field('node.name_ar')
+    name_ru = serializers.Field('node.name_ru')
+    path = serializers.Field('node.path')
+    direction = serializers.Field('node.direction')
+    has_comments = serializers.SerializerMethodField('get_has_comments')
+    comments_count = serializers.SerializerMethodField('get_comments_count')
 
     class Meta:
         model = SheetItem
-        fields = ['id', 'uuid', 'code', 'name', 'path', 'direction', 'budget',
-                  'actual', 'description', 'node', 'parent', 'children', 'ancestors', 'discussion']\
+        fields = ['id', 'uuid', 'code', 'name', 'path', 'direction', 'budget', 'actual',
+                  'description', 'discussion', 'has_comments', 'comments_count',
+                  'node', 'parent', 'children', 'ancestors']\
                  + translated_fields(TemplateNode)
 
+    def get_has_comments(self, obj):
+        if len(obj.description):
+            return True
+        return obj.discussion.exists()
 
-class SheetUISerializer(ModelSerializer):
+    def get_comments_count(self, obj):
+        count = 0
+        if len(obj.description):
+            count = 1
+        count += obj.discussion.count()
+        return count
 
-    period = Field(source='period')
+
+class SheetUISerializer(serializers.ModelSerializer):
+
+    period = serializers.Field(source='period')
 
     class Meta:
         model = Sheet
@@ -59,7 +74,7 @@ class SheetUISerializer(ModelSerializer):
 
 
 
-class EntityDetailUISerializer(ModelSerializer):
+class EntityDetailUISerializer(serializers.ModelSerializer):
 
     sheets = SheetUISerializer()
 

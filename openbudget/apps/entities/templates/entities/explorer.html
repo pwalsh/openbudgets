@@ -15,17 +15,21 @@
 </head>
 <body>
     <div id="explorer" class="uijet_app">
+        <div id="right_edge_detector"></div>
+        <span id="site_menu_open" class="small_heading">{% trans 'Open Muni Budget' %}</span>
         <section id="main_container" class="top_container">
             <header id="sheet_header">
-                <span id="sheet_selector">
-                    {% trans 'Budget' %}<span id="sheet_selector_content"></span>
-                    <ul id="sheet_selector_menu">
-                        {% for sheet in sheets %}<li data-id="{{ sheet.id }}">{{ sheet.period }}</li>{% endfor %}
+                <div id="sheet_header_top_container">
+                    <span id="sheet_selector">
+                        {% trans 'Budget' %}<span id="sheet_selector_content"></span>
+                        <ul id="sheet_selector_menu">
+                            {% for sheet in sheets %}<li data-id="{{ sheet.id }}">{{ sheet.period }}</li>{% endfor %}
+                        </ul>
+                    </span>
+                    <ul id="items_breadcrumbs" data-prefix="{% trans 'Search under:' %}">
+                        <li data-id="0">{% trans 'Main' %}</li>{{ items_breadcrumbs|safe }}
                     </ul>
-                </span>
-                <ul id="items_breadcrumbs" data-prefix="{% trans 'Search under:' %}">
-                    <li data-id="0">{% trans 'Main' %}</li>{{ items_breadcrumbs|safe }}
-                </ul>
+                </div>
                 <h2 id="sheet_scope_name">
                     <span id="sheet_scope_name_content">{{ scope_name }}</span>
                     <span id="search_crumb"></span>
@@ -57,9 +61,23 @@
             </footer>
         </section>
         <section id="right_container" class="top_container">
-            <div id="right_edge_detector"></div>
-            <span id="site_menu_open" class="small_heading">{% trans 'Open Muni Budget' %}</span>
             <h1 id="muni_name" class="right_menu_heading">{{ object.name }}</h1>
+        </section>
+        <section id="left_container" class="top_container">
+            <span id="items_comments_close"></span>
+            <div id="items_comments_container">
+                <h4 class="small_heading">{% trans 'Explanations' %}</h4>
+                <p id="item_description"></p>
+                <ul id="item_comments_list"></ul>
+                <div id="new_comment" class="hide">
+                    <textarea id="comment_text" name="comment" placeholder="{% trans 'Enter comment...' %}"></textarea>
+                    <div id="new_comment_buttons">
+                        <span id="new_comment_ok">{% trans 'Enter' %}</span><span 
+                            id="new_comment_cancel">{% trans 'Cancel' %}</span>
+                    </div>
+                </div>
+                <span id="add_comment" class="small_heading">{%  trans 'Add comment' %}</span>
+            </div>
         </section>
 
         <div id="panel-nav">
