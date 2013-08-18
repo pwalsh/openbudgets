@@ -1,6 +1,18 @@
+.account .name {
+    font-size: 1.1rem;
+    line-height: 1.3rem;
+}
+.account .actions {
+    font-size: 1.3rem;
+}
+
 #add_comment {
     padding-top: 20px;
     padding-right: 0;
+}
+
+#panel-append {
+    float: right;
 }
 
 #comment_text {
@@ -48,8 +60,7 @@
 
 #left_container {
     position: absolute;
-    top: 0;
-    bottom: 0;
     left: 0;
     width: 360px;
+    padding: 0;
 }

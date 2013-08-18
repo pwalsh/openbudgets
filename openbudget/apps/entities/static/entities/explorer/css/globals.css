@@ -10,6 +10,11 @@ em {
     color: #ff0059;
     font-style: normal;
 }
+fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
 h1,h2, h3, header nav a {
     font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
 }
@@ -92,6 +97,11 @@ svg {
 
 .amount:before {
     content: '\20aa';
+}
+
+.modal, .modal input {
+    font-size: 16px;
+    line-height: 24px;
 }
 
 .top_container {
