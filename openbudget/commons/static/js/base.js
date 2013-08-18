@@ -52,7 +52,7 @@
                                     }
                                 }
                                 valid = true;
-                            }).end();
+                            });
                 $form.trigger(valid ? 'valid' : 'invalid');
             },
             validHandler = function () {
@@ -224,15 +224,6 @@
 
          });
     
-    }());
-
-    // USER PANEL UX
-    (function () {
-
-        $('.account').hover(function (event) {
-            $('.actions').toggle();
-        });
-
     }());
 
     // PROJECT GALLERY UX
