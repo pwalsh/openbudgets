@@ -1,6 +1,7 @@
 define([
-    'uijet_dir/uijet'
-], function (uijet) {
+    'uijet_dir/uijet',
+    'api'
+], function (uijet, api) {
 
     return [{
         type    : 'Button',
@@ -106,13 +107,17 @@ define([
                     this.$textarea.focus();
                 },
                 pre_sleep   : function () {
-                    this.$textarea[0].value = '';
+                    var textarea = this.$textarea[0];
+                    textarea.value = '';
+                    textarea.style.removeProperty('height');
                     this.$element.addClass('hide');
                 }
             },
             app_events  : {
                 'add_comment.clicked'           : 'wake',
-                'new_comment_ok.clicked'        : 'sleep',
+                'new_comment_ok.clicked'        : function () {
+//                    api.
+                },
                 'new_comment_cancel.clicked'    : 'sleep',
                 'open_comments'                 : 'sleep',
                 'items_comments_close.clicked'  : 'sleep'
