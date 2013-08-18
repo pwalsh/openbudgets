@@ -311,6 +311,13 @@
             return obudget.getRoute('sheets') +
                 'timeline/' + entity +
                 '/?nodes=' + nodes.join(',');
+        },
+        itemComments    : function (item_pk, options) {
+            return new Request(
+                obudget.getRoutes('sheetItems') +
+                item_pk + '/comments/',
+                options
+            );
         }
     };
     return obudget;
