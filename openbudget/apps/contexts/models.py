@@ -31,9 +31,9 @@ class Context(TimeStampedModel, PeriodicModel):
     """
 
     KEYS = {
-        'population': _('Population (Male)'),
+        'population': _('Population'),
         'population_male': _('Population (Female)'),
-        'population_female': _('Population'),
+        'population_female': _('Population (Male)'),
         'ground_surface': _('Ground Surface'),
         'students': _('Students'),
         'schools': _('Schools'),
