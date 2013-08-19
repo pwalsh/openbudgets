@@ -62,6 +62,9 @@
   -moz-border-radius: 58px;
   border-radius: 58px;
 }
+.account:hover .actions {
+  display: block;
+}
 /*******************/
 /*  FILTER WIDGET  */
 /*******************/

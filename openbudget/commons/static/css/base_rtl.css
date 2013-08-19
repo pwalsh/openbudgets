@@ -432,6 +432,7 @@ input.valid {
   height: 100%;
   background-color: #000000;
   opacity: 0.5;
+  z-index: 1;
 }
 /* A mixin that declares the base style of all overlay objects */
 #overlay-login {
@@ -452,6 +453,7 @@ input.valid {
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
+  z-index: 2;
 }
 #overlay-login h3,
 #overlay-login .notices,
@@ -538,6 +540,7 @@ input.valid {
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
+  z-index: 2;
 }
 #overlay-register h3,
 #overlay-register .notices,
@@ -624,6 +627,7 @@ input.valid {
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
+  z-index: 2;
 }
 #overlay-password-reset h3,
 #overlay-password-reset .notices,
@@ -710,6 +714,7 @@ input.valid {
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
+  z-index: 2;
 }
 #overlay-password-change h3,
 #overlay-password-change .notices,
@@ -796,6 +801,7 @@ input.valid {
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
+  z-index: 2;
 }
 #overlay-contact h3,
 #overlay-contact .notices,
@@ -1569,6 +1575,9 @@ input.valid {
   -webkit-border-radius: 58px;
   -moz-border-radius: 58px;
   border-radius: 58px;
+}
+.account:hover .actions {
+  display: block;
 }
 /*******************/
 /*  FILTER WIDGET  */
