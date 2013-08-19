@@ -314,7 +314,7 @@
         },
         itemComments    : function (item_pk, options) {
             return new Request(
-                obudget.getRoutes('sheetItems') +
+                obudget.getRoute('sheetItems') +
                 item_pk + '/comments/',
                 options
             );

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-12 10:19+0300\n"
+"POT-Creation-Date: 2013-08-18 17:20+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,12 +26,16 @@ msgstr "חיפוש טקסט חופשי"
 msgid "Search for \""
 msgstr "חפש \""
 
-#: static/entities/explorer/ui/sheet.js:111
+#: static/entities/explorer/dictionary.js:5
+msgid "by"
+msgstr "מאת"
+
+#: static/entities/explorer/ui/sheet.js:151
 msgid "Main"
 msgstr "ראשי"
 
-msgid "EXPENDITURE"
-msgstr "הוצאות"
+#~ msgid "EXPENDITURE"
+#~ msgstr "הוצאות"
 
-msgid "REVENUE"
-msgstr "הכנסות"
+#~ msgid "REVENUE"
+#~ msgstr "הכנסות"

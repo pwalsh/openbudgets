@@ -1,7 +1,25 @@
 define([
     'uijet_dir/uijet',
-    'api'
+    'api',
+    'resources'
 ], function (uijet, api) {
+
+    var getUserAvatar = function () {
+            return function (text, render) {
+                return render(text).replace(/s=\d+/, 's=25');
+            };
+        },
+        new_comment_data = {
+            discussion  : {
+                uuid            : '',
+                comment         : '',
+                created_on      : '',
+                user            : window.LOGGEDIN_USER,
+                get_user_avatar : getUserAvatar
+            }
+        };
+
+    uijet.Resource('NewComment', uijet.Model());
 
     return [{
         type    : 'Button',
@@ -21,10 +39,21 @@ define([
             element     : '#items_comments_container',
 //            mixins      : ['Scrolled'],
 //            adapters    : ['jqWheelScroll'],
+            resource    : 'NewComment',
             dont_wake   : true,
             signals     : {
                 post_init   : function () {
                     this.$description = this.$element.find('#item_description')
+                }
+            },
+            data_events : {
+                'change:comment': function (model, comment) {
+                    api.itemComments(this.resource.get('item_pk'), {
+                        type: 'POST',
+                        data: {
+                            comment : comment
+                        }
+                    });
                 }
             },
             app_events  : {
@@ -32,7 +61,7 @@ define([
                     var item = uijet.Resource('LatestSheet').get(+$selected.attr('data-item')),
                         discussion = item.get('discussion'),
                         description = item.get('description');
-                    this.$element[0].style.setProperty('padding-top', uijet.utils.getOffsetOf($selected[0], uijet.$element[0]).y + 'px');
+                    this.$element[0].style.setProperty('padding-top', (uijet.utils.getOffsetOf($selected[0], uijet.$element[0]).y + 22) + 'px');
                     if ( description ) {
                         this.$element.removeClass('no_description');
                         this.$description.text(description);
@@ -40,7 +69,12 @@ define([
                     else {
                         this.$element.addClass('no_description');
                     }
-                    this.wake({ discussion : discussion });
+
+                    this.resource.set('item_pk', $selected.attr('data-item'));
+
+                    this.wake({
+                        discussion  : discussion
+                    });
                 },
                 'items_comments_close.clicked'  : 'sleep'
             }
@@ -56,21 +90,15 @@ define([
             },
             app_events  : {
                 'add_comment.clicked'       : function () {
-                    this.$element.append(this.template({
-                        discussion  : {
-                            uuid        : '',
-                            comment     : '',
-                            created_on  : '',
-                            user        : {
-                                first_name  : '',
-                                last_name   : '',
-                                avatar      : ''
-                            }
-                        }
-                    }));
+                    this.$new_comment = this.$element.append(this.template(new_comment_data))
+                        .children().last();
+                    uijet._translate(this.$new_comment[0]);
                 },
                 'new_comment_cancel.clicked': function () {
-                    this.$element.last().remove();
+                    if ( this.$new_comment ) {
+                        this.$new_comment.remove();
+                        delete this.$new_comment;
+                    }
                 }
             }
         }
@@ -90,6 +118,7 @@ define([
         type    : 'Pane',
         config  : {
             element     : '#new_comment',
+            resource    : 'NewComment',
             dont_wake   : true,
             signals     : {
                 post_init   : function () {
@@ -113,10 +142,11 @@ define([
                     this.$element.addClass('hide');
                 }
             },
+            data_events : {},
             app_events  : {
                 'add_comment.clicked'           : 'wake',
                 'new_comment_ok.clicked'        : function () {
-//                    api.
+                    this.resource.set('comment', this.$textarea.val());
                 },
                 'new_comment_cancel.clicked'    : 'sleep',
                 'open_comments'                 : 'sleep',

@@ -163,4 +163,14 @@ class SheetItemCommentBaseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.SheetItemComment
-        fields = ['uuid', 'id', 'user', 'item', 'comment', 'created_on', 'last_modified']
+        fields = ['comment']
+
+
+class SheetItemCommentReadSerializer(SheetItemCommentBaseSerializer):
+    """
+    Read SheetItemComment serializer, for listing/retrieving SheetItemComment instances.
+    """
+
+    class Meta(SheetItemCommentBaseSerializer.Meta):
+        fields = SheetItemCommentBaseSerializer.Meta.fields +\
+                 ['uuid', 'id', 'user', 'item', 'created_on', 'last_modified']

@@ -556,10 +556,13 @@ class SheetItemCommentManager(models.Manager):
         return super(SheetItemCommentManager, self).select_related()
 
     def related_map_min(self):
-        return self.select_related()
+        return self.select_related('user')
 
     def related_map(self):
-        return self.related_map_min()
+        return self.select_related()
+
+    def by_item(self, item_pk):
+        return self.filter(item=item_pk).related_map_min()
 
 
 class SheetItemComment(TimeStampedModel, UUIDModel, ClassMethodMixin):

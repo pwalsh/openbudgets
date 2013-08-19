@@ -123,6 +123,13 @@ class EntityDetail(DetailView):
         renderer = JSONRenderer()
         sheet = None
         scope_item = None
+        user = self.request.user
+        user_object = {}
+
+        if user.is_authenticated():
+            user_object['first_name'] = user.first_name
+            user_object['last_name'] = user.last_name
+            user_object['avatar'] = user.avatar
 
         if self.object.sheets.exists():
 
@@ -157,6 +164,7 @@ class EntityDetail(DetailView):
         context['sheets'] = sheets
         context['object_json'] = renderer.render(EntityDetailUISerializer(self.object).data)
         context['sheet_json'] = renderer.render(SheetUISerializer(sheet).data) if sheet else '{}'
+        context['user_json'] = renderer.render(user_object)
 
         # format numbers in items_list
         for item in items_list:

@@ -7,16 +7,8 @@ define([
     var I18N_ATTRIBUTE = 'data-i18n',
         I18N_ATTR_ATTRIBUTE = 'data-i18n-attr',
         normalizeToElement = function (el) {
-            if ( el ) {
-                if ( typeof el == 'string' ) {
-                    return document.querySelector(el);
-                }
-                else if ( el.nodeType === 1 ) {
-                    return el;
-                }
-                else if ( el[0] && el[0].nodeType === 1 ) {
-                    return el[0];
-                }
+            if ( el = uijet.utils.toElement(el) ) {
+                return el[0];
             }
             return null;
         };

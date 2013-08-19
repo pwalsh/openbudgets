@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-16 21:40+0300\n"
+"POT-Creation-Date: 2013-08-18 17:18+0300\n"
 "PO-Revision-Date: 2013-05-23 17:58+0000\n"
 "Last-Translator: Ram Ezrach <ram.ezrach@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -472,7 +472,7 @@ msgstr ""
 msgid "The name of this entity."
 msgstr "שם הרשות"
 
-#: apps/entities/models.py:167 apps/projects/models.py:28
+#: apps/entities/models.py:167 apps/projects/models.py:33
 #: apps/sheets/models.py:50 apps/sheets/models.py:374
 #: apps/sheets/models.py:430
 msgid "Description"
@@ -542,6 +542,8 @@ msgid "Localities"
 msgstr "רשויות"
 
 #: apps/entities/templates/entities/entity_list.html:21
+#: apps/projects/templates/projects/project_list.html:22
+#: apps/projects/templates/projects/project_list.html:58
 msgid "Soon"
 msgstr "בקרוב"
 
@@ -561,7 +563,7 @@ msgid "Search under:"
 msgstr "חיפוש תחת:"
 
 #: apps/entities/templates/entities/explorer.html:30
-#: apps/entities/views/ui.py:201
+#: apps/entities/views/ui.py:209
 msgid "Main"
 msgstr "ראשי"
 
@@ -583,11 +585,24 @@ msgstr "סוג"
 msgid "Actual"
 msgstr "ביצוע"
 
-#: apps/entities/templates/entities/explorer.html:69
+#: apps/entities/templates/entities/explorer.html:72
 msgid "Explanations"
 msgstr "דברי הסבר"
 
-#: apps/entities/templates/entities/explorer.html:72
+#: apps/entities/templates/entities/explorer.html:76
+msgid "Enter comment..."
+msgstr "הכנסת תגובה..."
+
+#: apps/entities/templates/entities/explorer.html:78
+msgid "Enter"
+msgstr "אישור"
+
+#: apps/entities/templates/entities/explorer.html:79
+#: commons/templates/partials/_form_action_cancel.html:3
+msgid "Cancel"
+msgstr "ביטול"
+
+#: apps/entities/templates/entities/explorer.html:82
 msgid "Add comment"
 msgstr "הוספת תגובה"
 
@@ -731,7 +746,7 @@ msgid "For the General Public"
 msgstr ""
 
 #: apps/projects/models.py:23
-#: apps/projects/templates/projects/project_list.html:32
+#: apps/projects/templates/projects/project_list.html:46
 msgid "For Developers"
 msgstr "למפתחים"
 
@@ -785,29 +800,27 @@ msgstr ""
 msgid "States"
 msgstr ""
 
-#: apps/projects/templates/projects/project_list.html:23
-#: apps/projects/templates/projects/project_list.html:33
-#, fuzzy
+#: apps/projects/templates/projects/project_list.html:37
+#: apps/projects/templates/projects/project_list.html:47
 msgid "Add a project"
-msgstr "ניהול פרויקטים"
+msgstr "הוסף פרוייקט"
 
-#: apps/projects/templates/projects/project_list.html:24
+#: apps/projects/templates/projects/project_list.html:39
+msgid "Add your own description goes here."
+msgstr ""
+
+#: apps/projects/templates/projects/project_list.html:40
 msgid "Add your own"
 msgstr ""
 
-#: apps/projects/templates/projects/project_list.html:34
+#: apps/projects/templates/projects/project_list.html:49
+msgid "API description goes here."
+msgstr "תיאור של ה API."
+
+#: apps/projects/templates/projects/project_list.html:50
 #: commons/templates/partials/nav-panel.html:34
 msgid "API"
 msgstr ""
-
-#: apps/projects/templates/projects/project_list.html:43
-msgid "Author"
-msgstr ""
-
-#: apps/projects/templates/projects/project_list.html:44
-#: commons/mixins/models.py:36
-msgid "Last modified"
-msgstr "שונה לאחרונה"
 
 #: apps/sheets/models.py:47
 msgid "The name of this template."
@@ -1440,6 +1453,10 @@ msgstr "אישור"
 msgid "Created on"
 msgstr "נוצר ב"
 
+#: commons/mixins/models.py:36
+msgid "Last modified"
+msgstr "שונה לאחרונה"
+
 #: commons/mixins/models.py:71
 msgid "Period start"
 msgstr ""
@@ -1505,10 +1522,6 @@ msgstr "תגובות"
 #: commons/templates/comments/list.html:7
 msgid "What do you have to say"
 msgstr "מה יש לך להגיד"
-
-#: commons/templates/partials/_form_action_cancel.html:3
-msgid "Cancel"
-msgstr "ביטול"
 
 #: commons/templates/partials/_form_action_change.html:2
 msgid "Change"
@@ -1802,11 +1815,11 @@ msgstr "ערבית"
 msgid "Russian"
 msgstr "רוסית"
 
-#: settings/base.py:328
+#: settings/base.py:327
 msgid "Open Local Budgets"
 msgstr "התקציב המקומי הפתוח"
 
-#: settings/base.py:330
+#: settings/base.py:329
 msgid "Public Knowledge Workshop"
 msgstr "הסדנא לידע ציבורי"
 
@@ -1912,9 +1925,6 @@ msgstr "הסדנא לידע ציבורי"
 
 #~ msgid "Budget description"
 #~ msgstr "תיאור תקציב"
-
-#~ msgid "Item description"
-#~ msgstr "תיאור פריט"
 
 #~ msgid "for the"
 #~ msgstr "בשביל ה"

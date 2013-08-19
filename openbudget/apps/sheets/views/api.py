@@ -367,3 +367,17 @@ class SheetItemCommentListCreate(generics.ListCreateAPIView):
     queryset = model.objects.related_map()
     serializer_class = serializers.SheetItemCommentBaseSerializer
     search_fields = ['user__first_name', 'user__last_name', 'comment']
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            # base serializer for creating SheetItemComment
+            return serializers.SheetItemCommentBaseSerializer
+        # SheetItemComment list/retrieve serializer
+        return serializers.SheetItemCommentReadSerializer
+
+    def get_queryset(self):
+        return self.model.objects.by_item(self.kwargs.get('pk'))
+
+    def pre_save(self, obj):
+        obj.user = self.request.user
+        obj.item = models.SheetItem.objects.get(id=self.kwargs.get('pk'))

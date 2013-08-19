@@ -75,8 +75,8 @@
                 <div id="new_comment" class="hide">
                     <textarea id="comment_text" name="comment" placeholder="{% trans 'Enter comment...' %}"></textarea>
                     <div id="new_comment_buttons">
-                        <span id="new_comment_ok">{% trans 'Enter' %}</span><span 
-                            id="new_comment_cancel">{% trans 'Cancel' %}</span>
+                        <span id="new_comment_ok" class="new_comment_button">{% trans 'Enter' %}</span><span 
+                            id="new_comment_cancel" class="new_comment_button">{% trans 'Cancel' %}</span>
                     </div>
                 </div>
                 <span id="add_comment" class="small_heading">{%  trans 'Add comment' %}</span>
@@ -107,6 +107,7 @@
             ENTITY = {{ object_json|safe }},
             SHEET = {{ sheet_json|safe }},
             ITEM = {{ scope_item_json|safe }},
+            LOGGEDIN_USER = {{ user_json|safe }},
             ITEMS_LIST = {{ items_list_json|safe }};
     </script>
     <script src="{% url 'entities_js_i18n' %}"></script>
