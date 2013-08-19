@@ -1,3 +1,16 @@
+.context_value {
+    display: inline-block;
+    margin-right: .5rem;
+    color: #7070a0;
+}
+
+#contextual_data {
+    margin-top: 140px;
+    font-size: 1.3rem;
+    line-height: 150%;
+    font-weight: bold;
+}
+
 #items_comments_close {
     display: block;
     position: absolute;

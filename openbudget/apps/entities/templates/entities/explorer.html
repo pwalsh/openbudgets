@@ -62,6 +62,11 @@
         </section>
         <section id="right_container" class="top_container">
             <h1 id="muni_name" class="right_menu_heading">{{ object.name }}</h1>
+            <aside id="contextual_data">
+            {% for key, value in contextual_data.items %}
+                <p><span class="context_label">{{ key }}:</span><span class="context_value">{{ value }}</span></p>
+            {% endfor %}
+            </aside>
         </section>
         <section id="left_container" class="top_container">
             <section id="panel-append">

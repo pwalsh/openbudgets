@@ -5,6 +5,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework import serializers
 from openbudget.apps.entities.models import Entity
 from openbudget.apps.sheets.models import Sheet, SheetItem, TemplateNode
+from openbudget.apps.contexts.models import Context
 from openbudget.apps.international.utilities import translated_fields
 from openbudget.commons.utilities import commas_format
 
@@ -125,12 +126,27 @@ class EntityDetail(DetailView):
         scope_item = None
         user = self.request.user
         user_object = {}
+        contextual_data = {}
 
+        # add logged in user
         if user.is_authenticated():
             user_object['first_name'] = user.first_name
             user_object['last_name'] = user.last_name
             user_object['avatar'] = user.avatar
 
+        context['user_json'] = renderer.render(user_object)
+
+        # add latest contextual data objcet for this entity
+        try:
+            contextual_temp = Context.objects.latest_of(entity_id=self.object.id).data
+            for k, v in contextual_temp.iteritems():
+                contextual_data[Context.KEYS[k]] = v
+        except Context.DoesNotExist:
+            pass
+
+        context['contextual_data'] = contextual_data
+
+        # add sheets data
         if self.object.sheets.exists():
 
             if period:
@@ -159,12 +175,9 @@ class EntityDetail(DetailView):
                     'period': s.period
                 })
 
-
-
         context['sheets'] = sheets
         context['object_json'] = renderer.render(EntityDetailUISerializer(self.object).data)
         context['sheet_json'] = renderer.render(SheetUISerializer(sheet).data) if sheet else '{}'
-        context['user_json'] = renderer.render(user_object)
 
         # format numbers in items_list
         for item in items_list:

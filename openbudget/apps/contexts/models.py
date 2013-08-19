@@ -11,6 +11,12 @@ class ContextManager(models.Manager):
     def related_map(self):
         return self.select_related()
 
+    def by_entity(self, entity_id):
+        return self.filter(entity=entity_id)
+
+    def latest_of(self, entity_id):
+        return self.by_entity(entity_id=entity_id).latest('period_start')
+
 
 class Context(TimeStampedModel, PeriodicModel):
     """A JSON object with contextual data for the given Entity/Time Period.
@@ -38,7 +44,8 @@ class Context(TimeStampedModel, PeriodicModel):
     objects = ContextManager()
 
     entity = models.ForeignKey(
-        Entity
+        Entity,
+        related_name='contexts'
     )
     data = JSONField(
         _('Data object'),
