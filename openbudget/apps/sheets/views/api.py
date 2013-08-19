@@ -1,15 +1,17 @@
 from rest_framework import generics
 from rest_framework.response import Response
 from openbudget.apps.international.utilities import translated_fields
+from openbudget.apps.sheets.serializers import api, ui
 from openbudget.apps.sheets import serializers
 from openbudget.apps.sheets import models
+from openbudget.apps.accounts.models import Account
 
 
 class TemplateList(generics.ListAPIView):
     """API endpoint that represents a list of templates."""
 
     model = models.Template
-    serializer_class = serializers.TemplateBase
+    serializer_class = api.TemplateBase
     ordering = ['id', 'name', 'period_start', 'created_on', 'last_modified']
     search_fields = ['name', 'description'] + translated_fields(model)
 
@@ -49,14 +51,14 @@ class TemplateDetail(generics.RetrieveAPIView):
 
     model = models.Template
     queryset = model.objects.related_map()
-    serializer_class = serializers.TemplateDetail
+    serializer_class = api.TemplateDetail
 
 
 class TemplateNodeList(generics.ListAPIView):
     """API endpoint that represents a list of template nodes."""
 
     model = models.TemplateNode
-    serializer_class = serializers.TemplateNodeBase
+    serializer_class = api.TemplateNodeBase
     ordering = ['id', 'name', 'description', 'created_on', 'last_modified']
     search_fields = ['name', 'description'] + translated_fields(model)
 
@@ -107,14 +109,14 @@ class TemplateNodeDetail(generics.RetrieveAPIView):
 
     model = models.TemplateNode
     queryset = model.objects.related_map()
-    serializer_class = serializers.TemplateNodeBase
+    serializer_class = api.TemplateNodeBase
 
 
 class SheetList(generics.ListAPIView):
     """API endpoint that represents a list of budget sheets."""
 
     model = models.Sheet
-    serializer_class = serializers.SheetBase
+    serializer_class = api.SheetBase
     ordering = ['id', 'entity__name', 'period_start', 'created_on', 'last_modified']
     search_fields = ['entity__name', 'description', 'period_start',
                      'period_end'] + translated_fields(model)
@@ -198,14 +200,14 @@ class SheetDetail(generics.RetrieveAPIView):
 
     model = models.Sheet
     queryset = model.objects.related_map()
-    serializer_class = serializers.SheetDetail
+    serializer_class = api.SheetDetail
 
 
 class SheetItemList(generics.ListAPIView):
     """API endpoint that represents a list of budget items."""
 
     model = models.SheetItem
-    serializer_class = serializers.SheetItemBase
+    serializer_class = api.SheetItemBase
     ordering = ['id', 'sheet__entity__name', 'node__code', 'created_on',
                 'last_modified']
     search_fields = ['sheet__entity__name', 'node__code', 'node__name',
@@ -326,7 +328,7 @@ class SheetItemDetail(generics.RetrieveAPIView):
 
     model = models.SheetItem
     queryset = model.objects.related_map()
-    serializer_class = serializers.SheetItemBase
+    serializer_class = api.SheetItemBase
 
 
 class SheetItemTimeline(generics.ListAPIView):
@@ -345,14 +347,12 @@ class SheetItemTimeline(generics.ListAPIView):
             # Provide a sensible default.
             # If there is no node query param, let's return the top level nodes,
             # as used in the latest Sheet.
-            print 'HERE'
-            print models.Sheet.objects.latest_of(entity_pk).sheetitems
             #nodes = [for models.Sheet.objects.latest_of(entity_pk).shee]
             #TODO: handle case of no nodes specified
             pass
         items = models.SheetItem.objects.timeline(nodes, entity_pk)
 
-        serialized_timeline = serializers.SheetTimeline(items, many=True).data
+        serialized_timeline = ui.SheetTimeline(items, many=True).data
 
         return Response(serialized_timeline)
 
@@ -379,5 +379,5 @@ class SheetItemCommentListCreate(generics.ListCreateAPIView):
         return self.model.objects.by_item(self.kwargs.get('pk'))
 
     def pre_save(self, obj):
-        obj.user = self.request.user
+        obj.user = Account.objects.get(uuid=self.request.DATA.get('user'))
         obj.item = models.SheetItem.objects.get(id=self.kwargs.get('pk'))

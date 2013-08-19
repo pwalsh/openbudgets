@@ -18,4 +18,4 @@ class AccountMin(serializers.ModelSerializer):
 
     class Meta:
         model = models.Account
-        fields = ['id', 'first_name', 'last_name', 'avatar']
+        fields = ['uuid', 'first_name', 'last_name', 'avatar']

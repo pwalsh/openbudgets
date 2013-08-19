@@ -71,5 +71,5 @@ class DivisionDetail(DivisionBase):
 class EntityDetail(EntityBase):
     """A detailed, related representation of entities."""
     # preventing circular import
-    from openbudget.apps.sheets.serializers import SheetBase
+    from openbudget.apps.sheets.serializers.api import SheetBase
     sheets = SheetBase()

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from openbudget.apps.international.utilities import translated_fields
 from openbudget.apps.sheets import models
+from openbudget.apps.sheets.serializers import SheetItemCommentReadSerializer
 
 
 class TemplateMin(serializers.HyperlinkedModelSerializer):
@@ -104,6 +105,7 @@ class SheetItemBase(serializers.HyperlinkedModelSerializer):
     direction = serializers.Field('node.direction')
     has_comments = serializers.SerializerMethodField('get_has_comments')
     comments_count = serializers.SerializerMethodField('get_comments_count')
+    discussion = SheetItemCommentReadSerializer(many=True)
 
     class Meta:
         model = models.SheetItem
@@ -142,35 +144,3 @@ class SheetItemDetail(SheetItemBase):
 
     class Meta(SheetItemBase.Meta):
         fields = SheetItemBase.Meta.fields + ['discussion']
-
-
-class SheetTimeline(serializers.ModelSerializer):
-
-    period = serializers.SerializerMethodField('get_period')
-
-    class Meta:
-        model = models.SheetItem
-        fields = ['id', 'budget', 'actual', 'description', 'period'] + translated_fields(model)
-
-    def get_period(self, obj):
-        return obj.sheet.period
-
-
-class SheetItemCommentBaseSerializer(serializers.ModelSerializer):
-    """
-    Base SheetItemComment serializer, for creating new SheetItemComment instances.
-    """
-
-    class Meta:
-        model = models.SheetItemComment
-        fields = ['comment']
-
-
-class SheetItemCommentReadSerializer(SheetItemCommentBaseSerializer):
-    """
-    Read SheetItemComment serializer, for listing/retrieving SheetItemComment instances.
-    """
-
-    class Meta(SheetItemCommentBaseSerializer.Meta):
-        fields = SheetItemCommentBaseSerializer.Meta.fields +\
-                 ['uuid', 'id', 'user', 'item', 'created_on', 'last_modified']
