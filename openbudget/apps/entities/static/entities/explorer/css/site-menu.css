@@ -36,8 +36,13 @@
     font-size: 47px;
     line-height: 55px;
 }
+#panel-nav footer {
+    bottom: 20px;
+    height: auto;
+}
 #panel-nav footer a#sponsor_logo {
     float: none;
+    margin-bottom: 30px;
 }
 
 #panel-nav.slide_out {
