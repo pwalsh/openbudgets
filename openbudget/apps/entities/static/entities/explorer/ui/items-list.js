@@ -143,13 +143,21 @@ define([
                         search = this.context.search || state.get('search'),
                         prev_sheet;
 
-                    if ( sheet && (prev_sheet = uijet.Resource('PreviousSheets').get(sheet)) ) {
-                        this.resource = prev_sheet.get('items');
-                        // register current collection as the new instance
-                        uijet.Resource('LatestSheet', this.resource, true);
-                        scope = scope === -1 ?
-                            this.resource.findWhere({ uuid : state.get('uuid') }).get('node') :
-                            scope;
+                    if ( sheet ) {
+                        if ( prev_sheet = uijet.Resource('PreviousSheets').get(sheet) ) {
+                            this.resource = prev_sheet.get('items');
+                            // register current collection as the new instance
+                            uijet.Resource('LatestSheet', this.resource, true);
+                            scope = scope === -1 ?
+                                this.resource.findWhere({ uuid : state.get('uuid') }).get('node') :
+                                scope;
+                        }
+                        else {
+                            // instantiate a new collection
+                            this.resource = new resources.Items();
+                            // register it
+                            uijet.Resource('LatestSheet', this.resource, true);
+                        }
                     }
                     // if for some reason scope is still unknown reset it to `null`
                     if ( scope === -1 ) {
@@ -163,10 +171,6 @@ define([
 
                     if ( sheet ) {
                         this.sheet_changed = true;
-                        if ( ! prev_sheet ) {
-                            // reuse this collection
-                            this.options.fetch_options.reset = true;
-                        }
                         this.options.fetch_options.data.sheets = sheet;
                     }
 
