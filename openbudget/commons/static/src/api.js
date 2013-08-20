@@ -14,6 +14,7 @@
 
     var CSRF_TOKEN_RE = /csrftoken=([a-zA-Z0-9]+)/,
         global_xhr_settings = {
+            dataType: 'json',
             headers : {}
         },
         loc = root.location,
@@ -208,7 +209,6 @@
         obudget[name] = function (options) {
             return new Request(endpint, extend(true, {
                 method  : 'GET',
-                dataType: 'json',
                 error   : function (response) {
                     throw new Error('Request to' + endpint + ' failed: ' + response);
                 }
@@ -222,7 +222,6 @@
         getVersion      : function (options) {
             return new Request(API_URL, extend(true, {
                 method  : 'GET',
-                dataType: 'json',
                 success : function (response) {
                     API_URL = response[API_VERSION];
                     obudget.has_version_endpoint = true;
@@ -264,7 +263,6 @@
             return new Request(obudget._authTokenURI(options.data), extend(true, {
                 method  : 'POST',
                 data    : options.data || AUTH_DATA,
-                dataType: 'json',
                 success : function (response) {
                     Request.setHeader('Authorization', 'Bearer ' + response.access_token);
                     obudget.getRoutes();
@@ -277,7 +275,6 @@
         _getRoutes      : function (options) {
             return new Request(API_URL, extend(true, {
                 method  : 'GET',
-                dataType: 'json',
                 success : obudget._setRoutes,
                 error   : function (response) {
                     throw new Error('Request to' + API_URL + ' failed: ' + response);
