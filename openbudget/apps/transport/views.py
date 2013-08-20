@@ -54,16 +54,18 @@ class FileExportView(FileResponseMixin, View):
     """Export Budget or Actual data in a supported format."""
 
     def get_context_data(self, **kwargs):
-        context = {}
-        context['params'] = kwargs
+        context = {'params': kwargs}
         if self.kwargs['model'] == 'sheet':
             obj = Sheet.objects.get(uuid=self.kwargs['uuid'])
             obj_list = SheetItem.objects.filter(sheet=obj)
         else:
             # export other stuff
-            pass
+            obj = {}
+            obj_list = []
+
         context['object'] = obj
         context['object_list'] = obj_list
+
         return context
 
     def get(self, request, *args, **kwargs):
