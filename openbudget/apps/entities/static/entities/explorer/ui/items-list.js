@@ -74,6 +74,9 @@ define([
                 reset   : function () {
                     this.has_data = true;
                     delete this.$original_children;
+                },
+                sort    : function () {
+                    uijet.Resource('ItemsListState').set('comments_item', null);
                 }
             },
             signals         : {

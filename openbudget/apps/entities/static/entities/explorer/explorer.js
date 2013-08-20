@@ -58,8 +58,25 @@ define([
     .Resource('LatestSheet', resources.Items)
     .Resource('PreviousSheets', resources.Sheets)
 
-    .Resource('ItemsListState').on('change:comments_item', function (model, item) {
-        uijet.publish(item ? 'open_comments' : 'close_comments', item);
+    .Resource('ItemsListState').on('change', function (model) {
+        var changed = model.changedAttributes(),
+            comments_item = 'comments_item',
+            item = model.get(comments_item),
+            open = true;
+
+        if ( changed ) {
+            if ( comments_item in changed ) {
+                open = item;
+            }
+            else {
+                open = false;
+            }
+            if ( item && ! open ) {
+                // reset `comment_item` to `null`
+                model.set(comments_item, null, { silent : true });
+            }
+            uijet.publish(open ? 'open_comments' : 'close_comments', item);
+        }
     });
 
     if ( window.ITEM.id ) {
