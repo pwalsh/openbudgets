@@ -11,12 +11,11 @@ define([
 
     var closeSearchBreadcrumbsHandler = function () {
             this.$element.removeClass('searching');
-        },
-        state_model = uijet.Resource('ItemsListState');
+        };
 
     explorer.router
 
-        .listenTo(state_model, 'change', function (model, options) {
+        .listenTo(uijet.Resource('ItemsListState'), 'change', function (model, options) {
             var changes = model.changedAttributes(),
                 navigate = false,
                 period, scope, uuid, item;
@@ -442,7 +441,6 @@ define([
         type    : 'Pane',
         config  : {
             element     : '#items_list_footer',
-            resource    : 'ItemsListState',
             signals     : {
                 post_init   : function () {
                     this.$code = this.$element.find('.item_cell_code');
