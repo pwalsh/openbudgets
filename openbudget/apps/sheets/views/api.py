@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.response import Response
 from openbudget.apps.international.utilities import translated_fields
 from openbudget.apps.sheets.serializers import api, ui
@@ -365,7 +365,7 @@ class SheetItemCommentListCreate(generics.ListCreateAPIView):
 
     model = models.SheetItemComment
     queryset = model.objects.related_map()
-    serializer_class = serializers.SheetItemCommentBaseSerializer
+    # serializer_class = serializers.SheetItemCommentBaseSerializer
     search_fields = ['user__first_name', 'user__last_name', 'comment']
 
     def get_serializer_class(self):
@@ -381,3 +381,22 @@ class SheetItemCommentListCreate(generics.ListCreateAPIView):
     def pre_save(self, obj):
         obj.user = Account.objects.get(uuid=self.request.DATA.get('user'))
         obj.item = models.SheetItem.objects.get(id=self.kwargs.get('pk'))
+
+    #TODO: this is an ugly hack and awaiting a response here: https://groups.google.com/forum/?fromgroups=#!topic/django-rest-framework/JrYdE3p6QZE
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.DATA, files=request.FILES)
+
+        if serializer.is_valid():
+            self.pre_save(serializer.object)
+            self.object = serializer.save(force_insert=True)
+            self.post_save(self.object, created=True)
+            headers = self.get_success_headers(serializer.data)
+
+            # here we step in and override current serializer used for create
+            # with a different serializer used for retrieve
+            serializer = serializers.SheetItemCommentReadSerializer(self.object)
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED,
+                            headers=headers)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
