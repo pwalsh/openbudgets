@@ -11,16 +11,6 @@
     font-weight: bold;
 }
 
-#items_comments_close {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 54px;
-    height: 54px;
-    background: url(../img/x_close_gray.png) 20px 20px no-repeat;
-}
-
 #muni_name {
     position: absolute;
     top: 60px;

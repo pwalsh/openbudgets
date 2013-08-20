@@ -1,11 +1,3 @@
-.account .name {
-    font-size: 1.1rem;
-    line-height: 1.3rem;
-}
-.account .actions {
-    font-size: 1.3rem;
-}
-
 .new_comment_button {
     padding-top: 0;
     padding-right: 0;
@@ -46,13 +38,6 @@
     padding-right: 0;
 }
 
-#panel-append {
-    float: right;
-    width: 76px;
-    height: auto;
-    padding-right: 8px;
-}
-
 #comment_text {
     min-height: 2.5rem;
     padding: 0;
@@ -65,6 +50,17 @@
 #comment_text::-moz-placeholder, /* Mozilla Firefox 19+ */
 #comment_text:-ms-input-placeholder { /* Internet Explorer 10+ */
     color: #a1a1b9;
+}
+
+#items_comments_close {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 54px;
+    height: 54px;
+    background: url(../img/x_close_gray.png) 20px 20px no-repeat;
 }
 
 #items_comments_container {
@@ -84,6 +80,13 @@
 #items_comments_container h4 {
     margin-bottom: 20px;
     line-height: .9rem;
+}
+
+#items_comments_container_wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
 }
 
 #item_comments_list li {

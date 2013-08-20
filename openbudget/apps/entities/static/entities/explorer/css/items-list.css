@@ -117,6 +117,7 @@
     bottom: 44px;
     left: 0;
     right: 0;
+    z-index: 10;
     height: auto;
 }
 #items_list_header {
