@@ -107,11 +107,13 @@ class EntityDetail(DetailView):
             for s in self.object.sheets.all():
                 sheets.append({
                     'id': s.id,
-                    'period': s.period
+                    'period': s.period,
+                    'uuid': str(s.uuid)
                 })
 
         context['sheets'] = sheets
         context['object_json'] = renderer.render(EntityDetailUISerializer(self.object).data)
+        context['sheet'] = sheet
         context['sheet_json'] = renderer.render(SheetUISerializer(sheet).data) if sheet else '{}'
 
         # format numbers in items_list

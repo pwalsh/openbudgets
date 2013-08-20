@@ -162,9 +162,10 @@ define([
     }, {
         type    : 'DropmenuButton',
         config  : {
-            element     : '#filters_search',
-            click_event : 'mouseenter',
-            dom_events  : {
+            element         : '#filters_search',
+            click_event     : 'mouseenter',
+            wrapper_class   : 'sheet_header_menu_button',
+            dom_events      : {
                 click       : function () {
                     this.sleep();
                     uijet.publish('filters_search_menu.selected', {
@@ -172,13 +173,13 @@ define([
                     });
                 }
             },
-            signals     : {
+            signals         : {
                 post_init   : function () {
                     this.$wrapper.on('mouseleave', this.publish.bind(this, 'mouse_left'));
                 },
                 pre_click   : 'cancel'
             },
-            menu        : {
+            menu            : {
                 mixins          : ['Templated', 'Translated'],
                 float_position  : 'top: 66px',
                 dom_events      : {
@@ -228,10 +229,41 @@ define([
                     }
                 }
             },
-            app_events  : {
+            app_events      : {
                 'items_search.entered'          : 'wake',
                 'items_search.cancelled'        : 'wake',
                 'filters_search_menu.selected'  : 'sleep'
+            }
+        }
+    }, {
+        type    : 'DropmenuButton',
+        config  : {
+            element         : '#download_sheet',
+            wrapper_class   : 'sheet_header_menu_button',
+            menu            : {
+                element         : '#download_sheet_menu',
+                float_position  : 'top: 66px',
+                signals         : {
+                    post_wake   : 'opened',
+                    post_sleep  : 'closed'
+                },
+                app_events      : {
+                    'sheet_selector.selected'   : function ($selected) {
+                        var uuid = $selected.attr('data-uuid');
+                        this.$element.find('a').each(function () {
+                            var href = this.getAttribute('href');
+                            this.setAttribute('href', href.replace(/sheet\/([^\/]+)/, 'sheet/' + uuid));
+                        });
+                    }
+                }
+            },
+            app_events      : {
+                'download_sheet_menu.opened': function () {
+                    this.$wrapper.addClass('opened');
+                },
+                'download_sheet_menu.closed': function () {
+                    this.$wrapper.removeClass('opened');
+                }
             }
         }
     }, {

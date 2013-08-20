@@ -23,7 +23,9 @@
                     <span id="sheet_selector">
                         {% trans 'Budget' %}<span id="sheet_selector_content"></span>
                         <ul id="sheet_selector_menu">
-                            {% for sheet in sheets %}<li data-id="{{ sheet.id }}">{{ sheet.period }}</li>{% endfor %}
+                            {% for sheet in sheets %}
+                                <li data-id="{{ sheet.id }}" data-uuid="{{ sheet.uuid }}">{{ sheet.period }}</li>
+                            {% endfor %}
                         </ul>
                     </span>
                     <ul id="items_breadcrumbs" data-prefix="{% trans 'Search under:' %}">
@@ -35,6 +37,12 @@
                     <span id="search_crumb"></span>
                 </h2>
                 <input type="text" name="items_search" id="items_search" placeholder="{% trans 'Search' %}"/>
+                <span id="download_sheet">D
+                    <ul id="download_sheet_menu">
+                        <li><a href="{% url 'data_export' 'sheet' sheet.uuid 'csv' %}">CSV</a></li>
+                        <li><a href="{% url 'data_export' 'sheet' sheet.uuid 'xls' %}">XLS</a></li>
+                    </ul>
+                </span>
                 <span id="filters_search"></span>
                 <span id="items_search_exit"></span>
             </header>

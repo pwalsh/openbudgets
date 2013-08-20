@@ -21,33 +21,60 @@
     cursor: pointer;
 }
 
-#filters_search {
+.sheet_header_menu_button {
+    position: absolute;
+    width: auto;
+    height: auto;
+}
+.sheet_header_menu_button:hover, .sheet_header_menu_button.opened {
+    background-color: #d0d0dc;
+}
+.sheet_header_menu_button .uijet_dropmenubutton {
     width: 54px;
     height: 66px;
     padding: 0;
-    background: url(../img/glass_blue.png) center no-repeat;
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
 }
-#filters_search_wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: auto;
-    height: auto;
-}
-#filters_search_wrapper:hover {
-    background-color: #d0d0dc;
-}
-#filters_search_menu {
+.sheet_header_menu_button .uijet_menu {
     font-size: 1.3rem;
 }
-#filters_search_menu li {
+.sheet_header_menu_button .uijet_menu li {
     height: 44px;
     line-height: 44px;
     padding: 0 1rem;
     text-align: right;
+}
+.sheet_header_menu_button .uijet_menu li:hover {
+    background-color: #a1a1b9;
+}
+
+#download_sheet {
+    background: url(../img/glass_blue.png) center no-repeat;
+}
+#download_sheet_wrapper {
+    top: 0;
+    left: 54px;
+}
+#download_sheet_menu li {
+    padding: 0;
+}
+#download_sheet_menu a {
+    display: block;
+    padding: 0 1rem;
+}
+#download_sheet_menu_wrapper {
+    left: 0;
+    background-color: #d0d0dc;
+}
+
+#filters_search {
+    background: url(../img/glass_blue.png) center no-repeat;
+}
+#filters_search_wrapper {
+    top: 0;
+    left: 0;
 }
 #filters_search_menu li[data-prefix]:before {
     content: attr(data-prefix);
@@ -57,9 +84,6 @@
 }
 #filters_search_menu li:first-child {
     border-bottom: 1px solid white;
-}
-#filters_search_menu li:hover {
-    background-color: #a1a1b9;
 }
 #filters_search_menu_wrapper {
     left: 0;
