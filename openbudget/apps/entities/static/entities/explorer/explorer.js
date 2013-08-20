@@ -48,14 +48,19 @@ define([
     )
     .Resource('ItemsListState',
         uijet.Model(), {
-            search  : null,
-            sheet   : window.SHEET.id,
-            period  : +window.SHEET.period,
-            scope   : +window.ITEM.node || null
+            search          : null,
+            sheet           : window.SHEET.id,
+            period          : +window.SHEET.period,
+            scope           : +window.ITEM.node || null,
+            comments_item   : null
         }
     )
     .Resource('LatestSheet', resources.Items)
-    .Resource('PreviousSheets', resources.Sheets);
+    .Resource('PreviousSheets', resources.Sheets)
+
+    .Resource('ItemsListState').on('change:comments_item', function (model, item) {
+        uijet.publish(item ? 'open_comments' : 'close_comments', item);
+    });
 
     if ( window.ITEM.id ) {
         // add initial item to LatestSheet
@@ -148,7 +153,7 @@ define([
                     }
                 });
             })
-            .subscribe('items_comments_close.clicked', function () {
+            .subscribe('close_comments', function () {
                 uijet.$element.removeClass('comments_open');
                 app_transition_props[uijet.utils.getStyleProperty('transform')] = 'translateX(0)';
                 uijet.animate(uijet.$element, app_transition_props);

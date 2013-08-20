@@ -234,7 +234,7 @@ define([
                     var is_comment_button = uijet.$(e.target).hasClass('item_comment_button');
 
                     if ( is_comment_button ) {
-                        uijet.publish('open_comments', $selected);
+                        uijet.Resource('ItemsListState').set('comments_item', $selected);
                         return false;
                     }
                     else {

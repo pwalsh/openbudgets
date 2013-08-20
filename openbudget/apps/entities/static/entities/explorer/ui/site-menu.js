@@ -30,11 +30,11 @@ define([
                 }
             },
             app_events  : {
-                'open_comments'                 : function () {
+                open_comments   : function () {
                     uijet.animate(this.$header, this.header_anim_props, this.header_anim_callback);
                     uijet.animate(this.$element, this.anim_props);
                 },
-                'items_comments_close.clicked'  : function () {
+                close_comments  : function () {
                     var props = {};
                     props[this.anim_key] = 'translateX(0px)';
                     uijet.animate(this.$header, 'right:0px', this.header_anim_callback);

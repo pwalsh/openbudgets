@@ -9,17 +9,28 @@ define([
                 return render(text).replace(/s=\d+/, 's=25');
             };
         },
+        parseCreatedOn = function () {
+            return function (text, render) {
+                var value = render(text),
+                    date = value ? new Date(value) : value;
+                return date &&
+                    [date.getDate(), date.getMonth() + 1, date.getFullYear()].join('.');
+            };
+        },
         new_comment_data = {
             discussion  : {
                 uuid            : '',
                 comment         : '',
                 created_on      : '',
                 user            : window.LOGGEDIN_USER,
-                get_user_avatar : getUserAvatar
+                get_user_avatar : getUserAvatar,
+                parse_date      : parseCreatedOn
             }
         };
 
-    uijet.Resource('NewComment', uijet.Model());
+    uijet.Resource('NewComment', uijet.Model(), {
+        user: window.LOGGEDIN_USER.uuid
+    });
 
     return [{
         type    : 'Button',
@@ -27,10 +38,13 @@ define([
             element     : '#items_comments_close',
             dont_wake   : true,
             signals     : {
-                pre_click   : 'sleep'
+                pre_click   : function () {
+                    uijet.Resource('ItemsListState').set('comments_item', null);
+                    this.sleep();
+                }
             },
             app_events  : {
-                'open_comments' : 'wake'
+                open_comments   : 'wake'
             }
         }
     }, {
@@ -51,13 +65,18 @@ define([
                     api.itemComments(this.resource.get('item_pk'), {
                         type: 'POST',
                         data: {
-                            comment : comment
-                        }
+                            comment : comment,
+                            user    : model.get('user')
+                        },
+                        success : function (response) {
+                            this.resource.set('comment', '', { silent : true });
+                            uijet.publish('comment_created', response);
+                        }.bind(this)
                     });
                 }
             },
             app_events  : {
-                'open_comments'                 : function ($selected) {
+                open_comments   : function ($selected) {
                     var item = uijet.Resource('LatestSheet').get(+$selected.attr('data-item')),
                         discussion = item.get('discussion'),
                         description = item.get('description');
@@ -73,21 +92,20 @@ define([
                     this.resource.set('item_pk', $selected.attr('data-item'));
 
                     this.wake({
-                        discussion  : discussion
+                        discussion      : discussion,
+                        get_user_avatar : getUserAvatar,
+                        parse_date      : parseCreatedOn
                     });
                 },
-                'items_comments_close.clicked'  : 'sleep'
+                close_comments  : 'sleep'
             }
         }
     }, {
         type    : 'List',
         config  : {
             element     : '#item_comments_list',
-            mixins      : ['Templated'],
+            mixins      : ['Templated', 'Translated'],
             dont_fetch  : true,
-            signals     : {
-                
-            },
             app_events  : {
                 'add_comment.clicked'       : function () {
                     this.$new_comment = this.$element.append(this.template(new_comment_data))
@@ -97,6 +115,13 @@ define([
                 'new_comment_cancel.clicked': function () {
                     if ( this.$new_comment ) {
                         this.$new_comment.remove();
+                        delete this.$new_comment;
+                    }
+                },
+                comment_created             : function (comment) {
+                    if ( this.$new_comment ) {
+                        this.$new_comment.find('#item_comment_text').text(comment.comment);
+                        this.$new_comment.removeClass('new_comment');
                         delete this.$new_comment;
                     }
                 }
@@ -148,9 +173,9 @@ define([
                 'new_comment_ok.clicked'        : function () {
                     this.resource.set('comment', this.$textarea.val());
                 },
-                'new_comment_cancel.clicked'    : 'sleep',
-                'open_comments'                 : 'sleep',
-                'items_comments_close.clicked'  : 'sleep'
+                'new_comment_cancel.clicked': 'sleep',
+                open_comments               : 'sleep',
+                close_comments              : 'sleep'
             }
         }
     }, {

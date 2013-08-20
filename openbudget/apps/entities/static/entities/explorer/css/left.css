@@ -12,9 +12,13 @@
     font-weight: bold;
 }
 
+.item_comment_date {
+    display: inline-block;
+}
+
 .item_comment_user_avatar {
     position: absolute;
-    top: 0;
+    top: 3px;
     right: 0;
     width: 25px;
     height: 25px;
@@ -23,6 +27,7 @@
     background-repeat: no-repeat;
 }
 .item_comment_user_name {
+    display: inline-block;
     font-size: 12px;
     font-weight: bold;
 }
@@ -32,6 +37,7 @@
 }
 
 #add_comment {
+    margin-right: 40px;
     padding-top: 0;
     padding-right: 0;
 }
@@ -40,6 +46,7 @@
     float: right;
     width: 76px;
     height: auto;
+    padding-right: 8px;
 }
 
 #comment_text {
@@ -58,7 +65,7 @@
 }
 
 #items_comments_container {
-    padding-right: 56px;
+    padding-right: 76px;
 }
 
 #items_comments_container.no_description #item_description {
@@ -76,6 +83,9 @@
     line-height: .9rem;
 }
 
+#item_comments_list {
+    margin-bottom: 20px;
+}
 #item_comments_list li {
     position: relative;
     padding-right: 40px;
