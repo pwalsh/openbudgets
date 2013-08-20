@@ -201,6 +201,7 @@ define([
             reverseSorting  : reverseSorting,
             nestingSort     : nestingSort
         },
-        '_'     : _
+        '_'     : _,
+        Backbone: Backbone
     };
 });

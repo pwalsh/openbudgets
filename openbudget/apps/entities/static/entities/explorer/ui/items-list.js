@@ -255,7 +255,33 @@ define([
             app_events      : {
                 'items_breadcrumbs.selected'                : 'post_select+',
                 'items_breadcrumbs_history_menu.selected'   : 'post_select+',
-                'items_list_header.selected'                : 'sortItems+'
+                'items_list_header.selected'                : 'sortItems+',
+                'comment_created'                           : function (response) {
+                    var item = this.resource.get(response.item),
+                        discussion,
+                        sheet_re;
+                    if ( item ) {
+                        discussion = item.get('discussion') || [];
+                        discussion.push(response);
+                        item.set('discussion', discussion);
+
+                        // we create a regex to test against keys that contain current sheet in cache
+                        sheet_re = RegExp('sheets=' + this.options.fetch_options.data.sheets);
+
+                        // clear all cache related to this sheet - just in case
+                        Object.keys(resources.Backbone.fetchCache._cache).forEach(function (key) {
+                            if ( sheet_re.test(key) ) {
+                                resources.Backbone.fetchCache.clearItem(key);
+                            }
+                        }, this);
+
+                        // bump the number of comments on the item
+                        this.$element
+                            .find('[data-item=' + response.item + ']')
+                            .find('.item_comment_button')
+                                .text(discussion.length);
+                    }
+                }
             }
         }
     }];
