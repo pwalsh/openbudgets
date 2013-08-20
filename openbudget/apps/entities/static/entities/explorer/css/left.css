@@ -62,6 +62,9 @@
     height: 54px;
     background: url(../img/x_close_gray.png) 20px 20px no-repeat;
 }
+#items_comments_close:hover {
+    background-image: url(../img/x_close_comments.png);
+}
 
 #items_comments_container {
     padding-right: 76px;
