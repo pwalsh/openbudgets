@@ -64,6 +64,7 @@ svg {
     line-height: 100%;
     border: none;
     outline: none;
+    background-color: transparent !important;
 }
 .uijet_clearabletextinput_wrapper {
     display: inline-block;
