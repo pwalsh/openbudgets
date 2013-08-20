@@ -7,6 +7,7 @@
 }
 
 .new_comment_button {
+    padding-top: 0;
     padding-right: 0;
     text-decoration: underline;
     font-weight: bold;
@@ -14,6 +15,10 @@
 
 .item_comment_date {
     display: inline-block;
+}
+
+.item_comment_text {
+    margin-top: 10px;
 }
 
 .item_comment_user_avatar {
@@ -37,7 +42,6 @@
 }
 
 #add_comment {
-    margin-right: 40px;
     padding-top: 0;
     padding-right: 0;
 }
@@ -51,7 +55,6 @@
 
 #comment_text {
     min-height: 2.5rem;
-    margin-top: 10px;
     padding: 0;
     overflow: hidden;
     background-color: transparent;
@@ -83,12 +86,13 @@
     line-height: .9rem;
 }
 
-#item_comments_list {
-    margin-bottom: 20px;
-}
 #item_comments_list li {
     position: relative;
     padding-right: 40px;
+    padding-bottom: 20px;
+}
+#item_comments_list li[data-uuid=""] {
+    padding-bottom: 0;
 }
 
 #item_comments_list_wrapper {
