@@ -2,11 +2,19 @@ define([
     'uijet_dir/uijet',
     'api',
     'resources'
-], function (uijet, api) {
+], function (uijet, api, resources) {
 
     var getUserAvatar = function () {
             return function (text, render) {
                 return render(text).replace(/s=\d+/, 's=25');
+            };
+        },
+        multiline = function (text) {
+            return text.replace(/(\r?\n)/g, '<br/>');
+        },
+        linesToBRs = function () {
+            return function (text, render) {
+                return multiline(render(text));
             };
         },
         formatDate = function (date) {
@@ -27,7 +35,8 @@ define([
                 created_on      : '',
                 user            : window.LOGGEDIN_USER,
                 get_user_avatar : getUserAvatar,
-                parse_date      : parseCreatedOn
+                parse_date      : parseCreatedOn,
+                lines_to_brs    : linesToBRs
             }
         };
 
@@ -68,7 +77,7 @@ define([
                     api.itemComments(this.resource.get('item_pk'), {
                         type    : 'POST',
                         data    : {
-                            comment : comment.trim(),
+                            comment : resources._.escape(comment.trim()),
                             user    : model.get('user')
                         },
                         success : function (response) {
@@ -96,7 +105,8 @@ define([
                     this.wake({
                         discussion      : discussion,
                         get_user_avatar : getUserAvatar,
-                        parse_date      : parseCreatedOn
+                        parse_date      : parseCreatedOn,
+                        lines_to_brs    : linesToBRs
                     });
                 },
                 close_comments          : 'sleep',
@@ -125,8 +135,9 @@ define([
                 },
                 comment_created             : function (comment) {
                     if ( this.$new_comment ) {
-                        this.$new_comment.find('.item_comment_text').text(comment.comment);
-                        this.$new_comment.find('.item_comment_date').text(formatDate(new Date()));
+                        this.$new_comment.find('.item_comment_text').html(multiline(comment.comment));
+                        this.$new_comment.find('.item_comment_date').text(formatDate(new Date(comment.created_on)));
+                        this.$new_comment.attr('data-uuid', comment.uuid);
                         this.$new_comment.removeClass('new_comment');
                         delete this.$new_comment;
                     }
@@ -197,12 +208,26 @@ define([
     }, {
         type    : 'Button',
         config  : {
-            element : '#new_comment_ok'
+            element     : '#new_comment_ok',
+            signals     : {
+                pre_click   : 'disable',
+                pre_wake    : 'enable'
+            },
+            app_events  : {
+                comment_created : 'enable'
+            }
         }
     }, {
         type    : 'Button',
         config  : {
-            element : '#new_comment_cancel'
+            element     : '#new_comment_cancel',
+            signals     : {
+                pre_click   : 'disable',
+                pre_wake    : 'enable'
+            },
+            app_events  : {
+                comment_created : 'enable'
+            }
         }
     }];
 });
