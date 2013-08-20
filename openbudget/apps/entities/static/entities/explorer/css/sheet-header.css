@@ -133,6 +133,7 @@
     top: 0;
     left: 0;
     right: 0;
+    -webkit-transform: none;
     -webkit-transition-property: right;
        -moz-transition-property: right;
         -ms-transition-property: right;
