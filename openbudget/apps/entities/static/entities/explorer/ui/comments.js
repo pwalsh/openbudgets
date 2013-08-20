@@ -82,6 +82,9 @@ define([
                         },
                         success : function (response) {
                             uijet.publish('comment_created', response);
+                        },
+                        error   : function (response) {
+                            uijet.publish('comment_failed', response);
                         }
                     });
                 }
@@ -118,10 +121,20 @@ define([
     }, {
         type    : 'List',
         config  : {
-            element     : '#item_comments_list',
-            mixins      : ['Templated', 'Translated'],
-            dont_fetch  : true,
-            app_events  : {
+            element         : '#item_comments_list',
+            mixins          : ['Templated', 'Translated'],
+            adapters        : ['Spin'],
+            dont_fetch      : true,
+            spinner_options : {
+                lines       : 8,
+                length      : 5,
+                width       : 3,
+                radius      : 3
+            },
+            spinned         : function () {
+                return this.$new_comment.find('.item_comment_date');
+            },
+            app_events      : {
                 'add_comment.clicked'       : function () {
                     this.$new_comment = this.$element.append(this.template(new_comment_data))
                         .children().last();
@@ -133,6 +146,7 @@ define([
                         delete this.$new_comment;
                     }
                 },
+                'new_comment_ok.clicked'    : 'spin',
                 comment_created             : function (comment) {
                     if ( this.$new_comment ) {
                         this.$new_comment.find('.item_comment_text').html(multiline(comment.comment));
@@ -210,11 +224,10 @@ define([
         config  : {
             element     : '#new_comment_ok',
             signals     : {
-                pre_click   : 'disable',
-                pre_wake    : 'enable'
+                pre_click   : 'sleep'
             },
             app_events  : {
-                comment_created : 'enable'
+                'new_comment_cancel.clicked': 'sleep'
             }
         }
     }, {
@@ -222,11 +235,10 @@ define([
         config  : {
             element     : '#new_comment_cancel',
             signals     : {
-                pre_click   : 'disable',
-                pre_wake    : 'enable'
+                pre_click   : 'sleep'
             },
             app_events  : {
-                comment_created : 'enable'
+                'new_comment_ok.clicked': 'sleep'
             }
         }
     }];
