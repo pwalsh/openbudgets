@@ -81,12 +81,24 @@ define([
             }
             else if ( scope_item_model === null ) {
                 roots = uijet.Resource('LatestSheet').roots();
-                budget = formatCommas(formatFloat(roots.reduce(function (prev, current) {
-                    return (typeof prev == 'number' ? prev : prev.get('budget')) + current.get('budget');
-                })));
-                actual = formatCommas(formatFloat(roots.reduce(function (prev, current) {
-                    return (typeof prev == 'number' ? prev : prev.get('actual')) + current.get('actual');
-                })));
+                budget = formatCommas(
+                    formatFloat(
+                        roots.length ?
+                            roots.reduce(function (prev, current) {
+                                return (typeof prev == 'number' ? prev : prev.get('budget')) + current.get('budget');
+                            }) :
+                            0
+                    )
+                );
+                actual = formatCommas(
+                    formatFloat(
+                        roots.length ?
+                            roots.reduce(function (prev, current) {
+                                return (typeof prev == 'number' ? prev : prev.get('actual')) + current.get('actual');
+                            }) :
+                            0
+                    )
+                );
             }
             this.$code.text(code);
             this.$direction.text(direction);
