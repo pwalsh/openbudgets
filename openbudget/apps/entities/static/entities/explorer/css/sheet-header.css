@@ -51,7 +51,7 @@
 }
 
 #download_sheet {
-    background: url(../img/glass_blue.png) center no-repeat;
+    background: url(../img/download_icon_blue.png) center no-repeat;
 }
 #download_sheet_wrapper {
     top: 0;
@@ -62,10 +62,12 @@
 }
 #download_sheet_menu a {
     display: block;
-    padding: 0 1rem;
+    padding: 0;
+    text-align: center;
 }
 #download_sheet_menu_wrapper {
     left: 0;
+    width: 100%;
     background-color: #d0d0dc;
 }
 
