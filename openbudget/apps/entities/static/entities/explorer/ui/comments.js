@@ -4,6 +4,9 @@ define([
     'resources'
 ], function (uijet, api, resources) {
 
+    /**
+     * Utility lambdas for formatting template
+     */
     var getUserAvatar = function () {
             return function (text, render) {
                 return render(text).replace(/s=\d+/, 's=25');
@@ -112,10 +115,11 @@ define([
                         lines_to_brs    : linesToBRs
                     });
                 },
-                close_comments          : 'sleep',
-                'new_comment.line_added': 'scroll',
-                'new_comment.awake'     : 'scroll',
-                'new_comment.asleep'    : 'scroll'
+                close_comments                  : 'sleep',
+                'new_comment.line_added'        : 'scroll',
+                'new_comment.awake'             : 'scroll',
+                'new_comment.asleep'            : 'scroll',
+                'item_comments_list.rendered'   : 'scroll'
             }
         }
     }, {
@@ -126,13 +130,16 @@ define([
             adapters        : ['Spin'],
             dont_fetch      : true,
             spinner_options : {
+                element     : function () {
+                    return this.$new_comment.find('.item_comment_date');
+                },
                 lines       : 8,
                 length      : 5,
                 width       : 3,
                 radius      : 3
             },
-            spinned         : function () {
-                return this.$new_comment.find('.item_comment_date');
+            signals         : {
+                post_render : 'rendered'
             },
             app_events      : {
                 'add_comment.clicked'       : function () {
