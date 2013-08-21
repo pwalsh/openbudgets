@@ -41,6 +41,9 @@ define([
                 parse_date      : parseCreatedOn,
                 lines_to_brs    : linesToBRs
             }
+        },
+        rescrollToBottom = function () {
+            this.scroll().scrollTo(this.$element.children().last());
         };
 
     uijet.Resource('NewComment', uijet.Model(), {
@@ -65,17 +68,20 @@ define([
     }, {
         type    : 'Pane',
         config  : {
-            element     : '#items_comments_container',
-            mixins      : ['Scrolled'],
-            adapters    : ['jqWheelScroll'],
-            resource    : 'NewComment',
-            dont_wake   : true,
-            signals     : {
+            element         : '#items_comments_container',
+            mixins          : ['Scrolled'],
+            adapters        : ['jqWheelScroll'],
+            resource        : 'NewComment',
+            dont_wake       : true,
+            jqscroll_options: {
+                exclude_padding : true
+            },
+            signals         : {
                 post_init   : function () {
-                    this.$description = this.$element.find('#item_description')
+                    this.$description = this.$element.find('#item_description');
                 }
             },
-            data_events : {
+            data_events     : {
                 'change:comment': function (model, comment) {
                     api.itemComments(this.resource.get('item_pk'), {
                         type    : 'POST',
@@ -92,8 +98,8 @@ define([
                     });
                 }
             },
-            app_events  : {
-                open_comments           : function ($selected) {
+            app_events      : {
+                open_comments                   : function ($selected) {
                     var item = uijet.Resource('LatestSheet').get(+$selected.attr('data-item')),
                         discussion = item.get('discussion'),
                         description = item.get('description');
@@ -116,9 +122,9 @@ define([
                     });
                 },
                 close_comments                  : 'sleep',
-                'new_comment.line_added'        : 'scroll',
-                'new_comment.awake'             : 'scroll',
-                'new_comment.asleep'            : 'scroll',
+                'new_comment.line_added'        : rescrollToBottom,
+                'new_comment.awake'             : rescrollToBottom,
+                'new_comment.asleep'            : rescrollToBottom,
                 'item_comments_list.rendered'   : 'scroll'
             }
         }
