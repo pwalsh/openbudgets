@@ -1,0 +1,5 @@
+NameError: .width is undefined in /Users/paulwalsh/Sites/projects/open-budget/openbudget/commons/static/css/partials/response.less on line 7, column 9:
+6     @media all and (min-width: @1280) {
+7         .width(@1280);
+8     }
+
