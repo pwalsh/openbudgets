@@ -176,7 +176,15 @@ define([
         config  : {
             element     : '#add_comment',
             signals     : {
-                pre_click   : 'sleep'
+                pre_click   : function  () {
+                    if ( ! uijet.Resource('NewComment').has('user') ) {
+                        uijet.publish('login');
+                        return false
+                    }
+                    else {
+                        this.sleep();
+                    }
+                }
             },
             app_events  : {
                 'new_comment_ok.clicked'    : 'wake',

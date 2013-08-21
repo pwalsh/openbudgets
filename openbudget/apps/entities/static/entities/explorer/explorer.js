@@ -180,6 +180,9 @@ define([
                 app_transition_props[uijet.utils.getStyleProperty('transform')] = 'translateX(260px)';
                 uijet.animate(uijet.$element, app_transition_props);
             })
+            .subscribe('login', function () {
+                uijet.$('.login-link')[0].click();  
+            })
 
             /*
              * Starting uijet
