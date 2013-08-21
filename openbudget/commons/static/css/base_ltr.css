@@ -299,9 +299,12 @@ p {
   margin-bottom: 1em;
   margin-left: 0;
 }
-@media all and (min-width: 1280px) {
+@media all and (min-width: 1024px) and (max-width: 1680px) {
   body {
     width: 1280px;
+  }
+  #panel-main {
+    width: 68.75%;
   }
 }
 .mock-button {
