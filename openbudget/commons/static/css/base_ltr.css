@@ -52,7 +52,7 @@ html {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
-@media 'only screen and (min-width : 480px)' {
+@media 480px {
   body,
   html {
     -webkit-text-size-adjust: none;
@@ -298,6 +298,14 @@ p {
   margin-right: 0;
   margin-bottom: 1em;
   margin-left: 0;
+}
+@media all and (min-width: 1024px) and (max-width: 1680px) {
+  body {
+    width: 1280px;
+  }
+  #panel-main {
+    width: 68.75%;
+  }
 }
 .mock-button {
   -webkit-box-sizing: border-box;
