@@ -8,6 +8,29 @@
     .height(@height);
 }
 
+/**********************/
+/* jqScroll overrides */
+/**********************/
+.ui-v-scroller {
+    position: absolute;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+    z-index: 1;
+    width: 8px;
+    opacity: 0.3;
+}
+.ui-v-scroller-grip {
+    position: absolute;
+    top: 0;
+    right: -1px;
+    z-index: 1;
+    width: 6px;
+    height: 20px;
+    background-color: #141450;
+    cursor: pointer;
+}
+
 #panel-nav {
     .position(absolute);
     .coordinates(@top: 0);
@@ -148,14 +171,24 @@
 }
 
 #panel-main {
-    position: relative;
-    .panel(880px);
+    position: absolute;
+    min-height: 100%;
+    .panel(880px; auto);
     .padding(20px; 20px; 20px; 20px);
     .background-color(@panel-main);
 
     #aux {
         .height(@unit-em * 4);
     }
+}
+
+#main-wrapper {
+    display: inline-block;
+    position: relative;
+    float: right;
+    width: 880px;
+    height: 100%;
+    overflow: hidden;
 }
 
 #panel-append {

@@ -1279,6 +1279,28 @@ input.valid {
   padding-left: 10%;
 }
 /* @import "../../lib/adaptabl/src/normalize"; */
+/**********************/
+/* jqScroll overrides */
+/**********************/
+.ui-v-scroller {
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  right: 1px;
+  z-index: 1;
+  width: 8px;
+  opacity: 0.3;
+}
+.ui-v-scroller-grip {
+  position: absolute;
+  top: 0;
+  right: -1px;
+  z-index: 1;
+  width: 6px;
+  height: 20px;
+  background-color: #141450;
+  cursor: pointer;
+}
 #panel-nav {
   position: absolute;
   top: 0;
@@ -1438,13 +1460,14 @@ input.valid {
   background-color: #c4c4d3;
 }
 #panel-main {
-  position: relative;
+  position: absolute;
+  min-height: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: right;
   width: 880px;
-  height: 100%;
+  height: auto;
   padding-top: 20px;
   padding-right: 20px;
   padding-bottom: 20px;
@@ -1453,6 +1476,14 @@ input.valid {
 }
 #panel-main #aux {
   height: 4em;
+}
+#main-wrapper {
+  display: inline-block;
+  position: relative;
+  float: right;
+  width: 880px;
+  height: 100%;
+  overflow: hidden;
 }
 #panel-append {
   -webkit-box-sizing: border-box;
@@ -1466,6 +1497,17 @@ input.valid {
   padding-bottom: 20px;
   padding-left: 20px;
   background-color: #d0d0dc;
+}
+/**********************/
+/* jqScroll overrides */
+/**********************/
+.ui-v-scroller {
+  right: auto;
+  left: 1px;
+}
+.ui-v-scroller-grip {
+  right: auto;
+  left: -1px;
 }
 #panel-nav {
   right: 0;
