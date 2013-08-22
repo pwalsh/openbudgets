@@ -89,49 +89,59 @@ define([
 
                     this.options.fetch_options.data.sheets = state_model.get('sheet');
                     
-                    this.listenTo(state_model, 'change:sheet', function (model, value) {
-                        var prev = model.previous('sheet'), prev_sheets, prev_sheet;
+                    this.listenTo(state_model, 'change', function (model, options) {
+                        var changed = model.changedAttributes(),
+                            search = null,
+                            sheet, scope,
+                            prev, prev_sheets, prev_sheet;
 
-                        // make sure we cache the previous sheet
-                        if ( prev ) {
-                            prev_sheets = uijet.Resource('PreviousSheets');
+                        if ( ! changed )
+                            return;
 
-                            // assigning in purpose to reuse as previous sheet
-                            if ( prev_sheet = prev_sheets.get(prev) ) {
-                                // update cache of previous Items collection with current LatestSheet state
-                                prev_sheet.get('items').set(this.resource.models, { remove : false });
-                            }
-                            else {
-                                prev_sheets.add({
-                                    id      : prev,
-                                    items   : this.resource.clone()
-                                });
-                            }
-                        }
-
-                        this.wake({
-                            sheets  : value,
-                            scope   : model.hasChanged('scope') ? model.get('scope') : null
-                        });
-                    })
-                    .listenTo(state_model, 'change:scope', function (model, scope) {
-                        if ( ! model.hasChanged('sheet') ) {
-                            this.wake({
-                                scope   : scope || null
-                            });
-                        }
-                    })
-                    .listenTo(state_model, 'change:search', function (model, term) {
-                        var prev;
-                        if ( ! term ) {
-                            prev = state_model.previous('search');
-                            if ( ! prev ) {
-                                state_model.set('search', null, { silent : true });
-                                return;
+                        if ( 'search' in changed ) {
+                            search = model.get('search');
+                            if ( ! search ) {
+                                prev = state_model.previous('search');
+                                if ( ! prev ) {
+                                    state_model.set('search', null, { silent : true });
+                                    return;
+                                }
                             }
                         }
+
+                        if ( 'sheet' in changed ) {
+                            prev = model.previous('sheet');
+
+                            // make sure we cache the previous sheet
+                            if ( prev ) {
+                                prev_sheets = uijet.Resource('PreviousSheets');
+    
+                                // assigning in purpose to reuse as previous sheet
+                                if ( prev_sheet = prev_sheets.get(prev) ) {
+                                    // update cache of previous Items collection with current LatestSheet state
+                                    prev_sheet.get('items').set(this.resource.models, { remove : false });
+                                }
+                                else {
+                                    prev_sheets.add({
+                                        id      : prev,
+                                        items   : this.resource.clone()
+                                    });
+                                }
+                            }
+                            sheet = model.get('sheet');
+                        }
+                        else if ( 'scope' in changed ) {
+                            scope = model.get('scope');
+                        }
+                        else if ( ! ('search' in changed) ) {
+                            // move along people, nothing to see here
+                            return;
+                        }
+
                         this._finally().wake({
-                            search  : term
+                            sheets  : sheet,
+                            search  : search,
+                            scope   : scope === void 0 ? model.get('scope') : scope || null
                         });
                     });
                 },
