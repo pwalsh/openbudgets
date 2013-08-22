@@ -43,7 +43,7 @@ define([
         },
         createItem      : function (model_index) {
             var new_index = model_index + 1,
-                state = ~ model_index ? this.resource.at(model_index).attributes : model_index,
+                state = ~ model_index ? this.resource.at(model_index).attributes : null,
                 model = this.createItemModel(state, new_index);
 
             return this.createItemWidget(model, new_index);
