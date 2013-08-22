@@ -133,7 +133,8 @@
     
         $('.login-link').click(function (event) {
             event.preventDefault();
-            $('form').removeAttr('id');
+            var $form = $('form');
+            $form.removeAttr('id');
             $('#overlay-login form').attr('id', 'active-form');
             $('#overlay').show();
             $('#overlay-login').show();
@@ -141,6 +142,15 @@
             $('#overlay-register').hide();
             $('#overlay-password-reset').hide();
             $('#overlay-password-change').hide();
+
+            // if the browser prefilled the data or kept it in backward/forward navigation
+            // trigger change on every non-empty input
+            $form.find('.field input').each(function () {
+                var $input = $(this);
+                if ( $input.val() ) {
+                    $input.trigger('change');
+                }
+            });
         });
     
         $('.register-link').click(function (event) {
