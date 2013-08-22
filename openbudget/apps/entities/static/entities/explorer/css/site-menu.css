@@ -3,9 +3,10 @@
     top: 0;
     bottom: 0;
     right: 0;
-    width: 5px;
+    width: 10px;
     height: 100%;
     z-index: 1;
+    padding: 0;
 }
 .comments_open #right_edge_detector {
     right: 260px;
