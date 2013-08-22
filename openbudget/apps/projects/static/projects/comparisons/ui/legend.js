@@ -183,14 +183,10 @@ define([
             },
             content     : uijet.$('#normalization_selector_selection'),
             app_events  : {
-                legend_item_removed                 : function () {
-                    if ( ! uijet.Resource('LegendItems').length )
-                        this.sleep();
-                },
-                legend_item_added                   : function () {
-                    if ( uijet.Resource('LegendItems').length === 1 )
-                        this.wake();
-                },
+                'picker_done.clicked'               : 'wake',
+                'add_legend.clicked'                : 'sleep',
+                welcome                             : 'sleep',
+                legend_item_added                   : 'sleep',
                 'normalization_selector_menu.opened': 'activate',
                 'normalization_selector_menu.closed': 'deactivate'
             }
