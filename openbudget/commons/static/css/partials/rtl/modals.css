@@ -20,7 +20,7 @@
   height: 100%;
   background-color: #000000;
   opacity: 0.5;
-  z-index: 1;
+  z-index: 1001;
 }
 /* A mixin that declares the base style of all overlay objects */
 #overlay-login {
@@ -41,7 +41,7 @@
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
-  z-index: 2;
+  z-index: 1002;
 }
 #overlay-login h3,
 #overlay-login .notices,
@@ -128,7 +128,7 @@
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
-  z-index: 2;
+  z-index: 1002;
 }
 #overlay-register h3,
 #overlay-register .notices,
@@ -215,7 +215,7 @@
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
-  z-index: 2;
+  z-index: 1002;
 }
 #overlay-password-reset h3,
 #overlay-password-reset .notices,
@@ -302,7 +302,7 @@
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
-  z-index: 2;
+  z-index: 1002;
 }
 #overlay-password-change h3,
 #overlay-password-change .notices,
@@ -389,7 +389,7 @@
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
-  z-index: 2;
+  z-index: 1002;
 }
 #overlay-contact h3,
 #overlay-contact .notices,
