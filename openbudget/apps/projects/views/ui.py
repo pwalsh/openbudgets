@@ -1,4 +1,6 @@
 from django.views.generic import DetailView, ListView
+from rest_framework.renderers import JSONRenderer
+from openbudget.apps.accounts.serializers import AccountMin
 from openbudget.apps.projects.models import Project
 
 
@@ -30,3 +32,18 @@ class ProjectDetailView(DetailView):
 
     def get_template_names(self):
         return ['projects/ext/{slug}.html'.format(slug=self.object.slug)]
+
+    def get_context_data(self, **kwargs):
+
+        context = super(ProjectDetailView, self).get_context_data(**kwargs)
+        user = self.request.user
+        renderer = JSONRenderer()
+        user_object = {}
+
+        # add logged in user
+        if user.is_authenticated():
+            user_object = AccountMin(user).data
+
+        context['user_json'] = renderer.render(user_object)
+
+        return context
