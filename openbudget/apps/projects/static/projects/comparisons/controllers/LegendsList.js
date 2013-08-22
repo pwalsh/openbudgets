@@ -4,7 +4,7 @@ define([
 ], function (uijet, comparisons) {
 
     uijet.Adapter('LegendsList', {
-        createItemModel : function (state) {
+        createItemModel : function (state, index) {
             var model = new comparisons.LegendItemModel(state || {
                 title       : '',
                 placeholder : gettext('Insert title'),
@@ -12,17 +12,23 @@ define([
                 nodes       : [],
                 amount_type : 'budget'
             });
-            this.resource.add(model);
+            this.resource.add(model, { at : index });
             return model;
         },
         createItemWidget: function (model, index) {
-            index = typeof index == 'number' ? index : this.resource.length - 1;
+            var $el = uijet.$('<li>', {
+                id  : this.id + '_item_' + model.id
+            });
+            if ( index ) {
+                $el.insertAfter(this.$element.children().eq(index - 1));
+            }
+            else {
+                $el.prependTo(this.$element);
+            }
             uijet.start({
                 factory : 'LegendItem',
                 config  : {
-                    element : uijet.$('<li>', {
-                        id          : this.id + '_item_' + model.id
-                    }).appendTo(this.$element),
+                    element : $el,
                     resource: model,
                     index   : index,
                     signals : {
@@ -36,15 +42,16 @@ define([
             return this;
         },
         createItem      : function (model_index) {
-            var state = typeof model_index == 'number' ? this.resource.at(model_index).attributes : model_index,
-                model = this.createItemModel(state);
+            var new_index = model_index + 1,
+                state = ~ model_index ? this.resource.at(model_index).attributes : model_index,
+                model = this.createItemModel(state, new_index);
 
-            return this.createItemWidget(model);
+            return this.createItemWidget(model, new_index);
         },
         addItem         : function (model_index) {
             this.picking = true;
             this.createItem(model_index)
-                .selectItem(this.resource.length - 1);
+                .selectItem(~ model_index ? model_index + 1 : 0);
             return this;
         },
         setEntity       : function (id) {

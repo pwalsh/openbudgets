@@ -130,7 +130,7 @@ define([
                 'legends_list.selected'     : 'selectItem+',
                 'legends_list.delete'       : 'removeItem+',
                 'entities_list.selected'    : function (muni_id) {
-                    this.addItem()
+                    this.addItem(-1)
                         .setEntity(muni_id)
                         .updateState();
                     uijet.utils.requestAnimFrame(
