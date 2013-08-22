@@ -862,6 +862,9 @@ input.valid {
 /*******************/
 /*  GENERIC PAGES  */
 /*******************/
+#text {
+  overflow: hidden;
+}
 #text a {
   text-decoration: none;
   color: #00ccc2;
