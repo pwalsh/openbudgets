@@ -71,6 +71,7 @@ class EntityDetail(DetailView):
 
         context['user_json'] = renderer.render(user_object)
 
+        #TODO: refactor the code below into a generic utility in contexts app that returns the I18N'ised data
         # add latest contextual data objcet for this entity
         try:
             contextual_temp = Context.objects.latest_of(entity_id=self.object.id).data
