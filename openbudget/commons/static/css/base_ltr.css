@@ -417,7 +417,7 @@ input.valid {
   height: 100%;
   background-color: #000000;
   opacity: 0.5;
-  z-index: 1;
+  z-index: 1001;
 }
 /* A mixin that declares the base style of all overlay objects */
 #overlay-login {
@@ -438,7 +438,7 @@ input.valid {
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
-  z-index: 2;
+  z-index: 1002;
 }
 #overlay-login h3,
 #overlay-login .notices,
@@ -525,7 +525,7 @@ input.valid {
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
-  z-index: 2;
+  z-index: 1002;
 }
 #overlay-register h3,
 #overlay-register .notices,
@@ -612,7 +612,7 @@ input.valid {
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
-  z-index: 2;
+  z-index: 1002;
 }
 #overlay-password-reset h3,
 #overlay-password-reset .notices,
@@ -699,7 +699,7 @@ input.valid {
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
-  z-index: 2;
+  z-index: 1002;
 }
 #overlay-password-change h3,
 #overlay-password-change .notices,
@@ -786,7 +786,7 @@ input.valid {
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
-  z-index: 2;
+  z-index: 1002;
 }
 #overlay-contact h3,
 #overlay-contact .notices,
@@ -1218,6 +1218,28 @@ input.valid {
   background: url('/static/img/tools_default.png') no-repeat center;
 }
 /* @import "../../lib/adaptabl/src/normalize"; */
+/**********************/
+/* jqScroll overrides */
+/**********************/
+.ui-v-scroller {
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  right: 1px;
+  z-index: 1;
+  width: 8px;
+  opacity: 0.3;
+}
+.ui-v-scroller-grip {
+  position: absolute;
+  top: 0;
+  right: -1px;
+  z-index: 1;
+  width: 6px;
+  height: 20px;
+  background-color: #141450;
+  cursor: pointer;
+}
 #panel-nav {
   position: absolute;
   top: 0;
@@ -1377,13 +1399,14 @@ input.valid {
   background-color: #c4c4d3;
 }
 #panel-main {
-  position: relative;
+  position: absolute;
+  min-height: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: left;
   width: 880px;
-  height: 100%;
+  height: auto;
   padding-top: 20px;
   padding-right: 20px;
   padding-bottom: 20px;
@@ -1392,6 +1415,14 @@ input.valid {
 }
 #panel-main #aux {
   height: 4em;
+}
+#main-wrapper {
+  display: inline-block;
+  position: relative;
+  float: right;
+  width: 880px;
+  height: 100%;
+  overflow: hidden;
 }
 #panel-append {
   -webkit-box-sizing: border-box;

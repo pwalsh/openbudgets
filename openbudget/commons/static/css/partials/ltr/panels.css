@@ -9,6 +9,28 @@
 /* CORE */
 /* BUILDING BLOCKS */
 /* BOX */
+/**********************/
+/* jqScroll overrides */
+/**********************/
+.ui-v-scroller {
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  right: 1px;
+  z-index: 1;
+  width: 8px;
+  opacity: 0.3;
+}
+.ui-v-scroller-grip {
+  position: absolute;
+  top: 0;
+  right: -1px;
+  z-index: 1;
+  width: 6px;
+  height: 20px;
+  background-color: #141450;
+  cursor: pointer;
+}
 #panel-nav {
   position: absolute;
   top: 0;
@@ -168,13 +190,14 @@
   background-color: #c4c4d3;
 }
 #panel-main {
-  position: relative;
+  position: absolute;
+  min-height: 1;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: left;
   width: 880px;
-  height: 100%;
+  height: auto;
   padding-top: 20px;
   padding-right: 20px;
   padding-bottom: 20px;
@@ -183,6 +206,14 @@
 }
 #panel-main #aux {
   height: 4em;
+}
+#main-wrapper {
+  display: inline-block;
+  position: relative;
+  float: right;
+  width: 880px;
+  height: 100%;
+  overflow: hidden;
 }
 #panel-append {
   -webkit-box-sizing: border-box;

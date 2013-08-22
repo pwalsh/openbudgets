@@ -18,7 +18,6 @@
 
         <base href="{{ site.url }}" />
         <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/base_{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}.css" />
-        <link rel="stylesheet" href="/static/lib/jqScroll/jqscroll.css"/>
         {% block stylesheets %}
 
         {% endblock stylesheets %}
@@ -51,7 +50,8 @@
             {% endblock actions %}
         </section>
 
-        <section id="panel-main">
+        <div id="main-wrapper">
+            <section id="panel-main">
 
             {% block main %}
 
@@ -65,7 +65,8 @@
 
             {% endblock main %}
 
-        </section>
+            </section>
+        </div>
 
         <section id="panel-append">
             {% include 'accounts/partials/account_tools.html' %}
@@ -90,11 +91,10 @@
         {% block js_body %}
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script src="{{ STATIC_URL }}lib/jquery-mousewheel.js"></script>
+        <script src="{{ STATIC_URL }}lib/jqScroll/jqscroll.js"></script>
         <script src="{{ STATIC_URL }}js/base.js"></script>
-        <script src="/static/lib/jqScroll/jqscroll.js"></script>
-        <script>
-        var $scrolled = $('#entities-inactive').scroller();
-        </script>
+        <script src="{{ STATIC_URL }}src/pages.js"></script>
         {% endblock js_body %}
     </body>
 </html>
