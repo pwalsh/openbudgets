@@ -6,6 +6,7 @@ define(function() {
         'choose-entity'         : gettext('Choose entity'),
         'search-placeholder'    : gettext('Search'),
         'choose-budget-item'    : gettext('Choose budget items:'),
+        'search-under'          : gettext('Search under:'),
         main                    : gettext('Main'),
         code                    : gettext('Code'),
         name                    : gettext('Name'),

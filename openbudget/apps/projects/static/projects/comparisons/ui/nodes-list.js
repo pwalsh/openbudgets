@@ -169,14 +169,7 @@ define([
                 'search.changed'                            : 'updateSearchFilter+',
                 'selected.changed'                          : 'updateSelectedFilter+',
                 'nodes_list.filtered'                       : 'filterChildren',
-                'node_breadcrumb_main.clicked'              : function () {
-                    this.redraw(null);
-                },
-                'node_breadcrumb_back.clicked'              : function (data) {
-                    this.redraw(data.context.id);
-                },
-                'nodes_breadcrumbs.selected'                : 'post_select+',
-                'nodes_breadcrumbs_history_menu.selected'   : 'post_select+',
+                'nodes_breadcrumbs.selected'                : 'redraw+',
                 'nodes_list_header.selected'                : 'sortNodes+',
                 'nodes_list.selection'                      : function () {
                     var resource = this.resource;

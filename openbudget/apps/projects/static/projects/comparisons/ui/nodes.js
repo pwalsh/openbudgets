@@ -25,6 +25,10 @@ define([
         nullifySearchQuery = attributeNullifier('search'),
         clearText = function () {
             this.$content.text(gettext('Main'));
+        },
+        closeSearchBreadcrumbsHandler = function () {
+            this.$element.removeClass('searching');
+            this.resource.length || this.$title.removeClass('hide');
         };
 
     return [{
@@ -284,25 +288,58 @@ define([
             }
         }
     }, {
-        type    : 'Breadcrumbs',
+        type    : 'List',
         config  : {
             element     : '#nodes_breadcrumbs',
+            mixins      : ['Templated'],
             resource    : 'Breadcrumbs',
+            dont_fetch  : true,
+            horizontal  : true,
             data_events : {
-                change  : 'render',
                 reset   : 'render'
             },
             signals     : {
-                post_sleep  : function () {
-                    this.resource.reset([]);
-                }
+                post_init   : function () {
+                    this.$title = uijet.$('#nodes_picker_header_description');
+                },
+                pre_wake    : function () {
+                    // hack to make sure getData() doesn't look for context and return this.resource
+                    this.context = null;
+                    this.resource.length && this.$title.addClass('hide');
+                },
+                pre_select  : function ($selected) {
+                    return +$selected.attr('data-id');
+                },
+                post_sleep  : closeSearchBreadcrumbsHandler
             },
             app_events  : {
-                'nodes_list.selected'   : function (selected) {
-                    this.resource.reset(
-                        uijet.Resource('LatestSheet').branch(selected)
-                    );
-                }
+                'nodes_list.scope_changed'      : function (scope_model) {
+                    var crumbs, sheet;
+                    if ( scope_model ) {
+                        if ( scope_model.has('ancestors') ) {
+                            sheet = uijet.Resource('LatestSheet');
+                            crumbs = scope_model.get('ancestors').map(sheet.get, sheet);
+                            crumbs.push(scope_model);
+                        }
+                        else {
+                            // just slice Breadcrumbs from beginning till this scope
+                            crumbs = this.resource.slice(0, this.resource.indexOf(scope_model) + 1);
+                        }
+                    }
+                    else {
+                        crumbs = [];
+                    }
+                    this.resource.reset(crumbs);
+                    scope_model ? this.wake() : this.sleep();
+                },
+                'filters_search_menu.selected'  : function () {
+                    this.$title.addClass('hide');
+                    this.$element.addClass('searching');
+                    this.wake();
+                },
+                'nodes_search.entered'          : closeSearchBreadcrumbsHandler,
+                'nodes_search.cancelled'        : closeSearchBreadcrumbsHandler,
+                'search_crumb_remove.clicked'   : closeSearchBreadcrumbsHandler
             }
         }
     }, {
