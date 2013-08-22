@@ -2,14 +2,6 @@
 
 @import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
 /*! based on and adapted from :::: normalize.css v2.1.2 | MIT License | git.io/normalize */
-/* FOUNDATION */
-/* FLOW */
-/* RESPONSE */
-/* COLORS */
-/* DESIGN */
-/* CORE */
-/* BUILDING BLOCKS */
-/* BOX */
 article,
 aside,
 details,
@@ -277,8 +269,16 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+/* FOUNDATION */
+/* FLOW */
+/* RESPONSE */
+/* COLORS */
+/* DESIGN */
 /* OPENBUDGETS SCHEME */
 /* SEMANTICS */
+/* CORE */
+/* BUILDING BLOCKS */
+/* BOX */
 .hide {
   display: none !important;
 }
@@ -440,7 +440,7 @@ input.valid {
   height: 100%;
   background-color: #000000;
   opacity: 0.5;
-  z-index: 1;
+  z-index: 1001;
 }
 /* A mixin that declares the base style of all overlay objects */
 #overlay-login {
@@ -461,7 +461,7 @@ input.valid {
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
-  z-index: 2;
+  z-index: 1002;
 }
 #overlay-login h3,
 #overlay-login .notices,
@@ -548,7 +548,7 @@ input.valid {
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
-  z-index: 2;
+  z-index: 1002;
 }
 #overlay-register h3,
 #overlay-register .notices,
@@ -635,7 +635,7 @@ input.valid {
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
-  z-index: 2;
+  z-index: 1002;
 }
 #overlay-password-reset h3,
 #overlay-password-reset .notices,
@@ -722,7 +722,7 @@ input.valid {
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
-  z-index: 2;
+  z-index: 1002;
 }
 #overlay-password-change h3,
 #overlay-password-change .notices,
@@ -809,7 +809,7 @@ input.valid {
   margin-top: auto;
   margin-bottom: auto;
   background-color: #d0d0dc;
-  z-index: 2;
+  z-index: 1002;
 }
 #overlay-contact h3,
 #overlay-contact .notices,
