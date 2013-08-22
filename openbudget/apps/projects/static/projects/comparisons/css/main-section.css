@@ -52,6 +52,9 @@
     text-align: right;
 }
 
+#entity_field {
+    font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
+}
 #entity_field_wrapper {
     position: absolute;
     right: 18px;

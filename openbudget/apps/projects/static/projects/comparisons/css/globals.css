@@ -4,10 +4,19 @@ body, html {
     text-align: right;
     font: 13px/1.231 Arial, sans-serif;
     color: #141450;
+    background-color: #d0d0dc;
 }
 em {
     color: #ff0059;
     font-style: normal;
+}
+fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+h1,h2, h3, header nav a {
+    font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
 }
 input, textarea {
     font: 13px/1.231 Arial, sans-serif;
@@ -17,15 +26,9 @@ svg {
     direction: ltr;
 }
 
-::-webkit-input-placeholder { /* WebKit browsers */
-    color: #d0d0dc;
-}
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color: #d0d0dc;
-}
-::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color: #d0d0dc;
-}
+::-webkit-input-placeholder, /* WebKit browsers */
+:-moz-placeholder, /* Mozilla Firefox 4 to 18 */
+::-moz-placeholder, /* Mozilla Firefox 19+ */
 :-ms-input-placeholder { /* Internet Explorer 10+ */
     color: #d0d0dc;
 }
@@ -34,7 +37,8 @@ svg {
     position: absolute;
     top: 1px;
     bottom: 1px;
-    right: 1px;
+    right: auto;
+    left: 1px;
     z-index: 1;
     width: 8px;
     opacity: 0.3;
@@ -42,7 +46,8 @@ svg {
 .ui-v-scroller-grip {
     position: absolute;
     top: 0;
-    right: -1px;
+    right: auto;
+    left: -1px;
     z-index: 1;
     width: 6px;
     height: 20px;
@@ -55,11 +60,13 @@ svg {
 }
 .uijet_clearabletextinput {
     width: 100%;
+    height: auto;
     padding: 0;
     font-size: 3.261rem;
     line-height: 150%;
     border: none;
     outline: none;
+    background-color: transparent !important;
 }
 .uijet_clearabletextinput_wrapper {
     display: inline-block;
@@ -113,4 +120,23 @@ svg {
 .small_heading {
     font-size: 1.3rem;
     font-weight: bold;
+}
+
+.account .name {
+    font-size: 1.1rem;
+    line-height: 1.3rem;
+}
+.account .actions {
+    font-size: 1.3rem;
+}
+
+#panel-append {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    float: none;
+    width: 100px;
+    height: auto;
+    padding: 0 12px;
 }

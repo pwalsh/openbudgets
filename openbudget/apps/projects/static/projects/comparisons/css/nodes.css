@@ -187,6 +187,9 @@
     background: url(../img/x_for_adding_line.png) center no-repeat;
 }
 
+#nodes_search {
+    font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
+}
 #nodes_search_wrapper {
     position: absolute;
     bottom: 0;
