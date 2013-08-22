@@ -112,8 +112,7 @@ define([
             var new_current_index = this.deleteItem(index);
             if ( this.resource.length ) {
                 if ( this.picking ) {
-                    this.resource.at(new_current_index).set('disabled', false);
-                    uijet.publish('legends_list.selected', new_current_index);
+                    uijet.publish('picker_done.clicked');
                 }
             }
             else {
