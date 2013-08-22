@@ -181,7 +181,9 @@
     background-color: #c4c4d3;
 }
 #normalization_selector_menu li {
-    padding: .4rem 3.3rem .4rem .4rem;
+    height: 44px;
+    line-height: 44px;
+    padding-right: 3.3rem;
     text-align: right;
     font-size: 1.3rem;
 }
