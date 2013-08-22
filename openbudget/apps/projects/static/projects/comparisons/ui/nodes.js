@@ -4,8 +4,7 @@ define([
     'composites/Select',
     'project_widgets/ClearableTextInput',
     'project_widgets/Breadcrumbs',
-    'project_widgets/FilterCrumb',
-    'project_mixins/Delayed'
+    'project_widgets/FilterCrumb'
 ], function (uijet, resources) {
 
     uijet.Resource('Breadcrumbs', uijet.Collection({
@@ -122,34 +121,31 @@ define([
     }, {
         type    : 'DropmenuButton',
         config  : {
-            element     : '#filters_search',
-            mixins      : ['Delayed'],
-            click_event : 'mouseover',
-            dom_events  : {
-                mouseout: function (e) {
-                    this.instead(this.publish, 800, 'mouse_left');
-                },
-                click   : function () {
+            element         : '#filters_search',
+            click_event     : 'mouseenter',
+            wrapper_class   : 'nodes_header_menu_button',
+            dom_events      : {
+                click       : function () {
+                    this.sleep();
                     uijet.publish('filters_search_menu.selected', {
                         type: 'search'
                     });
                 }
             },
-            signals     : {
-                pre_click   : 'cancel'
+            signals         : {
+                post_init   : function () {
+                    this.$wrapper.on('mouseleave', this.publish.bind(this, 'mouse_left'));
+                }
             },
-            menu        : {
+            menu            : {
                 mixins          : ['Templated', 'Translated'],
-                float_position  : 'top: 3rem',
+                float_position  : 'top: 66px',
                 dom_events      : {
-                    mouseout: function (e) {
-                        var visual_target = document.elementFromPoint(e.pageX, e.pageY);
-                        if ( ! this.$element[0].contains(visual_target) ) {
-                            this.mouse_over = false;
-                            this.sleep();
-                        }
+                    mouseleave  : function () {
+                        this.mouse_over = false;
+                        this.sleep();
                     },
-                    mouseover: function (e) {
+                    mouseenter  : function (e) {
                         this.mouse_over = true;
                     }
                 },
@@ -173,7 +169,8 @@ define([
                             type    : type,
                             value   : value
                         };
-                    }
+                    },
+                    post_select : 'sleep'
                 },
                 app_events      : {
                     'filters_search.mouse_left' : function () {
@@ -189,6 +186,11 @@ define([
                         }
                     }
                 }
+            },
+            app_events      : {
+                'nodes_search.entered'          : 'wake',
+                'nodes_search.cancelled'        : 'wake',
+                'filters_search_menu.selected'  : 'sleep'
             }
         }
     }, {

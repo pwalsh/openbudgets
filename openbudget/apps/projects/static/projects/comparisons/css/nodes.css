@@ -21,6 +21,35 @@
     cursor: pointer;
 }
 
+.nodes_header_menu_button {
+    position: absolute;
+    width: auto;
+    height: auto;
+}
+.nodes_header_menu_button:hover, .nodes_header_menu_button.opened {
+    background-color: #d0d0dc;
+}
+.nodes_header_menu_button .uijet_dropmenubutton {
+    width: 54px;
+    height: 66px;
+    padding: 0;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+.nodes_header_menu_button .uijet_menu {
+    font-size: 1.3rem;
+}
+.nodes_header_menu_button .uijet_menu li {
+    height: 44px;
+    line-height: 44px;
+    padding: 0 1rem;
+    text-align: right;
+}
+.nodes_header_menu_button .uijet_menu li:hover {
+    background-color: #a1a1b9;
+}
+
 .summarize_data_button {
     padding: .9rem;
 }
@@ -63,46 +92,24 @@
 }
 
 #filters_search {
-    position: absolute;
-    top: -1rem;
-    left: -1rem;
-    width: 25px;
-    height: 25px;
-    padding: 1rem;
-    background: url(../img/search_icon.png) center no-repeat;
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
+    background: url(../img/glass_blue.png) center no-repeat;
 }
 #filters_search_wrapper {
-    position: absolute;
-    top: 50%;
-    left: -5rem;
-    width: 25px;
-    height: 25px;
-    margin-top: -9px;
-}
-#filters_search_menu {
-    font-size: 1.3rem;
-}
-#filters_search_menu li {
-    padding: .5rem 1rem;
-    text-align: right;
+    top: 0;
+    left: 0;
 }
 #filters_search_menu li[data-prefix]:before {
     content: attr(data-prefix);
-    margin-left: 1rem;
+}
+#filters_search_menu li[data-prefix]:after {
+    content: '"';
 }
 #filters_search_menu li:first-child {
-    border-bottom: 1px solid #b9b9ca;
-}
-#filters_search_menu li:hover {
-    background-color: #8989a8;
+    border-bottom: 1px solid white;
 }
 #filters_search_menu_wrapper {
-    right: 0;
-    max-height: 220px;
-    padding: 1rem;
+    left: 0;
+    max-height: 320px;
     background-color: #d0d0dc;
 }
 
@@ -144,11 +151,12 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 30px;
-    height: 30px;
+    width: 54px;
+    height: 66px;
     padding: 0;
-    background: url(../img/x_for_adding_line.png) center no-repeat;
+    background: url(../img/x_icon_blue.png) center no-repeat;
 }
+
 
 #nodes_search {
     font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
