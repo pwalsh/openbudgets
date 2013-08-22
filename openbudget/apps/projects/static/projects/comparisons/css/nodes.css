@@ -204,9 +204,8 @@
 }
 
 #search_crumb:before {
-    content: '>';
+    content: '\203a';
     padding-left: 5px;
-    vertical-align: bottom;
     color: #d0d0dc;
 }
 
