@@ -79,9 +79,12 @@
     height: 88px;
 }
 #chart_footer .uijet_select_menu li {
-    padding: .4rem;
-    text-align: center;
+    height: 44px;
+    line-height: 44px;
+    padding: 0 1.3rem 0 0;
+    text-align: right;
     font-size: 1.3rem;
+    font-weight: bold;
     background-color: #c4c4d3;
 }
 #chart_footer .uijet_select_menu li:hover,
