@@ -62,12 +62,15 @@
                 </ul>
             </section>
             <footer id="items_list_footer">
-                <span class="item_cell item_cell_type"></span>
-                <span class="item_cell item_cell_code">{{ scope_item.code }}</span>
-                <span class="item_cell item_cell_name"></span>
-                <span class="item_cell item_cell_direction">{{ scope_item.direction }}</span>
-                <span class="item_cell item_cell_budget amount">{{ scope_item.budget }}</span>
-                <span class="item_cell item_cell_actual amount">{{ scope_item.actual}}</span>
+                <span id="results_count"></span>
+                <div id="items_list_summary">
+                    <span class="item_cell item_cell_type"></span>
+                    <span class="item_cell item_cell_code">{{ scope_item.code }}</span>
+                    <span class="item_cell item_cell_name"></span>
+                    <span class="item_cell item_cell_direction">{{ scope_item.direction }}</span>
+                    <span class="item_cell item_cell_budget amount">{{ scope_item.budget }}</span>
+                    <span class="item_cell item_cell_actual amount">{{ scope_item.actual}}</span>
+                </div>
             </footer>
             <section id="panel-append">
                 {% include 'accounts/partials/account_tools.html' %}

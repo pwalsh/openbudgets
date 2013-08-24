@@ -65,6 +65,10 @@ define([
             open = true;
 
         if ( changed ) {
+            if ( 'search' in changed ) {
+                uijet.publish('search.changed', changed.search);
+            }
+
             if ( comments_item in changed ) {
                 open = item;
             }

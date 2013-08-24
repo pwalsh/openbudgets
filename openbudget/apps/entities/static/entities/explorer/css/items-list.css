@@ -153,29 +153,38 @@
 }
 
 #items_list_footer {
-    display: table;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    width: 100%;
     height: 44px;
     padding: 0 8px;
     background-color: #00ccc2;
-}
-#items_list_footer .item_cell {
     color: white;
 }
-#items_list_footer .item_cell_actual,
-#items_list_footer .item_cell_budget {
+#items_list_summary {
+    display: table;
+    width: 100%;
+    position: static;
+}
+#items_list_summary .item_cell_actual,
+#items_list_summary .item_cell_budget {
     font-size: 1.3rem;
     font-weight: bold;
 }
-#items_list_footer .item_cell_type {
+#items_list_summary .item_cell_type {
     background: none;
 }
 
 #items_list_wrapper {
     overflow: visible !important;
     clip: rect(0, auto, auto, -100px);
+}
+
+#results_count {
+    font-size: 1.3rem;
+    line-height: 44px;
+    padding-right: 1.3rem;
+    color: #1d7680;
+    font-weight: bold;
 }
