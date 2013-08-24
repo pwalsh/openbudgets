@@ -191,6 +191,7 @@
 }
 #panel-main {
   position: absolute;
+  min-height: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -235,14 +236,8 @@
   left: 1px;
 }
 .ui-v-scroller-grip {
-  position: absolute;
-  top: 0;
-  right: -1px;
-  z-index: 1;
-  width: 6px;
-  height: 20px;
-  background-color: #141450;
-  cursor: pointer;
+  right: auto;
+  left: -1px;
 }
 #panel-nav {
   right: 0;
