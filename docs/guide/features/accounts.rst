@@ -4,14 +4,14 @@ Accounts
 Overview
 --------
 
-Open Budget supports user accounts. Several features, such as sharing to social networks, and commenting, require the user to have an account and to be authenticated.
+Open Budgets supports user accounts. Several features, such as sharing to social networks, and commenting, require the user to have an account and to be authenticated.
 
 User accounts are based on Django's built in auth.User, and take advantage of Django 1.5's new custom user model implementation.
 
 Configuration
 -------------
 
-All configuration of Open Budget accounts is done via the project settings:
+All configuration of Open Budgets accounts is done via the project settings:
 
 https://github.com/hasadna/omuni-budget/blob/develop/openbudget/settings/base.py
 
@@ -32,7 +32,7 @@ In the vast majority of cases, you would not expect to modify any of these setti
 Dependencies
 ------------
 
-Open Budget accounts depends on the following 3rd party packages:
+Open Budgets accounts depends on the following 3rd party packages:
 
 * django
 * registration
@@ -105,7 +105,7 @@ See the Django docs for specifics on how this works in Django:
 
 https://docs.djangoproject.com/en/dev/topics/auth/customizing/#auth-custom-user
 
-On top of all the properties of the default auth.User model, we have a language field, and a bunch of methods to get to other objects in the Open Budget codebase.
+On top of all the properties of the default auth.User model, we have a language field, and a bunch of methods to get to other objects in the Open Budgets codebase.
 
 Proxies
 +++++++

@@ -4,13 +4,13 @@ Internationalization
 Overview
 --------
 
-Open Budget has advanced support for internationalization and localization in both the codebase and the database.
+Open Budgets has advanced support for internationalization and localization in both the codebase and the database.
 
-By default, Open Budget ships with support for English, Hebrew, Arabic and Russian. This provides a starting point for multilingual instances that feature both LTR and RTL languages. Customization of supported languages is done via the project's settings files.
+By default, Open Budgets ships with support for English, Hebrew, Arabic and Russian. This provides a starting point for multilingual instances that feature both LTR and RTL languages. Customization of supported languages is done via the project's settings files.
 
 Configuration
 -------------
-All configuration of Open Budget internationalization support is done via the project settings:
+All configuration of Open Budgets internationalization support is done via the project settings:
 
 https://github.com/hasadna/omuni-budget/blob/develop/openbudget/settings/base.py
 
@@ -19,7 +19,7 @@ Customizing the default supported languages is easy, but it really should be don
 Language Settings
 ~~~~~~~~~~~~~~~~~
 
-To customize language support for a new Open Budget instance, you'll want to go to the LANGUAGES tuple in the base settings file.
+To customize language support for a new Open Budgets instance, you'll want to go to the LANGUAGES tuple in the base settings file.
 
 *The first language in the tuple is always the default language of the instance*.
 
@@ -44,7 +44,7 @@ Each supported language must be mapped to one or more subdomains. We use subdoma
 
 1. It is optimal for search indexing, and the preferred method for delivering multilingual content as per the Google Webmaster Guidelines.
 
-2. If future use patterns require (scalability, etc.), it can be easier to separate language and API support across different instances of Open Budget.
+2. If future use patterns require (scalability, etc.), it can be easier to separate language and API support across different instances of Open Budgets.
 
 The default settings for subdomains look something like this::
 
@@ -72,7 +72,7 @@ Notes
 Dependencies
 ------------
 
-Open Budget's internationalization features depend on a number of 3rd party python packages.
+Open Budgets' internationalization features depend on a number of 3rd party python packages.
 
 * django
 * modeltranslation
@@ -83,7 +83,7 @@ Django
 
 https://github.com/django/django
 
-Open Budget sites on the Django web framework and uses its built in features for internationalization and localization. Please refer to the relevant Django documentation if you are not familiar with Django:
+Open Budgets sits on the Django web framework and uses its built in features for internationalization and localization. Please refer to the relevant Django documentation if you are not familiar with Django:
 
 https://docs.djangoproject.com/en/1.5/topics/i18n/
 
@@ -115,7 +115,7 @@ SubDomains
 
 https://github.com/tkaemming/django-subdomains
 
-We use SubDomains to support multiple subdomains in a single Open Budget instance, where, each supported language has a mapping to at least one subdomain.
+We use SubDomains to support multiple subdomains in a single Open Budgets instance, where, each supported language has a mapping to at least one subdomain.
 
 How to import::
 

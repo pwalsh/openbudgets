@@ -4,11 +4,11 @@ Sources
 Overview
 --------
 
-Open Budget supports adding sources for any data added to the system. A "source" in this case is a file, or a webpage (or a number of files/web pages) that served as raw data for the dataset n Open Budget.
+Open Budgets supports adding sources for any data added to the system. A "source" in this case is a file, or a webpage (or a number of files/web pages) that served as raw data for the dataset n Open Budgets.
 
-This gives the ability to trace where data came from, and save those data sources in Open Budget, in case they should in the future become inaccessible from the original source.
+This gives the ability to trace where data came from, and save those data sources in Open Budgets, in case they should in the future become inaccessible from the original source.
 
-In the current codebase, we distinguish between two types of sources, *Reference Sources*, which are added by Open Budget admins along with data that is added to the system, and *Auxiliary Sources*, which authenticated users can add in relation to a given dataset in Open Budget, to enrich the context of that data.
+In the current codebase, we distinguish between two types of sources, *Reference Sources*, which are added by Open Budgets admins along with data that is added to the system, and *Auxiliary Sources*, which authenticated users can add in relation to a given dataset in Open Budgets, to enrich the context of that data.
 
 Note: Due to time contraints, we have not exposed any UI for Auxiliary Sources for the current version of the codebase.
 

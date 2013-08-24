@@ -4,7 +4,7 @@ Pages
 Overview
 --------
 
-Open Budget supports adding generic pages for the display, such as about, contact, privacy, and any other text-based page that is required.
+Open Budgets supports adding generic pages for the display, such as about, contact, privacy, and any other text-based page that is required.
 
 Configuration
 -------------

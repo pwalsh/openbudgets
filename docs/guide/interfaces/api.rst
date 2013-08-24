@@ -4,11 +4,11 @@ API
 Overview
 --------
 
-Open Budget has a web API to expose all public data stored in an instance.
+Open Budgets has a web API to expose all public data stored in an instance.
 
 The API is currently at v1.
 
-The API allows developers to build apps and visualizations on top of Open Budget data.
+The API allows developers to build apps and visualizations on top of Open Budgets data.
 
 Data from the API is returned in JSON format.
 
@@ -17,7 +17,7 @@ Additionally, the API is web-browsable - simply go to any API end point in your 
 Configuration
 -------------
 
-The Open Budget API is built on top of Django REST Framework (DRF), with Django OAuth Toolkit providing access via oauth2 tokens.
+The Open Budgets API is built on top of Django REST Framework (DRF), with Django OAuth Toolkit providing access via oauth2 tokens.
 
 All instance-wide configuration is done via the project settings, through the settings that REST Framework and OAuth Toolkit expose:
 
@@ -48,7 +48,7 @@ The default settings look something like this::
 Dependencies
 ------------
 
-The Open Budget web API depends on the following 3rd party packages:
+The Open Budgets web API depends on the following 3rd party packages:
 
 * Django REST Framework
 * Django OAuth Toolkit
@@ -59,7 +59,7 @@ Django REST Framework
 
 https://github.com/tomchristie/django-rest-framework
 
-Django REST Framework has extensive documentation, and also a very active and helpful mailing list for the project. If you want to help develop the Open Budget API, start there for a good understanding of DRF first.
+Django REST Framework has extensive documentation, and also a very active and helpful mailing list for the project. If you want to help develop the Open Budgets API, start there for a good understanding of DRF first.
 
 http://django-rest-framework.org/
 
@@ -91,7 +91,7 @@ API Endpoints
 
 All endpoints are relative to the API subdomain of the instance domain.
 
-For example, if an Open Budget instance is installed on openmuni.org.il:
+For example, if an Open Budgets instance is installed on openmuni.org.il:
 
 * API root: https://api.openmuni.org.il/
 * API version: https://api.openmuni.org.il/v1/
@@ -101,7 +101,7 @@ For example, if an Open Budget instance is installed on openmuni.org.il:
 Writing an API Client
 ---------------------
 
-When writing an API client, is is best to use as little hard coded endpoints to the Open Budget API as possible. This will make it easier for you to update your client to support changes and new versions of the API.
+When writing an API client, is is best to use as little hard coded endpoints to the Open Budgets API as possible. This will make it easier for you to update your client to support changes and new versions of the API.
 
 Considering this, we suggest a design along these lines:
 

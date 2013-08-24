@@ -4,7 +4,7 @@ Taxonomies
 Overview
 --------
 
-Open Budget aims to have support for taxonomies of Budget and Actual data.
+Open Budgets aims to have support for taxonomies of Budget and Actual data.
 
 A "taxonomy" is, in our case, an alternate classification system for items in a budget.
 
@@ -13,7 +13,7 @@ Taxonomies can provide topically-driven views of budget data that break out of t
 Feature Status
 --------------
 
-Taxonomies have been implemented in the server. the 0.3 tag of Open Budget exposes a few demo taxonomies to the UI in user accounts, budget pages, and dedicated taxonomy pages.
+Taxonomies have been implemented in the server. the 0.3 tag of Open Budgets exposes a few demo taxonomies to the UI in user accounts, budget pages, and dedicated taxonomy pages.
 
 Subsequent tags have removed taxonomies fromt he UI as they are not in the current project's scope.
 
@@ -33,7 +33,7 @@ There is no particular configuration for taxonomies.
 Dependencies
 ------------
 
-Open Budget taxonomies depend on the following 3rd party packages:
+Open Budgets taxonomies depend on the following 3rd party packages:
 
 * taggit
 

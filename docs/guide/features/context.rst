@@ -6,7 +6,7 @@ Overview
 
 Open Budgets has contextual data to produce more meaningful queries of budgetary data. Contextual data is grouped into topical models, and sourced from official data sources such as the CBS.
 
-The first iteration of the project supports a basic set of contectual data points. This feature could be extended in a number of different ways in future iterations of Open Budget, as use patterns arise.
+The first iteration of the project supports a basic set of contectual data points. This feature could be extended in a number of different ways in future iterations of Open Budgets, as use patterns arise.
 
 Every contextual data object belongs to an entity.
 

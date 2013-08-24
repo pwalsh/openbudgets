@@ -4,7 +4,7 @@ Interactions
 Overview
 --------
 
-Interactions are ways that a user can engage with data. In Open Budget, this means *Commenting* on an object to start or partake in a discussion, *Starring* an object for later reference from her/his user account, *Following* an object to get updates as changes occur, and *Sharing* an object by broadcasting on social networks or via email.
+Interactions are ways that a user can engage with data. In Open Budgets, this means *Commenting* on an object to start or partake in a discussion, *Starring* an object for later reference from her/his user account, *Following* an object to get updates as changes occur, and *Sharing* an object by broadcasting on social networks or via email.
 
 How it works
 ~~~~~~~~~~~~

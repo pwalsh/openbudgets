@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Open Budget documentation build configuration file, created by
+# Open Budgets documentation build configuration file, created by
 # sphinx-quickstart on Sun Jan 27 21:17:44 2013.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -40,8 +40,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Open Budget'
-copyright = u'2013, Yehonatan Daniv and Paul Walsh for the Open Knowledge Workshop'
+project = u'Open Budgets'
+copyright = u'2013, Yehonatan Daniv and Paul Walsh for the Public Knowledge Workshop'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -183,8 +183,8 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'OpenBudget.tex', u'Open Budget Documentation',
-   u'Yehonatan Daniv and Paul Walsh for the Open Knowledge Workshop', 'manual'),
+  ('index', 'OpenBudgets.tex', u'Open Budgets Documentation',
+   u'Yehonatan Daniv and Paul Walsh for the Public Knowledge Workshop', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -213,8 +213,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'openbudget', u'Open Budget Documentation',
-     [u'Yehonatan Daniv and Paul Walsh for the Open Knowledge Workshop'], 1)
+    ('index', 'openbudgets', u'Open Budgets Documentation',
+     [u'Yehonatan Daniv and Paul Walsh for the Public Knowledge Workshop'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -227,8 +227,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'OpenBudget', u'Open Budget Documentation',
-   u'Yehonatan Daniv and Paul Walsh for the Open Knowledge Workshop', 'OpenBudget', 'The Open Budget project is a web app and web API for municipality budgets, and related contextual data.',
+  ('index', 'OpenBudgets', u'Open Budgets Documentation',
+   u'Yehonatan Daniv and Paul Walsh for the Open Knowledge Workshop', 'OpenBudgets', 'The Open Budgets project is a web app and web API for storing, accessing, and visualizing and comparing budgetary data.',
    'Miscellaneous'),
 ]
 

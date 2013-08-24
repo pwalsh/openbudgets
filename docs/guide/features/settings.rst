@@ -4,7 +4,7 @@ Settings
 Overview
 --------
 
-Open Budget has some global settings of its own to configure an Open Budget instance.
+Open Budgets has some global settings of its own to configure an Open Budgets instance.
 
 General
 -------

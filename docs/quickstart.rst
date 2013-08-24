@@ -4,7 +4,7 @@ Requirements
 Overview
 --------
 
-Open Budget is written in Python and JavaScript. If you already develop web apps in these languages, it is likely that your machine is ready to start work. Please check the system requirements below to confirm.
+Open Budgets is written in Python and JavaScript. If you already develop web apps in these languages, it is likely that your machine is ready to start work. Please check the system requirements below to confirm.
 
 This Quickstart will walk you through setting up the project. We provide basic instructions for setting up system requirements, but this does assume some knowledge of the relevant package managers, use of sudo, etc.
 

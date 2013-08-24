@@ -4,7 +4,7 @@ Testing
 Overview
 --------
 
-Open Budget has a suite of tests, with the goal of moving to 100% coverage of project code.
+Open Budgets has a suite of tests, with the goal of moving to 100% coverage of project code.
 
 We view tests as an integral part of contributing code to the project: any code contributions must be accompanied by tests.
 
@@ -29,7 +29,7 @@ Also, when you use devstrap to bootstrap a local environment, you can use the -t
 Dependencies
 ------------
 
-Open Budget tests depend on the following 3rd party packages:
+Open Budgets tests depend on the following 3rd party packages:
 
 * django
 * factory boy
@@ -39,7 +39,7 @@ Django
 
 https://github.com/django/django
 
-Django comes with its own test framework. There is extensive documentation for this on the Django site. Please get very familiar with the docs if you will be contributing code to Open Budget:
+Django comes with its own test framework. There is extensive documentation for this on the Django site. Please get very familiar with the docs if you will be contributing code to Open Budgets:
 
 https://docs.djangoproject.com/en/1.5/topics/testing/
 
@@ -62,7 +62,7 @@ We use Factory Boy to create mock objects for models. Our tests use these mock o
 
 All definitions for mock objects are found in "factories.py" modules, per app.
 
-Please refer to the Factory Boy documentation if you will be contrinuting code to Open Budget:
+Please refer to the Factory Boy documentation if you will be contrinuting code to Open Budgets:
 
 http://factoryboy.readthedocs.org/en/latest/
 
