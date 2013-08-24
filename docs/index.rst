@@ -1,7 +1,7 @@
 Open Budgets
 ============
 
-Open Budgets is a web app and web API for storing, accessing, and visualizing and comparing budgetary data.
+Open Budgets is a web app and web API for storing, accessing, visualizing and comparing budgetary data.
 
 Open Budgets is coded in Python and Javascript. Django is used for the server, and libraries such as Backbone, D3, uijet and JQuery for the client.
 
