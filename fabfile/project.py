@@ -148,7 +148,7 @@ def ensure_dependencies():
 def install_pip():
     with prefix(WORKON):
         run('pip install -U -r requirements/base.txt')
-        run('pip install -U -r requirements/deploy.txt')
+        run('pip install -U -r requirements/extended.txt')
         run(DEACTIVATE)
 
 
