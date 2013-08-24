@@ -29,7 +29,6 @@ define(function() {
         'viz-export'            : gettext('Export'),
         'viz-publish'           : gettext('Publish'),
         'viz-save'              : gettext('Save'),
-        'search-menu-selected'  : gettext('Show selected only'),
         'search-menu-free'      : gettext('Free text search'),
         'search-term-prefix'    : gettext('Search for'),
         'guest'                 : gettext('Guest:'),

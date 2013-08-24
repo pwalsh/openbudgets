@@ -58,8 +58,8 @@ define([
             app_events      : {
                 'search_crumb_remove.clicked'   : nullifySearchQuery,
                 'selected_crumb_remove.clicked' : attributeNullifier('selected'),
-                'filters_search_menu.selected'  : function (data) {
-                    data.type === 'selected' && this.resource.set({ selected : true });
+                'filters_selected.changed'      : function (selected) {
+                    this.resource.set({ selected : selected });
                 },
                 'legends_list.select_state'     : function (data) {
                     this.resource.set({
@@ -116,6 +116,17 @@ define([
                 'nodes_search.entered'          : 'wake',
                 'nodes_search.cancelled'        : 'wake',
                 'search_crumb_remove.clicked'   : 'wake'
+            }
+        }
+    }, {
+        type    : 'Button',
+        config  : {
+            element : '#filters_selected',
+            signals : {
+                pre_click   : function () {
+                    this.activated ? this.deactivate() : this.activate();
+                    this.publish('changed', this.activated ? true : null);
+                }
             }
         }
     }, {
@@ -382,26 +393,6 @@ define([
                 },
                 'nodes_picker.awake'            : function () {
                     if ( uijet.Resource('NodesListState').get('search') ) {
-                        this.wake();
-                    }
-                }
-            }
-        }
-    }, {
-        type    : 'FilterCrumb',
-        config  : {
-            element     : '#selected_crumb',
-            dont_wake   : true,
-            content     : gettext('Selected'),
-            app_events  : {
-                'selected.changed'  : function (data) {
-                    var state = data.args[1];
-                    if ( state === null || state === void 0 ) {
-                        this.options.dont_wake = true;
-                        this.sleep();
-                    }
-                    else {
-                        this.options.dont_wake = false;
                         this.wake();
                     }
                 }

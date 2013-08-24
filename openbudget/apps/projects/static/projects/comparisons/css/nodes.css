@@ -113,6 +113,21 @@
     background-color: #d0d0dc;
 }
 
+#filters_selected {
+    position: absolute;
+    top: 0;
+    left: 54px;
+    width: 54px;
+    height: 66px;
+    background: url(../img/selected_inactive.png) center no-repeat;
+}
+#filters_selected:hover {
+    background: url(../img/selected_hover.png) center no-repeat;
+}
+#filters_selected.activated {
+    background: url(../img/selected_active.png) center no-repeat;
+}
+
 #nodes_picker {
     background-color: white;
 }
