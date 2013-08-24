@@ -4,23 +4,23 @@ Entities
 Overview
 --------
 
-Open Budget has a flexible system for supporting budgeting entities, be they corporations, governments, non-profits, and even all of the above in the same Open Budget instance.
+Open Budgets has a flexible system for supporting budgeting entities, be they corporations, governments, non-profits, and even all of the above in the same Open Budgets instance.
 
 To achieve this, we have a system that declares certain entity relations where a *Domain* is the overall context for an entity, *Divisions* are logical, distinct divisions in a domain (according to the business logic of the domain), and *Entities* are the actual entities that are present in the domain.
 
 How it works
 ~~~~~~~~~~~~
 
-In explaining the Domain/Division/Entity relations, we'll demonstrate with concrete examples of Israeli governmental system - the major context for the first iteration of Open Budget.
+In explaining the Domain/Division/Entity relations, we'll demonstrate with concrete examples of Israeli governmental system - the major context for the first iteration of Open Budgets.
 
 Domain
 ++++++
 
 A Domain is the ultimate context for the entities in the system. There can in fact be multiple domains, each describing different "entity systems", but this has not been actualized in views and templates of the current codebase.
 
-To explain by example, imagine we want to use Open Budget for the Budget and Actual data of municipalities in Israel (our first use case).
+To explain by example, imagine we want to use Open Budgets for the Budget and Actual data of municipalities in Israel (our first use case).
 
-In this case, our Domain is "Government", or more precisely, "Israel Government". (Remember, in terms of the data model, we could have a single instance of Open Budget with an "Israel Government" Domain and an "Australian Government" Domain.)
+In this case, our Domain is "Government", or more precisely, "Israel Government". (Remember, in terms of the data model, we could have a single instance of Open Budgets with an "Israel Government" Domain and an "Australian Government" Domain.)
 
 Let's move on to see how we break up (divide) this domain according to its actual structure.
 

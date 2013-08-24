@@ -4,7 +4,7 @@ Import
 Overview
 --------
 
-Open Budget has a set of data importers, making it easy to get budget data into the system. Code for the data importers is located in the "transport" app.
+Open Budgets has a set of data importers, making it easy to get budget data into the system. Code for the data importers is located in the "transport" app.
 
 Importing data is currently only exposed to Admin users (but anyone can export data in a range of formats). Imported data must be validated before it is exposed via the app and the API.
 
@@ -54,7 +54,7 @@ https://github.com/hasadna/omuni-budget/blob/develop/openbudget/apps/transport/m
 String
 ++++++
 
-The string model serves a simple but very important purpose, due to the multilingual nature of Open Budget. Using the string model, an administrator can map alias string to the strings required for headers in data files for import.
+The string model serves a simple but very important purpose, due to the multilingual nature of Open Budgets. Using the string model, an administrator can map alias string to the strings required for headers in data files for import.
 
 The required Strings are loaded to the database in the initial_data fixture.
 

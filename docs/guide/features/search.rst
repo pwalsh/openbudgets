@@ -4,9 +4,9 @@ Search
 Overview
 --------
 
-Open Budget has a simple feature for end users to discover content via keyword entry. Several text fields across the project models are included in search and it is trivial to add more as required. A single search results page shows the matching results for a query, no matter what the source model of the result, making it simple for common users to get anywhere they need to go in the app.
+Open Budgets has a simple feature for end users to discover content via keyword entry. Several text fields across the project models are included in search and it is trivial to add more as required. A single search results page shows the matching results for a query, no matter what the source model of the result, making it simple for common users to get anywhere they need to go in the app.
 
-Open Budget search is implemented through Haystack, a popular Django extension that provides a common interface to several "search backends". For the backend, we use Whoosh.
+Open Budgets search is implemented through Haystack, a popular Django extension that provides a common interface to several "search backends". For the backend, we use Whoosh.
 
 
 Search is built with Haystack on top of a Whoosh search backend. Whoosh is an easy to deploy and highly portale file-based search backend written in Python.
@@ -17,7 +17,7 @@ Configuration
 Global
 ~~~~~~
 
-The main configuration for Open Budget search is done via the project settings:
+The main configuration for Open Budgets search is done via the project settings:
 
 https://github.com/hasadna/omuni-budget/blob/develop/openbudget/settings/base.py
 
@@ -43,7 +43,7 @@ At present, the following models are indexed:
 Dependencies
 ------------
 
-Open Budget search depends on the following 3rd party packages:
+Open Budgets search depends on the following 3rd party packages:
 
 * Haystack
 * Whoosh
@@ -73,7 +73,7 @@ https://bitbucket.org/mchaput/whoosh/wiki/Home
 
 Whoosh is a file-based search engine written in Python. It is lightweight and easy to use, making it a great solution for simple search tasks.
 
-In Open Budget, Whoosh is completely behind-the-scenes, and only ever accessed by Haystack.
+In Open Budgets, Whoosh is completely behind-the-scenes, and only ever accessed by Haystack.
 
 http://whoosh.readthedocs.org/en/latest/
 
@@ -86,7 +86,7 @@ Celery is a very popular python package for task queues.
 
 Celery also has a crontab implementation, making it an ideal replacement for "cron-like" scheduled tasks in Python apps (which is relvant to us here, in our search implementation).
 
-We use Celery in other Open Budget use cases, but for search, we use Celery Beat to update and rebuild the search indexes at regular intervals.
+We use Celery in other Open Budgets use cases, but for search, we use Celery Beat to update and rebuild the search indexes at regular intervals.
 
 http://docs.celeryproject.org/en/latest/index.html
 

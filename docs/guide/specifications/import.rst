@@ -4,9 +4,9 @@ Data Import
 Overview
 --------
 
-Open Budget deals with large datasets. A primary focus of the project is to make it easy to import large datasets in bulk. There is still much work to do here, but we have a good start.
+Open Budgets deals with large datasets. A primary focus of the project is to make it easy to import large datasets in bulk. There is still much work to do here, but we have a good start.
 
-Importing datasets requires preparation. First and foremost, the data needs to be in a file format that Open Budget can understand. At present, this means in CSV format, with the file encoded in UTF-8. Additionally, each single CSV file must describe only one, and a complete, dataset.
+Importing datasets requires preparation. First and foremost, the data needs to be in a file format that Open Budgets can understand. At present, this means in CSV format, with the file encoded in UTF-8. Additionally, each single CSV file must describe only one, and a complete, dataset.
 
 We have an ongoing community project at present to allow support direct import from a Google Spreadsheet, bypassing the need to save to a CSV file.
 

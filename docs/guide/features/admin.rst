@@ -4,13 +4,13 @@ Admin
 Overview
 --------
 
-Open Budget has a dedicated administration interface, based on Django's built-in admin. In addition to the standard CRUD mappings that Django provides over models, we have custom admin views for our data importers.
+Open Budgets has a dedicated administration interface, based on Django's built-in admin. In addition to the standard CRUD mappings that Django provides over models, we have custom admin views for our data importers.
 
 We are using django-grappelli, which is a 3rd party package that extends the functionality of Django's admin, and adds a more modren and user-friendly skin for the UI.
 
 The goal of an admin interface is to make it as simple as possible for content editors to work with data, so we are maing every effort to go beyond standard Django Admin CRUD mappings, and make the admin more intuitive for these users.
 
-Contributions to Open Budget should keep this in mind. We consider a feature broken if it is implemented with no thought for how content administrators will interact with the feature via the admin.
+Contributions to Open Budgets should keep this in mind. We consider a feature broken if it is implemented with no thought for how content administrators will interact with the feature via the admin.
 
 Configuration
 -------------
@@ -30,7 +30,7 @@ https://github.com/hasadna/omuni-budget/blob/develop/openbudget/dashboard.py
 Dependencies
 ------------
 
-Open Budget's admin depends on the following 3rd party packages:
+Open Budgets' admin depends on the following 3rd party packages:
 
 * django
 * grappelli
@@ -93,7 +93,7 @@ Project Code
 RTL
 ---
 
-Grappelli has basic support for RTL, and we are committed to improving this support via our testing with Hebrew and Arabic in Open Budget. If you identify speciufic issues regarding RTL support, fix the problem and submit a pull request, or, open a new issue on the issue tracker.
+Grappelli has basic support for RTL, and we are committed to improving this support via our testing with Hebrew and Arabic in Open Budgets. If you identify speciufic issues regarding RTL support, fix the problem and submit a pull request, or, open a new issue on the issue tracker.
 
 Data Translations
 -----------------

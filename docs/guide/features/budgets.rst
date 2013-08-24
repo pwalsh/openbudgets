@@ -4,13 +4,13 @@ Budgets
 Overview
 --------
 
-Open Budget has a lot of features, but it is all for the purpose of working with budgetary data.
+Open Budgets has a lot of features, but it is all for the purpose of working with budgetary data.
 
 We explictly support Budgets and Actuals, where the Budget/Actual applies for a period of time (commonly a year, but we don't enforce any particular period in the data model).
 
 Additionally and importantly, we work with a concept of "Budget Templates".
 
-One of the main goals of Open Budget is **comparative analysis of comparable entities**.
+One of the main goals of Open Budgets is **comparative analysis of comparable entities**.
 
 Our approach to handling this reasonably is that comparable entities should share the same Budget Template (we also have flexibility for variation from the template, but more on that later).
 

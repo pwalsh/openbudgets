@@ -1,7 +1,7 @@
 Guide
 =====
 
-Open Budget is written in Python and JavaScript.
+Open Budgets is written in Python and JavaScript.
 
 The server is written using Django, a popular web app framework in Python.
 
@@ -66,7 +66,7 @@ Specifications
 Design goals
 ------------
 
-Some of the broader design goals that influenced how we approach Open Budget.
+Some of the broader design goals that influenced how we approach Open Budgets.
 
 * multilingual at the core
 * designed for israeli muni budgets

@@ -37,7 +37,7 @@
 
 # Uncomment to use Postgresql in development.
 # You'll also need some extra dependencies:
-# pip install -r requirements/deploy.txt
+# pip install -r requirements/extended.txt
 #DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -63,7 +63,7 @@
 
 # Uncomment to enable redis as a celery backend in development
 # You'll also need some extra dependencies:
-# pip install -r requirements/deploy.txt
+# pip install -r requirements/extended.txt
 #BROKER_URL = REDIS_URL
 #
 #CELERY_RESULT_BACKEND = BROKER_URL
