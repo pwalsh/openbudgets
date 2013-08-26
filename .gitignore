@@ -5,6 +5,7 @@
 *.sublime-workspace
 *.db
 *.pyc
+.coverage
 openbudget/settings/production.py
 openbudget/settings/local.py
 fabfile/sensitive.py

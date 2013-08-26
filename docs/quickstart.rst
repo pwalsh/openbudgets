@@ -49,6 +49,8 @@ Now, make some changes to your user's .profile file for the Python environment::
     export PROJECT_HOME="/home/[YOUR_USER]/projects"
     source /usr/local/bin/virtualenvwrapper.sh
     export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
+    export PIP_USE_MIRRORS=true
+    export PIP_INDEX_URL=https://simple.crate.io/
 
 Fedora
 ~~~~~~
@@ -69,6 +71,8 @@ Changes for virtualwrapper in your user's .bashrc (assuming you use bash, please
     export PROJECT_HOME="/home/[YOUR_USER]/projects"
     source /usr/bin/virtualenvwrapper.sh
     export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
+    export PIP_USE_MIRRORS=true
+    export PIP_INDEX_URL=https://simple.crate.io/
 
 Mac OS X
 ~~~~~~~~
@@ -113,6 +117,8 @@ Now, make some changes to your user's .bash_profile file for the Python environm
     export PROJECT_HOME="/Users/[YOUR_USER]/Sites/projects"
     source /usr/local/bin/virtualenvwrapper.sh
     export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
+    export PIP_USE_MIRRORS=true
+    export PIP_INDEX_URL=https://simple.crate.io/
 
 Installing the project
 ----------------------
