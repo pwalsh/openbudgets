@@ -1,6 +1,13 @@
 Open Budgets
 ============
 
+.. image:: https://travis-ci.org/prjts/open-budget.png
+   :alt: Build Status
+   :target: https://travis-ci.org/prjts/open-budgets
+.. image:: https://coveralls.io/repos/prjts/open-budgets/badge.png?branch=develop
+   :alt: Coverage Status
+   :target: https://coveralls.io/r/prjts/open-budgets?branch=develop
+
 Open Budgets is a web app and web API for storing, accessing, visualizing and comparing budgetary data.
 
 Open Budgets is coded in Python and Javascript. Django is used for the server, and libraries such as Backbone, D3, uijet and JQuery for the client.
