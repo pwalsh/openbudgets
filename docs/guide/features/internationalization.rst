@@ -4,6 +4,10 @@ Internationalization
 Overview
 --------
 
+.. image:: https://www.transifex.com/projects/p/open-budgets/resource/app-strings/chart/image_png
+   :alt: Translation Status
+   :target: https://www.transifex.com/projects/p/open-budgets
+   
 Open Budgets has advanced support for internationalization and localization in both the codebase and the database.
 
 By default, Open Budgets ships with support for English, Hebrew, Arabic and Russian. This provides a starting point for multilingual instances that feature both LTR and RTL languages. Customization of supported languages is done via the project's settings files.
