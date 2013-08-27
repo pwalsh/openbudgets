@@ -26,6 +26,7 @@ define([
                     this.$header = uijet.$('#sheet_header_top_container');
                     this.header_anim_callback = function () {
                         this.$header.removeClass('transitioned');
+                        uijet.publish('sheet_header_moved');
                     }.bind(this);
                 }
             },

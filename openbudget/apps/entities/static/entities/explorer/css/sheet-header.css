@@ -95,10 +95,19 @@
 
 #items_breadcrumbs {
     display: inline-block;
+    position: absolute;
+    top: 1.3rem;
+    right: 130px;
+    left: 108px;
     width: auto;
-    height: auto;
+    height: 1.3rem;
+    line-height: 1.3rem;
     font-size: 1.3rem;
     font-weight: bold;
+    overflow: hidden;
+}
+#items_breadcrumbs.overflow {
+    overflow: visible;
 }
 #items_breadcrumbs.searching {
     float: right;
@@ -112,15 +121,19 @@
 #items_breadcrumbs.searching li:last-child {
     display: inline-block;
 }
-#items_breadcrumbs li {
+#items_breadcrumbs > li {
     float: none;
 }
 #items_breadcrumbs li:last-child {
     display: none;
 }
-#items_breadcrumbs li + li:before {
+#items_breadcrumbs > li + li:before, #items_breadcrumbs_button li:before {
     content: '\2190';
     margin-left: .5rem;
+}
+
+#items_breadcrumbs_button {
+    padding: 0;
 }
 
 #items_search_exit {

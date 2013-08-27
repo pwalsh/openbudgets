@@ -6,6 +6,7 @@ define([
     'composites/Select',
     'project_widgets/ClearableTextInput',
     'project_widgets/FilterCrumb',
+    'project_widgets/Breadcrumbs',
     'project_mixins/Delayed'
 ], function (uijet, resources, explorer) {
 
@@ -383,7 +384,7 @@ define([
             }
         }
     }, {
-        type    : 'List',
+        type    : 'Breadcrumbs',
         config  : {
             element     : '#items_breadcrumbs',
             mixins      : ['Templated'],
@@ -397,7 +398,7 @@ define([
             signals     : {
                 post_init   : function () {
                     // reset sticky children to only the "main" breadcrumb
-                    this.$original_children = this.$element.children().first();
+                    this.$original_children = this.$element.children().slice(0, 2);
                 },
                 pre_select  : function ($selected) {
                     return +$selected.attr('data-id');
@@ -441,7 +442,8 @@ define([
                 },
                 'items_search.entered'          : closeSearchBreadcrumbsHandler,
                 'items_search.cancelled'        : closeSearchBreadcrumbsHandler,
-                'search_crumb_remove.clicked'   : closeSearchBreadcrumbsHandler
+                'search_crumb_remove.clicked'   : closeSearchBreadcrumbsHandler,
+                sheet_header_moved              : 'checkWrap'
             }
         }
     }, {

@@ -160,12 +160,14 @@
     height: 44px;
     padding: 0 8px;
     background-color: #00ccc2;
-    color: white;
 }
 #items_list_summary {
     display: table;
     width: 100%;
     position: static;
+}
+#items_list_summary .item_cell {
+    color: white;
 }
 #items_list_summary .item_cell_actual,
 #items_list_summary .item_cell_budget {
