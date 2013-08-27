@@ -36,7 +36,7 @@ define([
                         element         : '#' + button_id + '_menu',
                         id              : button_id + '_menu',
                         container       : button_id,
-                        float_position  : 'top: 2rem',
+                        float_position  : 'top: 1.3rem',
                         signals         : {
                             post_init       : function () {
                                 this.subscribe(id + '.rendered', function ($children) {
@@ -56,7 +56,11 @@ define([
                                 });
                             },
                             pre_appear      : 'opening',
-                            post_disappear  : 'closing'
+                            post_disappear  : 'closing',
+                            pre_select      : function ($selected) {
+                                return +$selected.attr('data-id');
+                            },
+                            post_select     : '-items_breadcrumbs.selected+'
                         }
                     },
                     signals         : {

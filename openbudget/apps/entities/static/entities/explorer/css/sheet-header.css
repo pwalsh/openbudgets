@@ -133,7 +133,28 @@
 }
 
 #items_breadcrumbs_button {
+    display: inline-block;
+    position: relative;
     padding: 0;
+}
+#items_breadcrumbs_button:hover #items_breadcrumbs_button_text {
+    background-color: #d0d0dc;
+}
+#items_breadcrumbs_button_text {
+    padding: 0 .5rem;
+}
+#items_breadcrumbs_button_menu {
+    line-height: 44px;
+}
+#items_breadcrumbs_button_menu > li {
+    padding: 0 1.3rem;
+}
+#items_breadcrumbs_button_menu > li:hover {
+    background-color: #a1a1b9;
+}
+#items_breadcrumbs_button_menu_wrapper {
+    right: 28px;
+    background-color: #d0d0dc;
 }
 
 #items_search_exit {
