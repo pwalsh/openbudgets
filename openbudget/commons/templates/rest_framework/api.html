@@ -1,6 +1,10 @@
 {% extends "rest_framework/base.html" %}
 {% load i18n subdomainurls %}
 
+{% block bootstrap_theme %}
+    <link rel="stylesheet" href="/static/css/api.css" type="text/css">
+{% endblock %}
+
 {% block meta %}
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="robots" content="NONE,NOARCHIVE" />
@@ -13,10 +17,6 @@
 
 
 {% block branding %}
-<a href={% url 'api' subdomain='api' %}>
-    {% trans 'Open Budget API' %}
-</a>
-<a href={% url 'home' subdomain='www' %} style="font-size: 0.5em;">
-    ...{% trans 'App Home' %}
-</a>
+<a href={% url 'api' subdomain='api' %}>{% trans 'Open Budgets API' %}</a>
+<a style="float: right;" href={% url 'home' subdomain='www' %}>{% trans 'Home' %}</a>
 {% endblock %}

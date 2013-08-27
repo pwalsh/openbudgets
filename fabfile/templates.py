@@ -15,6 +15,8 @@ export WORKON_HOME=${DIR_ENVIRONMENTS}
 export PROJECT_HOME=${DIR_PROJECTS}
 source /usr/local/bin/virtualenvwrapper.sh
 export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
+export PIP_USE_MIRRORS=true
+export PIP_INDEX_URL=https://simple.crate.io/
 """
 
 

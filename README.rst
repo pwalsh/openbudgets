@@ -1,7 +1,12 @@
 Open Budget: A platform for accessible and meaningful budgetary data
 ====================================================================
 
-.. image:: https://travis-ci.org/prjts/open-budget.png
+.. image:: https://travis-ci.org/prjts/open-budgets.png
+   :alt: Build Status
+   :target: https://travis-ci.org/prjts/open-budgets
+.. image:: https://coveralls.io/repos/prjts/open-budgets/badge.png?branch=develop
+   :alt: Coverage Status
+   :target: https://coveralls.io/r/prjts/open-budgets?branch=develop
 
 The Open Budget project is a web app and API for the storage, access, and manipulation of budgetary data.
 

@@ -1,10 +1,20 @@
 language: python
 python:
   - "2.7"
-install: pip install -r requirements/base.txt --use-mirrors
-script: python manage.py test accounts api sheets contexts commons entities international pages transport
+before_install:
+  - export PIP_USE_MIRRORS=true
+  - export PIP_INDEX_URL=https://simple.crate.io/
+install:
+  - pip install -r requirements/base.txt
+  - pip install -r requirements/extended.txt
+script: coverage run --source='.' manage.py test accounts api sheets contexts commons entities international pages transport
 notifications:
   email:
-    - hello@prjts.com
+    - paulywalsh@gmail.com
+    - maggotfish@gmail.com
 on_success: always
 on_failure: always
+after_success:
+  - coverage report
+  - pip install --quiet --use-mirrors python-coveralls
+  - coveralls
