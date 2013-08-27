@@ -39,9 +39,8 @@ class TemplateNodeBase(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.TemplateNode
-        fields = ['id', 'url', 'code', 'name', 'description', 'direction',
-                  'templates', 'path', 'parent', 'created_on',
-                  'last_modified', 'backwards'] + translated_fields(model)
+        fields = ['id', 'url', 'code', 'name', 'description', 'direction', 'path', 'created_on',
+                  'last_modified', 'parent', 'templates', 'backwards', 'inverse'] + translated_fields(model)
 
 
 class TemplateDetail(TemplateBase):

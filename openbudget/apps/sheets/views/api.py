@@ -63,7 +63,7 @@ class TemplateNodeList(generics.ListAPIView):
     search_fields = ['name', 'description'] + translated_fields(model)
 
     def get_queryset(self):
-        queryset = self.model.objects.related_map_min()
+        queryset = self.model.objects.related_map()
 
         ### FILTERS
         templates = self.request.QUERY_PARAMS.get('templates', None)
