@@ -1,7 +1,7 @@
 Open Budget: A platform for accessible and meaningful budgetary data
 ====================================================================
 
-.. image:: https://travis-ci.org/prjts/open-budget.png
+.. image:: https://travis-ci.org/prjts/open-budgets.png
    :alt: Build Status
    :target: https://travis-ci.org/prjts/open-budgets
 .. image:: https://coveralls.io/repos/prjts/open-budgets/badge.png?branch=develop
