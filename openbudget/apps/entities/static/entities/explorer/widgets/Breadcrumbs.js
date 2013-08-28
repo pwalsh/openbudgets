@@ -67,7 +67,7 @@ define([
                         post_init   : function () {
                             this.subscribe(id + '.fold', function () {
                                 if ( ! this.awake ) {
-                                    this.wake().then(this.publish.bind(this, 'awaken', 'waking'));
+                                    this.wake().then(this.publish.bind(this, 'awaken'));
                                 }
                             })
                             .subscribe(id + '.unfold', function (index) {
