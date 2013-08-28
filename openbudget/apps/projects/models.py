@@ -63,7 +63,7 @@ class Project(AbstractApplication, TimeStampedModel, UUIDModel, ClassMethodMixin
 
     @models.permalink
     def get_absolute_url(self):
-        return ('project-detail', [self.uuid])
+        return 'project_detail', [self.slug]
 
     def __unicode__(self):
         return self.name
@@ -108,7 +108,7 @@ class State(TimeStampedModel, UUIDModel, ClassMethodMixin):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('state-detail', [self.uuid])
+        return 'state_detail', [self.uuid]
 
     def __unicode__(self):
         return self.project.name + u'state: ' + unicode(self.last_modified)
