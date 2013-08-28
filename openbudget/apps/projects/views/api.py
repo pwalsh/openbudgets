@@ -2,6 +2,7 @@ from rest_framework import generics
 from openbudget.apps.international.utilities import translated_fields
 from openbudget.apps.projects import serializers
 from openbudget.apps.projects import models
+from openbudget.apps.accounts.models import Account
 
 
 class ProjectList(generics.ListAPIView):
@@ -25,7 +26,7 @@ class ProjectDetail(generics.RetrieveAPIView):
     serializer_class = serializers.ProjectBaseSerializer
 
 
-class StateList(generics.ListCreateAPIView):
+class StateListCreate(generics.ListCreateAPIView):
     """Called via an API endpoint that represents a list of state objects."""
 
     model = models.State
@@ -39,8 +40,12 @@ class StateList(generics.ListCreateAPIView):
         # State list/retrieve serializer
         return serializers.StateReadSerializer
 
+    def pre_save(self, obj):
+        obj.author = Account.objects.get(uuid=self.request.DATA.get('author'))
+        obj.project = models.Project.objects.get(uuid=self.request.DATA.get('project'))
 
-class StateDetail(generics.RetrieveUpdateDestroyAPIView):
+
+class StateRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """Called via an API endpoint that represents a single state object."""
 
     model = models.State
