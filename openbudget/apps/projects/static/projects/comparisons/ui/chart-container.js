@@ -75,7 +75,7 @@ define([
             extra_class : 'hide',
             app_events  : {
                 chart_reset : function () {
-                    this.$element.removeClass('hide');  
+                    this.$element.removeClass('hide');
                 }
             }
         }
@@ -86,7 +86,12 @@ define([
             element     : '#viz_delete',
             app_events  : {
                 state_deleted       : enableMenuButton,
-                state_delete_failed : enableMenuButton
+                state_delete_failed : enableMenuButton,
+                chart_reset         : function () {
+                    if ( uijet.Resource('LoggedinUser').get('uuid') === uijet.Resource('ProjectState').get('author') ) {
+                        this.$element.removeClass('hide');
+                    }
+                }
             }
         }
     }, {
