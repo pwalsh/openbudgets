@@ -99,7 +99,8 @@ define([
              * Register resources
              */
             uijet.Resource('Munis', resources.Munis)
-                .Resource('LatestSheet', resources.Nodes);
+                .Resource('LatestSheet', resources.Nodes)
+                .Resource('LoggedinUser', resources.User, window.LOGGEDIN_USER);
             
             this.LegendItemModel = uijet.Model({
                 initialize  : function () {
@@ -127,7 +128,7 @@ define([
                 comparisons.routes_set_promise.then(function () {
                     Backbone.history.start({
                         pushState   : true,
-                        root        : '/projects/ext/comparisons/'
+                        root        : '/tools/comparisons/'
                     });
                 });
             })
