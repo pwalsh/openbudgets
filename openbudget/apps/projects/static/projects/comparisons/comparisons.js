@@ -16,9 +16,10 @@ define([
 
     var default_state = {
             project     : window.PROJECT.uuid,
-            author      : null,
+            author      : window.LOGGEDIN_USER.uuid,
             title       : gettext('Insert title'),
-            description : ''
+            description : '',
+            author_model: new resources.User(window.LOGGEDIN_USER)
         },
         comparisons;
 

@@ -242,7 +242,7 @@ define([
             parse       : function (response) {
                 var user = new User(response.author);
                 response.author_model = user;
-                response.author = user.id;
+                response.author = user.uuid;
                 return response;
             }
         });
