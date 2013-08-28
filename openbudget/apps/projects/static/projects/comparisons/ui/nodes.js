@@ -301,11 +301,12 @@ define([
             }
         }
     }, {
-        type    : 'List',
+        type    : 'Breadcrumbs',
         config  : {
             element     : '#nodes_breadcrumbs',
             mixins      : ['Templated'],
             resource    : 'Breadcrumbs',
+            dont_wake   : true,
             dont_fetch  : true,
             horizontal  : true,
             data_events : {
@@ -314,6 +315,8 @@ define([
             signals     : {
                 post_init   : function () {
                     this.$title = uijet.$('#nodes_picker_header_description');
+                    // reset sticky children to only the "main" breadcrumb
+                    this.$original_children = this.$element.children().slice(0, 2);
                 },
                 pre_wake    : function () {
                     // hack to make sure getData() doesn't look for context and return this.resource

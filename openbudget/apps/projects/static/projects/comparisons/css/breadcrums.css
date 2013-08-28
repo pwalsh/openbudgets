@@ -1,20 +1,23 @@
-#nodes_breadcrumbs, #nodes_breadcrumbs_wrapper {
+#nodes_breadcrumbs {
     display: inline-block;
-    height: auto;
-    overflow: visible;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    left: 108px;
+    width: auto;
+    height: 1.3rem;
+    line-height: 1.3rem;
     font-size: 1.3rem;
     font-weight: bold;
-    color: #141450;
+    overflow: hidden;
 }
-
-/*#nodes_breadcrumbs_wrapper.searching {*/
-    /*float: right;*/
-    /*margin-top: 18px;*/
-    /*margin-right: 18px;*/
-/*}*/
-
-#nodes_breadcrumbs .uijet_button {
-    padding: 0;
+#nodes_breadcrumbs.overflow {
+    overflow: visible;
+}
+#nodes_breadcrumbs.searching {
+    float: right;
+    margin-top: 18px;
+    margin-right: 18px;
 }
 #nodes_breadcrumbs.searching:before {
     content: attr(data-prefix);
@@ -23,13 +26,38 @@
 #nodes_breadcrumbs.searching li:last-child {
     display: inline-block;
 }
-#nodes_breadcrumbs li {
+#nodes_breadcrumbs > li {
     float: none;
 }
 #nodes_breadcrumbs li:last-child {
     display: none;
 }
-#nodes_breadcrumbs li + li:before {
+#nodes_breadcrumbs > li + li:before, #nodes_breadcrumbs_button li:before {
     content: '\2190';
     margin-left: .5rem;
+}
+
+#nodes_breadcrumbs_button {
+    display: inline-block;
+    position: relative;
+    padding: 0;
+}
+#nodes_breadcrumbs_button:hover #nodes_breadcrumbs_button_text {
+    background-color: #d0d0dc;
+}
+#nodes_breadcrumbs_button_text {
+    padding: 0 .5rem;
+}
+#nodes_breadcrumbs_button_menu {
+    line-height: 44px;
+}
+#nodes_breadcrumbs_button_menu > li {
+    padding: 0 1.3rem;
+}
+#nodes_breadcrumbs_button_menu > li:hover {
+    background-color: #a1a1b9;
+}
+#nodes_breadcrumbs_button_menu_wrapper {
+    right: 28px;
+    background-color: #d0d0dc;
 }
