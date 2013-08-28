@@ -12,7 +12,7 @@ class ProjectBaseSerializer(ModelSerializer):
 
     class Meta:
         model = models.Project
-        fields = ['url', 'uuid', 'author', 'label', 'description', 'featured',
+        fields = ['url', 'uuid', 'author', 'label', 'name', 'description', 'featured',
                   'screenshot', 'created_on', 'last_modified'] +\
                  translated_fields(model)
         lookup_field = 'uuid'
