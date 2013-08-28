@@ -15,8 +15,8 @@ define([
 ], function (uijet, resources, api, Backbone, Router, $, Ebox, Q, Mustache) {
 
     var default_state = {
-            project     : 1,
-            author      : 1,
+            project     : window.PROJECT.uuid,
+            author      : null,
             title       : gettext('Insert title'),
             description : ''
         },
@@ -30,6 +30,7 @@ define([
         if ( ! ('X-CSRFToken' in settings.headers) )
             settings.headers['X-CSRFToken'] = api.getCSRFToken();
     });
+
     $(window).on('resize', function () {
         uijet.publish('app.resize');
     });
