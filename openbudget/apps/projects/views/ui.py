@@ -2,6 +2,7 @@ from django.views.generic import DetailView, ListView
 from rest_framework.renderers import JSONRenderer
 from openbudget.apps.accounts.serializers import AccountMin
 from openbudget.apps.projects.models import Project
+from openbudget.apps.projects import serializers
 
 
 class ProjectListView(ListView):
@@ -45,5 +46,6 @@ class ProjectDetailView(DetailView):
             user_object = AccountMin(user).data
 
         context['user_json'] = renderer.render(user_object)
+        context['project_json'] = renderer.render(serializers.ProjectBaseSerializer(self.object).data)
 
         return context
