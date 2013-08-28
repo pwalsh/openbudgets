@@ -96,7 +96,7 @@
 #items_breadcrumbs {
     display: inline-block;
     position: absolute;
-    top: 1.3rem;
+    top: 20px;
     right: 188px;
     left: 108px;
     width: auto;
