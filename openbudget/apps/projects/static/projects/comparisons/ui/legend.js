@@ -183,10 +183,9 @@ define([
             },
             content     : uijet.$('#normalization_selector_selection'),
             app_events  : {
-                'picker_done.clicked'               : 'wake',
-                'add_legend.clicked'                : 'sleep',
+                'chart_section.awaken'              : 'wake',
                 welcome                             : 'sleep',
-                legend_item_added                   : 'sleep',
+                'nodes_picker.awake'                : 'sleep',
                 'normalization_selector_menu.opened': 'activate',
                 'normalization_selector_menu.closed': 'deactivate'
             }
