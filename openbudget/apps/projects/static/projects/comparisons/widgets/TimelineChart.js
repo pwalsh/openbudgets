@@ -11,10 +11,12 @@ define([
         period = uijet.utils.prop('period'),
         amount = uijet.utils.prop('amount'),
         dateParser = d3.time.format('%Y').parse,
-        commas = d3.format(','),
+        commas = d3.format(',.0f'),
         periodParser = function (d) {
             d.period = dateParser(d.period);
-        };
+        },
+        nis_sign = String.fromCharCode(parseInt('20aa', 16)),
+        amountFormat = function (d) { return nis_sign + commas(d);};
 
     uijet.Widget('TimelineChart', {
         options         : {
@@ -46,7 +48,8 @@ define([
                 y_axis = d3.svg.axis()
                     .scale(y)
                     .orient('left')
-                    .ticks(Y_TICKS);
+                    .ticks(Y_TICKS)
+                    .tickFormat(amountFormat);
 
             this.padding = padding;
             this.left_sidebar_width = left_sidebar_width;
@@ -333,7 +336,7 @@ define([
             markers.selectAll('text')
                 .attr('fill', function (d) { return d.color; });
             markers.selectAll('.amount')
-                .text(function (d) { return commas(d.amount); })
+                .text(function (d) { return amountFormat(d.amount); })
                 .attr('x', function () {
                     return - (this.getBBox().width + 10);
                 });
