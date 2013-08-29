@@ -38,6 +38,9 @@ define([
             mixins          : ['Transitioned', 'Layered'],
             dont_wake       : true,
             animation_type  : 'fade',
+            signals         : {
+                pre_wake    : 'awaken'
+            },
             app_events      : {
                 'picker_done.clicked'       : 'wake',
                 'add_legend_cancel.clicked' : function () {
