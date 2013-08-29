@@ -89,9 +89,8 @@ define([
                 return true;
             },
             app_events  : {
-                state_cleared   : function () {
-                    enableMenuButton.call(this);
-                }
+                state_cleared       : enableMenuButton,
+                state_delete_failed : enableMenuButton
             }
         }
     }, {
@@ -107,6 +106,14 @@ define([
         config  : {
             element     : '#viz_save',
             dont_wake   : false,
+            signals : {
+                pre_click   : function () {
+                    if ( ! uijet.Resource('LoggedinUser').has('uuid') ) {
+                        uijet.publish('login');
+                        return false;
+                    }
+                }
+            },
             app_events  : {
                 state_saved : enableMenuButton
             }

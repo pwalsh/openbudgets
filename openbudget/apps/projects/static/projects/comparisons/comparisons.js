@@ -141,6 +141,9 @@ define([
             .subscribe('viz_save.clicked', comparisons.saveState)
             .subscribe('viz_duplicate.clicked', comparisons.duplicateState)
             .subscribe('viz_delete.clicked', comparisons.deleteState)
+            .subscribe('login', function () {
+                uijet.$('.login-link')[0].click();  
+            })
 
 
             /*
@@ -211,7 +214,13 @@ define([
             comparisons._saveState(state_clone);
         },
         saveState       : function () {
-            comparisons._saveState(uijet.Resource('ProjectState'));
+            var state = uijet.Resource('ProjectState');
+            if ( state.get('author') === uijet.Resource('LoggedinUser').get('uuid') ) {
+                comparisons._saveState(state);
+            }
+            else {
+                comparisons.duplicateState();
+            }
         },
         deleteState     : function () {
             //TODO: check (again) if logged in user is really the state author
