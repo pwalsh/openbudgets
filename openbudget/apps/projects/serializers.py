@@ -19,7 +19,7 @@ class ProjectBaseSerializer(ModelSerializer):
         lookup_field = 'uuid'
 
 
-class StateBaseSerializer(ModelSerializer):
+class StateBaseSerializer(HyperlinkedModelSerializer):
     """
     Base State serializer, for creating new State instances
     and the base the serializer in charge of exposing our defaults for projects.
@@ -30,8 +30,9 @@ class StateBaseSerializer(ModelSerializer):
 
     class Meta:
         model = models.State
-        fields = ['uuid', 'id', 'project', 'author', 'screenshot', 'config',
+        fields = ['url', 'uuid', 'project', 'author', 'screenshot', 'config',
                   'created_on', 'last_modified']
+        lookup_field = 'uuid'
 
 
 class StateReadSerializer(StateBaseSerializer):
