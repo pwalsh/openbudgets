@@ -19,7 +19,9 @@ define([
             author      : window.LOGGEDIN_USER.uuid,
             title       : gettext('Insert title'),
             description : '',
-            author_model: new resources.User(window.LOGGEDIN_USER)
+            author_model: new resources.User(window.LOGGEDIN_USER),
+            uuid        : null,
+            config      : null
         },
         comparisons;
 
@@ -62,6 +64,9 @@ define([
                                     item.title = series[i].title;
                                 });
                                 uijet.Resource('LegendItems').reset(legend_data);
+                            },
+                            error   : function (model, xhr, options) {
+                                comparisons.router.navigate('', { replace : true });
                             }
                         });
                     }
@@ -205,8 +210,7 @@ define([
             //TODO: check (again) if logged in user is really the state author
             uijet.Resource('ProjectState').destroy({
                 success : function () {
-                    uijet.publish('state_cleared');
-                    comparisons.router.navigate('');
+                    comparisons.clearState();
                 },
                 error   : function () {
                     uijet.publish('state_delete_failed');
