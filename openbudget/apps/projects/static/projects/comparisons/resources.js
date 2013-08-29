@@ -65,7 +65,8 @@ define([
                 }
             },
             avatar      : function () {
-                return this.get('avatar').replace(/s=\d+[^&]/i, 's=90');
+                var avatar = this.get('avatar');
+                return avatar ? avatar.replace(/s=\d+[^&]/i, 's=90') : window.DEFAULT_AVATAR;
             }
         }),
         /*

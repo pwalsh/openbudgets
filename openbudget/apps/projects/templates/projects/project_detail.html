@@ -41,6 +41,7 @@
     <script>
         var API_INDEX = 'http://api.{{ site.domain }}/',
             API_VERSION = 'v1',
+            DEFAULT_AVATAR = '{{ STATIC_URL }}img/avatar_anon.png',
             LOGGEDIN_USER = {{ user_json|safe }},
             PROJECT = {{ project_json|safe }};
     </script>
