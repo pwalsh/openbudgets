@@ -189,6 +189,7 @@ define([
             uijet.Resource('TimeSeries').reset();
             uijet.Resource('LegendItems').reset();
             uijet.Resource('ProjectState').set(default_state);
+            uijet.publish('state_cleared');
             comparisons.router.navigate('');
         },
         duplicateState  : function () {
@@ -204,7 +205,7 @@ define([
             //TODO: check (again) if logged in user is really the state author
             uijet.Resource('ProjectState').destroy({
                 success : function () {
-                    uijet.publish('state_deleted');
+                    uijet.publish('state_cleared');
                     comparisons.router.navigate('');
                 },
                 error   : function () {
