@@ -39,7 +39,7 @@
 
     {% endblock overlays %}
     <script>
-        var API_INDEX = 'http://api.{{ site|safe }}/',
+        var API_INDEX = 'http://api.{{ site.domain }}/',
             API_VERSION = 'v1',
             LOGGEDIN_USER = {{ user_json|safe }},
             PROJECT = {{ project_json|safe }};

@@ -19,7 +19,9 @@ define([
             author      : window.LOGGEDIN_USER.uuid,
             title       : gettext('Insert title'),
             description : '',
-            author_model: new resources.User(window.LOGGEDIN_USER)
+            author_model: new resources.User(window.LOGGEDIN_USER),
+            uuid        : null,
+            config      : null
         },
         comparisons;
 
@@ -62,6 +64,9 @@ define([
                                     item.title = series[i].title;
                                 });
                                 uijet.Resource('LegendItems').reset(legend_data);
+                            },
+                            error   : function (model, xhr, options) {
+                                comparisons.router.navigate('', { replace : true });
                             }
                         });
                     }
@@ -136,6 +141,9 @@ define([
             .subscribe('viz_save.clicked', comparisons.saveState)
             .subscribe('viz_duplicate.clicked', comparisons.duplicateState)
             .subscribe('viz_delete.clicked', comparisons.deleteState)
+            .subscribe('login', function () {
+                uijet.$('.login-link')[0].click();  
+            })
 
 
             /*
@@ -189,23 +197,36 @@ define([
             uijet.Resource('TimeSeries').reset();
             uijet.Resource('LegendItems').reset();
             uijet.Resource('ProjectState').set(default_state);
+            uijet.publish('state_cleared');
             comparisons.router.navigate('');
         },
         duplicateState  : function () {
-            var state_clone = uijet.Resource('ProjectState').clone();
-            state_clone.unset('uuid').unset('id').unset('url');
-            //TODO: check if logged in user is same as state author and if yes set state author to user
+            var state_clone = uijet.Resource('ProjectState').clone(),
+                user = uijet.Resource('LoggedinUser');
+            state_clone
+                .unset('uuid')
+                .unset('id')
+                .unset('url')
+                .set({
+                    author      : user.get('uuid'),
+                    author_model: user
+                });
             comparisons._saveState(state_clone);
         },
         saveState       : function () {
-            comparisons._saveState(uijet.Resource('ProjectState'));
+            var state = uijet.Resource('ProjectState');
+            if ( state.get('author') === uijet.Resource('LoggedinUser').get('uuid') ) {
+                comparisons._saveState(state);
+            }
+            else {
+                comparisons.duplicateState();
+            }
         },
         deleteState     : function () {
             //TODO: check (again) if logged in user is really the state author
             uijet.Resource('ProjectState').destroy({
                 success : function () {
-                    uijet.publish('state_deleted');
-                    comparisons.router.navigate('');
+                    comparisons.clearState();
                 },
                 error   : function () {
                     uijet.publish('state_delete_failed');
