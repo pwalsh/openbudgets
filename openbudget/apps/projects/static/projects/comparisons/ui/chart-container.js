@@ -98,7 +98,8 @@ define([
         config  : {
             element     : '#viz_duplicate',
             app_events  : {
-                state_saved : enableMenuButton
+                state_saved         : enableMenuButton,
+                state_save_failed   : enableMenuButton
             }
         }
     }, {    
