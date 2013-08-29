@@ -6,6 +6,12 @@ define([
     function enableMenuButton () {
         this.spinOff().enable();
     }
+    function showButton () {
+        this.$element.removeClass('hide');
+    }
+    function hideButton () {
+        this.$element.addClass('hide');
+    }
 
     uijet.Factory('ChartMenuButton', {
         type    : 'Button',
@@ -24,9 +30,9 @@ define([
                 }
             },
             app_events      : {
-                chart_reset : function () {
-                    this.$element.removeClass('hide');  
-                }
+                chart_reset         : showButton,
+                state_saved         : showButton,
+                state_save_failed   : enableMenuButton
             }
         }
     });
@@ -66,9 +72,9 @@ define([
             element     : '#viz_export',
             extra_class : 'hide',
             app_events  : {
-                chart_reset : function () {
-                    this.$element.removeClass('hide');  
-                }
+                chart_reset     : showButton,
+                state_cleared   : hideButton,
+                state_saved     : showButton
             }
         }
     }, {
@@ -77,9 +83,9 @@ define([
             element     : '#viz_publish',
             extra_class : 'hide',
             app_events  : {
-                chart_reset : function () {
-                    this.$element.removeClass('hide');
-                }
+                chart_reset     : showButton,
+                state_cleared   : hideButton,
+                state_saved     : showButton
             }
         }
     }, {
@@ -88,11 +94,13 @@ define([
         config  : {
             element     : '#viz_delete',
             app_events  : {
-                state_deleted       : enableMenuButton,
-                state_delete_failed : enableMenuButton,
-                chart_reset         : function () {
+                state_cleared   : function () {
+                    hideButton.call(this);
+                    enableMenuButton.call(this);
+                },
+                chart_reset     : function () {
                     if ( uijet.Resource('LoggedinUser').get('uuid') === uijet.Resource('ProjectState').get('author') ) {
-                        this.$element.removeClass('hide');
+                        showButton.call(this);
                     }
                 }
             }
@@ -102,8 +110,8 @@ define([
         config  : {
             element     : '#viz_duplicate',
             app_events  : {
-                state_saved         : enableMenuButton,
-                state_save_failed   : enableMenuButton
+                state_saved     : enableMenuButton,
+                state_cleared   : hideButton
             }
         }
     }, {    
@@ -112,8 +120,7 @@ define([
             element     : '#viz_save',
             extra_class : '',
             app_events  : {
-                state_saved         : enableMenuButton,
-                state_save_failed   : enableMenuButton
+                state_saved : enableMenuButton
             }
         }
     }];
