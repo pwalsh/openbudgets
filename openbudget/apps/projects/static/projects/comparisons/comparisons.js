@@ -15,10 +15,11 @@ define([
 ], function (uijet, resources, api, Backbone, Router, $, Ebox, Q, Mustache) {
 
     var default_state = {
-            project     : 1,
-            author      : 1,
+            project     : window.PROJECT.uuid,
+            author      : window.LOGGEDIN_USER.uuid,
             title       : gettext('Insert title'),
-            description : ''
+            description : '',
+            author_model: new resources.User(window.LOGGEDIN_USER)
         },
         comparisons;
 
@@ -30,6 +31,7 @@ define([
         if ( ! ('X-CSRFToken' in settings.headers) )
             settings.headers['X-CSRFToken'] = api.getCSRFToken();
     });
+
     $(window).on('resize', function () {
         uijet.publish('app.resize');
     });
@@ -97,7 +99,8 @@ define([
              * Register resources
              */
             uijet.Resource('Munis', resources.Munis)
-                .Resource('LatestSheet', resources.Nodes);
+                .Resource('LatestSheet', resources.Nodes)
+                .Resource('LoggedinUser', resources.User, window.LOGGEDIN_USER);
             
             this.LegendItemModel = uijet.Model({
                 initialize  : function () {
@@ -125,7 +128,7 @@ define([
                 comparisons.routes_set_promise.then(function () {
                     Backbone.history.start({
                         pushState   : true,
-                        root        : '/projects/ext/comparisons/'
+                        root        : '/tools/comparisons/'
                     });
                 });
             })

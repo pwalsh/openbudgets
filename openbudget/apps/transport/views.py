@@ -1,9 +1,9 @@
 import json
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseServerError, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseServerError, HttpResponseBadRequest, Http404
 from django.views.generic import View, FormView, TemplateView
 from django.shortcuts import redirect
-from django.shortcuts import render
+from django.utils.translation import ugettext as _
 from braces.views import LoginRequiredMixin
 from openbudget.apps.transport.forms import FileImportForm
 from openbudget.apps.transport.incoming.importers.tablibimporter import TablibImporter
@@ -56,8 +56,12 @@ class FileExportView(FileResponseMixin, View):
     def get_context_data(self, **kwargs):
         context = {'params': kwargs}
         if self.kwargs['model'] == 'sheet':
-            obj = Sheet.objects.get(uuid=self.kwargs['uuid'])
-            obj_list = SheetItem.objects.filter(sheet=obj)
+            try:
+                uuid = self.kwargs['uuid']
+                obj = Sheet.objects.get(uuid=uuid)
+                obj_list = SheetItem.objects.filter(sheet=obj)
+            except Sheet.DoesNotExist:
+                raise Http404(_("No sheets found for uuid: {uuid}").format(uuid=uuid))
         else:
             # export other stuff
             obj = {}

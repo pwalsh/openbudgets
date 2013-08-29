@@ -8,7 +8,8 @@ define([
             type_class  : ['uijet_list', 'uijet_breadcrumbs'],
             signals     : {
                 post_render : function () {
-                    this.publish('rendered', this.$element.children().slice(2))
+                    this.$children = this.$element.children().slice(2);
+                    this.publish('rendered', this.$children)
                         .checkWrap();
                 }
             }
@@ -49,7 +50,7 @@ define([
                                 .subscribe(id + '.fold', function (index) {
                                     this.$element.children().eq(index).removeClass('hide');
                                 })
-                                .subscribe(id + '.unfold', function (index) {console.log(index);
+                                .subscribe(id + '.unfold', function (index) {
                                     if ( ~ index )
                                         this.$element.children().eq(index).addClass('hide');
                                 });
@@ -59,7 +60,7 @@ define([
                             pre_select      : function ($selected) {
                                 return +$selected.attr('data-id');
                             },
-                            post_select     : '-nodes_breadcrumbs.selected+'
+                            post_select     : '-items_breadcrumbs.selected+'
                         }
                     },
                     signals         : {
@@ -122,7 +123,7 @@ define([
 
             this.fold_index++;
 
-            $child = this.$element.children().slice(2).eq(this.fold_index);
+            $child = this.$children.eq(this.fold_index);
 
             if ( $child.length ) {
                 // cache its width so we can later test if it can be unfolded back
@@ -143,7 +144,7 @@ define([
                 $child, content_width;
 
             if ( ~ index ) {
-                $child = this.$element.children().slice(2).eq(index);
+                $child = this.$children.eq(index);
     
                 if ( $child.length ) {
                     content_width = Array.prototype.reduce.call(

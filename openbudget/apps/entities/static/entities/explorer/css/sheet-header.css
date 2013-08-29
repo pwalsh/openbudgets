@@ -95,10 +95,19 @@
 
 #items_breadcrumbs {
     display: inline-block;
+    position: absolute;
+    top: 20px;
+    right: 188px;
+    left: 108px;
     width: auto;
-    height: auto;
+    height: 1.3rem;
+    line-height: 1.3rem;
     font-size: 1.3rem;
     font-weight: bold;
+    overflow: hidden;
+}
+#items_breadcrumbs.overflow {
+    overflow: visible;
 }
 #items_breadcrumbs.searching {
     float: right;
@@ -112,15 +121,40 @@
 #items_breadcrumbs.searching li:last-child {
     display: inline-block;
 }
-#items_breadcrumbs li {
+#items_breadcrumbs > li {
     float: none;
 }
 #items_breadcrumbs li:last-child {
     display: none;
 }
-#items_breadcrumbs li + li:before {
+#items_breadcrumbs > li + li:before, #items_breadcrumbs_button li:before {
     content: '\2190';
     margin-left: .5rem;
+}
+
+#items_breadcrumbs_button {
+    display: inline-block;
+    position: relative;
+    padding: 0;
+}
+#items_breadcrumbs_button:hover #items_breadcrumbs_button_text {
+    background-color: #d0d0dc;
+}
+#items_breadcrumbs_button_text {
+    padding: 0 .5rem;
+}
+#items_breadcrumbs_button_menu {
+    line-height: 44px;
+}
+#items_breadcrumbs_button_menu > li {
+    padding: 0 1.3rem;
+}
+#items_breadcrumbs_button_menu > li:hover {
+    background-color: #a1a1b9;
+}
+#items_breadcrumbs_button_menu_wrapper {
+    right: 28px;
+    background-color: #d0d0dc;
 }
 
 #items_search_exit {

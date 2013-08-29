@@ -29,7 +29,10 @@
                         </ul>
                     </span>
                     <ul id="items_breadcrumbs" data-prefix="{% trans 'Search under:' %}">
-                        <li data-id="0">{% trans 'Main' %}</li>{{ items_breadcrumbs|safe }}
+                        <li data-id="0">{% trans 'Main' %}</li><li id="items_breadcrumbs_button">
+                            <span id="items_breadcrumbs_button_text">...</span>
+                            <ul id="items_breadcrumbs_button_menu">{{ items_breadcrumbs|safe }}</ul>
+                        </li>{{ items_breadcrumbs|safe }}
                     </ul>
                 </div>
                 <h2 id="sheet_scope_name">

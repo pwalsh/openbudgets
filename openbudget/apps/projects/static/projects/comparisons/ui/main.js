@@ -7,8 +7,9 @@ define([
     'ui/nodes',
     'ui/nodes-list',
     'ui/nodes-footer',
+    'ui/chart-container',
     'ui/chart'
-], function (uijet, comparisons, legend, site_menu, entities, nodes, nodes_list, nodes_footer, chart) {
+], function (uijet, comparisons, legend, site_menu, entities, nodes, nodes_list, nodes_footer, chart_container, chart) {
 
     uijet.declare([{
         type    : 'Pane',
@@ -26,6 +27,7 @@ define([
         .declare(nodes)
         .declare(nodes_footer)
         .declare(nodes_list)
+        .declare(chart_container)
         .declare(chart);
 
     return comparisons;

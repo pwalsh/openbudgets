@@ -53,7 +53,7 @@ define([
          * User (Account) Model
          */
         User = uijet.Model({
-            idAttribute : 'id',
+            idAttribute : 'uuid',
             name        : function () {
                 var first = this.get('first_name'),
                     last = this.get('last_name');

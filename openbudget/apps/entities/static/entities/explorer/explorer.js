@@ -25,8 +25,8 @@ define([
         if ( ! ('X-CSRFToken' in settings.headers) )
             settings.headers['X-CSRFToken'] = api.getCSRFToken();
     });
-    $(window).on('resize', function () {
-        uijet.publish('app.resize');
+    $(window).on('resize', function (e) {
+        uijet.publish('app.resize', e);
     });
 
     // get version endpoint

@@ -2,18 +2,19 @@ from rest_framework.serializers import ModelSerializer, HyperlinkedModelSerializ
 from openbudget.apps.international.utilities import translated_fields
 from openbudget.apps.projects import models
 from openbudget.apps.accounts.serializers import AccountMin
+from openbudget.commons.serializers import UUIDRelatedField
 
 
-class ProjectBaseSerializer(HyperlinkedModelSerializer):
+class ProjectBaseSerializer(ModelSerializer):
     """Base Project serializer, exposing our defaults for projects."""
 
-    owner = RelatedField()
-    author = RelatedField()
+    author = AccountMin()
+    url = Field(source='get_absolute_url')
 
     class Meta:
         model = models.Project
-        fields = ['url', 'id', 'owner', 'author', 'name', 'description', 'featured',
-                  'preview', 'created_on', 'last_modified'] +\
+        fields = ['url', 'uuid', 'author', 'label', 'name', 'description', 'featured',
+                  'screenshot', 'created_on', 'last_modified'] +\
                  translated_fields(model)
         lookup_field = 'uuid'
 
@@ -24,11 +25,12 @@ class StateBaseSerializer(ModelSerializer):
     and the base the serializer in charge of exposing our defaults for projects.
     """
 
-    url = Field(source='get_absolute_url')
+    author = UUIDRelatedField()
+    project = UUIDRelatedField()
 
     class Meta:
         model = models.State
-        fields = ['url', 'uuid', 'id', 'project', 'author', 'preview', 'config',
+        fields = ['uuid', 'id', 'project', 'author', 'screenshot', 'config',
                   'created_on', 'last_modified']
 
 

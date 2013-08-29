@@ -9,7 +9,7 @@ urlpatterns = patterns('',
         name='project-list'
     ),
     url(r'^states/$',
-        api.StateList.as_view(),
+        api.StateListCreate.as_view(),
         name='state-list'
     ),
     url(
@@ -19,7 +19,7 @@ urlpatterns = patterns('',
     ),
     url(
         r'^states/(?P<uuid>\w+)/$',
-        api.StateDetail.as_view(),
+        api.StateRetrieveUpdateDestroy.as_view(),
         name='state-detail'
     ),
 )
