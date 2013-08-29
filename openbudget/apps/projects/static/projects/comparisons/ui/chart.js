@@ -129,8 +129,8 @@ define([
                             periods         : periods, 
                             periods_cache   : periods 
                         })
-                        .render();
-                        this.notify('rendered');
+                        .render()
+                            .then(this.notify.bind(this, 'rendered'));
                     },
                     'chart_period_end.selected' : function ($selected) {
                         if ( this.has_data ) {
@@ -139,8 +139,8 @@ define([
                             this.data.periods = this.data.periods_cache.filter(function (period) {
                                 return period < end_period;
                             });
-                            this.render();
-                            this.notify('rendered');
+                            this.render()
+                                .then(this.notify.bind(this, 'rendered'));
                         }
                     }
                 }
@@ -177,8 +177,8 @@ define([
                             periods         : periods, 
                             periods_cache   : periods 
                         })
-                        .render();
-                        this.notify('rendered');
+                        .render()
+                            .then(this.notify.bind(this, 'rendered'));
                     },
                     'chart_period_start.selected'   : function ($selected) {
                         if ( this.has_data ) {
@@ -187,8 +187,8 @@ define([
                             this.data.periods = this.data.periods_cache.filter(function (period) {
                                 return period > start_period;
                             });
-                            this.render();
-                            this.notify('rendered');
+                            this.render()
+                                .then(this.notify.bind(this, 'rendered'));
                         }
                     }
                 }
