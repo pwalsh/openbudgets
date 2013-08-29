@@ -88,8 +88,8 @@ define([
             },
             data_events : {
                 reset   : function (collection) {
-                    uijet.publish('chart_reset', {
-                        state_loaded: collection.length
+                    collection.length && uijet.publish('chart_reset', {
+                        state_loaded: true
                     });
                 }
             },
