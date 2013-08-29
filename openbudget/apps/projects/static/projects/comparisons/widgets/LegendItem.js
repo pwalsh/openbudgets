@@ -107,13 +107,10 @@ define([
 
             return res;
         },
-        setColor        : function (color) {
-            if ( color )
-                this.options.color = color;
-            else
-                color = this.options.color;
-
-            this.$element.find('.legend_item_color').css('backgroundColor', color);
+        setColor        : function () {
+            this.$element
+                .find('.legend_item_color')
+                    .css('backgroundColor', this.resource.get('color'));
             return this;
         },
         itemEdit        : function () {

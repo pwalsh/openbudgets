@@ -63,7 +63,7 @@ define([
                                     item.state = series[i].state;
                                     item.title = series[i].title;
                                 });
-                                uijet.Resource('LegendItems').reset(legend_data);
+                                uijet.Resource('LegendItems').reset(legend_data).popColors();
                             },
                             error   : function (model, xhr, options) {
                                 comparisons.router.navigate('', { replace : true });
@@ -117,9 +117,15 @@ define([
                 model       : this.LegendItemModel,
                 // for some reason this is need to prevent V8 from saying later that colors is undefined
                 colors      : [],
-                setColors   : function () {
-                    this.models.forEach(function (model, index) {
-                        model.set('color', this.colors[index]);
+                addColor    : function (color) {
+                    this.colors.unshift(color);
+                },
+                popColors   : function () {
+                    this.models.forEach(function (model) {
+                        var index = this.colors.indexOf(model.get('color'));
+                        if ( ~ index ) {
+                            this.colors.splice(index, 1);
+                        }
                     }, this);
                 }
             }))

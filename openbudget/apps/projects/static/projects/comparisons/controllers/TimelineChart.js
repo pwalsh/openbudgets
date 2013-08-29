@@ -84,7 +84,8 @@ define([
                         id  : attrs.muni_id,
                         name: attrs.muni
                     }),
-                    amount_type : attrs.amount_type
+                    amount_type : attrs.amount_type,
+                    color       : attrs.color
                 };
             });
         }
@@ -98,6 +99,7 @@ define([
                     nodes = legend_item.get('nodes'),
                     title = legend_item.get('title'),
                     type = legend_item.get('amount_type'),
+                    color = legend_item.get('color'),
                     muni_name = muni.get('name'),
                     model = this.resource.get(legend_item.cid),
                     now = Date.now();
@@ -108,7 +110,8 @@ define([
                         nodes       : nodes,
                         title       : title,
                         muni        : muni_name,
-                        amount_type : type
+                        amount_type : type,
+                        color       : color
                     });
                     if ( model.hasChanged() ) {
                         model.set({ updated : now });
@@ -122,6 +125,7 @@ define([
                         title       : title,
                         muni        : muni_name,
                         amount_type : type,
+                        color       : color,
                         updated     : now
                     });
                 }

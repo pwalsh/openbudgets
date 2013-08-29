@@ -24,8 +24,8 @@ define([
         },
         init            : function () {
             this._super.apply(this, arguments);
-            this.colors = d3.scale.category10();
-            uijet.publish('chart_colors', this.colors.range());
+            // generate a range of colors
+            uijet.publish('chart_colors', d3.scale.category10().range());
         },
         prepareElement  : function () {
             this._super();
@@ -99,7 +99,6 @@ define([
         },
         draw            : function (series) {
             var line = this.line,
-                colors = this.colors,
                 ids = [],
                 data = [],
                 y_max;
@@ -110,6 +109,7 @@ define([
                     muni = item.get('muni'),
                     type = item.get('amount_type'),
                     series_type_index = type === 'actual' ? 0 : 1,
+                    color = item.get('color'),
                     item_series = item.toSeries();
                 item_series[series_type_index].forEach(periodParser);
                 ids.push(id);
@@ -118,13 +118,12 @@ define([
                     title   : title,
                     type    : type,
                     muni    : muni,
-                    values  : item_series[series_type_index]
+                    values  : item_series[series_type_index],
+                    color   : color
                 });
             });
 
             y_max = d3.max(data, function (d) { return d3.max(d.values, amount); });
-
-            this.colors.domain(ids);
 
             this.x_scale.domain([
                 d3.min(data, function (d) { return d3.min(d.values, period); }),
@@ -167,7 +166,7 @@ define([
                         .attr('d', function(d) {
                             return line(d.values);
                         })
-                        .style('stroke', function(d) { return colors(d.id); });
+                        .style('stroke', function(d) { return d.color; });
 
             this.mouse_target.on('mouseover', this.hoverOn.bind(this));
             this.mouse_target.on('mouseout', this.hoverOff.bind(this));
@@ -281,7 +280,6 @@ define([
                 x = this.x_scale,
                 y = this.y_scale,
                 width = this.width,
-                color = this.colors,
                 label_transforms = [],
                 labels_y_margin = 20,
                 marker_values, added_markers, added_label_texts;
@@ -293,7 +291,8 @@ define([
                             amount  : point_datum.amount,
                             id      : d.id,
                             title   : d.title,
-                            muni    : d.muni
+                            muni    : d.muni,
+                            color   : d.color
                         });
                         return true;
                     }
@@ -305,7 +304,6 @@ define([
             datums.forEach(function (d, i) {
                 d.x = x(d.period);
                 d.y = y(d.amount);
-                d.color = color(d.id);
             });
 
             markers = this.svg.selectAll('.value_circle').data(datums, function (d) { return d.id + d.period; });

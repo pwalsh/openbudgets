@@ -10,8 +10,13 @@ define([
                 placeholder : gettext('Insert title'),
                 muni        : '',
                 nodes       : [],
-                amount_type : 'budget'
+                amount_type : 'budget',
+                color       : this.resource.colors.shift()
             });
+            // make sure color is unique
+            if ( state ) {
+                model.set('color', this.resource.colors.shift());
+            }
             this.resource.add(model, { at : index });
             return model;
         },
@@ -35,7 +40,6 @@ define([
                         post_full_render: '-legend_item_added',
                         pre_destroy     : '-legend_item_removed'
                     },
-                    color   : this.resource.colors[index],
                     picking : this.picking
                 }
             }, true);

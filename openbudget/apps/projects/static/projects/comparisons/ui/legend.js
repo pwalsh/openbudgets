@@ -41,9 +41,7 @@ define([
                 'change:muni'       : function (model, value) {
                     this.$element.find('.entity').text(value.get('name'));
                 },
-                'change:color'      : function (model, color) {
-                    this.setColor(color);
-                },
+                'change:color'      : 'setColor',
                 'change:title'      : function (model, value) {
                     uijet.publish('legend_item_title.updated', {
                         id      : model.id,
@@ -114,8 +112,7 @@ define([
             adapters    : ['LegendsList', 'jqWheelScroll'],
             resource    : 'LegendItems',
             data_events : {
-                remove  : function () { this.resource.setColors(); },
-                add     : function () { this.resource.setColors(); },
+                remove  : function (model) { this.resource.addColor(model.get('color')); },
                 reset   : 'resetItems'
             },
             signals     : {
