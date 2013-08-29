@@ -142,7 +142,7 @@ To enable this functionality fully, you'll need to edit your hosts file on your 
 
 Add the following domain mappings for localhost::
 
-    127.0.0.1 obudget.dev www.obudget.dev api.obudget.dev en.obudget.dev he.obudget.dev ar.obudget.dev ru.obudget.dev
+    127.0.0.1 open-budgets.dev www.open-budgets.dev api.open-budgets.dev en.open-budgets.dev he.open-budgets.dev ar.open-budgets.dev ru.open-budgets.dev
 
 Make a virtualenv
 ~~~~~~~~~~~~~~~~~
