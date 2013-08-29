@@ -178,7 +178,7 @@ define([
             return chart_data;
         },
         _saveState      : function (state_model) {
-            state_model.save({ config : {
+            return state_model.save({ config : {
                 chart       : comparisons._getChartState(),
                 title       : state_model.get('title'),
                 description : state_model.get('description')
@@ -211,20 +211,29 @@ define([
                     author      : user.get('uuid'),
                     author_model: user
                 });
-            comparisons._saveState(state_clone);
+            return comparisons._saveState(state_clone);
         },
         saveState       : function () {
-            var state = uijet.Resource('ProjectState');
-            if ( state.get('author') === uijet.Resource('LoggedinUser').get('uuid') ) {
-                comparisons._saveState(state);
+            var state = uijet.Resource('ProjectState'),
+                user_uuid = uijet.Resource('LoggedinUser').get('uuid');
+            if ( user_uuid ) {
+                if ( state.get('author') === user_uuid ) {
+                    return comparisons._saveState(state);
+                }
+                else {
+                    return comparisons.duplicateState();
+                }
             }
             else {
-                comparisons.duplicateState();
+                return uijet.publish('login')
+                    .Promise()
+                        .reject('User not logged in')
+                        .promise();
             }
         },
         deleteState     : function () {
             //TODO: check (again) if logged in user is really the state author
-            uijet.Resource('ProjectState').destroy({
+            return uijet.Resource('ProjectState').destroy({
                 success : function () {
                     comparisons.clearState();
                 },
