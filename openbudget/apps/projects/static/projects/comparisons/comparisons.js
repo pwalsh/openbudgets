@@ -208,7 +208,6 @@ define([
                     author      : user.get('uuid'),
                     author_model: user
                 });
-            //TODO: check if logged in user is same as state author and if yes set state author to user
             comparisons._saveState(state_clone);
         },
         saveState       : function () {
