@@ -25,7 +25,7 @@ Open Budgets is a project of HaSadna (the Public Knowledge Workshop), a non-prof
 
 Find out more here:
 
-http://hasadna.org.il/
+http://hasadna.org.il/en/
 
 
 Ways to contribute

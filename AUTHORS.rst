@@ -16,6 +16,8 @@ Shai Berger
 Michael Doron
 Adi Erteschik
 Guy Sheffer
+Kobi Luria
+Ravid Ziv
 
 
 **UX/Design**
@@ -23,6 +25,7 @@ Guy Sheffer
 Dani Bacon
 Yotam Hadar
 Liya Ophir
+Tom Even
 Dekel Hetsroni
 
 
@@ -40,3 +43,4 @@ Ido Ivri
 Paul Walsh
 Hanna Kaminski
 Osnat Friedman
+Hadas Eyal
