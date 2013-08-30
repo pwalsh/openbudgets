@@ -1,3 +1,4 @@
+import datetime
 from rest_framework import generics, status
 from rest_framework.response import Response
 from openbudget.apps.international.utilities import translated_fields
@@ -36,7 +37,7 @@ class TemplateList(generics.ListAPIView):
         # ENTITIES: return templates used by the given entity(-ies).
         if entities:
             entities = entities.split(',')
-            queryset = queryset.filter(using_sheets__entity__in=entities)
+            queryset = queryset.filter(sheets__entity__in=entities)
 
         # DEFAULT: We just want to return "official" templates, unless a
         # specific filter requires otherwise
@@ -82,7 +83,7 @@ class TemplateNodeList(generics.ListAPIView):
         # ENTITIES: return template nodes of templates used by the given entity(-ies).
         if entities:
             entities = entities.split(',')
-            queryset = queryset.filter(using_sheets__entity__in=entities)
+            queryset = queryset.filter(sheets__entity__in=entities)
 
         # PARENTS: return nodes that are children of given parent(s).
         if parents and parents == 'none':
@@ -136,6 +137,8 @@ class SheetList(generics.ListAPIView):
         actual_gte = self.request.QUERY_PARAMS.get('actual_gte', None)
         actual_lt = self.request.QUERY_PARAMS.get('actual_gt', None)
         actual_lte = self.request.QUERY_PARAMS.get('actual_gte', None)
+        latest = self.request.QUERY_PARAMS.get('latest', None)
+        periods = self.request.QUERY_PARAMS.get('periods', None)
 
         # ENTITIES: return sheets that belong to the given entity(-ies).
         if entities:
@@ -154,43 +157,52 @@ class SheetList(generics.ListAPIView):
 
         # BUDGET_GT: return sheet items with a budget amount greater than the
         # given amount.
-        #if budget_gt:
-        #    queryset = queryset.filter(budget__gt=budget_gt)
+        if budget_gt:
+            queryset = queryset.filter(budget__gt=budget_gt)
 
         # BUDGET_LT: return sheet items with a budget amount less than the
         # given amount.
-        #if budget_lt:
-        #    queryset = queryset.filter(budget__lt=budget_lt)
+        if budget_lt:
+            queryset = queryset.filter(budget__lt=budget_lt)
 
         # BUDGET_GTE: return sheets with a budget amount greater than or
         # equal to the given amount.
-        #if budget_gte:
-        #    queryset = queryset.filter(budget__gte=budget_gte)
+        if budget_gte:
+            queryset = queryset.filter(budget__gte=budget_gte)
 
         # BUDGET_LTE: return sheets with a budget amount less than or
         # equal to the given amount.
-        #if budget_lte:
-        #    queryset = queryset.filter(budget__lte=budget_lte)
+        if budget_lte:
+            queryset = queryset.filter(budget__lte=budget_lte)
 
         # ACTUAL_GT: return sheets with an actual amount greater than the
         # given amount.
-        #if actual_gt:
-        #    queryset = queryset.filter(actual__gt=actual_gt)
+        if actual_gt:
+            queryset = queryset.filter(actual__gt=actual_gt)
 
         # ACTUAL_LT: return sheets with an actual amount less than the
         # given amount.
-        #if actual_lt:
-        #    queryset = queryset.filter(budget__lt=actual_lt)
+        if actual_lt:
+            queryset = queryset.filter(budget__lt=actual_lt)
 
         # ACTUAL_GTE: return sheets with an actual amount greater than or
         # equal to the given amount.
-        #if actual_gte:
-        #    queryset = queryset.filter(budget__gte=actual_gte)
+        if actual_gte:
+            queryset = queryset.filter(budget__gte=actual_gte)
 
         # ACTUAL_LTE: return sheets with an actual amount less than or
         # equal to the given amount.
-        #if actual_lte:
-        #    queryset = queryset.filter(budget__lte=actual_lte)
+        if actual_lte:
+            queryset = queryset.filter(budget__lte=actual_lte)
+
+        # LATEST: returns the latest sheet only, matching the rest of the query.
+        if latest == 'true':
+            queryset = queryset.latest('period_start')
+
+        # PERIODS: return contexts matching the given period(s).
+        if periods:
+            periods = [datetime.date(int(p), 1, 1) for p in periods.split(',')]
+            queryset = queryset.filter(period_start__in=periods)
 
         return queryset
 
@@ -232,6 +244,7 @@ class SheetItemList(generics.ListAPIView):
         actual_gte = self.request.QUERY_PARAMS.get('actual_gte', None)
         actual_lt = self.request.QUERY_PARAMS.get('actual_lt', None)
         actual_lte = self.request.QUERY_PARAMS.get('actual_lte', None)
+        periods = self.request.QUERY_PARAMS.get('periods', None)
 
         # HAS_DISCUSSION: return sheet items that have user discussion.
         matches = []
@@ -319,6 +332,11 @@ class SheetItemList(generics.ListAPIView):
         # equal to the given amount.
         if actual_lte:
             queryset = queryset.filter(budget__lte=actual_lte)
+
+        # PERIODS: return contexts matching the given period(s).
+        if periods:
+            periods = [datetime.date(int(p), 1, 1) for p in periods.split(',')]
+            queryset = queryset.filter(sheet_period_start__in=periods)
 
         return queryset
 

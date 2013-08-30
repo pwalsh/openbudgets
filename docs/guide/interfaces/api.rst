@@ -401,6 +401,16 @@ Filters
 * entities [INT, list of comma-separated INT] - returns sheets of the given entity id(s).
 * divisions [INT, list of comma-separated INT] - returns sheets under the given division id(s).
 * templates [INT, list of comma-separated INT] - returns sheets using the given template id(s).
+* budget_gt [DEC] - returns sheet items with a budget amount greater than the given amount.
+* budget_gte [DEC] - returns sheet items with a budget amount greater than or equal to the given amount.
+* budget_lt [DEC] - returns sheet items with a budget amount less than  the given amount.
+* budget_lte [DEC] - returns sheet items with a budget amount less than or equal to the given amount.
+* actual_gt [DEC] - returns sheet items with an actual amount greater than the given amount.
+* actual_gte [DEC] - returns sheet items with an actual amount greater than or equal to the given amount.
+* actual_lt [DEC] - returns sheet items with an actual amount less than  the given amount.
+* actual_lte [DEC] - returns sheet items with an actual amount less than or equal to the given amount.
+* periods [INT, list of comma-separated INT] - returns sheets matching the given period(s).
+* latest [true/false] - returns the latest sheet only, based on period
 
 Ordering
 ++++++++
@@ -478,6 +488,7 @@ Filters
 * actual_gte [DEC] - returns sheet items with an actual amount greater than or equal to the given amount.
 * actual_lt [DEC] - returns sheet items with an actual amount less than  the given amount.
 * actual_lte [DEC] - returns sheet items with an actual amount less than or equal to the given amount.
+* periods [INT, list of comma-separated INT] - returns contexts matching the given period(s).
 
 Ordering
 ++++++++
