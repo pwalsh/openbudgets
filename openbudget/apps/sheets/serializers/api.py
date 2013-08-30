@@ -63,7 +63,7 @@ class SheetBase(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.Sheet
-        fields = ['id', 'url', 'template', 'entity', 'description', 'period',
+        fields = ['id', 'url', 'template', 'entity', 'budget', 'actual', 'description', 'period',
                   'created_on', 'last_modified'] + translated_fields(model)
 
 
