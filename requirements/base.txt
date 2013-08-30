@@ -26,7 +26,7 @@ django-uuidfield==0.4.0
 django-debug-toolbar==0.9.4
 django-braces==1.0.0
 django-modeltranslation==0.6.1
-django-grappelli==2.4.5
+django-grappelli==2.4.7
 django-cors-headers==0.11
 django-subdomains==2.0.4
 grappelli-modeltranslation==0.1.2
