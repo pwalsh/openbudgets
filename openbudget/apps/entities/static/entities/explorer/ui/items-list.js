@@ -264,7 +264,6 @@ define([
             },
             app_events      : {
                 'items_breadcrumbs.selected'                : 'post_select+',
-                'items_breadcrumbs_history_menu.selected'   : 'post_select+',
                 'items_list_header.selected'                : 'sortItems+',
                 'comment_created'                           : function (response) {
                     var item = this.resource.get(response.item),
