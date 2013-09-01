@@ -5,52 +5,14 @@ from celery.task import task
 from openbudget.apps.transport.incoming.parsers import get_parser
 
 
-@task(name='tasks.denormalize_sheet')
-def denormalize_sheet(sheet_id):
-    from openbudget.apps.sheets.models import Sheet, DenormalizedSheetItem
-    sheet = Sheet.objects.get(id=sheet_id)
-    items = sheet.sheetitems.all().select_related('node')
-    denormalized_items = {}
-
-    for item in items:
-        node = item.node
-        denormalized_items[node.path] = DenormalizedSheetItem.objects.create(
-            normal_item=item,
-            sheet=sheet,
-            description=item.description,
-            budget=item.budget,
-            actual=item.actual,
-            name=node.name,
-            code=node.code,
-            direction=node.direction,
-            node_description=node.description,
-            path=node.path
-        )
-
-    for item in denormalized_items.itervalues():
-        parent = item.normal_item.node.parent
-        if parent:
-            item.parent = denormalized_items[parent.path]
-            item.save()
-
-        for inverse in node.inverse.all():
-            if inverse.path in denormalized_items:
-                item.inverse.add(denormalized_items[inverse.path])
-        for backward in node.backwards.all():
-            if backward.path in denormalized_items:
-                item.backwards.add(denormalized_items[backward.path])
-
-
 @task(name='tasks.save_import')
 def save_import(deferred, email):
 
-    from openbudget.apps.transport.incoming.importers.tablibimporter import TablibImporter
+    from openbudget.apps.transport.incoming.importers.tablibimporter import \
+        TablibImporter
 
     importer = TablibImporter()
     saved = importer.resolve(deferred).save()
-
-    if importer.parser.container_model.get_class_name() == 'sheet':
-        denormalize_sheet.apply_async((importer.parser.container_object.id,))
 
     sender = settings.EMAIL_HOST_USER
     recipient = email
