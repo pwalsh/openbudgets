@@ -31,7 +31,7 @@ define(function() {
         'viz-save'              : gettext('Save'),
         'search-menu-free'      : gettext('Free text search'),
         'search-term-prefix'    : gettext('Search for'),
-        'guest'                 : gettext('Guest:'),
+        'guest'                 : gettext('Guest'),
         'summarize-data'        : gettext('Summarize data of:'),
         'budget'                : gettext('Budget'),
         'actual'                : gettext('Actual'),
