@@ -170,7 +170,10 @@ define([
                 initial         : ':first-child',
                 signals         : {
                     post_wake   : 'opened',
-                    post_sleep  : 'closed'
+                    post_sleep  : 'closed',
+                    pre_select  : function ($selected) {
+                        return $selected.attr('data-key') || null;
+                    }
                 },
                 app_events      : {
                     'app.resize'            : positionNormalizationMenu,

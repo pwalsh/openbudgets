@@ -105,6 +105,7 @@ define([
              */
             uijet.Resource('Munis', resources.Munis)
                 .Resource('LatestSheet', resources.Nodes)
+                .Resource('Contexts', resources.Contexts)
                 .Resource('LoggedinUser', resources.User, window.LOGGEDIN_USER);
             
             this.LegendItemModel = uijet.Model({
@@ -187,7 +188,8 @@ define([
             return state_model.save({ config : {
                 chart       : comparisons._getChartState(),
                 title       : state_model.get('title'),
-                description : state_model.get('description')
+                description : state_model.get('description'),
+                normalize_by: state_model.get('normalize_by')
             } }, {
                 success : function () {
                     uijet.publish('state_saved');

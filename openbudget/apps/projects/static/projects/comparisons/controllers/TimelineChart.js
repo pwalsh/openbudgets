@@ -4,17 +4,53 @@ define([
     'api'
 ], function (uijet, resources, api) {
 
+    var period_start = 'period_start';
+
     function sortByPeriod (a, b) { return a.period - b.period; }
+    function sortByPeriodstart (a, b) {
+        return new Date(a.get(period_start)) > new Date(b.get(period_start)) ? 1 : -1;
+    }
     function addFloats (a, b) {
         var res = a + b;
         return +(res).toPrecision((res | 0).toString().length + 2);
     }
 
+    /**
+     * Gets the latest context that has a `period_start` that precedes the period
+     * or is equal to it.
+     * 
+     * This function has a side-effect of reducing `contexts` by shifting items
+     * if their preceding item's `period_start` is before `period`.
+     * 
+     * @param {Array} contexts - list of Context model instances
+     * @param {String} period - a string representation of a date
+     * @returns {Object|undefined} - latest context to use for this period's series
+     */
+    function latestContextForPeriod (contexts, period) {
+        var context, period_to_date;
+        if ( contexts.length ) {
+            if ( contexts.length === 1 ) {
+                context = contexts[0];
+            }
+            else {
+                period_to_date = new Date(period);
+                context = contexts[0];
+                if ( new Date(context.get(period_start)) <= period_to_date &&
+                     new Date(contexts[1].get(period_start)) <= period_to_date ) {
+    
+                    contexts.shift();
+                    return latestContextForPeriod(contexts, period);
+                }
+            }
+        }
+        return context;
+    }
+
     var TimeSeriesModel = uijet.Model({
-        url : function () {
+        url         : function () {
             return api.getTimelineRoute(this.attributes.muni_id, this.attributes.nodes);
         },
-        parse   : function (response) {
+        parse       : function (response) {
             var periods = [],
                 series = {};
             response.forEach(function (item) {
@@ -38,22 +74,60 @@ define([
                 series  : series
             };
         },
-        toSeries: function () {
-            var series = this.get('series'),
+        toSeries    : function () {
+            var series = this.normalize(),
                 actuals = [],
                 budgets = [],
-                period;
+                period, seria;
             for ( period in series ) {
+                seria = series[period];
                 actuals.push({
                     period  : period,
-                    amount  : series[period].actual
+                    amount  : seria.actual
                 });
                 budgets.push({
                     period  : period,
-                    amount  : series[period].budget
+                    amount  : seria.budget
                 });
             }
             return [actuals.sort(sortByPeriod), budgets.sort(sortByPeriod)];
+        },
+        normalize   : function () {
+            var normalize_by = uijet.Resource('NodesListState').get('normalize_by'),
+                series = this.get('series'),
+                result = {},
+                contexts;
+
+            if ( normalize_by ) {
+                contexts = uijet.Resource('Contexts')
+                    .where({ entity : this.get('muni_id') });
+                if ( contexts.length )
+                    contexts.sort(sortByPeriodstart);
+                else
+                    return series;
+            }
+            else {
+                return series;
+            }
+
+            //TODO: assuming here period is a "full year"
+            this.get('periods').forEach(function (period) {
+                var seria = series[period],
+                    context, factor;
+
+                context = latestContextForPeriod(contexts, period);
+                factor = context ? +context.get('data')[normalize_by] : 1;
+
+                // cache last calculated factor for State serialization
+                seria.factor = factor;
+
+                result[period] = {
+                    budget  : seria.budget / factor,
+                    actual  : seria.actual / factor
+                };
+            });
+
+            return result;
         }
     });
 

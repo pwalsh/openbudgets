@@ -232,6 +232,31 @@ define([
                 return branch || [];
             }
         }),
+        Context = uijet.Model({
+            parse   : function (response) {
+                response.data = JSON.parse(response.data);
+                return response;
+            }
+        }),
+        Contexts = uijet.Collection({
+            model   : Context,
+            url     : function () {
+                return api.getRoute('contexts');
+            },
+            parse   : function (response) {
+                return response.results;
+            },
+            fetch   : function () {
+                return Backbone.Collection.prototype.fetch.call(this, {
+                    data: {
+                        // pluck all muni ids from the legend and use it for querying contexts
+                        entities: uijet.Resource('LegendItems').pluck('muni').map(function (muni) {
+                            return muni.id;
+                        }).toString()
+                    }
+                });
+            }
+        }),
         State = uijet.Model({
             idAttribute : 'uuid',
             urlRoot     : function () {
@@ -255,6 +280,8 @@ define([
         Node    : Node,
         Nodes   : Nodes,
         State   : State,
+        Context : Context,
+        Contexts: Contexts,
         utils   : {
             reverseSorting  : reverseSorting,
             nestingSort     : nestingSort

@@ -81,7 +81,7 @@ define([
         },
         _draw           : function () {
             this.publish('fetched', this.resource)
-                .draw(this.resource.models);
+                .draw();
             this.notify('fetched');
             return this;
         },
@@ -97,8 +97,9 @@ define([
             }
             return this;
         },
-        draw            : function (series) {
-            var line = this.line,
+        draw            : function () {
+            var series = this.resource.models,
+                line = this.line,
                 ids = [],
                 data = [],
                 y_max;

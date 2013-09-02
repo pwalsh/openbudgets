@@ -49,7 +49,7 @@ define([
                                 .subscribe(id + '.fold', function (index) {
                                     this.$element.children().eq(index).removeClass('hide');
                                 })
-                                .subscribe(id + '.unfold', function (index) {console.log(index);
+                                .subscribe(id + '.unfold', function (index) {
                                     if ( ~ index )
                                         this.$element.children().eq(index).addClass('hide');
                                 });

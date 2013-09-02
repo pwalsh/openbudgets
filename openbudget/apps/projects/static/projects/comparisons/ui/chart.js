@@ -81,7 +81,22 @@ define([
                 padding : '20px 20px 0'
             },
             signals     : {
-                fetched : function () {
+                post_init   : function () {
+                    this.listenTo(uijet.Resource('NodesListState'), 'change:normalize_by', function (model) {
+                        if ( 'normalize_by' in model.changed ) {
+                            uijet.Resource('Contexts')
+                                .fetch()
+                                .then(
+                                    this.render.bind(this),
+                                    function (err) {
+                                        console.error(err);
+                                        this.render();
+                                    }.bind(this)
+                                );
+                        }
+                    }.bind(this));
+                },
+                fetched     : function () {
                     var periods = this.resource.periods();
                     this.timeContext(String(periods[0]), String(periods[periods.length - 1]));
                 }
