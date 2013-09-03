@@ -4,19 +4,20 @@ from openbudget.commons.mixins.models import TimeStampedMixin
 
 
 class String(TimeStampedMixin):
+
     """"""
+
     string = models.CharField(
         _('String'),
         max_length=255,
         unique=True,
-        help_text=_('A word or some such.')
-    )
+        help_text=_('A word or some such.'),)
+
     parent = models.ForeignKey(
         'self',
         null=True,
         blank=True,
-        related_name='scope_set'
-    )
+        related_name='scope_set',)
 
     def __unicode__(self):
         return self.string
