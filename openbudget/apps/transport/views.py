@@ -13,41 +13,51 @@ from openbudget.apps.sheets.models import Sheet, SheetItem
 
 
 class FileImportView(LoginRequiredMixin, FormView):
-    """View to import from file, where metadata is in the filename.
 
-    This view is a simple import interface targeted mainly at
-    developers who do not want to work with the full importer form.
+    """Takes data in a supported file format, extracts meta data from POST or
+    the filename, and passes the payload to the appropriate parser for
+    processing.
+
+    All of Open Budgets' file-based data imports go through this view.
+
+    If the view is accessed directly via a url, the user can choose and upload
+    a file, where the meta data is extractable from the filename (see the docs).
+
+    Otherwise, the view takes AJAX requests which minimally contain a file and
+    meta data in the POST object.
+
     """
+
     form_class = FileImportForm
     template_name = 'transport/file_import.html'
 
     def form_valid(self, form, *args, **kwargs):
-        use_filename = True
+
+        # all we've done is validate that the form is validly formed.
+        # This has nothing to do with the actual data import being valid.
         sourcefile = self.request.FILES['sourcefile']
         post_data = self.request.POST.copy()
+        meta_from_filename = True
 
         if 'type' in post_data and 'attributes' in post_data:
-            use_filename = False
+            meta_from_filename = False
 
-        importer = TablibImporter(
-            sourcefile,
-            post_data,
-            dataset_meta_in_filename=use_filename
-        )
+        importer = TablibImporter(sourcefile, post_data, meta_from_filename)
         valid, errors = importer.validate()
+
         if not valid:
             error_dicts = [e.to_json() for e in errors]
             return HttpResponseBadRequest(json.dumps(error_dicts), content_type='application/json')
 
         if self.request.is_ajax():
             save_import.apply_async((importer.deferred(), self.request.user.email))
-            return HttpResponse('OK')
+            return HttpResponse(u'OK')
         else:
             save = importer.save()
             if save:
                 return redirect('import_success')
             else:
-                return HttpResponseServerError('SAVE FAILED')
+                return HttpResponseServerError(_(u'Save failed.'))
 
 
 class FileExportView(FileResponseMixin, View):
