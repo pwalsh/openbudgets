@@ -6,7 +6,13 @@ from openbudget.commons.mixins.models import PeriodicMixin, TimeStampedMixin
 
 
 class ContextManager(models.Manager):
-    """Exposes the related_map method for more efficient bulk select queries."""
+
+    """Exposes additional methods for model query operations.
+
+    Open Budgets makes extensive use of related_map and related_map_min methods
+    for efficient bulk select queries.
+
+    """
 
     def related_map(self):
         return self.select_related()
@@ -19,6 +25,7 @@ class ContextManager(models.Manager):
 
 
 class Context(TimeStampedMixin, PeriodicMixin):
+
     """A JSON object with contextual data for the given Entity/Time Period.
 
     We store contextual data only for the purpose of normalizing comparative
@@ -45,12 +52,11 @@ class Context(TimeStampedMixin, PeriodicMixin):
 
     entity = models.ForeignKey(
         Entity,
-        related_name='contexts'
-    )
+        related_name='contexts',)
+
     data = JSONField(
         _('Data object'),
-        help_text=_('Contextual data as JSON for the Entity/Time Period.')
-    )
+        help_text=_('Contextual data as JSON for the Entity/Time Period.'),)
 
     def __unicode__(self):
         return 'Contextual data for {entity} in {period}'.format(
