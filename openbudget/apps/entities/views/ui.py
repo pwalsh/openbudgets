@@ -24,13 +24,11 @@ class EntityDetailUISerializer(serializers.ModelSerializer):
 
 class EntityList(ListView):
     model = Entity
+    queryset = model.objects.related_map().filter(division__index=3)
     template_name = 'entities/entity_list.html'
 
     def get_context_data(self, **kwargs):
-
         context = super(EntityList, self).get_context_data(**kwargs)
-
-        self.object_list = self.object_list.filter(division__index=3)
         entities_active = []
         entities_inactive = []
 
@@ -51,7 +49,6 @@ class EntityDetail(DetailView):
     template_name = 'entities/explorer.html'
 
     def get_context_data(self, **kwargs):
-
         context = super(EntityDetail, self).get_context_data(**kwargs)
         period = self.kwargs.get('period', None)
         item_uuid = self.kwargs.get('item_uuid', None)
