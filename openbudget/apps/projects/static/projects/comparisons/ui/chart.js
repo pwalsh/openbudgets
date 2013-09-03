@@ -87,7 +87,12 @@ define([
                             uijet.Resource('Contexts')
                                 .fetch()
                                 .then(
-                                    this.render.bind(this),
+                                    function () {
+                                        this.resource.recalcFactors();
+                                        this.draw()
+                                            //TODO: if smaller period range was selected it's reset but period selectors are not
+                                            .timeContext();
+                                    }.bind(this),
                                     function (err) {
                                         console.error(err);
                                         this.render();
@@ -95,10 +100,6 @@ define([
                                 );
                         }
                     }.bind(this));
-                },
-                fetched     : function () {
-                    var periods = this.resource.periods();
-                    this.timeContext(String(periods[0]), String(periods[periods.length - 1]));
                 }
             },
             data_events : {

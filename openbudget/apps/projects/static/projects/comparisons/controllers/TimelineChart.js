@@ -33,7 +33,7 @@ define([
                 context = contexts[0];
             }
             else {
-                period_to_date = new Date(period);
+                period_to_date = new Date(period.toString());
                 context = contexts[0];
                 if ( new Date(context.get(period_start)) <= period_to_date &&
                      new Date(contexts[1].get(period_start)) <= period_to_date ) {
@@ -61,7 +61,8 @@ define([
                 if ( ! (period in series) ) {
                     series[period] = {
                         budget  : +item.budget,
-                        actual  : +item.actual
+                        actual  : +item.actual,
+                        factor  : 1
                     };
                 }
                 else {
@@ -75,7 +76,7 @@ define([
             };
         },
         toSeries    : function () {
-            var series = this.normalize(),
+            var series = this.get('series'),
                 actuals = [],
                 budgets = [],
                 period, seria;
@@ -83,19 +84,18 @@ define([
                 seria = series[period];
                 actuals.push({
                     period  : period,
-                    amount  : seria.actual
+                    amount  : seria.actual / seria.factor
                 });
                 budgets.push({
                     period  : period,
-                    amount  : seria.budget
+                    amount  : seria.budget / seria.factor
                 });
             }
             return [actuals.sort(sortByPeriod), budgets.sort(sortByPeriod)];
         },
-        normalize   : function () {
+        recalcFactor: function () {
             var normalize_by = uijet.Resource('NodesListState').get('normalize_by'),
                 series = this.get('series'),
-                result = {},
                 contexts;
 
             if ( normalize_by ) {
@@ -103,31 +103,13 @@ define([
                     .where({ entity : this.get('muni_id') });
                 if ( contexts.length )
                     contexts.sort(sortByPeriodstart);
-                else
-                    return series;
-            }
-            else {
-                return series;
             }
 
             //TODO: assuming here period is a "full year"
             this.get('periods').forEach(function (period) {
-                var seria = series[period],
-                    context, factor;
-
-                context = latestContextForPeriod(contexts, period);
-                factor = context ? +context.get('data')[normalize_by] : 1;
-
-                // cache last calculated factor for State serialization
-                seria.factor = factor;
-
-                result[period] = {
-                    budget  : seria.budget / factor,
-                    actual  : seria.actual / factor
-                };
+                var context = contexts && latestContextForPeriod(contexts, period);
+                series[period].factor = context ? +context.get('data')[normalize_by] : 1;
             });
-
-            return result;
         }
     });
 
@@ -146,6 +128,12 @@ define([
                 }, prev);
                 return prev;
             }).sort();
+        },
+        recalcFactors   : function () {
+            this.each(function (model) {
+                model.recalcFactor();
+            });
+            return this;
         },
         extractLegend   : function () {
             return this.models.map(function (model) {

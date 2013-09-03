@@ -82,7 +82,6 @@ define([
         _draw           : function () {
             this.publish('fetched', this.resource)
                 .draw();
-            this.notify('fetched');
             return this;
         },
         render          : function () {
@@ -97,7 +96,7 @@ define([
             }
             return this;
         },
-        draw            : function () {
+        draw            : function (from_period, to_period) {
             var series = this.resource.models,
                 line = this.line,
                 ids = [],
@@ -171,6 +170,14 @@ define([
 
             this.mouse_target.on('mouseover', this.hoverOn.bind(this));
             this.mouse_target.on('mouseout', this.hoverOff.bind(this));
+
+            var periods = this.resource.periods();
+            this.timeContext(
+                from_period || String(periods[0]),
+                to_period || String(periods[periods.length - 1])
+            );
+
+            return this;
         },
         timeContext     : function (from, to) {
             var domain = this.x_scale.domain(),
