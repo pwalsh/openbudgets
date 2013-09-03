@@ -8,12 +8,13 @@ class DomainList(generics.ListAPIView):
     """Called via an API endpoint that represents a list of domains."""
 
     model = models.Domain
+    queryset = model.objects.related_map()
     serializer_class = serializers.DomainBase
     ordering = ['id', 'name','created_on', 'last_modified']
     search_fields = ['name'] + translated_fields(model)
 
     def get_queryset(self):
-        queryset = self.model.objects.related_map()
+        queryset = super(DomainList, self).get_queryset()
 
         ### FILTERS
         has_divisions = self.request.QUERY_PARAMS.get('has_divisions', None)
@@ -62,12 +63,13 @@ class DivisionList(generics.ListAPIView):
     """Called via an API endpoint that represents a list of divisions."""
 
     model = models.Division
+    queryset = model.objects.related_map()
     serializer_class = serializers.DivisionBase
     ordering = ['id', 'name', 'created_on', 'last_modified']
     search_fields = ['name'] + translated_fields(model)
 
     def get_queryset(self):
-        queryset = self.model.objects.related_map()
+        queryset = super(DivisionList, self).get_queryset()
 
         ### FILTERS
         budgeting = self.request.QUERY_PARAMS.get('budgeting', None)
@@ -120,12 +122,13 @@ class EntityList(generics.ListAPIView):
     """Called via an API endpoint that represents a list of entities."""
 
     model = models.Entity
+    queryset = model.objects.related_map()
     serializer_class = serializers.EntityBase
     ordering = ['id', 'name', 'created_on', 'last_modified']
     search_fields = ['name', 'description'] + translated_fields(model)
 
     def get_queryset(self):
-        queryset = self.model.objects.related_map()
+        queryset = super(EntityList, self).get_queryset()
 
         ### FILTERS
         budgeting = self.request.QUERY_PARAMS.get('budgeting', None)
