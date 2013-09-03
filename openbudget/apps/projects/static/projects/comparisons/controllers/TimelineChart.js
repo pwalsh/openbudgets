@@ -107,8 +107,10 @@ define([
 
             //TODO: assuming here period is a "full year"
             this.get('periods').forEach(function (period) {
-                var context = contexts && latestContextForPeriod(contexts, period);
-                series[period].factor = context ? +context.get('data')[normalize_by] : 1;
+                if ( series[period] ) {
+                    var context = contexts && latestContextForPeriod(contexts, period);
+                    series[period].factor = context ? +context.get('data')[normalize_by] : 1;
+                }
             });
         }
     });
