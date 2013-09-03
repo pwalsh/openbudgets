@@ -3,7 +3,15 @@
 
 
 {% block content %}
-<h1>{% trans 'Import data' %}</h1>
+<h1>{% trans 'Data import' %}</h1>
+
+<div>
+    <p>
+        {% blocktrans %}
+        This form is simple way to import data into the system without interaction, but requires the filename of the file to declare the required meta data. The Open Budgets documentation describes the required formatting of the filename. If this sounds confusing, you'll have to make use of one of the more interactive importers available.
+        {% endblocktrans %}
+    </p>
+</div>
 
 <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
