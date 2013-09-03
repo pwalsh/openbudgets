@@ -3,7 +3,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext_lazy as _
 from openbudget.settings.base import AUTH_USER_MODEL
-from openbudget.commons.mixins.models import TimeStampedModel
+from openbudget.commons.mixins.models import TimeStampedMixin
 
 
 class InteractionManager(models.Manager):
@@ -14,7 +14,7 @@ class InteractionManager(models.Manager):
         return self.get_query_set().filter(user=user)
 
 
-class Interaction(TimeStampedModel):
+class Interaction(TimeStampedMixin):
     """An abstract class for user-object interactions"""
 
     objects = InteractionManager()

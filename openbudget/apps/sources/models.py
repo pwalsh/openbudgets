@@ -3,11 +3,11 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from openbudget.settings.base import AUTH_USER_MODEL
-from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
+from openbudget.commons.mixins.models import TimeStampedMixin, UUIDMixin
 from openbudget.commons.utilities import get_media_file_path
 
 
-class DataSource(TimeStampedModel, UUIDModel):
+class DataSource(TimeStampedMixin, UUIDMixin):
     """Describes an original source of data.
 
     All data in the system should declare a data source.

@@ -2,10 +2,10 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from autoslug import AutoSlugField
 from openbudget.commons.data import OBJECT_STATES
-from openbudget.commons.mixins.models import TimeStampedModel
+from openbudget.commons.mixins.models import TimeStampedMixin
 
 
-class Page(TimeStampedModel):
+class Page(TimeStampedMixin):
 
     status = models.IntegerField(
         _('Publication status'),

@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from autoslug import AutoSlugField
-from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, \
+from openbudget.commons.mixins.models import TimeStampedMixin, UUIDPKMixin, \
     ClassMethodMixin
 from openbudget.commons.utilities import get_ultimate_parent
 
@@ -14,7 +14,7 @@ class DomainManager(models.Manager):
         return self.select_related().prefetch_related('divisions')
 
 
-class Domain(TimeStampedModel, ClassMethodMixin):
+class Domain(UUIDPKMixin, TimeStampedMixin, ClassMethodMixin):
     """Domain is the base context for our relational model of entities.
 
     Entities always belong to a domain, and are structured via Divisions.
@@ -67,6 +67,11 @@ class Domain(TimeStampedModel, ClassMethodMixin):
         default=CURRENCIES[0][0],
         help_text=_('The currency used for budgeting in this domain.')
     )
+    slug = AutoSlugField(
+        db_index=True,
+        populate_from='name',
+        unique=True
+    )
 
     @property
     def entities(self):
@@ -89,7 +94,7 @@ class DivisionManager(models.Manager):
         return self.select_related().prefetch_related('entities')
 
 
-class Division(TimeStampedModel, ClassMethodMixin):
+class Division(UUIDPKMixin, TimeStampedMixin, ClassMethodMixin):
     """Division divides the domain into logical groupings to model structure."""
 
     objects = DivisionManager()
@@ -120,6 +125,11 @@ class Division(TimeStampedModel, ClassMethodMixin):
         help_text=_('Indicates whether entities that belong to this division '
                     'are budgeting entities.')
     )
+    slug = AutoSlugField(
+        db_index=True,
+        populate_from='name',
+        unique=True
+    )
 
     @property
     def entity_count(self):
@@ -147,7 +157,7 @@ class EntityManager(models.Manager):
         return self.select_related().prefetch_related('sheets', 'parent')
 
 
-class Entity(TimeStampedModel, ClassMethodMixin):
+class Entity(UUIDPKMixin, TimeStampedMixin, ClassMethodMixin):
     """Entity describes the actual units in our organizational structure."""
 
     objects = EntityManager()
@@ -221,7 +231,7 @@ class Entity(TimeStampedModel, ClassMethodMixin):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'entity_detail', [self.slug]
+        return 'entity_detail', [self.id]
 
     def clean(self):
 

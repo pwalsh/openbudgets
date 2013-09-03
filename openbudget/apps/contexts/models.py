@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from jsonfield import JSONField
 from openbudget.apps.entities.models import Entity
-from openbudget.commons.mixins.models import PeriodicModel, TimeStampedModel
+from openbudget.commons.mixins.models import PeriodicMixin, TimeStampedMixin
 
 
 class ContextManager(models.Manager):
@@ -18,7 +18,7 @@ class ContextManager(models.Manager):
         return self.by_entity(entity_id=entity_id).latest('period_start')
 
 
-class Context(TimeStampedModel, PeriodicModel):
+class Context(TimeStampedMixin, PeriodicMixin):
     """A JSON object with contextual data for the given Entity/Time Period.
 
     We store contextual data only for the purpose of normalizing comparative

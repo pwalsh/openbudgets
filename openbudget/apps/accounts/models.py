@@ -9,7 +9,7 @@ from django.contrib.comments.models import Comment
 from django.utils.translation import ugettext as _
 from django.utils import timezone
 from openbudget.apps.interactions.models import Star, Follow
-from openbudget.commons.mixins.models import UUIDModel, TimeStampedModel
+from openbudget.commons.mixins.models import UUIDMixin, TimeStampedMixin
 from django_gravatar.helpers import get_gravatar_url
 
 
@@ -41,7 +41,7 @@ class AccountManager(BaseUserManager):
         return u
 
 
-class Account(UUIDModel, TimeStampedModel, PermissionsMixin, AbstractBaseUser):
+class Account(UUIDMixin, TimeStampedMixin, PermissionsMixin, AbstractBaseUser):
     """Extends Django's User with our project specific user fields"""
 
     objects = AccountManager()

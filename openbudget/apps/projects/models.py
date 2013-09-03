@@ -5,7 +5,8 @@ from jsonfield import JSONField
 from oauth2_provider.models import AbstractApplication
 from autoslug import AutoSlugField
 from openbudget.apps.accounts.models import Account
-from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, ClassMethodMixin
+from openbudget.commons.mixins.models import TimeStampedMixin, UUIDMixin, \
+    ClassMethodMixin
 
 
 class ProjectManager(models.Manager):
@@ -15,7 +16,7 @@ class ProjectManager(models.Manager):
         return self.select_related()
 
 
-class Project(AbstractApplication, TimeStampedModel, UUIDModel, ClassMethodMixin):
+class Project(AbstractApplication, TimeStampedMixin, UUIDMixin, ClassMethodMixin):
     """API Project object, comprised of initial data + some meta data."""
 
     LABEL_CHOICES = (
@@ -80,7 +81,7 @@ class StateManager(models.Manager):
         return self.select_related()
 
 
-class State(TimeStampedModel, UUIDModel, ClassMethodMixin):
+class State(TimeStampedMixin, UUIDMixin, ClassMethodMixin):
     """State objects describe saved states of specific projects."""
 
     objects = StateManager()

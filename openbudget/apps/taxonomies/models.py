@@ -5,7 +5,7 @@ from taggit.models import ItemBase as TaggitItemBase
 from autoslug import AutoSlugField
 from openbudget.settings.base import AUTH_USER_MODEL
 from openbudget.apps.sheets.models import Template, TemplateNode
-from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
+from openbudget.commons.mixins.models import TimeStampedMixin, UUIDMixin
 from openbudget.commons.data import OBJECT_STATES
 
 
@@ -13,7 +13,7 @@ from openbudget.commons.data import OBJECT_STATES
 # labels = TaggableManager(through=TaggedNode)
 
 
-class Taxonomy(TimeStampedModel, UUIDModel):
+class Taxonomy(TimeStampedMixin, UUIDMixin):
 
     user = models.ForeignKey(
         AUTH_USER_MODEL,

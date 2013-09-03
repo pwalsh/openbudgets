@@ -1,9 +1,9 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from openbudget.commons.mixins.models import TimeStampedModel
+from openbudget.commons.mixins.models import TimeStampedMixin
 
 
-class String(TimeStampedModel):
+class String(TimeStampedMixin):
     """"""
     string = models.CharField(
         _('String'),
