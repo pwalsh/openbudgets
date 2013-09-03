@@ -20,10 +20,10 @@ define([
     function positionNormalizationMenu () {
         var height = this.$wrapper[0].offsetHeight,
             container = uijet.$element.find('#legend_controls')[0],
-            selector = uijet.$element.find('#normalization_selector')[0],
+            selector = this.$wrapper.parent()[0],
             container_h = container.offsetHeight,
             top = uijet.utils.getOffsetOf(selector, container).y;
-        this.$wrapper.css('top', (container_h - top < height ? -height : 44) + 'px');
+        this.floatPosition('top:' + (container_h - (top + 44) < height ? -height : 44) + 'px');
     }
 
     uijet.Factory('LegendItem', {
@@ -176,9 +176,9 @@ define([
                     }
                 },
                 app_events      : {
-                    'app.resize'            : positionNormalizationMenu,
-                    'legend_item_added'     : positionNormalizationMenu,
-                    'legend_item_removed'   : positionNormalizationMenu
+                    'app.resize'        : positionNormalizationMenu,
+                    'add_legend.awaking': positionNormalizationMenu,
+                    legend_item_removed : positionNormalizationMenu
                 }
             },
             content     : uijet.$('#normalization_selector_selection'),
