@@ -10,7 +10,7 @@ def entities():
             name='entity-list'
         ),
         url(
-            r'^(?P<pk>\d+)/$',
+            r'^(?P<pk>[-\w]+)/$',
             api.EntityDetail.as_view(),
             name='entity-detail'
         ),
@@ -26,7 +26,7 @@ def divisions():
             name='division-list'
         ),
         url(
-            r'^(?P<pk>\d+)/$',
+            r'^(?P<pk>[-\w]+)/$',
             api.DivisionDetail.as_view(),
             name='division-detail'
         ),
@@ -42,7 +42,7 @@ def domains():
             name='domain-list'
         ),
         url(
-            r'^(?P<pk>\d+)/$',
+            r'^(?P<pk>[-\w]+)/$',
             api.DomainDetail.as_view(),
             name='domain-detail'
         ),
