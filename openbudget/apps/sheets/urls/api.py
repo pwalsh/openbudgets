@@ -10,19 +10,19 @@ def templates():
             name='template-list'
         ),
         url(
-            r'^(?P<pk>\d+)/$',
-            api.TemplateDetail.as_view(),
-            name='template-detail'
-        ),
-        url(
             r'^nodes/$',
             api.TemplateNodeList.as_view(),
             name='templatenode-list'
         ),
         url(
-            r'^nodes/(?P<pk>\d+)/$',
+            r'^nodes/(?P<pk>[-\w]+)/$',
             api.TemplateNodeDetail.as_view(),
             name='templatenode-detail'
+        ),
+        url(
+            r'^(?P<pk>[-\w]+)/$',
+            api.TemplateDetail.as_view(),
+            name='template-detail'
         ),
     )
     return urlpatterns
@@ -36,7 +36,7 @@ def sheets():
             name='sheet-list'
         ),
         url(
-            r'^(?P<pk>\d+)/$',
+            r'^(?P<pk>[-\w]+)/$',
             api.SheetDetail.as_view(),
             name='sheet-detail'
         ),
@@ -46,17 +46,17 @@ def sheets():
             name='sheetitem-list'
         ),
         url(
-            r'^items/(?P<pk>\d+)/$',
+            r'^items/(?P<pk>[-\w]+)/$',
             api.SheetItemDetail.as_view(),
             name='sheetitem-detail'
         ),
         url(
-            r'^items/(?P<pk>\d+)/comments/$',
+            r'^items/(?P<pk>[-\w]+)/comments/$',
             api.SheetItemCommentListCreate.as_view(),
             name='sheetitemcomment-list-create'
         ),
         url(
-            r'^timeline/(?P<entity_pk>\w+)/$',
+            r'^timeline/(?P<entity_pk>[-\w]+)/$',
             api.SheetItemTimeline.as_view(),
             name='sheetitem-timeline'
         ),
