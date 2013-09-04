@@ -14,9 +14,7 @@ define([
             };
         },
         formatCommas: function (obj) {
-            var parts = obj.toString().split('.');
-            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            return parts.join('.');
+            return obj.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     }, uijet.utils);
 
@@ -159,8 +157,9 @@ define([
                     item.ancestors || (item.ancestors = []);
                     item.level = item.path.split('|').length - 1;
 
-                    item.actual = parseFloat(item.actual);
-                    item.budget = parseFloat(item.budget);
+                    // convert to integers
+                    item.actual = item.actual | 0;
+                    item.budget = item.budget | 0;
 
                     item.direction = gettext(item.direction);
 
