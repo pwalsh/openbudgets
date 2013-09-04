@@ -31,28 +31,52 @@ define([
                         0;
             };
         },
-        nestingSort = function (a, b) {
-            var a_attrs = a.attributes,
-                b_attrs = b.attributes,
-                a_parent = a_attrs.parent,
-                b_parent = b_attrs.parent,
-                collection, a_leaf, b_leaf;
-
-            if ( a_parent === b_parent ) {
-                a_leaf = a_attrs.leaf_item;
-                b_leaf = b_attrs.leaf_item;
-                if ( a_leaf && ! b_leaf )
-                    return -1;
-                else if ( b_leaf && ! a_leaf )
-                    return 1;
-
-                return a_attrs.code < b_attrs.code ? -1 : 1;
-            }
-
-            collection = a.collection;
-            a_parent = a_parent ? collection.get(a_parent) : a;
-            b_parent = b_parent ? collection.get(b_parent) : b;
-            return nestingSort(a_parent, b_parent);
+        nestingSortFactory = function (reverse) {
+            var a_is_smaller = reverse ? 1 : -1,
+                a_is_bigger = reverse ? -1 : 1;
+                
+            return function (a, b) {
+                var collection = a.collection,
+                    a_attrs = a.attributes,
+                    b_attrs = b.attributes,
+                    a_ancestors = a_attrs.ancestors,
+                    b_ancestors = b_attrs.ancestors,
+                    n = 0, m = 0, 
+                    a_top = a_attrs, b_top = b_attrs,
+                    go_deeper = true,
+                    a_code, b_code;
+    
+                do {
+                    if ( a_ancestors[n] ) {
+                        a_top = a_ancestors[n];
+                        n += 1;
+                    }
+                    else {
+                        go_deeper = false;
+                        a_top = a_attrs;
+                    }
+                    if ( b_ancestors[m] ) {
+                        b_top = b_ancestors[m];
+                        m += 1;
+                    }
+                    else {
+                        go_deeper = false;
+                        b_top = b_attrs;
+                    }
+                }
+                while ( go_deeper && a_top.id === b_top.id );
+    
+                a_code = a_top.code;
+                b_code = b_top.code;
+    
+                // if `a` and `b` are not in same level
+                return a_code == b_code ?
+                    // check if `a` is higher in the hierarchy, otherwise `b` is
+                    a_top === a_attrs ?
+                        a_is_smaller : a_is_bigger :
+                    // if they are in same level order by code
+                    a_code < b_code ? a_is_smaller : a_is_bigger;
+            };
         },
         /*
          * SheetItem Model
@@ -198,8 +222,9 @@ define([
         Sheet   : Sheet,
         Sheets  : Sheets,
         utils   : {
-            reverseSorting  : reverseSorting,
-            nestingSort     : nestingSort
+            reverseSorting      : reverseSorting,
+            nestingSort         : nestingSortFactory(false),
+            reverseNestingSort  : nestingSortFactory(true)
         },
         '_'     : _,
         Backbone: Backbone

@@ -61,16 +61,24 @@ define([
                        .render();
         },
         sortItems           : function (data) {
+            var sorting_key = (data.desc ? '-' : '') + data.column,
+                is_comparator_function = uijet.utils.isFunc(this.options.sorting[sorting_key]);
             this.desc = data.desc;
-            this.sort((data.desc ? '-' : '') + data.column);
+            this.sort(sorting_key);
 
             if ( this.has_data ) {
                 if ( ! this.filtered ) {
                     this.filtered = this.resource.models;
                 }
                 if ( this.filtered && ! uijet.utils.isFunc(this.filtered) ) {
-                    this.filtered = arraySort.call(this.filtered, resources.utils.reverseSorting(data.column));
-                    if ( ! data.desc ) {
+                    this.filtered = arraySort.call(
+                        this.filtered,
+                        is_comparator_function ?
+                            this.options.sorting[sorting_key] :
+                            resources.utils.reverseSorting(data.column)
+                    );
+
+                    if ( ! is_comparator_function && ! data.desc ) {
                         this.filtered.reverse();
                     }
                 }
