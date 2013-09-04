@@ -97,6 +97,17 @@ define([
             filters         : {
                 search  : 'search'
             },
+            data_events     : {
+                'change:selected'   : function () {
+                    uijet.Resource('Contexts').fetch({
+                        data: {
+                            entities: this.resource.where({ selected : true }).map(function (model) {
+                                return model.id;
+                            }).toString()
+                        }
+                    });
+                }
+            },
             signals         : {
                 pre_wake        : function () {
                     return ! this.has_content;
@@ -114,7 +125,9 @@ define([
                     }
                 },
                 pre_select      : function ($selected) {
-                    return +$selected.attr('data-id');
+                    var id = +$selected.attr('data-id');
+                    this.resource.get(id).set('selected', true);
+                    return id;
                 },
                 post_filtered   : function (ids) {
                     var search_term = this.last_search_term;

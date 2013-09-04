@@ -84,20 +84,10 @@ define([
                 post_init   : function () {
                     this.listenTo(uijet.Resource('NodesListState'), 'change:normalize_by', function (model) {
                         if ( 'normalize_by' in model.changed ) {
-                            uijet.Resource('Contexts')
-                                .fetch()
-                                .then(
-                                    function () {
-                                        this.resource.recalcFactors();
-                                        this.draw()
-                                            //TODO: if smaller period range was selected it's reset but period selectors are not
-                                            .timeContext();
-                                    }.bind(this),
-                                    function (err) {
-                                        console.error(err);
-                                        this.render();
-                                    }.bind(this)
-                                );
+                            this.resource.recalcFactors();
+                            this.draw()
+                                //TODO: if smaller period range was selected it's reset but period selectors are not
+                                .timeContext();
                         }
                     }.bind(this));
                 }

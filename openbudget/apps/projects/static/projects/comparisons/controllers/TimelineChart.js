@@ -196,7 +196,10 @@ define([
                 return model;
             }, this);
 
-            return this.resource.set(updated_models).fetch();
+            return this.resource.set(updated_models)
+                .fetch().then(function () {
+                    uijet.Resource('NodesListState').get('normalize_by') && this.resource.recalcFactors();
+                }.bind(this));
         }
     });
 

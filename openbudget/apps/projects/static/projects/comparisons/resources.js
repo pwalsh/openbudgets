@@ -245,16 +245,6 @@ define([
             },
             parse   : function (response) {
                 return response.results;
-            },
-            fetch   : function () {
-                return Backbone.Collection.prototype.fetch.call(this, {
-                    data: {
-                        // pluck all muni ids from the legend and use it for querying contexts
-                        entities: uijet.Resource('LegendItems').pluck('muni').map(function (muni) {
-                            return muni.id;
-                        }).toString()
-                    }
-                });
             }
         }),
         State = uijet.Model({
