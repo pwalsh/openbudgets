@@ -5,43 +5,43 @@ from openbudget.apps.sheets.urls.api import templates, sheets
 
 
 urlpatterns = patterns('openbudget.api.v1.views',
+
     url(
         r'^$',
-        'api_v1',
-        name='api_v1'
-    ),
+        'api_v1', name='api_v1'),
+
     url(
         r'^entities/',
-        include(entities())
-    ),
+        include(entities())),
+
     url(
         r'^divisions/',
-        include(divisions())
-    ),
+        include(divisions())),
+
     url(
         r'^domains/',
-        include(domains())
-    ),
+        include(domains())),
+
     url(
         r'^templates/',
-        include(templates())
-    ),
+        include(templates())),
+
     url(
         r'^sheets/',
-        include(sheets())
-    ),
+        include(sheets())),
+
     url(
         r'^contexts/',
-        include('openbudget.apps.contexts.urls.api')
-    ),
+        include('openbudget.apps.contexts.urls.api')),
+
     url(
-        r'^projects/',
-        include('openbudget.apps.projects.urls.api')
-    ),
+        r'^tools/',
+        include('openbudget.apps.tools.urls.api')),
+
     url(
         r'^accounts/',
-        include('openbudget.apps.accounts.urls.api')
-    ),
+        include('openbudget.apps.accounts.urls.api')),
+
 )
 
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])
