@@ -110,7 +110,7 @@
     overflow: visible;
 }
 #items_breadcrumbs.searching {
-    float: right;
+    right: 18px;
 }
 #items_breadcrumbs.searching:before {
     content: attr(data-prefix);
