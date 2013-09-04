@@ -39,7 +39,10 @@ define([
         },
         closeSearchBreadcrumbsHandler = function () {
             this.$element.removeClass('searching');
-            this.resource.length || this.$title.removeClass('hide');
+            if ( ! this.resource.length ) {
+                this.sleep();
+                this.$title.removeClass('hide');
+            }
         };
 
     return [{
