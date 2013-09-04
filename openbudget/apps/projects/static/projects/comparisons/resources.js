@@ -26,44 +26,52 @@ define([
                         0;
             };
         },
-        nestingSort = function (a, b) {
-            var collection = a.collection,
-                a_attrs = a.attributes,
-                b_attrs = b.attributes,
-                a_ancestors = a_attrs.ancestors,
-                b_ancestors = b_attrs.ancestors,
-                n = 0, m = 0, 
-                a_top = a, b_top = b,
-                go_deeper = true,
-                a_code, b_code;
-
-            do {
-                if ( a_ancestors[n] ) {
-                    a_top = collection.get(a_ancestors[n]);
-                    n += 1;
+        nestingSortFactory = function (reverse) {
+            var a_is_smaller = reverse ? 1 : -1,
+                a_is_bigger = reverse ? -1 : 1;
+                
+            return function (a, b) {
+                var collection = a.collection,
+                    a_attrs = a.attributes,
+                    b_attrs = b.attributes,
+                    a_ancestors = a_attrs.ancestors,
+                    b_ancestors = b_attrs.ancestors,
+                    n = 0, m = 0, 
+                    a_top = a, b_top = b,
+                    go_deeper = true,
+                    a_code, b_code;
+    
+                do {
+                    if ( a_ancestors[n] ) {
+                        a_top = collection.get(a_ancestors[n]);
+                        n += 1;
+                    }
+                    else {
+                        go_deeper = false;
+                        a_top = a;
+                    }
+                    if ( b_ancestors[m] ) {
+                        b_top = collection.get(b_ancestors[m]);
+                        m += 1;
+                    }
+                    else {
+                        go_deeper = false;
+                        b_top = b;
+                    }
                 }
-                else {
-                    go_deeper = false;
-                    a_top = a;
-                }
-                if ( b_ancestors[m] ) {
-                    b_top = collection.get(b_ancestors[m]);
-                    m += 1;
-                }
-                else {
-                    go_deeper = false;
-                    b_top = b;
-                }
-            }
-            while ( go_deeper && a_top.id === b_top.id );
-
-            a_code = a_top.get('code');
-            b_code = b_top.get('code');
-
-            return a_code == b_code ? 
-                a_top === a ?
-                    -1 : 1 :
-                a_code < b_code ? -1 : 1;
+                while ( go_deeper && a_top.id === b_top.id );
+    
+                a_code = a_top.get('code');
+                b_code = b_top.get('code');
+    
+                // if `a` and `b` are not in same level
+                return a_code == b_code ?
+                    // check if `a` is higher in the hierarchy, otherwise `b` is
+                    a_top === a ?
+                        a_is_smaller : a_is_bigger :
+                    // if they are in same level order by code
+                    a_code < b_code ? a_is_smaller : a_is_bigger;
+            };
         },
         /*
          * User (Account) Model
@@ -289,8 +297,9 @@ define([
         Context : Context,
         Contexts: Contexts,
         utils   : {
-            reverseSorting  : reverseSorting,
-            nestingSort     : nestingSort
+            reverseSorting      : reverseSorting,
+            nestingSort         : nestingSortFactory(false),
+            reverseNestingSort  : nestingSortFactory(true)
         },
         '_'     : _
     };

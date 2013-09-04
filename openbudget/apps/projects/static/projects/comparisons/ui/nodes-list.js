@@ -61,7 +61,7 @@ define([
                 name        : 'name',
                 '-name'     : resources.utils.reverseSorting('name'),
                 code        : resources.utils.nestingSort,
-//                '-code'     : resources.utils.reverseNestingSort,
+                '-code'     : resources.utils.reverseNestingSort,
                 direction   : 'direction',
                 '-direction': resources.utils.reverseSorting('direction')
             },
