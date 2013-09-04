@@ -10,7 +10,18 @@ define([
     uijet.Resource('Breadcrumbs', uijet.Collection({
         model   : resources.Node
     }))
-    .Resource('NodesListState', uijet.Model(), {
+    .Resource('NodesListState', uijet.Model({
+        clearState  : function () {
+            this.set({
+                search      : null,
+                selected    : null,
+                legend_item : null,
+                amount_type : null,
+                selection   : null
+            });
+            return this;
+        }
+    }), {
         search      : null,
         selected    : null,
         legend_item : null,
@@ -78,11 +89,7 @@ define([
                     this.wake(data);
                 },
                 'entities_list.selected'            : function () {
-                    this.resource.clear();
-                    this.resource.set({
-                        search  : null,
-                        selected: null
-                    }, { silent : true });
+                    this.resource.clearState();
                 },
                 'normalization_selector.selected'   : function (key) {
                     this.resource.set('normalize_by', key);
