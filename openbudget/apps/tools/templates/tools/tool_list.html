@@ -2,7 +2,7 @@
 {% load i18n interactions subdomainurls %}
 
 {% block title %}
-{% trans 'Projects' %}
+{% trans 'Tools' %}
 {% endblock title %}
 
 {% block interactions %}
@@ -11,12 +11,12 @@
 
 {% block content %}
 
-<section class="projects-public">
+<section class="tools-public">
     <h2>&nbsp;</h2>
-    {% for project in projects_public %}
-    <a href="{% url 'project_detail' slug=project.slug %}" title="{{ project.name }}" class="project {{ project.slug }}{% if not project.featured %} soon{% endif %}">
+    {% for tool in tools_public %}
+    <a href="{% url 'tool_detail' slug=tool.slug %}" title="{{ tool.name }}" class="tool {{ tool.slug }}{% if not tool.featured %} soon{% endif %}">
         <div class="preview">
-            {% if not project.featured %}
+            {% if not tool.featured %}
             <div class="teaser">
                 <div class="decorator"></div>
                 <div class="message">{% trans 'Soon' %}</div>
@@ -25,16 +25,16 @@
             <div class="teaser-decoration"></div>
 
             {% else %}
-            <h3>{{ project.name }}</h3>
+            <h3>{{ tool.name }}</h3>
             {% endif %}
         </div>
         <div class="detail">
-            <p>{{ project.description }}</p>
-            <h3>{{ project.name }}</h3>
+            <p>{{ tool.description }}</p>
+            <h3>{{ tool.name }}</h3>
         </div>
     </a>
     {% endfor %}
-    <a href="http://open-budget.readthedocs.org/" title="{% trans 'Add a project' %}" class="project add">
+    <a href="http://open-budget.readthedocs.org/" title="{% trans 'Add a tool' %}" class="tool add">
         <div class="detail">
             <p>{% trans 'Add your own description goes here.' %}</p>
             <h3>{% trans 'Add your own' %}</h3>
@@ -42,28 +42,28 @@
     </a>
 </section>
 
-<section class="projects-developers">
+<section class="tools-developers">
     <h2>{% trans 'For Developers' %}</h2>
-    <a href="{% url 'api' subdomain='api' %}" title="{% trans 'Add a project' %}" class="project api">
+    <a href="{% url 'api' subdomain='api' %}" title="{% trans 'Add a tool' %}" class="tool api">
         <div class="detail">
             <p>{% trans 'API description goes here.' %}</p>
             <h3>{% trans 'API' %}</h3>
         </div>
     </a>
-    {% for project in projects_developers %}
-    <a href="{% url 'project_detail' slug=project.slug %}" title="{{ project.name }}" class="project {{ project.slug }}{% if not project.featured %} soon{% endif %}">
+    {% for tool in tools_developers %}
+    <a href="{% url 'tool_detail' slug=tool.slug %}" title="{{ tool.name }}" class="tool {{ tool.slug }}{% if not tool.featured %} soon{% endif %}">
         <div class="preview">
-            {% if not project.featured %}
+            {% if not tool.featured %}
             <p>
                 {% trans 'Soon' %}
             </p>
             {% else %}
-            <h3>{{ project.name }}</h3>
+            <h3>{{ tool.name }}</h3>
             {% endif %}
         </div>
         <div class="detail">
-            <p>{{ project.description }}</p>
-            <h3>{{ project.name }}</h3>
+            <p>{{ tool.description }}</p>
+            <h3>{{ tool.name }}</h3>
         </div>
     </a>
     {% endfor %}

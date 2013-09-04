@@ -1,29 +1,28 @@
 from rest_framework import generics
 from openbudget.apps.international.utilities import translated_fields
-from openbudget.apps.projects import serializers
-from openbudget.apps.projects import models
+from openbudget.apps.tools import serializers
+from openbudget.apps.tools import models
 from openbudget.apps.accounts.models import Account
 
 
-class ProjectList(generics.ListAPIView):
-    """Called via an API endpoint that represents a list of project objects."""
+class ToolList(generics.ListAPIView):
+    """Called via an API endpoint that represents a list of tool objects."""
 
-    model = models.Project
+    model = models.Tool
     queryset = model.objects.related_map()
-    serializer_class = serializers.ProjectBaseSerializer
+    serializer_class = serializers.ToolBaseSerializer
     ordering = ['id', 'created_on', 'last_modified']
     search_fields = ['name', 'description', 'owner__first_name',
                      'owner__last_name', 'author__first_name',
                      'author__first_name',] + translated_fields(model)
 
 
-class ProjectDetail(generics.RetrieveAPIView):
-    """Called via an API endpoint that represents a single project object."""
+class ToolDetail(generics.RetrieveAPIView):
+    """Called via an API endpoint that represents a single tool object."""
 
-    model = models.Project
+    model = models.Tool
     queryset = model.objects.related_map()
-    lookup_field = 'uuid'
-    serializer_class = serializers.ProjectBaseSerializer
+    serializer_class = serializers.ToolBaseSerializer
 
 
 class StateListCreate(generics.ListCreateAPIView):
@@ -31,7 +30,7 @@ class StateListCreate(generics.ListCreateAPIView):
 
     model = models.State
     queryset = model.objects.related_map()
-    search_fields = ['author__first_name', 'author__last_name', 'project__name']
+    search_fields = ['author__first_name', 'author__last_name', 'tool__name']
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
@@ -42,7 +41,7 @@ class StateListCreate(generics.ListCreateAPIView):
 
     def pre_save(self, obj):
         obj.author = Account.objects.get(uuid=self.request.DATA.get('author'))
-        obj.project = models.Project.objects.get(uuid=self.request.DATA.get('project'))
+        obj.tool = models.Tool.objects.get(uuid=self.request.DATA.get('tool'))
 
 
 class StateRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
@@ -50,7 +49,6 @@ class StateRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
     model = models.State
     queryset = model.objects.related_map()
-    lookup_field = 'uuid'
 
     def get_serializer_class(self):
         if self.request.method == 'GET':

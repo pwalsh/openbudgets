@@ -1,19 +1,19 @@
 from rest_framework import serializers
 from openbudget.apps.international.utilities import translated_fields
-from openbudget.apps.projects import models
+from openbudget.apps.tools import models
 from openbudget.apps.accounts.serializers import AccountMin
 from openbudget.commons.serializers import UUIDRelatedField
 
 
-class ProjectBaseSerializer(serializers.ModelSerializer):
+class ToolBaseSerializer(serializers.ModelSerializer):
 
-    """Base Project serializer, exposing our defaults for projects."""
+    """Base Tool serializer, exposing our defaults for tools."""
 
     author = AccountMin()
     url = serializers.Field(source='get_absolute_url')
 
     class Meta:
-        model = models.Project
+        model = models.Tool
         fields = ['id', 'url', 'author', 'label', 'name', 'description', 'featured',
                   'screenshot', 'created_on', 'last_modified'] +\
                  translated_fields(model)
@@ -22,7 +22,7 @@ class ProjectBaseSerializer(serializers.ModelSerializer):
 class StateBaseSerializer(serializers.HyperlinkedModelSerializer):
 
     """Base State serializer, for creating new State instances
-    and the base the serializer in charge of exposing our defaults for projects.
+    and the base the serializer in charge of exposing our defaults for tools.
 
     """
 
@@ -30,7 +30,7 @@ class StateBaseSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.State
-        fields = ['id', 'url', 'project', 'author', 'screenshot', 'config',
+        fields = ['id', 'url', 'tool', 'author', 'screenshot', 'config',
                   'created_on', 'last_modified']
 
 

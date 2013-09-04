@@ -12,10 +12,10 @@
     <title>{% block metatitle %}{{ page.title }} | {{ site.name }}{% endblock metatitle %}</title>
     <script src="//cdnjs.cloudflare.com/ajax/libs/raven.js/1.0.8/raven.min.js"></script>
 </head>
-<body class="projects-ext">
+<body class="tools-ext">
     <div id="right_edge_detector"></div>
 
-    {% block project_main %}{% endblock %}
+    {% block tool_main %}{% endblock %}
 
     <div id="panel-nav">
         {% include 'partials/nav-panel.html' %}
@@ -42,9 +42,9 @@
         var API_INDEX = 'http://api.{{ site.domain }}/',
             API_VERSION = 'v1',
             LOGGEDIN_USER = {{ user_json|safe }},
-            PROJECT = {{ project_json|safe }};
+            PROJECT = {{ tool_json|safe }};
     </script>
-    <script src="{% url 'projects_js_i18n' %}"></script>
-    <script src="{{ STATIC_URL }}lib/require.js" data-main="{{ STATIC_URL }}projects/{{ object.slug }}/main"></script>
+    <script src="{% url 'tools_js_i18n' %}"></script>
+    <script src="{{ STATIC_URL }}lib/require.js" data-main="{{ STATIC_URL }}tools/{{ object.slug }}/main"></script>
 </body>
 </html>

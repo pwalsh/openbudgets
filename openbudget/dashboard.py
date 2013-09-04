@@ -57,6 +57,14 @@ class OpenBudgetDashboard(Dashboard):
             models=('openbudget.apps.pages.*',),
         ))
 
+        self.children.append(modules.AppList(
+            _('Generic pages'),
+            collapsible=True,
+            column=1,
+            css_classes=('collapse closed',),
+            models=('openbudget.apps.tools.*',),
+        ))
+
         self.children.append(modules.LinkList(
             _('File management'),
             column=2,

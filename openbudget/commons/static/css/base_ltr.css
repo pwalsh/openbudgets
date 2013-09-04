@@ -1083,10 +1083,10 @@ input.valid {
   line-height: 1em;
 }
 /*******************/
-/*  PROJECT LIST   */
+/*  TOOL LIST   */
 /*******************/
-.projects-public,
-.projects-developers {
+.tools-public,
+.tools-developers {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -1094,13 +1094,13 @@ input.valid {
   width: 100%;
   margin-bottom: 50px;
 }
-.projects-public h2,
-.projects-developers h2 {
+.tools-public h2,
+.tools-developers h2 {
   margin-right: 20px;
   margin-bottom: 16px;
   font-size: 44px;
 }
-.project {
+.tool {
   position: relative;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1118,7 +1118,7 @@ input.valid {
   border-color: #026a74;
   background: url('/static/img/tools_default.png') no-repeat center;
 }
-.project:hover {
+.tool:hover {
   cursor: pointer;
 }
 .detail h3,

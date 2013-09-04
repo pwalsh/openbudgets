@@ -139,8 +139,8 @@ INSTALLED_APPS = (
     'openbudget.apps.pages',
     'openbudget.apps.sources',
     'openbudget.apps.taxonomies',
+    'openbudget.apps.tools',
     'openbudget.apps.transport',
-    'openbudget.apps.projects',
     'openbudget.api',
     'openbudget.commons',
 )

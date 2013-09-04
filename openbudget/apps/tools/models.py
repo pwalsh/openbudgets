@@ -9,7 +9,7 @@ from openbudget.commons.mixins.models import TimeStampedMixin, UUIDPKMixin, \
     ClassMethodMixin
 
 
-class ProjectManager(models.Manager):
+class ToolManager(models.Manager):
 
     """Exposes additional methods for model query operations.
 
@@ -22,32 +22,32 @@ class ProjectManager(models.Manager):
         return self.select_related()
 
 
-class Project(UUIDPKMixin, AbstractApplication, TimeStampedMixin, ClassMethodMixin):
+class Tool(UUIDPKMixin, AbstractApplication, TimeStampedMixin, ClassMethodMixin):
 
-    """API Project object, comprised of initial data + some meta data."""
+    """Tool object, comprised of initial data + some meta data."""
 
     class Meta:
-        verbose_name = _('project')
-        verbose_name_plural = _('projects')
+        verbose_name = _('tool')
+        verbose_name_plural = _('tools')
 
     LABEL_CHOICES = (('public', _('For the General Public')),
                      ('developers', _('For Developers')),)
 
-    objects = ProjectManager()
+    objects = ToolManager()
 
     author = models.ForeignKey(
         Account,
-        related_name='author_projects',)
+        related_name='author_tools',)
 
     description = models.TextField(
         _('Description'),
-        help_text=_('Provide a short description of this project'),)
+        help_text=_('Provide a short description of this tool'),)
 
     label = models.CharField(
         max_length=50,
         choices=LABEL_CHOICES,
         default=LABEL_CHOICES[0][0],
-        help_text=_('Set your preferred language for the app'),)
+        help_text=_('The type of tool'),)
 
     featured = models.BooleanField(
         _('Featured'),
@@ -57,7 +57,7 @@ class Project(UUIDPKMixin, AbstractApplication, TimeStampedMixin, ClassMethodMix
         _('Screenshot'),
         blank=True,
         null=True,
-        help_text=_('A screenshot for this visualization'),)
+        help_text=_('A screenshot for this tool'),)
 
     slug = AutoSlugField(
         db_index=True,
@@ -68,12 +68,11 @@ class Project(UUIDPKMixin, AbstractApplication, TimeStampedMixin, ClassMethodMix
         _('Data and configuration'),
         blank=True,
         null=True,
-        help_text=_('JSON serialized configuration object of the '
-                    'visualization.'),)
+        help_text=_('JSON serialized configuration object of the tool.'),)
 
     @models.permalink
     def get_absolute_url(self):
-        return 'project_detail', [self.slug]
+        return 'tool_detail', [self.slug]
 
     def __unicode__(self):
         return self.name
@@ -102,8 +101,8 @@ class State(UUIDPKMixin, TimeStampedMixin, ClassMethodMixin):
 
     objects = StateManager()
 
-    project = models.ForeignKey(
-        Project,
+    tool = models.ForeignKey(
+        Tool,
         related_name='states',)
 
     author = models.ForeignKey(
@@ -127,4 +126,4 @@ class State(UUIDPKMixin, TimeStampedMixin, ClassMethodMixin):
         return 'state-detail', [self.uuid]
 
     def __unicode__(self):
-        return self.project.name + u'state: ' + unicode(self.last_modified)
+        return self.tool.name + u'state: ' + unicode(self.last_modified)

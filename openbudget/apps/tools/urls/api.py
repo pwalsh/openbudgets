@@ -1,18 +1,18 @@
 from django.conf.urls import patterns, url
-from openbudget.apps.projects.views import api
+from openbudget.apps.tools.views import api
 
 
 urlpatterns = patterns('',
 
     url(r'^$',
-        api.ProjectList.as_view(), name='project-list'),
+        api.ToolList.as_view(), name='tool-list'),
 
     url(r'^states/$',
         api.StateListCreate.as_view(), name='state-list'),
 
     url(
         r'^(?P<uuid>\w+)/$',
-        api.ProjectDetail.as_view(), name='project-detail'),
+        api.ToolDetail.as_view(), name='tool-detail'),
 
     url(
         r'^states/(?P<uuid>\w+)/$',
