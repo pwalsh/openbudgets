@@ -27,27 +27,43 @@ define([
             };
         },
         nestingSort = function (a, b) {
-            var a_attrs = a.attributes,
+            var collection = a.collection,
+                a_attrs = a.attributes,
                 b_attrs = b.attributes,
-                a_parent = a_attrs.parent,
-                b_parent = b_attrs.parent,
-                collection, a_leaf, b_leaf;
+                a_ancestors = a_attrs.ancestors,
+                b_ancestors = b_attrs.ancestors,
+                n = 0, m = 0, 
+                a_top = a, b_top = b,
+                go_deeper = true,
+                a_code, b_code;
 
-            if ( a_parent === b_parent ) {
-                a_leaf = a_attrs.leaf_node;
-                b_leaf = b_attrs.leaf_node;
-                if ( a_leaf && ! b_leaf )
-                    return -1;
-                else if ( b_leaf && ! a_leaf )
-                    return 1;
-
-                return a_attrs.code < b_attrs.code ? -1 : 1;
+            do {
+                if ( a_ancestors[n] ) {
+                    a_top = collection.get(a_ancestors[n]);
+                    n += 1;
+                }
+                else {
+                    go_deeper = false;
+                    a_top = a;
+                }
+                if ( b_ancestors[m] ) {
+                    b_top = collection.get(b_ancestors[m]);
+                    m += 1;
+                }
+                else {
+                    go_deeper = false;
+                    b_top = b;
+                }
             }
+            while ( go_deeper && a_top.id === b_top.id );
 
-            collection = a.collection;
-            a_parent = a_parent ? collection.get(a_parent) : a;
-            b_parent = b_parent ? collection.get(b_parent) : b;
-            return nestingSort(a_parent, b_parent);
+            a_code = a_top.get('code');
+            b_code = b_top.get('code');
+
+            return a_code == b_code ? 
+                a_top === a ?
+                    -1 : 1 :
+                a_code < b_code ? -1 : 1;
         },
         /*
          * User (Account) Model
