@@ -5,7 +5,7 @@ from openbudget.commons.mixins.models import TimeStampedMixin
 
 class String(TimeStampedMixin):
 
-    """"""
+    """Strings and their aliases. Used for keyword mapping in the importer."""
 
     string = models.CharField(
         _('String'),

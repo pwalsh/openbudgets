@@ -15,11 +15,9 @@ class TaxonomyFactory(factory.DjangoModelFactory):
     name = factory.Sequence(lambda n: 'Taxonomy {0}'.format(n))
     description = factory.Sequence(lambda n: 'Taxononmy {0} description text.'.format(n))
     created_on = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
     last_modified = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
 
 
 class TagFactory(factory.DjangoModelFactory):
@@ -29,11 +27,9 @@ class TagFactory(factory.DjangoModelFactory):
     taxonomy = factory.SubFactory(TaxonomyFactory)
     name = factory.Sequence(lambda n: 'Taxonomy {0}'.format(n))
     created_on = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
     last_modified = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
 
 
 class TaggedNodeFactory(factory.DjangoModelFactory):
@@ -43,8 +39,6 @@ class TaggedNodeFactory(factory.DjangoModelFactory):
     tag = factory.SubFactory(TagFactory)
     content_object = factory.SubFactory(TemplateNodeFactory)
     created_on = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
     last_modified = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))

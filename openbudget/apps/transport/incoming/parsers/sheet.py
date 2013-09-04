@@ -1,5 +1,5 @@
 from copy import deepcopy
-from django.utils.translation import gettext as __
+from django.utils.translation import gettext as _
 from openbudget.apps.sheets.models import Template, Sheet, SheetItem
 from openbudget.apps.entities.models import Entity
 from openbudget.apps.international.utilities import translated_fields
@@ -37,7 +37,7 @@ def _rows_filter(obj, row_num=None):
             except (ValueError, TypeError):
                 pass
         else:
-            raise ParsingError(__('Neither actual nor budget columns found.'))
+            raise ParsingError(_('Neither actual nor budget columns found.'))
 
         return False
 
@@ -48,7 +48,8 @@ class SheetParser(TemplateParser):
     item_model = SheetItem
     ITEM_ATTRIBUTES = ['budget', 'actual', 'node', 'description', 'sheet']\
                       + translated_fields(SheetItem)
-    ITEM_CLEANING_EXCLUDE = ['node', 'sheet']
+    CONTAINER_ATTRIBUTES = ['entity', 'period_start', 'period_end']
+    ITEM_CLEANING_EXCLUDE = ['node', 'sheet', 'lookup']
 
     def __init__(self, container_object_dict):
         super(SheetParser, self).__init__(container_object_dict)
@@ -113,6 +114,7 @@ class SheetParser(TemplateParser):
                     self._save_item(obj, key, is_node=True)
 
                 self._save_amounts()
+                #self._save_sheet_amounts()
 
             self.dry = False
 
@@ -182,7 +184,7 @@ class SheetParser(TemplateParser):
                 )
             )
         else:
-            raise ParsingError(__('Did not find a node for the item in row: %s') % self.rows_objects_lookup[key])
+            raise ParsingError(_('Did not find a node for the item in row: %s') % self.rows_objects_lookup[key])
 
         return super(TemplateParser, self)._create_item(obj, key)
 
@@ -262,7 +264,7 @@ class SheetParser(TemplateParser):
                             return qs[0]
                         else:
                             #TODO: handle this case of no previous template found
-                            raise ParsingError(__('Could not find a parent template for input: %s') % container_dict)
+                            raise ParsingError(_('Could not find a parent template for input: %s') % container_dict)
 
     def _set_entity(self):
 
@@ -270,10 +272,7 @@ class SheetParser(TemplateParser):
 
         try:
             if not isinstance(container_dict['entity'], Entity):
-                entity = Entity.objects.get(
-                    pk=container_dict['entity']
-                )
-                container_dict['entity'] = entity
+                entity = Entity.objects.get(pk=container_dict['entity'])
 
                 return entity
 
@@ -290,6 +289,23 @@ class SheetParser(TemplateParser):
             else:
                 raise e
 
+    def _save_sheet_amounts(self):
+
+        print 'saving sheet amounts'
+
+        print self.container_object
+        print self.container_object.__dict__
+        print self
+        print self.__dict__
+
+        summable_items = self.container_object.items.filter(node__parent__isnull=True)
+        sheet_budget = sum([item.budget for item in summable_items])
+        sheet_actual = sum([item.budget for item in summable_items])
+        self.container_object.budget = sheet_budget
+        self.container_object.actual = sheet_actual
+        self.container_object.save()
+        return True
+
     def _save_amounts(self):
         children_lookup = {}
         keys_by_level = {1: []}
@@ -305,7 +321,7 @@ class SheetParser(TemplateParser):
 
             if parent:
                 parent_key = parent.path
-                level = len(parent_key.split(self.ROUTE_SEPARATOR))
+                level = len(parent_key.split(self.PATH_DELIMITER))
 
                 if parent_key not in children_lookup:
                     children_lookup[parent_key] = []

@@ -5,12 +5,9 @@ from openbudget.apps.interactions.views import CommentFeed, toggleable_interacti
 urlpatterns = patterns('',
 
     url(r'^feed/(?P<model>[-\w]+)/(?P<uuid>[-\w]+)/discussion\.atom$',
-        CommentFeed(),
-        name='comment_feed'
-    ),
+        CommentFeed(), name='comment_feed'),
+
     url(r'^toggle/$',
-        toggleable_interaction,
-        name='toggleable_interaction'
-    ),
+        toggleable_interaction, name='toggleable_interaction'),
 
 )

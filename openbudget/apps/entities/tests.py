@@ -11,10 +11,7 @@ class EntityTestCase(TestCase):
 
     def test_listview(self):
 
-        listview = reverse(
-            'entity_list'
-        )
-
+        listview = reverse('entity_list')
         response = self.client.get(listview)
 
         self.assertEqual(response.status_code, 200)
@@ -22,9 +19,7 @@ class EntityTestCase(TestCase):
 
     def test_entity_detailview(self):
 
-        detailview = reverse('entity_detail',
-            args=(self.entity.slug,)
-        )
+        detailview = reverse('entity_detail', args=(self.entity.slug,))
         response = self.client.get(detailview)
 
         self.assertEqual(response.status_code, 200)

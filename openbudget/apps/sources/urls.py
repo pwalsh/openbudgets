@@ -5,13 +5,9 @@ from openbudget.apps.sources.views import AuxSourceDetailView, ReferenceSourceDe
 urlpatterns = patterns('',
 
     url(r'^aux/(?P<slug>[-\w]+)/$',
-        AuxSourceDetailView.as_view(),
-        name='auxsource_detail'
-    ),
+        AuxSourceDetailView.as_view(), name='auxsource_detail'),
 
     url(r'^reference/(?P<slug>[-\w]+)/$',
-        ReferenceSourceDetailView.as_view(),
-        name='referencesource_detail'
-    ),
+        ReferenceSourceDetailView.as_view(), name='referencesource_detail'),
 
 )

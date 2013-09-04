@@ -5,11 +5,9 @@ from openbudget.apps.accounts.views import api
 urlpatterns = patterns('',
 
     url(r'^$',
-        api.AccountList.as_view(),
-        name='account-list'
-    ),
+        api.AccountList.as_view(), name='account-list'),
+
     url(r'^(?P<pk>\d+)/$',
-        api.AccountDetail.as_view(),
-        name='account-detail'
-    ),
+        api.AccountDetail.as_view(), name='account-detail'),
+
 )

@@ -12,8 +12,6 @@ class ContextFactory(factory.DjangoModelFactory):
     entity = factory.SubFactory(EntityFactory)
     data = '{"population":0,"ground_surface":0;"high_schools":0}'
     period_start = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
     period_end = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))

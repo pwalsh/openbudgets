@@ -10,11 +10,9 @@ class DomainFactory(factory.DjangoModelFactory):
 
     name = name = factory.Sequence(lambda n: 'Domain {0}'.format(n))
     created_on = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
     last_modified = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
 
 
 class DivisionFactory(factory.DjangoModelFactory):
@@ -25,11 +23,9 @@ class DivisionFactory(factory.DjangoModelFactory):
     index = 0
     name = name = factory.Sequence(lambda n: 'DomainDivision {0}'.format(n))
     created_on = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
     last_modified = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
 
 
 class EntityFactory(factory.DjangoModelFactory):
@@ -42,8 +38,6 @@ class EntityFactory(factory.DjangoModelFactory):
     description = factory.Sequence(lambda n: 'Entity {0} description text.'.format(n))
     code = factory.Sequence(lambda n: 'CODE{0}'.format(n))
     created_on = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
     last_modified = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))

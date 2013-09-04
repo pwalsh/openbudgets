@@ -60,10 +60,7 @@ class ContactView(JSONResponseMixin, FormView):
 
         if self.request.is_ajax():
 
-            data = {
-                'data': _('Success'),
-                'next': self.request.POST['next']
-            }
+            data = {'data': _('Success'), 'next': self.request.POST['next']}
 
             return self.render_to_json_response(data)
 

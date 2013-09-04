@@ -4,6 +4,7 @@ from openbudget.apps.accounts import models
 
 
 class AccountList(generics.ListAPIView):
+
     """Called via an API endpoint that represents a list of account objects."""
 
     model = models.Account
@@ -14,6 +15,7 @@ class AccountList(generics.ListAPIView):
 
 
 class AccountDetail(generics.RetrieveAPIView):
+
     """Called via an API endpoint that represents a single account object."""
 
     model = models.Account

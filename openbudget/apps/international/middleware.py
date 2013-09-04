@@ -11,7 +11,9 @@ from openbudget.apps.international.utilities import get_language_key
 
 
 class InterfaceLanguage(object):
+
     """Returns a LANGUAGE_CODE object for the request context"""
+
     def process_request(self, request):
         domain = get_domain()
         host = request.get_host()

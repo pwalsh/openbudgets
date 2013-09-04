@@ -17,15 +17,10 @@ class TagDetailView(DetailView):
     def get_object(self, queryset=None):
         queryset = self.get_queryset()
         queryset = queryset.filter(slug=self.kwargs['slug'])
-        taxonomy = Taxonomy.objects.get(
-            slug=self.kwargs['taxonomy_slug']
-        )
+        taxonomy = Taxonomy.objects.get(slug=self.kwargs['taxonomy_slug'])
         try:
             obj = queryset.get(taxonomy=taxonomy)
         except ObjectDoesNotExist:
-            raise Http404(
-                _("No {verbose_name} found matching the query").format(
-                    verbose_name=queryset.model._meta.verbose_name
-                    )
-                )
+            raise Http404(_("No {verbose_name} found matching the query").format(
+                verbose_name=queryset.model._meta.verbose_name))
         return obj

@@ -16,14 +16,11 @@ class AccountFactory(factory.DjangoModelFactory):
     is_active = True
     is_superuser = False
     last_login = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
     created_on = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
     last_modified = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
 
     @classmethod
     def _prepare(cls, create, **kwargs):

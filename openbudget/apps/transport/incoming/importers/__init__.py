@@ -1,38 +1,38 @@
 import os
 from datetime import datetime
 from django.core.mail import EmailMessage
-from openbudget.settings.base import OPENBUDGETS_TEMP_DIR, ADMINS, EMAIL_HOST_USER
+from django.conf import settings
 from openbudget.apps.international.utilities import translated_fields
+from openbudget.apps.entities.models import Entity
 from openbudget.apps.transport.models import String
 from openbudget.apps.transport.incoming.parsers import get_parser, get_parser_key
 
 
 class BaseImporter(object):
-    """Gets data out of files and into the database.
+    """Gets data out of files and into Python data types for further processing.
 
-    This class is abstract and does not implement the `get_data` method.
+    This class is abstract and does not implement the required `get_data`
+    method. It is provided to make it easy to write alternative importers.
 
-    This class can handle any of the supported datasets for importing.
+    The default importer for Open Budgets is tablibimporter.TablibImporter,
+    which subclasses BaseImporter, and implemented `get_data` using the
+    excellent tablib module.
 
-    At this stage, that means Templates (template and related
-    node objects), and Sheets (+ related items).
+    BaseImporter currently supports import of:
 
-    The importer supports a lower level import by parsing the
-    file name for meta data - useful while testing, so developers do
-    not have to work with an interactive importer. Otherwise, \
-    it should be used with an interactive wizard so the content \
-    editor can add metadata via a form as part of the import process.
+    * Templates (ie: templates and their nodes)
+    * Sheets (ie: sheets and their items)
 
     """
 
-    def __init__(self, sourcefile=None, post_data=None, ignore_unknown_headers=False,
-                 ignore_invalid_rows=False, dataset_meta_in_filename=False):
+    def __init__(self, sourcefile=None, post_data=None, meta_from_filename=False,
+                 ignore_unknown_headers=True, ignore_invalid_rows=False):
 
         self.sourcefile = sourcefile
         self.post_data = post_data
         self.ignore_unknown_headers = ignore_unknown_headers
         self.ignore_invalid_rows = ignore_invalid_rows
-        self.dataset_meta_in_filename = dataset_meta_in_filename
+        self.meta_from_filename = meta_from_filename
 
         if sourcefile:
             self.extract()
@@ -158,8 +158,8 @@ class BaseImporter(object):
         """
         dt = datetime.now().isoformat()
 
-        attachment = OPENBUDGETS_TEMP_DIR + \
-            '/failed_import_{timestamp}_{filename}'.format(
+        attachment = settings.OPENBUDGETS_TEMP_DIR + \
+            u'/failed_import_{timestamp}_{filename}'.format(
                 timestamp=dt,
                 filename=unicode(self.sourcefile)
             )
@@ -168,10 +168,10 @@ class BaseImporter(object):
             for chunk in self.sourcefile.chunks():
                 tmp_file.write(chunk)
 
-        subject = 'Open Budget: Failed File Import'
-        message = 'The file is attached.'
-        sender = EMAIL_HOST_USER
-        recipients = [ADMINS]
+        subject = u'Open Budget: Failed File Import'
+        message = u'The file is attached.'
+        sender = settings.EMAIL_HOST_USER
+        recipients = [settings.ADMINS]
         mail = EmailMessage(subject, message, sender, recipients)
         mail.attach_file(attachment)
         mail.send()
@@ -203,7 +203,7 @@ class BaseImporter(object):
         advance, as there will be no interactive wizard to fix data.
 
         """
-        if self.dataset_meta_in_filename:
+        if self.meta_from_filename:
             parser = self._get_parser_from_filename()
         else:
             parser = self._get_parser_from_post()
@@ -230,91 +230,90 @@ class BaseImporter(object):
     def _get_parser_from_filename(self):
         """Extract required metadata for a dataset from the filename.
 
-        This is used for importing datasets from files non-interactively.
-
-        It is specifically intended for use during development - there is no
-        fancy error checking - if you know your dataset is valid, and the DB
-        already has any required dependencies for your dataset, then all will be
-        peachy.
-
-        The filename must follow a particular format, otherwise we'll get
-        an exception and never get to the data inside.
+        This is used for non-interactive importing of datasets from files.
 
         FILENAME FORMAT:
-        |PARSER|_|CONTAINEROBJECT-ATTRS|.extension
+
+        TYPE;CONTAINER_OBJECT_KWARGS.EXTENSION
+
+        The first positional argument is always the type (Django model name),
+        and the type must be supported by a parser.
 
         A keyword argument-like pattern is used for the attributes of the
-        container object. Each keyword argument is separated by a semi-colon.
-        Multiple values for a keyword (eg: m2m fields) are comma separated.
-        Arguments for object attributes are keywords.
+        container object.
 
-        EXAMPLES:
+        Arguments are separated by:
 
-        BUDGET TEMPLATE FILENAME:
-        budgettemplate_name=israel-municipality;divisions=4,5,6;period_start=2001-01-10.csv
+        settings.OPENBUDGETS_IMPORT_FIELD_DELIMITER
+
+        defaults to ','.
+
+        Multiple values for keys are separated by:
+
+        settings.OPENBUDGETS_IMPORT_INTRA_FIELD_DELIMITER
+
+        defaults to '|'.
+
+        EXAMPLES
+        --------
+
+        TEMPLATE:
+        template,name=israel-municipality,divisions=4|5|6,period_start=2001-01-10.csv
         Each row in the file is a node in the template.
 
-
-        BUDGET FILENAME:
-        budget_entity=1,period_start=2001-01-01;period_end=2001-12-31.csv
+        SHEET:
+        sheet,entity=slug,period_start=2001-01-01,period_end=2001-12-31.csv
         Each row in the file is an item in the budget.
-
-        ACTUAL FILENAME:
-        budget_entity=1,period_start=2001-01-01;period_end=2001-12-31.csv
-        Each row in the file is an item in the actual.
-
-        DOMAIN FILENAME:
-        budget_entity=1,period_start=2001-01-01;period_end=2001-12-31.csv
-        Each row in the file is an item in the actual.
-
-        DOMAIN DIVISIONS FILENAME:
-        budget_entity=1,period_start=2001-01-01;period_end=2001-12-31.csv
-        Each row in the file is an item in the actual.
-
-        ENTITY FILENAME
-        entity.csv
-        Each row in the file is an item in the actual.
-        * doesn't require parsing the filename, just requires that the domain
-        and divisions are in the DB.
 
         """
 
+        ARGS_DELIMITER = settings.OPENBUDGETS_IMPORT_FIELD_DELIMITER
+        VALS_DELIMITER = settings.OPENBUDGETS_IMPORT_INTRA_FIELD_DELIMITER
+
         # an empty dict to populate with data for our container object
         container_object_dict = {}
+
+        # an empty dict to work with while creating the final container dict
+        unprocessed_arguments_dict = {}
 
         # get our data string from the filename
         keys, ext = os.path.splitext(unicode(self.sourcefile))
 
         # first, split the parser key from the container_object keys
-        parser_key, attributes_str = keys.split('_', 1)
+        arguments = keys.split(ARGS_DELIMITER)
 
         # get the appropriate parser class
+        parser_key = arguments[0]
         parser = get_parser(parser_key)
 
-        # now get the keyword arguments for the container object
-        container_object_kwargs = attributes_str.split(';')
+        for argument in arguments[1:]:
 
-        # and split these keyword arguments into keys and values
-        for kwarg in container_object_kwargs:
-            attr_key, attr_val = kwarg.split('=')
+            argument_key, argument_value = argument.split('=')
 
-            # and make sure each attribute is valid for the container model
-            try:
-                getattr(parser.container_model, attr_key)
-            except AttributeError as e:
-                raise e
+            if VALS_DELIMITER in argument_value:
+                argument_value = tuple(argument_value.split(VALS_DELIMITER))
 
-            # if the value has commas, it is an m2m related field
-            if ',' in attr_val:
-                attr_val = tuple(attr_val.split(','))
+            # the arguments we got, now as a dictionary
+            unprocessed_arguments_dict[argument_key] = argument_value
 
-            container_object_dict[attr_key] = attr_val
+        # some special conditions, depending on type
+        if parser_key == 'sheet':
+            unprocessed_arguments_dict['entity'] = Entity.objects.get(
+                slug=unprocessed_arguments_dict['entity'])
+
+        # remove non-valid arguments
+        for k in unprocessed_arguments_dict.copy():
+            if not k in parser.CONTAINER_ATTRIBUTES:
+                del unprocessed_arguments_dict[k]
+
+        # update the empty container_object_dict with valid arguments
+        container_object_dict.update(unprocessed_arguments_dict)
 
         # return instantiated parser
         return parser(container_object_dict)
 
     def _get_parser_from_post(self):
-        """Extract necessary info on the dataset from the request's POST data.
+        """Extract required metadata for a dataset from request.POST.
 
         For now relies on the same format of the above file name meta extractor, \
         except it looks for the parser type under the key `type` and for the rest \
@@ -322,7 +321,7 @@ class BaseImporter(object):
         """
         #TODO: refactor the meta extraction from string parsing to proper data in POST
         container_object_dict = {}
-        parser_key = self.post_data.get('type', 'budget')
+        parser_key = self.post_data.get('type', '')
         attributes_str = self.post_data.get('attributes', None)
 
         # get the appropriate parser class
@@ -338,14 +337,9 @@ class BaseImporter(object):
 
                 # check that this key belongs to our parser's container model
                 try:
-                    getattr(parser.container_model, attr_key)
+                    getattr(parser.container_model(), attr_key)
                 except AttributeError as e:
-                    try:
-                        # if it's not an attribute of the container model's class
-                        # it might be an attribute of its instance (because of use of mixins)
-                        getattr(parser.container_model(), attr_key)
-                    except AttributeError as e:
-                        raise e
+                    raise e
 
                 # if the value has commas, it is an m2m related field
                 if ',' in attr_val:

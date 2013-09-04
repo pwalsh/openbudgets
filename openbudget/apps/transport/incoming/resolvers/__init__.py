@@ -1,4 +1,4 @@
-from openbudget.apps.sheets.models import PATH_SEPARATOR
+from django.conf import settings
 from openbudget.apps.transport.incoming.parsers import ITEM_SEPARATOR
 from openbudget.apps.transport.incoming.errors import DataAmbiguityError, ParentScopeError,\
     InverseScopesError, InverseNodeNotFoundError
@@ -6,7 +6,7 @@ from openbudget.apps.transport.incoming.errors import DataAmbiguityError, Parent
 
 class PathResolver(object):
 
-    ROUTE_SEPARATOR = PATH_SEPARATOR
+    PATH_DELIMITER = settings.OPENBUDGETS_IMPORT_INTRA_FIELD_DELIMITER
     ITEM_SEPARATOR = ITEM_SEPARATOR
 
     def __init__(self, parser, data, parent_template=None):
@@ -68,16 +68,23 @@ class PathResolver(object):
             parent = obj.get('parent', None)
             if first_run:
                 scope = obj.get('parentscope', None)
+                if scope:
+
+
+                    tmp = scope.split(self.PATH_DELIMITER)
+                    scope = ','.join(tmp)  # tuple(tmp)
+
+
                 if parent and scope:
                     # we have scope so we can resolve immediately
-                    key = self.ROUTE_SEPARATOR.join((code, parent, scope))
+                    key = self.PATH_DELIMITER.join((code, parent, scope))
                     self._resolve_row(key, row)
                 elif not parent:
                     # top level node - resolve
                     self._resolve_row(code, row)
                     self.root_nodes_lookup[code] = obj
                 elif parent in self.root_nodes_lookup:
-                    key = self.ROUTE_SEPARATOR.join((code, self.root_nodes_lookup[parent]['code']))
+                    key = self.PATH_DELIMITER.join((code, self.root_nodes_lookup[parent]['code']))
                     self._resolve_row(key, row)
                 else:
                     # defer for next run
@@ -85,7 +92,7 @@ class PathResolver(object):
             else:
                 has_unresolved_parents = parent in self.unresolved_rows_by_code
                 if parent in self.root_nodes_lookup:
-                    key = self.ROUTE_SEPARATOR.join((code, self.root_nodes_lookup[parent]['code']))
+                    key = self.PATH_DELIMITER.join((code, self.root_nodes_lookup[parent]['code']))
                     self._resolve_row(key, row)
 
                 elif self.has_parent_template:
@@ -98,15 +105,15 @@ class PathResolver(object):
                             route = [code, parent]
                             if scope:
                                 route += scope
-                            key = self.ROUTE_SEPARATOR.join(route)
-                            self._resolve_row(key, row, self.ROUTE_SEPARATOR.join(scope))
+                            key = self.PATH_DELIMITER.join(route)
+                            self._resolve_row(key, row, self.PATH_DELIMITER.join(scope))
                         elif is_in_parent and len(self.parent_nodes_by_code[parent]) == 1:
                             scope = self._get_scope_by_code(parent, True)
                             route = [code, parent]
                             if scope:
                                 route += scope
-                            key = self.ROUTE_SEPARATOR.join(route)
-                            self._resolve_row(key, row, self.ROUTE_SEPARATOR.join(scope))
+                            key = self.PATH_DELIMITER.join(route)
+                            self._resolve_row(key, row, self.PATH_DELIMITER.join(scope))
                         else:
                             self._throw_parent_scope_error(code, parent, row_num)
 
@@ -125,8 +132,8 @@ class PathResolver(object):
                             route = [code, parent]
                             if scope:
                                 route += scope
-                            key = self.ROUTE_SEPARATOR.join(route)
-                            self._resolve_row(key, row, self.ROUTE_SEPARATOR.join(scope))
+                            key = self.PATH_DELIMITER.join(route)
+                            self._resolve_row(key, row, self.PATH_DELIMITER.join(scope))
                         else:
                             self._throw_parent_scope_error(code, parent, row_num)
                     else:
@@ -157,7 +164,7 @@ class PathResolver(object):
         parent = obj.get('parent', None)
         if parent:
             scope = scope or obj.get('parentscope', None)
-            parent_key = self.ROUTE_SEPARATOR.join((parent, scope)) if scope else parent
+            parent_key = self.PATH_DELIMITER.join((parent, scope)) if scope else parent
             self.parent_keys_lookup.append(parent_key)
 
         if code not in self.resolved_rows_by_code:
@@ -200,7 +207,7 @@ class PathResolver(object):
             parent_path = self.parent_nodes_by_code[code][0]['path']
         else:
             parent_path = self.resolved_rows_by_code[code][0][1]['path']
-        return parent_path.split(self.ROUTE_SEPARATOR)[1:]
+        return parent_path.split(self.PATH_DELIMITER)[1:]
 
     def _set_inverse_scope(self, row):
         row_num, obj = row
@@ -222,7 +229,7 @@ class PathResolver(object):
                     )
 
                 for i, inv_code in enumerate(inverses):
-                    key = self.ROUTE_SEPARATOR.join((inv_code, inverse_scopes[i]))
+                    key = self.PATH_DELIMITER.join((inv_code, inverse_scopes[i]))
                     if key not in self.resolved_lookup and not self._lookup_path_in_parent(inv_code, key):
                         InverseNodeNotFoundError(
                             row=row_num,
@@ -237,7 +244,7 @@ class PathResolver(object):
                         inverse_scopes.append('')
                     if inv_code in self.resolved_rows_by_code:
                         if len(self.resolved_rows_by_code[inv_code]) == 1:
-                            scope = self.ROUTE_SEPARATOR.join(self._get_scope_by_code(inv_code))
+                            scope = self.PATH_DELIMITER.join(self._get_scope_by_code(inv_code))
                             inverse_scopes.append(scope)
                         else:
                             self.throw(
@@ -248,7 +255,7 @@ class PathResolver(object):
                                 )
                             )
                     elif inv_code in self.parent_nodes_by_code and len(self.parent_nodes_by_code[inv_code]) == 1:
-                        scope = self.ROUTE_SEPARATOR.join(self._get_scope_by_code(inv_code, True))
+                        scope = self.PATH_DELIMITER.join(self._get_scope_by_code(inv_code, True))
                         inverse_scopes.append(scope)
                     else:
                         self.throw(

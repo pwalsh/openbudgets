@@ -4,6 +4,7 @@ from openbudget.apps.entities import models
 
 
 class EntityMin(serializers.HyperlinkedModelSerializer):
+
     """A minimal serializer for use as a nested entity representation."""
 
     class Meta:
@@ -12,6 +13,7 @@ class EntityMin(serializers.HyperlinkedModelSerializer):
 
 
 class DivisionMin(serializers.HyperlinkedModelSerializer):
+
     """A minimal serializer for use as a nested division representation."""
 
     class Meta:
@@ -20,6 +22,7 @@ class DivisionMin(serializers.HyperlinkedModelSerializer):
 
 
 class EntityBase(serializers.HyperlinkedModelSerializer):
+
     """The default serialized representation of entities."""
 
     parent = EntityMin()
@@ -33,6 +36,7 @@ class EntityBase(serializers.HyperlinkedModelSerializer):
 
 
 class DivisionBase(serializers.HyperlinkedModelSerializer):
+
     """The default serialized representation of divisions."""
 
     class Meta:
@@ -42,6 +46,7 @@ class DivisionBase(serializers.HyperlinkedModelSerializer):
 
 
 class DomainBase(serializers.HyperlinkedModelSerializer):
+
     """The default serialized representation of domains."""
 
     class Meta:
@@ -52,12 +57,14 @@ class DomainBase(serializers.HyperlinkedModelSerializer):
 
 
 class DomainDetail(DomainBase):
+
     """A detailed, related representation of domain."""
 
     divisions = DivisionBase()
 
 
 class DivisionDetail(DivisionBase):
+
     """Used to represent a full relational map of a division."""
 
     domain = DomainBase()
@@ -69,6 +76,7 @@ class DivisionDetail(DivisionBase):
 
 
 class EntityDetail(EntityBase):
+
     """A detailed, related representation of entities."""
     # preventing circular import
     from openbudget.apps.sheets.serializers.api import SheetBase

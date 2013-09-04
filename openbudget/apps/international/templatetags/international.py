@@ -3,7 +3,6 @@
 Requires:
 * django-subdomains - this can easily be removed by directly querying the Sites table.
 """
-
 from django.conf import settings
 from django.template import Library
 from subdomains.utils import get_domain
@@ -24,9 +23,7 @@ def language_switch(full_path):
         tmp['url'] = 'http://' + l[0] + '.' + domain + full_path
         data.append(tmp)
 
-    value = {
-        'languages': data
-    }
+    value = {'languages': data}
 
     return value
 
@@ -43,8 +40,6 @@ def multilingual_meta(full_path):
         tmp['url'] = 'http://' + l[0] + '.' + domain + full_path
         data.append(tmp)
 
-    value = {
-        'languages': data
-    }
+    value = {'languages': data}
 
     return value

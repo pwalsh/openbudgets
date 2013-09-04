@@ -16,9 +16,9 @@ class AccountAdmin(UserAdmin):
 
     form = AccountChangeForm
     add_form = AccountCreationForm
-    fieldsets = (
-        (_('Account credentials'), {'fields': ('password', 'email', 'first_name', 'last_name', 'is_active')}),
-    )
+    fieldsets = ((_('Account credentials'), {'fields': ('password', 'email',
+                                                        'first_name', 'last_name',
+                                                        'is_active')}),)
 
 
 class CoreTeamAccountAdmin(AccountAdmin):

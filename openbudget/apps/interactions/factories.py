@@ -13,11 +13,9 @@ class InteractionFactory(factory.DjangoModelFactory):
     content_type = 1
     object_id = 1
     last_login = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
     date_joined = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
 
 
 class StarFactory(InteractionFactory):

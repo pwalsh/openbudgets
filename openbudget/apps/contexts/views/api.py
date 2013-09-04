@@ -8,12 +8,13 @@ class ContextList(ListAPIView):
     """Called via an API endpoint that represents a list of context objects."""
 
     model = Context
+    queryset = model.objects.related_map()
     serializer_class = ContextBaseSerializer
     ordering = ['id', 'entity__name', 'period_start', 'created_on', 'last_modified']
     search_fields = ['data', 'entity__name']
 
     def get_queryset(self):
-        queryset = self.model.objects.related_map()
+        queryset = super(ContextList, self).get_queryset()
 
         ### FILTERS
         domains = self.request.QUERY_PARAMS.get('domains', None)
@@ -49,5 +50,5 @@ class ContextDetail(RetrieveAPIView):
     """Called via an API endpoint that represents a single context object."""
 
     model = Context
-    queryset = Context.objects.related_map()
+    queryset = model.objects.related_map()
     serializer_class = ContextBaseSerializer

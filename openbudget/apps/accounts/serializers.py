@@ -3,6 +3,7 @@ from openbudget.apps.accounts import models
 
 
 class AccountBaseSerializer(serializers.HyperlinkedModelSerializer):
+
     """Base Account serializer, exposing our defaults for accounts."""
 
     class Meta:
@@ -12,6 +13,7 @@ class AccountBaseSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class AccountMin(serializers.ModelSerializer):
+
     """A minimal serializer for use as a nested entity representation."""
 
     avatar = serializers.Field(source='avatar')

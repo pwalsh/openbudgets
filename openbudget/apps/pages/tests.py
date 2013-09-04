@@ -13,9 +13,7 @@ class PageTestCase(TestCase):
 
     def test_page_detailview(self):
 
-        detailview = reverse('page',
-                args=(self.page.slug,)
-            )
+        detailview = reverse('page', args=(self.page.slug,))
 
         response = self.client.get(detailview)
 

@@ -41,10 +41,4 @@ def save_import(deferred, email):
         subject = _('[OPEN BUDGET]: Data import failure')
         message = _('The data import failed for ' + name)
 
-    return send_mail(
-        subject,
-        message,
-        sender,
-        [recipient],
-        fail_silently=True
-    )
+    return send_mail(subject, message, sender, [recipient], fail_silently=True)

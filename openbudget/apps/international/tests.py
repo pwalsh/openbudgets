@@ -106,12 +106,6 @@ class InternationalCase(TestCase):
             self.assertEqual(lang, this_subdomain_lang)
 
             for user in self.users:
-                self.client.login(
-                    email=user.email,
-                    password='letmein'
-                )
+                self.client.login(email=user.email, password='letmein')
 
-                self.assertEqual(
-                    lang,
-                    user.language
-                )
+                self.assertEqual(lang, user.language)
