@@ -119,6 +119,7 @@ class EntityDetail(DetailView):
 
         # format numbers in items_list
         for item in items_list:
+            item['direction'] = _(item['direction'])
             item['f_budget'] = commas_format(item['budget'])
             item['f_actual'] = commas_format(item['actual'])
 
@@ -132,6 +133,9 @@ class EntityDetail(DetailView):
             # format numbers
             scope_item_serialized['budget'] = commas_format(scope_item_serialized['budget'])
             scope_item_serialized['actual'] = commas_format(scope_item_serialized['actual'])
+
+            # translate direction
+            scope_item_serialized['direction'] = _(scope_item_serialized['direction'])
 
             context['scope_item_json'] = renderer.render(scope_item_serialized)
 
