@@ -82,12 +82,15 @@ define([
             },
             signals     : {
                 post_init   : function () {
+                    var that = this;
                     this.listenTo(uijet.Resource('NodesListState'), 'change:normalize_by', function (model) {
                         if ( 'normalize_by' in model.changed ) {
-                            this.resource.recalcFactors();
-                            this.draw();
+                            that.resource.recalcFactors()
+                                .then(function () {
+                                    that.draw();
+                                });
                         }
-                    }.bind(this));
+                    });
                 }
             },
             data_events : {

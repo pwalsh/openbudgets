@@ -108,7 +108,18 @@ define([
                 .Resource('LatestSheet', resources.Nodes)
                 .Resource('Contexts', resources.Contexts)
                 .Resource('LoggedinUser', resources.User, window.LOGGEDIN_USER);
-            
+
+            // add a sync event handler that caches IDs of Munis that their contexts where fetched
+            uijet.Resource('Contexts').on('sync', function (collection, response, options) {
+                collection.entities.push.apply(
+                    collection.entities,
+                    options.data.entities
+                        .split(',')
+                        .map(function (entity_id) {
+                            return +entity_id;
+                        }));
+            });
+
             this.LegendItemModel = uijet.Model({
                 initialize  : function () {
                     this.id = resources._.uniqueId('li');

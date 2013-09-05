@@ -264,11 +264,17 @@ define([
         }),
         Contexts = uijet.Collection({
             model   : Context,
+            entities: [],
             url     : function () {
                 return api.getRoute('contexts');
             },
             parse   : function (response) {
                 return response.results;
+            },
+            hasMunis: function (muni_ids) {
+                return muni_ids.every(function (muni_id) {
+                    return ~ this.entities.indexOf(muni_id);
+                }, this);
             }
         }),
         State = uijet.Model({

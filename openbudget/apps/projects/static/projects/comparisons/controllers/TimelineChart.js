@@ -132,10 +132,25 @@ define([
             }).sort();
         },
         recalcFactors   : function () {
-            this.each(function (model) {
-                model.recalcFactor();
-            });
-            return this;
+            var muni_ids = this.pluck('muni_id'),
+                contexts = uijet.Resource('Contexts'),
+                has_contexts = contexts.hasMunis(muni_ids),
+                dfrd;
+            if ( has_contexts ) {
+                this.each(function (model) {
+                    model.recalcFactor();
+                });
+            }
+            else {
+                return contexts.fetch({
+                    data: {
+                        entities: resources._.uniq(muni_ids.concat(contexts.entities)).toString()
+                    }
+                });
+            }
+            dfrd = uijet.Promise();
+            dfrd.resolve();
+            return dfrd.promise();
         },
         extractLegend   : function () {
             return this.models.map(function (model) {
@@ -197,8 +212,9 @@ define([
             }, this);
 
             return this.resource.set(updated_models)
-                .fetch().then(function () {
-                    uijet.Resource('NodesListState').get('normalize_by') && this.resource.recalcFactors();
+                .fetch()
+                .then(function () {
+                    return uijet.Resource('NodesListState').get('normalize_by') && this.resource.recalcFactors();
                 }.bind(this));
         }
     });

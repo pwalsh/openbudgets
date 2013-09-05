@@ -167,7 +167,6 @@ define([
             menu        : {
                 element         : '#normalization_selector_menu',
                 float_position  : 'top:44px',
-                initial         : ':first-child',
                 signals         : {
                     post_wake   : 'opened',
                     post_sleep  : 'closed',
@@ -182,6 +181,20 @@ define([
                 }
             },
             content     : uijet.$('#normalization_selector_selection'),
+            signals     : {
+                post_init   : function () {
+                    uijet.Resource('ProjectState')
+                        .on('change:normalize_by', function (model, normalize_key) {
+                            var $items = this.$element.find('.uijet_select_menu').children();
+                            uijet.Resource('NodesListState').set('normalize_by', normalize_key);
+                            this.setSelected(
+                                normalize_key ?
+                                    $items.filter('[data-key=' + normalize_key + ']') :
+                                    $items.first()
+                            );
+                        }, this);
+                }
+            },
             app_events  : {
                 'chart_section.awaken'              : 'wake',
                 welcome                             : 'sleep',
