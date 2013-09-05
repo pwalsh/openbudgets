@@ -257,10 +257,7 @@ define([
             }
         }),
         Context = uijet.Model({
-            parse   : function (response) {
-                response.data = JSON.parse(response.data);
-                return response;
-            }
+            idAttribute : 'uuid'
         }),
         Contexts = uijet.Collection({
             model   : Context,
