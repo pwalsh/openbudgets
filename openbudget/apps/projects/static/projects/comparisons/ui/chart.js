@@ -85,9 +85,7 @@ define([
                     this.listenTo(uijet.Resource('NodesListState'), 'change:normalize_by', function (model) {
                         if ( 'normalize_by' in model.changed ) {
                             this.resource.recalcFactors();
-                            this.draw()
-                                //TODO: if smaller period range was selected it's reset but period selectors are not
-                                .timeContext();
+                            this.draw();
                         }
                     }.bind(this));
                 }
