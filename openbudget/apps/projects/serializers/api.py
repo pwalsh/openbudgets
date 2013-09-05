@@ -1,15 +1,16 @@
-from rest_framework.serializers import ModelSerializer, HyperlinkedModelSerializer, Field, RelatedField
+from rest_framework.reverse import reverse
+from rest_framework.serializers import HyperlinkedModelSerializer, SerializerMethodField, WritableField
 from openbudget.apps.international.utilities import translated_fields
 from openbudget.apps.projects import models
 from openbudget.apps.accounts.serializers import AccountMin
 from openbudget.commons.serializers import UUIDRelatedField
 
 
-class ProjectBaseSerializer(ModelSerializer):
+class ProjectBase(HyperlinkedModelSerializer):
     """Base Project serializer, exposing our defaults for projects."""
 
     author = AccountMin()
-    url = Field(source='get_absolute_url')
+    url = SerializerMethodField('get_api_url')
 
     class Meta:
         model = models.Project
@@ -18,8 +19,11 @@ class ProjectBaseSerializer(ModelSerializer):
                  translated_fields(model)
         lookup_field = 'uuid'
 
+    def get_api_url(self, obj):
+        return reverse('project-detail', args=[str(obj.uuid)])
 
-class StateBaseSerializer(HyperlinkedModelSerializer):
+
+class StateBase(HyperlinkedModelSerializer):
     """
     Base State serializer, for creating new State instances
     and the base the serializer in charge of exposing our defaults for projects.
@@ -35,7 +39,8 @@ class StateBaseSerializer(HyperlinkedModelSerializer):
         lookup_field = 'uuid'
 
 
-class StateReadSerializer(StateBaseSerializer):
+class StateRead(StateBase):
     """Base State serializer, exposing our defaults for projects."""
 
     author = AccountMin()
+    config = WritableField()

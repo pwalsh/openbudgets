@@ -1,6 +1,6 @@
 from rest_framework import generics
 from openbudget.apps.international.utilities import translated_fields
-from openbudget.apps.projects import serializers
+from openbudget.apps.projects.serializers import api as serializers
 from openbudget.apps.projects import models
 from openbudget.apps.accounts.models import Account
 
@@ -10,7 +10,7 @@ class ProjectList(generics.ListAPIView):
 
     model = models.Project
     queryset = model.objects.related_map()
-    serializer_class = serializers.ProjectBaseSerializer
+    serializer_class = serializers.ProjectBase
     ordering = ['id', 'created_on', 'last_modified']
     search_fields = ['name', 'description', 'owner__first_name',
                      'owner__last_name', 'author__first_name',
@@ -23,7 +23,7 @@ class ProjectDetail(generics.RetrieveAPIView):
     model = models.Project
     queryset = model.objects.related_map()
     lookup_field = 'uuid'
-    serializer_class = serializers.ProjectBaseSerializer
+    serializer_class = serializers.ProjectBase
 
 
 class StateListCreate(generics.ListCreateAPIView):
@@ -36,9 +36,9 @@ class StateListCreate(generics.ListCreateAPIView):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             # base serializer for creating States
-            return serializers.StateBaseSerializer
+            return serializers.StateBase
         # State list/retrieve serializer
-        return serializers.StateReadSerializer
+        return serializers.StateRead
 
     def pre_save(self, obj):
         obj.author = Account.objects.get(uuid=self.request.DATA.get('author'))
@@ -55,6 +55,6 @@ class StateRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     def get_serializer_class(self):
         if self.request.method == 'GET':
             # State list/retrieve serializer
-            return serializers.StateReadSerializer
+            return serializers.StateRead
         # base serializer for creating States
-        return serializers.StateBaseSerializer
+        return serializers.StateBase

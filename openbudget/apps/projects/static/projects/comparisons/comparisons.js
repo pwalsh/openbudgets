@@ -52,7 +52,7 @@ define([
                         })
                         .fetch({
                             success : function (model) {
-                                var config = JSON.parse(model.get('config')),
+                                var config = model.get('config'),
                                     series = config.chart,
                                     legend_data = uijet.Resource('TimeSeries').reset(series).extractLegend();
                                 model.set({
