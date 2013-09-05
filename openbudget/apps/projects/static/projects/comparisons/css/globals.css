@@ -24,6 +24,7 @@ input, textarea {
 }
 svg {
     direction: ltr;
+    background-color: transparent;
 }
 
 ::-webkit-input-placeholder, /* WebKit browsers */
