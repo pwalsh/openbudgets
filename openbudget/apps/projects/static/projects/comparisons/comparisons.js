@@ -57,7 +57,8 @@ define([
                                     legend_data = uijet.Resource('TimeSeries').reset(series).extractLegend();
                                 model.set({
                                     title       : config.title || gettext('Insert title'),
-                                    description : config.description || ''
+                                    description : config.description || '',
+                                    normalize_by: config.normalize_by || null
                                 });
                                 legend_data.forEach(function (item, i) {
                                     item.state = series[i].state;
@@ -185,11 +186,12 @@ define([
             return chart_data;
         },
         _saveState      : function (state_model) {
+            var nodes_list_state = uijet.Resource('NodesListState');
             return state_model.save({ config : {
                 chart       : comparisons._getChartState(),
                 title       : state_model.get('title'),
                 description : state_model.get('description'),
-                normalize_by: state_model.get('normalize_by')
+                normalize_by: nodes_list_state.get('normalize_by')
             } }, {
                 success : function () {
                     uijet.publish('state_saved');
