@@ -53,7 +53,13 @@ define([
                             element     : '#chart_heading_title',
                             container   : this.id,
                             input       : {
-                                name: 'title'
+                                name        : 'title',
+                                placeholder : gettext('Insert title')
+                            },
+                            signals     : {
+                                post_init   : function () {
+                                    this.reset(uijet.Resource('ProjectState').get('title'), true);
+                                }
                             },
                             app_events  : {
                                 'chart_heading.title_changed'   : function (data) {

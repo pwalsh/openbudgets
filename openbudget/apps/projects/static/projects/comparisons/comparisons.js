@@ -56,7 +56,7 @@ define([
                                     series = config.chart,
                                     legend_data = uijet.Resource('TimeSeries').reset(series).extractLegend();
                                 model.set({
-                                    title       : config.title || gettext('Insert title'),
+                                    title       : config.title,
                                     description : config.description || '',
                                     normalize_by: config.normalize_by || null
                                 });
@@ -161,7 +161,7 @@ define([
             .subscribe('viz_duplicate.clicked', comparisons.duplicateState)
             .subscribe('viz_delete.clicked', comparisons.deleteState)
             .subscribe('login', function () {
-                uijet.$('.login-link')[0].click();  
+                uijet.$('.login-link')[0].click();
             })
 
 

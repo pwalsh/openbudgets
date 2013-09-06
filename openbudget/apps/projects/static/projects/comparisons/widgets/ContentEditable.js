@@ -19,7 +19,7 @@ define([
             
             this.$input = uijet.$('<input>', uijet.utils.extend({
                 type        : 'text',
-                placeholder : this.$element.text(),
+                placeholder : this.$element.attr('data-placeholder') || this.$element.text(),
                 'class'     : 'uijet_contenteditable_input hide'
             }, input_ops)).appendTo(this.$wrapper);
 
