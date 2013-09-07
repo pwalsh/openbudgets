@@ -186,13 +186,12 @@ define([
         },
         _getChartState  : function () {
             var chart_data = uijet.Resource('TimeSeries').toJSON(),
-                legend = uijet.Resource('LegendItems'),
-                selection_states = legend.pluck('state'),
-                selection_titles = legend.pluck('title');
+                legend = uijet.Resource('LegendItems');
 
-            chart_data.forEach(function (series, i) {
-                series.state = selection_states[i];
-                series.title = selection_titles[i];
+            chart_data.forEach(function (series) {
+                var item = legend.get(series.id).attributes;
+                series.title = item.title;
+                series.state = item.state;
             });
             return chart_data;
         },

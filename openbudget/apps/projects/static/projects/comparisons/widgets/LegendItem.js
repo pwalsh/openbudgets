@@ -55,8 +55,8 @@ define([
                         }
                     },
                     app_events  : {
-                        'legends_list.selected' : function (index) {
-                            if ( this.resource.collection.at(index) === this.resource ) {
+                        'legends_list.selected' : function (model) {
+                            if ( model === this.resource ) {
                                 this.wake();
                             }
                         },
@@ -114,13 +114,13 @@ define([
             return this;
         },
         itemEdit        : function () {
-            uijet.publish('legends_list.selected', this.resource.collection.indexOf(this.resource));
+            uijet.publish('legends_list.selected', this.resource);
         },
         itemDuplicate   : function () {
-            uijet.publish('legends_list.duplicate', this.resource.collection.indexOf(this.resource));
+            uijet.publish('legends_list.duplicate', this.resource);
         },
         itemDelete      : function () {
-            uijet.publish('legends_list.delete', this.resource.collection.indexOf(this.resource));
+            uijet.publish('legends_list.delete', this.resource);
             this.destroy();
         },
         updateTitle     : function (title) {

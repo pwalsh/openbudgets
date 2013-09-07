@@ -9,7 +9,7 @@ define([
 
     function chartMode () {
         // reset the state of selected legend item
-        this.current_index = null;
+        this.current_model = null;
         this.$element.removeClass('picking');
         this.picking = false;
         this.resource.each(function (model) {
@@ -127,7 +127,7 @@ define([
                 'legends_list.selected'     : 'selectItem+',
                 'legends_list.delete'       : 'removeItem+',
                 'entities_list.selected'    : function (muni_id) {
-                    this.addItem(-1)
+                    this.addItem()
                         .setEntity(muni_id)
                         .updateState();
                     uijet.utils.requestAnimFrame(
@@ -155,7 +155,7 @@ define([
                     this.sizeAndScroll();
                 },
                 'amount_type.updated'       : function (type) {
-                    this.resource.at(this.current_index).set('amount_type', type);
+                    this.current_model.set('amount_type', type);
                 }
             }
         }
