@@ -207,47 +207,50 @@
     // NAV PANEL UX
     (function () {
 
-        $('#panel-action').mousemove(function(e){
-            var x = e.pageX - this.offsetLeft,
-            y = e.pageY - this.offsetTop;
+        var $nav_panel = $('#panel-nav'),
+            slide_class = 'slide-in',
+            showNavPanel = function () {
+                $nav_panel.addClass(slide_class);
+            },
+            hideNavPanel = function () {
+                $nav_panel.removeClass(slide_class);
+            },
+            right_edge_x,
+            setBodyWidth = function () {
+                right_edge_x = document.body.clientWidth;
+            };
 
-            if (x >= 295) {
+        setBodyWidth();
+        $(window).resize(setBodyWidth);
 
-                $('#panel-nav').show();
+        $('#nav-anchor').mouseenter(function (e) {
+            e.preventDefault();
+            showNavPanel();
+        });
 
-            } else {
+        $nav_panel.mouseleave(hideNavPanel);
 
-                $('#nav-anchor').mouseenter(function (event) {
-                    event.preventDefault();
-                    $('#panel-nav').show();
-                });
+        $('#panel-nav-close').click(hideNavPanel);
 
-                $('#panel-nav').mouseleave(function () {
-                    $('#panel-nav').hide();
-                });
-
-                $('#panel-nav-close').click(function () {
-                    $('#panel-nav').hide();
-                });
-
-            }
-
+        $('#panel-action').mousemove(function (e) {
+            if ( right_edge_x - e.pageX <= 5 )
+                showNavPanel();
          });
-    
+
     }());
 
     // PROJECT GALLERY UX
     (function () {
 
-        $('.project').mouseenter(function (event) {
-            $('.projects-public, .projects-developers').children().addClass('reduce');
-            $(this).removeClass('reduce').find('.detail').show();
-        });
-
-        $('.project').mouseleave(function (event) {
-            $('.projects-public, .projects-developers').children().removeClass('reduce');
-            $(this).find('.detail').hide();
-        });
+        $('.project')
+            .mouseenter(function (event) {
+                $('.projects-public, .projects-developers').children().addClass('reduce');
+                $(this).removeClass('reduce').find('.detail').show();
+            })
+            .mouseleave(function (event) {
+                $('.projects-public, .projects-developers').children().removeClass('reduce');
+                $(this).find('.detail').hide();
+            });
 
     }());
 
