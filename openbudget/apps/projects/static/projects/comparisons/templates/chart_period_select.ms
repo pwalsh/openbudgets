@@ -1,3 +1,3 @@
 {{#periods}}
-<li>{{.}}</li>
+<li data-period="{{.}}">{{.}}</li>
 {{/periods}}

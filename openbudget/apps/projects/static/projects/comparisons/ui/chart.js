@@ -26,6 +26,9 @@ define([
                     post_sleep  : 'closed',
                     pre_wake    : function () {
                         return false;
+                    },
+                    post_select : function ($selected) {
+                        this.selected_period = $selected.text();
                     }
                 }
             }
@@ -131,7 +134,11 @@ define([
                 signals     : {
                     rendered: function () {
                         this.floatPosition('top: -' + this.$wrapper[0].offsetHeight + 'px;');
-                        this.setSelected(this.$element.find(':first-child'));
+                        this.setSelected(this.$element.find(
+                            this.selected_period ?
+                                '[data-period="' + this.selected_period + '"]' :
+                                ':first-child'
+                        ));
                         this.publish('rendered', this.$selected);
                     }
                 },
@@ -179,7 +186,11 @@ define([
                 signals     : {
                     rendered: function () {
                         this.floatPosition('top: -' + this.$wrapper[0].offsetHeight + 'px;');
-                        this.setSelected(this.$element.find(':last-child'));
+                        this.setSelected(this.$element.find(
+                            this.selected_period ?
+                                '[data-period="' + this.selected_period + '"]' :
+                                ':last-child'
+                        ));
                         this.publish('rendered', this.$selected);
                     }
                 },
