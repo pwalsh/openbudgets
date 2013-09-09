@@ -96,11 +96,12 @@ define([
             }
             return this;
         },
-        draw            : function (from_period, to_period) {
+        draw            : function () {
             var series = this.resource.models,
                 line = this.line,
                 ids = [],
                 data = [],
+                context = this.context || {},
                 y_max;
             
             series.forEach(function (item) {
@@ -173,8 +174,8 @@ define([
 
             var periods = this.resource.periods();
             this.timeContext(
-                from_period || String(periods[0]),
-                to_period || String(periods[periods.length - 1])
+                String(context.period_start || periods[0]),
+                String(context.period_end || periods[periods.length - 1])
             );
 
             return this;

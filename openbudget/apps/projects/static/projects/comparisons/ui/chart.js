@@ -26,9 +26,6 @@ define([
                     post_sleep  : 'closed',
                     pre_wake    : function () {
                         return false;
-                    },
-                    post_select : function ($selected) {
-                        this.selected_period = $selected.text();
                     }
                 }
             }
@@ -92,8 +89,20 @@ define([
             signals     : {
                 post_init   : function () {
                     var that = this;
-                    this.listenTo(uijet.Resource('NodesListState'), 'change:normalize_by', function (model) {
-                        if ( 'normalize_by' in model.changed ) {
+                    this.listenTo(uijet.Resource('NodesListState'), 'change', function (model) {
+                        var changed = model.changed;
+                        if ( ! this.context ) {
+                            this.context = {};
+                        }
+
+                        if ( 'period_start' in changed ) {
+                            this.context.period_start = model.get('period_start');
+                        }
+                        if ( 'period_end' in changed ) {
+                            this.context.period_end = model.get('period_end');
+                        }
+
+                        if ( 'normalize_by' in changed ) {
                             that.resource.recalcFactors()
                                 .then(function () {
                                     that.draw();
@@ -104,9 +113,9 @@ define([
             },
             data_events : {
                 reset   : function (collection) {
-                    collection.length && uijet.publish('chart_reset', {
+                    collection.length && uijet.publish('chart_reset', uijet.utils.extend(this.context || {}, {
                         state_loaded: true
-                    });
+                    }));
                 }
             },
             app_events  : {
@@ -132,14 +141,18 @@ define([
             element     : '#chart_period_start',
             menu        : {
                 signals     : {
-                    rendered: function () {
+                    rendered    : function () {
+                        var period_start = uijet.Resource('NodesListState').get('period_start');
                         this.floatPosition('top: -' + this.$wrapper[0].offsetHeight + 'px;');
                         this.setSelected(this.$element.find(
-                            this.selected_period ?
-                                '[data-period="' + this.selected_period + '"]' :
+                            period_start ?
+                                '[data-period="' + period_start + '"]' :
                                 ':first-child'
                         ));
                         this.publish('rendered', this.$selected);
+                    },
+                    post_select : function ($selected) {
+                        uijet.Resource('NodesListState').set('period_start', $selected.text());
                     }
                 },
                 app_events  : {
@@ -184,14 +197,18 @@ define([
             element     : '#chart_period_end',
             menu        : {
                 signals     : {
-                    rendered: function () {
+                    rendered    : function () {
+                        var period_end = uijet.Resource('NodesListState').get('period_end');
                         this.floatPosition('top: -' + this.$wrapper[0].offsetHeight + 'px;');
                         this.setSelected(this.$element.find(
-                            this.selected_period ?
-                                '[data-period="' + this.selected_period + '"]' :
+                            period_end ?
+                                '[data-period="' + period_end + '"]' :
                                 ':last-child'
                         ));
                         this.publish('rendered', this.$selected);
+                    },
+                    post_select : function ($selected) {
+                        uijet.Resource('NodesListState').set('period_end', $selected.text());
                     }
                 },
                 app_events  : {
