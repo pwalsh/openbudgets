@@ -1,43 +1,41 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+{% extends 'projects/project_base.html' %}
+
+{% block head_css %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/base_rtl.css"/>
     <link rel="stylesheet" href="{{ STATIC_URL }}projects/{{ object.slug }}/css/main.css"/>
-    <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico" />
-    <title>{% block metatitle %}{{ page.title }} | {{ site.name }}{% endblock metatitle %}</title>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/raven.js/1.0.8/raven.min.js"></script>
-</head>
-<body class="projects-ext">
+{% endblock head_css %}
+
+{% block before_project_main %}
     <div id="right_edge_detector"></div>
+{% endblock before_project_main %}
 
-    {% block project_main %}{% endblock %}
+{% block site_extras %}
 
-    <div id="panel-nav">
-        {% include 'partials/nav-panel.html' %}
-    </div>
-
-    <section id="panel-append">
-        {% include 'accounts/partials/account_tools.html' %}
-    </section>
-
+        <div id="panel-nav">
+            {% include 'partials/nav-panel.html' %}
+        </div>
+    
+        <section id="panel-append">
+            {% include 'accounts/partials/account_tools.html' %}
+        </section>
+    
     {% block overlays %}
-
-        <div id="overlay"><span class="close"><img src="{{ STATIC_URL }}img/close.png" /></span></div>
-
-        {% include 'accounts/partials/account_login.html' %}
-        {% include 'accounts/partials/account_register.html' %}
-        {% include 'accounts/partials/account_password_reset.html' %}
-
-        {% if user.is_authenticated %}
-            {% include 'accounts/partials/account_password_change.html' %}
-        {% endif %}
-
+    
+            <div id="overlay"><span class="close"><img src="{{ STATIC_URL }}img/close.png" /></span></div>
+    
+            {% include 'accounts/partials/account_login.html' %}
+            {% include 'accounts/partials/account_register.html' %}
+            {% include 'accounts/partials/account_password_reset.html' %}
+    
+            {% if user.is_authenticated %}
+                {% include 'accounts/partials/account_password_change.html' %}
+            {% endif %}
+    
     {% endblock overlays %}
+
+{% endblock site_extras %}
+
+{% block body_js %}
     <script>
         var API_INDEX = 'http://api.{{ site.domain }}/',
             API_VERSION = 'v1',
@@ -47,5 +45,4 @@
     </script>
     <script src="{% url 'projects_js_i18n' %}"></script>
     <script src="{{ STATIC_URL }}lib/require.js" data-main="{{ STATIC_URL }}projects/{{ object.slug }}/main"></script>
-</body>
-</html>
+{% endblock body_js %}

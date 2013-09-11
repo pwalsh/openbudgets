@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    {% block head_css %}{% endblock head_css %}
+    <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico" />
+    <title>{% block metatitle %}{{ page.title }} | {{ site.name }}{% endblock metatitle %}</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raven.js/1.0.8/raven.min.js"></script>
+</head>
+<body class="projects-ext">
+
+    {% block before_project_main %}{% endblock before_project_main %}
+
+    {% block project_main %}{% endblock %}
+
+    {% block site_extras %}{% endblock site_extras %}
+
+    {% block body_js %}{% endblock body_js %}
+</body>
+</html>

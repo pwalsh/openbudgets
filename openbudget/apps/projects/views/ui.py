@@ -32,7 +32,7 @@ class ProjectDetailView(DetailView):
     model = Project
 
     def get_template_names(self):
-        return ['projects/ext/{slug}.html'.format(slug=self.object.slug)]
+        return ['projects/ext/{slug}/tool.html'.format(slug=self.object.slug)]
 
     def get_context_data(self, **kwargs):
 
