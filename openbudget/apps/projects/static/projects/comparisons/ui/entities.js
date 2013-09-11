@@ -104,7 +104,8 @@ define([
                             entities: this.resource.where({ selected : true }).map(function (model) {
                                 return model.id;
                             }).toString()
-                        }
+                        },
+                        remove  : false
                     });
                 }
             },
