@@ -1328,10 +1328,6 @@ input.valid {
   -moz-transition-property: -moz-transform;
   -o-transition-property: -o-transform;
   transition-property: -ms-transform, transform;
-  -webkit-transition-property: true;
-  -moz-transition-property: true;
-  -o-transition-property: true;
-  transition-property: true;
   -webkit-transition-duration: 100ms;
   -moz-transition-duration: 100ms;
   -o-transition-duration: 100ms;

@@ -14,7 +14,7 @@
          -o-transition-property: -o-transform;
             transition-property: -ms-transform, transform;
 }
-.property (@property) {
+.property (@property) when not (@property = true) {
     -webkit-transition-property: @property;
        -moz-transition-property: @property;
          -o-transition-property: @property;
