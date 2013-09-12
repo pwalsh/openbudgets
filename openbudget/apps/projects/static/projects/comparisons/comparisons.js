@@ -17,7 +17,7 @@ define([
     var default_state = {
             project     : window.PROJECT.uuid,
             author      : window.LOGGEDIN_USER.uuid,
-            title       : gettext('Insert title'),
+            title       : '',
             description : '',
             author_model: new resources.User(window.LOGGEDIN_USER),
             uuid        : null,
@@ -110,15 +110,16 @@ define([
                 .Resource('LoggedinUser', resources.User, window.LOGGEDIN_USER);
 
             // add a sync event handler that caches IDs of Munis that their contexts where fetched
-            uijet.Resource('Contexts').on('sync', function (collection, response, options) {
-                collection.entities.push.apply(
-                    collection.entities,
-                    options.data.entities
-                        .split(',')
-                        .map(function (entity_id) {
-                            return +entity_id;
-                        }));
-            });
+            uijet.Resource('Contexts')
+                .on('sync', function (collection, response, options) {
+                    collection.entities.push.apply(
+                        collection.entities,
+                        options.data.entities
+                            .split(',')
+                            .map(function (entity_id) {
+                                return +entity_id;
+                            }));
+                });
 
             this.LegendItemModel = uijet.Model({
                 initialize  : function () {
