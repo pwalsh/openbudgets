@@ -1,21 +1,11 @@
 define([
     'uijet_dir/uijet',
-    'modules/data/backbone',
-    'underscore',
-    'api',
-    'modules/promises/q',
+    'common_resources',
     'backbone-fetch-cache'
-], function (uijet, Backbone, _, api) {
+], function (uijet, resources) {
 
-    uijet.use({
-        prop: function (property) {
-            return function (obj) {
-                return obj[property];
-            };
-        }
-    }, uijet.utils);
-
-    var reverseSorting = function (field) {
+    var api = resources.api,
+        reverseSorting = function (field) {
             return function (a, b) {
                 var a_val = a.get(field),
                     b_val = b.get(field);
@@ -73,26 +63,6 @@ define([
                     a_code < b_code ? a_is_smaller : a_is_bigger;
             };
         },
-        /*
-         * User (Account) Model
-         */
-        User = uijet.Model({
-            idAttribute : 'uuid',
-            name        : function () {
-                var first = this.get('first_name'),
-                    last = this.get('last_name');
-                if ( first || last ) {
-                    return first + ' ' + last;
-                }
-                else {
-                    return gettext('Guest:');
-                }
-            },
-            avatar      : function () {
-                var avatar = this.get('avatar');
-                return avatar ? avatar.replace(/s=\d+[^&]/i, 's=90') : window.DEFAULT_AVATAR;
-            }
-        }),
         /*
          * Muni (Entity) Model
          */
@@ -256,9 +226,15 @@ define([
                 return branch || [];
             }
         }),
+        /*
+         * Context Model
+         */
         Context = uijet.Model({
             idAttribute : 'uuid'
         }),
+        /*
+         * Contexts Collection
+         */
         Contexts = uijet.Collection({
             model   : Context,
             entities: [],
@@ -273,37 +249,17 @@ define([
                     return ~ this.entities.indexOf(muni_id);
                 }, this);
             }
-        }),
-        State = uijet.Model({
-            idAttribute : 'uuid',
-            urlRoot     : function () {
-                return api.getRoute('projectStates');
-            },
-            url         : function () {
-                return this.urlRoot() + (this.id ? this.id + '/' : '');
-            },
-            parse       : function (response) {
-                var user = new User(response.author);
-                response.author_model = user;
-                response.author = user.id;
-                return response;
-            }
         });
 
-    return {
-        User    : User,
-        Muni    : Muni,
-        Munis   : Munis,
-        Node    : Node,
-        Nodes   : Nodes,
-        State   : State,
-        Context : Context,
-        Contexts: Contexts,
-        utils   : {
-            reverseSorting      : reverseSorting,
-            nestingSort         : nestingSortFactory(false),
-            reverseNestingSort  : nestingSortFactory(true)
-        },
-        '_'     : _
+    resources.Node = Node;
+    resources.Nodes = Nodes;
+    resources.Context = Context;
+    resources.Contexts = Contexts;
+    resources.utils = {
+        reverseSorting      : reverseSorting,
+        nestingSort         : nestingSortFactory(false),
+        reverseNestingSort  : nestingSortFactory(true)
     };
+
+    return resources;
 });
