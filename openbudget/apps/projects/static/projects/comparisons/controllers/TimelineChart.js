@@ -6,12 +6,13 @@ define([
     uijet.Adapter('TimelineChart', {
         set : function (legend_item_models) {
             var updated_models = legend_item_models.map(function (legend_item) {
-                var muni = legend_item.get('muni'),
+                var attrs = legend_item.attributes,
+                    muni = attrs.muni,
                     muni_id = muni.id,
-                    nodes = legend_item.get('nodes'),
-                    title = legend_item.get('title'),
-                    type = legend_item.get('amount_type'),
-                    color = legend_item.get('color'),
+                    nodes = attrs.nodes,
+                    title = attrs.title,
+                    type = attrs.amount_type,
+                    color = attrs.color,
                     muni_name = muni.get('name'),
                     model = this.resource.get(legend_item.cid),
                     now = Date.now();
