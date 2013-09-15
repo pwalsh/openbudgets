@@ -108,7 +108,8 @@ define([
             uijet.Resource('Munis', resources.Munis)
                 .Resource('LatestSheet', resources.Nodes)
                 .Resource('Contexts', resources.Contexts)
-                .Resource('LoggedinUser', resources.User, window.LOGGEDIN_USER);
+                .Resource('LoggedinUser', resources.User, window.LOGGEDIN_USER)
+                .Resource('TimeSeries', resources.TimeSeries);
 
             // add a sync event handler that caches IDs of Munis that their contexts where fetched
             uijet.Resource('Contexts')

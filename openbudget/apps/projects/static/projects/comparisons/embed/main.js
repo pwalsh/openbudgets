@@ -7,7 +7,8 @@ requirejs.config({
         modules             : 'uijet/modules',
         comparisons            : '../projects/comparisons/comparisons',
         ui                  : '../projects/comparisons/embed/ui',
-        resources           : '../projects/comparisons/resources',
+        resources           : '../projects/comparisons/embed/resources',
+        common_resources    : '../projects/comparisons/resources/commons',
         controllers         : '../projects/comparisons/controllers',
         project_modules     : '../projects/comparisons/modules',
         project_widgets     : '../projects/comparisons/widgets',
@@ -33,7 +34,7 @@ requirejs([
     'modules/promises/q',
     'modules/engine/mustache',
     'modules/xhr/jquery',
-    'ui/embed'
+    'ui/main'
 ], function (uijet, api, resources, Backbone, Router, $, ebox, Q, Mustache) {
 
 

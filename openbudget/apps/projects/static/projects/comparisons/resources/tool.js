@@ -4,7 +4,43 @@ define([
     'backbone-fetch-cache'
 ], function (uijet, resources) {
 
-    var api = resources.api,
+    function sortByPeriodstart (a, b) {
+        return new Date(a.get(period_start)) > new Date(b.get(period_start)) ? 1 : -1;
+    }
+
+    /**
+     * Gets the latest context that has a `period_start` that precedes the period
+     * or is equal to it.
+     * 
+     * This function has a side-effect of reducing `contexts` by shifting items
+     * if their preceding item's `period_start` is before `period`.
+     * 
+     * @param {Array} contexts - list of Context model instances
+     * @param {String} period - a string representation of a date
+     * @returns {Object|undefined} - latest context to use for this period's series
+     */
+    function latestContextForPeriod (contexts, period) {
+        var context, period_to_date;
+        if ( contexts.length ) {
+            if ( contexts.length === 1 ) {
+                context = contexts[0];
+            }
+            else {
+                period_to_date = new Date(period.toString());
+                context = contexts[0];
+                if ( new Date(context.get(period_start)) <= period_to_date &&
+                     new Date(contexts[1].get(period_start)) <= period_to_date ) {
+    
+                    contexts.shift();
+                    return latestContextForPeriod(contexts, period);
+                }
+            }
+        }
+        return context;
+    }
+
+    var period_start = 'period_start',
+        api = resources.api,
         reverseSorting = function (field) {
             return function (a, b) {
                 var a_val = a.get(field),
@@ -249,12 +285,91 @@ define([
                     return ~ this.entities.indexOf(muni_id);
                 }, this);
             }
+        }),
+        /*
+         * TimeSeries collection
+         */
+        TimeSeries = uijet.Collection({
+            model           : resources.TimeSeriesModel,
+            fetch           : function () {
+                return uijet.whenAll(this.models.map(function (model) {
+                    return model.fetch();
+                }));
+            },
+            periods         : function () {
+                return this.pluck('periods').reduce(function (prev, current) {
+                    current.forEach(function (item) {
+                        if ( !~ this.indexOf(item) )
+                            this.push(item);
+                    }, prev);
+                    return prev;
+                }).sort();
+            },
+            recalcFactors   : function () {
+                var muni_ids = this.pluck('muni_id'),
+                    contexts = uijet.Resource('Contexts'),
+                    has_contexts = contexts.hasMunis(muni_ids),
+                    dfrd;
+                if ( has_contexts ) {
+                    this.each(function (model) {
+                        model.recalcFactor();
+                    });
+                }
+                else {
+                    return contexts.fetch({
+                        data: {
+                            entities: _.uniq(muni_ids.concat(contexts.entities)).toString()
+                        }
+                    });
+                }
+                dfrd = uijet.Promise();
+                dfrd.resolve();
+                return dfrd.promise();
+            },
+            extractLegend   : function () {
+                return this.models.map(function (model) {
+                    var attrs = model.attributes;
+                    return {
+                        title       : attrs.title,
+                        placeholder : attrs.title || gettext('Insert title'),
+                        nodes       : attrs.nodes,
+                        muni        : new Muni({
+                            id  : attrs.muni_id,
+                            name: attrs.muni
+                        }),
+                        amount_type : attrs.amount_type,
+                        color       : attrs.color
+                    };
+                });
+            }
         });
+
+    resources.TimeSeriesModel.prototype.recalcFactor = function () {
+        var normalize_by = uijet.Resource('NodesListState').get('normalize_by'),
+            series = this.get('series'),
+            contexts;
+
+        if ( normalize_by ) {
+            contexts = uijet.Resource('Contexts')
+                .where({ entity : this.get('muni_id') });
+            if ( contexts.length )
+                contexts.sort(sortByPeriodstart);
+        }
+
+        //TODO: assuming here period is a "full year"
+        this.get('periods').forEach(function (period) {
+            if ( series[period] ) {
+                var context = contexts && latestContextForPeriod(contexts, period);
+                series[period].factor = context ? +context.get('data')[normalize_by] : 1;
+            }
+        });
+    };
 
     resources.Node = Node;
     resources.Nodes = Nodes;
     resources.Context = Context;
     resources.Contexts = Contexts;
+    resources.TimeSeries = TimeSeries;
     resources.utils = {
         reverseSorting      : reverseSorting,
         nestingSort         : nestingSortFactory(false),
