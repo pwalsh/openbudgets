@@ -1,6 +1,7 @@
 define([
-    'uijet_dir/uijet'
-], function (uijet) {
+    'uijet_dir/uijet',
+    'resources'
+], function (uijet, resources) {
 
     uijet.Adapter('TimelineChart', {
         set : function (legend_item_models) {
@@ -29,7 +30,7 @@ define([
                     }
                 }
                 else {
-                    model = new TimeSeriesModel({
+                    model = new resources.TimeSeriesModel({
                         id          : legend_item.id,
                         muni_id     : muni_id,
                         nodes       : nodes,
