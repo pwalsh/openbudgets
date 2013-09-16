@@ -13,13 +13,13 @@ urlpatterns = patterns('',
         name='state-list'
     ),
     url(
-        r'^(?P<uuid>\w+)/$',
-        api.ProjectDetail.as_view(),
-        name='project-detail'
-    ),
-    url(
         r'^states/(?P<uuid>\w+)/$',
         api.StateRetrieveUpdateDestroy.as_view(),
         name='state-detail'
+    ),
+    url(
+        r'^(?P<uuid>\w+)/$',
+        api.ProjectDetail.as_view(),
+        name='project-detail'
     ),
 )

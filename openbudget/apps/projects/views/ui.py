@@ -1,7 +1,7 @@
 from django.views.generic import DetailView, ListView
 from rest_framework.renderers import JSONRenderer
 from openbudget.apps.accounts.serializers import AccountMin
-from openbudget.apps.projects.models import Project
+from openbudget.apps.projects.models import Project, State
 from openbudget.apps.projects.serializers import ui as serializers
 
 
@@ -28,8 +28,20 @@ class ProjectListView(ListView):
         return context
 
 
-class ProjectDetailView(DetailView):
+class ProjectDetailBaseView(DetailView):
     model = Project
+
+    def get_context_data(self, **kwargs):
+
+        context = super(ProjectDetailBaseView, self).get_context_data(**kwargs)
+        renderer = JSONRenderer()
+
+        context['project_json'] = renderer.render(serializers.ProjectBase(self.object, context={'request': self.request}).data)
+
+        return context
+
+
+class ProjectDetailView(ProjectDetailBaseView):
 
     def get_template_names(self):
         return ['projects/ext/{slug}/tool.html'.format(slug=self.object.slug)]
@@ -46,6 +58,27 @@ class ProjectDetailView(DetailView):
             user_object = AccountMin(user).data
 
         context['user_json'] = renderer.render(user_object)
-        context['project_json'] = renderer.render(serializers.ProjectBase(self.object, context={'request': self.request}).data)
+
+        return context
+
+
+class ProjectEmbedView(ProjectDetailBaseView):
+
+    def get_template_names(self):
+        return ['projects/ext/{slug}/embed.html'.format(slug=self.object.slug)]
+
+    def get_context_data(self, **kwargs):
+
+        context = super(ProjectEmbedView, self).get_context_data(**kwargs)
+        state = {}
+        renderer = JSONRenderer()
+
+        try:
+            state_uuid = self.kwargs.get('state')
+            state = serializers.StateBase(State.objects.get(uuid=state_uuid), context={'request': self.request}).data
+        except State.DoesNotExist:
+            pass
+
+        context['state_json'] = renderer.render(state)
 
         return context

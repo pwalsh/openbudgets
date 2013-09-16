@@ -108,7 +108,7 @@ class State(TimeStampedModel, UUIDModel, ClassMethodMixin):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'state-detail', [self.uuid]
+        return 'state_detail', [self.uuid]
 
     def __unicode__(self):
         return self.project.name + u'state: ' + unicode(self.last_modified)

@@ -31,12 +31,16 @@ class StateBase(HyperlinkedModelSerializer):
 
     author = UUIDRelatedField()
     project = UUIDRelatedField()
+    url = SerializerMethodField('get_api_url')
 
     class Meta:
         model = models.State
         fields = ['url', 'uuid', 'project', 'author', 'screenshot', 'config',
                   'created_on', 'last_modified']
         lookup_field = 'uuid'
+
+    def get_api_url(self, obj):
+        return reverse('state-detail', args=[str(obj.uuid)])
 
 
 class StateRead(StateBase):
