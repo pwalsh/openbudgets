@@ -1,14 +1,13 @@
 define([
     'uijet_dir/uijet',
-    'resources',
-    'api',
-    'd3'
-], function (uijet, resources, api) {
+    'd3',
+    'resources'
+], function (uijet, d3, resources) {
 
     var Y_TICKS = 5;
 
-    var d3 = window.d3,
-        period = uijet.utils.prop('period'),
+    // depends on resources to define `uijet.utils.prop()`
+    var period = uijet.utils.prop('period'),
         amount = uijet.utils.prop('amount'),
         dateParser = d3.time.format('%Y').parse,
         commas = d3.format(',.0f'),
@@ -82,18 +81,6 @@ define([
         _draw           : function () {
             this.publish('fetched', this.resource)
                 .draw();
-            return this;
-        },
-        render          : function () {
-            this._super();
-
-            if ( this.context && this.context.state_loaded ) {
-                this._draw();
-                delete this.context.state_loaded;
-            }
-            else {
-                this.set(uijet.Resource('LegendItems').models).then(this._draw.bind(this));
-            }
             return this;
         },
         draw            : function () {

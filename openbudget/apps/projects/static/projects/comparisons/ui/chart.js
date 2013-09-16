@@ -109,6 +109,15 @@ define([
                                 });
                         }
                     });
+                },
+                pre_render  : function () {
+                    if ( this.context && this.context.state_loaded ) {
+                        this._draw();
+                        delete this.context.state_loaded;
+                    }
+                    else {
+                        this.set(uijet.Resource('LegendItems').models).then(this._draw.bind(this));
+                    }
                 }
             },
             data_events : {

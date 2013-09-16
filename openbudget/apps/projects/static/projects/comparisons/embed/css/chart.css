@@ -1,0 +1,162 @@
+.axis path, .axis line {
+  fill: none;
+  stroke: none;
+}
+.x_axis .mark line {
+    stroke: #646e78;
+}
+.x_axis .mark text {
+    visibility: visible;
+}
+.x_axis text {
+    visibility: hidden;
+    font-size: 3.261rem;
+    fill: #8989A8
+}
+.y_axis line {
+    stroke: #d0d0dc;
+}
+.y_axis text {
+    font-weight: bold;
+}
+.chart_period_button {
+    position: absolute;
+    top: 0;
+    width: auto;
+    height: auto;
+    padding: 1.3rem;
+    overflow: visible;
+    font-size: 3.261rem;
+}
+.chart_period_button.opened {
+    background-color: #d0d0dc;
+}
+.float.chart_period_select_wrapper {
+    width: 100%;
+    background-color: #d0d0dc;
+    right: 0;
+}
+
+.line {
+    fill: none;
+    stroke-width: 1.5px;
+}
+.value_circle {
+    pointer-events: none;
+}
+.value_circle circle {
+    stroke: white;
+}
+.value_circle text {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+.viz_action {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+#chart {
+    height: 100%;
+}
+#chart_wrapper {
+    position: absolute;
+    top: 165px;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    bottom: 88px;
+    height: auto;
+    overflow: visible;
+}
+
+#chart_footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    height: 88px;
+}
+#chart_footer .uijet_select_menu li {
+    height: 44px;
+    line-height: 44px;
+    padding: 0 1.3rem 0 0;
+    text-align: right;
+    font-size: 1.3rem;
+    font-weight: bold;
+    background-color: #c4c4d3;
+}
+#chart_footer .uijet_select_menu li:hover,
+#chart_footer .uijet_select_menu li.selected {
+    background-color: #8989a8;
+}
+
+#chart_heading {
+    position: absolute;
+    top: 44px;
+    left: 0;
+    right: 0;
+    height: 121px;
+    padding: 11px 20px 0;
+}
+#chart_heading_title, #chart_heading .uijet_contenteditable_input {
+    height: 52px;
+    line-height: 60px;
+    padding: 0;
+    font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
+    font-size: 3.261rem;
+    font-weight: normal;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+#chart_heading p {
+    font-size: .977rem;
+    font-weight: bold;
+}
+
+#chart_period_end {
+    right: 0;
+}
+#chart_period_end:after {
+    content: '';
+    display: inline-block;
+    width: 22px;
+    height: 2rem;
+    background: url(../../img/arrow_down_normalize.png) center no-repeat;
+}
+#chart_period_start:before {
+    content: '';
+    display: inline-block;
+    width: 22px;
+    height: 2rem;
+    background: url(../../img/arrow_down_normalize.png) center no-repeat;
+}
+#chart_period_start {
+    left: 0;
+    background-position: right center;
+}
+#chart_period_start_menu_wrapper {
+    left: 0;
+    width: 100%;
+}
+#chart_period_end_menu_wrapper {
+    right: 0;
+    width: 100%;
+}
+
+#mouse_target {
+    z-index: 1001;
+    fill: transparent;
+}
+
+#state_author_avatar {
+    display: inline-block;
+    margin-left: 10px;
+    border-radius: 45px;
+}
+#state_title_container {
+    display: inline-block;
+    vertical-align: top;
+}

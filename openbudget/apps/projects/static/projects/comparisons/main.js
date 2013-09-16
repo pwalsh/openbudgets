@@ -20,6 +20,9 @@ requirejs.config({
         i18n                : '../src/i18n'
     },
     shim    : {
+        d3                      : {
+            exports : 'd3'
+        },
         eventbox                : ['setImmediate'],
         'backbone-fetch-cache'  : 'modules/data/backbone'
     }
