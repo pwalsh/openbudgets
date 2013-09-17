@@ -1,9 +1,10 @@
 define([
     'uijet_dir/uijet',
+    'd3',
     'composites/Select',
     'project_widgets/TimelineChart',
     'controllers/TimelineChart'
-], function (uijet) {
+], function (uijet, d3) {
 
     function initPeriodsSelectedHandler () {
         if ( this.period_selectors_started ) {
@@ -83,6 +84,10 @@ define([
             element     : '#chart',
             adapters    : ['TimelineChart'],
             resource    : 'TimeSeries',
+            chart       : {
+                padding : 20,
+                
+            },
             style       : {
                 padding : '20px 20px 0'
             },
@@ -118,6 +123,15 @@ define([
                     else {
                         this.set(uijet.Resource('LegendItems').models).then(this._draw.bind(this));
                     }
+                },
+                post_timecontext: function (x_axis, from_value, to_value) {
+                    // hide max and min of X axis tick labels
+                    x_axis.selectAll('text')
+                        .each(function (d) {
+                            var value = d.valueOf(),
+                                hide = value === to_value || value === from_value;
+                            d3.select(this).classed('hide', hide);
+                        });
                 }
             },
             data_events : {

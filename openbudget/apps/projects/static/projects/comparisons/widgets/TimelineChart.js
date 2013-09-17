@@ -29,8 +29,9 @@ define([
         },
         prepareElement  : function () {
             this._super();
-            var element = this.$element[0],
-                padding = 20,
+            var chart_ops = this.options.chart || {},
+                element = this.$element[0],
+                padding = chart_ops.padding || 0,
                 width = element.offsetWidth,
                 // need to expand the width of the SVG element to be able to draw y axis labels outside the chart area
                 root_svg_width = width + padding,
@@ -42,11 +43,11 @@ define([
                     .range([height, padding + 10]),
                 x_axis = d3.svg.axis()
                     .scale(x)
-                    .orient('bottom')
+                    .orient(chart_ops.axes_x_orient || 'bottom')
                     .ticks(d3.time.years),
                 y_axis = d3.svg.axis()
                     .scale(y)
-                    .orient('left')
+                    .orient(chart_ops.axes_y_orient || 'left')
                     .ticks(Y_TICKS)
                     .tickFormat(amountFormat);
 
@@ -213,16 +214,12 @@ define([
                     .attr('x1', 0)
                     .attr('y2', -this.padding + 3)
                     .attr('y1', -(this.height));
-            x_axis.selectAll('text')
-                .each(function (d) {
-                    var value = d.valueOf(),
-                        hide = value === to_value || value === from_value;
-                    d3.select(this).classed('hide', hide);
-                });
 
             this.canvas.selectAll('.line').attr('d', function (d) {
                 return line(d.values);
             });
+
+            this.notify('post_timecontext', x_axis, from_value, to_value);
 
             if ( this.hover_on ) {
                 // reset mouseover handler

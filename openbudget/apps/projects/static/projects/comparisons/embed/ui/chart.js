@@ -9,6 +9,10 @@ define([
             element : '#chart',
             adapters: ['TimelineChart'],
             resource: 'TimeSeries',
+            chart   : {
+                padding         : 20,
+                axes_y_orient   : 'right'
+            },
             style   : {
                 padding : '20px 20px 0'
             },
