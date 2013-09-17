@@ -1,10 +1,10 @@
 define([
-    'project_widgets/TimelineChart',
+    'embed_widgets/TimelineChartEmbed',
     'controllers/TimelineChart'
 ], function () {
 
     return [{
-        type    : 'TimelineChart',
+        type    : 'TimelineChartEmbed',
         config  : {
             element : '#chart',
             adapters: ['TimelineChart'],

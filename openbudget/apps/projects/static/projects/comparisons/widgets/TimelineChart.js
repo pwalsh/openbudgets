@@ -7,7 +7,8 @@ define([
     var Y_TICKS = 5;
 
     // depends on resources to define `uijet.utils.prop()`
-    var period = uijet.utils.prop('period'),
+    var left_sidebar_width = 100,
+        period = uijet.utils.prop('period'),
         amount = uijet.utils.prop('amount'),
         dateParser = d3.time.format('%Y').parse,
         commas = d3.format(',.0f'),
@@ -30,10 +31,9 @@ define([
             this._super();
             var element = this.$element[0],
                 padding = 20,
-                left_sidebar_width = 100,
                 width = element.offsetWidth,
                 // need to expand the width of the SVG element to be able to draw y axis labels outside the chart area
-                svg_width = width + padding + left_sidebar_width,
+                root_svg_width = width + padding,
                 height = element.offsetHeight,
 //                x = d3.time.scale()
                 x = d3.time.scale()
@@ -51,8 +51,7 @@ define([
                     .tickFormat(amountFormat);
 
             this.padding = padding;
-            this.left_sidebar_width = left_sidebar_width;
-            this.svg_width = svg_width;
+            this.root_svg_width = root_svg_width;
             this.width = width;
             this.height = height;
             this.x_axis = x_axis;
@@ -64,18 +63,26 @@ define([
                 .x( function(d) { return x(d.period); } )
                 .y( function(d) { return y(d.amount); } );
 
-            this.svg_element = d3.select(this.$element[0]).append('svg')
-                .attr('width', svg_width)
-                .attr('height', height + 70);
-            this.svg = this.svg_element.append('g')
-                .attr('transform', 'translate(' + (svg_width - width) + ',0)')
-                .append('svg')
-                    .attr('width', width)
-                    .attr('height', height + 70);
-            this.mouse_target = this.svg.append('rect')
+            this.createCanvas();
+
+            this.mouse_target = this.canvas.append('rect')
                 .attr('height', height)
                 .attr('width', width)
                 .attr('id', 'mouse_target');
+            return this;
+        },
+        createCanvas    : function () {
+            // expand the root canvas width to cover left sidebar so that Y axis' tick labels can render over it
+            this.root_svg_width += left_sidebar_width;
+
+            this.root_svg = d3.select(this.$element[0]).append('svg')
+                .attr('width', this.root_svg_width)
+                .attr('height', this.height + 70);
+            this.canvas = this.root_svg.append('g')
+                .attr('transform', 'translate(' + (this.root_svg_width - this.width) + ',0)')
+                .append('svg')
+                    .attr('width', this.width)
+                    .attr('height', this.height + 70);
             return this;
         },
         _draw           : function () {
@@ -85,7 +92,6 @@ define([
         },
         draw            : function () {
             var series = this.resource.models,
-                line = this.line,
                 ids = [],
                 data = [],
                 context = this.context || {},
@@ -122,26 +128,48 @@ define([
                 y_max
             ]);
 
+            this.drawAxes()
+                .drawTimelines(data);
+
+            this.mouse_target.on('mouseover', this.hoverOn.bind(this));
+            this.mouse_target.on('mouseout', this.hoverOff.bind(this));
+
+            var periods = this.resource.periods();
+            this.timeContext(
+                String(context.period_start || periods[0]),
+                String(context.period_end || periods[periods.length - 1])
+            );
+
+            return this;
+        },
+        drawAxes        : function () {
             // clean axes
-            this.svg_element.selectAll('.axis')
+            this.root_svg.selectAll('.axis')
                 .remove();
 
-            this.svg.insert('g', '#mouse_target')
+            this.canvas.insert('g', '#mouse_target')
                 .attr('class', 'axis x_axis')
                 .attr('transform', 'translate(0,' + (this.height + this.padding - 3) + ')')
                 .call(this.x_axis);
 
-            this.svg_element.insert('g', ':first-child')
+            this.root_svg.insert('g', ':first-child')
                 .attr('class', 'axis y_axis')
-                .attr('transform', 'translate(' + this.left_sidebar_width + ',0)')
+                .attr('transform', 'translate(' + left_sidebar_width + ',0)')
                 .call(this.y_axis)
                 .selectAll('line')
                     .attr('x2', this.padding)
                     .attr('x1', this.width + this.padding);
 
-            this.svg.selectAll('.timeline').remove();
+            return this;
+        },
+        drawTimelines   : function (data) {
+            var line = this.line,
+                timelines;
 
-            var timelines = this.svg.selectAll('.timeline')
+            // clean timelines
+            this.canvas.selectAll('.timeline').remove();
+
+            timelines = this.canvas.selectAll('.timeline')
                 .data(data, function (d) {
                     return d.id;
                 });
@@ -155,16 +183,6 @@ define([
                             return line(d.values);
                         })
                         .style('stroke', function(d) { return d.color; });
-
-            this.mouse_target.on('mouseover', this.hoverOn.bind(this));
-            this.mouse_target.on('mouseout', this.hoverOff.bind(this));
-
-            var periods = this.resource.periods();
-            this.timeContext(
-                String(context.period_start || periods[0]),
-                String(context.period_end || periods[periods.length - 1])
-            );
-
             return this;
         },
         timeContext     : function (from, to) {
@@ -189,7 +207,7 @@ define([
 
             this.x_scale.domain([from, to]);
 
-            x_axis = this.svg.select('.x_axis');
+            x_axis = this.canvas.select('.x_axis');
             x_axis.call(this.x_axis)
                 .selectAll('line')
                     .attr('x1', 0)
@@ -202,7 +220,7 @@ define([
                     d3.select(this).classed('hide', hide);
                 });
 
-            this.svg.selectAll('.line').attr('d', function (d) {
+            this.canvas.selectAll('.line').attr('d', function (d) {
                 return line(d.values);
             });
 
@@ -279,7 +297,7 @@ define([
                 label_transforms = [],
                 labels_y_margin = 20,
                 marker_values, added_markers, added_label_texts;
-            this.svg.selectAll('.timeline').each(function (d, i) {
+            this.canvas.selectAll('.timeline').each(function (d, i) {
                 d.values.some(function (point_datum) {
                     if ( point_datum.period.valueOf() === x_value.valueOf() ) {
                         datums.push({
@@ -302,7 +320,7 @@ define([
                 d.y = y(d.amount);
             });
 
-            markers = this.svg.selectAll('.value_circle').data(datums, function (d) { return d.id + d.period; });
+            markers = this.canvas.selectAll('.value_circle').data(datums, function (d) { return d.id + d.period; });
 
             markers.exit().remove();
 

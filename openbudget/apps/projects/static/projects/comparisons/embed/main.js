@@ -13,6 +13,7 @@ requirejs.config({
         project_modules     : '../projects/comparisons/modules',
         project_widgets     : '../projects/comparisons/widgets',
         project_mixins      : '../projects/comparisons/mixins',
+        embed_widgets       : '../projects/comparisons/embed/widgets',
         dictionary          : '../projects/comparisons/dictionary',
         api                 : '../src/api',
         i18n                : '../src/i18n'
