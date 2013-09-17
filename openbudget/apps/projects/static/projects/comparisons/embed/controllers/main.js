@@ -8,9 +8,14 @@ define([
     'modules/promises/q',
     'modules/engine/mustache',
     'modules/xhr/jquery',
-    'ui/main'
+    'ui/main',
+    'project_modules/uijet-i18n'
 ], function (uijet, api, resources, Backbone, $, ebox, Q, Mustache) {
 
+
+    var state_config = window.STATE.config;
+    // copy State related meta data to the config
+    state_config.author = window.STATE.author;
 
     // make sure all jQuery requests (foreign and domestic) have a CSRF token 
     $(document).ajaxSend(function (event, xhr, settings) {
@@ -40,7 +45,8 @@ define([
      */
     uijet
     .Resource('Munis', resources.Munis)
-    .Resource('TimeSeries', resources.TimeSeries, window.STATE.config.chart);
+    .Resource('TimeSeries', resources.TimeSeries, state_config.chart)
+    .Resource('ProjectState', resources.State, state_config, { parse : true });
 
     return uijet.init.bind(uijet, {
         element             : 'article',
