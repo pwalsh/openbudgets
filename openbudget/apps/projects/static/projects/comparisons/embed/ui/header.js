@@ -10,7 +10,10 @@ define(function () {
     }, {
         type    : 'List',
         config  : {
-            element     : '#legend'
+            element     : '#legend',
+            mixins      : ['Templated'],
+            resource    : 'TimeSeries',
+            dont_fetch  : true
         }
     }]
 });

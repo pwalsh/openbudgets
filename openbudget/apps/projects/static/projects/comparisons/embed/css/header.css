@@ -8,6 +8,7 @@ header {
 }
 
 #chart_heading {
+    height: auto;
     text-align: right;
     direction: rtl;
 }
@@ -17,10 +18,22 @@ header {
     font-weight: bold;
 }
 
-header p {
+#chart_heading p {
     font-family: Arial, sans-serif;
     font-size: 12px;
     font-weight: bold;
+}
+
+#legend {
+    text-align: right;
+}
+#legend li {
+    display: inline-block;
+}
+#legend li + li:before {
+    content: '/';
+    margin: 0 .4rem 0 .1rem;
+    color: #d0d0dc;
 }
 
 #state_author_name {
