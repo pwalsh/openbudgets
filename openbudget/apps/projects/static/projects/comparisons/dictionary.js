@@ -39,7 +39,8 @@ define(function() {
         'normalize-data'        : gettext('Normalize data'),
         'no-normalization'      : gettext("Don't normalize"),
         'population'            : gettext('Population'),
-        'ground-surface'        : gettext('Ground Surface')
+        'ground-surface'        : gettext('Ground Surface'),
+        'by:'                   : gettext('by:')
     };
 
 });

@@ -1,0 +1,32 @@
+header {
+    position: absolute;
+    top: 0;
+    left : 3px;
+    right : 3px;
+    width: auto;
+    height: 96px;
+}
+
+#chart_heading {
+    text-align: right;
+    direction: rtl;
+}
+#chart_heading h1 {
+    font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+header p {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#state_author_name {
+    text-align: right;
+}
+#state_author_name:before {
+    content: attr(data-prefix);
+    margin-left: .2rem;
+}

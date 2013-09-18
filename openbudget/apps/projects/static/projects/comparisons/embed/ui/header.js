@@ -2,12 +2,15 @@ define(function () {
     return [{
         type    : 'Pane',
         config  : {
-            element         : 'header',
-            mixins          : ['Templated', 'Translated'],
-            resource        : 'ProjectState',
-            template_name   : 'chart_heading',
-            dont_fetch      : true,
-            data_events     : {}
+            element     : '#chart_heading',
+            mixins      : ['Templated', 'Translated'],
+            resource    : 'ProjectState',
+            dont_fetch  : true
+        }
+    }, {
+        type    : 'List',
+        config  : {
+            element     : '#legend'
         }
     }]
 });

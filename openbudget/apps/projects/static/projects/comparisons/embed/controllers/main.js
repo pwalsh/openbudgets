@@ -51,7 +51,7 @@ define([
     return uijet.init.bind(uijet, {
         element             : 'article',
 //        dont_cover          : true,
-        templates_path      : '/static/projects/comparisons/templates/',
+        templates_path      : '/static/projects/comparisons/embed/templates/',
         templates_extension : 'ms'
     });
 
