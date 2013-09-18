@@ -40,7 +40,9 @@ define([
         },
         drawTimelines   : function (data) {
             var line = this.line,
-                timelines;
+                x = this.x_scale,
+                y = this.y_scale,
+                timelines, timeline_containers;
 
             // clean timelines
             this.canvas.selectAll('.timeline').remove();
@@ -50,15 +52,36 @@ define([
                     return d.id;
                 });
 
-            timelines.enter()
+            timeline_containers = timelines.enter()
                 .insert('g', '#mouse_target')
-                    .attr('class', 'timeline')
-                    .append('path')
-                        .attr('class', 'line')
-                        .attr('d', function(d) {
-                            return line(d.values);
-                        })
-                        .style('stroke', function(d) { return d.color; });
+                    .attr('class', 'timeline');
+
+            timeline_containers.append('path')
+                .attr('class', 'line')
+                .attr('d', function(d) {
+                    return line(d.values);
+                })
+                .style('stroke', function(d) { return d.color; });
+
+            timeline_containers.selectAll('.value_dot')
+                .data(function (d) {
+                    return d.values.map(function (val) {
+                        // tag every point with it's series' color
+                        val.color = d.color;
+                        return val;
+                    });
+                })
+                .enter().append('circle')
+                    .attr('class', 'value_dot')
+                    .attr('cx', function (d, i) {
+                        return x(d.period);
+                    })
+                    .attr('cy', function (d, i) {
+                        return y(d.amount);
+                    })
+                    .attr('r', 4)
+                    .style('fill'   , function (d) { return d.color; });
+
             return this;
         }
     }, {
