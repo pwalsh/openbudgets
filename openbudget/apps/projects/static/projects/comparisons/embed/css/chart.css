@@ -17,24 +17,8 @@
     stroke: #d0d0dc;
 }
 .y_axis text {
+    fill: #d0d0dc;
     font-weight: bold;
-}
-.chart_period_button {
-    position: absolute;
-    top: 0;
-    width: auto;
-    height: auto;
-    padding: 1.3rem;
-    overflow: visible;
-    font-size: 3.261rem;
-}
-.chart_period_button.opened {
-    background-color: #d0d0dc;
-}
-.float.chart_period_select_wrapper {
-    width: 100%;
-    background-color: #d0d0dc;
-    right: 0;
 }
 
 .line {
@@ -59,7 +43,7 @@
 #chart {
     height: 100%;
 }
-#chart_wrapper {
+#chart {
     position: absolute;
     top: 96px;
     left: 3px;

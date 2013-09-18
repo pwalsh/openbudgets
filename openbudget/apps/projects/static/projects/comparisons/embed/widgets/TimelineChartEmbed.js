@@ -13,7 +13,8 @@ define([
             return this;
         },
         drawAxes        : function () {
-            var before = '#mouse_target';
+            var before = '#mouse_target',
+                y_axis;
             // clean axes
             this.canvas.selectAll('.axis')
                 .remove();
@@ -23,12 +24,17 @@ define([
                 .attr('transform', 'translate(0,' + (this.height + this.padding - 3) + ')')
                 .call(this.x_axis);
 
-            this.canvas.insert('g', before)
+            y_axis = this.canvas.insert('g', before)
                 .attr('class', 'axis y_axis')
-                .call(this.y_axis)
-                .selectAll('line')
-                    .attr('x2', this.padding)
-                    .attr('x1', this.width + this.padding);
+                .call(this.y_axis);
+
+            y_axis.selectAll('line')
+//                .attr('x2', -this.padding)
+                .attr('x1', this.width);
+
+            y_axis.selectAll('text')
+                .attr('dy', 0)
+                .attr('y', -4);
 
             return this;
         },

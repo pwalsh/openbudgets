@@ -13,9 +13,6 @@ define([
                 padding         : 20,
                 axes_y_orient   : 'right'
             },
-            style   : {
-                padding : '20px 20px 0'
-            },
             signals : {
                 pre_render  : '_draw'
             }
