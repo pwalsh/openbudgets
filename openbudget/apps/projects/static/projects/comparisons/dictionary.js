@@ -38,9 +38,20 @@ define(function() {
         'selected-items'        : gettext('selected items'),
         'normalize-data'        : gettext('Normalize data'),
         'no-normalization'      : gettext("Don't normalize"),
+        'by:'                   : gettext('by:'),
+        'data-normalized-by'    : gettext('* Data normalized by'),
+        /*
+         * The translations below are a brutal repetition of `Contexts.KEYS` in contexts/models.py
+         */
         'population'            : gettext('Population'),
         'ground-surface'        : gettext('Ground Surface'),
-        'by:'                   : gettext('by:')
+        'population_male'       : gettext('Population (Female)'),
+        'population_female'     : gettext('Population (Male)'),
+        'ground_surface'        : gettext('Ground Surface'),
+        'students'              : gettext('Students'),
+        'schools'               : gettext('Schools'),
+        'gini_index'            : gettext('Gini Index'),
+        'socioeconomic_index'   : gettext('Socio-Economic Index')
     };
 
 });

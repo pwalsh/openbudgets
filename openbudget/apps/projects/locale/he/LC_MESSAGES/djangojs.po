@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-18 14:08+0300\n"
+"POT-Creation-Date: 2013-09-19 19:04+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -173,19 +173,48 @@ msgid "Don't normalize"
 msgstr "ללא"
 
 #: static/projects/comparisons/dictionary.js:41
-msgid "Population"
-msgstr "אוכלוסיה"
-
-#: static/projects/comparisons/dictionary.js:42
-msgid "Ground Surface"
-msgstr "שטח רשות"
-
-#: static/projects/comparisons/dictionary.js:43
 msgid "by:"
 msgstr "לפי:"
 
+#: static/projects/comparisons/dictionary.js:42
+msgid "* Data normalized by"
+msgstr "* נתונים מנורמלים לפי"
+
+#: static/projects/comparisons/dictionary.js:46
+msgid "Population"
+msgstr "אוכלוסיה"
+
+#: static/projects/comparisons/dictionary.js:47
+#: static/projects/comparisons/dictionary.js:50
+msgid "Ground Surface"
+msgstr "שטח רשות"
+
+#: static/projects/comparisons/dictionary.js:48
+msgid "Population (Female)"
+msgstr "אוכלוסיית הנשים"
+
+#: static/projects/comparisons/dictionary.js:49
+msgid "Population (Male)"
+msgstr "אוכלוסיית הגברים"
+
+#: static/projects/comparisons/dictionary.js:51
+msgid "Students"
+msgstr "תלמידים"
+
+#: static/projects/comparisons/dictionary.js:52
+msgid "Schools"
+msgstr "בתי ספר"
+
+#: static/projects/comparisons/dictionary.js:53
+msgid "Gini Index"
+msgstr "מדד ג'ינ"
+
+#: static/projects/comparisons/dictionary.js:54
+msgid "Socio-Economic Index"
+msgstr "רמה דמוגרפית חברתית כלכלית"
+
 #: static/projects/comparisons/controllers/LegendsList.js:10
-#: static/projects/comparisons/resources/tool.js:334
+#: static/projects/comparisons/resources/tool.js:335
 #: static/projects/comparisons/ui/chart.js:58
 msgid "Insert title"
 msgstr "כתיבת כותרת"
