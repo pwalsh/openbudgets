@@ -4,9 +4,7 @@ define([
     'uijet_dir/widgets/Base'
 ], function (uijet, i18n) {
 
-    var I18N_ATTRIBUTE = 'data-i18n',
-        I18N_ATTR_ATTRIBUTE = 'data-i18n-attr',
-        normalizeToElement = function (el) {
+    var normalizeToElement = function (el) {
             if ( el = uijet.utils.toElement(el) ) {
                 return el[0];
             }
