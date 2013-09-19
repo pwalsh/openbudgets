@@ -30,12 +30,12 @@ define(['uijet_dir/uijet'], function (uijet) {
                 }
             });
         },
-        clearState      : function () {
+        clearState      : function (deleted) {
             uijet.Resource('TimeSeries').reset();
             uijet.Resource('LegendItems').reset();
-            uijet.Resource('ProjectState').set(default_state);
+            uijet.Resource('ProjectState').set(this.default_state);
             uijet.publish('state_cleared');
-            this.router.navigate('');
+            this.router.navigate('', deleted && { replace : true });
         },
         duplicateState  : function () {
             var state_clone = uijet.Resource('ProjectState').clone(),
@@ -72,7 +72,7 @@ define(['uijet_dir/uijet'], function (uijet) {
             //TODO: check (again) if logged in user is really the state author
             return uijet.Resource('ProjectState').destroy({
                 success : function () {
-                    this.clearState();
+                    this.clearState(true);
                 }.bind(this),
                 error   : function () {
                     uijet.publish('state_delete_failed');

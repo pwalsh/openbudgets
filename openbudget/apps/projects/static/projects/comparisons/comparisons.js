@@ -43,6 +43,7 @@ define([
     api.getVersion();
 
     comparisons = {
+        default_state   : default_state,
         router          : Router({
             routes  : {
                 ':uuid' : function (uuid) {
