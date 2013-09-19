@@ -2,6 +2,7 @@ define(['dictionary'], function (dictionary) {
 
     var I18N_ATTRIBUTE = 'data-i18n',
         I18N_ATTR_ATTRIBUTE = 'data-i18n-attr',
+        I18N_SAFE_ATTRIBUTE = 'data-i18n-safe',
         use_textContent = 'textContent' in document.body;
 
     return function (context) {
@@ -16,11 +17,18 @@ define(['dictionary'], function (dictionary) {
                     if ( attr ) {
                         el.setAttribute(attr, translation);
                     }
-                    else if ( use_textContent ) {
-                        el.textContent = translation;
-                    }
                     else {
-                        el.innerText = translation;
+                        if ( el.hasAttribute(I18N_SAFE_ATTRIBUTE) ) {
+                            el.innerHTML = translation;
+                        }
+                        else {
+                            if ( use_textContent ) {
+                                el.textContent = translation;
+                            }
+                            else {
+                                el.innerText = translation;
+                            }
+                        }
                     }
                 }
             });
