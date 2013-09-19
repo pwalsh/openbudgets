@@ -9,9 +9,11 @@
     visibility: visible;
 }
 .x_axis text {
-    visibility: hidden;
-    font-size: 3.261rem;
-    fill: #8989A8
+    /*visibility: hidden;*/
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    fill: #8989A8;
 }
 .y_axis line {
     stroke: #d0d0dc;

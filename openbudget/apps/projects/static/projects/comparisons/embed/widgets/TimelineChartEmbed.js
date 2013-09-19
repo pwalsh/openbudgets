@@ -7,9 +7,19 @@ define([
         createCanvas    : function () {
             this.canvas = d3.select(this.$element[0]).append('svg')
                 .attr('width', this.root_svg_width)
-                .attr('height', this.height + 70)
+                .attr('height', this.height)
                 .append('g');
 
+            return this;
+        },
+        createScales    : function () {
+            var padding = this.padding;
+
+            this.x_scale = d3.time.scale()
+                .range([padding, this.width - padding]);
+            this.y_scale = d3.scale.linear()
+                .range([this.height - 50, padding + 10]);
+            
             return this;
         },
         drawAxes        : function () {
@@ -19,9 +29,10 @@ define([
             this.canvas.selectAll('.axis')
                 .remove();
 
+            // create axes
             this.canvas.insert('g', before)
                 .attr('class', 'axis x_axis')
-                .attr('transform', 'translate(0,' + (this.height + this.padding - 3) + ')')
+                .attr('transform', 'translate(0,' + (this.height - 50) + ')')
                 .call(this.x_axis);
 
             y_axis = this.canvas.insert('g', before)
@@ -80,7 +91,23 @@ define([
                         return y(d.amount);
                     })
                     .attr('r', 4)
-                    .style('fill'   , function (d) { return d.color; });
+                    .style('fill', function (d) { return d.color; });
+
+            return this;
+        },
+        drawTimeContext : function (from, to) {
+            var line = this.line,
+                x_axis = this.canvas.select('.x_axis');
+
+            x_axis.call(this.x_axis)
+                .selectAll('line')
+                    .attr('x1', 0)
+                    .attr('y2', 0)
+                    .attr('y1', -(this.height));
+
+            this.canvas.selectAll('.line').attr('d', function (d) {
+                return line(d.values);
+            });
 
             return this;
         }
