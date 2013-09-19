@@ -18,6 +18,10 @@ urlpatterns = patterns('',
         ProjectEmbedView.as_view(),
         name='project_embed'
     ),
+    url(r'^(?P<slug>[-\w]+)/(?P<uuid>[-\w]+)',
+        ProjectDetailView.as_view(),
+        name='state_detail'
+    ),
     url(r'^(?P<slug>[-\w]+)',
         ProjectDetailView.as_view(),
         name='project_detail'

@@ -15,6 +15,7 @@ define([
     var state_config = window.STATE.config;
     // copy State related meta data to the config
     state_config.author = window.STATE.author;
+    state_config.url = window.STATE.url;
 
     $(window).on('resize', function () {
         uijet.publish('app.resize');

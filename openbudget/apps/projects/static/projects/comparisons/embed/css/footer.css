@@ -6,11 +6,35 @@ footer.uijet_pane {
     z-index: 1;
     width: auto;
     height: 32px;
+    text-align: center;
     direction: rtl;
     font-size: 16px;
+    color: #a1a1b9;
 }
 
 #normalization {
-    float: left;
-    color: #a1a1b9;
+    position: absolute;
+    left: 0;
+}
+
+#openmuni_link, #openmuni_link:link, #openmuni_link:visited {
+    position: absolute;
+    right: 0;
+    font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
+    color: #7070a0;
+}
+#openmuni_link:hover, #openmuni_link:active {
+    color: #141452;
+}
+
+#openmuni_link em {
+    font-weight: bold;
+    font-style: normal;
+}
+
+#state_link, #state_link:link, #state_link:visited {
+    color: #7070A0;
+}
+#state_link:hover, #state_link:active {
+    color: #141452;
 }

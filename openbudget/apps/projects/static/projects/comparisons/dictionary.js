@@ -21,7 +21,7 @@ define(function() {
         'site-menu-tos'         : gettext('Terms'),
         'site-menu-credits'     : gettext('Credits'),
         loading                 : gettext('Loading...'),
-        'open-muni-budget'      : gettext('Open Muni Budget'),
+        'open-muni-budgets'     : gettext('<em>Open Muni</em> Budgets'),
         compare                 : gettext('Compare'),
         'viz-new'               : gettext('New'),
         'viz-duplicate'         : gettext('Duplicate'),
@@ -40,6 +40,7 @@ define(function() {
         'no-normalization'      : gettext("Don't normalize"),
         'by:'                   : gettext('by:'),
         'data-normalized-by'    : gettext('* Data normalized by'),
+        'for-more-analyses'     : gettext('For more analyses'),
         /*
          * The translations below are a brutal repetition of `Contexts.KEYS` in contexts/models.py
          */

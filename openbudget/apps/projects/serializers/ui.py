@@ -22,10 +22,11 @@ class StateBase(serializers.ModelSerializer):
 
     author = AccountMin()
     config = serializers.WritableField()
+    url = serializers.Field(source='get_absolute_url')
 
     class Meta:
         model = models.State
-        fields = ['uuid', 'project', 'author', 'screenshot', 'config',
+        fields = ['url', 'uuid', 'project', 'author', 'screenshot', 'config',
                   'created_on', 'last_modified']
         lookup_field = 'uuid'
 
