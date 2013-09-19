@@ -55,7 +55,7 @@
     overflow: visible;
 }
 
-#chart_footer {
+footer.uijet_pane {
     position: absolute;
     bottom: 0;
     left: 3px;
@@ -64,30 +64,12 @@
     width: auto;
     height: 32px;
 }
-#chart_footer .uijet_select_menu li {
-    height: 44px;
-    line-height: 44px;
-    padding: 0 1.3rem 0 0;
-    text-align: right;
-    font-size: 1.3rem;
-    font-weight: bold;
-    background-color: #c4c4d3;
-}
-#chart_footer .uijet_select_menu li:hover,
-#chart_footer .uijet_select_menu li.selected {
-    background-color: #8989a8;
-}
 
 #mouse_target {
     z-index: 1001;
     fill: transparent;
 }
 
-#state_author_avatar {
-    display: inline-block;
-    margin-left: 10px;
-    border-radius: 45px;
-}
 #state_title_container {
     display: inline-block;
     vertical-align: top;
