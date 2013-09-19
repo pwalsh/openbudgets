@@ -1,7 +1,8 @@
 define([
     'uijet_dir/uijet',
+    'd3',
     'project_widgets/TimelineChart'
-], function (uijet) {
+], function (uijet, d3) {
     
     uijet.Widget('TimelineChartEmbed', {
         createCanvas    : function () {
@@ -108,6 +109,33 @@ define([
             this.canvas.selectAll('.line').attr('d', function (d) {
                 return line(d.values);
             });
+
+            return this;
+        },
+        drawMarkTexts : function (markers, added_markers) {
+            var amountFormat = this.amountFormat;
+
+            added_markers.append('g')
+                .attr('class', 'value_label')
+                .attr('transform', 'translate(0,-10)')
+                .append('text')
+                    .attr('class', 'amount');
+
+            markers.selectAll('.amount')
+                .text(function (d) { return amountFormat(d.amount); })
+                .attr('x', function (d) {
+                    var bbox = this.getBBox();
+
+                    d3.select(this.parentNode).insert('rect', 'text')
+                        .attr('class', 'amount_background')
+                        .attr('fill', d.color)
+                        .attr('width', bbox.width + 10)
+                        .attr('height', bbox.height + 10)
+                        .attr('x', - (bbox.width + 15))
+                        .attr('y', - (bbox.height + 2));
+
+                    return - (bbox.width + 10);
+                });
 
             return this;
         }

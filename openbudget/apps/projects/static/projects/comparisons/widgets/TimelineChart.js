@@ -22,6 +22,7 @@ define([
         options         : {
             type_class  : ['uijet_chart', 'uijet_timelinechart']
         },
+        amountFormat    : amountFormat,
         init            : function () {
             this._super.apply(this, arguments);
             // generate a range of colors
