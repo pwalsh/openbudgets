@@ -26,6 +26,7 @@ header {
 
 #legend {
     text-align: right;
+    direction: rtl;
 }
 #legend li {
     display: inline-block;
