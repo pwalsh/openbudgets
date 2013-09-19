@@ -203,9 +203,8 @@ define([
             return this;
         },
         timeContext     : function (from, to) {
-            var domain = this.x_scale.domain(),
-                line = this.line,
-                from_value, to_value, x_axis;
+            var domain = this.x_scale.domain();
+
             if ( ! from ) {
                 from = domain[0];
             }
@@ -219,12 +218,25 @@ define([
                 to = dateParser(to);
             }
 
-            from_value = from.valueOf();
-            to_value = to.valueOf();
-
             this.x_scale.domain([from, to]);
 
-            x_axis = this.canvas.select('.x_axis');
+            this.drawTimeContext(
+                from.valueOf(),
+                to.valueOf()
+            );
+
+            if ( this.hover_on ) {
+                // reset mouseover handler
+                this.hoverOff()
+                    .hoverOn();
+            }
+
+            return this;
+        },
+        drawTimeContext : function (from, to) {
+            var line = this.line,
+                x_axis = this.canvas.select('.x_axis');
+
             x_axis.call(this.x_axis)
                 .selectAll('line')
                     .attr('x1', 0)
@@ -235,13 +247,13 @@ define([
                 return line(d.values);
             });
 
-            this.notify('post_timecontext', x_axis, from_value, to_value);
-
-            if ( this.hover_on ) {
-                // reset mouseover handler
-                this.hoverOff()
-                    .hoverOn();
-            }
+            // hide max and min of X axis tick labels
+            x_axis.selectAll('text')
+                .each(function (d) {
+                    var value = d.valueOf(),
+                        hide = value === to || value === from;
+                    d3.select(this).classed('hide', hide);
+                });
 
             return this;
         },
