@@ -2,10 +2,8 @@ define([
     'uijet_dir/uijet',
     'modules/data/backbone',
     'underscore',
-    'api',
-    'modules/promises/q',
-    'backbone-fetch-cache'
-], function (uijet, Backbone, _, api) {
+    'modules/promises/q'
+], function (uijet, Backbone, _) {
 
     uijet.use({
         prop: function (property) {
@@ -36,9 +34,6 @@ define([
          */
         Munis = uijet.Collection({
             model   : Muni,
-            url     : function () {
-                return api.getRoute('entities');
-            },
             parse   : function (response) {
                 //! Array.prototype.filter
                 return response.results;
@@ -69,12 +64,6 @@ define([
          */
         State = uijet.Model({
             idAttribute : 'uuid',
-            urlRoot     : function () {
-                return api.getRoute('projectStates');
-            },
-            url         : function () {
-                return this.urlRoot() + (this.id ? this.id + '/' : '');
-            },
             parse       : function (response) {
                 var user = new User(response.author);
                 response.author_model = user;
@@ -86,9 +75,6 @@ define([
          * TimeSeries Model
          */
         TimeSeriesModel = uijet.Model({
-            url         : function () {
-                return api.getTimelineRoute(this.attributes.muni_id, this.attributes.nodes);
-            },
             parse       : function (response) {
                 var periods = [],
                     series = {};
@@ -136,7 +122,6 @@ define([
 
 
     return {
-        api             : api,
         '_'             : _,
         Backbone        : Backbone,
         Muni            : Muni,
