@@ -31,45 +31,50 @@ define([
             this._super();
             var chart_ops = this.options.chart || {},
                 element = this.$element[0],
-                padding = chart_ops.padding || 0,
-                width = element.offsetWidth,
-                // need to expand the width of the SVG element to be able to draw y axis labels outside the chart area
-                root_svg_width = width + padding,
-                height = element.offsetHeight,
-//                x = d3.time.scale()
-                x = d3.time.scale()
-                    .range([padding, width - padding]),
-                y = d3.scale.linear()
-                    .range([height, padding + 10]),
-                x_axis = d3.svg.axis()
-                    .scale(x)
-                    .orient(chart_ops.axes_x_orient || 'bottom')
-                    .ticks(d3.time.years),
-                y_axis = d3.svg.axis()
-                    .scale(y)
-                    .orient(chart_ops.axes_y_orient || 'left')
-                    .ticks(Y_TICKS)
-                    .tickFormat(amountFormat);
+                x, y;
 
-            this.padding = padding;
-            this.root_svg_width = root_svg_width;
-            this.width = width;
-            this.height = height;
-            this.x_axis = x_axis;
-            this.y_axis = y_axis;
-            this.x_scale = x;
-            this.y_scale = y;
+            this.padding = chart_ops.padding || 0;
+            this.width = element.offsetWidth;
+            this.height = element.offsetHeight;
+            // need to expand the width of the SVG element to be able to draw y axis labels outside the chart area
+            this.root_svg_width = this.width + this.padding;
 
-            this.line = d3.svg.line()
-                .x( function(d) { return x(d.period); } )
-                .y( function(d) { return y(d.amount); } );
-
-            this.createCanvas();
+            this.createScales()
+                .createAxes()
+                .createCanvas()
+                .createLine();
 
             this.mouse_target = this.canvas.append('rect')
-                .attr('height', height)
-                .attr('width', width)
+                .attr('height', this.height)
+                .attr('width', this.width)
                 .attr('id', 'mouse_target');
+
+            return this;
+        },
+        createScales    : function () {
+            var padding = this.padding;
+
+            this.x_scale = d3.time.scale()
+                .range([padding, this.width - padding]);
+            this.y_scale = d3.scale.linear()
+                .range([this.height, padding + 10]);
+            
+            return this;
+        },
+        createAxes      : function () {
+            var chart_ops = this.options.chart;
+
+            this.x_axis = d3.svg.axis()
+                .scale(this.x_scale)
+                .orient(chart_ops.axes_x_orient || 'bottom')
+                .ticks(d3.time.years);
+
+            this.y_axis = d3.svg.axis()
+                .scale(this.y_scale)
+                .orient(chart_ops.axes_y_orient || 'left')
+                .ticks(Y_TICKS)
+                .tickFormat(amountFormat);
+
             return this;
         },
         createCanvas    : function () {
@@ -84,6 +89,17 @@ define([
                 .append('svg')
                     .attr('width', this.width)
                     .attr('height', this.height + 70);
+
+            return this;
+        },
+        createLine      : function () {
+            var x = this.x_scale,
+                y = this.y_scale;
+
+            this.line = d3.svg.line()
+                .x( function(d) { return x(d.period); } )
+                .y( function(d) { return y(d.amount); } );
+
             return this;
         },
         _draw           : function () {
