@@ -2,10 +2,11 @@ define(function () {
     return [{
         type    : 'Pane',
         config  : {
-            element : 'footer',
-            id      : 'footer',
-            mixins  : ['Templated', 'Translated'],
-            resource: 'ProjectState'
+            element     : 'footer',
+            id          : 'footer',
+            mixins      : ['Templated', 'Translated'],
+            resource    : 'ProjectState',
+            dont_fetch  : true
         }
     }]
 });

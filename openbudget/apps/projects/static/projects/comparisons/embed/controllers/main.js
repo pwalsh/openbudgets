@@ -1,6 +1,5 @@
 define([
     'uijet_dir/uijet',
-    'api',
     'resources',
     'modules/data/backbone',
     'modules/dom/jquery',
@@ -10,34 +9,15 @@ define([
     'modules/xhr/jquery',
     'ui/main',
     'project_modules/uijet-i18n'
-], function (uijet, api, resources, Backbone, $, ebox, Q, Mustache) {
+], function (uijet, resources, Backbone, $, ebox, Q, Mustache) {
 
 
     var state_config = window.STATE.config;
     // copy State related meta data to the config
     state_config.author = window.STATE.author;
 
-    // make sure all jQuery requests (foreign and domestic) have a CSRF token 
-    $(document).ajaxSend(function (event, xhr, settings) {
-        if ( ! settings.headers )
-            settings.headers = {};
-
-        if ( ! ('X-CSRFToken' in settings.headers) )
-            settings.headers['X-CSRFToken'] = api.getCSRFToken();
-    });
-
     $(window).on('resize', function () {
         uijet.publish('app.resize');
-    });
-
-    // get version endpoint
-    api.getVersion();
-
-    // set the API's routes
-    api.getRoutes({
-        success : function (response) {
-            api._setRoutes(response);
-        }
     });
 
     /*
