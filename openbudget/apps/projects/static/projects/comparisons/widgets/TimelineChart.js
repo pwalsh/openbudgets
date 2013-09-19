@@ -25,7 +25,7 @@ define([
         init            : function () {
             this._super.apply(this, arguments);
             // generate a range of colors
-            uijet.publish('chart_colors', d3.scale.category10().range());
+            uijet.publish('chart_colors', d3.scale.category20().range());
         },
         prepareElement  : function () {
             this._super();
