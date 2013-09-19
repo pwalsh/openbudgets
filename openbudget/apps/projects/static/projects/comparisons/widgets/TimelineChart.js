@@ -310,7 +310,7 @@ define([
             }
             else {
                 d3.select('.tick.mark').classed('mark', false);
-                d3.selectAll('.value_circle').remove();
+                d3.selectAll('.value_mark').remove();
             }
         },
         markValues      : function (x_value) {
@@ -318,10 +318,7 @@ define([
                 datums = [],
                 x = this.x_scale,
                 y = this.y_scale,
-                width = this.width,
-                label_transforms = [],
-                labels_y_margin = 20,
-                marker_values, added_markers, added_label_texts;
+                added_markers;
             this.canvas.selectAll('.timeline').each(function (d, i) {
                 d.values.some(function (point_datum) {
                     if ( point_datum.period.valueOf() === x_value.valueOf() ) {
@@ -345,24 +342,15 @@ define([
                 d.y = y(d.amount);
             });
 
-            markers = this.canvas.selectAll('.value_circle').data(datums, function (d) { return d.id + d.period; });
+            markers = this.canvas.selectAll('.value_mark')
+                .data(datums, function (d) {
+                    return d.id + d.period;
+                });
 
             markers.exit().remove();
 
             added_markers = markers.enter().append('g')
-                .attr('class', 'value_circle');
-            
-            added_label_texts = added_markers.append('g')
-                .attr('class', 'value_label')
-                .attr('transform', 'translate(0,-10)');
-
-//            added_label_texts.append('text')
-//                .attr('class', 'title');
-
-            added_label_texts.append('text')
-                .attr('class', 'amount');
-
-            added_markers.append('circle');
+                .attr('class', 'value_mark');
 
             markers.sort(function (a, b) { return a.amount - b.amount; });
 
@@ -370,17 +358,15 @@ define([
                 return 'translate(' + d.x + ',' + d.y + ')';
             });
 
-            markers.selectAll('text')
-                .attr('fill', function (d) { return d.color; });
-            markers.selectAll('.amount')
-                .text(function (d) { return amountFormat(d.amount); })
-                .attr('x', function () {
-                    return - (this.getBBox().width + 10);
-                });
-//            labels.selectAll('.title')
-//                .text(function (d) { return d.muni + ': ' + d.title; });
+            this.drawMarkedValues(datums, markers, added_markers);
+        },
+        drawMarkedValues: function (datums, markers, added_markers) {
+            var width = this.width,
+                label_transforms = [],
+                labels_y_margin = 20,
+                marker_values;
 
-            
+            this.drawMarkTexts(markers, added_markers);
 
             marker_values = d3.selectAll('.value_label')
                 .each(function (d, i) {
@@ -448,9 +434,35 @@ define([
                 return 'translate(' + label_transforms[i].join() + ')';
             });
 
+            this.drawMarkCircles(markers, added_markers);
+
+            return this;
+        },
+        drawMarkTexts : function (markers, added_markers) {
+            added_markers.append('g')
+                .attr('class', 'value_label')
+                .attr('transform', 'translate(0,-10)')
+                .append('text')
+                    .attr('class', 'amount');
+
+            markers.selectAll('text')
+                .attr('fill', function (d) { return d.color; });
+            markers.selectAll('.amount')
+                .text(function (d) { return amountFormat(d.amount); })
+                .attr('x', function () {
+                    return - (this.getBBox().width + 10);
+                });
+
+            return this;
+        },
+        drawMarkCircles : function (markers, added_markers) {
+            added_markers.append('circle');
+
             markers.select('circle')
                 .attr('r', 5)
                 .style('fill', function (d) { return d.color; });
+
+            return this;
         },
         setTitle        : function (id, title) {
             if ( uijet.utils.isObj(id) ) {
