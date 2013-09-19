@@ -14,13 +14,13 @@ header {
 }
 #chart_heading h1 {
     font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
-    font-size: 22px;
+    font-size: 29px;
     font-weight: bold;
 }
 
 #chart_heading p {
     font-family: Arial, sans-serif;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: bold;
 }
 
@@ -34,7 +34,7 @@ header {
 #legend li + li:before {
     content: '/';
     margin: 0 .4rem 0 .1rem;
-    color: #d0d0dc;
+    color: #a1a1b9;
 }
 
 #state_author_name {

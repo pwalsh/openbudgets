@@ -15,7 +15,7 @@
 .x_axis text {
     /*visibility: hidden;*/
     font-family: Arial, sans-serif;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: bold;
     fill: #8989A8;
 }
@@ -23,8 +23,8 @@
     stroke: #d0d0dc;
 }
 .y_axis text {
-    fill: #d0d0dc;
-    font-weight: bold;
+    font-size: 13px;
+    fill: #a1a1b9;
 }
 
 .line {
@@ -38,7 +38,7 @@
     stroke: white;
 }
 .value_mark text {
-    font-size: 12px;
+    font-size: 16px;
     font-weight: bold;
     fill: white;
 }
