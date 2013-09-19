@@ -125,7 +125,7 @@ define([
 
             this.LegendItemModel = uijet.Model({
                 initialize  : function () {
-                    this.id = resources._.uniqueId('li');
+                    this.id = this.id || resources._.uniqueId('li');
                 }
             });
 

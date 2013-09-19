@@ -330,6 +330,7 @@ define([
                 return this.models.map(function (model) {
                     var attrs = model.attributes;
                     return {
+                        id          : attrs.id,
                         title       : attrs.title,
                         placeholder : attrs.title || gettext('Insert title'),
                         nodes       : attrs.nodes,
