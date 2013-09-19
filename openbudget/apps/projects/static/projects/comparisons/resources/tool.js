@@ -1,8 +1,9 @@
 define([
     'uijet_dir/uijet',
+    'api',
     'common_resources',
     'backbone-fetch-cache'
-], function (uijet, resources) {
+], function (uijet, api, resources) {
 
     function sortByPeriodstart (a, b) {
         return new Date(a.get(period_start)) > new Date(b.get(period_start)) ? 1 : -1;
@@ -40,7 +41,6 @@ define([
     }
 
     var period_start = 'period_start',
-        api = resources.api,
         reverseSorting = function (field) {
             return function (a, b) {
                 var a_val = a.get(field),
@@ -364,6 +364,21 @@ define([
                 series[period].factor = context ? +context.get('data')[normalize_by] : 1;
             }
         });
+    };
+
+    resources.Muni.prototype.url = function () {
+        return api.getRoute('entities');
+    };
+
+    resources.State.prototype.url = function () {
+        return this.urlRoot() + (this.id ? this.id + '/' : '');
+    };
+    resources.State.prototype.urlRoot = function () {
+        return api.getRoute('projectStates');
+    };
+
+    resources.TimeSeriesModel.prototype.url = function () {
+        return api.getTimelineRoute(this.attributes.muni_id, this.attributes.nodes);
     };
 
     resources.Node = Node;
