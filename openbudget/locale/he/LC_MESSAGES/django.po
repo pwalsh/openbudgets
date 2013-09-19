@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-18 17:18+0300\n"
+"POT-Creation-Date: 2013-09-20 01:11+0300\n"
 "PO-Revision-Date: 2013-05-23 17:58+0000\n"
 "Last-Translator: Ram Ezrach <ram.ezrach@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -316,43 +316,43 @@ msgstr ""
 msgid "Unknown email address"
 msgstr "כתובת אימיל לא ידועה"
 
-#: apps/contexts/models.py:28
-msgid "Population (Male)"
-msgstr "אוכלוסיית הגברים"
-
-#: apps/contexts/models.py:29
-msgid "Population (Female)"
-msgstr "אוכלוסיית הנשים"
-
-#: apps/contexts/models.py:30
+#: apps/contexts/models.py:34
 msgid "Population"
 msgstr "אוכלוסיה"
 
-#: apps/contexts/models.py:31
+#: apps/contexts/models.py:35
+msgid "Population (Female)"
+msgstr "אוכלוסיית הנשים"
+
+#: apps/contexts/models.py:36
+msgid "Population (Male)"
+msgstr "אוכלוסיית הגברים"
+
+#: apps/contexts/models.py:37
 msgid "Ground Surface"
 msgstr "שטח הרשות"
 
-#: apps/contexts/models.py:32
+#: apps/contexts/models.py:38
 msgid "Students"
 msgstr "תלמידים"
 
-#: apps/contexts/models.py:33
+#: apps/contexts/models.py:39
 msgid "Schools"
 msgstr "בתי ספר"
 
-#: apps/contexts/models.py:34
+#: apps/contexts/models.py:40
 msgid "Gini Index"
 msgstr "מדד ג'יני"
 
-#: apps/contexts/models.py:35
+#: apps/contexts/models.py:41
 msgid "Socio-Economic Index"
 msgstr "רמה דמוגרפית חברתית כלכלית"
 
-#: apps/contexts/models.py:44
+#: apps/contexts/models.py:51
 msgid "Data object"
 msgstr ""
 
-#: apps/contexts/models.py:45
+#: apps/contexts/models.py:52
 msgid "Contextual data as JSON for the Entity/Time Period."
 msgstr ""
 
@@ -382,7 +382,7 @@ msgstr ""
 
 #: apps/entities/models.py:42 apps/entities/models.py:110
 #: apps/entities/models.py:161
-#: apps/entities/templates/entities/explorer.html:45 apps/sheets/models.py:44
+#: apps/entities/templates/entities/explorer.html:58 apps/sheets/models.py:44
 #: apps/sheets/models.py:119 apps/taxonomies/models.py:98
 msgid "Name"
 msgstr "שם"
@@ -548,61 +548,61 @@ msgid "Soon"
 msgstr "בקרוב"
 
 #: apps/entities/templates/entities/explorer.html:19
-msgid "Open Muni Budget"
-msgstr "תקציב מקומי פתוח"
+msgid "<em>Open Muni</em> Budgets"
+msgstr "<em>תקציב מקומי</em> פתוח"
 
 #: apps/entities/templates/entities/explorer.html:24
-#: apps/entities/templates/entities/explorer.html:47
+#: apps/entities/templates/entities/explorer.html:60
 #: apps/sheets/templates/sheets/sheet_detail.html:6
 #: apps/sheets/templates/sheets/sheet_detail.html:39
 msgid "Budget"
 msgstr "תכנון"
 
-#: apps/entities/templates/entities/explorer.html:29
+#: apps/entities/templates/entities/explorer.html:31
 msgid "Search under:"
 msgstr "חיפוש תחת:"
 
-#: apps/entities/templates/entities/explorer.html:30
-#: apps/entities/views/ui.py:209
+#: apps/entities/templates/entities/explorer.html:32
+#: apps/entities/views/ui.py:164
 msgid "Main"
 msgstr "ראשי"
 
-#: apps/entities/templates/entities/explorer.html:37
+#: apps/entities/templates/entities/explorer.html:42
 #: commons/templates/partials/_form_action_search.html:2
 msgid "Search"
 msgstr "חיפוש"
 
-#: apps/entities/templates/entities/explorer.html:44
+#: apps/entities/templates/entities/explorer.html:57
 msgid "Order"
 msgstr "סידורי"
 
-#: apps/entities/templates/entities/explorer.html:46
+#: apps/entities/templates/entities/explorer.html:59
 msgid "Direction"
 msgstr "סוג"
 
-#: apps/entities/templates/entities/explorer.html:48
+#: apps/entities/templates/entities/explorer.html:61
 #: apps/sheets/templates/sheets/sheet_detail.html:41
 msgid "Actual"
 msgstr "ביצוע"
 
-#: apps/entities/templates/entities/explorer.html:72
+#: apps/entities/templates/entities/explorer.html:93
 msgid "Explanations"
 msgstr "דברי הסבר"
 
-#: apps/entities/templates/entities/explorer.html:76
+#: apps/entities/templates/entities/explorer.html:97
 msgid "Enter comment..."
 msgstr "הכנסת תגובה..."
 
-#: apps/entities/templates/entities/explorer.html:78
+#: apps/entities/templates/entities/explorer.html:99
 msgid "Enter"
 msgstr "אישור"
 
-#: apps/entities/templates/entities/explorer.html:79
+#: apps/entities/templates/entities/explorer.html:100
 #: commons/templates/partials/_form_action_cancel.html:3
 msgid "Cancel"
 msgstr "ביטול"
 
-#: apps/entities/templates/entities/explorer.html:82
+#: apps/entities/templates/entities/explorer.html:103
 msgid "Add comment"
 msgstr "הוספת תגובה"
 
@@ -732,6 +732,7 @@ msgstr "עמודים"
 
 #: apps/pages/templates/pages/home.html:6
 #: commons/templates/partials/nav-panel.html:13
+#: commons/templates/rest_framework/api.html:21
 msgid "Home"
 msgstr "דף הבית"
 
@@ -876,7 +877,7 @@ msgid ""
 "node."
 msgstr ""
 
-#: apps/sheets/models.py:198 apps/sheets/models.py:621
+#: apps/sheets/models.py:198 apps/sheets/models.py:624
 msgid "Entry description"
 msgstr "תיאור ערך"
 
@@ -957,31 +958,31 @@ msgstr "פריט תקציב"
 msgid "sheet items"
 msgstr "פריטי תקציב"
 
-#: apps/sheets/models.py:580
+#: apps/sheets/models.py:583
 msgid "Comment"
 msgstr "תגובה"
 
-#: apps/sheets/models.py:581
+#: apps/sheets/models.py:584
 msgid "Add your comments to this discussion."
 msgstr ""
 
-#: apps/sheets/models.py:586
+#: apps/sheets/models.py:589
 msgid "sheet item comment"
 msgstr "דברי הסבר"
 
-#: apps/sheets/models.py:587
+#: apps/sheets/models.py:590
 msgid "sheet item comments"
 msgstr "דברי הסבר"
 
-#: apps/sheets/models.py:623
+#: apps/sheets/models.py:626
 msgid "A descriptive text for this template node underlying this sheet item."
 msgstr ""
 
-#: apps/sheets/models.py:628
+#: apps/sheets/models.py:631
 msgid "denormalized sheet item"
 msgstr ""
 
-#: apps/sheets/models.py:629
+#: apps/sheets/models.py:632
 msgid "denormalized sheet items"
 msgstr ""
 
@@ -1272,6 +1273,10 @@ msgstr ""
 msgid "The data import failed for "
 msgstr ""
 
+#: apps/transport/views.py:64
+msgid "No sheets found for uuid: {uuid}"
+msgstr ""
+
 #: apps/transport/incoming/errors.py:24
 msgid ""
 "Error found in row: {row}; and columns: {columns}; with values: {values}"
@@ -1475,7 +1480,7 @@ msgstr "תאריך סיום"
 msgid "The end date for this %(class)s"
 msgstr ""
 
-#: commons/templates/base.html:42
+#: commons/templates/base.html:41
 msgid "Back to the home page"
 msgstr "חזרה לעמוד הבית"
 
@@ -1719,14 +1724,14 @@ msgstr ""
 msgid "Create an account today"
 msgstr "צור חשבון היום"
 
-#: commons/templates/rest_framework/api.html:11
-#: commons/templates/rest_framework/api.html:17
+#: commons/templates/rest_framework/api.html:15
 msgid "Open Budget API"
 msgstr ""
 
 #: commons/templates/rest_framework/api.html:20
-msgid "App Home"
-msgstr ""
+#, fuzzy
+msgid "Open Budgets API"
+msgstr "API של תקציב מקומי פתוח"
 
 #: commons/templates/search/search.html:10
 msgid "Your search returned..."
