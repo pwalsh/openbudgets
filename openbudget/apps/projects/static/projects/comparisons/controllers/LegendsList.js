@@ -47,9 +47,13 @@ define([
         },
         createItem      : function (use_model) {
             var state = use_model ? use_model.attributes : null,
-                new_index = use_model ? this.resource.indexOf(use_model) : 0,
-                model = this.createItemModel(state, new_index);
+                new_index = use_model ? this.resource.indexOf(use_model) + 1 : 0,
+                model;
 
+            // make sure id is removed
+            delete state.id;
+
+            model = this.createItemModel(state, new_index);
             this.createItemWidget(model, new_index);
 
             return model;
