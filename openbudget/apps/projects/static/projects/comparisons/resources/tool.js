@@ -371,7 +371,7 @@ define([
     };
 
     resources.State.prototype.url = function () {
-        return this.urlRoot() + (this.id ? this.id + '/' : '');
+        return this.urlRoot() + (this.id ? this.id : '');
     };
     resources.State.prototype.urlRoot = function () {
         return api.getRoute('projectStates');
