@@ -65,9 +65,12 @@ define([
         State = uijet.Model({
             idAttribute : 'uuid',
             parse       : function (response) {
-                var user = new User(response.author);
-                response.author_model = user;
-                response.author = user.id;
+                if ( uijet.utils.isObj(response.author) ) {
+                    if ( ! this.has('author_model') ) {
+                        response.author_model = new User(response.author);
+                    }
+                    response.author = response.author.uuid;
+                }
                 return response;
             }
         }),
