@@ -22,7 +22,7 @@ define([
             },
             signals         : {
                 pre_click   : function () {
-                    this.disable().spin()
+                    this.disable().spin();
                 }
             },
             app_events      : {
@@ -112,6 +112,9 @@ define([
                     if ( ! uijet.Resource('LoggedinUser').has('uuid') ) {
                         uijet.publish('login');
                         return false;
+                    }
+                    else {
+                        this.disable().spin();
                     }
                 }
             },

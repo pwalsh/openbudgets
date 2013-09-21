@@ -7,3 +7,103 @@
 .medium-text() {
     .font-size(@unit-em * 1.375);
 }
+
+.property (@property) when (@property) {
+    -webkit-transition-property: -webkit-transform;
+       -moz-transition-property: -moz-transform;
+         -o-transition-property: -o-transform;
+            transition-property: -ms-transform, transform;
+}
+.property (@property) when not (@property = true) {
+    -webkit-transition-property: @property;
+       -moz-transition-property: @property;
+         -o-transition-property: @property;
+            transition-property: @property;
+}
+.property-with-transform (@property) {
+    -webkit-transition-property: -webkit-transform, @property;
+       -moz-transition-property: -moz-transform, @property;
+         -o-transition-property: -o-transform, @property;
+            transition-property: -ms-transform, transform, @property;
+}
+/* Alias of .property-with-transform() */
+.property (@property; @transform) when (@transform) {
+    .property-with-transform(@property);
+}
+
+.duration (@duration: .5s) {
+    -webkit-transition-duration: @duration;
+       -moz-transition-duration: @duration;
+         -o-transition-duration: @duration;
+            transition-duration: @duration;
+}
+
+.function (@function: ease) {
+    -webkit-transition-timing-function: ease;
+       -moz-transition-timing-function: ease;
+         -o-transition-timing-function: ease;
+            transition-timing-function: ease;
+}
+
+.delay (@delay) when (isstring(@delay)) {
+    -webkit-transition-delay: @delay;
+       -moz-transition-delay: @delay;
+         -o-transition-delay: @delay;
+            transition-delay: @delay;
+}
+.delay (@delay) when (isnumber(@delay)) {
+    -webkit-transition-delay: (@delay)s;
+       -moz-transition-delay: (@delay)s;
+         -o-transition-delay: (@delay)s;
+            transition-delay: (@delay)s;
+}
+
+/* Hardware accelerate on Webkits */
+.hardware-accelerate () {
+    -webkit-transform: translateZ(0);
+}
+
+//.transition (@property: true; @duration: .5s; @function: ease; @delay; @hwaccl) when (@hwaccl) {
+//    .hardware-accelerate;
+//    .property(@property);
+//    .duration(@duration);
+//    .function(@function);
+//    .delay(@delay);
+//}
+.transition (@property: true; @duration: .5s; @function: ease; @hwaccl) when (@hwaccl) {
+    .hardware-accelerate;
+    .property(@property);
+    .duration(@duration);
+    .function(@function);
+}
+//.transition (@property: true; @duration: .5s; @function: ease) {
+//    .property(@property);
+//    .duration(@duration);
+//    .function(@function);
+//}
+//.transition (@property: true; @duration: .5s;) {
+//    .property(@property);
+//    .duration(@duration);
+//}
+
+.translateX (@x) {
+    -webkit-transform: translateX(@x);
+       -moz-transform: translateX(@x);
+        -ms-transform: translateX(@x);
+         -o-transform: translateX(@x);
+            transform: translateX(@x);
+}
+.translateY (@y) {
+    -webkit-transform: translateY(@y);
+       -moz-transform: translateY(@y);
+        -ms-transform: translateY(@y);
+         -o-transform: translateY(@y);
+            transform: translateY(@y);
+}
+.translate (@x: 0; @y: 0) {
+    -webkit-transform: translate(@x, @y);
+       -moz-transform: translate(@x, @y);
+        -ms-transform: translate(@x, @y);
+         -o-transform: translate(@x, @y);
+            transform: translate(@x, @y);
+}

@@ -9,7 +9,8 @@ requirejs.config({
         modules             : 'uijet/modules',
         comparisons            : '../projects/comparisons/comparisons',
         ui                  : '../projects/comparisons/ui',
-        resources           : '../projects/comparisons/resources',
+        common_resources    : '../projects/comparisons/resources/commons',
+        resources           : '../projects/comparisons/resources/tool',
         controllers         : '../projects/comparisons/controllers',
         project_modules     : '../projects/comparisons/modules',
         project_widgets     : '../projects/comparisons/widgets',
@@ -19,6 +20,9 @@ requirejs.config({
         i18n                : '../src/i18n'
     },
     shim    : {
+        d3                      : {
+            exports : 'd3'
+        },
         eventbox                : ['setImmediate'],
         'backbone-fetch-cache'  : 'modules/data/backbone'
     }
@@ -28,14 +32,5 @@ requirejs([
     '../js/base'
 ], function (comparisons) {
 
-    comparisons.start({
-        AUTH_URL: window.AUTH_URL,
-        auth    : {
-            client_id       : '751be246011e8a6198d7',
-            client_secret   : 'c62cb3b66fcbe46b82ecda2ed146b7bfe24fdea4',
-            grant_type      : 'password',
-            username        : 'admin',
-            password        : 'morelove!'
-        }
-    });
+    comparisons.start();
 });

@@ -1,0 +1,16 @@
+{% extends 'projects/project_base.html' %}
+
+{% block head_css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}projects/{{ object.slug }}/embed/css/main.css"/>
+{% endblock head_css %}
+
+{% block body_js %}
+    <script>
+        var API_INDEX = 'http://api.{{ site.domain }}/',
+            API_VERSION = 'v1',
+            PROJECT = {{ project_json|safe }};
+            STATE = {{ state_json|safe }};
+    </script>
+    <script src="{% url 'projects_js_i18n' %}"></script>
+    <script src="{{ STATIC_URL }}lib/require.js" data-main="{{ STATIC_URL }}projects/{{ object.slug }}/embed/main"></script>
+{% endblock body_js %}

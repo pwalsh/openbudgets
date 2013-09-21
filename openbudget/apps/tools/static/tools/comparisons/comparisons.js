@@ -1,6 +1,7 @@
 define([
     'uijet_dir/uijet',
     'resources',
+    'controllers/AppState',
     'api',
     'modules/data/backbone',
     'modules/router/backbone',
@@ -12,12 +13,12 @@ define([
     'modules/animation/uijet-transit',
     'modules/search/uijet-search',
     'project_modules/uijet-i18n'
-], function (uijet, resources, api, Backbone, Router, $, Ebox, Q, Mustache) {
+], function (uijet, resources, state_controller, api, Backbone, Router, $, Ebox, Q, Mustache) {
 
     var default_state = {
             project     : window.PROJECT.uuid,
             author      : window.LOGGEDIN_USER.uuid,
-            title       : gettext('Insert title'),
+            title       : '',
             description : '',
             author_model: new resources.User(window.LOGGEDIN_USER),
             uuid        : null,
@@ -42,6 +43,7 @@ define([
     api.getVersion();
 
     comparisons = {
+        default_state   : default_state,
         router          : Router({
             routes  : {
                 ':uuid' : function (uuid) {
@@ -52,18 +54,19 @@ define([
                         })
                         .fetch({
                             success : function (model) {
-                                var config = JSON.parse(model.get('config')),
+                                var config = model.get('config'),
                                     series = config.chart,
                                     legend_data = uijet.Resource('TimeSeries').reset(series).extractLegend();
                                 model.set({
-                                    title       : config.title || gettext('Insert title'),
-                                    description : config.description || ''
+                                    title       : config.title,
+                                    description : config.description || '',
+                                    normalize_by: config.normalize_by || null
                                 });
                                 legend_data.forEach(function (item, i) {
                                     item.state = series[i].state;
                                     item.title = series[i].title;
                                 });
-                                uijet.Resource('LegendItems').reset(legend_data);
+                                uijet.Resource('LegendItems').reset(legend_data).popColors();
                             },
                             error   : function (model, xhr, options) {
                                 comparisons.router.navigate('', { replace : true });
@@ -105,11 +108,25 @@ define([
              */
             uijet.Resource('Munis', resources.Munis)
                 .Resource('LatestSheet', resources.Nodes)
-                .Resource('LoggedinUser', resources.User, window.LOGGEDIN_USER);
-            
+                .Resource('Contexts', resources.Contexts)
+                .Resource('LoggedinUser', resources.User, window.LOGGEDIN_USER)
+                .Resource('TimeSeries', resources.TimeSeries);
+
+            // add a sync event handler that caches IDs of Munis that their contexts where fetched
+            uijet.Resource('Contexts')
+                .on('sync', function (collection, response, options) {
+                    collection.entities.push.apply(
+                        collection.entities,
+                        options.data.entities
+                            .split(',')
+                            .map(function (entity_id) {
+                                return +entity_id;
+                            }));
+                });
+
             this.LegendItemModel = uijet.Model({
                 initialize  : function () {
-                    this.id = resources._.uniqueId('li');
+                    this.id = this.id || resources._.uniqueId('li');
                 }
             });
 
@@ -117,9 +134,15 @@ define([
                 model       : this.LegendItemModel,
                 // for some reason this is need to prevent V8 from saying later that colors is undefined
                 colors      : [],
-                setColors   : function () {
-                    this.models.forEach(function (model, index) {
-                        model.set('color', this.colors[index]);
+                addColor    : function (color) {
+                    this.colors.unshift(color);
+                },
+                popColors   : function () {
+                    this.models.forEach(function (model) {
+                        var index = this.colors.indexOf(model.get('color'));
+                        if ( ~ index ) {
+                            this.colors.splice(index, 1);
+                        }
                     }, this);
                 }
             }))
@@ -142,7 +165,7 @@ define([
             .subscribe('viz_duplicate.clicked', comparisons.duplicateState)
             .subscribe('viz_delete.clicked', comparisons.deleteState)
             .subscribe('login', function () {
-                uijet.$('.login-link')[0].click();  
+                uijet.$('.login-link')[0].click();
             })
 
 
@@ -164,77 +187,10 @@ define([
             });
             uijet.publish('authenticated');
             return this;
-        },
-        _getChartState  : function () {
-            var chart_data = uijet.Resource('TimeSeries').toJSON(),
-                legend = uijet.Resource('LegendItems'),
-                selection_states = legend.pluck('state'),
-                selection_titles = legend.pluck('title');
-
-            chart_data.forEach(function (series, i) {
-                series.state = selection_states[i];
-                series.title = selection_titles[i];
-            });
-            return chart_data;
-        },
-        _saveState      : function (state_model) {
-            state_model.save({ config : {
-                chart       : comparisons._getChartState(),
-                title       : state_model.get('title'),
-                description : state_model.get('description')
-            } }, {
-                success : function () {
-                    uijet.publish('state_saved');
-                    comparisons.router.navigate(state_model.get('uuid'));
-                },
-                error   : function () {
-                    uijet.publish('state_save_failed');
-                    console.error.apply(console, arguments);
-                }
-            });
-        },
-        clearState      : function () {
-            uijet.Resource('TimeSeries').reset();
-            uijet.Resource('LegendItems').reset();
-            uijet.Resource('ProjectState').set(default_state);
-            uijet.publish('state_cleared');
-            comparisons.router.navigate('');
-        },
-        duplicateState  : function () {
-            var state_clone = uijet.Resource('ProjectState').clone(),
-                user = uijet.Resource('LoggedinUser');
-            state_clone
-                .unset('uuid')
-                .unset('id')
-                .unset('url')
-                .set({
-                    author      : user.get('uuid'),
-                    author_model: user
-                });
-            comparisons._saveState(state_clone);
-        },
-        saveState       : function () {
-            var state = uijet.Resource('ProjectState');
-            if ( state.get('author') === uijet.Resource('LoggedinUser').get('uuid') ) {
-                comparisons._saveState(state);
-            }
-            else {
-                comparisons.duplicateState();
-            }
-        },
-        deleteState     : function () {
-            //TODO: check (again) if logged in user is really the state author
-            uijet.Resource('ProjectState').destroy({
-                success : function () {
-                    comparisons.clearState();
-                },
-                error   : function () {
-                    uijet.publish('state_delete_failed');
-                    console.error.apply(console, arguments);
-                }
-            });
         }
     };
+
+    uijet.use(state_controller, comparisons, comparisons);
 
     return comparisons;
 });

@@ -8,6 +8,8 @@
 /* CORE */
 /* BUILDING BLOCKS */
 /* BOX */
+/* Alias of .property-with-transform() */
+/* Hardware accelerate on Webkits */
 .mock-button {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;

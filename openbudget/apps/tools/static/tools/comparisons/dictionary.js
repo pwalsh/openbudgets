@@ -21,7 +21,7 @@ define(function() {
         'site-menu-tos'         : gettext('Terms'),
         'site-menu-credits'     : gettext('Credits'),
         loading                 : gettext('Loading...'),
-        'open-muni-budget'      : gettext('Open Muni Budget'),
+        'open-muni-budgets'     : gettext('<em>Open Muni</em> Budgets'),
         compare                 : gettext('Compare'),
         'viz-new'               : gettext('New'),
         'viz-duplicate'         : gettext('Duplicate'),
@@ -31,15 +31,28 @@ define(function() {
         'viz-save'              : gettext('Save'),
         'search-menu-free'      : gettext('Free text search'),
         'search-term-prefix'    : gettext('Search for'),
-        'guest'                 : gettext('Guest:'),
+        'guest'                 : gettext('Guest'),
         'summarize-data'        : gettext('Summarize data of:'),
         'budget'                : gettext('Budget'),
         'actual'                : gettext('Actual'),
         'selected-items'        : gettext('selected items'),
         'normalize-data'        : gettext('Normalize data'),
         'no-normalization'      : gettext("Don't normalize"),
+        'by:'                   : gettext('by:'),
+        'data-normalized-by'    : gettext('* Data normalized by'),
+        'for-more-analyses'     : gettext('For more analyses'),
+        /*
+         * The translations below are a brutal repetition of `Contexts.KEYS` in contexts/models.py
+         */
         'population'            : gettext('Population'),
-        'ground-surface'        : gettext('Ground Surface')
+        'ground-surface'        : gettext('Ground Surface'),
+        'population_male'       : gettext('Population (Female)'),
+        'population_female'     : gettext('Population (Male)'),
+        'ground_surface'        : gettext('Ground Surface'),
+        'students'              : gettext('Students'),
+        'schools'               : gettext('Schools'),
+        'gini_index'            : gettext('Gini Index'),
+        'socioeconomic_index'   : gettext('Socio-Economic Index')
     };
 
 });

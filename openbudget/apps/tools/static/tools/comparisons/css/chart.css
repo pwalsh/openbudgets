@@ -41,13 +41,13 @@
     fill: none;
     stroke-width: 1.5px;
 }
-.value_circle {
+.value_mark {
     pointer-events: none;
 }
-.value_circle circle {
+.value_mark circle {
     stroke: white;
 }
-.value_circle text {
+.value_mark text {
     font-size: 1.3rem;
     font-weight: bold;
 }

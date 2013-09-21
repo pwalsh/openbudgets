@@ -33,13 +33,19 @@
 
 #panel-nav {
     .position(absolute);
-    .coordinates(@top: 0);
-    .display(none);
-    .panel(300px);
+    .coordinates(@top: 0; @left: -300px);
+    .object;
+    .width(300px);
+    .height(100%);
 
     .padding(20px; 0; 20px; 0);
     .background-color(@panel-nav);
     z-index: 99;
+
+    .transition(@duration: 100ms; @function: ease-in; @hwaccl: true);
+    &.slide-in {
+        .translateX(300px);
+    }
 
     #app_logo {
         .padding(21px; 0; 78px; 0);

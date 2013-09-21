@@ -1,13 +1,13 @@
 define([
     'uijet_dir/uijet',
-    'resources',
-    'api',
-    'd3'
-], function (uijet, resources, api) {
+    'd3',
+    'resources'
+], function (uijet, d3, resources) {
 
     var Y_TICKS = 5;
 
-    var d3 = window.d3,
+    // depends on resources to define `uijet.utils.prop()`
+    var left_sidebar_width = 100,
         period = uijet.utils.prop('period'),
         amount = uijet.utils.prop('amount'),
         dateParser = d3.time.format('%Y').parse,
@@ -22,86 +22,97 @@ define([
         options         : {
             type_class  : ['uijet_chart', 'uijet_timelinechart']
         },
+        amountFormat    : amountFormat,
         init            : function () {
             this._super.apply(this, arguments);
-            this.colors = d3.scale.category10();
-            uijet.publish('chart_colors', this.colors.range());
+            // generate a range of colors
+            uijet.publish('chart_colors', d3.scale.category20().range());
         },
         prepareElement  : function () {
             this._super();
-            var element = this.$element[0],
-                padding = 20,
-                left_sidebar_width = 100,
-                width = element.offsetWidth,
-                // need to expand the width of the SVG element to be able to draw y axis labels outside the chart area
-                svg_width = width + padding + left_sidebar_width,
-                height = element.offsetHeight,
-//                x = d3.time.scale()
-                x = d3.time.scale()
-                    .range([padding, width - padding]),
-                y = d3.scale.linear()
-                    .range([height, padding + 10]),
-                x_axis = d3.svg.axis()
-                    .scale(x)
-                    .orient('bottom')
-                    .ticks(d3.time.years),
-                y_axis = d3.svg.axis()
-                    .scale(y)
-                    .orient('left')
-                    .ticks(Y_TICKS)
-                    .tickFormat(amountFormat);
+            var chart_ops = this.options.chart || {},
+                element = this.$element[0],
+                x, y;
 
-            this.padding = padding;
-            this.left_sidebar_width = left_sidebar_width;
-            this.svg_width = svg_width;
-            this.width = width;
-            this.height = height;
-            this.x_axis = x_axis;
-            this.y_axis = y_axis;
-            this.x_scale = x;
-            this.y_scale = y;
+            this.padding = chart_ops.padding || 0;
+            this.width = element.offsetWidth;
+            this.height = element.offsetHeight;
+            // need to expand the width of the SVG element to be able to draw y axis labels outside the chart area
+            this.root_svg_width = this.width + this.padding;
+
+            this.createScales()
+                .createAxes()
+                .createCanvas()
+                .createLine();
+
+            this.mouse_target = this.canvas.append('rect')
+                .attr('height', this.height)
+                .attr('width', this.width)
+                .attr('id', 'mouse_target');
+
+            return this;
+        },
+        createScales    : function () {
+            var padding = this.padding;
+
+            this.x_scale = d3.time.scale()
+                .range([padding, this.width - padding]);
+            this.y_scale = d3.scale.linear()
+                .range([this.height, padding + 10]);
+            
+            return this;
+        },
+        createAxes      : function () {
+            var chart_ops = this.options.chart;
+
+            this.x_axis = d3.svg.axis()
+                .scale(this.x_scale)
+                .orient(chart_ops.axes_x_orient || 'bottom')
+                .ticks(d3.time.years);
+
+            this.y_axis = d3.svg.axis()
+                .scale(this.y_scale)
+                .orient(chart_ops.axes_y_orient || 'left')
+                .ticks(Y_TICKS)
+                .tickFormat(amountFormat);
+
+            return this;
+        },
+        createCanvas    : function () {
+            // expand the root canvas width to cover left sidebar so that Y axis' tick labels can render over it
+            this.root_svg_width += left_sidebar_width;
+
+            this.root_svg = d3.select(this.$element[0]).append('svg')
+                .attr('width', this.root_svg_width)
+                .attr('height', this.height + 70);
+            this.canvas = this.root_svg.append('g')
+                .attr('transform', 'translate(' + (this.root_svg_width - this.width) + ',0)')
+                .append('svg')
+                    .attr('width', this.width)
+                    .attr('height', this.height + 70);
+
+            return this;
+        },
+        createLine      : function () {
+            var x = this.x_scale,
+                y = this.y_scale;
 
             this.line = d3.svg.line()
                 .x( function(d) { return x(d.period); } )
                 .y( function(d) { return y(d.amount); } );
 
-            this.svg_element = d3.select(this.$element[0]).append('svg')
-                .attr('width', svg_width)
-                .attr('height', height + 70);
-            this.svg = this.svg_element.append('g')
-                .attr('transform', 'translate(' + (svg_width - width) + ',0)')
-                .append('svg')
-                    .attr('width', width)
-                    .attr('height', height + 70);
-            this.mouse_target = this.svg.append('rect')
-                .attr('height', height)
-                .attr('width', width)
-                .attr('id', 'mouse_target');
             return this;
         },
         _draw           : function () {
             this.publish('fetched', this.resource)
-                .draw(this.resource.models);
-            this.notify('fetched');
+                .draw();
             return this;
         },
-        render          : function () {
-            this._super();
-
-            if ( this.context && this.context.state_loaded ) {
-                this._draw();
-                delete this.context.state_loaded;
-            }
-            else {
-                this.set(uijet.Resource('LegendItems').models).then(this._draw.bind(this));
-            }
-            return this;
-        },
-        draw            : function (series) {
-            var line = this.line,
-                colors = this.colors,
+        draw            : function () {
+            var series = this.resource.models,
                 ids = [],
                 data = [],
+                context = this.context || {},
                 y_max;
             
             series.forEach(function (item) {
@@ -110,6 +121,7 @@ define([
                     muni = item.get('muni'),
                     type = item.get('amount_type'),
                     series_type_index = type === 'actual' ? 0 : 1,
+                    color = item.get('color'),
                     item_series = item.toSeries();
                 item_series[series_type_index].forEach(periodParser);
                 ids.push(id);
@@ -118,13 +130,12 @@ define([
                     title   : title,
                     type    : type,
                     muni    : muni,
-                    values  : item_series[series_type_index]
+                    values  : item_series[series_type_index],
+                    color   : color
                 });
             });
 
             y_max = d3.max(data, function (d) { return d3.max(d.values, amount); });
-
-            this.colors.domain(ids);
 
             this.x_scale.domain([
                 d3.min(data, function (d) { return d3.min(d.values, period); }),
@@ -135,26 +146,48 @@ define([
                 y_max
             ]);
 
+            this.drawAxes()
+                .drawTimelines(data);
+
+            this.mouse_target.on('mouseover', this.hoverOn.bind(this));
+            this.mouse_target.on('mouseout', this.hoverOff.bind(this));
+
+            var periods = this.resource.periods();
+            this.timeContext(
+                String(context.period_start || periods[0]),
+                String(context.period_end || periods[periods.length - 1])
+            );
+
+            return this;
+        },
+        drawAxes        : function () {
             // clean axes
-            this.svg_element.selectAll('.axis')
+            this.root_svg.selectAll('.axis')
                 .remove();
 
-            this.svg.insert('g', '#mouse_target')
+            this.canvas.insert('g', '#mouse_target')
                 .attr('class', 'axis x_axis')
                 .attr('transform', 'translate(0,' + (this.height + this.padding - 3) + ')')
                 .call(this.x_axis);
 
-            this.svg_element.insert('g', ':first-child')
+            this.root_svg.insert('g', ':first-child')
                 .attr('class', 'axis y_axis')
-                .attr('transform', 'translate(' + this.left_sidebar_width + ',0)')
+                .attr('transform', 'translate(' + left_sidebar_width + ',0)')
                 .call(this.y_axis)
                 .selectAll('line')
                     .attr('x2', this.padding)
                     .attr('x1', this.width + this.padding);
 
-            this.svg.selectAll('.timeline').remove();
+            return this;
+        },
+        drawTimelines   : function (data) {
+            var line = this.line,
+                timelines;
 
-            var timelines = this.svg.selectAll('.timeline')
+            // clean timelines
+            this.canvas.selectAll('.timeline').remove();
+
+            timelines = this.canvas.selectAll('.timeline')
                 .data(data, function (d) {
                     return d.id;
                 });
@@ -167,15 +200,12 @@ define([
                         .attr('d', function(d) {
                             return line(d.values);
                         })
-                        .style('stroke', function(d) { return colors(d.id); });
-
-            this.mouse_target.on('mouseover', this.hoverOn.bind(this));
-            this.mouse_target.on('mouseout', this.hoverOff.bind(this));
+                        .style('stroke', function(d) { return d.color; });
+            return this;
         },
         timeContext     : function (from, to) {
-            var domain = this.x_scale.domain(),
-                line = this.line,
-                from_value, to_value, x_axis;
+            var domain = this.x_scale.domain();
+
             if ( ! from ) {
                 from = domain[0];
             }
@@ -189,33 +219,42 @@ define([
                 to = dateParser(to);
             }
 
-            from_value = from.valueOf();
-            to_value = to.valueOf();
-
             this.x_scale.domain([from, to]);
 
-            x_axis = this.svg.select('.x_axis');
-            x_axis.call(this.x_axis)
-                .selectAll('line')
-                    .attr('x1', 0)
-                    .attr('y2', -this.padding + 3)
-                    .attr('y1', -(this.height));
-            x_axis.selectAll('text')
-                .each(function (d) {
-                    var value = d.valueOf(),
-                        hide = value === to_value || value === from_value;
-                    d3.select(this).classed('hide', hide);
-                });
-
-            this.svg.selectAll('.line').attr('d', function (d) {
-                return line(d.values);
-            });
+            this.drawTimeContext(
+                from.valueOf(),
+                to.valueOf()
+            );
 
             if ( this.hover_on ) {
                 // reset mouseover handler
                 this.hoverOff()
                     .hoverOn();
             }
+
+            return this;
+        },
+        drawTimeContext : function (from, to) {
+            var line = this.line,
+                x_axis = this.canvas.select('.x_axis');
+
+            x_axis.call(this.x_axis)
+                .selectAll('line')
+                    .attr('x1', 0)
+                    .attr('y2', -this.padding + 3)
+                    .attr('y1', -(this.height));
+
+            this.canvas.selectAll('.line').attr('d', function (d) {
+                return line(d.values);
+            });
+
+            // hide max and min of X axis tick labels
+            x_axis.selectAll('text')
+                .each(function (d) {
+                    var value = d.valueOf(),
+                        hide = value === to || value === from;
+                    d3.select(this).classed('hide', hide);
+                });
 
             return this;
         },
@@ -272,7 +311,7 @@ define([
             }
             else {
                 d3.select('.tick.mark').classed('mark', false);
-                d3.selectAll('.value_circle').remove();
+                d3.selectAll('.value_mark').remove();
             }
         },
         markValues      : function (x_value) {
@@ -280,12 +319,8 @@ define([
                 datums = [],
                 x = this.x_scale,
                 y = this.y_scale,
-                width = this.width,
-                color = this.colors,
-                label_transforms = [],
-                labels_y_margin = 20,
-                marker_values, added_markers, added_label_texts;
-            this.svg.selectAll('.timeline').each(function (d, i) {
+                added_markers;
+            this.canvas.selectAll('.timeline').each(function (d, i) {
                 d.values.some(function (point_datum) {
                     if ( point_datum.period.valueOf() === x_value.valueOf() ) {
                         datums.push({
@@ -293,7 +328,8 @@ define([
                             amount  : point_datum.amount,
                             id      : d.id,
                             title   : d.title,
-                            muni    : d.muni
+                            muni    : d.muni,
+                            color   : d.color
                         });
                         return true;
                     }
@@ -305,27 +341,17 @@ define([
             datums.forEach(function (d, i) {
                 d.x = x(d.period);
                 d.y = y(d.amount);
-                d.color = color(d.id);
             });
 
-            markers = this.svg.selectAll('.value_circle').data(datums, function (d) { return d.id + d.period; });
+            markers = this.canvas.selectAll('.value_mark')
+                .data(datums, function (d) {
+                    return d.id + d.period;
+                });
 
             markers.exit().remove();
 
             added_markers = markers.enter().append('g')
-                .attr('class', 'value_circle');
-            
-            added_label_texts = added_markers.append('g')
-                .attr('class', 'value_label')
-                .attr('transform', 'translate(0,-10)');
-
-//            added_label_texts.append('text')
-//                .attr('class', 'title');
-
-            added_label_texts.append('text')
-                .attr('class', 'amount');
-
-            added_markers.append('circle');
+                .attr('class', 'value_mark');
 
             markers.sort(function (a, b) { return a.amount - b.amount; });
 
@@ -333,17 +359,15 @@ define([
                 return 'translate(' + d.x + ',' + d.y + ')';
             });
 
-            markers.selectAll('text')
-                .attr('fill', function (d) { return d.color; });
-            markers.selectAll('.amount')
-                .text(function (d) { return amountFormat(d.amount); })
-                .attr('x', function () {
-                    return - (this.getBBox().width + 10);
-                });
-//            labels.selectAll('.title')
-//                .text(function (d) { return d.muni + ': ' + d.title; });
+            this.drawMarkedValues(datums, markers, added_markers);
+        },
+        drawMarkedValues: function (datums, markers, added_markers) {
+            var width = this.width,
+                label_transforms = [],
+                labels_y_margin = 20,
+                marker_values;
 
-            
+            this.drawMarkTexts(markers, added_markers);
 
             marker_values = d3.selectAll('.value_label')
                 .each(function (d, i) {
@@ -411,9 +435,35 @@ define([
                 return 'translate(' + label_transforms[i].join() + ')';
             });
 
+            this.drawMarkCircles(markers, added_markers);
+
+            return this;
+        },
+        drawMarkTexts : function (markers, added_markers) {
+            added_markers.append('g')
+                .attr('class', 'value_label')
+                .attr('transform', 'translate(0,-10)')
+                .append('text')
+                    .attr('class', 'amount');
+
+            markers.selectAll('text')
+                .attr('fill', function (d) { return d.color; });
+            markers.selectAll('.amount')
+                .text(function (d) { return amountFormat(d.amount); })
+                .attr('x', function () {
+                    return - (this.getBBox().width + 10);
+                });
+
+            return this;
+        },
+        drawMarkCircles : function (markers, added_markers) {
+            added_markers.append('circle');
+
             markers.select('circle')
                 .attr('r', 5)
                 .style('fill', function (d) { return d.color; });
+
+            return this;
         },
         setTitle        : function (id, title) {
             if ( uijet.utils.isObj(id) ) {

@@ -9,7 +9,7 @@ define([
 
     function chartMode () {
         // reset the state of selected legend item
-        this.current_index = null;
+        this.current_model = null;
         this.$element.removeClass('picking');
         this.picking = false;
         this.resource.each(function (model) {
@@ -20,10 +20,10 @@ define([
     function positionNormalizationMenu () {
         var height = this.$wrapper[0].offsetHeight,
             container = uijet.$element.find('#legend_controls')[0],
-            selector = uijet.$element.find('#normalization_selector')[0],
+            selector = this.$wrapper.parent()[0],
             container_h = container.offsetHeight,
             top = uijet.utils.getOffsetOf(selector, container).y;
-        this.$wrapper.css('top', (container_h - top < height ? -height : 44) + 'px');
+        this.floatPosition('top:' + (container_h - (top + 44) < height ? -height : 44) + 'px');
     }
 
     uijet.Factory('LegendItem', {
@@ -41,9 +41,7 @@ define([
                 'change:muni'       : function (model, value) {
                     this.$element.find('.entity').text(value.get('name'));
                 },
-                'change:color'      : function (model, color) {
-                    this.setColor(color);
-                },
+                'change:color'      : 'setColor',
                 'change:title'      : function (model, value) {
                     uijet.publish('legend_item_title.updated', {
                         id      : model.id,
@@ -114,8 +112,7 @@ define([
             adapters    : ['LegendsList', 'jqWheelScroll'],
             resource    : 'LegendItems',
             data_events : {
-                remove  : function () { this.resource.setColors(); },
-                add     : function () { this.resource.setColors(); },
+                remove  : function (model) { this.resource.addColor(model.get('color')); },
                 reset   : 'resetItems'
             },
             signals     : {
@@ -130,7 +127,7 @@ define([
                 'legends_list.selected'     : 'selectItem+',
                 'legends_list.delete'       : 'removeItem+',
                 'entities_list.selected'    : function (muni_id) {
-                    this.addItem(-1)
+                    this.addItem()
                         .setEntity(muni_id)
                         .updateState();
                     uijet.utils.requestAnimFrame(
@@ -158,7 +155,7 @@ define([
                     this.sizeAndScroll();
                 },
                 'amount_type.updated'       : function (type) {
-                    this.resource.at(this.current_index).set('amount_type', type);
+                    this.current_model.set('amount_type', type);
                 }
             }
         }
@@ -170,18 +167,34 @@ define([
             menu        : {
                 element         : '#normalization_selector_menu',
                 float_position  : 'top:44px',
-                initial         : ':first-child',
                 signals         : {
                     post_wake   : 'opened',
-                    post_sleep  : 'closed'
+                    post_sleep  : 'closed',
+                    pre_select  : function ($selected) {
+                        return $selected.attr('data-key') || null;
+                    }
                 },
                 app_events      : {
-                    'app.resize'            : positionNormalizationMenu,
-                    'legend_item_added'     : positionNormalizationMenu,
-                    'legend_item_removed'   : positionNormalizationMenu
+                    'app.resize'        : positionNormalizationMenu,
+                    'add_legend.awaking': positionNormalizationMenu,
+                    legend_item_removed : positionNormalizationMenu
                 }
             },
             content     : uijet.$('#normalization_selector_selection'),
+            signals     : {
+                post_init   : function () {
+                    uijet.Resource('ProjectState')
+                        .on('change:normalize_by', function (model, normalize_key) {
+                            var $items = this.$element.find('.uijet_select_menu').children();
+                            uijet.Resource('NodesListState').set('normalize_by', normalize_key);
+                            this.setSelected(
+                                normalize_key ?
+                                    $items.filter('[data-key=' + normalize_key + ']') :
+                                    $items.first()
+                            );
+                        }, this);
+                }
+            },
             app_events  : {
                 'chart_section.awaken'              : 'wake',
                 welcome                             : 'sleep',

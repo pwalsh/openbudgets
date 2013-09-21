@@ -35,9 +35,9 @@ class StateListCreate(generics.ListCreateAPIView):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             # base serializer for creating States
-            return serializers.StateBaseSerializer
+            return serializers.StateBase
         # State list/retrieve serializer
-        return serializers.StateReadSerializer
+        return serializers.StateRead
 
     def pre_save(self, obj):
         obj.author = Account.objects.get(uuid=self.request.DATA.get('author'))
@@ -53,6 +53,6 @@ class StateRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     def get_serializer_class(self):
         if self.request.method == 'GET':
             # State list/retrieve serializer
-            return serializers.StateReadSerializer
+            return serializers.StateRead
         # base serializer for creating States
-        return serializers.StateBaseSerializer
+        return serializers.StateBase

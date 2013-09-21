@@ -13,6 +13,7 @@ Dani Bacon
 Paul Walsh
 Yehonatan Daniv
 Shai Berger
+Alon Levy
 Michael Doron
 Adi Erteschik
 Guy Sheffer
@@ -26,7 +27,7 @@ Dani Bacon
 Yotam Hadar
 Liya Ophir
 Tom Even
-Dekel Hetsroni
+Dekel Hevroni
 
 
 **Translations**

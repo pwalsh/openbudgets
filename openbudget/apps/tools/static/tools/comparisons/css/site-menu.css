@@ -69,8 +69,10 @@
     top: 0;
     right: 0;
     padding: 18px 42px;
-    color: #7070a0;
+    color: #141452;
     z-index: 1;
+    font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
+    font-weight: normal;
     -webkit-transition-duration: 100ms;
     -moz-transition-duration: 100ms;
     -ms-transition-duration: 100ms;
@@ -83,10 +85,11 @@
     transition-timing-function: ease-in;
 }
 #site_menu_open:after {
-    content: '';
+    content: '\203a';
     display: inline-block;
-    width: 10px;
-    height: 10px;
     margin-right: 5px;
-    background: url(../img/arrow_left_logp_menu.png) center no-repeat;
+}
+#site_menu_open em {
+    color: #141452;
+    font-weight: bold;
 }

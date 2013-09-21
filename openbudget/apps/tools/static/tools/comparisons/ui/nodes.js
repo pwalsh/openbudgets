@@ -10,10 +10,22 @@ define([
     uijet.Resource('Breadcrumbs', uijet.Collection({
         model   : resources.Node
     }))
-    .Resource('NodesListState', uijet.Model(), {
+    .Resource('NodesListState', uijet.Model({
+        clearState  : function () {
+            this.set({
+                search      : null,
+                selected    : null,
+                legend_item : null,
+                amount_type : null,
+                selection   : null
+            });
+            return this;
+        }
+    }), {
         search      : null,
         selected    : null,
-        legend_item : null
+        legend_item : null,
+        normalize_by: null
     });
 
     var attributeNullifier = function (attr) {
@@ -27,7 +39,10 @@ define([
         },
         closeSearchBreadcrumbsHandler = function () {
             this.$element.removeClass('searching');
-            this.resource.length || this.$title.removeClass('hide');
+            if ( ! this.resource.length ) {
+                this.sleep();
+                this.$title.removeClass('hide');
+            }
         };
 
     return [{
@@ -39,7 +54,7 @@ define([
             animation_type  : 'fade',
             resource        : 'NodesListState',
             data_events     : {
-                'change:search'     : function (model, value) {
+                'change:search'         : function (model, value) {
                     var field = 'search',
                         prev = model.previous(field),
                         was_null = prev === null;
@@ -50,18 +65,24 @@ define([
                         uijet.publish('search.changed', { args : arguments });
                     }
                 },
-                'change:selected'   : '-selected.changed'
+                'change:selected'       : '-selected.changed',
+                'change:normalize_by'   : function (model, key) {
+                    if ( ! key  && key !== null ) {
+                        model.set('normalize_by', null, { silent : true });
+                        return;
+                    }
+                }
             },
             signals         : {
                 post_wake    : 'awake'
             },
             app_events      : {
-                'search_crumb_remove.clicked'   : nullifySearchQuery,
-                'selected_crumb_remove.clicked' : attributeNullifier('selected'),
-                'filters_selected.changed'      : function (selected) {
+                'search_crumb_remove.clicked'       : nullifySearchQuery,
+                'selected_crumb_remove.clicked'     : attributeNullifier('selected'),
+                'filters_selected.changed'          : function (selected) {
                     this.resource.set({ selected : selected });
                 },
-                'legends_list.select_state'     : function (data) {
+                'legends_list.select_state'         : function (data) {
                     this.resource.set({
                         amount_type : data.amount_type,
                         entity_id   : data.entity_id
@@ -70,12 +91,11 @@ define([
 
                     this.wake(data);
                 },
-                'entities_list.selected'        : function () {
-                    this.resource.clear();
-                    this.resource.set({
-                        search  : null,
-                        selected: null
-                    }, { silent : true });
+                'entities_list.selected'            : function () {
+                    this.resource.clearState();
+                },
+                'normalization_selector.selected'   : function (key) {
+                    this.resource.set('normalize_by', key);
                 }
             }
         }

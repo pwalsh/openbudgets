@@ -1,6 +1,6 @@
-{% extends 'projects/tool_detail.html' %}
+{% extends 'projects/project_detail.html' %}
 
-{% block tool_main %}
+{% block project_main %}
     <div id="comparisons" class="uijet_app">
         <section id="main_container" class="top_container">
             <div id="welcome" data-i18n="welcome-message"></div>
@@ -70,7 +70,7 @@
         </section>
         <section id="right_container" class="top_container">
             <div id="work_menus">
-                <span id="site_menu_open" class="small_heading" data-i18n="open-muni-budget"></span>
+                <span id="site_menu_open" class="small_heading" data-i18n="open-muni-budgets" data-i18n-safe></span>
                 <div id="comparing_pane">
                     <section id="legend_controls" class="small_heading">
                         <h3 class="right_menu_heading" data-i18n="compare"></h3>
@@ -82,9 +82,9 @@
                             <span id="normalization_selector_content" data-i18n="normalize-data"></span>
                             <span id="normalization_selector_selection"></span>
                             <ul id="normalization_selector_menu">
-                                <li data-i18n="no-normalization" data-key="0"></li>
+                                <li data-i18n="no-normalization" data-key=""></li>
                                 <li data-i18n="population" data-key="population"></li>
-                                <li data-i18n="ground-surface" data-key="ground_surface"></li>
+                                <!--li data-i18n="ground-surface" data-key="ground_surface"></li-->
                             </ul>
                         </span>
                     </section>
@@ -95,4 +95,4 @@
             </div>
         </section>
     </div>
-{% endblock tool_main %}
+{% endblock project_main %}

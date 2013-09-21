@@ -55,8 +55,8 @@ define([
                         }
                     },
                     app_events  : {
-                        'legends_list.selected' : function (index) {
-                            if ( this.resource.collection.at(index) === this.resource ) {
+                        'legends_list.selected' : function (model) {
+                            if ( model === this.resource ) {
                                 this.wake();
                             }
                         },
@@ -107,23 +107,20 @@ define([
 
             return res;
         },
-        setColor        : function (color) {
-            if ( color )
-                this.options.color = color;
-            else
-                color = this.options.color;
-
-            this.$element.find('.legend_item_color').css('backgroundColor', color);
+        setColor        : function () {
+            this.$element
+                .find('.legend_item_color')
+                    .css('backgroundColor', this.resource.get('color'));
             return this;
         },
         itemEdit        : function () {
-            uijet.publish('legends_list.selected', this.resource.collection.indexOf(this.resource));
+            uijet.publish('legends_list.selected', this.resource);
         },
         itemDuplicate   : function () {
-            uijet.publish('legends_list.duplicate', this.resource.collection.indexOf(this.resource));
+            uijet.publish('legends_list.duplicate', this.resource);
         },
         itemDelete      : function () {
-            uijet.publish('legends_list.delete', this.resource.collection.indexOf(this.resource));
+            uijet.publish('legends_list.delete', this.resource);
             this.destroy();
         },
         updateTitle     : function (title) {

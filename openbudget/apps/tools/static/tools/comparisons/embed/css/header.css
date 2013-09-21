@@ -1,0 +1,46 @@
+header {
+    position: absolute;
+    top: 0;
+    left : 3px;
+    right : 3px;
+    width: auto;
+    height: 96px;
+}
+
+#chart_heading {
+    height: auto;
+    text-align: right;
+    direction: rtl;
+}
+#chart_heading h1 {
+    font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
+    font-size: 29px;
+    font-weight: bold;
+}
+
+#chart_heading p {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#legend {
+    text-align: right;
+    direction: rtl;
+}
+#legend li {
+    display: inline-block;
+}
+#legend li + li:before {
+    content: '/';
+    margin: 0 .4rem 0 .1rem;
+    color: #a1a1b9;
+}
+
+#state_author_name {
+    text-align: right;
+}
+#state_author_name:before {
+    content: attr(data-prefix);
+    margin-left: .2rem;
+}

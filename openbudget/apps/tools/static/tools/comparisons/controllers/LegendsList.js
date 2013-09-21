@@ -10,8 +10,13 @@ define([
                 placeholder : gettext('Insert title'),
                 muni        : '',
                 nodes       : [],
-                amount_type : 'budget'
+                amount_type : 'budget',
+                color       : this.resource.colors.shift()
             });
+            // make sure color is unique
+            if ( state ) {
+                model.set('color', this.resource.colors.shift());
+            }
             this.resource.add(model, { at : index });
             return model;
         },
@@ -35,50 +40,54 @@ define([
                         post_full_render: '-legend_item_added',
                         pre_destroy     : '-legend_item_removed'
                     },
-                    color   : this.resource.colors[index],
                     picking : this.picking
                 }
             }, true);
             return this;
         },
-        createItem      : function (model_index) {
-            var new_index = model_index + 1,
-                state = ~ model_index ? this.resource.at(model_index).attributes : null,
-                model = this.createItemModel(state, new_index);
+        createItem      : function (use_model) {
+            var state = use_model ? use_model.attributes : null,
+                new_index = use_model ? this.resource.indexOf(use_model) + 1 : 0,
+                model;
 
-            return this.createItemWidget(model, new_index);
+            // make sure id is removed
+            delete state.id;
+
+            model = this.createItemModel(state, new_index);
+            this.createItemWidget(model, new_index);
+
+            return model;
         },
-        addItem         : function (model_index) {
+        addItem         : function (use_model) {
             this.picking = true;
-            this.createItem(model_index)
-                .selectItem(~ model_index ? model_index + 1 : 0);
-            return this;
+            return this.selectItem( this.createItem(use_model) );
         },
         setEntity       : function (id) {
-            this.resource.at(this.current_index).set({
+            this.current_model.set({
                 muni: uijet.Resource('Munis').get(id)
             });
             return this;
         },
-        selectItem      : function (index) {
-            var model, muni;
-            if ( index !== this.current_index ) {
+        selectItem      : function (model) {
+            var muni;
+            if ( model !== this.current_model ) {
                 this.resource.where({
                     disabled: false
-                }).forEach(function (model) {
-                    model.set('disabled', true);
+                }).forEach(function (m) {
+                    m.set('disabled', true);
                 });
-                model = this.resource.at(index).set('disabled', false);
+                model.set('disabled', false);
                 muni = model.get('muni');
-                this.current_index = index;
+                this.current_model = model;
                 if ( muni ) {
                     this.updateState(model, muni);
                 }
             }
+            return this;
         },
         updateState     : function (model, muni) {
             if ( ! model ) {
-                model = this.resource.at(this.current_index);
+                model = this.current_model;
             }
             if ( ! muni ) {
                 muni = model.get('muni');
@@ -89,27 +98,18 @@ define([
                 amount_type : model.get('amount_type')
             });
         },
-        deleteItem      : function (index) {
-            var is_current_index = index === this.current_index,
+        deleteItem      : function (model) {
+            var is_current_model = model === this.current_model,
                 new_length;
-            this.resource.remove(this.resource.at(index));
+            this.resource.remove(model);
             // if the user is currently viewing the item s/he's deleting
-            if ( is_current_index ) {
-                new_length = this.resource.length;
-                // if we still have other legend items left
-                // and it was the last item in the list
-                if ( new_length && new_length === index ) {
-                    return index - 1;
-                }
+            if ( is_current_model ) {
+                this.current_model = null;
             }
-            // if current selected item is below the deleted one then need to shift the index by 1
-            else if ( index < this.current_index ) {
-                return this.current_index - 1;
-            }
-            return this.current_index;
+            return this;
         },
-        removeItem      : function (index) {
-            var new_current_index = this.deleteItem(index);
+        removeItem      : function (model) {
+            this.deleteItem(model);
             if ( this.resource.length ) {
                 if ( this.picking ) {
                     uijet.publish('picker_done.clicked');
@@ -128,7 +128,7 @@ define([
                 selected_nodes_ids = selected_nodes.map(uijet.utils.prop('id')),
                 partial_nodes = resource.where({ selected : 'partial' })
                                         .map(uijet.utils.prop('id'));
-            this.resource.at(this.current_index).set({
+            this.current_model.set({
                 nodes   : selected_nodes.filter(function (node) {
                     return !~ selected_nodes_ids.indexOf(node.get('parent'));
                 }).map(uijet.utils.prop('id')),

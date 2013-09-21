@@ -1,0 +1,69 @@
+.amount {
+    z-index: 1;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: none;
+}
+.x_axis .mark line {
+    stroke: #646e78;
+}
+.x_axis .mark text {
+    visibility: visible;
+}
+.x_axis text {
+    /*visibility: hidden;*/
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    fill: #8989A8;
+}
+.y_axis line {
+    stroke: #d0d0dc;
+}
+.y_axis text {
+    font-size: 13px;
+    fill: #a1a1b9;
+}
+
+.line {
+    fill: none;
+    stroke-width: 1.5px;
+}
+.value_mark {
+    pointer-events: none;
+}
+.value_mark circle {
+    stroke: white;
+}
+.value_mark text {
+    font-size: 16px;
+    font-weight: bold;
+    fill: white;
+}
+
+#chart {
+    height: 100%;
+}
+#chart {
+    position: absolute;
+    top: 96px;
+    left: 3px;
+    right: 3px;
+    z-index: 1;
+    bottom: 32px;
+    width: auto;
+    height: auto;
+    overflow: visible;
+}
+
+#mouse_target {
+    z-index: 1001;
+    fill: transparent;
+}
+
+#state_title_container {
+    display: inline-block;
+    vertical-align: top;
+}

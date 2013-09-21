@@ -14,7 +14,11 @@
 
 #panel-nav {
 
-    right: 0;
+    left: auto;
+    right: -300px;
+    &.slide-in {
+        .translateX(-300px);
+    }
 
     #app_logo {
 

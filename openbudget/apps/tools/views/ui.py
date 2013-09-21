@@ -7,7 +7,7 @@ from openbudget.apps.tools import serializers
 
 class ToolListView(ListView):
     model = Tool
-    template_name = 'projects/tool_list.html'
+    template_name = 'tools/tool_list.html'
 
     def get_context_data(self, **kwargs):
 

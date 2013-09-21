@@ -8,8 +8,7 @@ class AccountBaseSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.Account
-        fields = ['url', 'id', 'uuid', 'first_name', 'last_name', 'username',
-                  'date_joined', 'email']
+        fields = ['url', 'uuid', 'first_name', 'last_name', 'date_joined', 'email']
 
 
 class AccountMin(serializers.ModelSerializer):
