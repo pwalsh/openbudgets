@@ -12,7 +12,6 @@ fabfile/sensitive.py
 docs/_build
 docs/_static
 docs/_templates
-openbudget/commons/static/lib
 openbudget/commons/search
 static/media/referencesource
 static/media/auxsource
