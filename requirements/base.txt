@@ -1,7 +1,7 @@
 fabric==1.6.1
 cuisine==0.6.4
 psycopg2==2.5
-gunicorn==17.5
+gunicorn==18.0
 sphinx==1.2b1
 pillow==2.1.0
 pytz==2013b
@@ -10,7 +10,7 @@ raven==3.3.9
 whoosh==2.5.0
 celery==3.0.19
 gdata==2.0.18
-factory-boy
+factory-boy=2.1.2
 django==1.5.3
 south==0.8.1
 coverage==3.6
