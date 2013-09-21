@@ -1,6 +1,6 @@
 from rest_framework import generics
 from openbudget.apps.international.utilities import translated_fields
-from openbudget.apps.tools import serializers
+from openbudget.apps.tools.serializers import api
 from openbudget.apps.tools import models
 from openbudget.apps.accounts.models import Account
 
@@ -10,7 +10,7 @@ class ToolList(generics.ListAPIView):
 
     model = models.Tool
     queryset = model.objects.related_map()
-    serializer_class = serializers.ToolBaseSerializer
+    serializer_class = api.ToolBase
     ordering = ['id', 'created_on', 'last_modified']
     search_fields = ['name', 'description', 'owner__first_name',
                      'owner__last_name', 'author__first_name',
@@ -22,7 +22,7 @@ class ToolDetail(generics.RetrieveAPIView):
 
     model = models.Tool
     queryset = model.objects.related_map()
-    serializer_class = serializers.ToolBaseSerializer
+    serializer_class = api.ToolBase
 
 
 class StateListCreate(generics.ListCreateAPIView):
@@ -35,9 +35,9 @@ class StateListCreate(generics.ListCreateAPIView):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             # base serializer for creating States
-            return serializers.StateBase
+            return api.StateBase
         # State list/retrieve serializer
-        return serializers.StateRead
+        return api.StateRead
 
     def pre_save(self, obj):
         obj.author = Account.objects.get(uuid=self.request.DATA.get('author'))
@@ -53,6 +53,6 @@ class StateRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     def get_serializer_class(self):
         if self.request.method == 'GET':
             # State list/retrieve serializer
-            return serializers.StateRead
+            return api.StateRead
         # base serializer for creating States
-        return serializers.StateBase
+        return api.StateBase

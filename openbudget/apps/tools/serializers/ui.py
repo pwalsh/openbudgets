@@ -1,15 +1,15 @@
 from rest_framework import serializers
 from openbudget.apps.accounts.serializers import AccountMin
-from openbudget.apps.projects.serializers import api
-from openbudget.apps.projects import models
+from openbudget.apps.tools.serializers import api
+from openbudget.apps.tools import models
 
 
-class ProjectBase(api.ProjectBase):
+class ToolBase(api.ToolBase):
     """Base Project serializer, exposing our defaults for projects."""
 
     url = serializers.Field(source='get_absolute_url')
 
-    class Meta(api.ProjectBase.Meta):
+    class Meta(api.ToolBase.Meta):
         lookup_field = 'slug'
 
 
