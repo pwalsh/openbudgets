@@ -23,6 +23,7 @@ def api_v1(request):
         'Sheet Items': reverse('sheetitem-list', request=request),
         #'Sheet Item Timeline': reverse('sheetitem-timeline', request=request),
         'Contexts': reverse('context-list', request=request),
+        'Coefficients': reverse('coefficient-list', request=request),
         'Tools': reverse('tool-list', request=request),
         'Tool States': reverse('state-list', request=request),
     })

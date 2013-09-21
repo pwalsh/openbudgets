@@ -2,6 +2,7 @@ from django.conf.urls import patterns, url, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from openbudget.apps.entities.urls.api import entities, divisions, domains
 from openbudget.apps.sheets.urls.api import templates, sheets
+from openbudget.apps.contexts.urls.api import contexts, coefficients
 
 
 urlpatterns = patterns('openbudget.api.v1.views',
@@ -32,7 +33,11 @@ urlpatterns = patterns('openbudget.api.v1.views',
 
     url(
         r'^contexts/',
-        include('openbudget.apps.contexts.urls.api')),
+        include(contexts())),
+
+    url(
+        r'^coefficients/',
+        include(coefficients())),
 
     url(
         r'^tools/',
