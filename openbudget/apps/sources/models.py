@@ -3,12 +3,13 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
-from openbudget.commons.mixins.models import TimeStampedMixin, UUIDMixin, \
+from openbudget.commons.mixins.models import TimeStampedMixin, UUIDPKMixin, \
     ClassMethodMixin
 from openbudget.commons.utilities import get_media_file_path
+from uuidfield import UUIDField
 
 
-class AbstractDataSource(TimeStampedMixin, UUIDMixin, ClassMethodMixin):
+class AbstractDataSource(UUIDPKMixin, TimeStampedMixin, ClassMethodMixin):
 
     """Describes an original source of data.
 
@@ -53,7 +54,7 @@ class AbstractDataSource(TimeStampedMixin, UUIDMixin, ClassMethodMixin):
         ContentType,
         editable=False,)
 
-    object_id = models.PositiveIntegerField(
+    object_id = UUIDField(
         editable=False,)
 
     content_object = generic.GenericForeignKey(
@@ -72,7 +73,7 @@ class ReferenceSource(AbstractDataSource):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('reference_source_detail', [self.uuid])
+        return ('reference_source_detail', [self.pk])
 
 
 class AuxSource(AbstractDataSource):
@@ -84,5 +85,5 @@ class AuxSource(AbstractDataSource):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('aux_source_detail', [self.uuid])
+        return ('aux_source_detail', [self.pk])
 
