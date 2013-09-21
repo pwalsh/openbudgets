@@ -10,7 +10,7 @@ raven==3.3.9
 whoosh==2.5.0
 celery==3.0.19
 gdata==2.0.18
-factory-boy=2.1.2
+factory-boy==2.1.2
 django==1.5.3
 south==0.8.1
 coverage==3.6
