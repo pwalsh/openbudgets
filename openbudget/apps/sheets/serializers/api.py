@@ -36,11 +36,13 @@ class TemplateNodeBase(serializers.HyperlinkedModelSerializer):
 
     parent = TemplateNodeMin()
     backwards = TemplateNodeMin(many=True)
+    #children = TemplateNodeMin(many=True)
+    inverse = TemplateNodeMin(many=True)
 
     class Meta:
         model = models.TemplateNode
         fields = ['id', 'url', 'code', 'name', 'description', 'direction', 'path', 'created_on',
-                  'last_modified', 'parent', 'templates', 'backwards', 'inverse'] + translated_fields(model)
+                  'last_modified', 'parent', 'templates', 'backwards', 'inverse', 'items'] + translated_fields(model)
 
 
 class TemplateDetail(TemplateBase):
@@ -81,7 +83,7 @@ class SheetItemMinSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.SheetItem
-        fields = ['id', 'uuid', 'url', 'code', 'name', 'path', 'direction', 'budget',
+        fields = ['id', 'url', 'code', 'name', 'path', 'direction', 'budget',
                   'actual', 'description', 'node']\
                  + translated_fields(models.TemplateNode)
 
@@ -108,7 +110,7 @@ class SheetItemBase(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.SheetItem
-        fields = ['id', 'uuid', 'url', 'code', 'name', 'path', 'direction', 'budget', 'actual',
+        fields = ['id', 'url', 'code', 'name', 'path', 'direction', 'budget', 'actual',
                   'description', 'node', 'discussion', 'has_comments', 'comments_count',
                   'parent', 'children', 'ancestors'] + \
                  translated_fields(models.TemplateNode)

@@ -29,7 +29,7 @@ class SheetItemUIMinSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.SheetItem
-        fields = ['id', 'uuid', 'code', 'name', 'path', 'direction', 'budget',
+        fields = ['id', 'code', 'name', 'path', 'direction', 'budget',
                   'actual', 'description', 'node']\
                  + translated_fields(models.TemplateNode)
 
@@ -54,7 +54,7 @@ class SheetItemUISerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.SheetItem
-        fields = ['id', 'uuid', 'code', 'name', 'path', 'direction', 'budget', 'actual',
+        fields = ['id', 'code', 'name', 'path', 'direction', 'budget', 'actual',
                   'description', 'discussion', 'has_comments', 'comments_count',
                   'node', 'parent', 'children', 'ancestors']\
                  + translated_fields(models.TemplateNode)

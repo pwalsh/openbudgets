@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from openbudget.apps.accounts.serializers import AccountMin
 from openbudget.apps.sheets import models
-from openbudget.commons.serializers import UUIDRelatedField
 
 
 class SheetItemCommentBaseSerializer(serializers.ModelSerializer):
@@ -9,7 +8,7 @@ class SheetItemCommentBaseSerializer(serializers.ModelSerializer):
     Base SheetItemComment serializer, for creating new SheetItemComment instances.
     """
 
-    user = UUIDRelatedField()
+    user = serializers.RelatedField()
 
     class Meta:
         model = models.SheetItemComment
@@ -25,4 +24,4 @@ class SheetItemCommentReadSerializer(SheetItemCommentBaseSerializer):
 
     class Meta(SheetItemCommentBaseSerializer.Meta):
         fields = SheetItemCommentBaseSerializer.Meta.fields +\
-                 ['uuid', 'item', 'created_on', 'last_modified']
+                 ['id', 'item', 'created_on', 'last_modified']
