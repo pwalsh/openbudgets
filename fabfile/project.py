@@ -3,7 +3,7 @@ import cuisine
 from fabric.api import prefix, task, roles, run, sudo, local
 from utilities import notify
 import templates
-from conf import PROJECT, MACHINE, KEY
+from config import CONFIG, WORKON, DEACTIVATE
 
 try:
     from sensitive import SENSITIVE
@@ -11,10 +11,6 @@ except ImportError as e:
     logging.warning('the SENSITIVE object does not exist. Creating it as an'
                     ' empty dictionary.')
     SENSITIVE = {}
-
-
-WORKON = 'workon ' + KEY
-DEACTIVATE = 'deactivate'
 
 
 @task
@@ -30,7 +26,7 @@ def bootstrap():
     collectstatic()
     ensure_nginx()
     ensure_gunicorn()
-    ensure_celery()
+    #ensure_celery()
 
 
 @task
@@ -46,7 +42,7 @@ def upgrade():
     collectstatic()
     ensure_nginx()
     ensure_gunicorn()
-    ensure_celery()
+    #ensure_celery()
 
 
 @task
@@ -65,7 +61,7 @@ def deploy():
 @roles('web')
 def clone():
     with prefix(WORKON):
-        run('git clone ' + PROJECT['REPO'] + ' .')
+        run('git clone ' + CONFIG['repo'] + ' .')
         run(DEACTIVATE)
 
 
@@ -81,7 +77,7 @@ def fetch():
 @roles('web')
 def merge():
     with prefix(WORKON):
-        run('git merge ' + PROJECT['BRANCH'] + ' origin/' + PROJECT['BRANCH'])
+        run('git merge ' + CONFIG['branch'] + ' origin/' + CONFIG['branch'])
         run(DEACTIVATE)
 
 
@@ -114,8 +110,8 @@ def collectstatic():
 def restart():
     sudo('supervisorctl reread')
     sudo('supervisorctl update')
-    sudo('supervisorctl restart ' + KEY + '-gunicorn')
-    sudo('supervisorctl restart ' + KEY + '-celery')
+    sudo('supervisorctl restart ' + CONFIG['project_name'] + '-gunicorn')
+    sudo('supervisorctl restart ' + CONFIG['project_name'] + '-celery')
 
 
 @task
@@ -123,8 +119,8 @@ def restart():
 def start():
     sudo('supervisorctl reread')
     sudo('supervisorctl update')
-    sudo('supervisorctl start ' + KEY + '-gunicorn')
-    sudo('supervisorctl start ' + KEY + '-celery')
+    sudo('supervisorctl start ' + CONFIG['project_name'] + '-gunicorn')
+    sudo('supervisorctl start ' + CONFIG['project_name'] + '-celery')
 
 
 @task
@@ -132,8 +128,8 @@ def start():
 def stop():
     sudo('supervisorctl reread')
     sudo('supervisorctl update')
-    sudo('supervisorctl stop ' + KEY + '-gunicorn')
-    sudo('supervisorctl stop ' + KEY + '-celery')
+    sudo('supervisorctl stop ' + CONFIG['project_name'] + '-gunicorn')
+    sudo('supervisorctl stop ' + CONFIG['project_name'] + '-celery')
 
 
 @task
@@ -161,93 +157,66 @@ def install_volo():
 
 
 def make_environment():
-    run('mkvirtualenv ' + KEY)
-    cuisine.dir_ensure(PROJECT['ROOT'])
-    run('setvirtualenvproject ' + MACHINE['DIR_ENVIRONMENTS'] + '/' + KEY + ' '
-        + MACHINE['DIR_PROJECTS'] + '/' + KEY)
+    run('mkvirtualenv ' + CONFIG['project_name'])
+    cuisine.dir_ensure(CONFIG['project_root'])
+    run('setvirtualenvproject ' + CONFIG['project_env'] + ' ' + CONFIG['project_root'])
 
 
 @task
 @roles('web')
 def ensure_production_settings():
     notify('Configuring production settings.')
-    context = SENSITIVE
-    cuisine.mode_sudo()
-    content = cuisine.text_template(templates.production_settings, context)
-    cuisine.file_write(PROJECT['ROOT'] + '/openbudget/settings/production.py',
-                       content)
-    restart()
+    with prefix(WORKON):
+        context = CONFIG
+        context.update(SENSITIVE)
+        content = cuisine.text_template(templates.production_settings, context)
+        cuisine.file_write(CONFIG['project_root'] + '/openbudget/settings/production.py',
+                           content)
+        run(DEACTIVATE)
 
 
 @task
 @roles('web')
 def ensure_nginx():
     notify('Configuring nginx.')
-    context = {
-        'ACTION_DATE': MACHINE['ACTION_DATE'],
-        'NAME': PROJECT['NAME'],
-        'KEY': KEY,
-        'APP_LOCATION': PROJECT['APP_LOCATION'],
-        'APP_PORT': PROJECT['APP_PORT'],
-        'LOCATION': MACHINE['LOCATION'],
-        'PORT': MACHINE['PORT'],
-        'PROJECT_ROOT': PROJECT['ROOT'],
-        'ACCESS_LOG': PROJECT['LOGS']['NGINX_ACCESS'],
-        'ERROR_LOG': PROJECT['LOGS']['NGINX_ERROR'],
-        'SERVER_NAMES': ' '.join(PROJECT['DOMAINS'])
-    }
+    context = CONFIG
+    context.update({'domain_names': ' '.join(CONFIG['allowed_hosts'])})
     cuisine.mode_sudo()
     content = cuisine.text_template(templates.nginx, context)
-    cuisine.file_write('/etc/nginx/sites-enabled/' + KEY, content)
-    sudo('/etc/init.d/nginx restart')
+    cuisine.file_write('/etc/nginx/sites-enabled/open-budgets', content)
+    sudo('service nginx restart')
 
 
 @task
 @roles('web')
 def ensure_gunicorn():
     notify('Configuring gunicorn.')
-    context = {
-        'ACTION_DATE': MACHINE['ACTION_DATE'],
-        'NAME': PROJECT['NAME'],
-        'KEY': KEY,
-        'APP_LOCATION': PROJECT['APP_LOCATION'],
-        'APP_PORT': PROJECT['APP_PORT'],
-        'APP_TIMEOUT': PROJECT['APP_TIMEOUT'],
-        'APP_WSGI': PROJECT['APP_WSGI'],
-        'APP_WORKERS': PROJECT['APP_WORKERS'],
-        'LOCATION': MACHINE['LOCATION'],
-        'PORT': MACHINE['PORT'],
-        'PROJECT_ROOT': PROJECT['ROOT'],
-        'PROJECT_ENV': PROJECT['ENV'],
-        'ACCESS_LOG': PROJECT['LOGS']['GUNICORN_ACCESS'],
-        'ERROR_LOG': PROJECT['LOGS']['GUNICORN_ERROR'],
-    }
-
+    context = CONFIG
     cuisine.mode_sudo()
-    content = cuisine.text_template(templates.gunicorn_supervisor, context)
-    cuisine.file_write('/etc/supervisor/conf.d/' + KEY + '-gunicorn.conf', content)
+    content = cuisine.text_template(templates.gunicorn_upstart, context)
+    cuisine.file_write('/etc/init/gunicorn.conf', content)
     restart()
 
 
-@task
-@roles('web')
-def ensure_celery():
-    notify('Configuring celery.')
-    context = {
-        'ACTION_DATE': MACHINE['ACTION_DATE'],
-        'NAME': PROJECT['NAME'],
-        'KEY': KEY,
-        'CONCURRENCY': PROJECT['CELERY_CONCURRENCY'],
-        'MAX_TASKS_PER_CHILD': PROJECT['CELERY_MAX_TASKS_PER_CHILD'],
-        'PROJECT_ROOT': PROJECT['ROOT'],
-        'PROJECT_ENV': PROJECT['ENV'],
-        'ACCESS_LOG': PROJECT['LOGS']['CELERY'],
-    }
-
-    cuisine.mode_sudo()
-    content = cuisine.text_template(templates.celery_supervisor, context)
-    cuisine.file_write('/etc/supervisor/conf.d/' + KEY + '-celery.conf', content)
-    restart()
+#@task
+#@roles('web')
+#def ensure_celery():
+#    notify('Configuring celery.')
+#    context = {
+#        'ACTION_DATE': MACHINE['ACTION_DATE'],
+#        'NAME': PROJECT['NAME'],
+#        'KEY': KEY,
+#        'CONCURRENCY': PROJECT['CELERY_CONCURRENCY'],
+#        'MAX_TASKS_PER_CHILD': PROJECT['CELERY_MAX_TASKS_PER_CHILD'],
+#        'PROJECT_ROOT': PROJECT['ROOT'],
+#        'PROJECT_ENV': PROJECT['ENV'],
+#        'ACCESS_LOG': PROJECT['LOGS']['CELERY'],
+#   }
+#
+#    cuisine.mode_sudo()
+#    content = cuisine.text_template(templates.celery_supervisor, context)
+#    cuisine.file_write('/etc/supervisor/conf.d/' + KEY + '-celery.conf', content)
+#    restart()
 
 
 @task
@@ -272,43 +241,43 @@ def command(command):
 ##    HACKY STUFF   ##
 ######################
 
-@task
-@roles('web')
-def _pg_dump():
-    # a temp solution for now
-    notify('Dumping database.')
-    local_file = '/Users/paulwalsh/Desktop/postgres_9.1.sql'
-    remote_file = MACHINE['DIR_USER_HOME'] + '/postgres_9.1.sql'
-    run('pg_dump ' + KEY + ' > ' + remote_file)
-    local('scp ' + KEY + '@' + MACHINE['LOCATION'] + ':' + remote_file + ' ' + local_file)
+#@task
+#@roles('web')
+#def _pg_dump():
+#   # a temp solution for now
+#    notify('Dumping database.')
+#    local_file = '/Users/paulwalsh/Desktop/postgres_9.1.sql'
+#    remote_file = MACHINE['DIR_USER_HOME'] + '/postgres_9.1.sql'
+#    run('pg_dump ' + KEY + ' > ' + remote_file)
+#    local('scp ' + KEY + '@' + MACHINE['LOCATION'] + ':' + remote_file + ' ' + local_file)
 
 
-@task
-@roles('web')
-def _db_load():
-    # a temp solution for now
-    notify('Loading database to postgres.')
-    local = '/Users/paulwalsh/Desktop/postgres_9.1.sql'
-    remote = MACHINE['DIR_USER_HOME'] + '/' + KEY + '.sql'
-    cuisine.file_upload(remote, local)
-    run('dropdb ' + KEY)
-    run('createdb ' + KEY)
-    run('psql ' + KEY + ' < ' + remote)
+#@task
+#@roles('web')
+#def _db_load():
+#    # a temp solution for now
+#    notify('Loading database to postgres.')
+#    local = '/Users/paulwalsh/Desktop/postgres_9.1.sql'
+#    remote = MACHINE['DIR_USER_HOME'] + '/' + KEY + '.sql'
+#    cuisine.file_upload(remote, local)
+#    run('dropdb ' + KEY)
+#    run('createdb ' + KEY)
+#    run('psql ' + KEY + ' < ' + remote)
 
-@task
-@roles('web')
-def _entities_load():
-    # a temp solution for now
-    notify('Loading entities.')
-    domains = '/Users/paulwalsh/Desktop/open-muni-budgets/1_domains.csv'
-    divisions = '/Users/paulwalsh/Desktop/open-muni-budgets/2_divisions.csv'
-    entities = '/Users/paulwalsh/Desktop/open-muni-budgets/3_entities.csv'
-    domains_dest = PROJECT['ROOT'] + '/openbudget/fixtures/1_domains.csv'
-    divisions_dest = PROJECT['ROOT'] + '/openbudget/fixtures/2_divisions.csv'
-    entities_dest = PROJECT['ROOT'] + '/openbudget/fixtures/3_entities.csv'
-    cuisine.file_upload(domains_dest, domains)
-    cuisine.file_upload(divisions_dest, divisions)
-    cuisine.file_upload(entities_dest, entities)
-    with prefix(WORKON):
-        run('python manage.py loadcsv')
-        run(DEACTIVATE)
+#@task
+#@roles('web')
+#def _entities_load():
+#    # a temp solution for now
+#    notify('Loading entities.')
+#    domains = '/Users/paulwalsh/Desktop/open-muni-budgets/1_domains.csv'
+#    divisions = '/Users/paulwalsh/Desktop/open-muni-budgets/2_divisions.csv'
+#    entities = '/Users/paulwalsh/Desktop/open-muni-budgets/3_entities.csv'
+#   domains_dest = PROJECT['ROOT'] + '/openbudget/fixtures/1_domains.csv'
+#   divisions_dest = PROJECT['ROOT'] + '/openbudget/fixtures/2_divisions.csv'
+#   entities_dest = PROJECT['ROOT'] + '/openbudget/fixtures/3_entities.csv'
+#    cuisine.file_upload(domains_dest, domains)
+#    cuisine.file_upload(divisions_dest, divisions)
+#    cuisine.file_upload(entities_dest, entities)
+#    with prefix(WORKON):
+#        run('python manage.py loadcsv')
+#        run(DEACTIVATE)
