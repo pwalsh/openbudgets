@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     url(r'^import/success/$',
         ImportSuccessView.as_view(), name='import_success'),
 
-    url(r'^export/(?P<model>[\w-]+)/(?P<uuid>[\w-]+)/(?P<format>[\w-]+)/$',
+    url(r'^export/(?P<model>[\w-]+)/(?P<pk>[\w-]+)/(?P<format>[\w-]+)/$',
         FileExportView.as_view(), name='data_export'),
 
     url(r'^importer/$',

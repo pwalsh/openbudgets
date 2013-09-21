@@ -67,11 +67,11 @@ class FileExportView(FileResponseMixin, View):
         context = {'params': kwargs}
         if self.kwargs['model'] == 'sheet':
             try:
-                uuid = self.kwargs['uuid']
-                obj = Sheet.objects.get(uuid=uuid)
+                pk = self.kwargs['pk']
+                obj = Sheet.objects.get(pk=pk)
                 obj_list = SheetItem.objects.filter(sheet=obj)
             except Sheet.DoesNotExist:
-                raise Http404(_("No sheets found for uuid: {uuid}").format(uuid=uuid))
+                raise Http404(_("No sheets found for pk: {pk}").format(pk=pk))
         else:
             # export other stuff
             obj = {}
