@@ -1,8 +1,8 @@
+from django.conf import settings
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext_lazy as _
-from openbudget.settings.base import AUTH_USER_MODEL
 from openbudget.commons.mixins.models import TimeStampedMixin, ClassMethodMixin
 
 
@@ -27,7 +27,7 @@ class Interaction(TimeStampedMixin, ClassMethodMixin):
     objects = InteractionManager()
 
     user = models.ForeignKey(
-        AUTH_USER_MODEL,)
+        settings.AUTH_USER_MODEL,)
 
     content_type = models.ForeignKey(
         ContentType,
