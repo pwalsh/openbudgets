@@ -31,7 +31,6 @@ class SheetList(ListView):
 class SheetDetail(DetailView):
     model = models.Sheet
     template_name = 'sheets/sheet_detail.html'
-    slug_field = 'uuid'
 
     def get_object(self, queryset=None):
         queryset = self.get_queryset()

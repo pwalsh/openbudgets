@@ -40,7 +40,7 @@
             <br />
             {% trans 'Actual' %}: {{ item.actual }} {% trans 'NIS' %}
             <br />
-            <a href="{% url 'sheet_item_detail' item.uuid %}">
+            <a href="{% url 'sheet_item_detail' item.pk %}">
                 {% trans 'View' %}
             </a>
         </div>
@@ -56,15 +56,15 @@
             {% trans 'Export this Budget' %}
         </h2>
         <div>
-        <a href="{% url 'data_export' object.get_class_name object.uuid 'csv' %}">
+        <a href="{% url 'data_export' object.get_class_name object.pk 'csv' %}">
             {% trans 'CSV' %}
         </a>
         &nbsp;|&nbsp;
-        <a href="{% url 'data_export' object.get_class_name object.uuid 'xls' %}">
+        <a href="{% url 'data_export' object.get_class_name object.pk 'xls' %}">
             {% trans 'XLS' %}
         </a>
         &nbsp;|&nbsp;
-        <a href="{% url 'data_export' object.get_class_name object.uuid 'xlsx' %}">
+        <a href="{% url 'data_export' object.get_class_name object.pk 'xlsx' %}">
             {% trans 'XLSX' %}
         </a>
     </section>
@@ -84,7 +84,7 @@
             {% for referencesource in object.referencesources.all %}
                 <strong>{{ referencesource.name }}</strong>
                 <br />
-                <a href="{% url 'referencesource_detail' referencesource.uuid %}" title="{{ referencesource.name }}">
+                <a href="{% url 'referencesource_detail' referencesource.pk %}" title="{{ referencesource.name }}">
                     {% trans 'View info' %}
                 </a>
                 &nbsp;|&nbsp;
@@ -109,7 +109,7 @@
                 <br />
                 <span>{% trans 'added by' %} {{ auxsource.added_by.get_full_name }}</span>
                 <br />
-                <a href="{% url 'auxsource_detail' auxsource.uuid %}" title="{{ auxsource.name }}">
+                <a href="{% url 'auxsource_detail' auxsource.pk %}" title="{{ auxsource.name }}">
                     {% trans 'View info' %}
                 </a>
                 &nbsp;|&nbsp;

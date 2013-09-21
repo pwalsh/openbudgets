@@ -9,7 +9,7 @@ urlpatterns = patterns('',
         name='template_list'
     ),
     url(
-        r'^templates/(?P<slug>[-\w]+)/$',
+        r'^templates/(?P<pk>[-\w]+)/$',
         ui.TemplateDetail.as_view(),
         name='template_detail'
     ),
@@ -19,7 +19,7 @@ urlpatterns = patterns('',
         name='sheet_list'
     ),
     url(
-        r'^sheets/items/(?P<slug>[-\w]+)/$',
+        r'^sheets/items/(?P<pk>[-\w]+)/$',
         ui.SheetItemDetail.as_view(),
         name='sheet_item_detail'
     ),

@@ -136,10 +136,8 @@ class Template(UUIDPKMixin, PeriodStartMixin, TimeStampedMixin, ClassMethodMixin
         Sheets of the Entities in their Division(s).
 
         """
-
-        if self.divisions is None:
+        if not self.divisions.all():
             return False
-
         return True
 
     @property
@@ -701,7 +699,7 @@ class SheetItem(UUIDPKMixin, AbstractBaseItem, TimeStampedMixin, ClassMethodMixi
             for child in children:
                 descendants += child.descendants
         return descendants
-    
+
     @models.permalink
     def get_absolute_url(self):
         return 'sheet_item_detail', [self.id]
