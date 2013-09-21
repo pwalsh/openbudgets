@@ -1,5 +1,6 @@
 fabric==1.6.1
 cuisine==0.6.4
+psycopg2==2.5
 gunicorn==17.5
 sphinx==1.2b1
 pillow==2.1.0
@@ -10,12 +11,12 @@ whoosh==2.5.0
 celery==3.0.19
 gdata==2.0.18
 factory-boy
-django==1.5.1
+django==1.5.3
 south==0.8.1
 coverage==3.6
 jsonfield==0.9.17
 pystache==0.5.3
-djangorestframework==2.3.7
+djangorestframework==2.3.8
 django-celery==3.0.17
 django-oauth-toolkit==0.4.0
 django-autoslug==1.6.1
