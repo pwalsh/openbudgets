@@ -1,61 +1,58 @@
 import random
-from django.test import TestCase
 from django.core.urlresolvers import reverse
 from openbudget.apps.accounts.factories import AccountFactory
+from openbudget.commons import tests
 
 
-class UserTestCase(TestCase):
+class UserUITestCase(tests.OpenBudgetsUITestCase):
 
-    """Tests for Account objects and their related views, urls, etc."""
+    """Test account objects over the UI"""
+
+    #listview_name = ''
+    detailview_name = 'account_detail'
 
     def setUp(self):
+        self.object = AccountFactory.create()
         self.users = AccountFactory.create_batch(5)
 
-    def test_detailview_read(self):
+    def test_detailview(self):
+        self.client.login(email=self.object.email, password='letmein')
+        return UserUITestCase.detailview(self, lookup=self.object.uuid)
 
-        """Check that a user's account detail view works."""
+    def test_detail_object(self):
+        self.client.login(email=self.object.email, password='letmein')
+        view = reverse('account_detail', args=(self.object.uuid,))
+        response = self.client.get(view)
+        self.assertContains(response, self.object.email)
 
-        for user in self.users:
-            self.client.login(email=user.email, password='letmein')
-            detailview = reverse('account_detail', args=(user.uuid,))
-            response = self.client.get(detailview)
+    def test_update_object(self):
+        self.client.login(email=self.object.email, password='letmein')
+        view = reverse('account_update', args=(self.object.uuid,))
+        response = self.client.get(view)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.object.email)
 
-            self.assertEqual(response.status_code, 200)
-            self.assertContains(response, user.email)
+    def test_object_write_valid(self):
+        self.client.login(email=self.object.email, password='letmein')
+        view = reverse('account_update', args=(self.object.uuid,))
+        response = self.client.get(view)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.object.email)
+        valid_data = {'email': self.object.email, 'first_name': self.object.first_name,
+                      'last_name': self.object.last_name, 'language': self.object.language}
+        valid_data_response = self.client.post(view, valid_data)
+        self.assertEqual(valid_data_response.status_code, 302)
 
-    def test_updateview_read(self):
-
-        """Check that a user's account update view works."""
-
-        for user in self.users:
-            self.client.login(email=user.email, password='letmein')
-            updateview = reverse('account_update', args=(user.uuid,))
-            response = self.client.get(updateview)
-
-            self.assertEqual(response.status_code, 200)
-            self.assertContains(response, user.email)
-
-    def test_updateview_write(self):
-
-        """Check that a user's account update view can be written to."""
-
-        for user in self.users:
-            self.client.login(email=user.email, password='letmein')
-            updateview = reverse('account_update', args=(user.uuid,))
-            response = self.client.get(updateview)
-
-            self.assertEqual(response.status_code, 200)
-            self.assertContains(response, user.email)
-
-            valid_data = {'email': user.email, 'first_name': user.first_name,
-                          'last_name': user.last_name, 'language': user.language}
-            invalid_data = valid_data.copy()
-            invalid_data['email'] = 'invalid_email_address'
-            valid_data_response = self.client.post(updateview, valid_data)
-            invalid_data_response = self.client.post(updateview, invalid_data)
-
-            self.assertEqual(valid_data_response.status_code, 302)
-            self.assertEqual(invalid_data_response.status_code, 200)
+    def test_object_write_invalid(self):
+        self.client.login(email=self.object.email, password='letmein')
+        view = reverse('account_update', args=(self.object.uuid,))
+        response = self.client.get(view)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.object.email)
+        invalid_data = {'email': 'invalid_email_address', 'first_name': self.object.first_name,
+                      'last_name': self.object.last_name, 'language': self.object.language}
+        invalid_data_response = self.client.post(view, invalid_data)
+        self.assertEqual(invalid_data_response.status_code, 200)
 
     def test_detailview_read_for_anonymous_user(self):
 
@@ -148,3 +145,18 @@ class UserTestCase(TestCase):
 
             self.assertEqual(valid_data_response.status_code, 403)
             self.assertEqual(invalid_data_response.status_code, 403)
+
+
+# We don't currently support accounts over the web API
+#class UserAPITestCase(tests.OpenBudgetsAPITestCase):
+#    """Test account objects over the API"""
+#
+#    #listview_name = ''
+#    detailview_name = 'account_detail'
+#
+#    def setUp(self):
+#       self.object = AccountFactory.create()
+#
+#    def test_detailview(self):
+#        self.client.login(email=self.object.email, password='letmein')
+#        return UserUITestCase.detailview(self, lookup=self.object.uuid)
