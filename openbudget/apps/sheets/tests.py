@@ -2,7 +2,9 @@ from django.test import TestCase
 from django.db import IntegrityError
 from django.core.urlresolvers import reverse
 from openbudget.apps.sheets import factories
-from openbudget.apps.entities.factories import DivisionFactory, EntityFactory
+from openbudget.apps.entities.factories import Division, Entity
+from openbudget.commons import tests
+
 
 
 class TemplateLogicTestCase(TestCase):
@@ -26,22 +28,22 @@ class TemplateLogicTestCase(TestCase):
         """
 
         # create required divisions and entities
-        self.division = DivisionFactory.create()
-        self.entities = EntityFactory.create_batch(5, division=self.division)
+        self.division = Division.create()
+        self.entities = Entity.create_batch(5, division=self.division)
 
         # create the blueprint template, and two templates for use by sheets
-        self.tmpl_blueprint = factories.TemplateFactory.create(divisions=[self.division])
-        self.tmpl_one = factories.TemplateFactory.create(blueprint=self.tmpl_blueprint)
-        self.tmpl_two = factories.TemplateFactory.create(blueprint=self.tmpl_blueprint)
+        self.tmpl_blueprint = factories.Template.create(divisions=[self.division])
+        self.tmpl_one = factories.Template.create(blueprint=self.tmpl_blueprint)
+        self.tmpl_two = factories.Template.create(blueprint=self.tmpl_blueprint)
 
         # create the blueprint nodes, and assign them to the blueprint and the
         # "inheriting" templates
-        self.rev_nodes = factories.TemplateNodeFactory.create_batch(5)
+        self.rev_nodes = factories.TemplateNode.create_batch(5)
 
         for node in self.rev_nodes:
-            factories.TemplateNodeRelationFactory(node=node, template=self.tmpl_blueprint)
-            factories.TemplateNodeRelationFactory(node=node, template=self.tmpl_one)
-            factories.TemplateNodeRelationFactory(node=node, template=self.tmpl_two)
+            factories.TemplateNodeRelation(node=node, template=self.tmpl_blueprint)
+            factories.TemplateNodeRelation(node=node, template=self.tmpl_one)
+            factories.TemplateNodeRelation(node=node, template=self.tmpl_two)
 
         self.rev_nodes[1].parent = self.rev_nodes[0]
         self.rev_nodes[2].parent = self.rev_nodes[0]
@@ -51,12 +53,12 @@ class TemplateLogicTestCase(TestCase):
         for node in self.rev_nodes:
             node.save()
 
-        self.exp_nodes = factories.TemplateNodeFactory.create_batch(5, direction="EXPENDITURE")
+        self.exp_nodes = factories.TemplateNode.create_batch(5, direction="EXPENDITURE")
 
         for node in self.exp_nodes:
-            factories.TemplateNodeRelationFactory(node=node, template=self.tmpl_blueprint)
-            factories.TemplateNodeRelationFactory(node=node, template=self.tmpl_one)
-            factories.TemplateNodeRelationFactory(node=node, template=self.tmpl_two)
+            factories.TemplateNodeRelation(node=node, template=self.tmpl_blueprint)
+            factories.TemplateNodeRelation(node=node, template=self.tmpl_one)
+            factories.TemplateNodeRelation(node=node, template=self.tmpl_two)
 
         self.exp_nodes[1].parent = self.exp_nodes[0]
         self.exp_nodes[2].parent = self.exp_nodes[0]
@@ -67,10 +69,10 @@ class TemplateLogicTestCase(TestCase):
             node.save()
 
         # some additional nodes for template 1
-        self.tmpl_one_extra_nodes = factories.TemplateNodeFactory.create_batch(2)
+        self.tmpl_one_extra_nodes = factories.TemplateNode.create_batch(2)
 
         for node in self.tmpl_one_extra_nodes:
-            factories.TemplateNodeRelationFactory(node=node, template=self.tmpl_one)
+            factories.TemplateNodeRelation(node=node, template=self.tmpl_one)
 
         self.tmpl_one_extra_nodes[0].direction = "EXPENDITURE"
         self.tmpl_one_extra_nodes[0].parent = self.exp_nodes[4]
@@ -80,10 +82,10 @@ class TemplateLogicTestCase(TestCase):
             node.save()
 
         # some additional nodes for template 2
-        self.tmpl_two_extra_nodes = factories.TemplateNodeFactory.create_batch(2)
+        self.tmpl_two_extra_nodes = factories.TemplateNode.create_batch(2)
 
         for node in self.tmpl_two_extra_nodes:
-            factories.TemplateNodeRelationFactory(node=node, template=self.tmpl_two)
+            factories.TemplateNodeRelation(node=node, template=self.tmpl_two)
 
         self.tmpl_two_extra_nodes[0].direction = "EXPENDITURE"
         self.tmpl_two_extra_nodes[0].parent = self.exp_nodes[1]
@@ -93,7 +95,7 @@ class TemplateLogicTestCase(TestCase):
             node.save()
 
         # some nodes from template 1 also shared by template 2
-        factories.TemplateNodeRelationFactory(node=self.tmpl_one_extra_nodes[0], template=self.tmpl_two)
+        factories.TemplateNodeRelation(node=self.tmpl_one_extra_nodes[0], template=self.tmpl_two)
 
     def test_path_creation(self):
 
@@ -155,53 +157,53 @@ class TemplateLogicTestCase(TestCase):
 
         """
 
-        dummy_back_two_tmpl = factories.TemplateFactory.create(
+        dummy_back_two_tmpl = factories.Template.create(
             blueprint=self.tmpl_blueprint)
 
-        dummy_back_one_tmpl = factories.TemplateFactory.create(
+        dummy_back_one_tmpl = factories.Template.create(
             blueprint=self.tmpl_blueprint)
 
-        dummy_back_two_node = factories.TemplateNodeFactory.create(
+        dummy_back_two_node = factories.TemplateNode.create(
             code=self.tmpl_one.nodes.all()[0].code,
             parent=self.tmpl_one.nodes.all()[4].parent,
             direction=self.tmpl_one.nodes.all()[0].direction)
 
-        factories.TemplateNodeRelationFactory(node=dummy_back_two_node,
+        factories.TemplateNodeRelation(node=dummy_back_two_node,
                                               template=dummy_back_two_tmpl)
 
-        dummy_back_one_node = factories.TemplateNodeFactory.create(
+        dummy_back_one_node = factories.TemplateNode.create(
             code=self.tmpl_one.nodes.all()[0].code,
             parent=self.tmpl_one.nodes.all()[0].parent,
             direction=self.tmpl_one.nodes.all()[0].direction,
             backwards=[dummy_back_two_node])
 
-        factories.TemplateNodeRelationFactory(node=dummy_back_one_node,
+        factories.TemplateNodeRelation(node=dummy_back_one_node,
                                               template=dummy_back_one_tmpl)
 
         self.tmpl_one.nodes.all()[0].backwards.add(dummy_back_one_node)
 
         # Now, we create Sheets that use these Templates.
 
-        sheet_two = factories.SheetFactory.create(entity=self.entities[0],
+        sheet_two = factories.Sheet.create(entity=self.entities[0],
                                                   template=dummy_back_two_tmpl)
 
-        sheet_one = factories.SheetFactory.create(entity=self.entities[0],
+        sheet_one = factories.Sheet.create(entity=self.entities[0],
                                                   template=dummy_back_one_tmpl)
 
-        sheet_current = factories.SheetFactory.create(entity=self.entities[0],
+        sheet_current = factories.Sheet.create(entity=self.entities[0],
                                                   template=self.tmpl_one)
 
-        sheet_item_two = factories.SheetItemFactory.create(sheet=sheet_two,
+        sheet_item_two = factories.SheetItem.create(sheet=sheet_two,
                                                            node=dummy_back_two_node,
                                                            budget=350.00,
                                                            actual=479.00)
 
-        sheet_item_one = factories.SheetItemFactory.create(sheet=sheet_one,
+        sheet_item_one = factories.SheetItem.create(sheet=sheet_one,
                                                            node=dummy_back_one_node,
                                                            budget=995.00,
                                                            actual=911.00)
 
-        sheet_item_current = factories.SheetItemFactory.create(sheet=sheet_current,
+        sheet_item_current = factories.SheetItem.create(sheet=sheet_current,
                                                                node=self.tmpl_one.nodes.all()[0],
                                                                budget=1000.00,
                                                                actual=1137.00)
@@ -220,8 +222,8 @@ class TemplateLogicTestCase(TestCase):
 class TemplateViewTestCase(TestCase):
 
     def setUp(self):
-        self.divisions = DivisionFactory.create_batch(3)
-        self.template = factories.TemplateFactory.create(
+        self.divisions = Division.create_batch(3)
+        self.template = factories.Template.create(
             divisions=self.divisions)
 
     def test_template_listview(self):
@@ -246,7 +248,7 @@ class TemplateViewTestCase(TestCase):
 class SheetViewTestCase(TestCase):
 
     def setUp(self):
-        self.sheet = factories.SheetFactory.create()
+        self.sheet = factories.Sheet.create()
 
     def test_sheet_listview(self):
 
@@ -267,10 +269,38 @@ class SheetViewTestCase(TestCase):
         self.assertTrue('object' in response.context)
 
 
+class SheetUITestCase(tests.OpenBudgetsUITestCase):
+
+    listview_name = 'sheet_list'
+    detailview_name = 'sheet_detail'
+
+    def setUp(self):
+        self.object = factories.Sheet.create()
+
+    def test_listview(self):
+        return SheetUITestCase.listview(self)
+
+    # TODO: Write a test for this url pattern
+    #def test_detailview(self):
+    #    return SheetUITestCase.detailview(self)
+
+
+class SheetItemUITestCase(tests.OpenBudgetsUITestCase):
+
+    listview_name = 'sheet_item_list'
+    detailview_name = 'sheet_item_detail'
+
+    def setUp(self):
+        self.object = factories.SheetItem.create()
+
+    def test_detailview(self):
+        return SheetItemUITestCase.detailview(self)
+
+
 class SheetDownloadTestCase(TestCase):
 
     def setUp(self):
-        pass
+        self.object = factories.Sheet.create()
 
     def test_download_csv(self):
         pass
@@ -282,16 +312,103 @@ class SheetDownloadTestCase(TestCase):
         pass
 
 
-class TemplateDownloadTestCase(TestCase):
+class TemplateUITestCase(tests.OpenBudgetsUITestCase):
+
+    listview_name = 'template_list'
+    detailview_name = 'template_detail'
 
     def setUp(self):
-        pass
+        self.object = factories.Template.create()
 
-    def test_download_csv(self):
-        pass
+    def test_listview(self):
+        return TemplateUITestCase.listview(self)
 
-    def test_download_xls(self):
-        pass
+    def test_detailview(self):
+        return TemplateUITestCase.detailview(self)
 
-    def test_download_xlsx(self):
-        pass
+
+class TemplateNodeUITestCase(tests.OpenBudgetsUITestCase):
+
+    listview_name = 'template_node_list'
+    detailview_name = 'template_node_detail'
+
+    def setUp(self):
+        self.object = factories.TemplateNode.create()
+
+    def test_detailview(self):
+        return TemplateNodeUITestCase.detailview(self)
+
+
+#class SheetAPITestCase(tests.OpenBudgetsAPITestCase):
+#
+#    listview_name = 'sheet-list'
+#    detailview_name = 'sheet-detail'
+#
+#    def setUp(self):
+#        self.object = factories.Sheet.create()
+#
+#    def test_listview(self):
+#        return SheetAPITestCase.listview(self)
+#
+#    def test_detailview(self):
+#        return SheetAPITestCase.detailview(self)
+
+
+#class SheetItemAPITestCase(tests.OpenBudgetsAPITestCase):
+#
+#    listview_name = 'sheetitem-list'
+#    detailview_name = 'sheetitem-detail'
+#
+#    def setUp(self):
+#        self.object = factories.SheetItem.create()
+#
+#    def test_listview(self):
+#        return SheetItemAPITestCase.listview(self)
+#
+#    def test_detailview(self):
+#        return SheetItemAPITestCase.detailview(self)
+
+
+#class SheetItemCommentAPITestCase(tests.OpenBudgetsAPITestCase):
+#
+#    listview_name = 'sheetitemcomment-list'
+#    detailview_name = 'sheetitemcomment-detail'
+#
+#    def setUp(self):
+#        self.object = factories.SheetItemComment.create()
+#
+#    def test_listview(self):
+#        return SheetItemCommentAPITestCase.listview(self)
+#
+#    def test_detailview(self):
+#        return SheetItemCommentAPITestCase.detailview(self)
+
+
+#class TemplateAPITestCase(tests.OpenBudgetsAPITestCase):
+#
+#    listview_name = 'template-list'
+#    detailview_name = 'template-detail'
+#
+#    def setUp(self):
+#        self.object = factories.Template.create()
+#
+#    def test_listview(self):
+#        return TemplateAPITestCase.listview(self)
+#
+#    def test_detailview(self):
+#        return TemplateAPITestCase.detailview(self)
+
+
+#class TemplateNodeAPITestCase(tests.OpenBudgetsAPITestCase):
+#
+#    listview_name = 'templatenode-list'
+#    detailview_name = 'templatenode-detail'
+#
+#    def setUp(self):
+#        self.object = factories.TemplateNode.create()
+#
+#    def test_listview(self):
+#        return TemplateNodeAPITestCase.listview(self)
+#
+#    def test_detailview(self):
+#        return TemplateNodeAPITestCase.detailview(self)

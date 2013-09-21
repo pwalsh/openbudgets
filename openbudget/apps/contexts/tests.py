@@ -1,13 +1,35 @@
-from django.test import TestCase
-from openbudget.apps.contexts.factories import ContextFactory
+from openbudget.apps.contexts import factories
+from openbudget.commons import tests
 
 
-class ContextTestCase(TestCase):
+#class ContextAPITestCase(tests.OpenBudgetsAPITestCase):
+#
+#    listview_name = 'context-list'
+#    detailview_name = 'context-detail'
+#
+#    def setUp(self):
+#        self.object = factories.Context.create()
+#
+#    def test_listview(self):
+#        return ContextAPITestCase.listview(self)
+#
+#    def test_detailview(self):
+#        return ContextAPITestCase.detailview(self)
+#
+#    def test_context_object(self):
+#        self.assertTrue('population' in self.context.data)
 
-    def setUp(self):
-        self.context = ContextFactory.create()
 
-    def test_context_object(self):
-        # yes, I know it is a stupid test. Need to work with these context
-        # objects a bit more to see best way to test
-        self.assertTrue('population' in self.context.data)
+#class CoefficientAPITestCase(tests.OpenBudgetsAPITestCase):
+#
+#    listview_name = 'coefficient-list'
+#    detailview_name = 'coefficient-detail'
+#
+#    def setUp(self):
+#        self.object = factories.Coefficient.create()
+#
+#    def test_listview(self):
+#        return CoefficientAPITestCase.listview(self)
+#
+#    def test_detailview(self):
+#        return CoefficientAPITestCase.detailview(self)

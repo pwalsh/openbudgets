@@ -14,6 +14,11 @@ urlpatterns = patterns('',
         name='template_detail'
     ),
     url(
+        r'^templates/nodes/(?P<pk>[-\w]+)/$',
+        ui.TemplateNodeDetail.as_view(),
+        name='template_node_detail'
+    ),
+    url(
         r'^sheets/$',
         ui.SheetList.as_view(),
         name='sheet_list'

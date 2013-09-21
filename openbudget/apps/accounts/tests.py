@@ -1,6 +1,6 @@
 import random
 from django.core.urlresolvers import reverse
-from openbudget.apps.accounts.factories import AccountFactory
+from openbudget.apps.accounts import factories
 from openbudget.commons import tests
 
 
@@ -12,8 +12,8 @@ class UserUITestCase(tests.OpenBudgetsUITestCase):
     detailview_name = 'account_detail'
 
     def setUp(self):
-        self.object = AccountFactory.create()
-        self.users = AccountFactory.create_batch(5)
+        self.object = factories.Account.create()
+        self.users = factories.Account.create_batch(5)
 
     def test_detailview(self):
         self.client.login(email=self.object.email, password='letmein')
@@ -155,7 +155,7 @@ class UserUITestCase(tests.OpenBudgetsUITestCase):
 #    detailview_name = 'account_detail'
 #
 #    def setUp(self):
-#       self.object = AccountFactory.create()
+#       self.object = Account.create()
 #
 #    def test_detailview(self):
 #        self.client.login(email=self.object.email, password='letmein')

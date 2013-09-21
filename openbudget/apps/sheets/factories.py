@@ -1,12 +1,12 @@
 import datetime
 import factory
 from django.utils.timezone import utc
-from openbudget.apps.entities.factories import EntityFactory
-from openbudget.apps.accounts.factories import AccountFactory
+from openbudget.apps.entities.factories import Entity
+from openbudget.apps.accounts.factories import Account
 from openbudget.apps.sheets import models
 
 
-class TemplateFactory(factory.DjangoModelFactory):
+class Template(factory.DjangoModelFactory):
 
     FACTORY_FOR = models.Template
 
@@ -26,7 +26,7 @@ class TemplateFactory(factory.DjangoModelFactory):
                 self.divisions.add(division)
 
 
-class TemplateNodeFactory(factory.DjangoModelFactory):
+class TemplateNode(factory.DjangoModelFactory):
 
     FACTORY_FOR = models.TemplateNode
 
@@ -55,20 +55,20 @@ class TemplateNodeFactory(factory.DjangoModelFactory):
                 self.backwards.add(node)
 
 
-class TemplateNodeRelationFactory(factory.DjangoModelFactory):
+class TemplateNodeRelation(factory.DjangoModelFactory):
 
     FACTORY_FOR = models.TemplateNodeRelation
 
-    template = factory.SubFactory(TemplateFactory)
-    node = factory.SubFactory(TemplateNodeFactory)
+    template = factory.SubFactory(Template)
+    node = factory.SubFactory(TemplateNode)
 
 
-class SheetFactory(factory.DjangoModelFactory):
+class Sheet(factory.DjangoModelFactory):
 
     FACTORY_FOR = models.Sheet
 
-    entity = factory.SubFactory(EntityFactory)
-    template = factory.SubFactory(TemplateFactory)
+    entity = factory.SubFactory(Entity)
+    template = factory.SubFactory(Template)
     budget = 20000
     actual = 22000
     description = factory.Sequence(lambda n: 'Sheet Factory {0} description.'.format(n))
@@ -80,21 +80,21 @@ class SheetFactory(factory.DjangoModelFactory):
                                   .date(),)
 
 
-class SheetItemFactory(factory.DjangoModelFactory):
+class SheetItem(factory.DjangoModelFactory):
 
     FACTORY_FOR = models.SheetItem
 
-    sheet = factory.SubFactory(SheetFactory)
-    node = factory.SubFactory(TemplateNodeFactory)
+    sheet = factory.SubFactory(Sheet)
+    node = factory.SubFactory(TemplateNode)
     description = factory.Sequence(lambda n: 'Sheet Item desc {0}'.format(n))
     budget = 20000
     actual = 22000
 
 
-class SheetItemCommentFactory(factory.DjangoModelFactory):
+class SheetItemComment(factory.DjangoModelFactory):
 
     FACTORY_FOR = models.SheetItemComment
 
-    item = factory.SubFactory(SheetItemFactory)
-    user = factory.SubFactory(AccountFactory)
+    item = factory.SubFactory(SheetItem)
+    user = factory.SubFactory(Account)
     comment = factory.Sequence(lambda n: 'Sheet Item Comment {0}.'.format(n))

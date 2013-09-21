@@ -1,15 +1,15 @@
 import datetime
 import factory
 from django.utils.timezone import utc
-from openbudget.apps.entities.factories import EntityFactory, DomainFactory
+from openbudget.apps.entities.factories import Entity, Domain
 from openbudget.apps.contexts import models
 
 
-class ContextFactory(factory.DjangoModelFactory):
+class Context(factory.DjangoModelFactory):
 
     FACTORY_FOR = models.Context
 
-    entity = factory.SubFactory(EntityFactory)
+    entity = factory.SubFactory(Entity)
     data = '{"population":0,"ground_surface":0;"high_schools":0}'
     period_start = factory.Sequence(
         lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
@@ -17,9 +17,9 @@ class ContextFactory(factory.DjangoModelFactory):
         lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
 
 
-class CoefficientFactory(factory.DjangoModelFactory):
+class Coefficient(factory.DjangoModelFactory):
 
     FACTORY_FOR = models.Coefficient
 
-    domain = factory.SubFactory(DomainFactory)
+    domain = factory.SubFactory(Domain)
     inflation = factory.Sequence(lambda n: '1.0{0}'.format(n))

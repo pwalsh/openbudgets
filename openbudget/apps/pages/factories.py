@@ -1,17 +1,11 @@
-import datetime
 import factory
-from django.utils.timezone import utc
-from openbudget.apps.pages.models import Page
+from openbudget.apps.pages import models
 
 
-class PageFactory(factory.DjangoModelFactory):
+class Page(factory.DjangoModelFactory):
 
-    FACTORY_FOR = Page
+    FACTORY_FOR = models.Page
 
     title = factory.Sequence(lambda n: 'Page {0} Title'.format(n))
     slug = factory.Sequence(lambda n: 'page-{0}-title'.format(n))
     content = factory.Sequence(lambda n: 'Page {0} content.'.format(n))
-    created_on = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
-    last_modified = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))

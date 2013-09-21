@@ -1,23 +1,21 @@
-import random
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-from openbudget.apps.accounts.factories import AccountFactory
-from openbudget.apps.entities.factories import EntityFactory
-from openbudget.apps.sheets.factories import SheetFactory
-from openbudget.apps.interactions.factories import StarFactory, FollowFactory
+from openbudget.apps.accounts.factories import Account
+from openbudget.apps.entities.factories import Entity
+from openbudget.apps.sheets.factories import Sheet
 
 
 class InteractionTestCase(TestCase):
     """etc."""
 
     def setUp(self):
-        self.users = AccountFactory.create_batch(2)
+        self.users = Account.create_batch(2)
         self.follow_template = 'interactions/partials/_follow.html'
         self.star_template = 'interactions/partials/_star.html'
         self.follow_string = 'form class="interaction follow"'
         self.star_string = 'form class="interaction star"'
-        self.entity = EntityFactory.create()
-        self.sheet = SheetFactory.create()
+        self.entity = Entity.create()
+        self.sheet = Sheet.create()
         self.entityview = reverse('entity_detail', args=(self.entity.slug,))
         self.sheetview = reverse('sheet_detail', args=(self.sheet.entity.slug,
                                                        self.sheet.period))

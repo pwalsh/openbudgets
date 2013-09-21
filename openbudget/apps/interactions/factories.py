@@ -2,29 +2,23 @@ import datetime
 import factory
 from django.utils.timezone import utc
 #from django.contrib.contenttypes.models import ContentType
-from openbudget.apps.accounts.factories import AccountFactory
-from openbudget.apps.interactions.models import Interaction, Star, Follow, Share
+from openbudget.apps.accounts.factories import Account
+from openbudget.apps.interactions import models
 
 
-class InteractionFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Interaction
+class Interaction(factory.DjangoModelFactory):
+    FACTORY_FOR = models.Interaction
 
-    user = factory.SubFactory(AccountFactory)
-    content_type = 1
-    object_id = 1
-    last_login = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
-    date_joined = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
+    user = factory.SubFactory(Account)
 
 
-class StarFactory(InteractionFactory):
-    FACTORY_FOR = Star
+class Star(Interaction):
+    FACTORY_FOR = models.Star
 
 
-class FollowFactory(InteractionFactory):
-    FACTORY_FOR = Follow
+class Follow(Interaction):
+    FACTORY_FOR = models.Follow
 
 
-class ShareFactory(InteractionFactory):
-    FACTORY_FOR = Share
+class Share(Interaction):
+    FACTORY_FOR = models.Share

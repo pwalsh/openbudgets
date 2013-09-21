@@ -53,4 +53,9 @@ class SheetDetail(DetailView):
 class SheetItemDetail(DetailView):
     model = models.SheetItem
     template_name = 'sheets/sheet_item_detail.html'
-    slug_field = 'uuid'
+
+
+class TemplateNodeDetail(DetailView):
+    model = models.TemplateNode
+    template_name = 'sheets/template_node_detail.html'
+
