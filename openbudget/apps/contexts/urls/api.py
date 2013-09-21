@@ -2,11 +2,27 @@ from django.conf.urls import patterns, url
 from openbudget.apps.contexts.views import api
 
 
-urlpatterns = patterns('',
-    url(r'^$',
-        api.ContextList.as_view(), name='context-list'),
+def contexts():
 
-    url(r'^(?P<pk>\d+)/$',
-        api.ContextDetail.as_view(), name='context-detail'),
+    urlpatterns = patterns('',
+        url(r'^$',
+            api.ContextList.as_view(), name='context-list'),
 
-)
+        url(r'^(?P<pk>[-\w]+)/$',
+            api.ContextDetail.as_view(), name='context-detail'),
+    )
+
+    return urlpatterns
+
+
+def coefficients():
+
+    urlpatterns = patterns('',
+        url(r'^$',
+            api.CoefficientList.as_view(), name='coefficient-list'),
+
+        url(r'^(?P<pk>[-\w]+)/$',
+            api.CoefficientDetail.as_view(), name='coefficient-detail'),
+    )
+
+    return urlpatterns

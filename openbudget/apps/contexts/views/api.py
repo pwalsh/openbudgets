@@ -1,15 +1,15 @@
 import datetime
 from rest_framework.generics import ListAPIView, RetrieveAPIView
-from openbudget.apps.contexts.serializers import ContextBaseSerializer
-from openbudget.apps.contexts.models import Context
+from openbudget.apps.contexts import serializers
+from openbudget.apps.contexts import models
 
 
 class ContextList(ListAPIView):
     """Called via an API endpoint that represents a list of context objects."""
 
-    model = Context
+    model = models.Context
     queryset = model.objects.related_map()
-    serializer_class = ContextBaseSerializer
+    serializer_class = serializers.ContextBaseSerializer
     ordering = ['id', 'entity__name', 'period_start', 'created_on', 'last_modified']
     search_fields = ['data', 'entity__name']
 
@@ -49,6 +49,37 @@ class ContextList(ListAPIView):
 class ContextDetail(RetrieveAPIView):
     """Called via an API endpoint that represents a single context object."""
 
-    model = Context
+    model = models.Context
     queryset = model.objects.related_map()
-    serializer_class = ContextBaseSerializer
+    serializer_class = serializers.ContextBaseSerializer
+
+
+class CoefficientList(ListAPIView):
+    """Called via an API endpoint that represents a list of coefficient objects."""
+
+    model = models.Coefficient
+    queryset = model.objects.all()
+    serializer_class = serializers.ContextBaseSerializer
+    ordering = ['domain', 'inflation']
+    search_fields = ['domain__name']
+
+    def get_queryset(self):
+        queryset = super(CoefficientList, self).get_queryset()
+
+        ### FILTERS
+        domains = self.request.QUERY_PARAMS.get('domains', None)
+
+        # DOMAINS: return contexts used in the given domain(s).
+        if domains:
+            domains = domains.split(',')
+            queryset = queryset.filter(entity__division__domain__in=domains)
+
+        return queryset
+
+
+class CoefficientDetail(RetrieveAPIView):
+    """Called via an API endpoint that represents a single coefficient object."""
+
+    model = models.Coefficient
+    queryset = model.objects.all()
+    serializer_class = serializers.CoefficientBaseSerializer
