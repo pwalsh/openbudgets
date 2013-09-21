@@ -1,9 +1,9 @@
+from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
 from taggit.models import ItemBase as TaggitItemBase
 from autoslug import AutoSlugField
-from openbudget.settings.base import AUTH_USER_MODEL
 from openbudget.apps.sheets.models import Template, TemplateNode
 from openbudget.commons.mixins.models import TimeStampedMixin, UUIDMixin, \
     ClassMethodMixin
@@ -22,7 +22,7 @@ class Taxonomy(TimeStampedMixin, UUIDMixin, ClassMethodMixin):
         unique_together = (('user', 'name', 'template'),)
 
     user = models.ForeignKey(
-        AUTH_USER_MODEL,
+        settings.AUTH_USER_MODEL,
         related_name='taxonomies',)
 
     template = models.ForeignKey(

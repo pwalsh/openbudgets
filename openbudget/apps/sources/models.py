@@ -1,8 +1,8 @@
+from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
-from openbudget.settings.base import AUTH_USER_MODEL
 from openbudget.commons.mixins.models import TimeStampedMixin, UUIDMixin, \
     ClassMethodMixin
 from openbudget.commons.utilities import get_media_file_path
@@ -21,7 +21,7 @@ class AbstractDataSource(TimeStampedMixin, UUIDMixin, ClassMethodMixin):
         abstract = True
 
     added_by = models.ForeignKey(
-        AUTH_USER_MODEL,
+        settings.AUTH_USER_MODEL,
         related_name='%(class)ss',)
 
     name = models.CharField(
