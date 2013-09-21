@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from grappelli.dashboard import modules, Dashboard
 
 
-class OpenBudgetDashboard(Dashboard):
+class OpenBudgetsDashboard(Dashboard):
     """Custom admin dashboard for Open Budget"""
 
     def init_with_context(self, context):

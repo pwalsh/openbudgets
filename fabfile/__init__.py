@@ -1,6 +1,5 @@
-import project
-import machine
-
+import remote
+import local
 
 
 ###### SOME MANUAL MACHINE SETUP STILL...

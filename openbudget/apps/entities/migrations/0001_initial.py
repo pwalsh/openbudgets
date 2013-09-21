@@ -8,60 +8,87 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Context'
-        db.create_table(u'contexts_context', (
+        # Adding model 'Domain'
+        db.create_table(u'entities_domain', (
             ('created_on', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, db_index=True, blank=True)),
             ('last_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, db_index=True, blank=True)),
             ('id', self.gf('uuidfield.fields.UUIDField')(unique=True, max_length=32, primary_key=True, db_index=True)),
-            ('period_start', self.gf('django.db.models.fields.DateField')(db_index=True, null=True, blank=True)),
-            ('period_end', self.gf('django.db.models.fields.DateField')(db_index=True, null=True, blank=True)),
-            ('entity', self.gf('django.db.models.fields.related.ForeignKey')(related_name='contexts', to=orm['entities.Entity'])),
-            ('data', self.gf('jsonfield.fields.JSONField')()),
+            ('name', self.gf('django.db.models.fields.CharField')(unique=True, max_length=255, db_index=True)),
+            ('name_he', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, unique=True, null=True, blank=True)),
+            ('name_en', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, unique=True, null=True, blank=True)),
+            ('name_ar', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, unique=True, null=True, blank=True)),
+            ('name_ru', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, unique=True, null=True, blank=True)),
+            ('measurement_system', self.gf('django.db.models.fields.CharField')(default='metric', max_length=8)),
+            ('ground_surface_unit', self.gf('django.db.models.fields.CharField')(default='default', max_length=25)),
+            ('currency', self.gf('django.db.models.fields.CharField')(default='usd', max_length=3)),
+            ('slug', self.gf('autoslug.fields.AutoSlugField')(unique=True, max_length=50, populate_from='name', unique_with=())),
         ))
-        db.send_create_signal(u'contexts', ['Context'])
+        db.send_create_signal(u'entities', ['Domain'])
 
-        # Adding model 'Coefficient'
-        db.create_table(u'contexts_coefficient', (
+        # Adding model 'Division'
+        db.create_table(u'entities_division', (
             ('created_on', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, db_index=True, blank=True)),
             ('last_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, db_index=True, blank=True)),
             ('id', self.gf('uuidfield.fields.UUIDField')(unique=True, max_length=32, primary_key=True, db_index=True)),
-            ('period_start', self.gf('django.db.models.fields.DateField')(db_index=True, null=True, blank=True)),
-            ('period_end', self.gf('django.db.models.fields.DateField')(db_index=True, null=True, blank=True)),
-            ('domain', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['entities.Domain'])),
-            ('inflation', self.gf('django.db.models.fields.DecimalField')(db_index=True, null=True, max_digits=23, decimal_places=20, blank=True)),
+            ('domain', self.gf('django.db.models.fields.related.ForeignKey')(related_name='divisions', to=orm['entities.Domain'])),
+            ('index', self.gf('django.db.models.fields.PositiveSmallIntegerField')(db_index=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=255, db_index=True)),
+            ('name_he', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, null=True, blank=True)),
+            ('name_en', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, null=True, blank=True)),
+            ('name_ar', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, null=True, blank=True)),
+            ('name_ru', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, null=True, blank=True)),
+            ('budgeting', self.gf('django.db.models.fields.BooleanField')(default=False, db_index=True)),
+            ('slug', self.gf('autoslug.fields.AutoSlugField')(unique=True, max_length=50, populate_from='name', unique_with=())),
         ))
-        db.send_create_signal(u'contexts', ['Coefficient'])
+        db.send_create_signal(u'entities', ['Division'])
+
+        # Adding unique constraint on 'Division', fields ['name', 'domain']
+        db.create_unique(u'entities_division', ['name', 'domain_id'])
+
+        # Adding model 'Entity'
+        db.create_table(u'entities_entity', (
+            ('created_on', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, db_index=True, blank=True)),
+            ('last_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, db_index=True, blank=True)),
+            ('id', self.gf('uuidfield.fields.UUIDField')(unique=True, max_length=32, primary_key=True, db_index=True)),
+            ('division', self.gf('django.db.models.fields.related.ForeignKey')(related_name='entities', to=orm['entities.Division'])),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=255, db_index=True)),
+            ('name_he', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, null=True, blank=True)),
+            ('name_en', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, null=True, blank=True)),
+            ('name_ar', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, null=True, blank=True)),
+            ('name_ru', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, null=True, blank=True)),
+            ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('description_he', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+            ('description_en', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+            ('description_ar', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+            ('description_ru', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+            ('code', self.gf('django.db.models.fields.CharField')(max_length=25, blank=True)),
+            ('parent', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='children', null=True, to=orm['entities.Entity'])),
+            ('slug', self.gf('autoslug.fields.AutoSlugField')(unique=True, max_length=50, populate_from='name', unique_with=())),
+        ))
+        db.send_create_signal(u'entities', ['Entity'])
+
+        # Adding unique constraint on 'Entity', fields ['name', 'parent', 'division']
+        db.create_unique(u'entities_entity', ['name', 'parent_id', 'division_id'])
 
 
     def backwards(self, orm):
-        # Deleting model 'Context'
-        db.delete_table(u'contexts_context')
+        # Removing unique constraint on 'Entity', fields ['name', 'parent', 'division']
+        db.delete_unique(u'entities_entity', ['name', 'parent_id', 'division_id'])
 
-        # Deleting model 'Coefficient'
-        db.delete_table(u'contexts_coefficient')
+        # Removing unique constraint on 'Division', fields ['name', 'domain']
+        db.delete_unique(u'entities_division', ['name', 'domain_id'])
+
+        # Deleting model 'Domain'
+        db.delete_table(u'entities_domain')
+
+        # Deleting model 'Division'
+        db.delete_table(u'entities_division')
+
+        # Deleting model 'Entity'
+        db.delete_table(u'entities_entity')
 
 
     models = {
-        u'contexts.coefficient': {
-            'Meta': {'ordering': "['domain__name', 'period_start', 'last_modified']", 'object_name': 'Coefficient'},
-            'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'db_index': 'True', 'blank': 'True'}),
-            'domain': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['entities.Domain']"}),
-            'id': ('uuidfield.fields.UUIDField', [], {'unique': 'True', 'max_length': '32', 'primary_key': 'True', 'db_index': 'True'}),
-            'inflation': ('django.db.models.fields.DecimalField', [], {'db_index': 'True', 'null': 'True', 'max_digits': '23', 'decimal_places': '20', 'blank': 'True'}),
-            'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
-            'period_end': ('django.db.models.fields.DateField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
-            'period_start': ('django.db.models.fields.DateField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'})
-        },
-        u'contexts.context': {
-            'Meta': {'object_name': 'Context'},
-            'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'db_index': 'True', 'blank': 'True'}),
-            'data': ('jsonfield.fields.JSONField', [], {}),
-            'entity': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'contexts'", 'to': u"orm['entities.Entity']"}),
-            'id': ('uuidfield.fields.UUIDField', [], {'unique': 'True', 'max_length': '32', 'primary_key': 'True', 'db_index': 'True'}),
-            'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
-            'period_end': ('django.db.models.fields.DateField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
-            'period_start': ('django.db.models.fields.DateField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'})
-        },
         u'entities.division': {
             'Meta': {'ordering': "['index', 'name']", 'unique_together': "(('name', 'domain'),)", 'object_name': 'Division'},
             'budgeting': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'db_index': 'True'}),
@@ -114,4 +141,4 @@ class Migration(SchemaMigration):
         }
     }
 
-    complete_apps = ['contexts']
+    complete_apps = ['entities']

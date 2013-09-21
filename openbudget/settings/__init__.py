@@ -71,6 +71,7 @@ STATICFILES_DIRS = (os.path.abspath(os.path.join(PROJECT_ROOT, 'commons',
 
 TEMPLATE_DIRS = (
     os.path.abspath(os.path.join(PROJECT_ROOT, 'commons', 'templates')),
+    # TODO: This below was added, check if it really should be here.
     os.path.abspath(os.path.join(PROJECT_ROOT, 'apps', 'entities', 'static', 'entities', 'explorer', 'templates')),
 )
 
@@ -214,11 +215,11 @@ REDIS_URL = REDIS['SCHEME'] + REDIS['HOST'] + ':' + \
 
 CACHE_MIDDLEWARE_SECONDS = 600
 
-CACHE_MIDDLEWARE_KEY_PREFIX = 'omuni'
+CACHE_MIDDLEWARE_KEY_PREFIX = 'openbudgets::'
 
-GRAPPELLI_ADMIN_TITLE = 'Open Local Budgets'
+GRAPPELLI_ADMIN_TITLE = 'Open Budgets'
 
-GRAPPELLI_INDEX_DASHBOARD = 'openbudget.dashboard.OpenBudgetDashboard'
+GRAPPELLI_INDEX_DASHBOARD = 'openbudget.dashboard.OpenBudgetsDashboard'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -303,10 +304,9 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.abspath(os.path.join(os.path.dirname(PROJECT_ROOT),
-                                             'local.db')),
-        'USER': '',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'open-budgets',
+        'USER': 'robot',
         'PASSWORD': '',
         'HOST': '',
         'PORT': '',

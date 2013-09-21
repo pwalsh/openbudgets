@@ -8,15 +8,14 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Project'
-        db.create_table(u'projects_project', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('client_id', self.gf('django.db.models.fields.CharField')(default=u'EpRP4hmsLkP%>-2iwXSwl\\%BzS\\aO3\\M.^],(x4G', unique=True, max_length=100)),
+        # Adding model 'Tool'
+        db.create_table(u'tools_tool', (
+            ('client_id', self.gf('django.db.models.fields.CharField')(default=u'NcB;1m,Ti|>];*6FG#x9#3rj#j3rWLN6&/N\\P!mj', unique=True, max_length=100)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['accounts.Account'])),
             ('redirect_uris', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('client_type', self.gf('django.db.models.fields.CharField')(max_length=32)),
             ('authorization_grant_type', self.gf('django.db.models.fields.CharField')(max_length=32)),
-            ('client_secret', self.gf('django.db.models.fields.CharField')(default=u'x|jAr*St3@E,j=)<gQDK\\dqo_LEsyG7= ;RB_W`aXSQC}P2W?tGGO|:*<n$v66z.4KEnw[xX?kEz6#nPsRh[>wmob59a>"eE-0e SnAdb{BK\'7Hm0ZX3wi_#r&k<4gV{', max_length=255, blank=True)),
+            ('client_secret', self.gf('django.db.models.fields.CharField')(default=u'L#)qgI Ge -b_k8cwlxrp"IDjSmQ:t@>1@,ka*cJ)#_Bp`r"Lj\\3AUsf6ER|VZRfor-X!O0aIsv}{p3{Fer@}lmJP$}]F"unCK)snDQ_NOD64TN\\nxSc"N62+&f3 R*M', max_length=255, blank=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
             ('name_he', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
             ('name_en', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
@@ -24,8 +23,8 @@ class Migration(SchemaMigration):
             ('name_ru', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
             ('created_on', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, db_index=True, blank=True)),
             ('last_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, db_index=True, blank=True)),
-            ('uuid', self.gf('uuidfield.fields.UUIDField')(db_index=True, unique=True, max_length=32, blank=True)),
-            ('author', self.gf('django.db.models.fields.related.ForeignKey')(related_name='author_projects', to=orm['accounts.Account'])),
+            ('id', self.gf('uuidfield.fields.UUIDField')(unique=True, max_length=32, primary_key=True, db_index=True)),
+            ('author', self.gf('django.db.models.fields.related.ForeignKey')(related_name='author_tools', to=orm['accounts.Account'])),
             ('description', self.gf('django.db.models.fields.TextField')()),
             ('description_he', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
             ('description_en', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
@@ -37,28 +36,27 @@ class Migration(SchemaMigration):
             ('slug', self.gf('autoslug.fields.AutoSlugField')(unique=True, max_length=50, populate_from='name', unique_with=())),
             ('config', self.gf('jsonfield.fields.JSONField')(null=True, blank=True)),
         ))
-        db.send_create_signal(u'projects', ['Project'])
+        db.send_create_signal(u'tools', ['Tool'])
 
         # Adding model 'State'
-        db.create_table(u'projects_state', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+        db.create_table(u'tools_state', (
             ('created_on', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, db_index=True, blank=True)),
             ('last_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, db_index=True, blank=True)),
-            ('uuid', self.gf('uuidfield.fields.UUIDField')(db_index=True, unique=True, max_length=32, blank=True)),
-            ('project', self.gf('django.db.models.fields.related.ForeignKey')(related_name='states', to=orm['projects.Project'])),
+            ('id', self.gf('uuidfield.fields.UUIDField')(unique=True, max_length=32, primary_key=True, db_index=True)),
+            ('tool', self.gf('django.db.models.fields.related.ForeignKey')(related_name='states', to=orm['tools.Tool'])),
             ('author', self.gf('django.db.models.fields.related.ForeignKey')(related_name='saved_states', to=orm['accounts.Account'])),
             ('screenshot', self.gf('django.db.models.fields.URLField')(max_length=200, null=True, blank=True)),
             ('config', self.gf('jsonfield.fields.JSONField')(null=True, blank=True)),
         ))
-        db.send_create_signal(u'projects', ['State'])
+        db.send_create_signal(u'tools', ['State'])
 
 
     def backwards(self, orm):
-        # Deleting model 'Project'
-        db.delete_table(u'projects_project')
+        # Deleting model 'Tool'
+        db.delete_table(u'tools_tool')
 
         # Deleting model 'State'
-        db.delete_table(u'projects_state')
+        db.delete_table(u'tools_state')
 
 
     models = {
@@ -100,12 +98,22 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        u'projects.project': {
-            'Meta': {'object_name': 'Project'},
-            'author': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'author_projects'", 'to': u"orm['accounts.Account']"}),
+        u'tools.state': {
+            'Meta': {'object_name': 'State'},
+            'author': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'saved_states'", 'to': u"orm['accounts.Account']"}),
+            'config': ('jsonfield.fields.JSONField', [], {'null': 'True', 'blank': 'True'}),
+            'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'db_index': 'True', 'blank': 'True'}),
+            'id': ('uuidfield.fields.UUIDField', [], {'unique': 'True', 'max_length': '32', 'primary_key': 'True', 'db_index': 'True'}),
+            'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
+            'screenshot': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'tool': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'states'", 'to': u"orm['tools.Tool']"})
+        },
+        u'tools.tool': {
+            'Meta': {'object_name': 'Tool'},
+            'author': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'author_tools'", 'to': u"orm['accounts.Account']"}),
             'authorization_grant_type': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
-            'client_id': ('django.db.models.fields.CharField', [], {'default': 'u\'IH[)w!;sS($3yEO6!/&z&8"QISLtBO$K+|Gvu8K\\\'\'', 'unique': 'True', 'max_length': '100'}),
-            'client_secret': ('django.db.models.fields.CharField', [], {'default': 'u\'U9s\\\\Knj\\\'d%;BN{ 6ZdX;y((AXX*.B*oX5s]F;1ok>BpJ IDCl9[m"P|aUL?p?]"or =+.>Qo4zy;CFZNrmos9$dDr$#P)#rLk?]R"!TjJkOedL}c&i02E@QM;y5%}@}\\\\\'', 'max_length': '255', 'blank': 'True'}),
+            'client_id': ('django.db.models.fields.CharField', [], {'default': 'u"qVL\'Kx7{bZ\\\\s8ERH*0wNQ,Kn7AR>\\\\X@|LG?m6PtO"', 'unique': 'True', 'max_length': '100'}),
+            'client_secret': ('django.db.models.fields.CharField', [], {'default': 'u\'zV3\\\\$V?Xz ;E>Z{AK]@YE2)HQR(xZE\\\\-}"5j!T\\\'6+d:;?j1?eI`hWhf { &h::?{h}b.&I <07Uk4:iZNUH}IV99|.d4R8z>:%t3FnOeW_YyWsEiNrA.o]maBorUU9dA\'', 'max_length': '255', 'blank': 'True'}),
             'client_type': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
             'config': ('jsonfield.fields.JSONField', [], {'null': 'True', 'blank': 'True'}),
             'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'db_index': 'True', 'blank': 'True'}),
@@ -115,7 +123,7 @@ class Migration(SchemaMigration):
             'description_he': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'description_ru': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'featured': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'id': ('uuidfield.fields.UUIDField', [], {'unique': 'True', 'max_length': '32', 'primary_key': 'True', 'db_index': 'True'}),
             'label': ('django.db.models.fields.CharField', [], {'default': "'public'", 'max_length': '50'}),
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
@@ -126,20 +134,8 @@ class Migration(SchemaMigration):
             'redirect_uris': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'screenshot': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'slug': ('autoslug.fields.AutoSlugField', [], {'unique': 'True', 'max_length': '50', 'populate_from': "'name'", 'unique_with': '()'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['accounts.Account']"}),
-            'uuid': ('uuidfield.fields.UUIDField', [], {'db_index': 'True', 'unique': 'True', 'max_length': '32', 'blank': 'True'})
-        },
-        u'projects.state': {
-            'Meta': {'object_name': 'State'},
-            'author': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'saved_states'", 'to': u"orm['accounts.Account']"}),
-            'config': ('jsonfield.fields.JSONField', [], {'null': 'True', 'blank': 'True'}),
-            'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'db_index': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
-            'project': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'states'", 'to': u"orm['projects.Project']"}),
-            'screenshot': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
-            'uuid': ('uuidfield.fields.UUIDField', [], {'db_index': 'True', 'unique': 'True', 'max_length': '32', 'blank': 'True'})
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['accounts.Account']"})
         }
     }
 
-    complete_apps = ['projects']
+    complete_apps = ['tools']
