@@ -324,15 +324,15 @@ SOUTH_TESTS_MIGRATE = False
 OPENBUDGETS_TEMP_DIR = os.path.abspath(
     os.path.join(os.path.dirname(PROJECT_ROOT), 'tmp'))
 
-OPENBUDGETS_APP_NAME = gettext('Open Local Budgets')
+OPENBUDGETS_NAME_APP = gettext('Open Local Budgets')
 
-OPENBUDGETS_SPONSOR_NAME = gettext('Public Knowledge Workshop')
+OPENBUDGETS_NAME_SPONSOR = gettext('Public Knowledge Workshop')
 
-OPENBUDGETS_CORE_TEAM_ID = 1
+OPENBUDGETS_GROUP_ID_CORE = 1
 
-OPENBUDGETS_CONTENT_TEAM_ID = 2
+OPENBUDGETS_GROUP_ID_CONTENT = 2
 
-OPENBUDGETS_PUBLIC_ID = 3
+OPENBUDGETS_GROUP_ID_PUBLIC = 3
 
 OPENBUDGETS_PERIOD_RANGES = ('yearly',)
 
@@ -344,36 +344,14 @@ OPENBUDGETS_IMPORT_INTRA_FIELD_DELIMITER = '|'
 
 OPENBUDGETS_IMPORT_INTRA_FIELD_MULTIPLE_VALUE_DELIMITER = ';'
 
-OPENBUDGETS_TEMPLATENODE_COMPARABLE_DEFAULT = True
+OPENBUDGETS_COMPARABLE_TEMPLATENODE__DEFAULT = True
 
-OPENBUDGETS_TEMPLATENODE_NOT_IN_BLUEPRINT_COMPARABLE_DEFAULT = True
+OPENBUDGETS_COMPARABLE_TEMPLATENODE_NOT_IN_BLUEPRINT_DEFAULT = True
 
 OPENBUDGETS_COMPARABLE_WITHIN_ENTITY = True
 
 OPENBUDGETS_COMPARABLE_ACROSS_ENTITIES = True
 
-OPENBUDGETS_BOOTSTRAP = {
-    'FIXTURES': (
-        'dev/sites',
-        'locale/he/strings',
-        'dev/interactions',
-        'dev/sources',
-    ),
-    'TESTS': (
-        'accounts',
-        'api',
-        'sheets',
-        'commons',
-        'contexts',
-        'entities',
-        #'interactions',
-        'international',
-        'pages',
-        'sources',
-        'taxonomies',
-        'transport'
-    )
-}
 
 # if we are on production, we should have a settings.production module to load.
 try:

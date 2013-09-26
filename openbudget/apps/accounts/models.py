@@ -147,7 +147,7 @@ class CoreTeamAccountManager(models.Manager):
 
     def get_query_set(self):
         return super(CoreTeamAccountManager, self).get_query_set().filter(
-            groups=settings.OPENBUDGETS_CORE_TEAM_ID)
+            groups=settings.OPENBUDGETS_GROUP_ID_CORE)
 
 
 class CoreTeamAccount(AccountProxyBase):
@@ -163,7 +163,7 @@ class CoreTeamAccount(AccountProxyBase):
 
     def save(self, *args, **kwargs):
         super(CoreTeamAccount, self).save(*args, **kwargs)
-        self.groups.add(settings.OPENBUDGETS_CORE_TEAM_ID)
+        self.groups.add(settings.OPENBUDGETS_GROUP_ID_CORE)
 
 
 class ContentTeamAccountManager(models.Manager):
@@ -172,7 +172,7 @@ class ContentTeamAccountManager(models.Manager):
 
     def get_query_set(self):
         return super(ContentTeamAccountManager, self).get_query_set().filter(
-            groups=settings.OPENBUDGETS_CONTENT_TEAM_ID)
+            groups=settings.OPENBUDGETS_GROUP_ID_CONTENT)
 
 
 class ContentTeamAccount(AccountProxyBase):
@@ -188,7 +188,7 @@ class ContentTeamAccount(AccountProxyBase):
 
     def save(self, *args, **kwargs):
         super(ContentTeamAccount, self).save(*args, **kwargs)
-        self.groups.add(settings.OPENBUDGETS_CONTENT_TEAM_ID)
+        self.groups.add(settings.OPENBUDGETS_GROUP_ID_CONTENT)
 
 
 class PublicAccountManager(models.Manager):
@@ -196,7 +196,7 @@ class PublicAccountManager(models.Manager):
 
     def get_query_set(self):
         return super(PublicAccountManager, self).get_query_set().filter(
-            groups=settings.OPENBUDGETS_PUBLIC_ID)
+            groups=settings.OPENBUDGETS_GROUP_ID_PUBLIC)
 
 
 class PublicAccount(AccountProxyBase):
@@ -211,4 +211,4 @@ class PublicAccount(AccountProxyBase):
 
     def save(self, *args, **kwargs):
         super(PublicAccount, self).save(*args, **kwargs)
-        self.groups.add(settings.OPENBUDGETS_PUBLIC_ID)
+        self.groups.add(settings.OPENBUDGETS_GROUP_ID_PUBLIC)

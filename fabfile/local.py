@@ -20,6 +20,7 @@ def bootstrap(new=False, with_env=False, with_tests=False):
 
     clear_cache()
     migrate()
+    init_data()
 
     if with_tests:
         test()
@@ -71,6 +72,14 @@ def migrate():
 
 
 @task
+def init_data():
+    local('python manage.py loaddata dev/sites')
+    local('python manage.py loaddata locale/he/strings')
+    local('python manage.py loaddata dev/interactions')
+    #local('python manage.py loaddata dev/sources')
+
+
+@task
 def pip_update():
     local('pip install -U -r requirements.txt')
 
@@ -116,7 +125,7 @@ def test_js():
 def test_project_py():
     notify(u'Running tests for the project Python code.')
 
-    project_namespace = 'openbudgets.apps.'
+    project_namespace = 'openbudget.apps.'
     project_apps = []
 
     for app in settings.INSTALLED_APPS:

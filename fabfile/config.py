@@ -22,7 +22,7 @@ CONFIG = {
     'app_port': 9000,
     'app_workers': 4,
     'app_timeout': 45,
-    'app_wsgi': 'openbudgets.wsgi:application',
+    'app_wsgi': 'openbudget.wsgi:application',
     'repo': 'https://github.com/hasadna/openmuni-budgets',
     'branch': 'develop',
     'allowed_hosts': ['dev.openmuni.org.il', 'api.dev.openmuni.org.il',
