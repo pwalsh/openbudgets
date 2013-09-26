@@ -3,7 +3,7 @@ from fabric.contrib import django
 from utilities import notify, warn, alert
 from config import CONFIG
 
-django.project('openbudgets')
+django.project('openbudget')
 from django.conf import settings
 
 
@@ -47,13 +47,6 @@ def create_db(user=CONFIG['db_user'], name=CONFIG['db_name']):
 def drop_db(name=CONFIG['db_name']):
     alert(u'Dropping the database.')
     local('dropdb {name}'.format(name=name))
-
-
-@task
-def rebuild_db(user=CONFIG['db_user'], name=CONFIG['db_name']):
-    warn(u'Rebuilding the database.')
-    drop_db(name)
-    create_db(user, name)
 
 
 @task
