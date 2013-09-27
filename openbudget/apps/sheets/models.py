@@ -120,7 +120,10 @@ class Template(UUIDPKMixin, PeriodStartMixin, TimeStampedMixin, ClassMethodMixin
                 # employed by one or many sheets for that entity.
                 objs = self.sheets.all()
                 years = [obj.period_start.year for obj in objs].sort()
-                end = years[-1]
+                if not years:
+                    end = start
+                else:
+                    end = years[-1]
 
         return start, end
 
@@ -136,6 +139,7 @@ class Template(UUIDPKMixin, PeriodStartMixin, TimeStampedMixin, ClassMethodMixin
         Sheets of the Entities in their Division(s).
 
         """
+
         if not self.divisions.all():
             return False
         return True
@@ -216,6 +220,11 @@ class AbstractBaseNode(models.Model):
         symmetrical=False,
         related_name='forwards',)
 
+    @property
+    def depth(self):
+        branch = self.path.split(',')
+        return len(branch)
+
     def _get_path_to_root(self):
 
         """Recursively build a *code* hierarchy from self to top of tree."""
@@ -269,8 +278,7 @@ class TemplateNodeManager(models.Manager):
         return self.select_related('parent')
 
     def related_map(self):
-        return self.select_related('parent').prefetch_related('children',
-                                                              'templates',
+        return self.select_related('parent').prefetch_related('templates',
                                                               'inverse',
                                                               'backwards',
                                                               'items__comments')
