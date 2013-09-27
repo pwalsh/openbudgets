@@ -396,28 +396,16 @@ class TemplateParser(BaseParser):
             self._generate_container_name(container_dict=data)
 
         divisions = data.pop('divisions') if 'divisions' in data else []
-
-        print 'template parser: passing to super create container'
         super(TemplateParser, self)._create_container(container_dict=data, exclude=exclude)
-        print 'template parser: after super create container'
-        print self.container_object.pk, self.container_object
 
         for division in divisions:
-            print 'in divs:::::::'
-            print divisions
-            print division
-            print Division.objects.all()
-            print Division.objects.get(pk=division)
-
-            if not self.dry:
-                self.container_object.divisions.add(division)
-            else:
-                try:
-                    Division.objects.get(pk=division)
-                except Division.DoesNotExist as e:
-                    self.throw(
-                        MetaParsingError(reason=_('Division with pk %s does not exist') % division)
-                    )
+            try:
+                division = Division.objects.get(slug=division)
+                if not self.dry:
+                    self.container_object.divisions.add(division)
+            except Division.DoesNotExist:
+                self.throw(
+                    MetaParsingError(reason=_('Division with slug %s does not exist') % division))
 
     def _generate_lookup(self, data):
         self.resolver = PathResolver(parser=self, data=data, parent_template=self.parent)
