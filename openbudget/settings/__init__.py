@@ -310,7 +310,10 @@ DATABASES = {
         'PASSWORD': '',
         'HOST': '',
         'PORT': '',
+        'OPTIONS': {
+            'autocommit': True,
         }
+    }
 }
 
 CACHES = {
