@@ -34,11 +34,11 @@ def save_import(deferred, email):
         name += ' for ' + period
 
     if saved:
-        subject = _('[OPEN BUDGET]: Data import success')
+        subject = _('[OPEN BUDGETS]: Data import success')
         message = _('The data import succeeded for ' + name)
 
     else:
-        subject = _('[OPEN BUDGET]: Data import failure')
+        subject = _('[OPEN BUDGETS]: Data import failure')
         message = _('The data import failed for ' + name)
 
     return send_mail(subject, message, sender, [recipient], fail_silently=True)
