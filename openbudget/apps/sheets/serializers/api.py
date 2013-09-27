@@ -42,7 +42,7 @@ class TemplateNodeBase(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.TemplateNode
         fields = ['id', 'url', 'code', 'name', 'description', 'direction', 'path', 'created_on',
-                  'last_modified', 'parent', 'templates', 'backwards', 'inverse', 'items'] + translated_fields(model)
+                  'last_modified', 'parent', 'templates', 'backwards', 'inverse', 'items', 'comparable'] + translated_fields(model)
 
 
 class TemplateDetail(TemplateBase):
@@ -74,6 +74,7 @@ class SheetItemMinSerializer(serializers.HyperlinkedModelSerializer):
 
     node = serializers.Field('node.id')
     code = serializers.Field('node.code')
+    comparable = serializers.Field('node.comparable')
     name = serializers.Field('node.name')
     name_en = serializers.Field('node.name_en')
     name_ar = serializers.Field('node.name_ar')
@@ -84,7 +85,7 @@ class SheetItemMinSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.SheetItem
         fields = ['id', 'url', 'code', 'name', 'path', 'direction', 'budget',
-                  'actual', 'description', 'node']\
+                  'actual', 'description', 'node', 'comparable']\
                  + translated_fields(models.TemplateNode)
 
 
@@ -94,6 +95,7 @@ class SheetItemBase(serializers.HyperlinkedModelSerializer):
     #node = TemplateNodeMin()
     node = serializers.Field('node.id')
     code = serializers.Field('node.code')
+    comparable = serializers.Field('node.comparable')
     parent = SheetItemMinSerializer()
     children = SheetItemMinSerializer(many=True)
     ancestors = SheetItemMinSerializer(many=True)
@@ -112,7 +114,7 @@ class SheetItemBase(serializers.HyperlinkedModelSerializer):
         model = models.SheetItem
         fields = ['id', 'url', 'code', 'name', 'path', 'direction', 'budget', 'actual',
                   'description', 'node', 'discussion', 'has_comments', 'comments_count',
-                  'parent', 'children', 'ancestors'] + \
+                  'parent', 'children', 'ancestors', 'comparable'] + \
                  translated_fields(models.TemplateNode)
 
     def get_has_comments(self, obj):
@@ -126,7 +128,6 @@ class SheetItemBase(serializers.HyperlinkedModelSerializer):
             count = 1
         count += obj.discussion.count()
         return count
-
 
 
 class SheetDetail(SheetBase):
