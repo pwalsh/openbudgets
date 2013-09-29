@@ -366,7 +366,7 @@ define([
         });
     };
 
-    resources.Muni.prototype.url = function () {
+    resources.Munis.prototype.url = function () {
         return api.getRoute('entities');
     };
 
