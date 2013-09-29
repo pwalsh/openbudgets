@@ -39,10 +39,12 @@ class DivisionBase(serializers.HyperlinkedModelSerializer):
 
     """The default serialized representation of divisions."""
 
+    entity_count = serializers.Field(source='entity_count')
+
     class Meta:
         model = models.Division
         fields = ['id', 'url', 'name', 'index', 'budgeting', 'domain',
-                  'created_on', 'last_modified'] + translated_fields(model)
+                  'created_on', 'last_modified', 'entity_count'] + translated_fields(model)
 
 
 class DomainBase(serializers.HyperlinkedModelSerializer):
@@ -79,5 +81,5 @@ class EntityDetail(EntityBase):
 
     """A detailed, related representation of entities."""
     # preventing circular import
-    from openbudget.apps.sheets.serializers.api import SheetBase
-    sheets = SheetBase()
+    #from openbudget.apps.sheets.serializers import Sheet
+    #sheets = Sheet()

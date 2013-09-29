@@ -241,7 +241,7 @@ class Entity(UUIDPKMixin, TimeStampedMixin, ClassMethodMixin):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'entity_detail', [self.id]
+        return 'entity_detail', [self.pk]
 
     def clean(self):
 
