@@ -2,22 +2,23 @@ import datetime
 from rest_framework import generics, status
 from rest_framework.response import Response
 from openbudget.apps.international.utilities import translated_fields
-from openbudget.apps.sheets.serializers import api, ui
 from openbudget.apps.sheets import serializers
 from openbudget.apps.sheets import models
 from openbudget.apps.accounts.models import Account
+from openbudget.apps.sheets.serializers import SheetTimeline
 
 
 class TemplateList(generics.ListAPIView):
     """API endpoint that represents a list of templates."""
 
     model = models.Template
-    serializer_class = api.TemplateBase
+    queryset = model.objects.related_map_min()
+    serializer_class = serializers.TemplateMin
     ordering = ['id', 'name', 'period_start', 'created_on', 'last_modified']
     search_fields = ['name', 'description'] + translated_fields(model)
 
     def get_queryset(self):
-        queryset = self.model.objects.related_map_min()
+        queryset = super(TemplateList, self).get_queryset()
 
         ### FILTERS
         domains = self.request.QUERY_PARAMS.get('domains', None)
@@ -52,19 +53,20 @@ class TemplateDetail(generics.RetrieveAPIView):
 
     model = models.Template
     queryset = model.objects.related_map()
-    serializer_class = api.TemplateDetail
+    serializer_class = serializers.Template
 
 
 class TemplateNodeList(generics.ListAPIView):
     """API endpoint that represents a list of template nodes."""
 
     model = models.TemplateNode
-    serializer_class = api.TemplateNodeBase
+    queryset = model.objects.related_map()
+    serializer_class = serializers.TemplateNode
     ordering = ['id', 'name', 'description', 'created_on', 'last_modified']
     search_fields = ['name', 'description'] + translated_fields(model)
 
     def get_queryset(self):
-        queryset = self.model.objects.related_map()
+        queryset = super(TemplateNodeList, self).get_queryset()
 
         ### FILTERS
         templates = self.request.QUERY_PARAMS.get('templates', None)
@@ -110,20 +112,21 @@ class TemplateNodeDetail(generics.RetrieveAPIView):
 
     model = models.TemplateNode
     queryset = model.objects.related_map()
-    serializer_class = api.TemplateNodeBase
+    serializer_class = serializers.TemplateNode
 
 
 class SheetList(generics.ListAPIView):
     """API endpoint that represents a list of budget sheets."""
 
     model = models.Sheet
-    serializer_class = api.SheetBase
+    queryset = model.objects.related_map()
+    serializer_class = serializers.SheetMin
     ordering = ['id', 'entity__name', 'period_start', 'created_on', 'last_modified']
     search_fields = ['entity__name', 'description', 'period_start',
                      'period_end'] + translated_fields(model)
 
     def get_queryset(self):
-        queryset = self.model.objects.related_map_min()
+        queryset = super(SheetList, self).get_queryset()
 
         ### FILTERS
         entities = self.request.QUERY_PARAMS.get('entities', None)
@@ -212,24 +215,25 @@ class SheetDetail(generics.RetrieveAPIView):
 
     model = models.Sheet
     queryset = model.objects.related_map()
-    serializer_class = api.SheetDetail
+    serializer_class = serializers.Sheet
 
 
 class SheetItemList(generics.ListAPIView):
     """API endpoint that represents a list of budget items."""
 
     model = models.SheetItem
-    serializer_class = api.SheetItemBase
+    queryset = model.objects.related_map()
+    serializer_class = serializers.SheetItem
     ordering = ['id', 'sheet__entity__name', 'node__code', 'created_on',
                 'last_modified']
     search_fields = ['sheet__entity__name', 'node__code', 'node__name',
                      'description'] + translated_fields(model)
 
     def get_queryset(self):
-        queryset = self.model.objects.related_map()
+        queryset = super(SheetItemList, self).get_queryset()
 
         ### FILTERS
-        has_discussion = self.request.QUERY_PARAMS.get('has_discussion', None)
+        has_comments = self.request.QUERY_PARAMS.get('has_comments', None)
         sheets = self.request.QUERY_PARAMS.get('sheets', None)
         entities = self.request.QUERY_PARAMS.get('entities', None)
         divisions = self.request.QUERY_PARAMS.get('divisions', None)
@@ -246,21 +250,21 @@ class SheetItemList(generics.ListAPIView):
         actual_lte = self.request.QUERY_PARAMS.get('actual_lte', None)
         periods = self.request.QUERY_PARAMS.get('periods', None)
 
-        # HAS_DISCUSSION: return sheet items that have user discussion.
+        # HAS_COMMENTS: return sheet items that have user discussion.
         matches = []
-        if has_discussion == 'true':
+        if has_comments == 'true':
             for obj in queryset:
                 if obj.discussion.all():
                     matches.append(obj.pk)
             queryset = queryset.filter(pk__in=matches)
 
-        elif has_discussion == 'false':
+        elif has_comments == 'false':
             for obj in queryset:
                 if not obj.discussion.all():
                     matches.append(obj.pk)
             queryset = queryset.filter(pk__in=matches)
 
-        # SHEETS: return sheets that belong to the given entity(-ies).
+        # SHEETS: return sheet items that belong to the given entity(-ies).
         if sheets:
             sheets = sheets.split(',')
             queryset = queryset.filter(sheet__in=sheets)
@@ -287,11 +291,11 @@ class SheetItemList(generics.ListAPIView):
 
         # PARENTS: return items that are children of given parent(s).
         if parents and parents == 'none':
-            queryset = queryset.filter(node__parent__isnull=True)
+            queryset = queryset.filter(parent__isnull=True)
 
         elif parents:
             parents = parents.split(',')
-            queryset = queryset.filter(node__parent__pk__in=parents)
+            queryset = queryset.filter(parent__pk__in=parents)
 
         # BUDGET_GT: return sheet items with a budget amount greater than the
         # given amount.
@@ -346,7 +350,7 @@ class SheetItemDetail(generics.RetrieveAPIView):
 
     model = models.SheetItem
     queryset = model.objects.related_map()
-    serializer_class = api.SheetItemBase
+    serializer_class = serializers.SheetItem
 
 
 class SheetItemTimeline(generics.ListAPIView):
@@ -370,7 +374,7 @@ class SheetItemTimeline(generics.ListAPIView):
             pass
         items = models.SheetItem.objects.timeline(nodes, entity_pk)
 
-        serialized_timeline = ui.SheetTimeline(items, many=True).data
+        serialized_timeline = SheetTimeline(items, many=True).data
 
         return Response(serialized_timeline)
 
@@ -389,9 +393,9 @@ class SheetItemCommentListCreate(generics.ListCreateAPIView):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             # base serializer for creating SheetItemComment
-            return serializers.SheetItemCommentBaseSerializer
+            return serializers.SheetItemComment
         # SheetItemComment list/retrieve serializer
-        return serializers.SheetItemCommentReadSerializer
+        return serializers.SheetItemCommentRead
 
     def get_queryset(self):
         return self.model.objects.by_item(self.kwargs.get('pk'))
@@ -412,7 +416,7 @@ class SheetItemCommentListCreate(generics.ListCreateAPIView):
 
             # here we step in and override current serializer used for create
             # with a different serializer used for retrieve
-            serializer = serializers.SheetItemCommentReadSerializer(self.object)
+            serializer = serializers.SheetItemCommentRead(self.object)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED,
                             headers=headers)

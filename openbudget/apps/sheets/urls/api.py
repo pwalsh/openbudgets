@@ -31,16 +31,6 @@ def templates():
 def sheets():
     urlpatterns = patterns('',
         url(
-            r'^$',
-            api.SheetList.as_view(),
-            name='sheet-list'
-        ),
-        url(
-            r'^(?P<pk>[-\w]+)/$',
-            api.SheetDetail.as_view(),
-            name='sheet-detail'
-        ),
-        url(
             r'^items/$',
             api.SheetItemList.as_view(),
             name='sheetitem-list'
@@ -59,6 +49,16 @@ def sheets():
             r'^timeline/(?P<entity_pk>[-\w]+)/$',
             api.SheetItemTimeline.as_view(),
             name='sheetitem-timeline'
+        ),
+        url(
+            r'^$',
+            api.SheetList.as_view(),
+            name='sheet-list'
+        ),
+        url(
+            r'^(?P<pk>[-\w]+)/$',
+            api.SheetDetail.as_view(),
+            name='sheet-detail'
         ),
     )
     return urlpatterns

@@ -8,7 +8,7 @@ from django.db import models
 class Migration(SchemaMigration):
 
     depends_on = (
-        ("entities", "0001_initial"),
+        ('entities', '0001_initial'),
     )
 
     def forwards(self, orm):
@@ -126,6 +126,7 @@ class Migration(SchemaMigration):
             ('description_ru', self.gf('django.db.models.fields.TextField')(db_index=True, null=True, blank=True)),
             ('sheet', self.gf('django.db.models.fields.related.ForeignKey')(related_name='items', to=orm['sheets.Sheet'])),
             ('node', self.gf('django.db.models.fields.related.ForeignKey')(related_name='items', to=orm['sheets.TemplateNode'])),
+            ('parent', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='kids', null=True, to=orm['sheets.SheetItem'])),
         ))
         db.send_create_signal(u'sheets', ['SheetItem'])
 
@@ -292,6 +293,7 @@ class Migration(SchemaMigration):
             'id': ('uuidfield.fields.UUIDField', [], {'unique': 'True', 'max_length': '32', 'primary_key': 'True', 'db_index': 'True'}),
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
             'node': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'items'", 'to': u"orm['sheets.TemplateNode']"}),
+            'parent': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'kids'", 'null': 'True', 'to': u"orm['sheets.SheetItem']"}),
             'sheet': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'items'", 'to': u"orm['sheets.Sheet']"})
         },
         u'sheets.sheetitemcomment': {

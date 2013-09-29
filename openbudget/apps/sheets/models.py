@@ -24,10 +24,10 @@ class TemplateManager(models.Manager):
     """
 
     def related_map_min(self):
-        return self.select_related().prefetch_related('divisions')
+        return self.select_related().prefetch_related('divisions', 'sheets')
 
     def related_map(self):
-        return self.select_related().prefetch_related('divisions', 'nodes')
+        return self.select_related().prefetch_related('divisions', 'sheets', 'nodes')
 
     #TODO: Consider better ways to do this.
     def latest_of(self, entity):
@@ -81,6 +81,10 @@ class Template(UUIDPKMixin, PeriodStartMixin, TimeStampedMixin, ClassMethodMixin
 
     auxsources = generic.GenericRelation(
         AuxSource,)
+
+    @property
+    def node_count(self):
+        return self.nodes.count()
 
     @property
     def period(self):
@@ -221,9 +225,24 @@ class AbstractBaseNode(models.Model):
         related_name='forwards',)
 
     @property
+    def ancestors(self):
+        ancestors = []
+        current = self
+        try:
+            while current:
+                parent = current.parent
+                if parent:
+                    ancestors.append(parent)
+                current = parent
+        except TemplateNode.DoesNotExist:
+            pass
+        ancestors.reverse()
+        return ancestors
+
+    @property
     def depth(self):
         branch = self.path.split(',')
-        return len(branch)
+        return len(branch) - 1
 
     def _get_path_to_root(self):
 
@@ -278,10 +297,11 @@ class TemplateNodeManager(models.Manager):
         return self.select_related('parent')
 
     def related_map(self):
-        return self.select_related('parent').prefetch_related('templates',
+        return self.select_related('parent').prefetch_related(
+                                                              'templates',
                                                               'inverse',
                                                               'backwards',
-                                                              'items__comments')
+                                                              'items')
 
 
 class TemplateNode(UUIDPKMixin, AbstractBaseNode, TimeStampedMixin):
@@ -602,6 +622,10 @@ class AbstractBaseItem(models.Model):
         value = round(self.actual / self.budget * 100, 2)
         return value
 
+    @property
+    def period(self):
+        return self.sheet.period
+
 
 class SheetItemManager(models.Manager):
 
@@ -619,7 +643,7 @@ class SheetItemManager(models.Manager):
         return self.select_related()
 
     def related_map(self):
-        return self.select_related().prefetch_related('discussion')
+        return self.select_related().prefetch_related('parent__parent', 'children', 'discussion')
 
     # TODO: Check this for a more efficient implementation
     def timeline(self, node_pks, entity_pk):
@@ -663,6 +687,13 @@ class SheetItem(UUIDPKMixin, AbstractBaseItem, TimeStampedMixin, ClassMethodMixi
         TemplateNode,
         related_name='items',)
 
+    parent = models.ForeignKey(
+        'self',
+        null=True,
+        blank=True,
+        editable=False,
+        related_name='children',)
+
     referencesources = generic.GenericRelation(
         ReferenceSource,)
 
@@ -670,17 +701,46 @@ class SheetItem(UUIDPKMixin, AbstractBaseItem, TimeStampedMixin, ClassMethodMixi
         AuxSource,)
 
     @property
+    def lookup(self):
+        return self.node.pk
+
+    @property
     def name(self):
-        value = self.node.name
-        return value
+        return self.node.name
 
     @property
-    def parent(self):
-        return self.sheet.sheetitems.get(node=self.node.parent)
+    def code(self):
+        return self.node.code
 
     @property
-    def children(self):
-        return self.sheet.sheetitems.filter(node__parent=self.node)
+    def comparable(self):
+        return self.node.comparable
+
+    @property
+    def direction(self):
+        return self.node.direction
+
+    @property
+    def path(self):
+        return self.node.path
+
+    @property
+    def depth(self):
+        return self.node.depth
+
+    @property
+    def has_comments(self):
+        if len(self.description):
+            return True
+        return False
+
+    @property
+    def comment_count(self):
+        count = 0
+        if self.has_comments:
+            count = 1
+        count += self.discussion.count()
+        return count
 
     @property
     def ancestors(self):
@@ -692,28 +752,24 @@ class SheetItem(UUIDPKMixin, AbstractBaseItem, TimeStampedMixin, ClassMethodMixi
                 if parent:
                     ancestors.append(parent)
                 current = parent
-        except SheetItem.DoesNotExist:
+        except TemplateNode.DoesNotExist:
             pass
-
         ancestors.reverse()
         return ancestors
 
-    @property
-    def descendants(self):
-        descendants = []
-        children = self.children
-        if children.count():
-            descendants += children
-            for child in children:
-                descendants += child.descendants
-        return descendants
-
     @models.permalink
     def get_absolute_url(self):
-        return 'sheet_item_detail', [self.id]
+        return 'sheet_item_detail', [self.pk]
 
     def __unicode__(self):
         return self.node.code
+
+    def save(self, *args, **kwargs):
+
+        if self.node.parent and self.node.parent.items.filter(sheet=self.sheet).exists():
+            self.parent = self.node.parent.items.get(sheet=self.sheet, sheet__template=self.sheet.template)
+
+        return super(SheetItem, self).save(*args, **kwargs)
 
 
 class SheetItemCommentManager(models.Manager):
