@@ -5,6 +5,9 @@ from config import CONFIG
 
 django.project('openbudget')
 from django.conf import settings
+from openbudget.apps.entities.factories import *
+from openbudget.apps.sheets.factories import *
+from openbudget.apps.contexts.factories import *
 
 
 @task
@@ -142,6 +145,22 @@ def test_project_js():
 
 
 @task
-def mock_db(amount=5):
-    notify(u'NOT IMPLEMENTED: Populating the database with mock objects.')
-    pass
+def mock_db(amount=1000):
+    notify(u'Creating some mock objects for the database.')
+
+    domain = Domain.create(name='Example Domain')
+    division = Division.create(name='Example Division', domain=domain)
+    entities = Entity.create_batch(2, division=division)
+    template = Template.create(name='Example Template', divisions=[division])
+    template_nodes = TemplateNode.create_batch(amount)
+
+    for node in template_nodes:
+        TemplateNodeRelation.create(node=node, template=template)
+        child_nodes = TemplateNode.create_batch(2, parent=node)
+        for node in child_nodes:
+            TemplateNodeRelation.create(node=node, template=template)
+
+    for entity in entities:
+        sheet = Sheet.create(entity=entity, template=template)
+        for node in template.nodes.all():
+            SheetItem.create(sheet=sheet, node=node)
