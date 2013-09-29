@@ -50,8 +50,9 @@ define([
                 new_index = use_model ? this.resource.indexOf(use_model) + 1 : 0,
                 model;
 
-            // make sure id is removed
-            delete state.id;
+            if ( state )
+                // make sure id is removed
+                delete state.id;
 
             model = this.createItemModel(state, new_index);
             this.createItemWidget(model, new_index);
