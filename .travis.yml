@@ -12,7 +12,7 @@ install:
   - pip install -r requirements/base.txt
   - pip install -r requirements/extended.txt
 
-script: coverage run --source='.' manage.py test accounts api sheets contexts commons entities international pages transport
+script: coverage run --source='.' manage.py test accounts api contexts entities interactions international pages sheets tools commons transport
 
 notifications:
   email:
