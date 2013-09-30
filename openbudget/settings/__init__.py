@@ -306,7 +306,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'open-budgets',
-        'USER': 'postgres',
+        'USER': 'robot',
         'PASSWORD': '',
         'HOST': '',
         'PORT': '',
