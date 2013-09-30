@@ -79,6 +79,7 @@ def init_data():
     local('python manage.py loaddata dev/sites')
     local('python manage.py loaddata locale/he/strings')
     local('python manage.py loaddata dev/interactions')
+    #local('python manage.py loaddata contexts')
     #local('python manage.py loaddata dev/sources')
 
 

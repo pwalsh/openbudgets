@@ -379,7 +379,7 @@ class SheetItemTimeline(generics.ListAPIView):
         return Response(serialized_timeline)
 
 
-class SheetItemCommentListCreate(generics.ListCreateAPIView):
+class SheetItemCommentEmbeddedList(generics.ListCreateAPIView):
     """
     Called via an API endpoint using GET it represents a list of SheetItemComments.
     Called via an API endpoint using POST it creates a new of SheetItemComment.
@@ -393,7 +393,7 @@ class SheetItemCommentListCreate(generics.ListCreateAPIView):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             # base serializer for creating SheetItemComment
-            return serializers.SheetItemComment
+            return serializers.SheetItemCommentEmbed
         # SheetItemComment list/retrieve serializer
         return serializers.SheetItemCommentRead
 
@@ -422,3 +422,19 @@ class SheetItemCommentListCreate(generics.ListCreateAPIView):
                             headers=headers)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SheetItemCommentList(generics.ListAPIView):
+    """API endpoint that represents a list of sheet item comments."""
+
+    model = models.SheetItemComment
+    queryset = model.objects.related_map()
+    serializer_class = serializers.SheetItemCommentMin
+
+
+class SheetItemCommentDetail(generics.RetrieveAPIView):
+    """API endpoint that represents a single sheet item comment item."""
+
+    model = models.SheetItemComment
+    queryset = model.objects.related_map()
+    serializer_class = serializers.SheetItemCommentMin

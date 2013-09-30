@@ -213,10 +213,6 @@ REDIS = {
 REDIS_URL = REDIS['SCHEME'] + REDIS['HOST'] + ':' + \
             str(REDIS['PORT']) + '/' + str(REDIS['DB'])
 
-CACHE_MIDDLEWARE_SECONDS = 600
-
-CACHE_MIDDLEWARE_KEY_PREFIX = 'openbudgets::'
-
 GRAPPELLI_ADMIN_TITLE = 'Open Budgets'
 
 GRAPPELLI_INDEX_DASHBOARD = 'openbudget.dashboard.OpenBudgetsDashboard'
@@ -321,6 +317,10 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
         }
 }
+
+CACHE_MIDDLEWARE_SECONDS = 600
+
+CACHE_MIDDLEWARE_KEY_PREFIX = 'openbudgets::'
 
 SOUTH_TESTS_MIGRATE = False
 

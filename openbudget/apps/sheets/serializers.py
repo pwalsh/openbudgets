@@ -154,7 +154,7 @@ class SheetTimeline(serializers.ModelSerializer):
         fields = ['id', 'budget', 'actual', 'description', 'period'] + translated_fields(model)
 
 
-class SheetItemComment(serializers.ModelSerializer):
+class SheetItemCommentEmbed(serializers.ModelSerializer):
 
     """Serializes SheetItemComment objects for consumption by API."""
 
@@ -166,12 +166,26 @@ class SheetItemComment(serializers.ModelSerializer):
         fields = ['comment', 'user']
 
 
-class SheetItemCommentRead(SheetItemComment):
+class SheetItemCommentRead(SheetItemCommentEmbed):
 
     """Serializes SheetItemComment objects for consumption by API."""
 
     user = AccountMin()
 
-    class Meta(SheetItemComment.Meta):
-        fields = SheetItemComment.Meta.fields + \
+    class Meta(SheetItemCommentEmbed.Meta):
+        fields = SheetItemCommentEmbed.Meta.fields + \
                  ['id', 'item', 'created_on', 'last_modified']
+
+
+class SheetItemCommentMin(serializers.HyperlinkedModelSerializer):
+
+    """Serializes SheetItemComment objects for consumption by API.
+
+    This minimal Sheet serializer is design for use as a nested object, in other
+    serializers.
+
+    """
+
+    class Meta:
+        model = models.SheetItemComment
+        fields = ['id', 'url', 'comment', 'item', 'user']

@@ -59,7 +59,7 @@ class CoefficientList(ListAPIView):
 
     model = models.Coefficient
     queryset = model.objects.all()
-    serializer_class = serializers.ContextBaseSerializer
+    serializer_class = serializers.CoefficientBaseSerializer
     ordering = ['domain', 'inflation']
     search_fields = ['domain__name']
 

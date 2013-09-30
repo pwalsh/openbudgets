@@ -10,7 +10,7 @@ class Context(factory.DjangoModelFactory):
     FACTORY_FOR = models.Context
 
     entity = factory.SubFactory(Entity)
-    data = '{"population":0,"ground_surface":0;"high_schools":0}'
+    data = '{"population":0,"ground_surface":0,"high_schools":0}'
     period_start = factory.Sequence(
         lambda n: datetime.datetime.utcnow().replace(tzinfo=utc))
     period_end = factory.Sequence(

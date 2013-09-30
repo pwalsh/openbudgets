@@ -2,13 +2,14 @@ from rest_framework import serializers
 from openbudget.apps.contexts import models
 
 
-class ContextBaseSerializer(serializers.ModelSerializer):
+class ContextBaseSerializer(serializers.HyperlinkedModelSerializer):
     """Base Context serializer, exposing our defaults for contexts."""
 
     data = serializers.WritableField()
 
     class Meta:
         model = models.Context
+        fields = ['id', 'url', 'entity', 'data']
 
 
 class CoefficientBaseSerializer(serializers.HyperlinkedModelSerializer):
@@ -16,3 +17,4 @@ class CoefficientBaseSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.Coefficient
+        fields = ['id', 'url', 'domain', 'inflation']

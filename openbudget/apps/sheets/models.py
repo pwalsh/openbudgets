@@ -767,7 +767,19 @@ class SheetItem(UUIDPKMixin, AbstractBaseItem, TimeStampedMixin, ClassMethodMixi
     def save(self, *args, **kwargs):
 
         if self.node.parent and self.node.parent.items.filter(sheet=self.sheet).exists():
-            self.parent = self.node.parent.items.get(sheet=self.sheet, sheet__template=self.sheet.template)
+            tmp = self.node.path.split(',')[1:]
+            parent_path = ','.join(tmp)
+            candidates = self.node.parent.items.filter(sheet=self.sheet)
+
+            print candidates
+            for c in candidates:
+                print c.path
+                print c.node.name
+                print c.budget
+                print c.actual
+                print c.__dict__
+
+            self.parent = candidates.get(node__path=parent_path)
 
         return super(SheetItem, self).save(*args, **kwargs)
 

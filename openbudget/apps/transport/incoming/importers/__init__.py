@@ -144,7 +144,7 @@ class BaseImporter(object):
                 if tmp in translated_fields(self.parser.item_model):
                     normalized_headers[index] = tmp
 
-        # MAKE SURE HEADERS ARE LOWER CASED, ALWAYS! 
+        # MAKE SURE HEADERS ARE LOWER CASED, ALWAYS!
         return [h.lower() for h in normalized_headers]
 
     def import_error(self):
@@ -313,39 +313,33 @@ class BaseImporter(object):
         return parser(container_object_dict)
 
     def _get_parser_from_post(self):
-        """Extract required metadata for a dataset from request.POST.
+        """Extract required metadata for a dataset from request.POST."""
 
-        For now relies on the same format of the above file name meta extractor, \
-        except it looks for the parser type under the key `type` and for the rest \
-        under the key `attributes`.
-        """
-        #TODO: refactor the meta extraction from string parsing to proper data in POST
         container_object_dict = {}
         parser_key = self.post_data.get('type', '')
-        attributes_str = self.post_data.get('attributes', None)
+        attributes = self.post_data
+        del attributes['type']
 
         # get the appropriate parser class
+        print 'parser key'
+        print parser_key
         parser = get_parser(parser_key)
+        print parser
 
-        if attributes_str:
-            # parse the attributes
-            # split the string to pairs
-            attributes = attributes_str.split(';')
-            for attr in attributes:
-                # split each pair to key-value
-                attr_key, attr_val = attr.split('=')
+        for k, v in attributes.iteritems():
+            print 'HERE'
+            print parser.container_model()
+            print k
+            try:
+                getattr(parser.container_model(), k)
+            except AttributeError as e:
+                raise e
 
-                # check that this key belongs to our parser's container model
-                try:
-                    getattr(parser.container_model(), attr_key)
-                except AttributeError as e:
-                    raise e
+            # if the value has commas, it is an m2m related field
+            if ',' in v:
+                v = tuple(v.split(','))
 
-                # if the value has commas, it is an m2m related field
-                if ',' in attr_val:
-                    attr_val = tuple(attr_val.split(','))
-
-                container_object_dict[attr_key] = attr_val
+            container_object_dict[k] = v
 
             # return instantiated parser
             return parser(container_object_dict)

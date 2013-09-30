@@ -1,4 +1,5 @@
 from django.core.urlresolvers import reverse
+from subdomains.utils import reverse as subdomain_reverse
 from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -32,7 +33,6 @@ class OpenBudgetsAPITestCase(APITestCase):
 
     def listview(self):
         """Simple test to verify the API list view returns what we'd minimally expect"""
-
         listview = reverse(self.listview_name)
         response = self.client.get(listview)
 
@@ -46,4 +46,4 @@ class OpenBudgetsAPITestCase(APITestCase):
         response = self.client.get(detailview)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(self.object.pk, response.data['id'])
+        self.assertEqual(self.object.pk.__unicode__(), response.data['id'])

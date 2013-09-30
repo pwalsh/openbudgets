@@ -21,6 +21,7 @@ def api_v1(request):
         'Template Nodes': reverse('templatenode-list', request=request),
         'Sheets': reverse('sheet-list', request=request),
         'Sheet Items': reverse('sheetitem-list', request=request),
+        'Sheet Item Comments': reverse('sheetitemcomment-list', request=request),
         #'Sheet Item Timeline': reverse('sheetitem-timeline', request=request),
         'Contexts': reverse('context-list', request=request),
         'Coefficients': reverse('coefficient-list', request=request),

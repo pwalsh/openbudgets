@@ -6,7 +6,6 @@ from openbudget.apps.entities.factories import Division, Entity
 from openbudget.commons import tests
 
 
-
 class TemplateLogicTestCase(TestCase):
     """Tests the implemented logic of the template implementation:
 
@@ -339,76 +338,76 @@ class TemplateNodeUITestCase(tests.OpenBudgetsUITestCase):
         return TemplateNodeUITestCase.detailview(self)
 
 
-#class SheetAPITestCase(tests.OpenBudgetsAPITestCase):
-#
-#    listview_name = 'sheet-list'
-#    detailview_name = 'sheet-detail'
-#
-#    def setUp(self):
-#        self.object = factories.Sheet.create()
-#
-#    def test_listview(self):
-#        return SheetAPITestCase.listview(self)
-#
-#    def test_detailview(self):
-#        return SheetAPITestCase.detailview(self)
+class SheetAPITestCase(tests.OpenBudgetsAPITestCase):
+
+    listview_name = 'sheet-list'
+    detailview_name = 'sheet-detail'
+
+    def setUp(self):
+        self.object = factories.Sheet.create()
+
+    def test_listview(self):
+        return SheetAPITestCase.listview(self)
+
+    def test_detailview(self):
+        return SheetAPITestCase.detailview(self)
 
 
-#class SheetItemAPITestCase(tests.OpenBudgetsAPITestCase):
-#
-#    listview_name = 'sheetitem-list'
-#    detailview_name = 'sheetitem-detail'
-#
-#    def setUp(self):
-#        self.object = factories.SheetItem.create()
-#
-#    def test_listview(self):
-#        return SheetItemAPITestCase.listview(self)
-#
-#    def test_detailview(self):
-#        return SheetItemAPITestCase.detailview(self)
+class SheetItemAPITestCase(tests.OpenBudgetsAPITestCase):
+
+    listview_name = 'sheetitem-list'
+    detailview_name = 'sheetitem-detail'
+
+    def setUp(self):
+        self.object = factories.SheetItem.create()
+
+    def test_listview(self):
+        return SheetItemAPITestCase.listview(self)
+
+    def test_detailview(self):
+        return SheetItemAPITestCase.detailview(self)
 
 
-#class SheetItemCommentAPITestCase(tests.OpenBudgetsAPITestCase):
-#
-#    listview_name = 'sheetitemcomment-list'
-#    detailview_name = 'sheetitemcomment-detail'
-#
-#    def setUp(self):
-#        self.object = factories.SheetItemComment.create()
-#
-#    def test_listview(self):
-#        return SheetItemCommentAPITestCase.listview(self)
-#
-#    def test_detailview(self):
-#        return SheetItemCommentAPITestCase.detailview(self)
+class SheetItemCommentAPITestCase(tests.OpenBudgetsAPITestCase):
+
+    listview_name = 'sheetitemcomment-list'
+    detailview_name = 'sheetitemcomment-detail'
+
+    def setUp(self):
+        self.object = factories.SheetItemComment.create()
+
+    def test_listview(self):
+        return SheetItemCommentAPITestCase.listview(self)
+
+    def test_detailview(self):
+        return SheetItemCommentAPITestCase.detailview(self)
 
 
-#class TemplateAPITestCase(tests.OpenBudgetsAPITestCase):
-#
-#    listview_name = 'template-list'
-#    detailview_name = 'template-detail'
-#
-#    def setUp(self):
-#        self.object = factories.Template.create()
-#
-#    def test_listview(self):
-#        return TemplateAPITestCase.listview(self)
-#
-#    def test_detailview(self):
-#        return TemplateAPITestCase.detailview(self)
+class TemplateAPITestCase(tests.OpenBudgetsAPITestCase):
+
+    listview_name = 'template-list'
+    detailview_name = 'template-detail'
+
+    def setUp(self):
+        self.object = factories.Template.create()
+
+    def test_listview(self):
+        return TemplateAPITestCase.listview(self)
+
+    def test_detailview(self):
+        return TemplateAPITestCase.detailview(self)
 
 
-#class TemplateNodeAPITestCase(tests.OpenBudgetsAPITestCase):
-#
-#    listview_name = 'templatenode-list'
-#    detailview_name = 'templatenode-detail'
-#
-#    def setUp(self):
-#        self.object = factories.TemplateNode.create()
-#
-#    def test_listview(self):
-#        return TemplateNodeAPITestCase.listview(self)
-#
-#    def test_detailview(self):
-#        return TemplateNodeAPITestCase.detailview(self)
+class TemplateNodeAPITestCase(tests.OpenBudgetsAPITestCase):
+
+    listview_name = 'templatenode-list'
+    detailview_name = 'templatenode-detail'
+
+    def setUp(self):
+        self.object = factories.TemplateNode.create()
+
+    def test_listview(self):
+        return TemplateNodeAPITestCase.listview(self)
+
+    def test_detailview(self):
+        return TemplateNodeAPITestCase.detailview(self)
