@@ -5,7 +5,7 @@ from openbudget.apps.sheets.urls.api import templates, sheets
 from openbudget.apps.contexts.urls.api import contexts, coefficients
 
 
-urlpatterns = patterns('openbudget.api.v1.views',
+urlpatterns = patterns('openbudget.apps.api.v1.views',
 
     url(
         r'^$',

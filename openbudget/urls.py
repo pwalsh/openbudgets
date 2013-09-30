@@ -19,7 +19,7 @@ urlpatterns = patterns('',
         include('openbudget.apps.accounts.urls.ui')),
 
     url(r'^api/',
-        include('openbudget.api.urls')),
+        include('openbudget.apps.api.urls')),
 
     url(r'^entities/',
         include('openbudget.apps.entities.urls.ui')),

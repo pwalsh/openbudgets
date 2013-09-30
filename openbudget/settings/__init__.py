@@ -25,17 +25,17 @@ USE_I18N = True
 
 USE_L10N = True
 
-ROOT_URLCONF = 'openbudget.ui.urls'
+ROOT_URLCONF = 'openbudget.urls'
 
 SUBDOMAIN_URLCONFS = {
-    '': 'openbudget.ui.urls',
-    'www': 'openbudget.ui.urls',
-    'he': 'openbudget.ui.urls',
-    'en': 'openbudget.ui.urls',
-    'ru': 'openbudget.ui.urls',
-    'ar': 'openbudget.ui.urls',
-    'api': 'openbudget.api.urls',
-    }
+    '': 'openbudget.urls',
+    'www': 'openbudget.urls',
+    'he': 'openbudget.urls',
+    'en': 'openbudget.urls',
+    'ru': 'openbudget.urls',
+    'ar': 'openbudget.urls',
+    'api': 'openbudget.urls',
+}
 
 gettext = lambda s: s
 LANGUAGES = (
@@ -142,7 +142,7 @@ INSTALLED_APPS = (
     'openbudget.apps.taxonomies',
     'openbudget.apps.tools',
     'openbudget.apps.transport',
-    'openbudget.api',
+    'openbudget.apps.api',
     'openbudget.commons',
 )
 
