@@ -370,7 +370,7 @@ except ImportError:
 
 try:
     travis = os.environ.get('TRAVIS')
-    if travis is True:
+    if not travis:
         from ci import *
 except KeyError:
     pass
