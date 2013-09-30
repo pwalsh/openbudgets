@@ -369,8 +369,8 @@ except ImportError:
         pass
 
 try:
-    travis = os.environ.get('TRAVIS')
-    if not travis:
+    ci = os.environ.get('CI')
+    if ci:
         from ci import *
 except KeyError:
     pass
