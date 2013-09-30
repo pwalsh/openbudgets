@@ -7,6 +7,7 @@ before_script:
 before_install:
   - export PIP_USE_MIRRORS=true
   - export PIP_INDEX_URL=https://simple.crate.io/
+  - export CI=true
 
 install:
   - pip install -r requirements/base.txt
