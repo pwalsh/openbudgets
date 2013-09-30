@@ -1,5 +1,4 @@
 from django.core.urlresolvers import reverse
-from subdomains.utils import reverse as subdomain_reverse
 from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -46,4 +45,4 @@ class OpenBudgetsAPITestCase(APITestCase):
         response = self.client.get(detailview)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(self.object.pk.__unicode__(), response.data['id'])
+        self.assertEqual(unicode(self.object.pk), response.data['id'])
