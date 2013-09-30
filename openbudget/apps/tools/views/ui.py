@@ -2,7 +2,7 @@ from django.views.generic import DetailView, ListView
 from rest_framework.renderers import JSONRenderer
 from openbudget.apps.accounts.serializers import AccountMin
 from openbudget.apps.tools.models import Tool
-from openbudget.apps.tools.serializers import ui
+from openbudget.apps.tools import serializers
 
 
 class ToolListView(ListView):
@@ -46,6 +46,6 @@ class ToolDetailView(DetailView):
             user_object = AccountMin(user).data
 
         context['user_json'] = renderer.render(user_object)
-        context['tool_json'] = renderer.render(ui.ToolBaseSerializer(self.object).data)
+        context['tool_json'] = renderer.render(serializers.Tool(self.object).data)
 
         return context

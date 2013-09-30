@@ -1,29 +1,23 @@
-from rest_framework.reverse import reverse
-from rest_framework.serializers import HyperlinkedModelSerializer, SerializerMethodField, WritableField
+from rest_framework import serializers
 from openbudget.apps.international.utilities import translated_fields
 from openbudget.apps.tools import models
 from openbudget.apps.accounts.serializers import AccountMin
 from openbudget.commons.serializers import UUIDRelatedField
 
 
-class ToolBase(HyperlinkedModelSerializer):
+class Tool(serializers.HyperlinkedModelSerializer):
     """Base Project serializer, exposing our defaults for projects."""
 
     author = AccountMin()
-    url = SerializerMethodField('get_api_url')
 
     class Meta:
         model = models.Tool
-        fields = ['url', 'uuid', 'author', 'label', 'name', 'description', 'featured',
+        fields = ['url', 'id', 'author', 'label', 'name', 'description', 'featured',
                   'screenshot', 'created_on', 'last_modified'] +\
-                 translated_fields(model)
-        lookup_field = 'uuid'
-
-    def get_api_url(self, obj):
-        return reverse('project-detail', args=[str(obj.uuid)])
+                  translated_fields(model)
 
 
-class StateBase(HyperlinkedModelSerializer):
+class State(serializers.HyperlinkedModelSerializer):
     """
     Base State serializer, for creating new State instances
     and the base the serializer in charge of exposing our defaults for projects.
@@ -31,20 +25,15 @@ class StateBase(HyperlinkedModelSerializer):
 
     author = UUIDRelatedField()
     project = UUIDRelatedField()
-    url = SerializerMethodField('get_api_url')
 
     class Meta:
         model = models.State
-        fields = ['url', 'uuid', 'project', 'author', 'screenshot', 'config',
+        fields = ['url', 'id', 'tool', 'author', 'screenshot', 'config',
                   'created_on', 'last_modified']
-        lookup_field = 'uuid'
-
-    def get_api_url(self, obj):
-        return reverse('state-detail', args=[str(obj.uuid)])
 
 
-class StateRead(StateBase):
+class StateRead(State):
     """Base State serializer, exposing our defaults for projects."""
 
     author = AccountMin()
-    config = WritableField()
+    config = serializers.WritableField()

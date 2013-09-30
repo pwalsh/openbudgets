@@ -11,11 +11,11 @@ urlpatterns = patterns('',
         api.StateListCreate.as_view(), name='state-list'),
 
     url(
-        r'^(?P<uuid>\w+)/$',
+        r'^(?P<pk>\w+)/$',
         api.ToolDetail.as_view(), name='tool-detail'),
 
     url(
-        r'^states/(?P<uuid>\w+)/$',
+        r'^states/(?P<pk>\w+)/$',
         api.StateRetrieveUpdateDestroy.as_view(), name='state-detail'),
 
 )

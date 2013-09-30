@@ -1,6 +1,6 @@
 from rest_framework import generics
 from openbudget.apps.international.utilities import translated_fields
-from openbudget.apps.tools.serializers import api
+from openbudget.apps.tools import serializers
 from openbudget.apps.tools import models
 from openbudget.apps.accounts.models import Account
 
@@ -10,11 +10,11 @@ class ToolList(generics.ListAPIView):
 
     model = models.Tool
     queryset = model.objects.related_map()
-    serializer_class = api.ToolBase
+    serializer_class = serializers.Tool
     ordering = ['id', 'created_on', 'last_modified']
     search_fields = ['name', 'description', 'owner__first_name',
                      'owner__last_name', 'author__first_name',
-                     'author__first_name',] + translated_fields(model)
+                     'author__first_name'] + translated_fields(model)
 
 
 class ToolDetail(generics.RetrieveAPIView):
@@ -22,7 +22,7 @@ class ToolDetail(generics.RetrieveAPIView):
 
     model = models.Tool
     queryset = model.objects.related_map()
-    serializer_class = api.ToolBase
+    serializer_class = serializers.Tool
 
 
 class StateListCreate(generics.ListCreateAPIView):
@@ -35,13 +35,13 @@ class StateListCreate(generics.ListCreateAPIView):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             # base serializer for creating States
-            return api.StateBase
+            return serializers.State
         # State list/retrieve serializer
-        return api.StateRead
+        return serializers.StateRead
 
     def pre_save(self, obj):
         obj.author = Account.objects.get(uuid=self.request.DATA.get('author'))
-        obj.tool = models.Tool.objects.get(uuid=self.request.DATA.get('tool'))
+        obj.tool = models.Tool.objects.get(pk=self.request.DATA.get('tool'))
 
 
 class StateRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
@@ -53,6 +53,6 @@ class StateRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     def get_serializer_class(self):
         if self.request.method == 'GET':
             # State list/retrieve serializer
-            return api.StateRead
+            return serializers.StateRead
         # base serializer for creating States
-        return api.StateBase
+        return serializers.State
