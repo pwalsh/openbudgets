@@ -1,4 +1,4 @@
-Open Budget: A platform for accessible and meaningful budgetary data
+Open Budgets: A platform for accessible and meaningful budgetary data
 ====================================================================
 
 .. image:: https://travis-ci.org/prjts/open-budgets.png
@@ -31,7 +31,7 @@ You can contribute to the project in a number of ways:
 
 **Write some code**: https://github.com/hasadna/omuni-budget
 
-**Read the docs**: http://open-budget.readthedocs.org/
+**Read the docs**: http://open-budgets.readthedocs.org/
 
 **Play with the demo**: http://dev.openmuni.org.il/
 
