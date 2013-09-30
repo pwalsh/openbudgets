@@ -301,8 +301,8 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'open-budgets',
-        'USER': 'postgres',
+        'NAME': 'openbudgets',
+        'USER': 'robot',
         'PASSWORD': '',
         'HOST': '',
         'PORT': '',
@@ -367,3 +367,10 @@ except ImportError:
         from local import *
     except ImportError:
         pass
+
+try:
+    travis = os.environ.get('TRAVIS')
+    if travis is True:
+        from ci import *
+except KeyError:
+    pass

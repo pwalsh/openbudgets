@@ -16,7 +16,7 @@ CONFIG = {
     'project_name': 'open-budgets',
     'project_root': '/srv/projects/open-budgets',
     'project_env': '/srv/environments/open-budgets',
-    'db_name': 'open-budgets',
+    'db_name': 'openbudgets',
     'db_user': env.user,
     'app_location': '127.0.0.1',
     'app_port': 9000,
