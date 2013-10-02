@@ -1,4 +1,4 @@
-from fabric.api import task, local
+from fabric.api import task, local, lcd
 from fabric.contrib import django
 from utilities import notify, warn, alert
 from config import CONFIG
@@ -84,6 +84,12 @@ def init_data():
 
 
 @task
+def clone_data():
+    with lcd(settings.OPENBUDGETS_DATA['directory']):
+        local('git clone ' + settings.OPENBUDGETS_DATA['repo'] + ' dataset')
+
+
+@task
 def pip_update():
     local('pip install -U -r requirements.txt')
 
@@ -146,7 +152,7 @@ def test_project_js():
 
 
 @task
-def mock_db(amount=1000):
+def mock(amount=1000):
     notify(u'Creating some mock objects for the database.')
 
     domain = Domain.create(name='Example Domain')
