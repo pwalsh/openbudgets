@@ -16,16 +16,16 @@ class AccountAdmin(UserAdmin):
 
     form = AccountChangeForm
     add_form = AccountCreationForm
-    fieldsets = (
-        (_('Account credentials'), {'fields': ('password', 'email', 'first_name', 'last_name', 'is_active')}),
-    )
+    fieldsets = ((_('Account credentials'), {'fields': ('password', 'email',
+                                                        'first_name', 'last_name',
+                                                        'is_active')}),)
 
 
 class CoreTeamAccountAdmin(AccountAdmin):
     """Admin form for Core Team members"""
 
     def queryset(self, request):
-        core_team_users = Group.objects.filter(id=settings.OPENBUDGETS_CORE_TEAM_ID)
+        core_team_users = Group.objects.filter(id=settings.OPENBUDGETS_GROUP_ID_CORE)
         qs = super(CoreTeamAccountAdmin, self).queryset(request)
         qs = qs.filter(groups=core_team_users)
         return qs
@@ -35,7 +35,7 @@ class ContentTeamAccountAdmin(AccountAdmin):
     """Admin form for Content Team members"""
 
     def queryset(self, request):
-        content_team_users = Group.objects.filter(id=settings.OPENBUDGETS_CONTENT_TEAM_ID)
+        content_team_users = Group.objects.filter(id=settings.OPENBUDGETS_GROUP_ID_CONTENT)
         qs = super(ContentTeamAccountAdmin, self).queryset(request)
         qs = qs.filter(groups=content_team_users)
         return qs
@@ -45,7 +45,7 @@ class PublicAccountAdmin(AccountAdmin):
     """Admin form for Public users"""
 
     def queryset(self, request):
-        public_users = Group.objects.filter(id=settings.OPENBUDGETS_PUBLIC_ID)
+        public_users = Group.objects.filter(id=settings.OPENBUDGETS_GROUP_ID_PUBLIC)
         qs = super(PublicAccountAdmin, self).queryset(request)
         qs = qs.filter(groups=public_users)
         return qs

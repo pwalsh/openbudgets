@@ -9,218 +9,362 @@ from django.db.models.signals import m2m_changed
 from openbudget.apps.accounts.models import Account
 from openbudget.apps.entities.models import Division, Entity
 from openbudget.apps.sources.models import ReferenceSource, AuxSource
-from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel, \
-    PeriodStartModel, PeriodicModel, ClassMethodMixin
-
-
-PATH_SEPARATOR = '|'
+from openbudget.commons.mixins.models import TimeStampedMixin, UUIDPKMixin, \
+    PeriodStartMixin, PeriodicMixin, ClassMethodMixin
+from openbudget.apps.sheets.utilities import is_comparable
 
 
 class TemplateManager(models.Manager):
-    """Exposes the related_map methods for more efficient bulk select queries."""
+
+    """Exposes additional methods for model query operations.
+
+    Open Budgets makes extensive use of related_map and related_map_min methods
+    for efficient bulk select queries.
+
+    """
 
     def related_map_min(self):
-        return self.select_related().prefetch_related('divisions')
+        return self.select_related().prefetch_related('divisions', 'sheets')
 
     def related_map(self):
-        return self.select_related().prefetch_related('divisions', 'nodes')
+        return self.select_related().prefetch_related('divisions', 'sheets', 'nodes')
 
+    #TODO: Consider better ways to do this.
     def latest_of(self, entity):
-        return self.filter(using_sheets__entity=entity).latest('period_start')
-
-    #def sheets_of(self, entity):
-    #    return self.filter(using_sheets__entity=entity)
+        return self.filter(sheets__entity=entity).latest('period_start')
 
 
-class Template(TimeStampedModel, UUIDModel, PeriodStartModel, ClassMethodMixin):
-    """Templates describe the structure of a Budget or an Actual."""
+class Template(UUIDPKMixin, PeriodStartMixin, TimeStampedMixin, ClassMethodMixin):
 
-    objects = TemplateManager()
+    """The Template model describes the structure of a Sheet.
 
-    divisions = models.ManyToManyField(
-        Division,
-    )
-    name = models.CharField(
-        _('Name'),
-        db_index=True,
-        max_length=255,
-        help_text=_('The name of this template.')
-    )
-    description = models.TextField(
-        _('Description'),
-        db_index=True,
-        blank=True,
-        help_text=_('An overview text for this template.')
-    )
+    In Open Budgets, Sheets are the modeled representation of budget and actual
+    data for Entities.
 
-    referencesources = generic.GenericRelation(
-        ReferenceSource
-    )
-    auxsources = generic.GenericRelation(
-        AuxSource
-    )
+    Sheets / SheetItems get their structure from Templates / TemplateNodes.
 
-    @property
-    def period(self):
-        """Get the applicable period for this object.
+    A Template can and usually does apply for more than one Sheet. This is the
+    basis of the Open Budgets comparative analysis implementation.
 
-        Objects are valid until the next object with a period_start in the
-        future from this one, or, until 'now' if there is no future object.
-
-        In the current case of multi-period ranges, returns a tuple of
-        datetime.year objects.
-        """
-
-        # TODO: Support ranges other than yearly, including multiple ranges.
-        # TODO: Refactor to work with non-division templates.
-
-        start, end = None, None
-        ranges = settings.OPENBUDGETS_PERIOD_RANGES
-
-        if len(ranges) == 1 and 'yearly' in ranges:
-            start = self.period_start.year
-            qs = self.__class__.objects.filter(divisions__in=self.divisions.all())
-            for obj in qs:
-                if obj.period_start.year > self.period_start.year:
-                    end = obj.period_start.year
-            else:
-                end = datetime.datetime.now().year
-        else:
-            # TODO: Verify - in the current codebase, we should never get here.
-            pass
-
-        return start, end
-
-    @property
-    def has_sheets(self):
-        return bool(self.sheets.count())
+    """
 
     class Meta:
         ordering = ['name']
         verbose_name = _('template')
         verbose_name_plural = _('templates')
 
-    @models.permalink
-    def get_absolute_url(self):
-        return 'template_detail', [self.uuid]
+    objects = TemplateManager()
 
-    def __unicode__(self):
-        return self.name
+    divisions = models.ManyToManyField(
+        Division,)
 
-
-class BaseNode(models.Model):
-
-    DIRECTIONS = (
-        ('REVENUE', _('REVENUE')),
-        ('EXPENDITURE', _('EXPENDITURE'))
-    )
+    blueprint = models.ForeignKey(
+        'self',
+        blank=True,
+        null=True,
+        related_name='instances',)
 
     name = models.CharField(
         _('Name'),
         db_index=True,
         max_length=255,
-        help_text=_('The name of this template node.')
-    )
+        help_text=_('The name of this template.'),)
+
+    description = models.TextField(
+        _('Description'),
+        db_index=True,
+        blank=True,
+        help_text=_('An overview text for this template.'),)
+
+    referencesources = generic.GenericRelation(
+        ReferenceSource,)
+
+    auxsources = generic.GenericRelation(
+        AuxSource,)
+
+    @property
+    def node_count(self):
+        return self.nodes.count()
+
+    @property
+    def period(self):
+
+        """Returns the applicable period of this template.
+
+        If the Template instance has divisions (self.divisions.all()),
+        objects are valid until the next object with a period_start in the
+        future from this one, or, until 'now' if there is no future object.
+
+        In the current case of multi-period ranges, returns a tuple of
+        datetime.year objects.
+        """
+
+        start, end = None, None
+        ranges = settings.OPENBUDGETS_PERIOD_RANGES
+
+        # TODO: Support ranges other than yearly, including multiple ranges.
+        if len(ranges) == 1 and 'yearly' in ranges:
+            start = self.period_start.year
+
+            if self.is_blueprint:
+                objs = self.__class__.objects.filter(
+                    divisions__in=self.divisions.all())
+
+                for obj in objs:
+                    if obj.period_start.year > self.period_start.year:
+                        end = obj.period_start.year
+
+                else:
+                    end = datetime.datetime.now().year
+
+            else:
+                # We have 'implementation' templates that use a blueprint
+                # as a model, and implement a variant structure based on it.
+                # Such templates are used by single entities, and may be
+                # employed by one or many sheets for that entity.
+                objs = self.sheets.all()
+                years = [obj.period_start.year for obj in objs].sort()
+                if not years:
+                    end = start
+                else:
+                    end = years[-1]
+
+        return start, end
+
+    @property
+    def is_blueprint(self):
+
+        """Returns True if the Template is a blueprint, false otherwise.
+
+        Blueprints are Templates that serve as structural models for other
+        templates.
+
+        Blueprints must be assigned to Divisions - they are blueprints for
+        Sheets of the Entities in their Division(s).
+
+        """
+
+        if not self.divisions.all():
+            return False
+        return True
+
+    @property
+    def has_sheets(self):
+        return bool(self.sheets.count())
+
+    @models.permalink
+    def get_absolute_url(self):
+        return 'template_detail', [self.id]
+
+    def __unicode__(self):
+        return self.name
+
+
+class AbstractBaseNode(models.Model):
+
+    class Meta:
+        abstract = True
+
+    DIRECTIONS = (('REVENUE', _('Revenue')), ('EXPENDITURE', _('Expenditure')),)
+
+    PATH_DELIMITER = settings.OPENBUDGETS_IMPORT_INTRA_FIELD_DELIMITER
+
+    name = models.CharField(
+        _('Name'),
+        db_index=True,
+        max_length=255,
+        help_text=_('The name of this template node.'),)
+
     code = models.CharField(
         _('Code'),
         db_index=True,
-        max_length=50,
-        help_text=_('An identifying code for this template node.')
-    )
+        max_length=255,
+        help_text=_('An identifying code for this template node.'),)
+
+    comparable = models.BooleanField(
+        _('Comparable'),
+        default=is_comparable,
+        help_text=_('A flag to designate whether this node is suitable for '
+                    'comparison or not.'),)
+
     direction = models.CharField(
         _('REVENUE/EXPENDITURE'),
         db_index=True,
         max_length=15,
         choices=DIRECTIONS,
         default=DIRECTIONS[0][0],
-        help_text=_('Every node must be either a revenue or expenditure node.')
-    )
+        help_text=_('Template nodes are one of revenue or expenditure.'),)
+
     parent = models.ForeignKey(
         'self',
         null=True,
         blank=True,
-        related_name='children'
-    )
+        related_name='children',)
+
     inverse = models.ManyToManyField(
         'self',
         symmetrical=True,
         null=True,
         blank=True,
         related_name='inverses',
-        help_text=_('Inverse relations across revenue and expenditure nodes.')
-    )
+        help_text=_('Inverse relations across revenue and expenditure nodes.'),)
+
     path = models.CharField(
         _('Path'),
         db_index=True,
         max_length=255,
-        null=True,
-        blank=True,
         editable=False,
         help_text=_('A representation of the path to the root of the template '
-                    'from this template node.')
-    )
+                    'from this template node, using codes.'),)
+
     backwards = models.ManyToManyField(
         'self',
         null=True,
         blank=True,
         symmetrical=False,
-        related_name='forwards'
-    )
+        related_name='forwards',)
 
-    class Meta:
-        abstract = True
+    @property
+    def ancestors(self):
+        ancestors = []
+        current = self
+        try:
+            while current:
+                parent = current.parent
+                if parent:
+                    ancestors.append(parent)
+                current = parent
+        except TemplateNode.DoesNotExist:
+            pass
+        ancestors.reverse()
+        return ancestors
+
+    @property
+    def depth(self):
+        branch = self.path.split(',')
+        return len(branch) - 1
+
+    def _get_path_to_root(self):
+
+        """Recursively build a *code* hierarchy from self to top of tree."""
+
+        path = [self.code]
+
+        if self.parent:
+            parent_path = self.parent._get_path_to_root()
+
+            if parent_path:
+                path = path + parent_path
+
+        return path
+
+    def clean(self):
+
+        if self.path and self.pk is None:
+            try:
+                tmp = self.path.split(self.PATH_DELIMITER)
+
+            except ValueError:
+                raise ValidationError('The delimiter symbol for path appears '
+                                      'to be invalid.')
+
+    def save(self, *args, **kwargs):
+
+        if self.path and self.pk is None:
+            # The instance creation was passed an explicit path
+            # Convert it to a list with the delimiter, then, to a
+            # comma-separated string.
+            tmp = self.path.split(self.PATH_DELIMITER)
+            self.path = ','.join(tmp)
+
+        else:
+            # Create the path recursively over parents
+            self.path = ','.join(self._get_path_to_root())
+
+        return super(AbstractBaseNode, self).save(*args, **kwargs)
 
 
 class TemplateNodeManager(models.Manager):
-    """Exposes the related_map methods for more efficient bulk select queries."""
+
+    """Exposes additional methods for model query operations.
+
+    Open Budgets makes extensive use of related_map and related_map_min methods
+    for efficient bulk select queries.
+
+    """
 
     def related_map_min(self):
         return self.select_related('parent')
 
     def related_map(self):
-        return self.select_related('parent').prefetch_related('children',
+        return self.select_related('parent').prefetch_related(
                                                               'templates',
                                                               'inverse',
-                                                              'backwards')
+                                                              'backwards',
+                                                              'items')
 
 
-class TemplateNode(BaseNode, TimeStampedModel, UUIDModel):
-    """The nodes that make up a template."""
+class TemplateNode(UUIDPKMixin, AbstractBaseNode, TimeStampedMixin):
+
+    """The TemplateNode model implements the structure of a Sheet.
+
+    In Open Budgets, Sheets are the modeled representation of budget and actual
+    data for Entities.
+
+    Sheets / SheetItems get their structure from Templates / TemplateNodes.
+
+    A TemplateNode can and usually does apply for more than one Template.
+    This is the basis of the Open Budgets comparative analysis implementation.
+
+    """
+
+    class Meta:
+        ordering = ['code', 'name']
+        verbose_name = _('template node')
+        verbose_name_plural = _('template nodes')
 
     objects = TemplateNodeManager()
 
     templates = models.ManyToManyField(
         Template,
         through='TemplateNodeRelation',
-        related_name='nodes'
-    )
+        related_name='nodes',)
+
     description = models.TextField(
-        _('Entry description'),
+        _('description'),
         blank=True,
-        help_text=_('A descriptive text for this template node.')
-    )
+        help_text=_('A descriptive text for this template node.'),)
 
     referencesources = generic.GenericRelation(
-        ReferenceSource
-    )
+        ReferenceSource,)
+
     auxsources = generic.GenericRelation(
-        AuxSource
-    )
+        AuxSource,)
 
     @property
     def past(self):
+
+        """Returns a list of past nodes that morph to this one."""
+
         nodes = list(self.backwards.all())
+
         if len(nodes):
             for node in nodes:
                 nodes += node.past
+
         return nodes
 
     @property
     def future(self):
+
+        """Returns a list of future nodes that stem from this one."""
+
         nodes = list(self.forwards.all())
+
         if len(nodes):
             for node in nodes:
                 nodes += node.future
+
         return nodes
 
     @property
@@ -232,36 +376,19 @@ class TemplateNode(BaseNode, TimeStampedModel, UUIDModel):
         return [self] + self.future
 
     def timeline(self, include_future=False):
+
+        """Returns this node's full timeline as a list."""
+
         timeline = self.with_past
+
         if include_future:
             timeline += self.future
+
         return timeline
-
-    def _get_path_to_root(self):
-        path = [self.code]
-        if self.parent:
-            parent_path = self.parent._get_path_to_root()
-            if parent_path:
-                path = path + parent_path
-        return path
-
-    def save(self, *args, **kwargs):
-        # TODO: Also need to handle path creation on updates, not only created.
-        if not self.id:
-            # set the `path` property if not set and needed
-            if not self.path:
-                self.path = PATH_SEPARATOR.join(self._get_path_to_root())
-
-        return super(TemplateNode, self).save(*args, **kwargs)
-
-    class Meta:
-        ordering = ['name']
-        verbose_name = _('template node')
-        verbose_name_plural = _('template nodes')
 
     @models.permalink
     def get_absolute_url(self):
-        return 'template_node', [self.uuid]
+        return 'template_node', [self.id]
 
     def __unicode__(self):
         return self.code
@@ -277,13 +404,17 @@ class TemplateNode(BaseNode, TimeStampedModel, UUIDModel):
 
 
 def inverse_changed(sender, instance, action, reverse, model, pk_set, **kwargs):
+
+    """Validating m2m relations on TemplateNode."""
+
     if action == 'pre_add':
         # validate that inverse never points to self
         if instance.pk in pk_set:
             raise ValidationError(_('Inverse node can not point to self.'))
+
         # validate that it always points to the opposite `direction`
-        if model.objects.filter(pk__in=pk_set, direction=instance.direction)\
-            .count():
+        if model.objects.filter(pk__in=pk_set,
+                                direction=instance.direction).count():
             raise ValidationError(_("Inverse node's direction can not be the "
                                     "same as self direction."))
 
@@ -292,38 +423,52 @@ m2m_changed.connect(inverse_changed, sender=TemplateNode.inverse.through)
 
 
 class TemplateNodeRelationManager(models.Manager):
-    """Exposes the related_map method for more efficient bulk select queries."""
+
+    """Exposes additional methods for model query operations.
+
+    Open Budgets makes extensive use of related_map and related_map_min methods
+    for efficient bulk select queries.
+
+    """
 
     def related_map(self):
         return self.select_related()
 
+    # TODO: check where is used, and implement differently.
     def has_same_node(self, node, template):
-        return self.filter(
-            node__code=node.code,
-            node__name=node.name,
-            node__parent=node.parent,
-            template=template
-        ).count()
+        return self.filter(node__code=node.code, node__name=node.name,
+                           node__parent=node.parent, template=template).count()
 
 
 class TemplateNodeRelation(models.Model):
-    """A relation between a node and a template"""
+
+    """A custom through table for relations between nodes and templates."""
+
+    class Meta:
+        ordering = ['template__name', 'node__name']
+        verbose_name = _('template/node relation')
+        verbose_name = _('template/node relations')
+        unique_together = (('node', 'template'),)
 
     objects = TemplateNodeRelationManager()
 
     template = models.ForeignKey(
-        Template
-    )
+        Template,)
+
     node = models.ForeignKey(
-        TemplateNode
-    )
+        TemplateNode,)
+
+    def __unicode__(self):
+        return '{template} -> {node}'.format(template=self.template,
+                                             node=self.node)
 
     def validate_unique(self, exclude=None):
         """Custom validation for our use case."""
 
         super(TemplateNodeRelation, self).validate_unique(exclude)
 
-        if not bool(self.__class__.objects.has_same_node(self.node, self.template)):
+        if not bool(self.__class__.objects.has_same_node(
+                self.node, self.template)):
             raise ValidationError(_('Node with name: {name}; code: {code}; '
                                     'parent: {parent}; already exists in '
                                     'template: {template}'.format(
@@ -331,70 +476,87 @@ class TemplateNodeRelation(models.Model):
                                   parent=self.node.parent,
                                   template=self.template)))
 
-    class Meta:
-        ordering = ['template__name', 'node__name']
-        verbose_name = _('template/node relation')
-        verbose_name = _('template/node relations')
-        unique_together = (
-            ('node', 'template')
-        )
-
-    def __unicode__(self):
-        return '{template} -> {node}'.format(template=self.template,
-                                             node=self.node)
-
 
 class SheetManager(models.Manager):
-    """Exposes the related_map method for more efficient bulk select queries."""
+
+    """Exposes additional methods for model query operations.
+
+    Open Budgets makes extensive use of related_map and related_map_min methods
+    for efficient bulk select queries.
+
+    """
 
     def related_map_min(self):
         return self.select_related('entity')
 
     def related_map(self):
-        return self.select_related().prefetch_related('denormalizedsheetitems')
+        return self.select_related().prefetch_related('items')
 
+    # TODO: Check if we can replace this expensive query
     def latest_of(self, entity):
         return self.filter(entity=entity).latest('period_start')
 
 
-class Sheet(PeriodicModel, TimeStampedModel, UUIDModel, ClassMethodMixin):
-    """A sheet describes the finances for the given period, exposing budget and actuals."""
+class Sheet(UUIDPKMixin, PeriodicMixin, TimeStampedMixin, ClassMethodMixin):
+
+    """The Sheet model describes the declared budgetary data of a given period,
+     for a given entity.
+
+    In Open Budgets, Sheets / SheetItems get their structure from
+    Templates / TemplateNodes.
+
+    A Template can and usually does apply for more than one Sheet. This is the
+    basis of the Open Budgets comparative analysis implementation.
+
+    """
 
     objects = SheetManager()
 
+    class Meta:
+        ordering = ('entity', 'period_start')
+        get_latest_by = 'period_start'
+        verbose_name = _('sheet')
+        verbose_name_plural = _('sheets')
+
     entity = models.ForeignKey(
         Entity,
-        related_name='sheets'
-    )
+        related_name='sheets',
+        help_text=_('The entity this sheet belongs to.'),)
+
     template = models.ForeignKey(
         Template,
-        related_name='using_sheets'
-    )
+        related_name='sheets',
+        help_text=_('The template used to structure this sheet.'),)
+
+    budget = models.DecimalField(
+        _('budget'),
+        db_index=True,
+        max_digits=26,
+        decimal_places=2,
+        blank=True,
+        null=True,
+        help_text=_('The total budget amount for this sheet.'),)
+
+    actual = models.DecimalField(
+        _('actual'),
+        db_index=True,
+        max_digits=26,
+        decimal_places=2,
+        blank=True,
+        null=True,
+        help_text=_('The total actual amount for this sheet.'),)
+
     description = models.TextField(
-        _('Description'),
+        _('description'),
         db_index=True,
         blank=True,
-        help_text=_('Descriptive text for this %(class)s')
-    )
+        help_text=_('An introductory description for this sheet.'),)
 
     referencesources = generic.GenericRelation(
-        ReferenceSource
-    )
+        ReferenceSource,)
+
     auxsources = generic.GenericRelation(
-        AuxSource
-    )
-
-    @property
-    def budget_total(self):
-        tmp = [item.budget for item in self.items.all()]
-        value = sum(tmp)
-        return value
-
-    @property
-    def actual_total(self):
-        tmp = [item.actual for item in self.items.all()]
-        value = sum(tmp)
-        return value
+        AuxSource,)
 
     @property
     def item_count(self):
@@ -403,60 +565,76 @@ class Sheet(PeriodicModel, TimeStampedModel, UUIDModel, ClassMethodMixin):
 
     @property
     def variance(self):
-        # Note: we imported division from __future__
-        value = round(self.budget_total / self.actual_total * 100, 2)
-        return value
 
-    class Meta:
-        ordering = ['entity']
-        verbose_name = _('sheet')
-        verbose_name_plural = _('sheets')
+        """Returns variance between budget and actual as a percentage."""
+
+        if not self.actual or not self.budget:
+            return None
+        # Note: we imported division from __future__ for py3 style division
+        value = round(self.actual / self.budget * 100, 2)
+        return value
 
     @models.permalink
     def get_absolute_url(self):
-        return 'sheet_detail', [self.uuid]
+        return 'sheet_detail', [self.id]
 
     def __unicode__(self):
         return unicode(self.period)
 
 
-class BaseItem(models.Model):
-
-    sheet = models.ForeignKey(
-        Sheet,
-        related_name='%(class)ss'
-    )
-    description = models.TextField(
-        _('Description'),
-        db_index=True,
-        blank=True,
-        help_text=_('Description that appears for this entry.')
-    )
-    budget = models.DecimalField(
-        _('Budget Amount'),
-        db_index=True,
-        max_digits=26,
-        decimal_places=2,
-        blank=True,
-        null=True,
-        help_text=_('The total budgeted amount of this entry.')
-    )
-    actual = models.DecimalField(
-        _('Actual Amount'),
-        db_index=True,
-        max_digits=26,
-        decimal_places=2,
-        blank=True,
-        null=True,
-        help_text=_('The total actual amount of this entry.')
-    )
+class AbstractBaseItem(models.Model):
 
     class Meta:
         abstract = True
 
+    budget = models.DecimalField(
+        _('budget'),
+        db_index=True,
+        max_digits=26,
+        decimal_places=2,
+        blank=True,
+        null=True,
+        help_text=_('The total budget amount for this item.'),)
+
+    actual = models.DecimalField(
+        _('actual'),
+        db_index=True,
+        max_digits=26,
+        decimal_places=2,
+        blank=True,
+        null=True,
+        help_text=_('The total actual amount for this item.'),)
+
+    description = models.TextField(
+        _('description'),
+        db_index=True,
+        blank=True,
+        help_text=_('An introductory description for this sheet item.'),)
+
+    @property
+    def variance(self):
+
+        """Returns variance between budget and actual as a percentage."""
+
+        if not self.actual or not self.budget:
+            return None
+        # Note: we imported division from __future__ for py3 style division
+        value = round(self.actual / self.budget * 100, 2)
+        return value
+
+    @property
+    def period(self):
+        return self.sheet.period
+
 
 class SheetItemManager(models.Manager):
-    """Exposes the related_map method for more efficient bulk select queries."""
+
+    """Exposes additional methods for model query operations.
+
+    Open Budgets makes extensive use of related_map and related_map_min methods
+    for efficient bulk select queries.
+
+    """
 
     def get_queryset(self):
         return super(SheetItemManager, self).select_related('node')
@@ -465,8 +643,9 @@ class SheetItemManager(models.Manager):
         return self.select_related()
 
     def related_map(self):
-        return self.select_related().prefetch_related('discussion')
+        return self.select_related().prefetch_related('parent__parent', 'children', 'discussion')
 
+    # TODO: Check this for a more efficient implementation
     def timeline(self, node_pks, entity_pk):
         nodes = TemplateNode.objects.filter(id__in=node_pks)
         timelines = []
@@ -480,35 +659,88 @@ class SheetItemManager(models.Manager):
         return items
 
 
-class SheetItem(BaseItem, TimeStampedModel, UUIDModel, ClassMethodMixin):
-    """A single item in a given sheet."""
+class SheetItem(UUIDPKMixin, AbstractBaseItem, TimeStampedMixin, ClassMethodMixin):
+
+    """The SheetItem model describes items of budgetary data of a given period,
+     for a given entity.
+
+    In Open Budgets, Sheets / SheetItems get their structure from
+    Templates / TemplateNodes.
+
+    A Template can and usually does apply for more than one Sheet. This is the
+    basis of the Open Budgets comparative analysis implementation.
+
+    """
+
+    class Meta:
+        ordering = ['node']
+        verbose_name = _('sheet item')
+        verbose_name_plural = _('sheet items')
 
     objects = SheetItemManager()
 
+    sheet = models.ForeignKey(
+        Sheet,
+        related_name='items',)
+
     node = models.ForeignKey(
         TemplateNode,
-        related_name='%(class)ss',
-    )
+        related_name='items',)
+
+    parent = models.ForeignKey(
+        'self',
+        null=True,
+        blank=True,
+        editable=False,
+        related_name='children',)
 
     referencesources = generic.GenericRelation(
-        ReferenceSource
-    )
+        ReferenceSource,)
+
     auxsources = generic.GenericRelation(
-        AuxSource
-    )
+        AuxSource,)
+
+    @property
+    def lookup(self):
+        return self.node.pk
 
     @property
     def name(self):
-        value = self.node.name
-        return value
+        return self.node.name
 
     @property
-    def parent(self):
-        return self.sheet.sheetitems.get(node=self.node.parent)
+    def code(self):
+        return self.node.code
 
     @property
-    def children(self):
-        return self.sheet.sheetitems.filter(node__parent=self.node)
+    def comparable(self):
+        return self.node.comparable
+
+    @property
+    def direction(self):
+        return self.node.direction
+
+    @property
+    def path(self):
+        return self.node.path
+
+    @property
+    def depth(self):
+        return self.node.depth
+
+    @property
+    def has_comments(self):
+        if len(self.description):
+            return True
+        return False
+
+    @property
+    def comment_count(self):
+        count = 0
+        if self.has_comments:
+            count = 1
+        count += self.discussion.count()
+        return count
 
     @property
     def ancestors(self):
@@ -520,37 +752,46 @@ class SheetItem(BaseItem, TimeStampedModel, UUIDModel, ClassMethodMixin):
                 if parent:
                     ancestors.append(parent)
                 current = parent
-        except SheetItem.DoesNotExist:
+        except TemplateNode.DoesNotExist:
             pass
-
         ancestors.reverse()
         return ancestors
 
-    @property
-    def descendants(self):
-        descendants = []
-        children = self.children
-        if children.count():
-            descendants += children
-            for child in children:
-                descendants += child.descendants
-        return descendants
-    
-    class Meta:
-        ordering = ['node']
-        verbose_name = _('sheet item')
-        verbose_name_plural = _('sheet items')
-
     @models.permalink
     def get_absolute_url(self):
-        return 'sheet_item_detail', [self.uuid]
+        return 'sheet_item_detail', [self.pk]
 
     def __unicode__(self):
         return self.node.code
 
+    def save(self, *args, **kwargs):
+
+        if self.node.parent and self.node.parent.items.filter(sheet=self.sheet).exists():
+            tmp = self.node.path.split(',')[1:]
+            parent_path = ','.join(tmp)
+            candidates = self.node.parent.items.filter(sheet=self.sheet)
+
+            print candidates
+            for c in candidates:
+                print c.path
+                print c.node.name
+                print c.budget
+                print c.actual
+                print c.__dict__
+
+            self.parent = candidates.get(node__path=parent_path)
+
+        return super(SheetItem, self).save(*args, **kwargs)
+
 
 class SheetItemCommentManager(models.Manager):
-    """Exposes the related_map method for more efficient bulk select queries."""
+
+    """Exposes additional methods for model query operations.
+
+    Open Budgets makes extensive use of related_map and related_map_min methods
+    for efficient bulk select queries.
+
+    """
 
     def get_queryset(self):
         return super(SheetItemCommentManager, self).select_related()
@@ -565,75 +806,31 @@ class SheetItemCommentManager(models.Manager):
         return self.filter(item=item_pk).related_map_min()
 
 
-class SheetItemComment(TimeStampedModel, UUIDModel, ClassMethodMixin):
-    """Comments on sheet items."""
+class SheetItemComment(UUIDPKMixin, TimeStampedMixin, ClassMethodMixin):
 
-    objects = SheetItemCommentManager()
+    """The SheetItemComment model records discussion around particular budget
+    items.
 
-    item = models.ForeignKey(
-        SheetItem,
-        related_name='discussion'
-    )
-    user = models.ForeignKey(
-        Account,
-        related_name='item_comments'
-    )
-
-    comment = models.TextField(
-        _('Comment'),
-        help_text=_('Add your comments to this discussion.')
-    )
+    """
 
     class Meta:
         ordering = ['user', 'last_modified']
         verbose_name = _('sheet item comment')
         verbose_name_plural = _('sheet item comments')
 
+    objects = SheetItemCommentManager()
+
+    item = models.ForeignKey(
+        SheetItem,
+        related_name='discussion',)
+
+    user = models.ForeignKey(
+        Account,
+        related_name='item_comments',)
+
+    comment = models.TextField(
+        _('Comment'),
+        help_text=_('Add your comments to this discussion.'),)
+
     def __unicode__(self):
         return self.comment
-
-
-class DenormalizedSheetItemManager(models.Manager):
-    """Exposes the related_map method for more efficient bulk select queries."""
-
-    def related_map_min(self):
-        return self.select_related()
-
-    def related_map(self):
-        return self.select_related().prefetch_related('discussion')
-
-    # def timeline(self, node_uuid, entity_uuid):
-    #     try:
-    #         node = TemplateNode.objects.get(uuid=node_uuid)
-    #     except TemplateNode.DoesNotExist as e:
-    #         raise e
-    #     value = self.model.objects.filter(node__in=node.timeline,
-    #                                       budget__entity__uuid=entity_uuid)
-    #     return value
-
-
-class DenormalizedSheetItem(BaseNode, BaseItem, UUIDModel, ClassMethodMixin):
-
-    objects = DenormalizedSheetItemManager()
-
-    normal_item = models.OneToOneField(
-        SheetItem,
-        related_name='denormalized'
-    )
-    node_description = models.TextField(
-        _('Entry description'),
-        blank=True,
-        help_text=_('A descriptive text for this template node underlying this sheet item.')
-    )
-
-    class Meta:
-        ordering = ['code']
-        verbose_name = _('denormalized sheet item')
-        verbose_name_plural = _('denormalized sheet items')
-
-    @models.permalink
-    def get_absolute_url(self):
-        return 'denormalized_sheet_item_detail', [self.uuid]
-
-    def __unicode__(self):
-        return self.code

@@ -1,13 +1,16 @@
+from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
-from openbudget.settings.base import AUTH_USER_MODEL
-from openbudget.commons.mixins.models import TimeStampedModel, UUIDModel
+from openbudget.commons.mixins.models import TimeStampedMixin, UUIDPKMixin, \
+    ClassMethodMixin
 from openbudget.commons.utilities import get_media_file_path
+from uuidfield import UUIDField
 
 
-class DataSource(TimeStampedModel, UUIDModel):
+class AbstractDataSource(UUIDPKMixin, TimeStampedMixin, ClassMethodMixin):
+
     """Describes an original source of data.
 
     All data in the system should declare a data source.
@@ -15,66 +18,54 @@ class DataSource(TimeStampedModel, UUIDModel):
     to any model that stores data.
     """
 
+    class Meta:
+        abstract = True
+
     added_by = models.ForeignKey(
-        AUTH_USER_MODEL,
-        related_name='%(class)ss'
-    )
+        settings.AUTH_USER_MODEL,
+        related_name='%(class)ss',)
 
     name = models.CharField(
         _('Source Name'),
         max_length=255,
-        help_text=_('The name of this data source')
-    )
+        help_text=_('The name of this data source'),)
 
     data = models.FileField(
         _('Source data file'),
         upload_to=get_media_file_path,
         blank=True,
-        help_text=_('The source file.')
-    )
+        help_text=_('The source file.'),)
 
     url = models.URLField(
         _('Source URL'),
         blank=True,
-        help_text=_('The URL the data was retrieved from')
-    )
+        help_text=_('The URL the data was retrieved from'),)
 
     retrieval_date = models.DateField(
         _('Data retrieval date'),
-        help_text=_('The date this data was retrieved from the source')
-    )
+        help_text=_('The date this data was retrieved from the source'),)
 
     notes = models.TextField(
         _('Notes'),
-        help_text=_('Write any additional notes about the sourcing of this dataset')
-    )
+        help_text=_('Write any additional notes about the sourcing of this '
+                    'dataset'),)
 
     content_type = models.ForeignKey(
         ContentType,
-        editable=False
-    )
+        editable=False,)
 
-    object_id = models.PositiveIntegerField(
-        editable=False
-    )
+    object_id = UUIDField(
+        editable=False,)
 
     content_object = generic.GenericForeignKey(
-        'content_type', 'object_id',
-    )
-
-    @classmethod
-    def get_class_name(cls):
-        value = cls.__name__.lower()
-        return value
+        'content_type', 'object_id',)
 
     def __unicode__(self):
         return self.name
 
-    class Meta:
-        abstract = True
 
+class ReferenceSource(AbstractDataSource):
 
-class ReferenceSource(DataSource):
     class Meta:
         ordering = ['last_modified', 'name']
         verbose_name = _('Reference source')
@@ -82,10 +73,11 @@ class ReferenceSource(DataSource):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('reference_source_detail', [self.uuid])
+        return ('reference_source_detail', [self.pk])
 
 
-class AuxSource(DataSource):
+class AuxSource(AbstractDataSource):
+
     class Meta:
         ordering = ['last_modified', 'name']
         verbose_name = _('Auxilliary source')
@@ -93,5 +85,5 @@ class AuxSource(DataSource):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('aux_source_detail', [self.uuid])
+        return ('aux_source_detail', [self.pk])
 

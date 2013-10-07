@@ -31,7 +31,6 @@ class SheetList(ListView):
 class SheetDetail(DetailView):
     model = models.Sheet
     template_name = 'sheets/sheet_detail.html'
-    slug_field = 'uuid'
 
     def get_object(self, queryset=None):
         queryset = self.get_queryset()
@@ -54,4 +53,9 @@ class SheetDetail(DetailView):
 class SheetItemDetail(DetailView):
     model = models.SheetItem
     template_name = 'sheets/sheet_item_detail.html'
-    slug_field = 'uuid'
+
+
+class TemplateNodeDetail(DetailView):
+    model = models.TemplateNode
+    template_name = 'sheets/template_node_detail.html'
+

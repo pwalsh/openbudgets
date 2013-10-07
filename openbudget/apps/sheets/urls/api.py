@@ -4,61 +4,62 @@ from openbudget.apps.sheets.views import api
 
 def templates():
     urlpatterns = patterns('',
-        url(
-            r'^$',
+
+        url(r'^$',
             api.TemplateList.as_view(),
-            name='template-list'
-        ),
-        url(
-            r'^(?P<pk>\d+)/$',
-            api.TemplateDetail.as_view(),
-            name='template-detail'
-        ),
-        url(
-            r'^nodes/$',
+            name='template-list'),
+
+        url(r'^nodes/$',
             api.TemplateNodeList.as_view(),
-            name='templatenode-list'
-        ),
-        url(
-            r'^nodes/(?P<pk>\d+)/$',
+            name='templatenode-list'),
+
+        url(r'^nodes/(?P<pk>[-\w]+)/$',
             api.TemplateNodeDetail.as_view(),
-            name='templatenode-detail'
-        ),
+            name='templatenode-detail'),
+
+        url(r'^(?P<pk>[-\w]+)/$',
+            api.TemplateDetail.as_view(),
+            name='template-detail'),
+
     )
     return urlpatterns
 
 
 def sheets():
     urlpatterns = patterns('',
-        url(
-            r'^$',
-            api.SheetList.as_view(),
-            name='sheet-list'
-        ),
-        url(
-            r'^(?P<pk>\d+)/$',
-            api.SheetDetail.as_view(),
-            name='sheet-detail'
-        ),
-        url(
-            r'^items/$',
+
+        url(r'^items/$',
             api.SheetItemList.as_view(),
-            name='sheetitem-list'
-        ),
-        url(
-            r'^items/(?P<pk>\d+)/$',
+            name='sheetitem-list'),
+
+        url(r'^items/comments/$',
+            api.SheetItemCommentList.as_view(),
+            name='sheetitemcomment-list'),
+
+        url(r'^items/comments/(?P<pk>[-\w]+)/$',
+            api.SheetItemCommentDetail.as_view(),
+            name='sheetitemcomment-detail'),
+
+        url(r'^items/(?P<pk>[-\w]+)/$',
             api.SheetItemDetail.as_view(),
-            name='sheetitem-detail'
-        ),
-        url(
-            r'^items/(?P<pk>\d+)/comments/$',
-            api.SheetItemCommentListCreate.as_view(),
-            name='sheetitemcomment-list-create'
-        ),
-        url(
-            r'^timeline/(?P<entity_pk>\w+)/$',
+            name='sheetitem-detail'),
+
+        # TODO: was written like this for muni page. consider refactor along common API pattern.
+        url(r'^items/(?P<pk>[-\w]+)/comments/$',
+            api.SheetItemCommentEmbeddedList.as_view(),
+            name='sheetitemcomment-list-create'),
+
+        url(r'^timeline/(?P<entity_pk>[-\w]+)/$',
             api.SheetItemTimeline.as_view(),
-            name='sheetitem-timeline'
-        ),
+            name='sheetitem-timeline'),
+
+        url(r'^$',
+            api.SheetList.as_view(),
+            name='sheet-list'),
+
+        url(r'^(?P<pk>[-\w]+)/$',
+            api.SheetDetail.as_view(),
+            name='sheet-detail'),
+
     )
     return urlpatterns

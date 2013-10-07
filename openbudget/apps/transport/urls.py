@@ -4,24 +4,21 @@ from openbudget.apps.transport.views import FileImportView, ImportSuccessView, \
 
 
 urlpatterns = patterns('',
+
     url(r'^import/$',
-        FileImportView.as_view(),
-        name='data_import'
-    ),
+        FileImportView.as_view(), name='data_import'),
+
     url(r'^import/success/$',
-        ImportSuccessView.as_view(),
-        name='import_success'
-    ),
-    url(r'^export/(?P<model>[\w-]+)/(?P<uuid>[\w-]+)/(?P<format>[\w-]+)/$',
-        FileExportView.as_view(),
-        name='data_export'
-    ),
+        ImportSuccessView.as_view(), name='import_success'),
+
+    url(r'^export/(?P<model>[\w-]+)/(?P<pk>[\w-]+)/(?P<format>[\w-]+)/$',
+        FileExportView.as_view(), name='data_export'),
+
     url(r'^importer/$',
-        ImportAppView.as_view(),
-        name='importer_app'
-    ),
+        ImportAppView.as_view(), name='importer_app'),
+
     url(r'^jsi18n/$',
         'django.views.i18n.javascript_catalog',
-        {'packages': ('openbudget.apps.transport',)}
-    ),
+        {'packages': ('openbudget.apps.transport',)}),
+
 )

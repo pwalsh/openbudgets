@@ -2,7 +2,7 @@ import random
 from django.conf import settings
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-from openbudget.apps.accounts.factories import AccountFactory
+from openbudget.apps.accounts.factories import Account
 from openbudget.commons.factories import SiteFactory
 from openbudget.apps.international.utilities import get_language_key
 
@@ -11,7 +11,7 @@ class InternationalCase(TestCase):
     """Tests for custom language functionality."""
 
     def setUp(self):
-        self.users = AccountFactory.create_batch(5)
+        self.users = Account.create_batch(5)
         self.sites = SiteFactory.create_batch(3)
         self.subdomains = settings.SUBDOMAIN_URLCONFS
         self.languages = settings.LANGUAGES
@@ -106,12 +106,6 @@ class InternationalCase(TestCase):
             self.assertEqual(lang, this_subdomain_lang)
 
             for user in self.users:
-                self.client.login(
-                    email=user.email,
-                    password='letmein'
-                )
+                self.client.login(email=user.email, password='letmein')
 
-                self.assertEqual(
-                    lang,
-                    user.language
-                )
+                self.assertEqual(lang, user.language)

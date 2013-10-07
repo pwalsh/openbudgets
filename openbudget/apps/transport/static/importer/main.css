@@ -35,20 +35,17 @@
     line-height: 25px;
 }
 
-#importer {
-    background-color: whitesmoke;
-}
 #import_errors_wrapper {
     height: auto;
     max-height: 300px;
 }
-#import_form_submit {
-    background-color: mediumseagreen;
-}
-#import_form_submit.disabled {
-    background-color: darkseagreen;
-    color: lightgray;
-}
+
 #import_message {
     height: auto;
+}
+
+.spread {
+    display: inline-block;
+    width: 25%;
+
 }

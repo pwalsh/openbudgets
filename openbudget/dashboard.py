@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from grappelli.dashboard import modules, Dashboard
 
 
-class OpenBudgetDashboard(Dashboard):
+class OpenBudgetsDashboard(Dashboard):
     """Custom admin dashboard for Open Budget"""
 
     def init_with_context(self, context):
@@ -55,6 +55,14 @@ class OpenBudgetDashboard(Dashboard):
             column=1,
             css_classes=('collapse closed',),
             models=('openbudget.apps.pages.*',),
+        ))
+
+        self.children.append(modules.AppList(
+            _('Generic pages'),
+            collapsible=True,
+            column=1,
+            css_classes=('collapse closed',),
+            models=('openbudget.apps.tools.*',),
         ))
 
         self.children.append(modules.LinkList(

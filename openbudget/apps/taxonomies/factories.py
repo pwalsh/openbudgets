@@ -1,50 +1,30 @@
-import datetime
 import factory
-from django.utils.timezone import utc
-from openbudget.apps.accounts.factories import AccountFactory
-from openbudget.apps.sheets.factories import TemplateFactory, TemplateNodeFactory
-from openbudget.apps.taxonomies.models import Taxonomy, Tag, TaggedNode
+from openbudget.apps.accounts.factories import Account
+from openbudget.apps.sheets.factories import Template, TemplateNode
+from openbudget.apps.taxonomies import models
 
 
-class TaxonomyFactory(factory.DjangoModelFactory):
+class Taxonomy(factory.DjangoModelFactory):
 
-    FACTORY_FOR = Taxonomy
+    FACTORY_FOR = models.Taxonomy
 
-    user = factory.SubFactory(AccountFactory)
-    template = factory.Subfactory(TemplateFactory)
+    user = factory.SubFactory(Account)
+    template = factory.Subfactory(Template)
     name = factory.Sequence(lambda n: 'Taxonomy {0}'.format(n))
     description = factory.Sequence(lambda n: 'Taxononmy {0} description text.'.format(n))
-    created_on = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
-    last_modified = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
 
 
-class TagFactory(factory.DjangoModelFactory):
+class Tag(factory.DjangoModelFactory):
 
-    FACTORY_FOR = Tag
+    FACTORY_FOR = models.Tag
 
-    taxonomy = factory.SubFactory(TaxonomyFactory)
+    taxonomy = factory.SubFactory(Taxonomy)
     name = factory.Sequence(lambda n: 'Taxonomy {0}'.format(n))
-    created_on = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
-    last_modified = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
 
 
-class TaggedNodeFactory(factory.DjangoModelFactory):
+class TaggedNode(factory.DjangoModelFactory):
 
-    FACTORY_FOR = TaggedNode
+    FACTORY_FOR = models.TaggedNode
 
-    tag = factory.SubFactory(TagFactory)
-    content_object = factory.SubFactory(TemplateNodeFactory)
-    created_on = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
-    last_modified = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+    tag = factory.SubFactory(Tag)
+    content_object = factory.SubFactory(TemplateNode)

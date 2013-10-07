@@ -2,20 +2,18 @@
 
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-from openbudget.apps.pages.factories import PageFactory
+from openbudget.apps.pages import factories
 
 
 class PageTestCase(TestCase):
     """Tests for pages.Page objects and their related views. urls, etc."""
 
     def setUp(self):
-        self.page = PageFactory.create()
+        self.page = factories.Page.create()
 
     def test_page_detailview(self):
 
-        detailview = reverse('page',
-                args=(self.page.slug,)
-            )
+        detailview = reverse('page', args=(self.page.slug,))
 
         response = self.client.get(detailview)
 

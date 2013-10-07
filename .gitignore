@@ -1,6 +1,7 @@
 .Python
 .DS_Store
 *.idea
+*.iml
 *.sublime-project
 *.sublime-workspace
 *.db
@@ -15,3 +16,4 @@ docs/_templates
 openbudget/commons/search
 static/media/referencesource
 static/media/auxsource
+tmp/dataset

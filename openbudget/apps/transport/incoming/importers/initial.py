@@ -3,7 +3,7 @@
 """
 
 This code is current only invoked via a management command. It is pretty
-dirty, but works for our needs now. Opened an issue to possibly refactor this
+dirty, but works for our needs now. Opened an issue to refactor this
 in the future, here: https://github.com/hasadna/omuni-budget/issues/144
 
 """

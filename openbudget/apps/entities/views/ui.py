@@ -8,13 +8,13 @@ from openbudget.apps.entities.models import Entity
 from openbudget.apps.sheets.models import Sheet, SheetItem
 from openbudget.apps.contexts.models import Context
 from openbudget.apps.international.utilities import translated_fields
-from openbudget.apps.sheets.serializers.ui import SheetUISerializer, SheetItemUISerializer
+from openbudget.apps.sheets.serializers import SheetItem, Sheet
 from openbudget.commons.utilities import commas_format
 
 
 class EntityDetailUISerializer(serializers.ModelSerializer):
 
-    sheets = SheetUISerializer()
+    sheets = Sheet()
 
     class Meta:
         model = Entity
@@ -24,13 +24,11 @@ class EntityDetailUISerializer(serializers.ModelSerializer):
 
 class EntityList(ListView):
     model = Entity
+    queryset = model.objects.related_map().filter(division__index=3)
     template_name = 'entities/entity_list.html'
 
     def get_context_data(self, **kwargs):
-
         context = super(EntityList, self).get_context_data(**kwargs)
-
-        self.object_list = self.object_list.filter(division__index=3)
         entities_active = []
         entities_inactive = []
 
@@ -51,7 +49,6 @@ class EntityDetail(DetailView):
     template_name = 'entities/explorer.html'
 
     def get_context_data(self, **kwargs):
-
         context = super(EntityDetail, self).get_context_data(**kwargs)
         period = self.kwargs.get('period', None)
         item_uuid = self.kwargs.get('item_uuid', None)
@@ -103,7 +100,7 @@ class EntityDetail(DetailView):
             else:
                 items = sheet.sheetitems.filter(node__parent__isnull=True).order_by('node__code')
 
-            items_list = SheetItemUISerializer(items, many=True).data
+            items_list = SheetItem(items, many=True).data
 
             for s in self.object.sheets.all():
                 sheets.append({
@@ -115,7 +112,7 @@ class EntityDetail(DetailView):
         context['sheets'] = sheets
         context['object_json'] = renderer.render(EntityDetailUISerializer(self.object).data)
         context['sheet'] = sheet
-        context['sheet_json'] = renderer.render(SheetUISerializer(sheet).data) if sheet else '{}'
+        context['sheet_json'] = renderer.render(Sheet(sheet).data) if sheet else '{}'
 
         # format numbers in items_list
         for item in items_list:
@@ -128,7 +125,7 @@ class EntityDetail(DetailView):
         # rendering initial state of breadcrumbs
         # setting initial scope name
         if scope_item:
-            scope_item_serialized = SheetItemUISerializer(scope_item).data
+            scope_item_serialized = SheetItem(scope_item).data
 
             # format numbers
             scope_item_serialized['budget'] = commas_format(scope_item_serialized['budget'])

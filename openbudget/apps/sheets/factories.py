@@ -1,22 +1,20 @@
 import datetime
 import factory
 from django.utils.timezone import utc
-from openbudget.apps.entities.factories import EntityFactory
+from openbudget.apps.entities.factories import Entity
+from openbudget.apps.accounts.factories import Account
 from openbudget.apps.sheets import models
 
 
-class TemplateFactory(factory.DjangoModelFactory):
+class Template(factory.DjangoModelFactory):
 
     FACTORY_FOR = models.Template
 
     name = factory.Sequence(lambda n: 'Template {0}'.format(n))
-    description = factory.Sequence(lambda n: 'Template {0} description text.'.format(n))
-    created_on = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
-    last_modified = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+    description = factory.Sequence(lambda n: 'Template {0} desc...'.format(n))
+    period_start = factory.Sequence(lambda n: datetime.datetime.utcnow()
+                                    .replace(month=1, day=1, tzinfo=utc)
+                                    .date(),)
 
     @factory.post_generation
     def divisions(self, create, extracted, **kwargs):
@@ -28,71 +26,75 @@ class TemplateFactory(factory.DjangoModelFactory):
                 self.divisions.add(division)
 
 
-class TemplateNodeFactory(factory.DjangoModelFactory):
+class TemplateNode(factory.DjangoModelFactory):
 
     FACTORY_FOR = models.TemplateNode
 
-    directions = models.TemplateNode.DIRECTIONS
-
+    name = factory.Sequence(lambda n: 'Template Node {0} name'.format(n))
     code = factory.Sequence(lambda n: '{0}'.format(n))
-    name = factory.Sequence(lambda n: 'Budget Template Node {0} Name'.format(n))
-    description = factory.Sequence(lambda n: 'Budget Template Node {0} description.'.format(n))
-    direction = directions[0][0]
-    created_on = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
-    last_modified = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+    comparable = True
+    direction = 'REVENUE'
+    description = factory.Sequence(lambda n: 'Template Node {0} description.'.format(n))
 
-    @classmethod
-    def _prepare(cls, create, **kwargs):
-        template = TemplateFactory()
-        btnode = super(TemplateNodeFactory, cls)._prepare(create, **kwargs)
-        btnode.templates.add(template)
-        return btnode
+    @factory.post_generation
+    def inverse(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            for inverse in extracted:
+                self.inverse.add(inverse)
+
+    @factory.post_generation
+    def backwards(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            for node in extracted:
+                self.backwards.add(node)
 
 
-class TemplateNodeRelationFactory(factory.DjangoModelFactory):
+class TemplateNodeRelation(factory.DjangoModelFactory):
 
     FACTORY_FOR = models.TemplateNodeRelation
 
-    template = factory.SubFactory(TemplateFactory)
-    node = factory.SubFactory(TemplateNodeFactory)
+    template = factory.SubFactory(Template)
+    node = factory.SubFactory(TemplateNode)
 
 
-class SheetFactory(factory.DjangoModelFactory):
+class Sheet(factory.DjangoModelFactory):
 
     FACTORY_FOR = models.Sheet
 
-    entity = factory.SubFactory(EntityFactory)
-    template = factory.SubFactory(TemplateFactory)
+    entity = factory.SubFactory(Entity)
+    template = factory.SubFactory(Template)
+    budget = 20000
+    actual = 22000
     description = factory.Sequence(lambda n: 'Sheet Factory {0} description.'.format(n))
-    period_start = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc).date()
-    )
-    period_end = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc).date()
-    )
-    created_on = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
-    last_modified = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+    period_start = factory.Sequence(lambda n: datetime.datetime.utcnow()
+                                    .replace(month=1, day=1, tzinfo=utc)
+                                    .date(),)
+    period_end = factory.Sequence(lambda n: datetime.datetime.utcnow()
+                                  .replace(month=12, day=31, tzinfo=utc)
+                                  .date(),)
 
 
-class SheetItemFactory(factory.Factory):
+class SheetItem(factory.DjangoModelFactory):
 
     FACTORY_FOR = models.SheetItem
 
-    node = factory.SubFactory(TemplateNodeFactory)
-    description = factory.Sequence(lambda n: 'Sheet Item Factory {0} description.'.format(n))
+    sheet = factory.SubFactory(Sheet)
+    node = factory.SubFactory(TemplateNode)
+    description = factory.Sequence(lambda n: 'Sheet Item desc {0}'.format(n))
     budget = 20000
-    actual = 20000
-    created_on = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
-    last_modified = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
+    actual = 22000
+
+
+class SheetItemComment(factory.DjangoModelFactory):
+
+    FACTORY_FOR = models.SheetItemComment
+
+    item = factory.SubFactory(SheetItem)
+    user = factory.SubFactory(Account)
+    comment = factory.Sequence(lambda n: 'Sheet Item Comment {0}.'.format(n))

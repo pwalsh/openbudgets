@@ -37,9 +37,9 @@ def openbudgets(request):
     """Things that come from the settings of the project itself."""
 
     openbudgets = {}
-    openbudgets['app_name'] = _(settings.OPENBUDGETS_APP_NAME)
+    openbudgets['app_name'] = _(settings.OPENBUDGETS_NAME_APP)
     openbudgets['app_name_list'] = openbudgets['app_name'].split()
-    openbudgets['sponsor_name'] = _(settings.OPENBUDGETS_SPONSOR_NAME)
+    openbudgets['sponsor_name'] = _(settings.OPENBUDGETS_NAME_SPONSOR)
     openbudgets['sponsor_name_list'] = openbudgets['sponsor_name'].split()
     openbudgets['avatar_anon'] = settings.OPENBUDGETS_AVATAR_ANON
 

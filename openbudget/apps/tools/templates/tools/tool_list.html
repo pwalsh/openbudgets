@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load i18n interactions subdomainurls %}
+
+{% block title %}
+{% trans 'Tools' %}
+{% endblock title %}
+
+{% block interactions %}
+
+{% endblock interactions %}
+
+{% block content %}
+
+<section class="tools-public">
+    <h2>&nbsp;</h2>
+    {% for tool in tools_public %}
+    <a href="{% url 'tool_detail' slug=tool.slug %}" title="{{ tool.name }}" class="tool {{ tool.slug }}{% if not tool.featured %} soon{% endif %}">
+        <div class="preview">
+            {% if not tool.featured %}
+            <div class="teaser">
+                <div class="decorator"></div>
+                <div class="message">{% trans 'Soon' %}</div>
+                <div class="decorator"></div>
+            </div>
+            <div class="teaser-decoration"></div>
+
+            {% else %}
+            <h3>{{ tool.name }}</h3>
+            {% endif %}
+        </div>
+        <div class="detail">
+            <p>{{ tool.description }}</p>
+            <h3>{{ tool.name }}</h3>
+        </div>
+    </a>
+    {% endfor %}
+    <a href="http://open-budget.readthedocs.org/" title="{% trans 'Add a tool' %}" class="tool add">
+        <div class="detail">
+            <p>{% trans 'Add your own description goes here.' %}</p>
+            <h3>{% trans 'Add your own' %}</h3>
+        </div>
+    </a>
+</section>
+
+<section class="tools-developers">
+    <h2>{% trans 'For Developers' %}</h2>
+    <a href="{% url 'api' subdomain='api' %}" title="{% trans 'Add a tool' %}" class="tool api">
+        <div class="detail">
+            <p>{% trans 'API description goes here.' %}</p>
+            <h3>{% trans 'API' %}</h3>
+        </div>
+    </a>
+    {% for tool in tools_developers %}
+    <a href="{% url 'tool_detail' slug=tool.slug %}" title="{{ tool.name }}" class="tool {{ tool.slug }}{% if not tool.featured %} soon{% endif %}">
+        <div class="preview">
+            {% if not tool.featured %}
+            <p>
+                {% trans 'Soon' %}
+            </p>
+            {% else %}
+            <h3>{{ tool.name }}</h3>
+            {% endif %}
+        </div>
+        <div class="detail">
+            <p>{{ tool.description }}</p>
+            <h3>{{ tool.name }}</h3>
+        </div>
+    </a>
+    {% endfor %}
+</section>
+
+{% endblock content %}

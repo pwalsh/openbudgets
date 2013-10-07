@@ -7,34 +7,57 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
-    depends_on = (("entities", "0001_initial"),)
-
     def forwards(self, orm):
         # Adding model 'Context'
         db.create_table(u'contexts_context', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('created_on', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, db_index=True, blank=True)),
             ('last_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, db_index=True, blank=True)),
+            ('id', self.gf('uuidfield.fields.UUIDField')(unique=True, max_length=32, primary_key=True, db_index=True)),
             ('period_start', self.gf('django.db.models.fields.DateField')(db_index=True, null=True, blank=True)),
             ('period_end', self.gf('django.db.models.fields.DateField')(db_index=True, null=True, blank=True)),
-            ('entity', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['entities.Entity'])),
+            ('entity', self.gf('django.db.models.fields.related.ForeignKey')(related_name='contexts', to=orm['entities.Entity'])),
             ('data', self.gf('jsonfield.fields.JSONField')()),
         ))
         db.send_create_signal(u'contexts', ['Context'])
+
+        # Adding model 'Coefficient'
+        db.create_table(u'contexts_coefficient', (
+            ('created_on', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, db_index=True, blank=True)),
+            ('last_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, db_index=True, blank=True)),
+            ('id', self.gf('uuidfield.fields.UUIDField')(unique=True, max_length=32, primary_key=True, db_index=True)),
+            ('period_start', self.gf('django.db.models.fields.DateField')(db_index=True, null=True, blank=True)),
+            ('period_end', self.gf('django.db.models.fields.DateField')(db_index=True, null=True, blank=True)),
+            ('domain', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['entities.Domain'])),
+            ('inflation', self.gf('django.db.models.fields.DecimalField')(db_index=True, null=True, max_digits=23, decimal_places=20, blank=True)),
+        ))
+        db.send_create_signal(u'contexts', ['Coefficient'])
 
 
     def backwards(self, orm):
         # Deleting model 'Context'
         db.delete_table(u'contexts_context')
 
+        # Deleting model 'Coefficient'
+        db.delete_table(u'contexts_coefficient')
+
 
     models = {
+        u'contexts.coefficient': {
+            'Meta': {'ordering': "['domain__name', 'period_start', 'last_modified']", 'object_name': 'Coefficient'},
+            'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'db_index': 'True', 'blank': 'True'}),
+            'domain': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['entities.Domain']"}),
+            'id': ('uuidfield.fields.UUIDField', [], {'unique': 'True', 'max_length': '32', 'primary_key': 'True', 'db_index': 'True'}),
+            'inflation': ('django.db.models.fields.DecimalField', [], {'db_index': 'True', 'null': 'True', 'max_digits': '23', 'decimal_places': '20', 'blank': 'True'}),
+            'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
+            'period_end': ('django.db.models.fields.DateField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
+            'period_start': ('django.db.models.fields.DateField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'})
+        },
         u'contexts.context': {
             'Meta': {'object_name': 'Context'},
             'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'db_index': 'True', 'blank': 'True'}),
             'data': ('jsonfield.fields.JSONField', [], {}),
-            'entity': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['entities.Entity']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'entity': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'contexts'", 'to': u"orm['entities.Entity']"}),
+            'id': ('uuidfield.fields.UUIDField', [], {'unique': 'True', 'max_length': '32', 'primary_key': 'True', 'db_index': 'True'}),
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
             'period_end': ('django.db.models.fields.DateField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
             'period_start': ('django.db.models.fields.DateField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'})
@@ -44,28 +67,30 @@ class Migration(SchemaMigration):
             'budgeting': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'db_index': 'True'}),
             'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'db_index': 'True', 'blank': 'True'}),
             'domain': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'divisions'", 'to': u"orm['entities.Domain']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'id': ('uuidfield.fields.UUIDField', [], {'unique': 'True', 'max_length': '32', 'primary_key': 'True', 'db_index': 'True'}),
             'index': ('django.db.models.fields.PositiveSmallIntegerField', [], {'db_index': 'True'}),
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_index': 'True'}),
             'name_ar': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'name_en': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'name_he': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'name_ru': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'})
+            'name_ru': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'slug': ('autoslug.fields.AutoSlugField', [], {'unique': 'True', 'max_length': '50', 'populate_from': "'name'", 'unique_with': '()'})
         },
         u'entities.domain': {
             'Meta': {'ordering': "['name']", 'object_name': 'Domain'},
             'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'db_index': 'True', 'blank': 'True'}),
             'currency': ('django.db.models.fields.CharField', [], {'default': "'usd'", 'max_length': '3'}),
             'ground_surface_unit': ('django.db.models.fields.CharField', [], {'default': "'default'", 'max_length': '25'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'id': ('uuidfield.fields.UUIDField', [], {'unique': 'True', 'max_length': '32', 'primary_key': 'True', 'db_index': 'True'}),
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
             'measurement_system': ('django.db.models.fields.CharField', [], {'default': "'metric'", 'max_length': '8'}),
             'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255', 'db_index': 'True'}),
             'name_ar': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
             'name_en': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
             'name_he': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
-            'name_ru': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'unique': 'True', 'null': 'True', 'blank': 'True'})
+            'name_ru': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
+            'slug': ('autoslug.fields.AutoSlugField', [], {'unique': 'True', 'max_length': '50', 'populate_from': "'name'", 'unique_with': '()'})
         },
         u'entities.entity': {
             'Meta': {'ordering': "('division__domain', 'division__index', 'name')", 'unique_together': "(('name', 'parent', 'division'),)", 'object_name': 'Entity'},
@@ -77,7 +102,7 @@ class Migration(SchemaMigration):
             'description_he': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'description_ru': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'division': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'entities'", 'to': u"orm['entities.Division']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'id': ('uuidfield.fields.UUIDField', [], {'unique': 'True', 'max_length': '32', 'primary_key': 'True', 'db_index': 'True'}),
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_index': 'True'}),
             'name_ar': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),

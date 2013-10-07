@@ -21,8 +21,10 @@ class TemplateParser(BaseParser):
 
     container_model = Template
     item_model = TemplateNode
-    ITEM_ATTRIBUTES = ['name', 'code', 'parent', 'path', 'templates', 'direction', 'description']\
+    ITEM_ATTRIBUTES = ['name', 'code', 'parent', 'path', 'templates',
+                       'direction', 'description']\
         + translated_fields(TemplateNode)
+    CONTAINER_ATTRIBUTES = ['name', 'description', 'divisions', 'period_start']
 
     def __init__(self, container_object_dict, rows_filters=None, extends=None, fill_in_parents=None, interpolate=None):
         super(TemplateParser, self).__init__(container_object_dict)
@@ -39,9 +41,9 @@ class TemplateParser(BaseParser):
             if divisions.exists():
                 self.ancestors_qs = self.item_model.objects.filter(templates__divisions__in=divisions)
             else:
-                entity = self.parent.using_sheets.all()[:1][0].entity
+                entity = self.parent.sheets.all()[:1][0].entity
                 self.ancestors_qs = self.item_model.objects.filter(
-                    Q(templates__using_sheets__entity=entity) |
+                    Q(templates__sheets__entity=entity) |
                     Q(templates__divisions__in=[entity.division])
                 ).order_by('-templates__period_start')
 
@@ -206,8 +208,8 @@ class TemplateParser(BaseParser):
             # generate a lookup key for the parent
             route = [unicode(obj['parent'])]
             if scope:
-                route += scope.split(self.ROUTE_SEPARATOR)
-            parent_path = self.ROUTE_SEPARATOR.join(route)
+                route += scope.split(self.PATH_DELIMITER)
+            parent_path = self.PATH_DELIMITER.join(route)
 
             # first look it up in the input from the source file
             parent_key, parent = self._lookup_object(key=parent_path)
@@ -288,7 +290,7 @@ class TemplateParser(BaseParser):
         attrs['direction'] = direction or 'REVENUE'
 
         if scope:
-            path = self.ROUTE_SEPARATOR.join((code, scope))
+            path = self.PATH_DELIMITER.join((code, scope))
 
         attrs['path'] = path
 
@@ -306,7 +308,7 @@ class TemplateParser(BaseParser):
 
             if ancestor:
                 # connected!
-                self._save_item(ancestor, self.ROUTE_SEPARATOR.join(route), is_node=True)
+                self._save_item(ancestor, self.PATH_DELIMITER.join(route), is_node=True)
                 break
 
             ancestors_routes.append(list(route))
@@ -321,7 +323,7 @@ class TemplateParser(BaseParser):
                 return None
             else:
                 raise ParsingError(_('Interpolation failed, no ancestor found for path: %s') %
-                                   self.ROUTE_SEPARATOR.join(route_copy))
+                                   self.PATH_DELIMITER.join(route_copy))
 
         # we managed to find an ancestor and saved it
         # now to connect the dots together,
@@ -344,12 +346,12 @@ class TemplateParser(BaseParser):
 
         Returns the product of `self._save_item()`.
         """
-        key = self.ROUTE_SEPARATOR.join(route)
+        key = self.PATH_DELIMITER.join(route)
         code = route[0]
         parent_scope = ''
 
         if len(route) > 2:
-            parent_scope = self.ROUTE_SEPARATOR.join(route[2:])
+            parent_scope = self.PATH_DELIMITER.join(route[2:])
 
         obj = {
             'parent': parent,
@@ -394,19 +396,16 @@ class TemplateParser(BaseParser):
             self._generate_container_name(container_dict=data)
 
         divisions = data.pop('divisions') if 'divisions' in data else []
-
         super(TemplateParser, self)._create_container(container_dict=data, exclude=exclude)
 
         for division in divisions:
-            if not self.dry:
-                self.container_object.divisions.add(division)
-            else:
-                try:
-                    Division.objects.get(pk=division)
-                except Division.DoesNotExist as e:
-                    self.throw(
-                        MetaParsingError(reason=_('DomainDivision with pk %s does not exist') % division)
-                    )
+            try:
+                division = Division.objects.get(slug=division)
+                if not self.dry:
+                    self.container_object.divisions.add(division)
+            except Division.DoesNotExist:
+                self.throw(
+                    MetaParsingError(reason=_('Division with slug %s does not exist') % division))
 
     def _generate_lookup(self, data):
         self.resolver = PathResolver(parser=self, data=data, parent_template=self.parent)
@@ -448,12 +447,12 @@ class TemplateParser(BaseParser):
             elif parent or scope:
 
                 if not parent:
-                    parent = scope.split(self.ROUTE_SEPARATOR)[0]
+                    parent = scope.split(self.PATH_DELIMITER)[0]
 
-                key = self.ROUTE_SEPARATOR.join((code, parent))
+                key = self.PATH_DELIMITER.join((code, parent))
 
                 if key not in self.objects_lookup:
-                    key = self.ROUTE_SEPARATOR.join((code, scope))
+                    key = self.PATH_DELIMITER.join((code, scope))
 
         if key:
             if key in self.objects_lookup:
@@ -464,7 +463,7 @@ class TemplateParser(BaseParser):
     def _lookup_node(self, route=None, path=None, key=None):
         if path is None:
             if route and len(route):
-                path = self.ROUTE_SEPARATOR.join(route)
+                path = self.PATH_DELIMITER.join(route)
 
             else:
                 raise ParsingError(
@@ -484,7 +483,7 @@ class TemplateParser(BaseParser):
 
             try:
                 if route is None and path:
-                    route = path.split(self.ROUTE_SEPARATOR)
+                    route = path.split(self.PATH_DELIMITER)
                 _filter = {
                     'code': route[0]
                 }

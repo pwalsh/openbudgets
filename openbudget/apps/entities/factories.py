@@ -1,49 +1,29 @@
-import datetime
 import factory
-from django.utils.timezone import utc
-from openbudget.apps.entities.models import Domain, Division, Entity
+from openbudget.apps.entities import models
 
 
-class DomainFactory(factory.DjangoModelFactory):
+class Domain(factory.DjangoModelFactory):
 
-    FACTORY_FOR = Domain
+    FACTORY_FOR = models.Domain
 
     name = name = factory.Sequence(lambda n: 'Domain {0}'.format(n))
-    created_on = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
-    last_modified = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
 
 
-class DivisionFactory(factory.DjangoModelFactory):
+class Division(factory.DjangoModelFactory):
 
-    FACTORY_FOR = Division
+    FACTORY_FOR = models.Division
 
-    domain = factory.SubFactory(DomainFactory)
+    domain = factory.SubFactory(Domain)
     index = 0
     name = name = factory.Sequence(lambda n: 'DomainDivision {0}'.format(n))
-    created_on = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
-    last_modified = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
 
 
-class EntityFactory(factory.DjangoModelFactory):
+class Entity(factory.DjangoModelFactory):
 
-    FACTORY_FOR = Entity
+    FACTORY_FOR = models.Entity
 
-    division = factory.SubFactory(DivisionFactory)
+    division = factory.SubFactory(Division)
     name = factory.Sequence(lambda n: 'Entity {0}'.format(n))
     slug = factory.Sequence(lambda n: 'entity-{0}'.format(n))
     description = factory.Sequence(lambda n: 'Entity {0} description text.'.format(n))
     code = factory.Sequence(lambda n: 'CODE{0}'.format(n))
-    created_on = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )
-    last_modified = factory.Sequence(
-        lambda n: datetime.datetime.utcnow().replace(tzinfo=utc)
-    )

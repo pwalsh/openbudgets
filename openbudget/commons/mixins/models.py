@@ -23,7 +23,7 @@ class ClassMethodMixin(object):
         return value
 
 
-class TimeStampedModel(models.Model):
+class TimeStampedMixin(models.Model):
     """A mixin to add timestamps to models that inherit it."""
 
     created_on = models.DateTimeField(
@@ -43,8 +43,8 @@ class TimeStampedModel(models.Model):
         abstract = True
 
 
-class UUIDModel(models.Model):
-    """A mixin to add UUIDs to models that inherit it."""
+class UUIDMixin(models.Model):
+    """A mixin to add a UUID to models that inherit it."""
 
     uuid = UUIDField(
         db_index=True,
@@ -55,7 +55,20 @@ class UUIDModel(models.Model):
         abstract = True
 
 
-class PeriodStartModel(models.Model):
+class UUIDPKMixin(models.Model):
+    """A mixin to add a UUID as the primary key of models that inherit it."""
+
+    id = UUIDField(
+        db_index=True,
+        auto=True,
+        primary_key=True
+    )
+
+    class Meta:
+        abstract = True
+
+
+class PeriodStartMixin(models.Model):
     """A mixin to add a period_start field to models that inherit it.
 
     The primary use of this mixin is for model objects with data that applies
@@ -79,7 +92,7 @@ class PeriodStartModel(models.Model):
         abstract = True
 
 
-class PeriodicModel(PeriodStartModel):
+class PeriodicMixin(PeriodStartMixin):
     """A mixin to add a defined period of validity to models that inherit it."""
 
     period_end = models.DateField(

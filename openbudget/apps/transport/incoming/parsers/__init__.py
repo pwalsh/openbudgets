@@ -1,7 +1,7 @@
 from copy import deepcopy
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
-from openbudget.apps.sheets.models import PATH_SEPARATOR
 from openbudget.apps.transport.incoming.errors import DataValidationError
 
 
@@ -24,7 +24,7 @@ class BaseParser(object):
     resolved and saved by the same parser class.
     """
 
-    ROUTE_SEPARATOR = PATH_SEPARATOR
+    PATH_DELIMITER = settings.OPENBUDGETS_IMPORT_INTRA_FIELD_DELIMITER
     ITEM_SEPARATOR = ITEM_SEPARATOR
     ITEM_CLEANING_EXCLUDE = []
 
@@ -202,9 +202,7 @@ class BaseParser(object):
         try:
             instance.full_clean(exclude=exclude)
         except ValidationError as e:
-            self.throw(
-                DataValidationError(reasons=e.message_dict, row=row_num)
-            )
+            self.throw(DataValidationError(reasons=e.message_dict, row=row_num))
 
     def _clear_cache(self):
         """

@@ -1,31 +1,62 @@
-import random
-from django.test import TestCase
-from django.core.urlresolvers import reverse
-from openbudget.apps.entities.factories import EntityFactory
+from openbudget.apps.entities import factories
+from openbudget.commons import tests
 
 
-class EntityTestCase(TestCase):
+class EntityUITestCase(tests.OpenBudgetsUITestCase):
+
+    listview_name = 'entity_list'
+    detailview_name = 'entity_detail'
 
     def setUp(self):
-        self.entity = EntityFactory.create()
+        self.object = factories.Entity.create()
 
     def test_listview(self):
+        return EntityUITestCase.listview(self)
 
-        listview = reverse(
-            'entity_list'
-        )
+    def test_detailview(self):
+        return EntityUITestCase.detailview(self, lookup=self.object.slug)
 
-        response = self.client.get(listview)
 
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue('object_list' in response.context)
+class EntityAPITestCase(tests.OpenBudgetsAPITestCase):
 
-    def test_entity_detailview(self):
+    listview_name = 'entity-list'
+    detailview_name = 'entity-detail'
 
-        detailview = reverse('entity_detail',
-            args=(self.entity.slug,)
-        )
-        response = self.client.get(detailview)
+    def setUp(self):
+        self.object = factories.Entity.create()
 
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue('object' in response.context)
+    def test_listview(self):
+        return EntityAPITestCase.listview(self)
+
+    def test_detailview(self):
+        return EntityAPITestCase.detailview(self)
+
+
+class DivisionAPITestCase(tests.OpenBudgetsAPITestCase):
+
+    listview_name = 'division-list'
+    detailview_name = 'division-detail'
+
+    def setUp(self):
+        self.object = factories.Division.create()
+
+    def test_listview(self):
+        return DivisionAPITestCase.listview(self)
+
+    def test_detailview(self):
+        return DivisionAPITestCase.detailview(self)
+
+
+class DomainAPITestCase(tests.OpenBudgetsAPITestCase):
+
+    listview_name = 'domain-list'
+    detailview_name = 'domain-detail'
+
+    def setUp(self):
+        self.object = factories.Domain.create()
+
+    def test_listview(self):
+        return DomainAPITestCase.listview(self)
+
+    def test_detailview(self):
+        return DomainAPITestCase.detailview(self)

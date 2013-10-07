@@ -1,5 +1,5 @@
-# Uncomment if you are overriding any settings that are defined in settings.base
-#from openbudget.settings.base import *
+# Uncomment if you are overriding any settings that are defined in settings
+#from openbudget.settings import *
 
 
 ######################################################################
@@ -33,20 +33,6 @@
 #
 #DEBUG_TOOLBAR_CONFIG = {
 #    'INTERCEPT_REDIRECTS': False,
-#}
-
-# Uncomment to use Postgresql in development.
-# You'll also need some extra dependencies:
-# pip install -r requirements/extended.txt
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#        'NAME': '',
-#        'USER': '',
-#        'PASSWORD': '',
-#        'HOST': '',
-#        'PORT': '',
-#    }
 #}
 
 # Uncomment to enable caching during development

@@ -1,19 +1,29 @@
 language: python
 python:
   - "2.7"
+before_script:
+  - psql -c 'create database openbudgets;' -U postgres
+
 before_install:
   - export PIP_USE_MIRRORS=true
   - export PIP_INDEX_URL=https://simple.crate.io/
+  - export CI=true
+
 install:
   - pip install -r requirements/base.txt
   - pip install -r requirements/extended.txt
-script: coverage run --source='.' manage.py test accounts api sheets contexts commons entities international pages transport
+
+script: coverage run --source='.' manage.py test accounts api contexts entities interactions international pages sheets tools commons transport
+
 notifications:
   email:
     - paulywalsh@gmail.com
     - maggotfish@gmail.com
+
 on_success: always
+
 on_failure: always
+
 after_success:
   - coverage report
   - pip install --quiet --use-mirrors python-coveralls
