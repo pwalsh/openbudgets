@@ -36,10 +36,6 @@ define([
                     element : $el,
                     resource: model,
                     index   : index,
-                    signals : {
-                        post_full_render: '-legend_item_added',
-                        pre_destroy     : '-legend_item_removed'
-                    },
                     picking : this.picking
                 }
             }, true);
