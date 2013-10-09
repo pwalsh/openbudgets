@@ -3,13 +3,13 @@ from fabric.contrib import django
 from utilities import notify, warn, alert
 from config import CONFIG
 
-django.project('openbudget')
+django.project('openbudgets')
 from django.conf import settings
 from django.core.management import call_command
-from openbudget.apps.entities.factories import *
-from openbudget.apps.sheets.factories import *
-from openbudget.apps.contexts.factories import *
-from openbudget.apps.transport.incoming.importers.initial import CSVImporter
+from openbudgets.apps.entities.factories import *
+from openbudgets.apps.sheets.factories import *
+from openbudgets.apps.contexts.factories import *
+from openbudgets.apps.transport.incoming.importers.initial import CSVImporter
 
 
 @task
@@ -131,7 +131,7 @@ def test_js():
 def test_project_py():
     notify(u'Running tests for the project Python code.')
 
-    project_namespace = 'openbudget.apps.'
+    project_namespace = 'openbudgets.apps.'
     project_apps = []
 
     for app in settings.INSTALLED_APPS:
