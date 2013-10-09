@@ -5,9 +5,11 @@ from config import CONFIG
 
 django.project('openbudget')
 from django.conf import settings
+from django.core.management import call_command
 from openbudget.apps.entities.factories import *
 from openbudget.apps.sheets.factories import *
 from openbudget.apps.contexts.factories import *
+from openbudget.apps.transport.incoming.importers.initial import CSVImporter
 
 
 @task
@@ -84,12 +86,6 @@ def init_data():
 
 
 @task
-def clone_data():
-    with lcd(settings.OPENBUDGETS_DATA['directory']):
-        local('git clone ' + settings.OPENBUDGETS_DATA['repo'] + ' dataset')
-
-
-@task
 def pip_update():
     local('pip install -U -r requirements.txt')
 
@@ -152,14 +148,47 @@ def test_project_js():
 
 
 @task
+def data_clone():
+    with lcd(settings.OPENBUDGETS_DATA['directory']):
+        local('git clone ' + settings.OPENBUDGETS_DATA['repo'] + ' dataset')
+
+
+@task
+def data_fetch():
+    with lcd(settings.OPENBUDGETS_DATA['directory'] + '/dataset'):
+        local('git fetch')
+
+
+@task
+def data_merge():
+    with lcd(settings.OPENBUDGETS_DATA['directory'] + '/dataset'):
+        local('git merge ' + settings.OPENBUDGETS_DATA['branch'] + ' origin/'
+              + settings.OPENBUDGETS_DATA['branch'])
+
+
+@task
+def data_load():
+    CSVImporter('domain', open(settings.OPENBUDGETS_DATA['directory'] + '/dataset/data/regions/us/region.csv', 'rb'))
+    CSVImporter('division', open(settings.OPENBUDGETS_DATA['directory'] + '/dataset/data/regions/us/grades/grade.csv', 'rb'))
+    CSVImporter('entity', open(settings.OPENBUDGETS_DATA['directory'] + '/dataset/data/regions/us/topics/topic.csv', 'rb'))
+
+
+@task
+def data_upgrade():
+    data_fetch()
+    data_merge()
+
+
+@task
 def mock(amount=1000):
     notify(u'Creating some mock objects for the database.')
 
     domain = Domain.create(name='Example Domain')
-    division = Division.create(name='Example Division', domain=domain)
+    division = Division.create(name='Example Division', domain=domain, index=3)
     entities = Entity.create_batch(2, division=division)
     template = Template.create(name='Example Template', divisions=[division])
     template_nodes = TemplateNode.create_batch(amount)
+    call_command('loaddata', 'tools')
 
     for node in template_nodes:
         TemplateNodeRelation.create(node=node, template=template)

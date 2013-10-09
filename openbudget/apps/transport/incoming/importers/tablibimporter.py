@@ -1,3 +1,4 @@
+import logging
 import tablib
 from openbudget.apps.transport.incoming.importers import BaseImporter
 
@@ -10,6 +11,8 @@ class TablibImporter(BaseImporter):
     """
 
     def get_data(self, stream):
+
+        logging.info('Executing TablibImporter._get_parser_from_post')
 
         try:
             raw_dataset = tablib.import_set(stream)

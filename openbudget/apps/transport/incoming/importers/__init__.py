@@ -1,4 +1,5 @@
 import os
+import logging
 from datetime import datetime
 from django.core.mail import EmailMessage
 from django.conf import settings
@@ -49,6 +50,9 @@ class BaseImporter(object):
         location, as well as emailing it, for analysis.
 
         """
+
+        logging.info('Executing BaseImporter.extract')
+
         self._extract_meta()
 
         data_stream = self.sourcefile.read()
@@ -61,12 +65,18 @@ class BaseImporter(object):
         Runs validation on the extracted data using the parser's
         validation.
         """
+
+        logging.info('Executing BaseImporter.validate')
+
         return self.parser.validate(self.data)
 
     def save(self):
         """
         Delegates to the parser's save method.
         """
+
+        logging.info('Executing BaseImporter.save')
+
         return self.parser.save()
 
     def deferred(self):
@@ -77,6 +87,9 @@ class BaseImporter(object):
         Returns the deferred object which can be later serialized
         and sent to queue, for later resolving it.
         """
+
+        logging.info('Executing BaseImporter.deferred')
+
         deferred = self.parser.deferred()
         deferred['class'] = get_parser_key(self.parser.__class__)
 
@@ -87,6 +100,9 @@ class BaseImporter(object):
         Takes a deferred importer object which sets the appropriate
         parser and delegates to it's resolve method.
         """
+
+        logging.info('Executing BaseImporter.resolve')
+
         # get the parser class key
         klass = deferred['class']
 
@@ -103,6 +119,9 @@ class BaseImporter(object):
         Takes a data stream read from the source file, extracts a
         dataset from it and stores it in `self.data`.
         """
+
+        logging.info('Executing BaseImporter.get_data')
+
         raise NotImplementedError()
 
     def normalize_headers(self, headers):
@@ -120,6 +139,9 @@ class BaseImporter(object):
         list.
 
         """
+
+        logging.info('Executing BaseImporter.normalize_headers')
+
         symbols = {
             # we are now allowing the "_" symbol for translation fields
             # and cases of valid field names such as "map_url"
@@ -156,6 +178,9 @@ class BaseImporter(object):
         was invalid - perhaps it is a problem that can be solved in code - \
         file import is part science, part art.
         """
+
+        logging.info('Executing BaseImporter.import_error')
+
         dt = datetime.now().isoformat()
 
         attachment = settings.OPENBUDGETS_TEMP_DIR + \
@@ -203,6 +228,9 @@ class BaseImporter(object):
         advance, as there will be no interactive wizard to fix data.
 
         """
+
+        logging.info('Executing BaseImporter._extract_meta')
+
         if self.meta_from_filename:
             parser = self._get_parser_from_filename()
         else:
@@ -217,6 +245,8 @@ class BaseImporter(object):
         Gets the available strings and scopes which are used
         for normalizing the headers.
         """
+
+        logging.info('Executing BaseImporter._get_header_scopes')
 
         scopes_map = {}
 
@@ -267,6 +297,8 @@ class BaseImporter(object):
 
         """
 
+        logging.info('Executing BaseImporter._get_parser_from_filename')
+
         ARGS_DELIMITER = settings.OPENBUDGETS_IMPORT_FIELD_DELIMITER
         VALS_DELIMITER = settings.OPENBUDGETS_IMPORT_INTRA_FIELD_DELIMITER
 
@@ -315,29 +347,39 @@ class BaseImporter(object):
     def _get_parser_from_post(self):
         """Extract required metadata for a dataset from request.POST."""
 
+        logging.info('Executing BaseImporter._get_parser_from_post')
+
+        VALS_DELIMITER = settings.OPENBUDGETS_IMPORT_INTRA_FIELD_DELIMITER
+
         container_object_dict = {}
         parser_key = self.post_data.get('type', '')
         attributes = self.post_data
         del attributes['type']
 
-        # get the appropriate parser class
-        print 'parser key'
-        print parser_key
-        parser = get_parser(parser_key)
-        print parser
+        logging.info('BaseImporter._get_parser_from_post :: parser_key:' + parser_key)
 
-        for k, v in attributes.iteritems():
-            print 'HERE'
-            print parser.container_model()
-            print k
+        # get the appropriate parser class
+        parser = get_parser(parser_key)
+
+        logging.info('BaseImporter._get_parser_from_post :: parser.container_model:')
+        logging.info(parser.container_model())
+
+        logging.info('BaseImporter._get_parser_from_post :: attributes.items:')
+        logging.info(attributes.items())
+
+        for k, v in attributes.items():
+
+            logging.info('BaseImporter._get_parser_from_post :: attributes key-value pair:')
+            logging.info(k, v)
+
             try:
                 getattr(parser.container_model(), k)
             except AttributeError as e:
                 raise e
 
-            # if the value has commas, it is an m2m related field
-            if ',' in v:
-                v = tuple(v.split(','))
+            # if the value is delimited, it is an m2m related field
+            if VALS_DELIMITER in v:
+                v = tuple(v.split(VALS_DELIMITER))
 
             container_object_dict[k] = v
 
