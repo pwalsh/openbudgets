@@ -53,7 +53,9 @@ define([
                 }
             },
             signals         : {
-                post_init   : 'wake'
+                post_init       : 'wake',
+                post_full_render: '-legend_item_added',
+                pre_destroy     : '-legend_item_removed'
             },
             app_events      : {
                 'add_legend.clicked': function () {
