@@ -1,8 +1,27 @@
-Requirements
-============
+Quickstart
+==========
 
 Overview
 --------
+
+Open Budgets is a web app and web API for storing, accessing, visualizing and comparing budgetary data.
+
+Open Budgets is coded in Python and Javascript. Django is used for the server, and libraries such as Backbone, D3, uijet and JQuery for the client.
+
+The 1.0 release of Open Budgets was developed as a platform for budgetary data of municipalities in Israel. The primary goals being a standardized way to store such data for all municipalities, and for users to be able to make comparative analysis of such data.
+
+The code is not tied to anything in particular with the Israeli municipality use case - Open Budgets is ready for use with any "entity structure" that declares budgets, and potential value can be gained from comparative analysis. Examples could be other governmental systems, large organizations in the non-profit sector, corporations, state university systems, and so on.
+
+Open Budgets is open source software and licensed under a BSD license.
+
+Open Budgets is a project of HaSadna (the Public Knowledge Workshop), a non-profit organization in Israel dedicated to data transparency in government.
+
+Find out more here:
+
+http://hasadna.org.il/en/
+
+
+
 
 Open Budgets is written in Python and JavaScript. If you already develop web apps in these languages, it is likely that your machine is ready to start work. Please check the system requirements below to confirm.
 

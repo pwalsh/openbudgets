@@ -13,23 +13,23 @@ Open Budgets
 
 Open Budgets is a web app and web API for storing, accessing, visualizing and comparing budgetary data.
 
-Open Budgets is coded in Python and Javascript. Django is used for the server, and libraries such as Backbone, D3, uijet and JQuery for the client.
+Open Budgets is written in Python and Javascript, and is open source software released under a BSD license.
 
-The 1.0 release of Open Budgets was developed as a platform for budgetary data of municipalities in Israel. The primary goals being a standardized way to store such data for all municipalities, and for users to be able to make comparative analysis of such data.
+Open Budgets is a project of the **Public Knowledge Workshop**, a non-profit organization in Israel dedicated to data transparency in government.
 
-The code is not tied to anything in particular with the Israeli municipality use case - Open Budgets is ready for use with any "entity structure" that declares budgets, and potential value can be gained from comparative analysis. Examples could be other governmental systems, large organizations in the non-profit sector, corporations, state university systems, and so on.
+Design goals
+============
 
-Open Budgets is open source software and licensed under a BSD license.
+Some of the broader design goals that influenced how we approach Open Budgets.
 
-Open Budgets is a project of HaSadna (the Public Knowledge Workshop), a non-profit organization in Israel dedicated to data transparency in government.
-
-Find out more here:
-
-http://hasadna.org.il/en/
+* Standardized API and formats for budget-related data
+* Comparative analysis across related budgeting entities
+* Full multilingual support across all data
+* Discussion and user interaction build into the core data model
 
 
 Ways to contribute
-------------------
+==================
 
 You can contribute to the project in a number of ways:
 
@@ -37,38 +37,30 @@ You can contribute to the project in a number of ways:
 
 **Read the docs**: http://open-budgets.readthedocs.org/
 
-**Tackle an open issues**: https://github.com/hasadna/openmuni-budgets/issues
+**Tackle an open issue**: https://github.com/hasadna/openmuni-budgets/issues
 
 **Make some translations**: https://www.transifex.com/projects/p/open-budgets/
 
 **Start a discussion**: https://groups.google.com/forum/#!forum/hasadna-dev
 
 
-Quickstart
-----------
+Table of contents
+=================
 
 .. toctree::
    :maxdepth: 1
 
-   quickstart
-
-
-Guide
------
-
-.. toctree::
-   :maxdepth: 2
-
-   guide/index
+   guide/quickstart
+   guide/features
+   guide/interfaces
+   guide/conventions
+   guide/specifications
 
 
 Demo
-----
+====
 
-.. toctree::
-   :maxdepth: 2
-
-   demo/index
+The demo Open Budgets instance is currently down. Please check back again later.
 
 
 Indices and tables
@@ -76,4 +68,3 @@ Indices and tables
 
 * :ref:`modindex`
 * :ref:`search`
-

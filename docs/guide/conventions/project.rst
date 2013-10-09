@@ -1,5 +1,5 @@
-Project
-=======
+Working with the project
+========================
 
 
 Schema migrations

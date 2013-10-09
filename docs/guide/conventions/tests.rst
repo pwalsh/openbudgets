@@ -1,5 +1,5 @@
-Testing
-=======
+Writing tests
+=============
 
 Overview
 --------

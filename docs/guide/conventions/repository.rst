@@ -1,5 +1,5 @@
-Repositories
-============
+Working with Git
+================
 
 
 Repositories
