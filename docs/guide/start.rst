@@ -1,106 +1,130 @@
 Start
-==========
+=====
 
-Overview
---------
+.. image:: https://travis-ci.org/prjts/openbudgets.png
+   :alt: Build Status
+   :target: https://travis-ci.org/prjts/openbudgets
+
+
+.. image:: https://coveralls.io/repos/prjts/openbudgets/badge.png?branch=develop
+   :alt: Coverage Status
+   :target: https://coveralls.io/r/prjts/openbudgets?branch=develop
+
 
 Open Budgets is a web app and web API for storing, accessing, visualizing and comparing budgetary data.
 
-Open Budgets is coded in Python and Javascript. Django is used for the server, and libraries such as Backbone, D3, uijet and JQuery for the client.
+Open Budgets is written in Python and Javascript, and is open source software released under a BSD license.
 
-The 1.0 release of Open Budgets was developed as a platform for budgetary data of municipalities in Israel. The primary goals being a standardized way to store such data for all municipalities, and for users to be able to make comparative analysis of such data.
+Open Budgets is a project of the **Public Knowledge Workshop**, a non-profit organization in Israel dedicated to data transparency in government.
 
-The code is not tied to anything in particular with the Israeli municipality use case - Open Budgets is ready for use with any "entity structure" that declares budgets, and potential value can be gained from comparative analysis. Examples could be other governmental systems, large organizations in the non-profit sector, corporations, state university systems, and so on.
+Stack
+=====
 
-Open Budgets is open source software and licensed under a BSD license.
+Server
+------
 
-Open Budgets is a project of HaSadna (the Public Knowledge Workshop), a non-profit organization in Israel dedicated to data transparency in government.
-
-Find out more here:
-
-http://hasadna.org.il/en/
+The server is written in Python using Django and Django REST Framework.
 
 
+Client
+------
 
-
-Open Budgets is written in Python and JavaScript. If you already develop web apps in these languages, it is likely that your machine is ready to start work. Please check the system requirements below to confirm.
-
-This Quickstart will walk you through setting up the project. We provide basic instructions for setting up system requirements, but this does assume some knowledge of the relevant package managers, use of sudo, etc.
-
-If you find any problems with this Quickstart in configuring your system, please raise a ticket in the projects issue tracker here: https://github.com/hasadna/omuni-budget/issues
+The client makes use of D3, jQuery, Uijet, and Backbone.
 
 
 System requirements
--------------------
+===================
 
-In order to work on the project, your system will need Python, Node.js, Git and Mercurial. You'll also need a handful of Python packages and Node.js modules installed globally.
+Open Budgets has been developed on Mac OS X and Ubuntu, and should be trivial to deploy to any *nix environment.
 
-Our Quickstart only supports Ubuntu and Fedora flavors of Linux, and Mac OS X. If you can test the installation on other systems, please make a pull request updating this Quickstart with the required changes.
+We also provide basic instructions for Windows installations, but we do not recommend this approach.
 
+Essentially, the project requires an OS equipped with **Python**, **Postgresql**, **Git** and **Mercurial**.
 
-**IMPORTANT: Please make sure you meet the system requirements before moving on to the installation of the project.**
+**Node.js** is an optional dependency if you'll like to use Javascript build tools.
 
+**Redis** is an optional dependency for development environments, but is required for production deployments.
 
-Installing system requirements
-------------------------------
+Below we give a basic, opinionated system setup for a number of OSes.
 
-Use of sudo for any commands is also dependent on how your machine is set up.
+Experienced users may choose to vary from the following instructions.
+
+**IMPORTANT: Ensure you have the minimal system requirements before moving on to install of the project.**
+
 
 Ubuntu
-~~~~~~
+------
 
-Here we go::
+**NOTE:** Use of `sudo` for any command is very dependent on your setup.
 
-    # Our core system dependencies
-    sudo apt-get install python-dev mercurial git-core nodejs redis-server python-pip
+Execute the commands without it if you know you don't need it.
 
-    # Python packages we want installed globally
+Install::
+
+    # required dependencies
+    sudo apt-get install python-dev python-pip postgresql postgresql-contrib postgresql-server-dev-all mercurial git-core
     sudo pip install virtualenv virtualenvwrapper
 
-    # Node.js modules we want installed globally
-    sudo npm install volo -g
+    # optional dependencies in development, required in production
+    sudo apt-get install redis-server
 
-Now, make some changes to your user's .profile file for the Python environment::
+    # optional dependencies
+    sudo apt-get install nodejs
+    sudo npm install -g volo bower less
+
+
+That's all the packages we need for the system, now we need to configure the user's .profile.
+
+Configure::
 
     # this goes in ~/.profile
     export PYTHONIOENCODING=utf-8
-    export WORKON_HOME="/home/[YOUR_USER]/environments"
-    export PROJECT_HOME="/home/[YOUR_USER]/projects"
+    export WORKON_HOME="/home/{YOUR_USER}/environments"
+    export PROJECT_HOME="/home/{YOUR_USER}/projects"
     source /usr/local/bin/virtualenvwrapper.sh
     export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
     export PIP_USE_MIRRORS=true
     export PIP_INDEX_URL=https://simple.crate.io/
 
+
 Fedora
-~~~~~~
+------
+
+**NOTE:** Use of `sudo` for any command is very dependent on your setup.
+
+Execute the commands without it if you know you don't need it.
 
 Here we go::
 
-    # Our core system dependencies
-    sudo yum install nodejs npm python-devel python-virtualenv python-virtualenvwrapper python-pip git mercurial redis
+    # required dependencies
+    sudo yum install python-devel python-pip python-virtualenv python-virtualenvwrapper python-pip postgresql postgresql-contrib postgresql-server-dev-all git mercurial
 
-    # Node.js modules we want installed globally
-    sudo npm install volo -g
+    # optional dependencies in development, required in production
+    sudo yum install redis
 
-Changes for virtualwrapper in your user's .bashrc (assuming you use bash, please adjust for other shells)::
+    # optional dependencies
+    sudo yum install nodejs npm
+    sudo npm install -g volo bower less
+
+
+That's all the packages we need for the system, now we need to configure the user's .bashrc (assuming you use bash, please adjust for other shells).
+
+Configure::
 
     # this goes in ~/.bashrc
     export PYTHONIOENCODING=utf-8
-    export WORKON_HOME="/home/[YOUR_USER]/environments"
-    export PROJECT_HOME="/home/[YOUR_USER]/projects"
+    export WORKON_HOME="/home/{YOUR_USER}/environments"
+    export PROJECT_HOME="/home/{YOUR_USER}/projects"
     source /usr/bin/virtualenvwrapper.sh
     export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
     export PIP_USE_MIRRORS=true
     export PIP_INDEX_URL=https://simple.crate.io/
 
+
 Mac OS X
-~~~~~~~~
+--------
 
-First, make sure you have XCode installed, **and** Command Line Tools.
-
-See here for more info about this:
-
-https://python-guide.readthedocs.org/en/latest/starting/install/osx.html
+First, make sure you have XCode installed with Command Line Tools.
 
 Secondly, install Homebrew, which is a great package manager for all the \*nix goodies you need to develop with:
 
@@ -114,38 +138,79 @@ You should see a list of arguments the brew command accepts.
 
 Next, you can choose to use the version of Python that comes with OS X, or you can use a Homebrew managed Python.
 
-If you are not sure, just stick with system Python for now::
+If you are not sure, just stick with system Python setup for now.
+
+Install::
 
     # using system Python
     brew install mercurial git node redis
     sudo easy_install virtualenv
     sudo pip install virtualenvwrapper
-    npm install -g volo
+    npm install -g volo bower less
 
 
     # alternatively, using homebrew Python
     brew install mercurial git node redis python
     pip install virtualenv virtualenvwrapper
-    npm install volo -g
+    npm install -g volo bower less
 
-Now, make some changes to your user's .bash_profile file for the Python environment::
+
+That's all the packages we need for the system, now we need to configure the user's .bash_profile.
+
+Configure::
 
     # this goes in ~/.bash_profile
     export PYTHONIOENCODING=utf-8
-    export WORKON_HOME="/Users/[YOUR_USER]/Sites/environments"
-    export PROJECT_HOME="/Users/[YOUR_USER]/Sites/projects"
+    export WORKON_HOME="/Users/{YOUR_USER}/Sites/environments"
+    export PROJECT_HOME="/Users/{YOUR_USER}/Sites/projects"
     source /usr/local/bin/virtualenvwrapper.sh
     export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
     export PIP_USE_MIRRORS=true
     export PIP_INDEX_URL=https://simple.crate.io/
 
-Installing the project
-----------------------
 
-As long as you have met the system requirements above, we're ready to install the project.
+Windows
+-------
+
+**Note:** We have assisted some users to configure Windows for Python web development, but we don't consider this to be a complete set of instructions, or even the best way to proceed. If you can provide a foolproof Windows setup, please make a pull request on this file.
+
+Follow this guide to install Python:
+
+http://docs.python-guide.org/en/latest/starting/install/win/
+
+Install Postgresql:
+
+http://www.enterprisedb.com/products-services-training/pgdownload#windows
+
+Install Git (version control and dependency management):
+
+http://git-scm.com/download/win
+
+Install Mercurial (version control and dependency management):
+
+http://mercurial.selenic.com/wiki/Download
+
+Install Pillow
+https://pypi.python.org/pypi/Pillow/2.1.0#downloads
+
+Optional, install Node.js:
+
+http://nodejs.org/download/
+
+
+You'll probably have to check this out too:
+
+http://adambard.com/blog/installing-fabric-under-windows-7-64-bit-with/
+
+
+Installing the project
+======================
+
+As long as you have met the system requirements above on your chosen OS, we're ready to install the project.
+
 
 Configure hosts
-~~~~~~~~~~~~~~~
+---------------
 
 This project makes use of subdomains to target languages, and for API requests.
 
@@ -161,16 +226,23 @@ To enable this functionality fully, you'll need to edit your hosts file on your 
 
 Add the following domain mappings for localhost::
 
-    127.0.0.1 open-budgets.dev www.open-budgets.dev api.open-budgets.dev en.open-budgets.dev he.open-budgets.dev ar.open-budgets.dev ru.open-budgets.dev
+    127.0.0.1 openbudgets.dev www.openbudgets.dev en.openbudgets.dev he.openbudgets.dev ar.openbudgets.dev ru.openbudgets.dev
 
 Make a virtualenv
-~~~~~~~~~~~~~~~~~
+-----------------
 
-We are going to setup the project in a new Python virtual environment. If you are not familiar wth virtualenv, or the accompanying tool, virtualenvwrapper, see the following for more information:
+We are going to setup the project in a new Python virtual environment.
+
+If you are not familiar wth virtualenv or virtualenvwrapper, see the following article:
 
 http://docs.python-guide.org/en/latest/dev/virtualenvs/
 
-We are going to create a new virtual environment, create another directory for our project code, make a connection between the two, and then, clone the project code into its directory.
+We are going to:
+
+* Create a new virtual environment
+* Create another directory for our project code
+* Make a connection between the two
+* Clone the project code into its directory
 
 Ubuntu & Fedora
 +++++++++++++++
@@ -219,7 +291,7 @@ For more information on virtualenvwrapper:
 
 
 Clone the project repository
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------
 
 Now we have an environment setup, and we are at the root of our project directory, we need to clone the project from Github::
 
@@ -228,7 +300,7 @@ Now we have an environment setup, and we are at the root of our project director
 **Important: Note the "." at the end of the git clone command.**
 
 Install project requirements
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------
 
 And continuing, we'll install all the project requirements, the Python requirements via pip, and the Javascript requirements via volo::
 
@@ -238,7 +310,7 @@ And continuing, we'll install all the project requirements, the Python requireme
     volo add -noprompt
 
 Bootstrap the project
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 
 Now we have almost everything we need.
 
@@ -257,7 +329,7 @@ Right now you can see the app at the following address in your browser::
 Lastly, For some functionality, you'll need to adjust settings.local with some settings for your environment. For example, email username and password. **Never commit your changes to settings.local**.
 
 The easy way to working data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------
 
 The project bootstrap loads some initial data the app requires.
 
@@ -268,66 +340,3 @@ You can always get the latest file here:
 https://drive.google.com/#folders/0B4JzAmQXH28mNXBxdjdzeEJXb2s
 
 Simply grab the latest one by date, download it, rename it local.db and replace the existing local.db in your repo root.
-
-Contributions
--------------
-
-You can contribute to the project with code, content and ideas. If you have any ideas or suggestions for content, please open a ticket on the issue tracker, or post a topic on the developer discussion group (links on home page of the docs).
-
-If you want to contribute code, please keep these points in mind:
-
-* **Style**: We try to follow PEP-8 Please lint your code before submitting a pull request
-* **Tests**: If you write a piece of code, write a test before you submit a pull request, and also make sure your code does not break existing tests
-* **Docs**: If you write a piece of code, please make sure it has docstrings to explain the functionality
-* **Branching**: We follow the Git Flow method for managing branches. and all development work is done off the **develop** branch
-
-More below.
-
-best practices
---------------
-
-Additionally, if you are new to web development with Python, we also recommend Kenneth Reitz's excellent best practices guide, which we attempt to follow:
-
-http://docs.python-guide.org/en/latest/
-
-Style
------
-
-TODO
-
-Tests
------
-
-We won't accept code that doesn't have tests for it.
-
-Docs
-----
-
-We do not expect contributors to write docs (this guide), but it is great if they do.
-
-However, please try to use doc strings or comments so your code is easy to follow. This, combined with tests, will help us include your code, and write docs for it.
-
-Branching
----------
-
-We follow GitFlow_ for branch management.
-
-.. _GitFlow: http://nvie.com/posts/a-successful-git-branching-model/
-
-What this means:
-
-* Master branch is for production deployment only - you should not ever be working off it
-* Develop branch is for work. Either work directly from it, or, preferably, branch off it into a "feature" branch
-* A feature branch is named "feature/[YOUR_FEATURE_NAME]". Pull requests on themed branches like this are nice.
-
-Examples:
-
-* I want to work on a ticket to add "bookmarking" features, then I branch off "develop" into "feature/bookmarks", and when I am finished, I submit a pull request for this branch
-
-* I want to work on a ticket to refactor view logic in the "entities" app, then I branch off "develop" into "feature/entities-refactoring", and when I am finished, I submit a pull request for this branch
-
-Again, see the original post about Git Flow for more good practices:
-
-http://nvie.com/posts/a-successful-git-branching-model/
-
-Some GUI version control apps, such as Source Tree for OS X, integrate Git Flow into the app, making it even easier to follow the principles.
