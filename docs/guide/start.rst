@@ -244,73 +244,113 @@ We are going to:
 * Make a connection between the two
 * Clone the project code into its directory
 
+
 Ubuntu & Fedora
-+++++++++++++++
+~~~~~~~~~~~~~~~
 
 Here we go::
 
-    # create the virtual environment
-    mkvirtualenv [PROJECT_NAME]
+    # Create the virtual environment
+    mkvirtualenv {PROJECT_NAME}
 
-    # create a directory for our project code
-    mkdir /home/[YOUR_USER]/Sites/projects/[PROJECT_NAME]
+    # Create a directory for our project code
+    mkdir /home/{YOUR_USER}/projects/{PROJECT_NAME}
 
-    # link our project code directory to our virtual environment
-    setvirtualenvproject /home/[YOUR_USER]/environments/[PROJECT_NAME] /home/[YOUR_USER]/Sites/projects/[PROJECT_NAME]
+    # Link our project code directory to our virtual environment
+    setvirtualenvproject /home/{YOUR_USER}/environments/{PROJECT_NAME} /home/{YOUR_USER}/projects/{PROJECT_NAME}
 
-    # move to the root of our project code directory
+    # Move to the root of our project code directory
     cdproject
 
-OS X
-++++
-
-Here we go::
-
-    # create the virtual environment
-    mkvirtualenv [PROJECT_NAME]
-
-    # create a directory for our project code
-    mkdir /Users/[YOUR_USER]/Sites/projects/[PROJECT_NAME]
-
-    # link our project code directory to our virtual environment
-    setvirtualenvproject /Users/[YOUR_USER]/Sites/environments/[PROJECT_NAME] /Users/[YOUR_USER]/Sites/projects/[PROJECT_NAME]
-
-    # move to the root of our project code directory
-    cdproject
-
-Note
-++++
-
-Later when you want to work on the project use::
-    workon [PROJECT_NAME]
-
-For more information on virtualenvwrapper:
-
-    http://www.doughellmann.com/projects/virtualenvwrapper/
-
-
-
-Clone the project repository
-----------------------------
-
-Now we have an environment setup, and we are at the root of our project directory, we need to clone the project from Github::
-
+    # Clone the project
+    # Important: Note the "." at the end of the git clone command.
     git clone https://github.com/hasadna/omuni-budget.git .
 
-**Important: Note the "." at the end of the git clone command.**
 
-Install project requirements
+
+OS X
+~~~~
+
+Here we go::
+
+    # Create the virtual environment
+    mkvirtualenv [PROJECT_NAME]
+
+    # Create a directory for our project code
+    mkdir /Users/[YOUR_USER]/Sites/projects/[PROJECT_NAME]
+
+    # Link our project code directory to our virtual environment
+    setvirtualenvproject /Users/[YOUR_USER]/Sites/environments/[PROJECT_NAME] /Users/[YOUR_USER]/Sites/projects/[PROJECT_NAME]
+
+    # Move to the root of our project code directory
+    cdproject
+
+    # Clone the project
+    # Important: Note the "." at the end of the git clone command.
+    git clone https://github.com/hasadna/omuni-budget.git .
+
+
+Using virtualenvwrapper
+-----------------------
+
+virtualenvwrapper provides a nice, human-friendly API over virtualenv commands.
+
+To activate an environment::
+
+    workon {PROJECT_NAME}
+
+To deactivate an environment::
+
+    deactivate
+
+
+virtualenvwrapper does a whole lot more. See here for the full rundown:
+
+http://www.doughellmann.com/projects/virtualenvwrapper/
+
+
+Project dependencies
+--------------------
+
+All the project dependencies are managed by pip. To get them, run the following command::
+
+    pip install -r requirements/base.txt
+
+    # And, if you are working with redis, do the following
+    pip install -r requirements/extended.txt
+
+
+We are now ready to work on code.
+
+See the **Project commands** section below to learn the basic administrative tasks, and bootstrap your environment.
+
+
+Interacting with the project
 ----------------------------
 
-And continuing, we'll install all the project requirements, the Python requirements via pip, and the Javascript requirements via volo::
+We make use of Fabric, a great Python tool for writing running administration tasks on the command line.
 
-    pip install -r requirements/base.txt --use-mirrors
+We have Fabric tasks for execution in the development environment, and in the production environment.
 
-    # If you see ParseError when invoking volo, keep trying, it eventually works. We are going to replace it.
-    volo add -noprompt
+Here, we will cover the important commands for developing Open Budgets.
 
-Bootstrap the project
----------------------
+**Note:** In many cases, our `fab` tasks simply wrap CLI commands for:
+
+* `git`
+* `python manage.py`
+* `redis-server`
+* `psql` and associated CLIs like `createdb` and `dropdb`.
+
+You can always use the original CLIs.
+
+We simply prefer the way that using `fab` standardizes the interface for the developer/user.
+
+
+Commands
+~~~~~~~~
+
+bootstrap
++++++++++
 
 Now we have almost everything we need.
 
@@ -328,15 +368,52 @@ Right now you can see the app at the following address in your browser::
 
 Lastly, For some functionality, you'll need to adjust settings.local with some settings for your environment. For example, email username and password. **Never commit your changes to settings.local**.
 
-The easy way to working data
-----------------------------
+Chaining commands
++++++++++++++++++
 
-The project bootstrap loads some initial data the app requires.
+Commands can be chained. This is very useful! Some common chained commands we use::
 
-To get entity and sheet data (the Israel government structure, and the muni budgets, in the current case), grab our latest local.db file and replace your current development database with it.
+    # bootstrap, test, and build out a mock database
+    fab bootstrap test mock
 
-You can always get the latest file here:
+    # bootstrap, test, and build out a real database
+    fab bootstrap test data_load
+
+
+
+
+Working with data
+-----------------
+
+The normal bootstrapping command (`fab bootstrap`) gives the bare minimum data that the project requires to work.
+
+You can also populate the database with a set of mock data (`fab mock`) just to get a feel for the project.
+
+But ultimately, you want to work with real data.
+
+The Open Budgets project has a set of mechanisms for working with and importing real data.
+
+It is important to become familiar with these features if you want to setup your own instance of Open Budgets.
+
+By default, the process for working with data and getting it into the database is like this:
+
+* Content editors prepare data according to our required data formats (See the "Specifications" section of the documentation)
+* When the data is ready, it is exported to CSV files, and added to the data repository (See the "Specifications" section of the documentation)
+* The data is problematically loaded from the data repository into the database. Once an object is saved to the database, it writes back a unique identifier to the object in the data repository. This is a persistent ID for the life of the instance.
+
+If you are working on an instance of Open Budgets that already has a populated data repository configured, simply run the following command to build out the database::
+
+    fab data_upgrade data_load
+
+
+**Note:** Loading data like this can take a very long time due to the types of checks that run to validate data before it is written to the database. Be *very* patient.
+
+Alternatively, the maintainers of your instance may take data snapshots that are directly importable to Postgresql.
+
+For Open Muni Budgets, the Open Budgets project for Israel Municipalities, we keep such files publically accessible here:
 
 https://drive.google.com/#folders/0B4JzAmQXH28mNXBxdjdzeEJXb2s
 
-Simply grab the latest one by date, download it, rename it local.db and replace the existing local.db in your repo root.
+Simply download the latest file, ensure that you are running the same version of postgresql that the file was created with, and run the following command::
+
+    fab data_from_dump('/full/path/to/file.sql')
