@@ -1,14 +1,14 @@
 Open Budgets
 ============
 
-.. image:: https://travis-ci.org/prjts/open-budgets.png
+.. image:: https://travis-ci.org/prjts/openbudgets.png
    :alt: Build Status
-   :target: https://travis-ci.org/prjts/open-budgets
+   :target: https://travis-ci.org/prjts/openbudgets
 
 
-.. image:: https://coveralls.io/repos/prjts/open-budgets/badge.png?branch=develop
+.. image:: https://coveralls.io/repos/prjts/openbudgets/badge.png?branch=develop
    :alt: Coverage Status
-   :target: https://coveralls.io/r/prjts/open-budgets?branch=develop
+   :target: https://coveralls.io/r/prjts/openbudgets?branch=develop
 
 
 Open Budgets is a web app and web API for storing, accessing, visualizing and comparing budgetary data.
