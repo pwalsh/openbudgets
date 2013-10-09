@@ -50,7 +50,7 @@ Table of contents
 .. toctree::
    :maxdepth: 1
 
-   guide/quickstart
+   guide/start
    guide/features
    guide/interfaces
    guide/conventions
