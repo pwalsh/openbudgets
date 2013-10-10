@@ -11,9 +11,9 @@ WSGI_APPLICATION = 'openbudgets.wsgi.application'
 
 SECRET_KEY = 'pvh9d)+7aui4=evh$yv!qgbr3oyz-4=^oj_%6g8+v57b=de5)7'
 
-ALLOWED_HOSTS = ['.open-budgets.dev:8000']
+ALLOWED_HOSTS = ['.openbudgets.dev:8000']
 
-SESSION_COOKIE_DOMAIN = 'open-budgets.dev'
+SESSION_COOKIE_DOMAIN = 'openbudgets.dev'
 
 SITE_ID = 1
 
