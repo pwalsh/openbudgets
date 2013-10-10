@@ -86,8 +86,8 @@ def init_data():
 
 
 @task
-def pip_update():
-    local('pip install -U -r requirements.txt')
+def pip_update(file='base'):
+    local('pip install -U -r requirements/{file}.txt'.format(file=file))
 
 
 @task
