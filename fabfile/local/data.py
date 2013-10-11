@@ -72,3 +72,9 @@ def load(from_dump='no', source=CONFIG['db_dump_file']):
 def dump(destination=CONFIG['db_dump_file']):
     notify(u'Creating a dump of the current database.')
     local('pg_dump ' + CONFIG['db_name'] + ' > ' + destination)
+
+@task
+def sync():
+    notify(u'Syncing data to supported services.')
+    from openbudgets.apps.transport.outgoing import CKANSync
+    CKANSync()

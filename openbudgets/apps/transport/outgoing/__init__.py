@@ -1,8 +1,9 @@
 import ckanclient
 
 
-class Push(object):
+class Sync(object):
     pass
 
-class CKANPush(Push):
+
+class CKANSync(Sync):
     pass
