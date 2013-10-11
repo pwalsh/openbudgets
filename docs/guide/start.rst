@@ -274,20 +274,20 @@ OS X
 Here we go::
 
     # Create the virtual environment
-    mkvirtualenv [PROJECT_NAME]
+    mkvirtualenv {PROJECT_NAME}
 
     # Create a directory for our project code
-    mkdir /Users/[YOUR_USER]/Sites/projects/[PROJECT_NAME]
+    mkdir /Users/{YOUR_USER}/Sites/projects/{PROJECT_NAME}
 
     # Link our project code directory to our virtual environment
-    setvirtualenvproject /Users/[YOUR_USER]/Sites/environments/[PROJECT_NAME] /Users/[YOUR_USER]/Sites/projects/[PROJECT_NAME]
+    setvirtualenvproject /Users/{YOUR_USER}/Sites/environments/{PROJECT_NAME} /Users/{YOUR_USER}/Sites/projects/{PROJECT_NAME}
 
     # Move to the root of our project code directory
     cdproject
 
     # Clone the project
     # Important: Note the "." at the end of the git clone command.
-    git clone https://github.com/hasadna/omuni-budget.git .
+    git clone https://github.com/hasadna/openmuni-budgets.git .
 
 
 Using virtualenvwrapper
@@ -314,10 +314,10 @@ Project dependencies
 
 All the project dependencies are managed by pip. To get them, run the following command::
 
-    pip install -r requirements/base.txt
+    fab env.ensure
 
-    # And, if you are working with redis, do the following
-    pip install -r requirements/extended.txt
+    # Or, if you are working with Redis, do the following
+    fab env.ensure:extended=yes
 
 
 We are now ready to work on code.

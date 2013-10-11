@@ -3,9 +3,9 @@ from fabfile.utilities import notify
 
 
 @task
-def ensure():
+def ensure(extended='no'):
     notify(u'Ensuring all project dependencies are present.')
-    pip()
+    pip(extended=extended)
     #bower()
     #volo()
 
