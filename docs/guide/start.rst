@@ -322,15 +322,35 @@ All the project dependencies are managed by pip. To get them, run the following 
 
 We are now ready to work on code.
 
+First, we'll do a sanity check to make sure we have everything we need. Run the following command::
+
+    fab sanity
+
+If you have an problems, the output of this command will tell you about them.
+
+Now, let's bootstrap the environment. Run the following commands::
+
+    # create a database user for the project
+    fab db.createuser
+
+    # build out the project
+    fab bootstrap:initial=yes,environment=yes mock
+
+An explanation of these commands, and others like it, can be found in the "Interacting with the project" section below.
+
+For now, open the following URL in your browser and you should see the application::
+
+    http://openbudgets.dev:8000/
+
 See the **Project commands** section below to learn the basic administrative tasks, and bootstrap your environment.
 
 
 Interacting with the project
 ----------------------------
 
-We make use of Fabric, a great Python tool for writing running administration tasks on the command line.
+We make use of Fabric, a great Python tool for writing and running administration tasks on the command line.
 
-We have Fabric tasks for execution in the development environment, and in the production environment.
+We have Fabric tasks for execution in development and in production.
 
 Here, we will cover the important commands for developing Open Budgets.
 
@@ -352,21 +372,157 @@ Commands
 bootstrap
 +++++++++
 
-Now we have almost everything we need.
+Get familiar with the `fab bootstrap` command.
 
-We can populate the database with our initial data, run our tests, and run a development server::
+It makes working in your development environment much easier, and abstracts away a bunch of tasks related to rebuilding your database and building out initial data.
 
-    # syncdb, migrate and run tests
-    python manage.py devstrap -m -t
 
-    # start the server
-    python manage.py runserver
+Run it::
 
-Right now you can see the app at the following address in your browser::
+    # default bootstrap
+    fab bootstrap
 
-    http://obudget.dev:8000/
+    # new install with no database
+    fab bootstrap:initial=yes
 
-Lastly, For some functionality, you'll need to adjust settings.local with some settings for your environment. For example, email username and password. **Never commit your changes to settings.local**.
+    # new install with no database, and install all requirements
+    fab bootstrap:initial=yes,environment=yes
+
+    # working install, using redis as cache locally
+    fab bootstrap:environment=yes,cache=yes
+
+
+migrate
++++++++
+
+The `fab migrate` command wraps Django/South's syncdb/migrate, and loads the initial data for the project.
+
+Run it::
+
+    fab migrate
+
+
+test
+++++
+
+The `fab test` command runs the project's test suite.
+
+Run it::
+
+    fab test
+
+
+mock
+++++
+
+The `fab mock` command builds out a set of dummy data.
+
+Run it::
+
+    fab mock
+
+
+data.* commands
++++++++++++++++
+
+The set of `data.*` commands are for working with a data repository
+
+**data.clone**
+
+Get the repository from a webserver and install it locally
+
+Run it::
+
+    fab data.clone
+
+
+**data.push**
+
+Push changes in the local data repository back to the master
+
+Run it::
+
+    fab data.push
+
+
+**data.pull**
+
+Pull changes from a webserver to an existing data repository
+
+Run it::
+
+    fab data.pull
+
+**data.load**
+
+Load data from the repository into the Open Budgets database.
+
+Run it::
+
+    fab data.load
+
+**data.dump**
+
+Dump data from the database into a Postgresql dump file.
+
+Run it::
+
+    fab data.dump
+
+
+db.* commands
++++++++++++++++
+
+The set of `db.*` commands are for working with the database instance.
+
+**db.create**
+
+Create a new database for the project.
+
+Run it::
+
+    fab db.create
+
+
+**db.drop**
+
+Drop (delete) the database for the project
+
+Run it::
+
+    fab db.drop
+
+
+**db.rebuild**
+
+Drop the existing database and create a new one for the project.
+
+Run it::
+
+    fab db.rebuild
+
+**db.createuser**
+
+Create the default user for the Open Budgets database.
+
+Run it::
+
+    fab db.createuser
+
+
+env.* commands
++++++++++++++++
+
+The set of `env.*` commands are for working with the project environment.
+
+**env.ensure**
+
+Ensure that all project dependencies are installed and up-to-date.
+
+Run it::
+
+    fab env.ensure
+
 
 Chaining commands
 +++++++++++++++++
@@ -377,9 +533,15 @@ Commands can be chained. This is very useful! Some common chained commands we us
     fab bootstrap test mock
 
     # bootstrap, test, and build out a real database
-    fab bootstrap test data_load
+    fab bootstrap test data.load
 
 
+More commands
++++++++++++++
+
+There are many more commands we invoke via the `fab` CLI.
+
+If you are developing Open Budgets, we urge you to get familiar will this toolset, and make pull requests for more useful tools as the need arises.
 
 
 Working with data
@@ -403,7 +565,7 @@ By default, the process for working with data and getting it into the database i
 
 If you are working on an instance of Open Budgets that already has a populated data repository configured, simply run the following command to build out the database::
 
-    fab data_upgrade data_load
+    fab data.upgrade data.load
 
 
 **Note:** Loading data like this can take a very long time due to the types of checks that run to validate data before it is written to the database. Be *very* patient.
@@ -414,6 +576,10 @@ For Open Muni Budgets, the Open Budgets project for Israel Municipalities, we ke
 
 https://drive.google.com/#folders/0B4JzAmQXH28mNXBxdjdzeEJXb2s
 
-Simply download the latest file, ensure that you are running the same version of postgresql that the file was created with, and run the following command::
+Download the latest file, place it in the project's 'tmp' directory with the name db_dump.sql, and run the following command::
 
-    fab data_from_dump('/full/path/to/file.sql')
+    fab data.load:from_dump=yes
+
+Similarly, if you want to create a dump file from your working database, run the following command:
+
+    fab data.dump

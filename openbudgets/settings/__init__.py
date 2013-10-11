@@ -358,7 +358,8 @@ OPENBUDGETS_COMPARABLE_ACROSS_ENTITIES = True
 OPENBUDGETS_DATA = {
     'repo': 'https://github.com/prjts/openbudgets-data-israel',
     'branch': 'master',
-    'directory': OPENBUDGETS_TEMP_DIR
+    'directory': OPENBUDGETS_TEMP_DIR,
+    'db_dump': OPENBUDGETS_TEMP_DIR + '/db_dump.sql'
 }
 
 
