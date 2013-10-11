@@ -580,6 +580,6 @@ Download the latest file, place it in the project's 'tmp' directory with the nam
 
     fab data.load:from_dump=yes
 
-Similarly, if you want to create a dump file from your working database, run the following command:
+Similarly, if you want to create a dump file from your working database, run the following command::
 
     fab data.dump
