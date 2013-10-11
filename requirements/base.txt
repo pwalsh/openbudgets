@@ -14,6 +14,7 @@ factory-boy==2.1.2
 django==1.5.3
 south==0.8.1
 coverage==3.6
+ckanclient==0.10
 jsonfield==0.9.17
 pystache==0.5.3
 mock==1.0.1
