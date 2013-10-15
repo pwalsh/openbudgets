@@ -358,8 +358,17 @@ OPENBUDGETS_COMPARABLE_ACROSS_ENTITIES = True
 OPENBUDGETS_DATA = {
     'repo': 'https://github.com/prjts/openbudgets-data-israel',
     'branch': 'master',
-    'directory': OPENBUDGETS_TEMP_DIR
+    'directory': OPENBUDGETS_TEMP_DIR,
+    'db_dump': OPENBUDGETS_TEMP_DIR + '/db_dump.sql'
 }
+
+OPENBUDGETS_CKAN = [
+    {
+        'name': 'Datahub',
+        'base_url': 'http://datahub.io/api',
+        'api_key': ''
+    }
+]
 
 
 # if we are on production, we should have a settings.production module to load.

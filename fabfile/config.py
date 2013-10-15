@@ -1,6 +1,8 @@
 import datetime
 from fabric.api import env
-
+from fabric.contrib import django
+django.project('openbudgets')
+from django.conf import settings
 
 env.user = 'robot'
 env.roledefs = {
@@ -16,8 +18,12 @@ CONFIG = {
     'project_name': 'open-budgets',
     'project_root': '/srv/projects/open-budgets',
     'project_env': '/srv/environments/open-budgets',
+    'dataset_root': settings.OPENBUDGETS_DATA['directory'],
+    'dataset_repo': settings.OPENBUDGETS_DATA['repo'],
+    'dataset_branch': settings.OPENBUDGETS_DATA['branch'],
     'db_name': 'openbudgets',
     'db_user': env.user,
+    'db_dump_file': settings.OPENBUDGETS_DATA['db_dump'],
     'app_location': '127.0.0.1',
     'app_port': 9000,
     'app_workers': 4,
