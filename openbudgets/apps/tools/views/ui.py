@@ -32,7 +32,7 @@ class ToolDetailView(DetailView):
     model = Tool
 
     def get_template_names(self):
-        return ['tools/ext/{slug}.html'.format(slug=self.object.slug)]
+        return ['tools/ext/{slug}/tool.html'.format(slug=self.object.slug)]
 
     def get_context_data(self, **kwargs):
 
