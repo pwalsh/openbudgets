@@ -137,7 +137,7 @@ define([
                             highlight = this.highlight.bind(this);
                         if ( this.$last_filter_result ) {
                             this.$last_filter_result.each(function (i, item) {
-                                var text = resource.get(+item.getAttribute('data-id')).get('name');
+                                var text = resource.get(item.getAttribute('data-id')).get('name');
                                 if ( search_term ) {
                                     item.innerHTML = highlight(text, search_term);
                                 }

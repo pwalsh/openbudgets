@@ -19,7 +19,7 @@ define([
         .listenTo(uijet.Resource('ItemsListState'), 'change', function (model, options) {
             var changes = model.changedAttributes(),
                 navigate = false,
-                period, scope, uuid, item;
+                period, scope, id, item;
 
             // sometimes search is changed to '' and then immediately and silently cleaned back to `null`
             if ( ! changes )
@@ -52,13 +52,13 @@ define([
             if ( navigate ) {
                 if ( scope ) {
                     item = uijet.Resource('LatestSheet').findWhere({ node : scope }) ||
-                            uijet.Resource('Breadcrumbs').findWhere({ node : scope });
-                    uuid = item.get('uuid') + '/';
+                           uijet.Resource('Breadcrumbs').findWhere({ node : scope });
+                    id = item.get('id') + '/';
                 }
                 else {
-                    uuid = '';
+                    id = '';
                 }
-                this.navigate(period + '/' + uuid);
+                this.navigate(period + '/' + id);
             }
         });
 
@@ -128,7 +128,7 @@ define([
             signals     : {
                 post_select : function ($selected) {
                     this.resource.set({
-                        sheet   : +$selected.attr('data-id'),
+                        sheet   : $selected.attr('data-id'),
                         period  : +$selected.text()
                     });
                 }
@@ -258,10 +258,10 @@ define([
                 },
                 app_events      : {
                     'sheet_selector.selected'   : function ($selected) {
-                        var uuid = $selected.attr('data-uuid');
+                        var id = $selected.attr('data-id');
                         this.$element.find('a').each(function () {
                             var href = this.getAttribute('href');
-                            this.setAttribute('href', href.replace(/sheet\/([^\/]+)/, 'sheet/' + uuid));
+                            this.setAttribute('href', href.replace(/sheet\/([^\/]+)/, 'sheet/' + id));
                         });
                     }
                 }
@@ -397,7 +397,7 @@ define([
                     this.$original_children = this.$element.children().slice(0, 2);
                 },
                 pre_select  : function ($selected) {
-                    return +$selected.attr('data-id');
+                    return $selected.attr('data-id');
                 },
                 post_sleep  : closeSearchBreadcrumbsHandler
             },

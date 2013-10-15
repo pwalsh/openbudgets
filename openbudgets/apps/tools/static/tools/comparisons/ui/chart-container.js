@@ -12,7 +12,7 @@ define([
         config  : {
             adapters        : ['Spin'],
             dont_wake   : function () {
-                return ! uijet.Resource('ProjectState').has('uuid');
+                return ! uijet.Resource('ProjectState').has('id');
             },
             spinner_options : {
                 lines   : 10,
@@ -65,7 +65,7 @@ define([
         config  : {
             element     : '#viz_export',
             dont_wake   : function () {
-                return ! uijet.Resource('ProjectState').has('uuid');
+                return ! uijet.Resource('ProjectState').has('id');
             }
         }
     }, {
@@ -73,7 +73,7 @@ define([
         config  : {
             element     : '#viz_publish',
             dont_wake   : function () {
-                return ! uijet.Resource('ProjectState').has('uuid');
+                return ! uijet.Resource('ProjectState').has('id');
             }
         }
     }, {
@@ -82,8 +82,8 @@ define([
             element     : '#viz_delete',
             dont_wake   : function () {
                 var state = uijet.Resource('ProjectState');
-                if ( uijet.Resource('LoggedinUser').get('uuid') === state.get('author') ) {
-                    return ! state.has('uuid');
+                if ( uijet.Resource('LoggedinUser').get('id') === state.get('author') ) {
+                    return ! state.has('id');
                 }
 
                 return true;
@@ -109,7 +109,7 @@ define([
             dont_wake   : false,
             signals : {
                 pre_click   : function () {
-                    if ( ! uijet.Resource('LoggedinUser').has('uuid') ) {
+                    if ( ! uijet.Resource('LoggedinUser').has('id') ) {
                         uijet.publish('login');
                         return false;
                     }

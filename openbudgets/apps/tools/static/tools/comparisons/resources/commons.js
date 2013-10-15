@@ -43,8 +43,7 @@ define([
          * User (Account) Model
          */
         User = uijet.Model({
-            idAttribute : 'uuid',
-            name        : function () {
+            name    : function () {
                 var first = this.get('first_name'),
                     last = this.get('last_name');
                 if ( first || last ) {
@@ -54,7 +53,7 @@ define([
                     return gettext('Guest');
                 }
             },
-            avatar      : function () {
+            avatar  : function () {
                 var avatar = this.get('avatar');
                 return avatar ? avatar.replace(/s=\d+[^&]/i, 's=90') : window.DEFAULT_AVATAR;
             }
@@ -63,13 +62,12 @@ define([
          * State Model
          */
         State = uijet.Model({
-            idAttribute : 'uuid',
-            parse       : function (response) {
+            parse   : function (response) {
                 if ( uijet.utils.isObj(response.author) ) {
                     if ( ! this.has('author_model') ) {
                         response.author_model = new User(response.author);
                     }
-                    response.author = response.author.uuid;
+                    response.author = response.author.id;
                 }
                 return response;
             }
@@ -78,7 +76,7 @@ define([
          * TimeSeries Model
          */
         TimeSeriesModel = uijet.Model({
-            parse       : function (response) {
+            parse   : function (response) {
                 var periods = [],
                     series = {};
                 response.forEach(function (item) {
@@ -103,7 +101,7 @@ define([
                     series  : series
                 };
             },
-            toSeries    : function () {
+            toSeries: function () {
                 var series = this.get('series'),
                     actuals = [],
                     budgets = [],

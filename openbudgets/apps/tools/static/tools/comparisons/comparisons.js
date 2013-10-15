@@ -16,12 +16,12 @@ define([
 ], function (uijet, resources, state_controller, api, Backbone, Router, $, Ebox, Q, Mustache) {
 
     var default_state = {
-            project     : window.PROJECT.uuid,
-            author      : window.LOGGEDIN_USER.uuid,
+            project     : window.PROJECT.id,
+            author      : window.LOGGEDIN_USER.id,
             title       : '',
             description : '',
             author_model: new resources.User(window.LOGGEDIN_USER),
-            uuid        : null,
+            id          : null,
             config      : null
         },
         comparisons;
@@ -46,11 +46,11 @@ define([
         default_state   : default_state,
         router          : Router({
             routes  : {
-                ':uuid' : function (uuid) {
+                ':id'   : function (uuid) {
                     var state = uijet.Resource('ProjectState');
-                    if ( state.id !== uuid ) {
+                    if ( state.id !== id ) {
                         state.set({
-                            uuid: uuid
+                            id  : id
                         })
                         .fetch({
                             success : function (model) {

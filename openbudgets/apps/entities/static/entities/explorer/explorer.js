@@ -30,7 +30,7 @@ define([
     });
 
     // get version endpoint
-    api.getVersion();
+//    api.getVersion();
 
     initial_crumbs = (window.ITEM.ancestors && window.ITEM.ancestors.slice()) || [];
     if ( window.ITEM.id )
@@ -104,22 +104,22 @@ define([
                         routed  : true
                     });
                 },
-                'entities/:entity/:period/:uuid/' : function (entity, period, uuid) {
-                    var item = uijet.Resource('LatestSheet').findWhere({ uuid : uuid }),
+                'entities/:entity/:period/:id/' : function (entity, period, id) {
+                    var item = uijet.Resource('LatestSheet').findWhere({ id : id }),
                         scope;
 
                     if ( ! item ) {
                         scope = -1;
                     }
                     else {
-                        scope = +item.get('node');
+                        scope = item.get('node');
                     }
 
                     uijet.Resource('ItemsListState').set({
                         sheet   : explorer.getSheetId(period),
                         period  : +period,
                         scope   : scope,
-                        uuid    : uuid,
+                        id      : id,
                         routed  : true
                     });
                 }

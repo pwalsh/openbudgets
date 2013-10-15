@@ -233,7 +233,7 @@ define([
                 $list = this.$last_filter_result || this.$children,
                 initial_item_height = $list.first().height();
             $list.each(function (i, item) {
-                var model = resource.get(+item.getAttribute('data-id')),
+                var model = resource.get(item.getAttribute('data-id')),
                     name_text = model.get('name'),
                     code_text = model.get('code'),
                     $item = uijet.$(item),

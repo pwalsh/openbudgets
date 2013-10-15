@@ -33,7 +33,7 @@ define([
         },
         new_comment_data = {
             discussion  : {
-                uuid            : '',
+                id              : '',
                 comment         : '',
                 created_on      : '',
                 user            : window.LOGGEDIN_USER,
@@ -47,7 +47,7 @@ define([
         };
 
     uijet.Resource('NewComment', uijet.Model(), {
-        user: window.LOGGEDIN_USER.uuid
+        user: window.LOGGEDIN_USER.id
     });
 
     return [{
@@ -100,7 +100,7 @@ define([
             },
             app_events      : {
                 open_comments                   : function ($selected) {
-                    var item = uijet.Resource('LatestSheet').get(+$selected.attr('data-item')),
+                    var item = uijet.Resource('LatestSheet').get($selected.attr('data-item')),
                         discussion = item.get('discussion'),
                         description = item.get('description');
                     this.$element[0].style.setProperty('padding-top', (uijet.utils.getOffsetOf($selected[0], uijet.$element[0]).y + 15) + 'px');
@@ -164,7 +164,7 @@ define([
                     if ( this.$new_comment ) {
                         this.$new_comment.find('.item_comment_text').html(multiline(comment.comment));
                         this.$new_comment.find('.item_comment_date').text(formatDate(new Date(comment.created_on)));
-                        this.$new_comment.attr('data-uuid', comment.uuid);
+                        this.$new_comment.attr('data-id', comment.id);
                         this.$new_comment.removeClass('new_comment');
                         delete this.$new_comment;
                     }

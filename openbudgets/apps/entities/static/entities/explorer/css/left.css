@@ -97,7 +97,7 @@
     padding-right: 40px;
     padding-bottom: 20px;
 }
-#item_comments_list li[data-uuid=""] {
+#item_comments_list li[data-id=""] {
     padding-bottom: 0;
 }
 

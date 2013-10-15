@@ -7,7 +7,7 @@
     class="item_cell item_cell_budget amount">{{f_budget}}</span><span
     class="item_cell item_cell_actual amount">{{f_actual}}</span><span
     class="item_cell item_cell_comment"><span class="td_filler">
-        <span class="item_comment_button {{#has_comments}}has_comments{{/has_comments}}">{{comments_count}}</span>
+        <span class="item_comment_button {{#has_comments}}has_comments{{/has_comments}}">{{comment_count}}</span>
     </span></span>
 </li>
 {{/stache}}
@@ -23,7 +23,7 @@
     class="item_cell item_cell_budget amount">{{#commas}}{{budget}}{{/commas}}</span><span
     class="item_cell item_cell_actual amount">{{#commas}}{{actual}}{{/commas}}</span><span
     class="item_cell item_cell_comment"><span class="td_filler">
-        <span class="item_comment_button {{#has_comments}}has_comments{{/has_comments}}">{{comments_count}}</span>
+        <span class="item_comment_button {{#has_comments}}has_comments{{/has_comments}}">{{comment_count}}</span>
     </span></span>
 </li>
 {{/attributes}}

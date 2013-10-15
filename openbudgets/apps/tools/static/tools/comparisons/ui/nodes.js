@@ -344,7 +344,7 @@ define([
                     this.resource.length && this.$title.addClass('hide');
                 },
                 pre_select  : function ($selected) {
-                    return +$selected.attr('data-id');
+                    return $selected.attr('data-id');
                 },
                 post_sleep  : closeSearchBreadcrumbsHandler
             },

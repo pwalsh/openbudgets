@@ -22,7 +22,7 @@ define(['uijet_dir/uijet'], function (uijet) {
             } }, {
                 success : function () {
                     uijet.publish('state_saved');
-                    this.router.navigate(state_model.get('uuid'));
+                    this.router.navigate(state_model.get('id'));
                 }.bind(this),
                 error   : function () {
                     uijet.publish('state_save_failed');
@@ -41,20 +41,19 @@ define(['uijet_dir/uijet'], function (uijet) {
             var state_clone = uijet.Resource('ProjectState').clone(),
                 user = uijet.Resource('LoggedinUser');
             state_clone
-                .unset('uuid')
                 .unset('id')
                 .unset('url')
                 .set({
-                    author      : user.get('uuid'),
+                    author      : user.get('id'),
                     author_model: user
                 });
             return this._saveState(state_clone);
         },
         saveState       : function () {
             var state = uijet.Resource('ProjectState'),
-                user_uuid = uijet.Resource('LoggedinUser').get('uuid');
-            if ( user_uuid ) {
-                if ( state.get('author') === user_uuid ) {
+                user_id = uijet.Resource('LoggedinUser').get('id');
+            if ( user_id ) {
+                if ( state.get('author') === user_id ) {
                     return this._saveState(state);
                 }
                 else {

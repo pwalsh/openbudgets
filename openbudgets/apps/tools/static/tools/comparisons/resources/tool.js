@@ -265,9 +265,7 @@ define([
         /*
          * Context Model
          */
-        Context = uijet.Model({
-            idAttribute : 'uuid'
-        }),
+        Context = uijet.Model(),
         /*
          * Contexts Collection
          */
