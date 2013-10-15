@@ -731,9 +731,7 @@ class SheetItem(UUIDPKMixin, AbstractBaseItem, TimeStampedMixin, ClassMethodMixi
 
     @property
     def has_comments(self):
-        if len(self.description):
-            return True
-        return False
+        return len(self.description) or self.discussion.exists()
 
     @property
     def comment_count(self):
