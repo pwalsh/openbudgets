@@ -83,7 +83,7 @@ define([
                 post_init       : function () {
                     var state_model = uijet.Resource('ItemsListState');
 
-                    this.scope = window.ITEM.node || null;
+                    this.scope = window.ITEM.id || null;
                     this.resource.reset(this.resource.parse(window.ITEMS_LIST));
                     this.index();
 
@@ -162,7 +162,7 @@ define([
                             // register current collection as the new instance
                             uijet.Resource('LatestSheet', this.resource, true);
                             scope = scope === -1 ?
-                                this.resource.findWhere({ id : state.get('id') }).get('node') :
+                                this.resource.get(state.get('id')).get('id') :
                                 scope;
                         }
                         else {

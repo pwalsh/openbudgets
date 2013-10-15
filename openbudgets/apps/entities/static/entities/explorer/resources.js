@@ -89,7 +89,7 @@ define([
 
                 if ( index !== null ) {
                     ancestors.some(function (ancestor) {
-                        if ( ancestor.node === from_id ) {
+                        if ( ancestor.id === from_id ) {
                             return true
                         }
                         index++;
@@ -176,14 +176,14 @@ define([
             byParent        : function (parent_id) {
                 return this.filter(function (item) {
                     var parent = item.attributes.parent;
-                    return (parent && parent.node) === parent_id;
+                    return (parent && parent.id) === parent_id;
                 });
             },
-            byAncestor      : function (ancestor_node) {
-                if ( ancestor_node ) {
+            byAncestor      : function (ancestor_id) {
+                if ( ancestor_id ) {
                     return this.filter(function (item) {
                         return item.attributes.ancestors.some(function (ancestor) {
-                            return ancestor.node === ancestor_node
+                            return ancestor.id === ancestor_id
                         });
                     });
                 }

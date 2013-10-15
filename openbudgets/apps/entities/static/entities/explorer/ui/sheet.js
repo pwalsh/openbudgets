@@ -51,8 +51,8 @@ define([
 
             if ( navigate ) {
                 if ( scope ) {
-                    item = uijet.Resource('LatestSheet').findWhere({ node : scope }) ||
-                           uijet.Resource('Breadcrumbs').findWhere({ node : scope });
+                    item = uijet.Resource('LatestSheet').get(scope) ||
+                           uijet.Resource('Breadcrumbs').get(scope);
                     id = item.get('id') + '/';
                 }
                 else {
@@ -409,7 +409,7 @@ define([
                         this.has_data = true;
                         wake = true;
                     }
-                    else if ( window.ITEM.node ) {
+                    else if ( window.ITEM.id ) {
                         wake = true;
                     }
 

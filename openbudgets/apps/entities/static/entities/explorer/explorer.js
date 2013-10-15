@@ -51,7 +51,7 @@ define([
             search          : null,
             sheet           : window.SHEET.id,
             period          : +window.SHEET.period,
-            scope           : +window.ITEM.node || null,
+            scope           : +window.ITEM.id || null,
             comments_item   : null
         }
     )
@@ -112,7 +112,7 @@ define([
                         scope = -1;
                     }
                     else {
-                        scope = item.get('node');
+                        scope = item.get('id');
                     }
 
                     uijet.Resource('ItemsListState').set({
