@@ -52,7 +52,7 @@ class EntityDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super(EntityDetail, self).get_context_data(**kwargs)
         period = self.kwargs.get('period', None)
-        item_uuid = self.kwargs.get('item_uuid', None)
+        item_id = self.kwargs.get('item_id', None)
 
         sheets = []
         items_list = {}
@@ -92,9 +92,9 @@ class EntityDetail(DetailView):
             else:
                 sheet = Sheet.objects.latest_of(self.object.id)
 
-            if item_uuid:
+            if item_id:
                 try:
-                    scope_item = SheetItem.objects.get_queryset().get(uuid=item_uuid)
+                    scope_item = SheetItem.objects.get_queryset().get(id=item_id)
                     items = sheet.items.filter(node__parent=scope_item.node).order_by('node__code')
                 except SheetItem.DoesNotExist:
                     items = sheet.items.filter(node__parent__isnull=True).order_by('node__code')
@@ -105,9 +105,8 @@ class EntityDetail(DetailView):
 
             for s in self.object.sheets.all():
                 sheets.append({
-                    'id': s.id,
-                    'period': s.period,
-                    'uuid': unicode(s.id)
+                    'id': unicode(s.id),
+                    'period': s.period
                 })
 
         context['sheets'] = sheets

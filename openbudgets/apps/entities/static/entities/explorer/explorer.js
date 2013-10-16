@@ -105,7 +105,7 @@ define([
                     });
                 },
                 'entities/:entity/:period/:id/' : function (entity, period, id) {
-                    var item = uijet.Resource('LatestSheet').findWhere({ id : id }),
+                    var item = uijet.Resource('LatestSheet').get(id),
                         scope;
 
                     if ( ! item ) {

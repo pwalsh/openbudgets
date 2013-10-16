@@ -17,7 +17,7 @@ urlpatterns = patterns('',
     url(r'^(?P<slug>[-\w]+)/(?P<period>\d+)/$',
         EntityDetail.as_view(), name='entity_detail'),
 
-    url(r'^(?P<slug>[-\w]+)/(?P<period>\d+)/(?P<item_uuid>\w+)/$',
+    url(r'^(?P<slug>[-\w]+)/(?P<period>\d+)/(?P<item_id>[-\w]+)/$',
         EntityDetail.as_view(), name='entity_detail'),
 
 )
