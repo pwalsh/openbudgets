@@ -366,10 +366,15 @@ OPENBUDGETS_CKAN = [
     {
         'name': 'Datahub',
         'base_url': 'http://datahub.io/api',
-        'api_key': ''
+        'package_url': 'http://datahub.io/dataset/',
+        'api_key': '884da76c-87b6-4974-97dc-cfd3f639d15a'
     }
 ]
-
+OPENBUDGETS_SETTING = {
+    'tags': ['budget', 'municipalities', 'israel'],
+    'notes': 'This is the Budget and the Actual of',
+    'owner_org': 'israel-municipalities'
+}
 
 # if we are on production, we should have a settings.production module to load.
 try:
