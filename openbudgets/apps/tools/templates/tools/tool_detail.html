@@ -53,7 +53,7 @@
 
 {% block body_js %}
     <script>
-        var API_INDEX = 'http://api.{{ site.domain }}/',
+        var API_INDEX = 'http://{{ site.domain }}/api/',
             API_VERSION = 'v1',
             DEFAULT_AVATAR = '{{ STATIC_URL }}img/avatar_anon.png',
             LOGGEDIN_USER = {{ user_json|safe }},

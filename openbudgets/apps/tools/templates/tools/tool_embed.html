@@ -6,7 +6,7 @@
 
 {% block body_js %}
     <script>
-        var API_INDEX = 'http://api.{{ site.domain }}/',
+        var API_INDEX = 'http://{{ site.domain }}/api/',
             API_VERSION = 'v1',
             TOOL = {{ tool_json|safe }};
             STATE = {{ state_json|safe }};
