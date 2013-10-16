@@ -18,212 +18,212 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: static/projects/comparisons/dictionary.js:3
+#: static/tools/comparisons/dictionary.js:3
 msgid "Open Muni Budget | Budget Comparisons Visualization"
 msgstr "תקציב מקומי פתוח | סייר התקציב"
 
-#: static/projects/comparisons/dictionary.js:4
+#: static/tools/comparisons/dictionary.js:4
 msgid "Enter"
 msgstr "כניסה"
 
-#: static/projects/comparisons/dictionary.js:5
+#: static/tools/comparisons/dictionary.js:5
 msgid "Welcome to Budget Comparisons 5000"
 msgstr "ברוכים הבאים לסייר התקציב 5000"
 
-#: static/projects/comparisons/dictionary.js:6
+#: static/tools/comparisons/dictionary.js:6
 msgid "Choose entity"
 msgstr "בחירת רשות"
 
-#: static/projects/comparisons/dictionary.js:7
+#: static/tools/comparisons/dictionary.js:7
 msgid "Search"
 msgstr "חיפוש"
 
-#: static/projects/comparisons/dictionary.js:8
+#: static/tools/comparisons/dictionary.js:8
 msgid "Choose budget items:"
 msgstr "בחירת סעיפי תקציב"
 
-#: static/projects/comparisons/dictionary.js:9
+#: static/tools/comparisons/dictionary.js:9
 msgid "Search under:"
 msgstr "חפש תחת:"
 
-#: static/projects/comparisons/dictionary.js:10
-#: static/projects/comparisons/ui/nodes.js:38
+#: static/tools/comparisons/dictionary.js:10
+#: static/tools/comparisons/ui/nodes.js:38
 msgid "Main"
 msgstr "ראשי"
 
-#: static/projects/comparisons/dictionary.js:11
+#: static/tools/comparisons/dictionary.js:11
 msgid "Code"
 msgstr "קוד סעיף"
 
-#: static/projects/comparisons/dictionary.js:12
+#: static/tools/comparisons/dictionary.js:12
 msgid "Name"
 msgstr "שם סעיף"
 
-#: static/projects/comparisons/dictionary.js:13
+#: static/tools/comparisons/dictionary.js:13
 msgid "Type"
 msgstr "סוג"
 
-#: static/projects/comparisons/dictionary.js:14
+#: static/tools/comparisons/dictionary.js:14
 msgid "Done"
 msgstr "אישור"
 
-#: static/projects/comparisons/dictionary.js:15
+#: static/tools/comparisons/dictionary.js:15
 msgid "Add"
 msgstr "הוספה"
 
-#: static/projects/comparisons/dictionary.js:16
+#: static/tools/comparisons/dictionary.js:16
 msgid "Home"
 msgstr "דף הבית"
 
-#: static/projects/comparisons/dictionary.js:17
+#: static/tools/comparisons/dictionary.js:17
 msgid "Munis"
 msgstr "רשויות"
 
-#: static/projects/comparisons/dictionary.js:18
-msgid "Projects"
-msgstr "פרויקטים"
+#: static/tools/comparisons/dictionary.js:18
+msgid "Tools"
+msgstr "כלים"
 
-#: static/projects/comparisons/dictionary.js:19
+#: static/tools/comparisons/dictionary.js:19
 msgid "About"
 msgstr "אודות"
 
-#: static/projects/comparisons/dictionary.js:20
+#: static/tools/comparisons/dictionary.js:20
 msgid "API"
 msgstr ""
 
-#: static/projects/comparisons/dictionary.js:21
+#: static/tools/comparisons/dictionary.js:21
 msgid "Terms"
 msgstr "תנאי שימוש"
 
-#: static/projects/comparisons/dictionary.js:22
+#: static/tools/comparisons/dictionary.js:22
 msgid "Credits"
 msgstr "קרדיטים"
 
-#: static/projects/comparisons/dictionary.js:23
+#: static/tools/comparisons/dictionary.js:23
 msgid "Loading..."
 msgstr "טוען..."
 
-#: static/projects/comparisons/dictionary.js:24
+#: static/tools/comparisons/dictionary.js:24
 msgid "<em>Open Muni</em> Budgets"
 msgstr "<em>תקציב מקומי</em> פתוח"
 
-#: static/projects/comparisons/dictionary.js:25
+#: static/tools/comparisons/dictionary.js:25
 msgid "Compare"
 msgstr "השוואות"
 
-#: static/projects/comparisons/dictionary.js:26
+#: static/tools/comparisons/dictionary.js:26
 msgid "New"
 msgstr "חדש"
 
-#: static/projects/comparisons/dictionary.js:27
+#: static/tools/comparisons/dictionary.js:27
 msgid "Duplicate"
 msgstr "שכפול"
 
-#: static/projects/comparisons/dictionary.js:28
+#: static/tools/comparisons/dictionary.js:28
 msgid "Delete"
 msgstr "מחיקה"
 
-#: static/projects/comparisons/dictionary.js:29
+#: static/tools/comparisons/dictionary.js:29
 msgid "Export"
 msgstr "יצוא"
 
-#: static/projects/comparisons/dictionary.js:30
+#: static/tools/comparisons/dictionary.js:30
 msgid "Publish"
 msgstr "פרסום"
 
-#: static/projects/comparisons/dictionary.js:31
+#: static/tools/comparisons/dictionary.js:31
 msgid "Save"
 msgstr "שמירה"
 
-#: static/projects/comparisons/dictionary.js:32
+#: static/tools/comparisons/dictionary.js:32
 msgid "Free text search"
 msgstr "חיפוש טקסט חופשי"
 
-#: static/projects/comparisons/dictionary.js:33
+#: static/tools/comparisons/dictionary.js:33
 msgid "Search for"
 msgstr "חפש"
 
-#: static/projects/comparisons/dictionary.js:34
-#: static/projects/comparisons/resources/commons.js:54
+#: static/tools/comparisons/dictionary.js:34
+#: static/tools/comparisons/resources/commons.js:54
 msgid "Guest"
 msgstr "אורח"
 
-#: static/projects/comparisons/dictionary.js:35
+#: static/tools/comparisons/dictionary.js:35
 msgid "Summarize data of:"
 msgstr "סכם נתוני:"
 
-#: static/projects/comparisons/dictionary.js:36
+#: static/tools/comparisons/dictionary.js:36
 msgid "Budget"
 msgstr "תכנון"
 
-#: static/projects/comparisons/dictionary.js:37
+#: static/tools/comparisons/dictionary.js:37
 msgid "Actual"
 msgstr "ביצוע"
 
-#: static/projects/comparisons/dictionary.js:38
+#: static/tools/comparisons/dictionary.js:38
 msgid "selected items"
 msgstr "סעיפים נבחרים"
 
-#: static/projects/comparisons/dictionary.js:39
+#: static/tools/comparisons/dictionary.js:39
 msgid "Normalize data"
 msgstr "נרמל נתונים"
 
-#: static/projects/comparisons/dictionary.js:40
+#: static/tools/comparisons/dictionary.js:40
 msgid "Don't normalize"
 msgstr "ללא"
 
-#: static/projects/comparisons/dictionary.js:41
+#: static/tools/comparisons/dictionary.js:41
 msgid "by:"
 msgstr "לפי:"
 
-#: static/projects/comparisons/dictionary.js:42
+#: static/tools/comparisons/dictionary.js:42
 msgid "* Data normalized by"
 msgstr "* נתונים מנורמלים לפי"
 
-#: static/projects/comparisons/dictionary.js:43
+#: static/tools/comparisons/dictionary.js:43
 msgid "For more analyses"
 msgstr "לחיתוכים וניתוחים נוספים"
 
-#: static/projects/comparisons/dictionary.js:47
+#: static/tools/comparisons/dictionary.js:47
 msgid "Population"
 msgstr "אוכלוסיה"
 
-#: static/projects/comparisons/dictionary.js:48
-#: static/projects/comparisons/dictionary.js:51
+#: static/tools/comparisons/dictionary.js:48
+#: static/tools/comparisons/dictionary.js:51
 msgid "Ground Surface"
 msgstr "שטח רשות"
 
-#: static/projects/comparisons/dictionary.js:49
+#: static/tools/comparisons/dictionary.js:49
 msgid "Population (Female)"
 msgstr "אוכלוסיית הנשים"
 
-#: static/projects/comparisons/dictionary.js:50
+#: static/tools/comparisons/dictionary.js:50
 msgid "Population (Male)"
 msgstr "אוכלוסיית הגברים"
 
-#: static/projects/comparisons/dictionary.js:52
+#: static/tools/comparisons/dictionary.js:52
 msgid "Students"
 msgstr "תלמידים"
 
-#: static/projects/comparisons/dictionary.js:53
+#: static/tools/comparisons/dictionary.js:53
 msgid "Schools"
 msgstr "בתי ספר"
 
-#: static/projects/comparisons/dictionary.js:54
+#: static/tools/comparisons/dictionary.js:54
 msgid "Gini Index"
 msgstr "מדד ג'ינ"
 
-#: static/projects/comparisons/dictionary.js:55
+#: static/tools/comparisons/dictionary.js:55
 msgid "Socio-Economic Index"
 msgstr "רמה דמוגרפית חברתית כלכלית"
 
-#: static/projects/comparisons/controllers/LegendsList.js:10
-#: static/projects/comparisons/resources/tool.js:335
-#: static/projects/comparisons/ui/chart.js:58
+#: static/tools/comparisons/controllers/LegendsList.js:10
+#: static/tools/comparisons/resources/tool.js:335
+#: static/tools/comparisons/ui/chart.js:58
 msgid "Insert title"
 msgstr "כתיבת כותרת"
 
-#: static/projects/comparisons/ui/nodes-footer.js:75
+#: static/tools/comparisons/ui/nodes-footer.js:75
 msgid "%(count)s results found"
 msgstr "נמצאו %(count)s תוצאות"
 
