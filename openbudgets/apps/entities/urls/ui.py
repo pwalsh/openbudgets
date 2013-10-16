@@ -9,7 +9,7 @@ urlpatterns = patterns('',
 
     url(r'^jsi18n/$',
         'django.views.i18n.javascript_catalog',
-        {'packages': ('openbudget.apps.entities',)},name='entities_js_i18n'),
+        {'packages': ('openbudgets.apps.entities',)},name='entities_js_i18n'),
 
     url(r'^(?P<slug>[-\w]+)/$',
         EntityDetail.as_view(), name='entity_detail'),
