@@ -120,7 +120,7 @@ define([
                         options.data.entities
                             .split(',')
                             .map(function (entity_id) {
-                                return +entity_id;
+                                return entity_id;
                             }));
                 });
 

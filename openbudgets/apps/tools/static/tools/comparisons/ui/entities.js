@@ -126,7 +126,7 @@ define([
                     }
                 },
                 pre_select      : function ($selected) {
-                    var id = +$selected.attr('data-id');
+                    var id = $selected.attr('data-id');
                     this.resource.get(id).set('selected', true);
                     return id;
                 },
