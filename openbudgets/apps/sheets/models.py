@@ -655,8 +655,7 @@ class SheetItemManager(models.Manager):
         else:
             raise TemplateNode.DoesNotExist()
 
-        items = self.model.objects.filter(node__in=timelines, sheet__entity=entity_pk).select_related('sheet')
-        return items
+        return self.filter(node__in=timelines, sheet__entity=entity_pk).select_related('sheet')
 
 
 class SheetItem(UUIDPKMixin, AbstractBaseItem, TimeStampedMixin, ClassMethodMixin):
