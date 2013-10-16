@@ -33,12 +33,12 @@ define(['uijet_dir/uijet'], function (uijet) {
         clearState      : function (deleted) {
             uijet.Resource('TimeSeries').reset();
             uijet.Resource('LegendItems').reset();
-            uijet.Resource('ProjectState').set(this.default_state);
+            uijet.Resource('ToolState').set(this.default_state);
             uijet.publish('state_cleared');
             this.router.navigate('', deleted && { replace : true });
         },
         duplicateState  : function () {
-            var state_clone = uijet.Resource('ProjectState').clone(),
+            var state_clone = uijet.Resource('ToolState').clone(),
                 user = uijet.Resource('LoggedinUser');
             state_clone
                 .unset('id')
@@ -50,7 +50,7 @@ define(['uijet_dir/uijet'], function (uijet) {
             return this._saveState(state_clone);
         },
         saveState       : function () {
-            var state = uijet.Resource('ProjectState'),
+            var state = uijet.Resource('ToolState'),
                 user_id = uijet.Resource('LoggedinUser').get('id');
             if ( user_id ) {
                 if ( state.get('author') === user_id ) {
@@ -69,7 +69,7 @@ define(['uijet_dir/uijet'], function (uijet) {
         },
         deleteState     : function () {
             //TODO: check (again) if logged in user is really the state author
-            return uijet.Resource('ProjectState').destroy({
+            return uijet.Resource('ToolState').destroy({
                 success : function () {
                     this.clearState(true);
                 }.bind(this),

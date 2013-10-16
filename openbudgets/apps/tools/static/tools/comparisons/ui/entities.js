@@ -2,8 +2,8 @@ define([
     'uijet_dir/uijet',
     'api',
     'comparisons',
-    'project_widgets/ClearableTextInput',
-    'project_widgets/FilteredList'
+    'tool_widgets/ClearableTextInput',
+    'tool_widgets/FilteredList'
 ], function (uijet, api, comparisons) {
 
     return [{

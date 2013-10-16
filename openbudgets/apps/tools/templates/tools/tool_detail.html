@@ -21,9 +21,9 @@
         {% include 'accounts/partials/account_tools.html' %}
     </section>
 
-{% block before_project_main %}
+{% block before_tool_main %}
     <div id="right_edge_detector"></div>
-{% endblock before_project_main %}
+{% endblock before_tool_main %}
 
 {% block site_extras %}
 
@@ -57,7 +57,7 @@
             API_VERSION = 'v1',
             DEFAULT_AVATAR = '{{ STATIC_URL }}img/avatar_anon.png',
             LOGGEDIN_USER = {{ user_json|safe }},
-            PROJECT = {{ tool_json|safe }};
+            TOOL = {{ tool_json|safe }};
     </script>
     <script src="{% url 'tools_js_i18n' %}"></script>
     <script src="{{ STATIC_URL }}lib/require.js" data-main="{{ STATIC_URL }}tools/{{ object.slug }}/main"></script>

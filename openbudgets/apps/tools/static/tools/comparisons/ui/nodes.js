@@ -2,9 +2,9 @@ define([
     'uijet_dir/uijet',
     'resources',
     'composites/Select',
-    'project_widgets/ClearableTextInput',
-    'project_widgets/Breadcrumbs',
-    'project_widgets/FilterCrumb'
+    'tool_widgets/ClearableTextInput',
+    'tool_widgets/Breadcrumbs',
+    'tool_widgets/FilterCrumb'
 ], function (uijet, resources) {
 
     uijet.Resource('Breadcrumbs', uijet.Collection({

@@ -2,8 +2,8 @@ define([
     'uijet_dir/uijet',
     'widgets/Overlay',
     'composites/Select',
-    'project_widgets/LegendItem',
-    'project_mixins/Delayed',
+    'tool_widgets/LegendItem',
+    'tool_mixins/Delayed',
     'controllers/LegendsList'
 ], function (uijet) {
 
@@ -185,7 +185,7 @@ define([
             content     : uijet.$('#normalization_selector_selection'),
             signals     : {
                 post_init   : function () {
-                    uijet.Resource('ProjectState')
+                    uijet.Resource('ToolState')
                         .on('change:normalize_by', function (model, normalize_key) {
                             var $items = this.$element.find('.uijet_select_menu').children();
                             uijet.Resource('NodesListState').set('normalize_by', normalize_key);

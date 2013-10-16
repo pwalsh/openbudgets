@@ -1,6 +1,6 @@
 define([
     'uijet_dir/uijet',
-    'project_widgets/ContentEditable'
+    'tool_widgets/ContentEditable'
 ], function (uijet) {
 
     uijet.Widget('LegendItem', {

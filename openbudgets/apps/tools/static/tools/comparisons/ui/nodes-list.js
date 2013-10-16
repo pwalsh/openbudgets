@@ -1,7 +1,7 @@
 define([
     'uijet_dir/uijet',
     'resources',
-    'project_widgets/FilteredList',
+    'tool_widgets/FilteredList',
     'controllers/NodesList'
 ], function (uijet, resources) {
 

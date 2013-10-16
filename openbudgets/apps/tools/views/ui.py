@@ -66,7 +66,7 @@ class ToolDetailView(ToolDetailBaseView):
 class ToolEmbedView(ToolDetailBaseView):
 
     def get_template_names(self):
-        return ['projects/ext/{slug}/embed.html'.format(slug=self.object.slug)]
+        return ['tools/ext/{slug}/embed.html'.format(slug=self.object.slug)]
 
     def get_context_data(self, **kwargs):
 

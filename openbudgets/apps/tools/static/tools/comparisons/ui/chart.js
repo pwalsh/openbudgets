@@ -2,7 +2,7 @@ define([
     'uijet_dir/uijet',
     'd3',
     'composites/Select',
-    'project_widgets/TimelineChart',
+    'tool_widgets/TimelineChart',
     'controllers/TimelineChart'
 ], function (uijet, d3) {
 
@@ -38,7 +38,7 @@ define([
         config  : {
             element     : '#chart_heading',
             mixins      : ['Templated', 'Translated'],
-            resource    : 'ProjectState',
+            resource    : 'ToolState',
             dont_fetch  : true,
             data_events : {
                 'change:title'  : 'title_changed'
@@ -59,7 +59,7 @@ define([
                             },
                             signals     : {
                                 post_init   : function () {
-                                    this.reset(uijet.Resource('ProjectState').get('title'), true);
+                                    this.reset(uijet.Resource('ToolState').get('title'), true);
                                 }
                             },
                             app_events  : {

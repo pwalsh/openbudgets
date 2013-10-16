@@ -12,11 +12,11 @@ define([
     'modules/xhr/jquery',
     'modules/animation/uijet-transit',
     'modules/search/uijet-search',
-    'project_modules/uijet-i18n'
+    'tool_modules/uijet-i18n'
 ], function (uijet, resources, state_controller, api, Backbone, Router, $, Ebox, Q, Mustache) {
 
     var default_state = {
-            project     : window.PROJECT.id,
+            tool        : window.TOOL.id,
             author      : window.LOGGEDIN_USER.id,
             title       : '',
             description : '',
@@ -47,7 +47,7 @@ define([
         router          : Router({
             routes  : {
                 ':id'   : function (uuid) {
-                    var state = uijet.Resource('ProjectState');
+                    var state = uijet.Resource('ToolState');
                     if ( state.id !== id ) {
                         state.set({
                             id  : id
@@ -147,7 +147,7 @@ define([
                 }
             }))
 
-            .Resource('ProjectState', resources.State, default_state);
+            .Resource('ToolState', resources.State, default_state);
 
             /*
              * Register handlers to events in UI
@@ -174,7 +174,7 @@ define([
              */
             .init({
                 element             : '#comparisons',
-                templates_path      : '/static/projects/comparisons/templates/',
+                templates_path      : '/static/tools/comparisons/templates/',
                 templates_extension : 'ms'
             });
         },
