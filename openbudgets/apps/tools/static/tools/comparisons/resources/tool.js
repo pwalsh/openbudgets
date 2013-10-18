@@ -90,21 +90,19 @@ define([
                 a_code = a_top.get('code');
                 b_code = b_top.get('code');
     
-                // if `a` and `b` are not in same level
+                // if `a` and `b` are not in same depth
                 return a_code == b_code ?
                     // check if `a` is higher in the hierarchy, otherwise `b` is
                     a_top === a ?
                         a_is_smaller : a_is_bigger :
-                    // if they are in same level order by code
+                    // if they are in same depth order by code
                     a_code < b_code ? a_is_smaller : a_is_bigger;
             };
         },
         /*
          * Muni (Entity) Model
          */
-        Muni = uijet.Model({
-            idAttribute : 'id'
-        }),
+        Muni = uijet.Model(),
         /*
          * Munis (Entities) Collection
          */
@@ -122,7 +120,6 @@ define([
          * TemplateNode Model
          */
         Node = uijet.Model({
-            idAttribute : 'id',
             branchName  : function (from_id) {
                 var ancestors = this.attributes.ancestors,
                     index = from_id ? ancestors.indexOf(from_id) : null,
@@ -155,7 +152,7 @@ define([
             comparator      : function (a, b) {
                 var a_attrs = a.attributes,
                     b_attrs = b.attributes,
-                    diff = a_attrs.level - b_attrs.level;
+                    diff = a_attrs.depth - b_attrs.depth;
                 if ( ! diff ) {
                     diff = a_attrs.code < b_attrs.code;
                     return diff ?
@@ -167,8 +164,7 @@ define([
                 return diff > 0 ? 1 : -1;
             },
             /**
-             * Setting `ancestors` array of `id`s, `leaf_node` boolean flag and
-             * `level` - a Number representing the level of the node in the tree.
+             * Setting `ancestors` array of `id`s, `leaf_node` boolean flag
              * 
              * @param {Object|Array} response
              * @returns {Object|Array} response
@@ -185,12 +181,10 @@ define([
                  * init `ancestor` to `[]` 
                  * create `paths_lookup` to look up nodes by `path`
                  * create `parent_ids` to look up child nodes by `parent` (by id later)
-                 * set `level` by splitting `path` and checking its `length`
                  * set `parent` to the parent's id
                  */
                 for ( n = last; node = results[n]; n-- ) {
                     node.ancestors = [];
-                    node.level = node.path.split('|').length - 1;
                     paths_lookup[node.path] = node;
                     if ( node.parent ) {
                         node.parent = node.parent.id || node.parent;
@@ -206,7 +200,7 @@ define([
                  * 
                  * set `children` to the array in `parent_ids` using `id`
                  * set `leaf_node` to `true` if `id` is not in `parent_ids`
-                 * fill `ancestors` array by ancestor `id`s ordered by `level` as index
+                 * fill `ancestors` array by ancestor `id`s ordered by `depth` as index
                  */
                 for ( n = last; node = results[n]; n-- ) {
                     if ( parent_ids[node.id] ) {
@@ -215,12 +209,12 @@ define([
                     else {
                         node.leaf_node = true;
                     }
-                    route = node.path.split('|').slice(1);
+                    route = node.path.split(',').slice(1);
                     while ( route.length ) {
-                        path = route.join('|');
+                        path = route.join(',');
                         if ( path in paths_lookup ) {
                             ancestor = paths_lookup[path];
-                            node.ancestors[ancestor.level] = ancestor.id;
+                            node.ancestors[ancestor.depth] = ancestor.id;
                         }
                         route.shift();
                     }
