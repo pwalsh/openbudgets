@@ -59,71 +59,7 @@ class CSVImporter(object):
         return dataset
 
     def save(self):
-
-        for item in self.data.dict:
-            for k, v in item.iteritems():
-
-                if item[k] == '':
-                    del item[k]
-
-                #hmmmm
-                if 'id' in item:
-                    del item['id']
-
-            m2ms = []
-
-            #hmmmm
-            if self.model == Grade:
-                item['region'] = Region.objects.get(name=item['region'])
-
-            elif self.model == Topic:
-
-                if 'parent' in item and item['parent']:
-                    item['parent'] = Topic.objects.get(name=item['parent'])
-
-                if 'grades' in item and item['grades']:
-                    grades = item['grades'].split(settings.SLATEMATH_IMPORT_FIELD_MULTIPLE_VALUE_DELIMITER)
-                    for grade in grades:
-                        grade = grade.strip()
-                        grade = Grade.objects.get(name=grade)
-                        m2ms.append(grade)
-
-                    del item['grades']
-                    #del item['codes']
-
-
-            elif self.model == Episode:
-
-                asset_root = 'http://' + Site.objects.get(pk=1).domain + settings.SLATEMATH_EPISODES_URL \
-                             + '/' + item['slug'] + '/' + item['slug'] + '.html'
-
-                item['assets'] = asset_root
-
-                if 'topics' in item and item['topics']:
-                    topics = item['topics'].split(settings.SLATEMATH_IMPORT_FIELD_MULTIPLE_VALUE_DELIMITER)
-                    for topic in topics:
-                        topic = topic.strip()
-
-                        # only temp because topic is not unique enough
-                        topic = Topic.objects.filter(name=topic)[0]
-                        m2ms.append(topic)
-
-                    del item['topics']
-
-            obj = self.model.objects.create(**item)
-
-            if self.model == Episode:
-                image = 'http://' + Site.objects.get(pk=1).domain + settings.SLATEMATH_EPISODES_URL \
-                        + '/' + item['slug'] + '/thumbnail.png'
-                EpisodeImage.objects.create(episode=obj, image=image, region=Region.objects.all()[0])
-
-            if m2ms and self.model == Topic:
-                for o in m2ms:
-                    obj.grades.add(o)
-
-            elif m2ms and self.model == Episode:
-                for o in m2ms:
-                    obj.topics.add(o)
+        pass
 
 
 class InitImporter(object):
