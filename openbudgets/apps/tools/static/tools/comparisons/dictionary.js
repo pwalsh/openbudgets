@@ -15,7 +15,7 @@ define(function() {
         add                     : gettext('Add'),
         'site-menu-home'        : gettext('Home'),
         'site-menu-munis'       : gettext('Munis'),
-        'site-menu-projects'    : gettext('Projects'),
+        'site-menu-tools'       : gettext('Tools'),
         'site-menu-about'       : gettext('About'),
         'site-menu-api'         : gettext('API'),
         'site-menu-tos'         : gettext('Terms'),

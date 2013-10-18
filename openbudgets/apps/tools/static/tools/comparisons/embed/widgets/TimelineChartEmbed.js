@@ -1,7 +1,7 @@
 define([
     'uijet_dir/uijet',
     'd3',
-    'project_widgets/TimelineChart'
+    'tool_widgets/TimelineChart'
 ], function (uijet, d3) {
     
     uijet.Widget('TimelineChartEmbed', {

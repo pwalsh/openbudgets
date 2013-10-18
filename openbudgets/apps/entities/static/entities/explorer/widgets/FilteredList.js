@@ -99,7 +99,7 @@ define([
                 }
                 else {
                     filter = function (i, item) {
-                        return ~ ids.indexOf(+uijet.$(item).attr('data-id'));
+                        return ~ ids.indexOf(uijet.$(item).attr('data-id'));
                     };
                     this.$last_filter_result = this.$children.filter(filter).removeClass(class_name);
                     this.$children.not(filter).addClass(class_name);

@@ -35,9 +35,17 @@ class ToolDetailBaseView(DetailView):
     def get_context_data(self, **kwargs):
 
         context = super(ToolDetailBaseView, self).get_context_data(**kwargs)
+        state = {}
         renderer = JSONRenderer()
 
+        try:
+            state_id = self.kwargs.get('state')
+            state = serializers.State(models.State.objects.get(id=state_id), context={'request': self.request}).data
+        except models.State.DoesNotExist:
+            pass
+
         context['tool_json'] = renderer.render(serializers.Tool(self.object, context={'request': self.request}).data)
+        context['state_json'] = renderer.render(state)
 
         return context
 
@@ -66,21 +74,4 @@ class ToolDetailView(ToolDetailBaseView):
 class ToolEmbedView(ToolDetailBaseView):
 
     def get_template_names(self):
-        return ['projects/ext/{slug}/embed.html'.format(slug=self.object.slug)]
-
-    def get_context_data(self, **kwargs):
-
-        context = super(ToolEmbedView, self).get_context_data(**kwargs)
-        state = {}
-        renderer = JSONRenderer()
-
-        try:
-            state_id = self.kwargs.get('state')
-            state = serializers.State(models.State.objects.get(id=state_id), context={'request': self.request}).data
-        except models.State.DoesNotExist:
-            pass
-
-        context['state_json'] = renderer.render(state)
-
-        return context
-
+        return ['tools/ext/{slug}/embed.html'.format(slug=self.object.slug)]

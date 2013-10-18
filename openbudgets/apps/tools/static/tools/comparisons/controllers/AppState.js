@@ -22,7 +22,7 @@ define(['uijet_dir/uijet'], function (uijet) {
             } }, {
                 success : function () {
                     uijet.publish('state_saved');
-                    this.router.navigate(state_model.get('uuid'));
+                    this.router.navigate(state_model.get('id'));
                 }.bind(this),
                 error   : function () {
                     uijet.publish('state_save_failed');
@@ -33,28 +33,27 @@ define(['uijet_dir/uijet'], function (uijet) {
         clearState      : function (deleted) {
             uijet.Resource('TimeSeries').reset();
             uijet.Resource('LegendItems').reset();
-            uijet.Resource('ProjectState').set(this.default_state);
+            uijet.Resource('ToolState').set(this.default_state);
             uijet.publish('state_cleared');
             this.router.navigate('', deleted && { replace : true });
         },
         duplicateState  : function () {
-            var state_clone = uijet.Resource('ProjectState').clone(),
+            var state_clone = uijet.Resource('ToolState').clone(),
                 user = uijet.Resource('LoggedinUser');
             state_clone
-                .unset('uuid')
                 .unset('id')
                 .unset('url')
                 .set({
-                    author      : user.get('uuid'),
+                    author      : user.get('id'),
                     author_model: user
                 });
             return this._saveState(state_clone);
         },
         saveState       : function () {
-            var state = uijet.Resource('ProjectState'),
-                user_uuid = uijet.Resource('LoggedinUser').get('uuid');
-            if ( user_uuid ) {
-                if ( state.get('author') === user_uuid ) {
+            var state = uijet.Resource('ToolState'),
+                user_id = uijet.Resource('LoggedinUser').get('id');
+            if ( user_id ) {
+                if ( state.get('author') === user_id ) {
                     return this._saveState(state);
                 }
                 else {
@@ -70,7 +69,7 @@ define(['uijet_dir/uijet'], function (uijet) {
         },
         deleteState     : function () {
             //TODO: check (again) if logged in user is really the state author
-            return uijet.Resource('ProjectState').destroy({
+            return uijet.Resource('ToolState').destroy({
                 success : function () {
                     this.clearState(true);
                 }.bind(this),

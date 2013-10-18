@@ -1,16 +1,16 @@
-{% extends 'projects/project_base.html' %}
+{% extends 'tools/tool_base.html' %}
 
 {% block head_css %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}projects/{{ object.slug }}/embed/css/main.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}tools/{{ object.slug }}/embed/css/main.css"/>
 {% endblock head_css %}
 
 {% block body_js %}
     <script>
-        var API_INDEX = 'http://api.{{ site.domain }}/',
+        var API_INDEX = 'http://{{ site.domain }}/api/',
             API_VERSION = 'v1',
-            PROJECT = {{ project_json|safe }};
+            TOOL = {{ tool_json|safe }};
             STATE = {{ state_json|safe }};
     </script>
-    <script src="{% url 'projects_js_i18n' %}"></script>
-    <script src="{{ STATIC_URL }}lib/require.js" data-main="{{ STATIC_URL }}projects/{{ object.slug }}/embed/main"></script>
+    <script src="{% url 'tools_js_i18n' %}"></script>
+    <script src="{{ STATIC_URL }}lib/require.js" data-main="{{ STATIC_URL }}tools/{{ object.slug }}/embed/main"></script>
 {% endblock body_js %}

@@ -1,4 +1,4 @@
-from rest_framework.relations import SlugRelatedField
+from rest_framework.relations import SlugRelatedField, PrimaryKeyRelatedField
 
 
 class UUIDRelatedField(SlugRelatedField):
@@ -12,3 +12,12 @@ class UUIDRelatedField(SlugRelatedField):
 
     def to_native(self, value):
         return str(value.uuid)
+
+
+class UUIDPKRelatedField(PrimaryKeyRelatedField):
+    """
+    Represents a relationship using a UUID field on the target.
+    """
+
+    def to_native(self, pk):
+        return str(pk)

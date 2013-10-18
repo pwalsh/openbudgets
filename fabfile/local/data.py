@@ -80,5 +80,5 @@ def dump(destination=CONFIG['db_dump_file']):
 @task
 def sync():
     notify(u'Syncing data to supported services.')
-    from openbudgets.apps.transport.outgoing import CKANSync
-    CKANSync()
+    from openbudgets.apps.transport.outgoing import CKANFactorySync
+    CKANFactorySync()

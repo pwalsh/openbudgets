@@ -1,7 +1,7 @@
 define([
     'uijet_dir/uijet',
     'resources',
-    'project_widgets/FilteredList',
+    'tool_widgets/FilteredList',
     'controllers/NodesList'
 ], function (uijet, resources) {
 
@@ -141,7 +141,7 @@ define([
                     this._finally();
                 },
                 pre_select      : function ($selected, e) {
-                    var id = +$selected.attr('data-id');
+                    var id = $selected.attr('data-id');
                     if ( uijet.$(e.target).hasClass('selectbox') ) {
                         this.updateSelection(id)
                             .publish('selection');
@@ -152,7 +152,7 @@ define([
                     }
                 },
                 post_select     : function ($selected) {
-                    var node_id = +$selected.attr('data-id') || null;
+                    var node_id = $selected.attr('data-id') || null;
                     this.redraw(node_id);
                 },
                 post_filtered   : function (ids) {
@@ -176,7 +176,7 @@ define([
                     // update DOM with collection's state
                     this.$children.each(function (i, node) {
                         var $node = uijet.$(node),
-                            id = +$node.attr('data-id'),
+                            id = $node.attr('data-id'),
                             state = resource.get(id).get('selected');
                         $node.attr('data-selected', state);
                     });

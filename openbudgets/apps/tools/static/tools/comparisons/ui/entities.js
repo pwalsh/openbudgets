@@ -2,8 +2,8 @@ define([
     'uijet_dir/uijet',
     'api',
     'comparisons',
-    'project_widgets/ClearableTextInput',
-    'project_widgets/FilteredList'
+    'tool_widgets/ClearableTextInput',
+    'tool_widgets/FilteredList'
 ], function (uijet, api, comparisons) {
 
     return [{
@@ -126,7 +126,7 @@ define([
                     }
                 },
                 pre_select      : function ($selected) {
-                    var id = +$selected.attr('data-id');
+                    var id = $selected.attr('data-id');
                     this.resource.get(id).set('selected', true);
                     return id;
                 },
@@ -137,7 +137,7 @@ define([
                             highlight = this.highlight.bind(this);
                         if ( this.$last_filter_result ) {
                             this.$last_filter_result.each(function (i, item) {
-                                var text = resource.get(+item.getAttribute('data-id')).get('name');
+                                var text = resource.get(item.getAttribute('data-id')).get('name');
                                 if ( search_term ) {
                                     item.innerHTML = highlight(text, search_term);
                                 }

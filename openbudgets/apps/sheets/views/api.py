@@ -364,7 +364,7 @@ class SheetItemTimeline(generics.ListAPIView):
 
         nodes = self.request.QUERY_PARAMS.get('nodes', None)
         if nodes:
-            nodes = [int(node_id) for node_id in nodes.split(',')]
+            nodes = nodes.split(',')
         else:
             # Provide a sensible default.
             # If there is no node query param, let's return the top level nodes,

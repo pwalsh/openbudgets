@@ -33,8 +33,8 @@ define([
             var item_model;
 
             item_model = this.scope ?
-                this.resource.findWhere({ node : this.scope }) ||
-                uijet.Resource('Breadcrumbs').findWhere({ node : this.scope }) :
+                this.resource.get(this.scope) ||
+                uijet.Resource('Breadcrumbs').get(this.scope) :
                 this.scope;
 
             return this.publish('scope_changed', item_model);
@@ -94,7 +94,7 @@ define([
                 initial_item_height = $list.first().height();
 
             $list.each(function (i, item) {
-                var model = resource.get(+item.getAttribute('data-item')),
+                var model = resource.get(item.getAttribute('data-item')),
                     name_text = model.get('name'),
                     code_text = model.get('code'),
                     $item = uijet.$(item),

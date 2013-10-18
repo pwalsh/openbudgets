@@ -18,7 +18,7 @@
             headers : {}
         },
         loc = root.location,
-        API_INDEX = root.API_INDEX || (loc.protocol + '//api.' + loc.host + '/'),
+        API_INDEX = root.API_INDEX || (loc.protocol + '//' + loc.host + '/api/'),
         API_VERSION = root.API_VERSION || 'v1',
         API_URL = API_INDEX,
         AUTH_DATA = {

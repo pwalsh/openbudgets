@@ -30,7 +30,7 @@ define([
     });
 
     // get version endpoint
-    api.getVersion();
+//    api.getVersion();
 
     initial_crumbs = (window.ITEM.ancestors && window.ITEM.ancestors.slice()) || [];
     if ( window.ITEM.id )
@@ -51,7 +51,7 @@ define([
             search          : null,
             sheet           : window.SHEET.id,
             period          : +window.SHEET.period,
-            scope           : +window.ITEM.node || null,
+            scope           : +window.ITEM.id || null,
             comments_item   : null
         }
     )
@@ -104,22 +104,22 @@ define([
                         routed  : true
                     });
                 },
-                'entities/:entity/:period/:uuid/' : function (entity, period, uuid) {
-                    var item = uijet.Resource('LatestSheet').findWhere({ uuid : uuid }),
+                'entities/:entity/:period/:id/' : function (entity, period, id) {
+                    var item = uijet.Resource('LatestSheet').get(id),
                         scope;
 
                     if ( ! item ) {
                         scope = -1;
                     }
                     else {
-                        scope = +item.get('node');
+                        scope = item.get('id');
                     }
 
                     uijet.Resource('ItemsListState').set({
                         sheet   : explorer.getSheetId(period),
                         period  : +period,
                         scope   : scope,
-                        uuid    : uuid,
+                        id      : id,
                         routed  : true
                     });
                 }

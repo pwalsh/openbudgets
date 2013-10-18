@@ -57,7 +57,7 @@ define([
                             pre_appear      : 'opening',
                             post_disappear  : 'closing',
                             pre_select      : function ($selected) {
-                                return +$selected.attr('data-id');
+                                return $selected.attr('data-id');
                             },
                             post_select     : '-nodes_breadcrumbs.selected+'
                         }

@@ -655,8 +655,7 @@ class SheetItemManager(models.Manager):
         else:
             raise TemplateNode.DoesNotExist()
 
-        items = self.model.objects.filter(node__in=timelines, sheet__entity=entity_pk).select_related('sheet')
-        return items
+        return self.filter(node__in=timelines, sheet__entity=entity_pk).select_related('sheet')
 
 
 class SheetItem(UUIDPKMixin, AbstractBaseItem, TimeStampedMixin, ClassMethodMixin):
@@ -731,9 +730,7 @@ class SheetItem(UUIDPKMixin, AbstractBaseItem, TimeStampedMixin, ClassMethodMixi
 
     @property
     def has_comments(self):
-        if len(self.description):
-            return True
-        return False
+        return len(self.description) or self.discussion.exists()
 
     @property
     def comment_count(self):

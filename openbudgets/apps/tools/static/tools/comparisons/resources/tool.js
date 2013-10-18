@@ -265,9 +265,7 @@ define([
         /*
          * Context Model
          */
-        Context = uijet.Model({
-            idAttribute : 'uuid'
-        }),
+        Context = uijet.Model(),
         /*
          * Contexts Collection
          */
@@ -374,7 +372,7 @@ define([
         return this.urlRoot() + (this.id ? this.id : '');
     };
     resources.State.prototype.urlRoot = function () {
-        return api.getRoute('projectStates');
+        return api.getRoute('toolStates');
     };
 
     resources.TimeSeriesModel.prototype.url = function () {

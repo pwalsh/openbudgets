@@ -5,7 +5,7 @@ define(function () {
             element     : 'footer',
             id          : 'footer',
             mixins      : ['Templated', 'Translated'],
-            resource    : 'ProjectState',
+            resource    : 'ToolState',
             dont_fetch  : true
         }
     }]

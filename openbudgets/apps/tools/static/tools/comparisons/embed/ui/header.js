@@ -4,7 +4,7 @@ define(function () {
         config  : {
             element     : '#chart_heading',
             mixins      : ['Templated', 'Translated'],
-            resource    : 'ProjectState',
+            resource    : 'ToolState',
             dont_fetch  : true
         }
     }, {

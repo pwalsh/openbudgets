@@ -83,7 +83,7 @@ define([
                 post_init       : function () {
                     var state_model = uijet.Resource('ItemsListState');
 
-                    this.scope = window.ITEM.node || null;
+                    this.scope = window.ITEM.id || null;
                     this.resource.reset(this.resource.parse(window.ITEMS_LIST));
                     this.index();
 
@@ -162,7 +162,7 @@ define([
                             // register current collection as the new instance
                             uijet.Resource('LatestSheet', this.resource, true);
                             scope = scope === -1 ?
-                                this.resource.findWhere({ uuid : state.get('uuid') }).get('node') :
+                                this.resource.get(state.get('id')).get('id') :
                                 scope;
                         }
                         else {
@@ -251,13 +251,13 @@ define([
                         return false;
                     }
                     else {
-                        return +$selected.attr('data-id');
+                        return $selected.attr('data-id');
                     }
                 },
                 post_select     : function ($selected) {
-                    var node_id = typeof $selected == 'number' ?
+                    var node_id = (typeof $selected == 'string' ?
                             $selected :
-                            +$selected.attr('data-id') || null;
+                            $selected.attr('data-id')) || null;
                     
                     uijet.Resource('ItemsListState').set('scope', node_id);
                 }
