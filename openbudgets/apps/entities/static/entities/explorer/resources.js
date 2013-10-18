@@ -67,12 +67,12 @@ define([
                 a_code = a_top.code;
                 b_code = b_top.code;
     
-                // if `a` and `b` are not in same level
+                // if `a` and `b` are not in same depth
                 return a_code == b_code ?
                     // check if `a` is higher in the hierarchy, otherwise `b` is
                     a_top === a_attrs ?
                         a_is_smaller : a_is_bigger :
-                    // if they are in same level order by code
+                    // if they are in same depth order by code
                     a_code < b_code ? a_is_smaller : a_is_bigger;
             };
         },
@@ -80,7 +80,6 @@ define([
          * SheetItem Model
          */
         Item = uijet.Model({
-            idAttribute : 'id',
             branchName  : function (from_id) {
                 var ancestors = this.attributes.ancestors,
                     index = from_id ? 0 : null,
@@ -122,7 +121,7 @@ define([
             comparator      : function (a, b) {
                 var a_attrs = a.attributes,
                     b_attrs = b.attributes,
-                    diff = a_attrs.level - b_attrs.level;
+                    diff = a_attrs.depth - b_attrs.depth;
                 if ( ! diff ) {
                     diff = a_attrs.code < b_attrs.code;
                     return diff ?
@@ -134,8 +133,7 @@ define([
                 return diff > 0 ? 1 : -1;
             },
             /**
-             * Setting `ancestors` array of `id`s, `leaf_item` boolean flag and
-             * `level` - a Number representing the level of the item in the tree.
+             * Setting `ancestors` array of `id`s, `leaf_item` boolean flag.
              * 
              * @param {Object|Array} response
              * @returns {Object|Array} response
@@ -148,14 +146,12 @@ define([
                  * first loop
                  *
                  * init `ancestor` to `[]`
-                 * set `level` by splitting `path` and checking its `length`
-                 * parse `actual` and `budget` to floats
+                 * parse `actual` and `budget` to integers
                  * translate `direction`
                  * if no `children` or it's empty set `leaf_item` to `true`
                  */
                 for ( n = last; item = results[n]; n-- ) {
                     item.ancestors || (item.ancestors = []);
-                    item.level = item.path.split('|').length - 1;
 
                     // convert to integers
                     item.actual = item.actual | 0;
@@ -205,9 +201,7 @@ define([
                 return branch || [];
             }
         }),
-        Sheet = uijet.Model({
-            idAttribute : 'id'
-        }),
+        Sheet = uijet.Model(),
         /*
          * Collection of SheetItems collections
          */
