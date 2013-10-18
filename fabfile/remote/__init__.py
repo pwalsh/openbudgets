@@ -6,10 +6,10 @@ from fabfile.remote import env
 from fabfile.config import CONFIG, WORKON, DEACTIVATE
 
 try:
-    from sensitive import SENSITIVE
+    from fabfile.sensitive import SENSITIVE
 except ImportError as e:
-    logging.warning('the SENSITIVE object does not exist. Creating it as an'
-                    ' empty dictionary.')
+    logging.warning(u'the SENSITIVE object does not exist. Creating it as an'
+                    u' empty dictionary.')
     SENSITIVE = {}
 
 
@@ -32,7 +32,7 @@ def bootstrap():
 @task
 @roles('web')
 def upgrade():
-    notify('Now starting the project upgrade sequence')
+    notify(u'Now starting the project upgrade sequence')
     fetch()
     merge()
     env.ensure()
@@ -48,7 +48,7 @@ def upgrade():
 @task
 @roles('web')
 def deploy():
-    notify('Now starting the project deploy sequence')
+    notify(u'Now starting the project deploy sequence')
     fetch()
     merge()
     validate()
