@@ -46,10 +46,11 @@ class TemplateNode(TemplateNodeMin):
     parent = TemplateNodeMin()
     backwards = TemplateNodeMin(many=True)
     inverse = TemplateNodeMin(many=True)
+    depth = serializers.Field(source='depth')
 
     class Meta(TemplateNodeMin.Meta):
         fields = TemplateNodeMin.Meta.fields + ['code', 'name', 'description',
-                 'direction', 'path', 'comparable', 'parent', 'templates',
+                 'direction', 'path', 'comparable', 'parent', 'templates', 'depth',
                  'backwards', 'inverse', 'items', 'created_on', 'last_modified',] \
                  + translated_fields(models.TemplateNode)
 
