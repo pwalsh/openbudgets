@@ -1,12 +1,15 @@
+# -*- coding: utf-8 -*-
+
 import os
 import json
 from itertools import chain
 import tablib
 from django.conf import settings
 from django.db.models.loading import get_model
-
+from openbudgets.apps.entities.models import Domain, Division, Entity
 
 class Store(object):
+
 
     """Takes a model and an object, and saves to the data store.
 
@@ -28,8 +31,25 @@ class Store(object):
         return save_method(**self.obj)
 
     def _save_base(self, **obj):
-        obj = self.model.objects.create(**obj)
+        try:
+            obj = self.model.objects.get(**obj)
+        except self.model.DoesNotExist:
+            obj = self.model.objects.create(**obj)
         return obj
+
+    def _save_division(self, **obj):
+        obj['domain'] = Domain.objects.get(name = obj['domain'])
+        return self._save_base(**obj)
+
+    def _save_entity(self, **obj):
+        obj['division'] = Division.objects.get(name_he=obj['division'])
+        if 'parent' in obj:
+
+            if obj['division'].index != 1:
+                obj['parent'] = Entity.objects.get(name_he=obj['parent'], division__name_he=u'מחוז')
+            else:
+                obj['parent'] = Entity.objects.get(name_he=obj['parent'])
+        return self._save_base(**obj)
 
     # def _save_{model_name_lower_case}(self, **obj):
     #
@@ -217,7 +237,7 @@ class Unload(object):
 
         for data_source in self.walk_and_sort():
             this_path, ext = os.path.splitext(data_source)
-            path_elements = this_path.split('/')
+            path_elements = this_path.split('\\')
             model_name = path_elements[-1]
             module_name = path_elements[-2]
             model = get_model(module_name, model_name.title())
