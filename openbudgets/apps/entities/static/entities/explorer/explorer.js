@@ -91,20 +91,20 @@ define([
     explorer = {
         router      : Router({
             routes  : {
-                'entities/:entity/' : function (entity) {
+                '/' : function () {console.log('ROOT');
                     this.navigate(uijet.Resource('ItemsListState').get('period') + '/', { 
                         replace : true,
                         silent  : true
                     });
                 },
-                'entities/:entity/:period/' : function (entity, period) {
+                ':period/' : function (period) {console.log(period);
                     uijet.Resource('ItemsListState').set({
                         period  : +period,
                         scope   : null,
                         routed  : true
                     });
                 },
-                'entities/:entity/:period/:id/' : function (entity, period, id) {
+                ':period/:id/' : function (period, id) {console.log(period, id);
                     var item = uijet.Resource('LatestSheet').get(id),
                         scope;
 
@@ -159,7 +159,7 @@ define([
              * Register handlers to events in UI
              */
             uijet.subscribe('startup', function () {
-                var root = '/entities/' + window.ENTITY.slug + '/';
+                var root = '/entities/' + encodeURIComponent(window.ENTITY.slug) + '/';
                 explorer.routes_set_promise.then(function () {
                     Backbone.history.start({
                         pushState   : true,
@@ -167,7 +167,7 @@ define([
                         silent      : true
                     });
 
-                    if ( /^entities\/[^\/]+\/?$/.test(Backbone.history.getFragment()) ) {
+                    if ( Backbone.history.getFragment() === '' ) {
                         explorer.router.navigate(uijet.Resource('ItemsListState').get('period') + '/', {
                             replace : true
                         });
@@ -198,7 +198,7 @@ define([
             });
         },
         getSheetId  : function (period) {
-            return +window.ENTITY.sheets.filter(function (sheet) {
+            return window.ENTITY.sheets.filter(function (sheet) {
                 return sheet.period == period;
             })[0].id;
         }
