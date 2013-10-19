@@ -1222,7 +1222,7 @@ input.valid {
 .add {
   background: url('/static/img/tools_default.png') no-repeat center;
 }
-/* @import "../../lib/adaptabl/src/normalize"; */
+/* @import "../../vendor/adaptabl/src/normalize"; */
 /**********************/
 /* jqScroll overrides */
 /**********************/

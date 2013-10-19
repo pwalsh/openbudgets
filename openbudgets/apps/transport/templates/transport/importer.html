@@ -42,5 +42,5 @@
         API_VERSION = 'v1';
 </script>
 <script src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
-<script src="{{ STATIC_URL }}lib/require.js" data-main="{{ STATIC_URL }}importer/main"></script>
+<script src="{{ STATIC_URL }}vendor/require.js" data-main="{{ STATIC_URL }}importer/main"></script>
 {% endblock js_body %}

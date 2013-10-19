@@ -131,6 +131,6 @@
             ITEMS_LIST = {{ items_list_json|safe }};
     </script>
     <script src="{% url 'entities_js_i18n' %}"></script>
-    <script src="{{ STATIC_URL }}lib/require.js" data-main="{{ STATIC_URL }}entities/explorer/main"></script>
+    <script src="{{ STATIC_URL }}vendor/require.js" data-main="{{ STATIC_URL }}entities/explorer/main"></script>
 </body>
 </html>

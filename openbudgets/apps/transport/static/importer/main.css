@@ -1,5 +1,5 @@
-@import url(/static/lib/uijet/uijet.css);
-@import url(/static/lib/jqScroll/jqscroll.css);
+@import url(/static/vendor/uijet/uijet.css);
+@import url(/static/vendor/jqScroll/jqscroll.css);
 
 .uijet_datepicker {
     width: auto;
