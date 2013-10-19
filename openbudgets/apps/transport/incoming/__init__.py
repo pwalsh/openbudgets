@@ -92,10 +92,10 @@ class Process(object):
         processed = []
 
         for box in self.freight:
-            model, data = box
-            raw_dataset = self._extract_data(data)
+            model, path = box
+            raw_dataset = self._extract_data(path)
             data = self._clean_data(raw_dataset)
-            processed.append((model, data))
+            processed.append((model, data, path))
 
         return processed
 
@@ -103,10 +103,29 @@ class Process(object):
         """Unpack our processed data and pass each object to storage class for saving."""
 
         for item in self.processed():
-            model, data = item
+            model, data, path = item
+            obj_list=[]
             for obj in data:
                 store = self.storage_class(model, obj)
                 obj = store.save()
+                obj_list.append(obj)
+            self.update_id(obj_list, path)
+
+    def update_id(self, obj_list, path):
+
+        f = open(path, 'r+')
+        stream = f.read()
+        raw_dataset = tablib.import_set(stream)
+        del raw_dataset["ID"]
+        obj_index=[]
+        for obj in obj_list:
+            for index, name in enumerate(raw_dataset['NAME']):
+                if name in obj.name:
+                    obj_index.insert(index, obj.id)
+        raw_dataset.insert_col(0,set(obj_index), header = "ID")
+        f.close()
+        f= open(path, 'w')
+        f.write(raw_dataset.csv)
 
     def _extract_data(self, source):
         """Create a Dataset object from the data source."""
