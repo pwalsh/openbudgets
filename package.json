@@ -1,7 +1,7 @@
 {
   "amd": {},
   "volo": {
-    "baseDir": "./openbudget/commons/static/lib",
+    "baseDir": "./openbudget/commons/static/vendor",
     "dependencies": {
       "uijet": "github:ydaniv/uijet/0.0.30",
       "q": "github:kriskowal/q/v0.9.2",

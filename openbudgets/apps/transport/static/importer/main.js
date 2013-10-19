@@ -1,5 +1,5 @@
 requirejs.config({
-    baseUrl : window.BASE_URL + 'lib',
+    baseUrl : window.BASE_URL + 'vendor',
     paths   : {
         jqscroll            : 'jqScroll/jqscroll',
         'jquery.mousewheel' : 'jquery-mousewheel',

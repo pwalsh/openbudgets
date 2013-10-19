@@ -1,5 +1,5 @@
 requirejs.config({
-    baseUrl : '/static/lib',
+    baseUrl : '/static/vendor',
     paths   : {
         uijet_dir       : 'uijet',
         widgets         : 'uijet/widgets',
