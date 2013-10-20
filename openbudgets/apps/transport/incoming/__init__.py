@@ -255,10 +255,9 @@ class Unload(object):
         freight = []
 
         for data_source in self.walk_and_sort():
-            this_path, ext = os.path.splitext(data_source)
-            path_elements = this_path.split('\\')
-            model_name = path_elements[-1]
-            module_name = path_elements[-2]
+            full_path, ext = os.path.splitext(data_source)
+            head, model_name = os.path.split(full_path)
+            head, module_name = os.path.split(head)
             model = get_model(module_name, model_name.title())
             freight.append((model, data_source))
 
