@@ -1,12 +1,15 @@
+# -*- coding: utf-8 -*-
+
 import os
 import json
 from itertools import chain
 import tablib
 from django.conf import settings
 from django.db.models.loading import get_model
-
+from openbudgets.apps.entities.models import Domain, Division, Entity
 
 class Store(object):
+
 
     """Takes a model and an object, and saves to the data store.
 
@@ -28,8 +31,25 @@ class Store(object):
         return save_method(**self.obj)
 
     def _save_base(self, **obj):
-        obj = self.model.objects.create(**obj)
+        try:
+            obj = self.model.objects.get(**obj)
+        except self.model.DoesNotExist:
+            obj = self.model.objects.create(**obj)
         return obj
+
+    def _save_division(self, **obj):
+        obj['domain'] = Domain.objects.get(name = obj['domain'])
+        return self._save_base(**obj)
+
+    def _save_entity(self, **obj):
+        obj['division'] = Division.objects.get(name_he=obj['division'])
+        if 'parent' in obj:
+
+            if obj['division'].index != 1:
+                obj['parent'] = Entity.objects.get(name_he=obj['parent'], division__name_he=u'מחוז')
+            else:
+                obj['parent'] = Entity.objects.get(name_he=obj['parent'])
+        return self._save_base(**obj)
 
     # def _save_{model_name_lower_case}(self, **obj):
     #
@@ -72,10 +92,10 @@ class Process(object):
         processed = []
 
         for box in self.freight:
-            model, data = box
-            raw_dataset = self._extract_data(data)
+            model, path = box
+            raw_dataset = self._extract_data(path)
             data = self._clean_data(raw_dataset)
-            processed.append((model, data))
+            processed.append((model, data, path))
 
         return processed
 
@@ -83,10 +103,29 @@ class Process(object):
         """Unpack our processed data and pass each object to storage class for saving."""
 
         for item in self.processed():
-            model, data = item
+            model, data, path = item
+            obj_list=[]
             for obj in data:
                 store = self.storage_class(model, obj)
                 obj = store.save()
+                obj_list.append(obj)
+            self.update_id(obj_list, path)
+
+    def update_id(self, obj_list, path):
+
+        f = open(path, 'r+')
+        stream = f.read()
+        raw_dataset = tablib.import_set(stream)
+        del raw_dataset["ID"]
+        obj_index=[]
+        for obj in obj_list:
+            for index, name in enumerate(raw_dataset['NAME']):
+                if name in obj.name:
+                    obj_index.insert(index, obj.id)
+        raw_dataset.insert_col(0,set(obj_index), header = "ID")
+        f.close()
+        f= open(path, 'w')
+        f.write(raw_dataset.csv)
 
     def _extract_data(self, source):
         """Create a Dataset object from the data source."""
@@ -217,7 +256,7 @@ class Unload(object):
 
         for data_source in self.walk_and_sort():
             this_path, ext = os.path.splitext(data_source)
-            path_elements = this_path.split('/')
+            path_elements = this_path.split('\\')
             model_name = path_elements[-1]
             module_name = path_elements[-2]
             model = get_model(module_name, model_name.title())
