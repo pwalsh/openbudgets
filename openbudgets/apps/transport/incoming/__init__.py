@@ -9,6 +9,7 @@ from django.db.models.loading import get_model
 from django.db.utils import DatabaseError
 from openbudgets.apps.entities.models import Domain, Division, Entity
 
+
 class Store(object):
 
 
@@ -20,6 +21,7 @@ class Store(object):
     """
 
     def __init__(self, model, obj):
+
 
         self.model = model
         self.obj = obj
