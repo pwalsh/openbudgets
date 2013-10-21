@@ -215,6 +215,7 @@ REDIS_URL = REDIS['SCHEME'] + REDIS['HOST'] + ':' + \
 
 GRAPPELLI_ADMIN_TITLE = 'Open Budgets'
 
+
 GRAPPELLI_INDEX_DASHBOARD = 'openbudget.dashboard.OpenBudgetsDashboard'
 
 REST_FRAMEWORK = {
