@@ -33,7 +33,7 @@ class Store(object):
         return save_method(**self.obj)
 
     def _save_base(self, **obj):
-        self.model.objects.all().delete()
+        #self.model.objects.all().delete()
         obj = self.prepare_obj(obj)
         try:
             obj = self.model.objects.get(**obj)
@@ -49,13 +49,13 @@ class Store(object):
                 fields.insert(0,field)
             if self.model._meta.get_field(header).get_internal_type() == "ForeignKey":
                 model = get_model('entities', header)
+                model = self.model if not model else model
                 for field in fields:
                     try:
                         obj[header] = model.objects.get(**{field: obj[header]})
+                        break
                     except (DatabaseError, model.DoesNotExist):
                         continue
-                    if obj[header]:
-                        break
         return obj
     # def _save_{model_name_lower_case}(self, **obj):
     #
@@ -114,7 +114,7 @@ class Process(object):
                 store = self.storage_class(model, obj)
                 obj = store.save()
                 obj_list.append(obj)
-            self.update_id(obj_list, path)
+            #self.update_id(obj_list, path)
 
     def update_id(self, obj_list, path):
 
