@@ -6,6 +6,7 @@ from itertools import chain
 import tablib
 from django.conf import settings
 from django.db.models.loading import get_model
+from django.db.utils import DatabaseError
 from openbudgets.apps.entities.models import Domain, Division, Entity
 
 class Store(object):
@@ -22,7 +23,6 @@ class Store(object):
 
         self.model = model
         self.obj = obj
-
     def save(self):
         try:
             save_method = getattr(self, '_save_' + self.model.__name__.lower())
@@ -31,31 +31,35 @@ class Store(object):
         return save_method(**self.obj)
 
     def _save_base(self, **obj):
+        self.model.objects.all().delete()
+        obj = self.prepare_obj(obj)
         try:
             obj = self.model.objects.get(**obj)
         except self.model.DoesNotExist:
             obj = self.model.objects.create(**obj)
         return obj
 
-    def _save_division(self, **obj):
-        obj['domain'] = Domain.objects.get(name = obj['domain'])
-        return self._save_base(**obj)
-
-    def _save_entity(self, **obj):
-        obj['division'] = Division.objects.get(name_he=obj['division'])
-        if 'parent' in obj:
-
-            if obj['division'].index != 1:
-                obj['parent'] = Entity.objects.get(name_he=obj['parent'], division__name_he=u'מחוז')
-            else:
-                obj['parent'] = Entity.objects.get(name_he=obj['parent'])
-        return self._save_base(**obj)
-
+    def prepare_obj(self, obj):
+        for header in obj.keys():
+            fields = settings.IMPORT_PRIORITY
+            if settings.IMPORT_SEPARATOR in header:
+                header, field = header.split(settings.IMPORT_SEPARATOR)
+                fields.insert(0,field)
+            if self.model._meta.get_field(header).get_internal_type() == "ForeignKey":
+                model = get_model('entities', header)
+                for field in fields:
+                    try:
+                        obj[header] = model.objects.get(**{field: obj[header]})
+                    except (DatabaseError, model.DoesNotExist):
+                        continue
+                    if obj[header]:
+                        break
+        return obj
     # def _save_{model_name_lower_case}(self, **obj):
     #
     #     HERE is the place for any custom code to clean the item
     #     before passing it to _save_base_.
-    #     After doing the custom work, ensure you have an object that can be passed to _save_base
+    #     After doing the custom work, ensure you have an header that can be passed to _save_base
     #
     #     return self._save_base(**obj)
 
@@ -96,7 +100,6 @@ class Process(object):
             raw_dataset = self._extract_data(path)
             data = self._clean_data(raw_dataset)
             processed.append((model, data, path))
-
         return processed
 
     def save(self):
@@ -208,7 +211,6 @@ class Unload(object):
         sources = []
 
         for root, dirs, files in os.walk(self.data_root):
-
             # only consider roots that have an index file
             if self.index_file in files:
                 root_index = os.path.join(root, self.index_file)
@@ -233,7 +235,6 @@ class Unload(object):
                             source_path = entry_path + ext
                             if os.path.exists(source_path):
                                 sources.append(source_path)
-
         ordered_sources.extend(ordered_branches)
 
         # each ordered branch will be replaced with an ordered list of the files it contains
@@ -253,7 +254,6 @@ class Unload(object):
         """
 
         freight = []
-
         for data_source in self.walk_and_sort():
             this_path, ext = os.path.splitext(data_source)
             path_elements = this_path.split('\\')
