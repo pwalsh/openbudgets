@@ -38,7 +38,7 @@ class Store(object):
         return obj
 
     def _save_division(self, **obj):
-        obj['domain'] = Domain.objects.get(name = obj['domain'])
+        obj['domain'] = Domain.objects.get(name=obj['domain'])
         return self._save_base(**obj)
 
     def _save_entity(self, **obj):
