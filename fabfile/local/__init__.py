@@ -1,10 +1,11 @@
-from fabric.api import task, local
+from fabric.api import task, local, roles
 from fabric.contrib import django
 from fabfile.utilities import notify, mock_db, sanity_check
 from fabfile.local import data
 from fabfile.local import db
 from fabfile.local import cache
 from fabfile.local import env
+from fabfile.config import CONFIG
 
 
 @task
@@ -63,3 +64,29 @@ def mock(amount=1000):
 def sanity():
     notify(u'Starting the project sanity check. Here come the notifications:\n')
     sanity_check()
+
+
+# FOR DEPLOYMENT TO GOOGLE COMPUTE ENGINE, SET UP FIREWALLS ON THE NETWORK
+# gcutil addfirewall http-web --allowed=tcp:80 --project=open-municipalities
+# gcutil addfirewall https-web --allowed=:443 --project=open-municipalities
+
+
+@task
+@roles('web')
+def new_machine():
+    # just for convenience.
+    #local('deactivate')
+    local('gcutil addinstance ' + CONFIG['project_name'] + ' '
+          '--project=open-municipalities '
+          '--persistent_boot_disk '
+          '--zone=europe-west1-b '
+          '--external_ip_address=192.158.30.219 ' + CONFIG['machine_location'] + ' '
+          '--machine_type=g1-small '
+          '--ssh_user=' + CONFIG['user'] + ' '
+          '--image=projects/debian-cloud/global/images/debian-7-wheezy-v20130617')
+
+
+@task
+@roles('web')
+def delete():
+    local('gcutil deleteinstance ' + CONFIG['project_name'] + ' --project=open-municipalities')
