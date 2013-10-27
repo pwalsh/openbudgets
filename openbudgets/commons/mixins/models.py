@@ -116,7 +116,8 @@ class PeriodicMixin(PeriodStartMixin):
         ranges = settings.OPENBUDGETS_PERIOD_RANGES
 
         if len(ranges) == 1 and 'yearly' in ranges:
-            value = self.period_start.year
+            if self.period_start:
+                value = self.period_start.year
         else:
             # TODO: Verify - in the current codebase, we should never get here.
             pass
