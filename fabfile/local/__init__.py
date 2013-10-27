@@ -1,6 +1,6 @@
 from fabric.api import task, local, roles
 from fabric.contrib import django
-from fabfile.utilities import notify, mock_db, sanity_check
+from fabfile.utilities import notify, mock_db, sanity_check, clean_pyc
 from fabfile.local import data
 from fabfile.local import db
 from fabfile.local import cache
@@ -11,6 +11,9 @@ from fabfile.config import CONFIG
 @task
 def bootstrap(initial='no', environment='no', cache='no'):
     notify(u'Bootstrapping the project. Hold on tight.')
+
+    clean_up()
+
     # If you want to create a new database from scratch,
     # such as in a first time installation, in bootstrap, pass
     # initial=yes
@@ -42,6 +45,9 @@ def migrate():
 @task
 def test():
     notify(u'Running the project test suite.')
+
+    clean_up()
+
     django.project('openbudgets')
     from django.conf import settings
     project_namespace = 'openbudgets.apps.'
@@ -64,6 +70,14 @@ def mock(amount=1000):
 def sanity():
     notify(u'Starting the project sanity check. Here come the notifications:\n')
     sanity_check()
+
+
+@task
+def clean_up():
+    notify(u'Doing a cleanup.')
+    django.project('openbudgets')
+    from django.conf import settings
+    clean_pyc(settings.PROJECT_ROOT + '/openbudgets')
 
 
 # FOR DEPLOYMENT TO GOOGLE COMPUTE ENGINE, SET UP FIREWALLS ON THE NETWORK

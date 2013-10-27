@@ -127,3 +127,10 @@ def mock_db(amount):
                               period_start=datetime.date(2009, 1, 1), period_end=datetime.date(2009, 12, 31))
         for node in blueprint_template.nodes.all():
             SheetItem.create(sheet=sheet3, node=node)
+
+
+def clean_pyc(root_path):
+    for root, dirs, files in os.walk(root_path):
+        for f in files:
+            if f.endswith('.pyc'):
+                os.remove(f)
