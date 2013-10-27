@@ -1,5 +1,6 @@
 import os
 import sys
+import datetime
 from fabric.api import puts
 from fabric.colors import red, green, yellow
 from fabric.contrib import django
@@ -82,26 +83,47 @@ def sanity_check():
 
 
 def mock_db(amount):
+
     """Builds out a complete database with mock objects.
 
     Useful for quick testing. Commonly invoked via the `fab mock` command.
 
     """
 
-    domain = Domain.create(name='Example Domain')
-    division = Division.create(name='Example Division', domain=domain, index=3)
-    entities = Entity.create_batch(2, division=division)
-    template = Template.create(name='Example Template', divisions=[division])
-    template_nodes = TemplateNode.create_batch(amount)
     call_command('loaddata', 'tools')
+    domain = Domain.create(name='Example Domain')
+    division1 = Division.create(name='Example Division', domain=domain, budgeting=True, index=1)
+    division2 = Division.create(name='Example Division2', domain=domain, budgeting=False, index=2)
+    division3 = Division.create(name='Example Division3', domain=domain, budgeting=True, index=3)
+    entity1 = Entity.create(division=division1)
+    entity2 = Entity.create(division=division2)
+    entities = Entity.create_batch(3, division=division3, parent=entity2)
+    blueprint_template = Template.create(name='Example Blueprint Template', divisions=[division3])
+    blueprint_template_nodes = TemplateNode.create_batch(amount)
 
-    for node in template_nodes:
-        TemplateNodeRelation.create(node=node, template=template)
+    for node in blueprint_template_nodes:
+        TemplateNodeRelation.create(template=blueprint_template, node=node)
         child_nodes = TemplateNode.create_batch(2, parent=node)
-        for node in child_nodes:
-            TemplateNodeRelation.create(node=node, template=template)
+
+        for child_node in child_nodes:
+            TemplateNodeRelation.create(node=child_node, template=blueprint_template)
+            child_child_nodes = TemplateNode.create_batch(2, parent=child_node)
+
+        for child_child_node in child_child_nodes:
+            TemplateNodeRelation.create(node=child_child_node, template=blueprint_template)
 
     for entity in entities:
-        sheet = Sheet.create(entity=entity, template=template)
-        for node in template.nodes.all():
-            SheetItem.create(sheet=sheet, node=node)
+        sheet1 = Sheet.create(entity=entity, template=blueprint_template,
+                              period_start=datetime.date(2007, 1, 1), period_end=datetime.date(2007, 12, 31))
+        for node in blueprint_template.nodes.all():
+            SheetItem.create(sheet=sheet1, node=node)
+
+        sheet2 = Sheet.create(entity=entity, template=blueprint_template,
+                              period_start=datetime.date(2008, 1, 1), period_end=datetime.date(2008, 12, 31))
+        for node in blueprint_template.nodes.all():
+            SheetItem.create(sheet=sheet2, node=node)
+
+        sheet3 = Sheet.create(entity=entity, template=blueprint_template,
+                              period_start=datetime.date(2009, 1, 1), period_end=datetime.date(2009, 12, 31))
+        for node in blueprint_template.nodes.all():
+            SheetItem.create(sheet=sheet3, node=node)
