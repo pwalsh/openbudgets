@@ -62,11 +62,6 @@ def load(from_dump='no', source=CONFIG['db_dump_file']):
 
     else:
         notify(u'Loading data from a data repository.')
-        #from openbudgets.apps.transport.incoming.importers.initial import CSVImporter
-        #CSVImporter('domain', open(CONFIG['dataset_root'] + '/dataset/data/regions/us/region.csv', 'rb'))
-        #CSVImporter('division', open(CONFIG['dataset_root'] + '/dataset/data/regions/us/grades/grade.csv', 'rb'))
-        #CSVImporter('entity', open(CONFIG['dataset_root'] + '/dataset/data/regions/us/topics/topic.csv', 'rb'))
-
         data_root = CONFIG['dataset_root'] + '/dataset/data'
         from openbudgets.apps.transport.incoming import Unload, Process
         unload = Unload(data_root)
