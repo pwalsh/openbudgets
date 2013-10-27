@@ -14,15 +14,15 @@ class CKANFactorySync(object):
     """ This class sync all the sites that we push data to them by ckan.
      """
     def __init__(self):
-        sites = self.getAllSites()
+        sites = self.get_all_sites()
         #Syncs every site
         for index, site in enumerate(sites):
-            self.Factory(site)(index).sync()
+            self.factory(site)(index).sync()
 
-    def getAllSites(self):
+    def get_all_sites(self):
         return [site['name'] for site in settings.OPENBUDGETS_CKAN]
 
-    def Factory(self,class_name):
+    def factory(self,class_name):
         #Return an objects of the sites that we want to sync
         classes = {
             'Datahub': DataHubSync
@@ -80,7 +80,7 @@ class CKANSync(Sync):
                                 package_entity['resources'].remove(resource)
                                 self.ckan.package_entity_put(package_entity)
                                 package_entity = self.update_resource(entity, sheet, package_name)
-                            break;
+                            break
 
                     #If we need to create new sheet.
                     if not excited or not package_entity['resources']:

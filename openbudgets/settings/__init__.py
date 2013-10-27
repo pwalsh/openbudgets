@@ -215,6 +215,7 @@ REDIS_URL = REDIS['SCHEME'] + REDIS['HOST'] + ':' + \
 
 GRAPPELLI_ADMIN_TITLE = 'Open Budgets'
 
+
 GRAPPELLI_INDEX_DASHBOARD = 'openbudget.dashboard.OpenBudgetsDashboard'
 
 REST_FRAMEWORK = {
@@ -302,7 +303,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'openbudgets',
-        'USER': 'robot',
+        'USER': '',
         'PASSWORD': '',
         'HOST': '',
         'PORT': '',
@@ -376,6 +377,11 @@ OPENBUDGETS_SETTING = {
     'owner_org': 'israel-municipalities'
 }
 
+IMPORT_PRIORITY = ['slug',
+                    'name',
+                    'id'
+]
+IMPORT_SEPARATOR = ':'
 # if we are on production, we should have a settings.production module to load.
 try:
     from production import *
