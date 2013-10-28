@@ -1,22 +1,24 @@
-from fabric.api import task, run, prefix, cd
+from fabric.api import task, run, prefix, cd, roles
 from fabfile.utilities import notify
 from fabfile.remote import db
 from fabfile.config import CONFIG, WORKON, DEACTIVATE
 
 
 @task
-def init(environment='staging'):
+@roles('demo')
+def init(environment='demo'):
     with prefix(WORKON):
         notify(u'Loading the project initial data state.')
         run('python manage.py loaddata ' + environment + '/sites')
-        run('python manage.py loaddata locale/he/strings')
         run('python manage.py loaddata ' + environment + '/interactions')
+        run('python manage.py loaddata locale/he/strings')
         #run('python manage.py loaddata contexts')
         #run('python manage.py loaddata ' + environment +  '/sources')
         run(DEACTIVATE)
 
 
 @task
+@roles('demo')
 def clone():
     notify(u'Cloning the data repository.')
     with prefix(WORKON), cd(CONFIG['dataset_root']):
@@ -25,6 +27,7 @@ def clone():
 
 
 @task
+@roles('demo')
 def fetch():
     notify(u'Fetching new commits from the data repository.')
     with prefix(WORKON), cd(CONFIG['dataset_root'] + '/dataset'):
@@ -33,6 +36,7 @@ def fetch():
 
 
 @task
+@roles('demo')
 def merge():
     notify(u'Merging latest changes from the data repository.')
     with prefix(WORKON), cd(CONFIG['dataset_root'] + '/dataset'):
@@ -41,6 +45,7 @@ def merge():
 
 
 @task
+@roles('demo')
 def pull():
     notify(u'Pulling latest changes from the data repository.')
     fetch()
@@ -48,6 +53,7 @@ def pull():
 
 
 @task
+@roles('demo')
 def push():
     notify(u'Pushing latest local changes to the data repository.')
     with prefix(WORKON), cd(CONFIG['dataset_root'] + '/dataset'):
@@ -56,6 +62,7 @@ def push():
 
 
 @task
+@roles('demo')
 def load(from_dump='no', source=CONFIG['db_dump_file']):
     notify(u'Loading data into the database.')
     with prefix(WORKON):
@@ -77,6 +84,7 @@ def load(from_dump='no', source=CONFIG['db_dump_file']):
 
 
 @task
+@roles('demo')
 def dump(destination=CONFIG['db_dump_file']):
     with prefix(WORKON):
         notify(u'Creating a dump of the current database.')
@@ -85,6 +93,7 @@ def dump(destination=CONFIG['db_dump_file']):
 
 
 @task
+@roles('demo')
 def sync():
     notify(u'Syncing data to supported services.')
     with prefix(WORKON):

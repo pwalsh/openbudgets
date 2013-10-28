@@ -48,9 +48,9 @@ def test():
 
     clean_up()
 
-    django.project('openbudgets')
+    django.project(CONFIG['project_name'])
     from django.conf import settings
-    project_namespace = 'openbudgets.apps.'
+    project_namespace = CONFIG['project_name'] + '.apps.'
     project_apps = []
 
     for app in settings.INSTALLED_APPS:
@@ -75,32 +75,6 @@ def sanity():
 @task
 def clean_up():
     notify(u'Doing a cleanup.')
-    django.project('openbudgets')
+    django.project(CONFIG['project_name'])
     from django.conf import settings
-    clean_pyc(settings.PROJECT_ROOT + '/openbudgets')
-
-
-# FOR DEPLOYMENT TO GOOGLE COMPUTE ENGINE, SET UP FIREWALLS ON THE NETWORK
-# gcutil addfirewall http-web --allowed=tcp:80 --project=open-municipalities
-# gcutil addfirewall https-web --allowed=:443 --project=open-municipalities
-
-
-@task
-@roles('web')
-def new_machine():
-    # just for convenience.
-    #local('deactivate')
-    local('gcutil addinstance ' + CONFIG['project_name'] + ' '
-          '--project=open-municipalities '
-          '--persistent_boot_disk '
-          '--zone=europe-west1-b '
-          '--external_ip_address=192.158.30.219 ' + CONFIG['machine_location'] + ' '
-          '--machine_type=g1-small '
-          '--ssh_user=' + CONFIG['user'] + ' '
-          '--image=projects/debian-cloud/global/images/debian-7-wheezy-v20130617')
-
-
-@task
-@roles('web')
-def delete():
-    local('gcutil deleteinstance ' + CONFIG['project_name'] + ' --project=open-municipalities')
+    clean_pyc(settings.PROJECT_ROOT + '/' + CONFIG['project_name'])

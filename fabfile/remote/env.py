@@ -6,15 +6,15 @@ from fabfile.utilities import notify
 from fabfile.config import CONFIG, WORKON, DEACTIVATE
 
 try:
-    from sensitive import SENSITIVE
+    from fabfile.sensitive import SENSITIVE
 except ImportError as e:
     logging.warning(u'the SENSITIVE object does not exist. Creating it as an'
                     u' empty dictionary.')
     SENSITIVE = {}
 
 
-@roles('web')
 @task
+@roles('demo')
 def ensure():
     notify(u'Ensuring all project dependencies are present.')
     pip()
@@ -29,7 +29,7 @@ def make():
 
 
 @task
-@roles('web')
+@roles('demo')
 def settings():
     notify(u'Configuring production settings.')
     with prefix(WORKON):
@@ -41,8 +41,8 @@ def settings():
         run(DEACTIVATE)
 
 
-@roles('web')
 @task
+@roles('demo')
 def pip():
     notify(u'Ensuring all pip-managed Python dependencies are present.')
     with prefix(WORKON):
@@ -50,8 +50,9 @@ def pip():
         run('pip install -U -r requirements/extended.txt')
         run(DEACTIVATE)
 
-@roles('web')
+
 @task
+@roles('demo')
 def volo():
     notify(u'Ensuring all volo-managed Javascript dependencies are present.')
     with prefix(WORKON):
@@ -59,8 +60,8 @@ def volo():
         run(DEACTIVATE)
 
 
-@roles('web')
 @task
+@roles('demo')
 def bower():
     notify(u'Ensuring all bower-managed Javascript dependencies are present.')
     with prefix(WORKON):
