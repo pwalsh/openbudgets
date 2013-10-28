@@ -122,7 +122,10 @@ def command(cmd):
 @task
 def mock(amount=1000):
     notify(u'Creating some mock objects for the database.')
-    mock_db(amount)
+    with prefix(WORKON):
+        mock_db(amount)
+        run(DEACTIVATE)
+    server.restart()
 
 
 @task
