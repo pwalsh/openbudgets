@@ -55,7 +55,7 @@ production_settings = """### Generated via Fabric on ${timestamp}
 from openbudgets.settings import *
 
 
-DEBUG = False
+DEBUG = ${debug}
 
 TEMPLATE_DEBUG = DEBUG
 

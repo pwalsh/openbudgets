@@ -12,6 +12,7 @@ env.roledefs = {
 
 
 CONFIG = {
+    'debug': True,
     'sentry_dsn': '',
     'user': env.user,
     'machine_location': env.roledefs['demo'][0],
