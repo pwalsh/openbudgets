@@ -1,11 +1,12 @@
 from copy import deepcopy
+from string import replace
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from openbudgets.apps.transport.incoming.errors import DataValidationError
 
 
-ITEM_SEPARATOR = ';'
+ITEM_SEPARATOR = settings.OPENBUDGETS_IMPORT_INTRA_FIELD_MULTIPLE_VALUE_DELIMITER
 
 
 class ParsingError(Exception):
@@ -24,7 +25,8 @@ class BaseParser(object):
     resolved and saved by the same parser class.
     """
 
-    PATH_DELIMITER = settings.OPENBUDGETS_IMPORT_INTRA_FIELD_DELIMITER
+    #PATH_DELIMITER = settings.OPENBUDGETS_IMPORT_INTRA_FIELD_DELIMITER
+    PATH_DELIMITER = ','
     ITEM_SEPARATOR = ITEM_SEPARATOR
     ITEM_CLEANING_EXCLUDE = []
 
@@ -56,6 +58,20 @@ class BaseParser(object):
         # should have been side effect of validating the data
         return instance
 
+    def clean(self, data):
+        for row_num, obj in enumerate(data):
+            parent_scope = obj.get('parentscope')
+            inverse_scopes = obj.get('inversescope')
+
+            if parent_scope:
+                obj['parentscope'] = replace(parent_scope, '|', ',')
+
+            if inverse_scopes:
+                inverse_scopes = [replace(scope, '|', ',') for scope in ITEM_SEPARATOR.split(inverse_scopes)]
+                obj['inversescope'] = ITEM_SEPARATOR.join(inverse_scopes)
+
+        return data
+
     def validate(self, data, keep_cache=False):
         """
         Takes a dataset, cleans it, prepares it for saving
@@ -75,6 +91,8 @@ class BaseParser(object):
         Returns a boolean if validation is successful and a list of errors that
         were thrown during validation.
         """
+        data = self.clean(data)
+
         # generate a lookup table with each item uniquely identified
         self._generate_lookup(data)
 

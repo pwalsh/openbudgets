@@ -6,7 +6,8 @@ from openbudgets.apps.transport.incoming.errors import DataAmbiguityError, Paren
 
 class PathResolver(object):
 
-    PATH_DELIMITER = settings.OPENBUDGETS_IMPORT_INTRA_FIELD_DELIMITER
+    #PATH_DELIMITER = settings.OPENBUDGETS_IMPORT_INTRA_FIELD_DELIMITER
+    PATH_DELIMITER = ','
     ITEM_SEPARATOR = ITEM_SEPARATOR
 
     def __init__(self, parser, data, parent_template=None):
