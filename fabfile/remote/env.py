@@ -6,7 +6,7 @@ from fabfile.utilities import notify
 from fabfile.config import CONFIG, WORKON, DEACTIVATE
 
 try:
-    from sensitive import SENSITIVE
+    from fabfile.sensitive import SENSITIVE
 except ImportError as e:
     logging.warning(u'the SENSITIVE object does not exist. Creating it as an'
                     u' empty dictionary.')
@@ -33,6 +33,8 @@ def make():
 def settings():
     notify(u'Configuring production settings.')
     with prefix(WORKON):
+        print CONFIG
+        print SENSITIVE
         context = CONFIG
         context.update(SENSITIVE)
         content = cuisine.text_template(templates.production_settings, context)
