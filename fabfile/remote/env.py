@@ -33,8 +33,6 @@ def make():
 def settings():
     notify(u'Configuring production settings.')
     with prefix(WORKON):
-        print CONFIG
-        print SENSITIVE
         context = CONFIG
         context.update(SENSITIVE)
         content = cuisine.text_template(templates.production_settings, context)
