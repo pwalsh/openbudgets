@@ -14,7 +14,7 @@ except ImportError as e:
 
 
 @task
-@roles('web')
+@roles('demo')
 def bootstrap():
     notify(u'Now starting the project bootstrap sequence')
     env.make()
@@ -30,7 +30,7 @@ def bootstrap():
 
 
 @task
-@roles('web')
+@roles('demo')
 def upgrade():
     notify(u'Now starting the project upgrade sequence')
     fetch()
@@ -46,7 +46,7 @@ def upgrade():
 
 
 @task
-@roles('web')
+@roles('demo')
 def deploy():
     notify(u'Now starting the project deploy sequence')
     fetch()
@@ -58,7 +58,7 @@ def deploy():
 
 
 @task
-@roles('web')
+@roles('demo')
 def clone():
     with prefix(WORKON):
         run('git clone ' + CONFIG['repo'] + ' .')
@@ -66,7 +66,7 @@ def clone():
 
 
 @task
-@roles('web')
+@roles('demo')
 def fetch():
     with prefix(WORKON):
         run('git fetch')
@@ -74,7 +74,7 @@ def fetch():
 
 
 @task
-@roles('web')
+@roles('demo')
 def merge():
     with prefix(WORKON):
         run('git merge ' + CONFIG['branch'] + ' origin/' + CONFIG['branch'])
@@ -82,7 +82,7 @@ def merge():
 
 
 @task
-@roles('web')
+@roles('demo')
 def validate():
     with prefix(WORKON):
         run('python manage.py validate')
@@ -90,7 +90,7 @@ def validate():
 
 
 @task
-@roles('web')
+@roles('demo')
 def migrate():
     with prefix(WORKON):
         run('python manage.py syncdb --migrate')
@@ -98,7 +98,7 @@ def migrate():
 
 
 @task
-@roles('web')
+@roles('demo')
 def collectstatic():
     with prefix(WORKON):
         run('python manage.py collectstatic')
@@ -106,9 +106,15 @@ def collectstatic():
 
 
 @task
-@roles('web')
-def command(command):
+@roles('demo')
+def command(cmd):
     with prefix(WORKON):
-        run(command)
+        run(cmd)
         run(DEACTIVATE)
     server.restart()
+
+
+@task
+@roles('demo')
+def cm(c):
+    run(c)

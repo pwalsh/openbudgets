@@ -293,9 +293,7 @@ EMAIL_HOST_PASSWORD = ''
 
 SENTRY_DSN = ''
 
-ADMINS = (
-    ('', ''),
-)
+ADMINS = (('', ''),)
 
 MANAGERS = ADMINS
 

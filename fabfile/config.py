@@ -6,18 +6,19 @@ from django.conf import settings
 
 env.user = 'robot'
 env.roledefs = {
-    'web': ['192.158.30.219']
+    'demo': ['162.243.15.220'],
+    'openmuni-budgets': [''],
 }
 
 
 CONFIG = {
     'sentry_dsn': '',
     'user': env.user,
-    'machine_location': env.roledefs['web'][0],
+    'machine_location': env.roledefs['demo'][0],
     'machine_port': 80,
-    'project_name': 'open-budgets',
-    'project_root': '/srv/projects/open-budgets',
-    'project_env': '/srv/environments/open-budgets',
+    'project_name': 'openbudgets',
+    'project_root': '/srv/projects/openbudgets',
+    'project_env': '/srv/environments/openbudgets',
     'dataset_root': settings.OPENBUDGETS_DATA['directory'],
     'dataset_repo': settings.OPENBUDGETS_DATA['repo'],
     'dataset_branch': settings.OPENBUDGETS_DATA['branch'],
@@ -28,19 +29,18 @@ CONFIG = {
     'app_port': 9000,
     'app_workers': 4,
     'app_timeout': 45,
-    'app_wsgi': 'openbudget.wsgi:application',
-    'repo': 'https://github.com/hasadna/openmuni-budgets',
+    'app_wsgi': 'openbudgets.wsgi:application',
+    'repo': 'https://github.com/prjts/openbudgets',
     'branch': 'develop',
-    'allowed_hosts': ['dev.openmuni.org.il', 'api.dev.openmuni.org.il',
-                      'en.dev.openmuni.org.il', 'he.dev.openmuni.org.il',
-                      'ar.dev.openmuni.org.il', 'ru.dev.openmuni.org.il'],
-    'cookie_domain': '.openmuni.org.il',
-    'nginx_access_log': '/srv/logs/open-budgets_nginx_access.log',
-    'nginx_error_log': '/srv/logs/open-budgets_nginx_error.log',
-    'gunicorn_access_log': '/srv/logs/open-budgets_gunicorn_access.log',
-    'gunicorn_error_log': '/srv/logs/open-budgets_gunicorn_error.log',
-    'redis_access_log': '/srv/logs/open-budgets_redis_access.log',
-    'redis_error_log': '/srv/logs/open-budgets_redis_error.log',
+    'allowed_hosts': ['openbudgets.io', 'en.openbudgets.io', 'he.openbudgets.io',
+                      'ar.openbudgets.io','ru.openbudgets.io'],
+    'cookie_domain': '.openbudgets.io',
+    'nginx_access_log': '/srv/logs/openbudgets_nginx_access.log',
+    'nginx_error_log': '/srv/logs/openbudgets_nginx_error.log',
+    'gunicorn_access_log': '/srv/logs/openbudgets_gunicorn_access.log',
+    'gunicorn_error_log': '/srv/logs/openbudgets_gunicorn_error.log',
+    'redis_access_log': '/srv/logs/openbudgets_redis_access.log',
+    'redis_error_log': '/srv/logs/openbudgets_redis_error.log',
     'timestamp': datetime.datetime.now(),
 }
 

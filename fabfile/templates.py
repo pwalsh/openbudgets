@@ -33,8 +33,27 @@ server {
 """
 
 
+gunicorn = """### Generated via Fabric on ${timestamp}
+# gunicorn upstart configuration for ${project_name}
+
+author "Paul Walsh"
+description "Controls Gunicorn for ${project_name}"
+
+start on (filesystem)
+stop on runlevel [016]
+respawn
+console log
+setuid ${user}
+setgid ${user}
+chdir ${project_root}
+
+exec ${project_env}/bin/gunicorn ${app_wsgi} --bind ${app_location}:${app_port} --workers ${app_workers} --timeout ${app_timeout} --access-logfile ${gunicorn_access_log} --error-logfile ${gunicorn_error_log}
+"""
+
+
 production_settings = """### Generated via Fabric on ${timestamp}
-from slatemath.settings import *
+from openbudgets.settings import *
+
 
 DEBUG = False
 
@@ -54,7 +73,7 @@ EMAIL_HOST_USER = '${email_user}'
 
 EMAIL_HOST_PASSWORD = '${email_password}'
 
-ADMINS = ${ADMINS}
+ADMINS = ${admins}
 
 BROKER_URL = REDIS_URL
 
@@ -90,68 +109,5 @@ CACHES = {
         },
     },
 }
-"""
-
-
-gunicorn_supervisor = """; Generated via Fabric on ${ACTION_DATE}
-; gunicorn configuration for ${NAME}
-; usually would pass logs on gunicorn, but it errors:
-; --access-logfile ${ACCESS_LOG} --error-logfile ${ERROR_LOG}
-
-[program:${KEY}-gunicorn]
-
-command=${PROJECT_ENV}/bin/gunicorn --bind ${APP_LOCATION}:${APP_PORT} --timeout ${APP_TIMEOUT} --workers ${APP_WORKERS} ${APP_WSGI}
-
-environment=PATH="${PROJECT_ENV}/bin"
-directory=${PROJECT_ROOT}
-user=${KEY}
-redirect_stderr=true
-autostart=true
-autorestart=true
-"""
-
-
-celery_supervisor = """### Generated via Fabric on ${ACTION_DATE}
-# celery configuration for ${NAME}
-[program:${KEY}-celery]
-
-command=${PROJECT_ENV}/bin/python manage.py celery worker --concurrency=${CONCURRENCY} --maxtasksperchild=${MAX_TASKS_PER_CHILD} --logfile=${ACCESS_LOG}
-
-environment=PATH="${PROJECT_ENV}/bin"
-directory=${PROJECT_ROOT}
-user=${KEY}
-redirect_stderr=true
-autostart=true
-autorestart=true
-"""
-
-
-gunicorn_upstart = """### Generated via Fabric on ${timestamp}
-# gunicorn upstart configuration for ${project_name}
-
-author "Paul Walsh"
-description "Controls Gunicorn for ${project_name}"
-
-start on (filesystem)
-stop on runlevel [016]
-respawn
-console log
-setuid ${user}
-setgid ${user}
-chdir ${project_root}
-
-exec ${project_env}/bin/gunicorn ${app_wsgi} --bind ${app_location}:${app_port} --workers ${app_workers} --timeout ${app_timeout} --access-logfile ${gunicorn_access_log} --error-logfile ${gunicorn_error_log}
-"""
-
-
-celery_upstart = """### Generated via Fabric on ${ACTION_DATE}
-# celery configuration for ${NAME}
-
-author "Paul Walsh"
-description "Controls Celery for ${NAME}"
-
-start on starting open-budget
-stop on stopping open-budget
-respawn
 
 """
