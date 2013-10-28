@@ -314,6 +314,9 @@ Project dependencies
 
 All the project dependencies are managed by pip. To get them, run the following command::
 
+    # when setting up for the first time:
+    pip install -U -r requirements/base.txt
+
     fab env.ensure
 
     # Or, if you are working with Redis, do the following
@@ -565,7 +568,7 @@ By default, the process for working with data and getting it into the database i
 
 If you are working on an instance of Open Budgets that already has a populated data repository configured, simply run the following command to build out the database::
 
-    fab data.upgrade data.load
+    fab data.pull data.load
 
 
 **Note:** Loading data like this can take a very long time due to the types of checks that run to validate data before it is written to the database. Be *very* patient.
