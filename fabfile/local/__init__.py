@@ -48,9 +48,9 @@ def test():
 
     clean_up()
 
-    django.project('openbudgets')
+    django.project(CONFIG['project_name'])
     from django.conf import settings
-    project_namespace = 'openbudgets.apps.'
+    project_namespace = CONFIG['project_name'] + '.apps.'
     project_apps = []
 
     for app in settings.INSTALLED_APPS:
@@ -75,6 +75,6 @@ def sanity():
 @task
 def clean_up():
     notify(u'Doing a cleanup.')
-    django.project('openbudgets')
+    django.project(CONFIG['project_name'])
     from django.conf import settings
-    clean_pyc(settings.PROJECT_ROOT + '/openbudgets')
+    clean_pyc(settings.PROJECT_ROOT + '/' + CONFIG['project_name'])

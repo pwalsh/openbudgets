@@ -1,6 +1,7 @@
 import logging
 from fabric.api import prefix, task, roles, run
-from fabfile.utilities import notify
+from fabric.contrib import django
+from fabfile.utilities import notify, mock_db, clean_pyc, sanity_check
 from fabfile.remote import server
 from fabfile.remote import env
 from fabfile.remote import db
@@ -119,6 +120,20 @@ def command(cmd):
 
 
 @task
-@roles('demo')
-def cm(c):
-    run(c)
+def mock(amount=1000):
+    notify(u'Creating some mock objects for the database.')
+    mock_db(amount)
+
+
+@task
+def sanity():
+    notify(u'Starting the project sanity check. Here come the notifications:\n')
+    sanity_check()
+
+
+@task
+def clean_up():
+    notify(u'Doing a cleanup.')
+    django.project(CONFIG['project_name'])
+    from django.conf import settings
+    clean_pyc(settings.PROJECT_ROOT + '/' + CONFIG['project_name'])

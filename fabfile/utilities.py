@@ -90,6 +90,8 @@ def mock_db(amount):
 
     """
 
+    amount = int(amount)
+
     call_command('loaddata', 'tools')
     domain = Domain.create(name='Example Domain')
     division1 = Division.create(name='Example Division', domain=domain, budgeting=True, index=1)
