@@ -56,13 +56,16 @@ class Template(UUIDPKMixin, PeriodStartMixin, TimeStampedMixin, ClassMethodMixin
     objects = TemplateManager()
 
     divisions = models.ManyToManyField(
-        Division,)
+        Division,
+        verbose_name=_('divisions'),
+        related_name='templates',)
 
     blueprint = models.ForeignKey(
         'self',
         blank=True,
         null=True,
-        related_name='instances',)
+        related_name='instances',
+        verbose_name=_('blueprint'),)
 
     name = models.CharField(
         _('Name'),

@@ -1,5 +1,6 @@
 from copy import deepcopy
-from django.utils.translation import gettext as _
+from datetime import datetime
+from django.utils.translation import ugettext as _
 from openbudgets.apps.sheets.models import Template, Sheet, SheetItem
 from openbudgets.apps.entities.models import Entity
 from openbudgets.apps.international.utilities import translated_fields
@@ -208,7 +209,7 @@ class SheetParser(TemplateParser):
         if 'template' in container_dict_copy:
             del container_dict_copy['template']
 
-        parent_template = self._get_parent_template(container_dict_copy)
+        parent_template, blueprint = self._get_parent_template(container_dict_copy)
 
         if 'period_end' in container_dict_copy:
             del container_dict_copy['period_end']
@@ -220,10 +221,25 @@ class SheetParser(TemplateParser):
 
     def _get_parent_template(self, container_dict):
 
+        parent = None
+        blueprint = None
+
         entity = self._set_entity()
         # set the entity also on the template container object
         # it will be used for generating a name and cleaned later
         container_dict['entity'] = entity
+
+        if entity:
+            date = datetime.strptime(container_dict['period_start'], '%Y-%m-%d')
+            try:
+                blueprint = entity.division.templates.filter(period_start__lte=date).order_by('-period_start')[0]
+                container_dict['blueprint'] = blueprint
+            except IndexError:
+                raise ParsingError(_(u'Could not find a '
+                                     u'blueprint template for entity {entity}'
+                                     u' and start date '
+                                     u'{period_start}').format(entity=entity.name,
+                                                               period_start=container_dict['period_start']))
 
         if entity:
             # try getting the container model for same period or containing it
@@ -234,7 +250,7 @@ class SheetParser(TemplateParser):
             ).order_by('-period_end')[:1]
 
             if qs.count():
-                return qs[0].template
+                parent = qs[0].template
             else:
                 # try getting the latest container model prior to this one
                 qs = self.container_model.objects.filter(
@@ -243,7 +259,7 @@ class SheetParser(TemplateParser):
                 ).order_by('-period_end')[:1]
 
                 if qs.count():
-                    return qs[0].template
+                    parent = qs[0].template
                 else:
                     # try getting the earliest container model later then this one
                     qs = self.container_model.objects.filter(
@@ -252,7 +268,7 @@ class SheetParser(TemplateParser):
                     ).order_by('period_start')[:1]
 
                     if qs.count():
-                        return qs[0].template
+                        parent = qs[0].template
                     else:
                         # try getting the standard template for this entity's division
                         qs = Template.objects.filter(
@@ -261,10 +277,11 @@ class SheetParser(TemplateParser):
                         ).order_by('-period_start')[:1]
 
                         if qs.count():
-                            return qs[0]
+                            parent = qs[0]
                         else:
                             #TODO: handle this case of no previous template found
                             raise ParsingError(_('Could not find a parent template for input: %s') % container_dict)
+        return parent, blueprint
 
     def _set_entity(self):
 
