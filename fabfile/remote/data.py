@@ -6,12 +6,12 @@ from fabfile.config import CONFIG, WORKON, DEACTIVATE
 
 @task
 @roles('demo')
-def init(environment='staging'):
+def init(environment='demo'):
     with prefix(WORKON):
         notify(u'Loading the project initial data state.')
         run('python manage.py loaddata ' + environment + '/sites')
-        run('python manage.py loaddata locale/he/strings')
         run('python manage.py loaddata ' + environment + '/interactions')
+        run('python manage.py loaddata locale/he/strings')
         #run('python manage.py loaddata contexts')
         #run('python manage.py loaddata ' + environment +  '/sources')
         run(DEACTIVATE)

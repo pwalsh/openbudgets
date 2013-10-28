@@ -97,6 +97,7 @@ def validate():
 def migrate():
     with prefix(WORKON):
         run('python manage.py syncdb --migrate')
+        data.init()
         run(DEACTIVATE)
 
 
