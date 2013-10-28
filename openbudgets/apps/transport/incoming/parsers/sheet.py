@@ -115,7 +115,7 @@ class SheetParser(TemplateParser):
                     self._save_item(obj, key, is_node=True)
 
                 self._save_amounts()
-                #self._save_sheet_amounts()
+                self._save_sheet_amounts()
 
             self.dry = False
 
@@ -308,20 +308,13 @@ class SheetParser(TemplateParser):
 
     def _save_sheet_amounts(self):
 
-        print 'saving sheet amounts'
-
-        print self.container_object
-        print self.container_object.__dict__
-        print self
-        print self.__dict__
-
-        summable_items = self.container_object.items.filter(node__parent__isnull=True)
+        summable_items = self.item_model.objects.filter(node__parent__isnull=True,
+                                                        node__direction='EXPENDITURE')
         sheet_budget = sum([item.budget for item in summable_items])
-        sheet_actual = sum([item.budget for item in summable_items])
+        sheet_actual = sum([item.actual for item in summable_items])
         self.container_object.budget = sheet_budget
         self.container_object.actual = sheet_actual
         self.container_object.save()
-        return True
 
     def _save_amounts(self):
         children_lookup = {}
