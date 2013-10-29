@@ -30,7 +30,7 @@ def bootstrap():
     collectstatic()
     server.nginx()
     server.gunicorn()
-    #server.celery()
+    server.celery()
 
 
 @task
@@ -46,7 +46,7 @@ def upgrade():
     collectstatic()
     server.nginx()
     server.gunicorn()
-    #server.celery()
+    server.celery()
 
 
 @task

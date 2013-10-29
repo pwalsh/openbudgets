@@ -51,6 +51,21 @@ exec ${project_env}/bin/gunicorn ${app_wsgi} --bind ${app_location}:${app_port} 
 """
 
 
+celery = """### Generated via Fabric on ${timestamp}
+# celery configuration for ${project_name}
+
+author "Paul Walsh"
+description "Controls Celery for ${project_name}"
+
+start on starting ${project_name}
+stop on stopping ${project_name}
+respawn
+
+exec ${project_env}/bin/python manage.py celery worker --concurrency=${queue_workers} --maxtasksperchild=${queue_max_tasks_per_child} --logfile=${queue_log}
+
+"""
+
+
 production_settings = """### Generated via Fabric on ${timestamp}
 from openbudgets.settings import *
 

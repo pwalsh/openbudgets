@@ -44,3 +44,14 @@ def gunicorn():
     content = cuisine.text_template(templates.gunicorn, context)
     cuisine.file_write('/etc/init/' + CONFIG['project_name'] + '.conf', content)
     restart()
+
+
+@task
+@roles('demo')
+def celery():
+    notify('Configuring celery.')
+    context = CONFIG
+    cuisine.mode_sudo()
+    content = cuisine.text_template(templates.celery, context)
+    cuisine.file_write('/etc/init/' + CONFIG['project_name'] + 'q.conf', content)
+    restart()
