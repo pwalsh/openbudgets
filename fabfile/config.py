@@ -29,7 +29,7 @@ CONFIG = {
     'app_location': '127.0.0.1',
     'app_port': 9000,
     'app_workers': 4,
-    'app_timeout': 45,
+    'app_timeout': 150,
     'app_wsgi': 'openbudgets.wsgi:application',
     'repo': 'https://github.com/prjts/openbudgets',
     'branch': 'develop',
