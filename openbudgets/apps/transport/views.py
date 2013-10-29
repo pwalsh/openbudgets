@@ -53,7 +53,8 @@ class FileImportView(LoginRequiredMixin, FormView):
             save_import.apply_async((importer.deferred(), self.request.user.email))
             return HttpResponse(u'OK')
         else:
-            save = importer.save()
+            #save = importer.save()
+            save = save_import.apply_async((importer.deferred(), self.request.user.email))
             if save:
                 return redirect('import_success')
             else:
