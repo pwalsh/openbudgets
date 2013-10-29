@@ -54,4 +54,5 @@ def celery():
     cuisine.mode_sudo()
     content = cuisine.text_template(templates.celery, context)
     cuisine.file_write('/etc/init/' + CONFIG['project_name'] + 'q.conf', content)
+    sudo('service ' + CONFIG['project_name'] + 'q restart')
     restart()

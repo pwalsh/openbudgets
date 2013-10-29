@@ -60,6 +60,10 @@ description "Controls Celery for ${project_name}"
 start on starting ${project_name}
 stop on stopping ${project_name}
 respawn
+console log
+setuid ${user}
+setgid ${user}
+chdir ${project_root}
 
 exec ${project_env}/bin/python manage.py celery worker --concurrency=${queue_workers} --maxtasksperchild=${queue_max_tasks_per_child} --logfile=${queue_log}
 
