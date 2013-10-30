@@ -7,7 +7,7 @@ from django.conf import settings
 env.user = 'robot'
 env.roledefs = {
     'demo': ['162.243.15.220'],
-    'openmuni-budgets': [''],
+    'openmuni-budgets': ['8.34.222.255'],
 }
 
 
