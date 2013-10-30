@@ -1,5 +1,5 @@
 # Uncomment if you are overriding any settings that are defined in settings
-#from openbudget.settings import *
+#from openbudgets.settings import *
 
 
 ######################################################################
