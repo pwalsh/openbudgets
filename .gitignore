@@ -7,13 +7,13 @@
 *.db
 *.pyc
 .coverage
-openbudget/settings/production.py
-openbudget/settings/local.py
+openbudgets/settings/production.py
+openbudgets/settings/local.py
 fabfile/sensitive.py
 docs/_build
 docs/_static
 docs/_templates
-openbudget/commons/search
+openbudgets/commons/search
 static/media/referencesource
 static/media/auxsource
 tmp/dataset
