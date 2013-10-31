@@ -239,7 +239,7 @@ class SheetItemList(generics.ListAPIView):
         divisions = self.request.QUERY_PARAMS.get('divisions', None)
         parents = self.request.QUERY_PARAMS.get('parents', None)
         nodes = self.request.QUERY_PARAMS.get('nodes', None)
-        node_parents = self.request.QUERY_PARAMS.get('parent_nodes', None)
+        node_parents = self.request.QUERY_PARAMS.get('node_parents', None)
         direction = self.request.QUERY_PARAMS.get('direction', None)
         codes = self.request.QUERY_PARAMS.get('codes', None)
         budget_gt = self.request.QUERY_PARAMS.get('budget_gt', None)
