@@ -18,7 +18,7 @@ define([
         .listenTo(uijet.Resource('ItemsListState'), 'change', function (model, options) {
             var changes = model.changedAttributes(),
                 navigate = false,
-                period, scope, id, item;
+                period, scope, node_id, item;
 
             // sometimes search is changed to '' and then immediately and silently cleaned back to `null`
             if ( ! changes )
@@ -50,14 +50,15 @@ define([
 
             if ( navigate ) {
                 if ( scope ) {
-                    item = uijet.Resource('LatestSheet').get(scope) ||
-                           uijet.Resource('Breadcrumbs').get(scope);
-                    id = item.get('id') + '/';
+                    item = uijet.Resource('LatestSheet').findWhere({ node : scope }) ||
+                           uijet.Resource('Breadcrumbs').findWhere({ node : scope });
+                    node_id = item.get('node') + '/';
                 }
                 else {
-                    id = '';
+                    node_id = '';
                 }
-                this.navigate(period + '/' + id);
+
+                this.navigate(period + '/' + node_id);
             }
         });
 

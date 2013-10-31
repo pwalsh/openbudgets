@@ -1,9 +1,9 @@
 {{#stache}}
-<li data-id="{{id}}">{{name}}</li>
+<li data-id="{{node}}">{{name}}</li>
 {{/stache}}
 
 {{^stache}}
 {{#.}}
-<li data-id="{{attributes.id}}">{{attributes.name}}</li>
+<li data-id="{{attributes.node}}">{{attributes.name}}</li>
 {{/.}}
 {{/stache}}

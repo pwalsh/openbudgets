@@ -38,8 +38,8 @@ define([
                 cache   : true,
                 expires : 8 * 3600,
                 data    : {
-                    page_by : 4000,
-                    parents : 'none'
+                    page_by     : 4000,
+                    node_parents: 'none'
                 }
             },
             search          : {
@@ -83,7 +83,7 @@ define([
                 post_init       : function () {
                     var state_model = uijet.Resource('ItemsListState');
 
-                    this.scope = window.ITEM.id || null;
+                    this.scope = window.ITEM.node || null;
                     this.resource.reset(this.resource.parse(window.ITEMS_LIST));
                     this.index();
 
@@ -154,6 +154,7 @@ define([
                         scope = 'scope' in this.context ? this.context.scope || null : undef,
                         sheet = this.context.sheets,
                         search = this.context.search || state.get('search'),
+                        fetch_ops_data = this.options.fetch_options.data,
                         prev_sheet;
 
                     if ( sheet ) {
@@ -162,7 +163,7 @@ define([
                             // register current collection as the new instance
                             uijet.Resource('LatestSheet', this.resource, true);
                             scope = scope === -1 ?
-                                this.resource.get(state.get('id')).get('id') :
+                                this.resource.findWhere({ node : state.get('node') }).get('node') :
                                 scope;
                         }
                         else {
@@ -184,16 +185,16 @@ define([
 
                     if ( sheet ) {
                         this.sheet_changed = true;
-                        this.options.fetch_options.data.sheets = sheet;
+                        fetch_ops_data.sheets = sheet;
                     }
 
                     if ( search ) {
-                        this.options.fetch_options.data.search = search;
-                        delete this.options.fetch_options.data.parents;
+                        fetch_ops.data.search = search;
+                        delete fetch_ops_data.node_parents;
                     }
                     else {
-                        delete this.options.fetch_options.data.search;
-                        this.options.fetch_options.data.parents = (scope === undef ? this.scope : scope) || 'none';
+                        delete fetch_ops_data.search;
+                        fetch_ops_data.node_parents = (scope === undef ? this.scope : scope) || 'none';;
                     }
 
                     // set scope if it's defined in the context
@@ -258,14 +259,14 @@ define([
                     var node_id = (typeof $selected == 'string' ?
                             $selected :
                             $selected.attr('data-id')) || null;
-                    
+
                     uijet.Resource('ItemsListState').set('scope', node_id);
                 }
             },
             app_events      : {
-                'items_breadcrumbs.selected'                : 'post_select+',
-                'items_list_header.selected'                : 'sortItems+',
-                'comment_created'                           : function (response) {
+                'items_breadcrumbs.selected': 'post_select+',
+                'items_list_header.selected': 'sortItems+',
+                'comment_created'           : function (response) {
                     var item = this.resource.get(response.item),
                         discussion,
                         sheet_re;

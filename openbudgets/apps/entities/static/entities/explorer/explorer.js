@@ -51,7 +51,7 @@ define([
             search          : null,
             sheet           : window.SHEET.id,
             period          : +window.SHEET.period,
-            scope           : +window.ITEM.id || null,
+            scope           : window.ITEM.node || null,
             comments_item   : null
         }
     )
@@ -91,35 +91,31 @@ define([
     explorer = {
         router      : Router({
             routes  : {
-                '/' : function () {console.log('ROOT');
+                '/' : function () {
                     this.navigate(uijet.Resource('ItemsListState').get('period') + '/', { 
                         replace : true,
                         silent  : true
                     });
                 },
-                ':period/' : function (period) {console.log(period);
+                ':period/' : function (period) {
                     uijet.Resource('ItemsListState').set({
                         period  : +period,
                         scope   : null,
                         routed  : true
                     });
                 },
-                ':period/:id/' : function (period, id) {console.log(period, id);
-                    var item = uijet.Resource('LatestSheet').get(id),
-                        scope;
+                ':period/:node/' : function (period, scope) {
+                    var item = uijet.Resource('LatestSheet').findWhere({ node : scope });
 
                     if ( ! item ) {
                         scope = -1;
-                    }
-                    else {
-                        scope = item.get('id');
                     }
 
                     uijet.Resource('ItemsListState').set({
                         sheet   : explorer.getSheetId(period),
                         period  : +period,
                         scope   : scope,
-                        id      : id,
+                        id      : item.id,
                         routed  : true
                     });
                 }
