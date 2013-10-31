@@ -122,7 +122,8 @@
 
     {% endblock overlays %}
     <script>
-        var API_INDEX = 'http://{{ site.domain }}/api/',
+        //var API_INDEX = 'http://{{ site.domain }}/api/',
+        var API_INDEX = 'http://' + window.location.host + '/api/',
             API_VERSION = 'v1';
             ENTITY = {{ object_json|safe }},
             SHEET = {{ sheet_json|safe }},
