@@ -7,7 +7,7 @@ from fabfile.remote import env
 from fabfile.remote import db
 from fabfile.remote import data
 from fabfile.remote import cache
-from fabfile.remote import gce
+#from fabfile.remote import gce
 from fabfile.config import CONFIG, WORKON, DEACTIVATE
 
 try:
