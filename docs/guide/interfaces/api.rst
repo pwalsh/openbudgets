@@ -476,7 +476,8 @@ Filters
 * has_discussion [true/false] - returns sheet items that have user discussion.
 * codes [STR, list of comma-separated STR] - returns sheet items that use the given code(s).
 * direction ["revenue"/"expenditure"] - returns sheet items that are either revenue of expenditure.
-* parents [INT or "none", list of comma-separated INT, or "none"] - returns sheet items that are children of the given parent *NODE* identifier(s). If "none" is passed, returns items with no parent.
+* parents [STR or "none", list of comma-separated INT, or "none"] - returns sheet items that are children of the given parent sheet item identifier(s). If "none" is passed, returns items with no parent.
+* nodes [STR, list of comma-separated STR] - returns sheet items that are related to the given node.
 * sheets [INT, list of comma-separated INT] - returns sheet items belonging to the given sheet(s).
 * entities [INT, list of comma-separated INT] - returns sheet items of the given entity id(s).
 * divisions [INT, list of comma-separated INT] - returns sheet items under the given division id(s).
