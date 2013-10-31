@@ -238,6 +238,7 @@ class SheetItemList(generics.ListAPIView):
         entities = self.request.QUERY_PARAMS.get('entities', None)
         divisions = self.request.QUERY_PARAMS.get('divisions', None)
         parents = self.request.QUERY_PARAMS.get('parents', None)
+        nodes = self.request.QUERY_PARAMS.get('nodes', None)
         direction = self.request.QUERY_PARAMS.get('direction', None)
         codes = self.request.QUERY_PARAMS.get('codes', None)
         budget_gt = self.request.QUERY_PARAMS.get('budget_gt', None)
@@ -296,6 +297,11 @@ class SheetItemList(generics.ListAPIView):
         elif parents:
             parents = parents.split(',')
             queryset = queryset.filter(parent__pk__in=parents)
+
+        # NODES: return sheet items that belong to the given node(s).
+        if nodes:
+            nodes = nodes.split(',')
+            queryset = queryset.filter(node__in=nodes)
 
         # BUDGET_GT: return sheet items with a budget amount greater than the
         # given amount.
