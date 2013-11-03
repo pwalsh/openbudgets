@@ -107,12 +107,15 @@ class SheetParser(TemplateParser):
                     self._clear_cache()
 
             else:
+                template_cache = self.template_parser.saved_cache
+                # loop the template's saved nodes cache and save item for every node that's not in the sourcefile
+                for key, obj in template_cache.iteritems():
+                    if key not in self.objects_lookup:
+                        self._save_item(obj, key, is_node=True)
+
                 # loop the lookup table and save item for every row
                 for key, obj in self.objects_lookup.iteritems():
                     self._save_item(obj, key)
-                # loop the template's saved nodes cache and save item for every node that's not in the sourcefile
-                for key, obj in self.template_parser.saved_cache.iteritems():
-                    self._save_item(obj, key, is_node=True)
 
                 self._save_amounts()
                 self._save_sheet_amounts()

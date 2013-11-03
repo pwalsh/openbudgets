@@ -33,8 +33,8 @@ define([
             var item_model;
 
             item_model = this.scope ?
-                this.resource.get(this.scope) ||
-                uijet.Resource('Breadcrumbs').get(this.scope) :
+                this.resource.findWhere({ node : this.scope }) ||
+                uijet.Resource('Breadcrumbs').findWhere({ node : this.scope }) :
                 this.scope;
 
             return this.publish('scope_changed', item_model);
@@ -89,7 +89,7 @@ define([
         toggleHighlight     : function (search_term) {
             var resource = this.resource,
                 highlight = this.highlight.bind(this),
-                scope = this.scope,
+                scope_id = this.resource.findWhere({ node : this.scope }),
                 $list = this.$last_filter_result || this.$children,
                 initial_item_height = $list.first().height();
 
@@ -103,7 +103,7 @@ define([
                     optimize = i < max_results_limit_for_branch_name_optimization,
                     branch;
 
-                branch = model.branchName(scope);
+                branch = model.branchName(scope_id);
                 if ( ! optimize && branch.length > 1 ) {
                     branch.length = 1;
                     branch.push('...');

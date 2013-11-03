@@ -169,17 +169,17 @@ define([
             roots           : function () {
                 return this.byParent(null);
             },
-            byParent        : function (parent_id) {
+            byParent        : function (parent_node_id) {
                 return this.filter(function (item) {
                     var parent = item.attributes.parent;
-                    return (parent && parent.id) === parent_id;
+                    return (parent && parent.node) === parent_node_id;
                 });
             },
-            byAncestor      : function (ancestor_id) {
-                if ( ancestor_id ) {
+            byAncestor      : function (ancestor_node_id) {
+                if ( ancestor_node_id ) {
                     return this.filter(function (item) {
                         return item.attributes.ancestors.some(function (ancestor) {
-                            return ancestor.id === ancestor_id
+                            return ancestor.node === ancestor_node_id
                         });
                     });
                 }

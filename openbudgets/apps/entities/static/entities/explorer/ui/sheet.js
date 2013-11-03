@@ -3,7 +3,6 @@ define([
     'resources',
     'explorer',
     'composites/DropmenuButton',
-    'composites/Select',
     'project_widgets/ClearableTextInput',
     'project_widgets/FilterCrumb',
     'project_widgets/Breadcrumbs',
@@ -19,7 +18,7 @@ define([
         .listenTo(uijet.Resource('ItemsListState'), 'change', function (model, options) {
             var changes = model.changedAttributes(),
                 navigate = false,
-                period, scope, id, item;
+                period, scope, node_id, item;
 
             // sometimes search is changed to '' and then immediately and silently cleaned back to `null`
             if ( ! changes )
@@ -51,14 +50,15 @@ define([
 
             if ( navigate ) {
                 if ( scope ) {
-                    item = uijet.Resource('LatestSheet').get(scope) ||
-                           uijet.Resource('Breadcrumbs').get(scope);
-                    id = item.get('id') + '/';
+                    item = uijet.Resource('LatestSheet').findWhere({ node : scope }) ||
+                           uijet.Resource('Breadcrumbs').findWhere({ node : scope });
+                    node_id = item.get('node') + '/';
                 }
                 else {
-                    id = '';
+                    node_id = '';
                 }
-                this.navigate(period + '/' + id);
+
+                this.navigate(period + '/' + node_id);
             }
         });
 
@@ -104,45 +104,6 @@ define([
         };
 
     return [{
-        type    : 'Select',
-        config  : {
-            element     : '#sheet_selector',
-            resource    : 'ItemsListState',
-            menu        : {
-                element         : '#sheet_selector_menu',
-                float_position  : 'top:44px',
-                initial         : '[data-id=' + window.SHEET.id + ']',
-                signals         : {
-                    post_wake   : 'opened',
-                    post_sleep  : 'closed'
-                }
-            },
-            content     : uijet.$('#sheet_selector_content'),
-            sync        : true,
-            data_events : {
-                'change:period'  : function (model, period) {
-                    var id = explorer.getSheetId(period);
-                    this.select(this.$element.find('[data-id=' + id + ']'));
-                }
-            },
-            signals     : {
-                post_select : function ($selected) {
-                    this.resource.set({
-                        sheet   : $selected.attr('data-id'),
-                        period  : +$selected.text()
-                    });
-                }
-            },
-            app_events  : {
-                'sheet_selector_menu.opened'    : 'activate',
-                'sheet_selector_menu.closed'    : 'deactivate',
-                'filters_search_menu.selected'  : 'sleep',
-                'items_search.entered'          : 'wake',
-                'items_search.cancelled'        : 'wake',
-                'search_crumb_remove.clicked'   : 'wake'
-            }
-        }
-    }, {
         type    : 'Pane',
         config  : {
             element     : '#sheet_scope_name',
