@@ -544,7 +544,9 @@ More commands
 
 There are many more commands we invoke via the `fab` CLI.
 
-If you are developing Open Budgets, we urge you to get familiar will this toolset, and make pull requests for more useful tools as the need arises.
+If you are developing Open Budgets, we urge you to get familiar will this toolset.
+
+You are welcome to make pull requests for more useful fab commands.
 
 
 Working with data
@@ -564,7 +566,7 @@ By default, the process for working with data and getting it into the database i
 
 * Content editors prepare data according to our required data formats (See the "Specifications" section of the documentation)
 * When the data is ready, it is exported to CSV files, and added to the data repository (See the "Specifications" section of the documentation)
-* The data is problematically loaded from the data repository into the database. Once an object is saved to the database, it writes back a unique identifier to the object in the data repository. This is a persistent ID for the life of the instance.
+* The data is programmatically loaded from the data repository into the database. Once an object is saved to the database, it writes back a unique identifier to the object in the data repository. This is a persistent ID for the life of the instance.
 
 If you are working on an instance of Open Budgets that already has a populated data repository configured, simply run the following command to build out the database::
 
@@ -575,11 +577,11 @@ If you are working on an instance of Open Budgets that already has a populated d
 
 Alternatively, the maintainers of your instance may take data snapshots that are directly importable to Postgresql.
 
-For Open Muni Budgets, the Open Budgets project for Israel Municipalities, we keep such files publically accessible here:
+For Open Muni Budgets, the Open Budgets project for Israel Municipalities, we keep such files publicly accessible here:
 
 https://drive.google.com/#folders/0B4JzAmQXH28mNXBxdjdzeEJXb2s
 
-Download the latest file, place it in the project's 'tmp' directory with the name db_dump.sql, and run the following command::
+Download the latest file, place it in the project's 'tmp' directory with the name db_dump.sql, and run the following command (ensure your database is clean before this, by running `fab bootstrap`)::
 
     fab data.load:from_dump=yes
 
