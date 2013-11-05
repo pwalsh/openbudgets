@@ -264,7 +264,7 @@ Here we go::
 
     # Clone the project
     # Important: Note the "." at the end of the git clone command.
-    git clone https://github.com/hasadna/omuni-budget.git .
+    git clone https://github.com/hasadna/openmuni-budgets.git .
 
 
 
