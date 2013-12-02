@@ -142,22 +142,38 @@ If you are not sure, just stick with system Python setup for now.
 
 Install::
 
-    # using system Python
+    # USING THE BUILTIN PYTHON WITH MAC OS X
     brew install mercurial git node redis
     sudo easy_install virtualenv
     sudo pip install virtualenvwrapper
     npm install -g volo bower less
 
 
-    # alternatively, using homebrew Python
-    brew install mercurial git node redis python
+    # ALTERNATIVELY, USING HOMEBREW PYTHON
+    brew install mercurial git node postgresql redis python
     pip install virtualenv virtualenvwrapper
     npm install -g volo bower less
 
+That's all the packages we need for the system. But we need some extra configuration for Postgresql::
 
-That's all the packages we need for the system, now we need to configure the user's .bash_profile.
+    Create the LaunchAgents directory
+    mkdir -p ~/Library/LaunchAgents
 
-Configure::
+    # Configure postgresql to launch on system start
+    ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
+
+    # Initialize the postgresql database
+    initdb /usr/local/var/postgres -E utf8
+
+    # Create a user with your username on Mac OS X
+    createuser {YOUR_USER}
+
+    # Create a database with your username on Mac OS X
+    createdb {YOUR_USER}
+
+That is Postgresql configured and ready to go.
+
+Now, we need to configure the user's .bash_profile::
 
     # this goes in ~/.bash_profile
     export PYTHONIOENCODING=utf-8
@@ -264,7 +280,7 @@ Here we go::
 
     # Clone the project
     # Important: Note the "." at the end of the git clone command.
-    git clone https://github.com/hasadna/omuni-budget.git .
+    git clone https://github.com/hasadna/openmuni-budgets.git .
 
 
 
