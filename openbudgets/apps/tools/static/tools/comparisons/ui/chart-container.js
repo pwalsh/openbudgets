@@ -66,7 +66,10 @@ define([
             element     : '#viz_export',
             dont_wake   : function () {
                 return ! uijet.Resource('ToolState').has('id');
-            }
+            },
+			app_events: {
+				chart_saved: 'wake'
+			}
         }
     }, {
         type    : 'Button',
@@ -74,7 +77,10 @@ define([
             element     : '#viz_publish',
             dont_wake   : function () {
                 return ! uijet.Resource('ToolState').has('id');
-            }
+            },
+			app_events: {
+				chart_saved: 'wake'
+			}
         }
     }, {
         factory : 'ChartMenuButton',
@@ -82,7 +88,7 @@ define([
             element     : '#viz_delete',
             dont_wake   : function () {
                 var state = uijet.Resource('ToolState');
-                if ( uijet.Resource('LoggedinUser').get('id') === state.get('author') ) {
+                if ( uijet.Resource('LoggedinUser').get('uuid') === state.get('author') ) {
                     return ! state.has('id');
                 }
 
@@ -90,7 +96,8 @@ define([
             },
             app_events  : {
                 state_cleared       : enableMenuButton,
-                state_delete_failed : enableMenuButton
+                state_delete_failed : enableMenuButton,
+				chart_saved: 'wake'
             }
         }
     }, {
@@ -99,7 +106,8 @@ define([
             element     : '#viz_duplicate',
             app_events  : {
                 state_saved         : enableMenuButton,
-                state_save_failed   : enableMenuButton
+                state_save_failed   : enableMenuButton,
+				chart_saved: 'wake'
             }
         }
     }, {    
@@ -109,12 +117,13 @@ define([
             dont_wake   : false,
             signals : {
                 pre_click   : function () {
-                    if ( ! uijet.Resource('LoggedinUser').has('id') ) {
+                    if ( ! uijet.Resource('LoggedinUser').has('uuid') ) {
                         uijet.publish('login');
                         return false;
                     }
                     else {
                         this.disable().spin();
+						uijet.publish('chart_saved');
                     }
                 }
             },

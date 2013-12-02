@@ -17,7 +17,7 @@ define([
 
     var default_state = {
             tool        : window.TOOL.id,
-            author      : window.LOGGEDIN_USER.id,
+            author      : window.LOGGEDIN_USER.uuid,
             title       : '',
             description : '',
             author_model: new resources.User(window.LOGGEDIN_USER),
