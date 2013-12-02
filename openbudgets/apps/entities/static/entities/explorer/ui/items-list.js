@@ -189,7 +189,7 @@ define([
                     }
 
                     if ( search ) {
-                        fetch_ops.data.search = search;
+                        fetch_ops_data.search = search;
                         delete fetch_ops_data.node_parents;
                     }
                     else {
