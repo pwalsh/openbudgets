@@ -1,6 +1,5 @@
 from datetime import datetime
 from django.utils.translation import ugettext_lazy as _, gettext as __
-from django.db.models import Q
 from openbudgets.apps.sheets.models import Template, TemplateNode, TemplateNodeRelation
 from openbudgets.apps.entities.models import Division
 from openbudgets.apps.international.utilities import translated_fields
@@ -26,7 +25,7 @@ class TemplateParser(BaseParser):
         + translated_fields(TemplateNode)
     CONTAINER_ATTRIBUTES = ['name', 'description', 'divisions', 'period_start']
 
-    def __init__(self, container_object_dict, rows_filters=None, extends=None, fill_in_parents=None, interpolate=None):
+    def __init__(self, container_object_dict, rows_filters=None, extends=None, blueprint=None, fill_in_parents=None, interpolate=None):
         super(TemplateParser, self).__init__(container_object_dict)
         self.parent = extends
         self.skipped_rows = []
@@ -37,15 +36,11 @@ class TemplateParser(BaseParser):
             self.fill_in_parents = True if fill_in_parents is None else fill_in_parents
             self.interpolate = True if interpolate is None else interpolate
 
-            divisions = self.parent.divisions.all()
-            if divisions.exists():
-                self.ancestors_qs = self.item_model.objects.filter(templates__divisions__in=divisions)
-            else:
-                entity = self.parent.sheets.all()[:1][0].entity
-                self.ancestors_qs = self.item_model.objects.filter(
-                    Q(templates__sheets__entity=entity) |
-                    Q(templates__divisions__in=[entity.division])
-                ).order_by('-templates__period_start')
+            if not blueprint:
+                blueprint = extends if extends.is_blueprint else extends.blueprint
+                #TODO: see if there's a probable case of not finding the blueprint even on the parent template
+
+            self.blueprint = blueprint
 
         else:
             self.fill_in_parents = False
@@ -53,6 +48,27 @@ class TemplateParser(BaseParser):
 
         if self.interpolate:
             self.interpolated_lookup = {}
+
+    def _save_items(self):
+        try:
+            blueprint = getattr(self, 'blueprint')
+        except AttributeError:
+            blueprint = False
+
+        if not self.dry and blueprint:
+            # extending the blueprint first
+            #TODO: need to also extend the parent?
+            nodes = blueprint.nodes.all()
+            for node in nodes:
+                key = node.path
+                if key not in self.saved_cache:
+                    self._save_item(obj=node, key=key, is_node=True)
+                else:
+                    #TODO: this is a stub exception so we don't support this case
+                    # but should probably be removed/replaced later if we support overriding of blueprint nodes
+                    raise Exception('Found a key in saved cache while saving blueprint: %s' % key)
+
+        super(TemplateParser, self)._save_items()
 
     def _save_item(self, obj, key, is_node=False):
         inverses = []
@@ -477,7 +493,7 @@ class TemplateParser(BaseParser):
 
         except self.item_model.DoesNotExist as e:
             # none found
-            ancestors_matches = self.ancestors_qs.filter(path=path)
+            ancestors_matches = self.blueprint.nodes.filter(path=path)
             if len(ancestors_matches):
                 return ancestors_matches[0]
 

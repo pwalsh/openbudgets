@@ -218,7 +218,7 @@ class SheetParser(TemplateParser):
             del container_dict_copy['period_end']
 
         if parent_template:
-            return TemplateParser(container_dict_copy, extends=parent_template, rows_filters=(_rows_filter,))
+            return TemplateParser(container_dict_copy, extends=parent_template, blueprint=blueprint, rows_filters=(_rows_filter,))
 
         return False
 
