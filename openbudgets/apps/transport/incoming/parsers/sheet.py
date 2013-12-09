@@ -311,7 +311,8 @@ class SheetParser(TemplateParser):
 
     def _save_sheet_amounts(self):
 
-        summable_items = self.item_model.objects.filter(node__parent__isnull=True,
+        summable_items = self.item_model.objects.filter(sheet=self.container_object,
+                                                        node__parent__isnull=True,
                                                         node__direction='EXPENDITURE')
         sheet_budget = sum([item.budget for item in summable_items])
         sheet_actual = sum([item.actual for item in summable_items])
