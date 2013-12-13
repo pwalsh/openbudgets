@@ -35,10 +35,15 @@
                         </li>{{ items_breadcrumbs|safe }}
                     </ul>
                 </div>
-                <h2 id="sheet_scope_name">
-                    <span id="sheet_scope_name_content">{{ scope_name }}</span>
-                    <span id="search_crumb"></span>
-                </h2>
+
+                <div id="sheet_scope_header">
+                    <h2 id="sheet_scope_name">
+                        <span id="sheet_scope_name_content">{{ scope_name }}</span>
+                        <span id="search_crumb"></span>
+                    </h2>
+                    <div id="sheet_scope_comments" data-id="{{ scope_item.node }}" data-item="{{ scope_item.id }}" class="item_comment_button{% if scope_item.has_comments > 0 %} has_comments{% endif %}">{{ scope_item.comment_count }}</div>
+                </div>
+
                 <input type="text" name="items_search" id="items_search" placeholder="{% trans 'Search' %}"/>
                 <span id="download_sheet">
                     <ul id="download_sheet_menu">

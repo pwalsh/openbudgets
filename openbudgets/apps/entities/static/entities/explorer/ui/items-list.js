@@ -74,6 +74,9 @@ define([
                 reset   : function () {
                     this.has_data = true;
                     delete this.$original_children;
+
+                    if (window.ITEM.id)
+                        this.resource.add(window.ITEM);
                 },
                 sort    : function () {
                     uijet.Resource('ItemsListState').set('comments_item', null);
@@ -246,7 +249,7 @@ define([
                 },
                 pre_select      : function ($selected, e) {
                     var is_comment_button = uijet.$(e.target).hasClass('item_comment_button');
-
+                    
                     if ( is_comment_button ) {
                         uijet.Resource('ItemsListState').set('comments_item', $selected);
                         return false;
