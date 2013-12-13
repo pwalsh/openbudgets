@@ -50,9 +50,7 @@ define([
 
             if ( navigate ) {
                 if ( scope ) {
-                    item = uijet.Resource('LatestSheet').findWhere({ node : scope }) ||
-                           uijet.Resource('Breadcrumbs').findWhere({ node : scope });
-                    node_id = item.get('node') + '/';
+                    node_id = scope + '/';
                 }
                 else {
                     node_id = '';
@@ -114,11 +112,7 @@ define([
             },
             app_events  : {
                 'items_list.scope_changed'      : function (scope_item_model) {
-                    this.$content.text(
-                        scope_item_model ?
-                            scope_item_model.get('name') :
-                            gettext('Main')
-                    )
+                    this.$content.text(scope_item_model ? scope_item_model.get('name') : gettext('Main'));
                 },
                 'filters_search_menu.selected'  : function (data) {
                     if ( data.type === 'search' )
@@ -127,6 +121,29 @@ define([
                 'items_search.entered'          : 'wake',
                 'items_search.cancelled'        : 'wake',
                 'search_crumb_remove.clicked'   : 'wake'
+            }
+        }
+    }, {
+        type    : 'Button',
+        config  : {
+            element     : '#sheet_scope_comments',
+            signals     : {
+                pre_click   : function () {
+                    uijet.publish('open_comments', this.$element);
+                }
+            },
+            app_events: {
+                'items_list.scope_changed'  : function(scope_item_model)
+                {
+                    this.$element.attr('data-item', scope_item_model.get('id'))
+                                .attr('data-id', scope_item_model.get('node'))
+                                .text(scope_item_model.get('comment_count'));
+                    // console.log(this.)
+                    if (scope_item_model.get('has_comments'))
+                        this.$element.addClass('has_comments');
+                    else
+                        this.$element.removeClass('has_comments');
+                }
             }
         }
     }, {

@@ -1,6 +1,5 @@
 from datetime import datetime
 from django.utils.translation import ugettext_lazy as _, gettext as __
-from django.db.models import Q
 from openbudgets.apps.sheets.models import Template, TemplateNode, TemplateNodeRelation
 from openbudgets.apps.entities.models import Division
 from openbudgets.apps.international.utilities import translated_fields
@@ -26,26 +25,25 @@ class TemplateParser(BaseParser):
         + translated_fields(TemplateNode)
     CONTAINER_ATTRIBUTES = ['name', 'description', 'divisions', 'period_start']
 
-    def __init__(self, container_object_dict, rows_filters=None, extends=None, fill_in_parents=None, interpolate=None):
+    def __init__(self, container_object_dict, rows_filters=None, extends=None, blueprint=None, fill_in_parents=None, interpolate=None):
         super(TemplateParser, self).__init__(container_object_dict)
         self.parent = extends
         self.skipped_rows = []
         self.rows_filters = rows_filters or []
+        self.template_is_different = True
+        self.parent_cache = None
 
         #TODO: this assumes there's always a base template to inherit from, might need to support parents filling w/o parent template
         if extends:
             self.fill_in_parents = True if fill_in_parents is None else fill_in_parents
             self.interpolate = True if interpolate is None else interpolate
+            self.template_is_different = False
 
-            divisions = self.parent.divisions.all()
-            if divisions.exists():
-                self.ancestors_qs = self.item_model.objects.filter(templates__divisions__in=divisions)
-            else:
-                entity = self.parent.sheets.all()[:1][0].entity
-                self.ancestors_qs = self.item_model.objects.filter(
-                    Q(templates__sheets__entity=entity) |
-                    Q(templates__divisions__in=[entity.division])
-                ).order_by('-templates__period_start')
+            if not blueprint:
+                blueprint = extends if extends.is_blueprint else extends.blueprint
+                #TODO: see if there's a probable case of not finding the blueprint even on the parent template
+
+            self.blueprint = blueprint
 
         else:
             self.fill_in_parents = False
@@ -53,6 +51,50 @@ class TemplateParser(BaseParser):
 
         if self.interpolate:
             self.interpolated_lookup = {}
+
+    def save(self, dry=False):
+        saved = super(TemplateParser, self).save(dry=dry)
+
+        # `self.dry` was set to `False` so use `dry` instead
+        if not dry and self.parent_cache is not None:
+            self._diff_template()
+
+        return saved
+
+    def _save_items(self):
+        try:
+            blueprint = getattr(self, 'blueprint')
+        except AttributeError:
+            blueprint = False
+
+        if not self.dry:
+            if blueprint:
+                # extending the blueprint first
+                #TODO: need to also extend the parent?
+                blueprint_nodes = blueprint.nodes.all()
+                for node in blueprint_nodes:
+                    key = node.path
+                    if key not in self.saved_cache:
+                        self._save_item(obj=node, key=key, is_node=True)
+                    else:
+                        #TODO: this is a stub exception so we don't support this case
+                        # but should probably be removed/replaced later if we support overriding of blueprint nodes
+                        raise Exception('Found a key in saved cache while saving blueprint: %s' % key)
+
+            #TODO: diff the nodes in the imported sheet's template against the blueprint's nodes
+
+            # fill the parent nodes cache
+            #TODO: check that parent is NOT blueprint
+            if self.parent:
+                self.parent_cache = {}
+                for node in self.parent.nodes.all():
+                    key = node.path
+                    # make sure we leave out the blueprint's nodes
+                    if key not in self.saved_cache:
+                        self.parent_cache[key] = node
+
+        # this also runs in dry run
+        super(TemplateParser, self)._save_items()
 
     def _save_item(self, obj, key, is_node=False):
         inverses = []
@@ -62,11 +104,35 @@ class TemplateParser(BaseParser):
         if key in self.saved_cache:
             return self.saved_cache[key]
 
+        #TODO: this might render the self.fill_in_parents obsolete so check if still needed
+        #TODO: this might render the self._lookup_node() obsolete so check if still needed
+        if self.parent_cache is not None:
+            if key in self.parent_cache:
+                parent_node = self.parent_cache.pop(key)
+                different, diff = self._diff_node(obj, parent_node)
+                if different:
+                    print 'different node'
+                    print obj
+                    # mark this template as different
+                    self.template_is_different = True
+                    #TODO: depending on the difference we can set a backward relation between `obj` and `parent_node`
+                else:
+                    # Hoorah! we have a match in the parent template's nodes and we'll use it
+                    # we'll skip the rest of the flow with a saved node instead of a raw dict
+                    is_node = True
+                    obj = parent_node
+            else:
+                print 'new node'
+                print obj
+                # mark this template as different
+                self.template_is_different = True
+
         # if it's a saved node it's already well connected
         if not is_node:
             # if inheriting another template then look up this node there
             if self.parent:
                 path = obj['path']
+                #TODO: this is probably redundant now
                 item = self._lookup_node(path=path, key=key)
                 if item:
                     # in case we found the item, cache the saved node
@@ -218,6 +284,7 @@ class TemplateParser(BaseParser):
 
                 if self.fill_in_parents:
                     # look up the node in the parent template
+                    #TODO: we can probably now just check in self.parent_cache instead, check it later
                     parent = self._lookup_node(path=parent_path, route=route, key=key)
                     if parent:
                         # save the node as if it was another object in the lookup
@@ -304,6 +371,7 @@ class TemplateParser(BaseParser):
         # first we'll try finding the other end
         while len(route):
             route.pop(0)
+            #TODO: check whether we can now just check if it's in self.parent_cache instead
             ancestor = self._lookup_node(route=route, key=key)
 
             if ancestor:
@@ -477,7 +545,7 @@ class TemplateParser(BaseParser):
 
         except self.item_model.DoesNotExist as e:
             # none found
-            ancestors_matches = self.ancestors_qs.filter(path=path)
+            ancestors_matches = self.blueprint.nodes.filter(path=path)
             if len(ancestors_matches):
                 return ancestors_matches[0]
 
@@ -539,5 +607,35 @@ class TemplateParser(BaseParser):
 
         container_dict['name'] = name
 
+    def _diff_node(self, obj, parent_node):
+        diff = []
+        different = False
+
+        if isinstance(obj, dict):
+            name = obj.get('name')
+        else:
+            name = obj.name
+
+        if name != parent_node.name:
+            different = True
+            diff.append('name')
+
+        return different, diff
+
+    def _diff_template(self):
+        print 'diffing'
+        #TODO: consider not declaring this tempalte as different if there are nodes left in parent cache
+        # and instead, perhaps instantiate these also - maybe without an item? Or null amounts?
+        #TODO: optimize process so container is only created at the end if it's different from its parent
+        if not self.template_is_different and not len(self.parent_cache):
+            print 'same'
+            # this should also delete all TemplateNodeRelations to this template
+            self.container_object.delete()
+            # since all nodes already relate to the parent no need to do anything
+            self.container_object = self.parent
+        else:
+            print 'nodes left in parent %s' % len(self.parent_cache)
+            for key in self.parent_cache:
+                print key
 
 register('template', TemplateParser)

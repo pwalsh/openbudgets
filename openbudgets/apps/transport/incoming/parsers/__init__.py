@@ -122,8 +122,7 @@ class BaseParser(object):
             lookup_table_copy = deepcopy(self.objects_lookup)
 
         # loop the lookup table and save every item
-        for key, obj in self.objects_lookup.iteritems():
-            self._save_item(obj, key)
+        self._save_items()
 
         if dry:
             if not self.keep_cache:
@@ -162,6 +161,14 @@ class BaseParser(object):
         This method needs to be implemented by non-abstract implementations.
         """
         raise NotImplementedError
+
+    def _save_items(self):
+        """Saves all the objects in `self.objects_lookup` into DB.
+
+        If this is a dry run then just attempts to validate the save process.
+        """
+        for key, obj in self.objects_lookup.iteritems():
+            self._save_item(obj, key)
 
     def _save_item(self, obj, key):
         """

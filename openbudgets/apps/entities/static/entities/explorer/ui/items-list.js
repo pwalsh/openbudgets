@@ -74,6 +74,9 @@ define([
                 reset   : function () {
                     this.has_data = true;
                     delete this.$original_children;
+
+                    if (window.ITEM.id)
+                        this.resource.add(window.ITEM);
                 },
                 sort    : function () {
                     uijet.Resource('ItemsListState').set('comments_item', null);
@@ -115,7 +118,7 @@ define([
                             // make sure we cache the previous sheet
                             if ( prev ) {
                                 prev_sheets = uijet.Resource('PreviousSheets');
-    
+
                                 // assigning in purpose to reuse as previous sheet
                                 if ( prev_sheet = prev_sheets.get(prev) ) {
                                     // update cache of previous Items collection with current LatestSheet state
