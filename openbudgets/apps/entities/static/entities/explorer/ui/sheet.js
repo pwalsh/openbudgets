@@ -126,20 +126,23 @@ define([
             element     : '#sheet_scope_comments',
             signals     : {
                 pre_click   : function () {
-                    uijet.publish('open_comments', this.$element);
+                    uijet.Resource('ItemsListState').set('comments_item', this.$element);
                 }
             },
             app_events: {
-                'items_list.scope_changed'  : function(scope_item_model)
-                {
-                    this.$element.attr('data-item', scope_item_model.get('id'))
-                                .attr('data-id', scope_item_model.get('node'))
-                                .text(scope_item_model.get('comment_count'));
+                'items_list.scope_changed'  : function (scope_item_model) {
+                    if ( scope_item_model ) {
+                        this.$element.attr('data-item', scope_item_model.get('id'))
+                                    .attr('data-id', scope_item_model.get('node'))
+                                    .text(scope_item_model.get('comment_count'));
 
-                    if (scope_item_model.get('has_comments'))
-                        this.$element.addClass('has_comments');
-                    else
-                        this.$element.removeClass('has_comments');
+                        if ( scope_item_model.get('has_comments') ) {
+                            this.$element.addClass('has_comments');
+                        }
+                        else {
+                            this.$element.removeClass('has_comments');
+                        }
+                    }
                 }
             }
         }
