@@ -131,18 +131,21 @@ define([
             },
             app_events: {
                 'items_list.scope_changed'  : function (scope_item_model) {
-                    if ( scope_item_model ) {
-                        this.$element.attr('data-item', scope_item_model.get('id'))
-                                    .attr('data-id', scope_item_model.get('node'))
-                                    .text(scope_item_model.get('comment_count'));
+                    var has_comments = false,
+                        item = '', id = '', count = '';
 
-                        if ( scope_item_model.get('has_comments') ) {
-                            this.$element.addClass('has_comments');
-                        }
-                        else {
-                            this.$element.removeClass('has_comments');
-                        }
+                    if ( scope_item_model ) {
+                        item = scope_item_model.get('id');
+                        id = scope_item_model.get('node');
+                        count = scope_item_model.get('comment_count');
+                        has_comments = scope_item_model.get('has_comments');
                     }
+
+                    this.$element.attr('data-item', item)
+                                .attr('data-id', id)
+                                .text(count);
+
+                    this.$element.toggleClass('has_comments', has_comments);
                 }
             }
         }
