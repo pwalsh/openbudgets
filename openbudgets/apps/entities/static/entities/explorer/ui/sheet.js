@@ -138,7 +138,7 @@ define([
                     this.$element.attr('data-item', scope_item_model.get('id'))
                                 .attr('data-id', scope_item_model.get('node'))
                                 .text(scope_item_model.get('comment_count'));
-                    // console.log(this.)
+
                     if (scope_item_model.get('has_comments'))
                         this.$element.addClass('has_comments');
                     else
