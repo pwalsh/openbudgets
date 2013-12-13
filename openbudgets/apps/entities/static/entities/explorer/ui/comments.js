@@ -47,7 +47,7 @@ define([
         };
 
     uijet.Resource('NewComment', uijet.Model(), {
-        user: window.LOGGEDIN_USER.id
+        user: window.LOGGEDIN_USER.uuid
     });
 
     return [{
