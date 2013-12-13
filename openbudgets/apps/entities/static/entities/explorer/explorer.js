@@ -104,17 +104,10 @@ define([
                     });
                 },
                 ':period/:node/' : function (period, scope) {
-                    var item = uijet.Resource('LatestSheet').findWhere({ node : scope });
-
-                    if ( ! item ) {
-                        scope = -1;
-                    }
-
                     uijet.Resource('ItemsListState').set({
                         sheet   : explorer.getSheetId(period),
                         period  : +period,
                         scope   : scope,
-                        id      : item.id,
                         routed  : true
                     });
                 }
