@@ -104,7 +104,8 @@ define([
                     var item = uijet.Resource('LatestSheet').get($selected.attr('data-item')),
                         discussion = item.get('discussion'),
                         description = item.get('description');
-
+                    
+                    //TODO: delete this shit
                     this.$element[0].style.setProperty('padding-top', (uijet.utils.getOffsetOf($selected[0], uijet.$element[0]).y + 15) + 'px');
                     if ( description ) {
                         this.$element.removeClass('no_description');

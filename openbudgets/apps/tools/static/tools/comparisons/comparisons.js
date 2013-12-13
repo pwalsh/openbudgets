@@ -17,7 +17,7 @@ define([
 
     var default_state = {
             tool        : window.TOOL.id,
-            author      : window.LOGGEDIN_USER.id,
+            author      : window.LOGGEDIN_USER.uuid,
             title       : '',
             description : '',
             author_model: new resources.User(window.LOGGEDIN_USER),
@@ -46,7 +46,7 @@ define([
         default_state   : default_state,
         router          : Router({
             routes  : {
-                ':id'   : function (uuid) {
+                ':id/'   : function (id) {
                     var state = uijet.Resource('ToolState');
                     if ( state.id !== id ) {
                         state.set({

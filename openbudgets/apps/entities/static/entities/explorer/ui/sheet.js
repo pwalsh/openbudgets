@@ -50,9 +50,7 @@ define([
 
             if ( navigate ) {
                 if ( scope ) {
-                    item = uijet.Resource('LatestSheet').findWhere({ node : scope }) ||
-                           uijet.Resource('Breadcrumbs').findWhere({ node : scope });
-                    node_id = item.get('node') + '/';
+                    node_id = scope + '/';
                 }
                 else {
                     node_id = '';
