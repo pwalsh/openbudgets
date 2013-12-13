@@ -6,6 +6,22 @@ define([
         type: 'Pane',
         config: {
             dont_wake: true,
+            signals: {
+                post_init: function () {
+                    this.loaded_src = null;
+                },
+                load_iframe: function () {
+                    var url         = document.location.href,
+                        iframe      = document.createElement('iframe'),
+                        iframe_src  = this.options.sharer_src.replace('{url}', url);
+
+                    if (this.loaded_src !== iframe_src) {
+                        iframe.src = iframe_src;
+                        this.$element.html(iframe);
+                        this.loaded_src = iframe_src;
+                    }
+                }
+            },
             app_events: {
                 'chart_share_tabs.selected': function ($selected) {
                     if (this.options.sharer_type === $selected.data('value')) {
@@ -54,20 +70,10 @@ define([
         config: {
             element: '#chart_share_fb',
             sharer_type: 'fb',
+            sharer_src: '//www.facebook.com/sharer/sharer.php?u={url}',
             signals: {
-                post_init: function () {
-                    this.loaded_src = null;
-                },
                 post_wake: function () {
-                    var url         = document.location.href,
-                        iframe      = document.createElement('iframe'),
-                        iframe_src  = '//www.facebook.com/sharer/sharer.php?u=' + url;
-
-                    if (this.loaded_src !== iframe_src) {
-                        iframe.src = iframe_src;
-                        this.$element.html(iframe);
-                        this.loaded_src = iframe_src;
-                    }
+                    this.notify('load_iframe');
                 }
             }
         }
