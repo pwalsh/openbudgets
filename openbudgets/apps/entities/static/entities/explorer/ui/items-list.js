@@ -118,7 +118,7 @@ define([
                             // make sure we cache the previous sheet
                             if ( prev ) {
                                 prev_sheets = uijet.Resource('PreviousSheets');
-    
+
                                 // assigning in purpose to reuse as previous sheet
                                 if ( prev_sheet = prev_sheets.get(prev) ) {
                                     // update cache of previous Items collection with current LatestSheet state
@@ -249,7 +249,7 @@ define([
                 },
                 pre_select      : function ($selected, e) {
                     var is_comment_button = uijet.$(e.target).hasClass('item_comment_button');
-                    
+
                     if ( is_comment_button ) {
                         uijet.Resource('ItemsListState').set('comments_item', $selected);
                         return false;

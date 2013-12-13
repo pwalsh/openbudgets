@@ -61,7 +61,7 @@ def test():
 
 
 @task
-def mock(amount=10):
+def mock(amount=1000):
     notify(u'Creating some mock objects for the database.')
     mock_db(amount)
 

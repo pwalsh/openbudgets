@@ -13,6 +13,7 @@ define([
     'modules/search/uijet-search',
     'project_modules/uijet-i18n'
 ], function (uijet, resources, api, Backbone, Router, $, Ebox, Q, Mustache) {
+
     var initial_crumbs, explorer;
 
     // make sure all jQuery requests (foreign and domestic) have a CSRF token 
@@ -81,11 +82,9 @@ define([
         }
     });
 
-    console.log('ITEM.id');
     if ( window.ITEM.id ) {
         // add initial item to LatestSheet
         uijet.Resource('LatestSheet').add(window.ITEM);
-        console.log(uijet.Resource('LatestSheet'));
     }
 
     explorer = {

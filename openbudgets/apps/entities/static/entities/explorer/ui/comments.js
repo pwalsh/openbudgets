@@ -99,8 +99,7 @@ define([
                 }
             },
             app_events      : {
-                open_comments: function ($selected) {
-                    console.log($selected.attr('data-item'));
+                open_comments                   : function ($selected) {
                     var item = uijet.Resource('LatestSheet').get($selected.attr('data-item')),
                         discussion = item.get('discussion'),
                         description = item.get('description');

@@ -124,16 +124,16 @@ define([
             }
         }
     }, {
-        type: 'Button',
-        config: {
-            element: '#sheet_scope_comments',
-            signals: {
-                pre_click: function(data) {
+        type    : 'Button',
+        config  : {
+            element     : '#sheet_scope_comments',
+            signals     : {
+                pre_click   : function () {
                     uijet.publish('open_comments', this.$element);
                 }
             },
             app_events: {
-                'items_list.scope_changed': function(scope_item_model)
+                'items_list.scope_changed'  : function(scope_item_model)
                 {
                     this.$element.attr('data-item', scope_item_model.get('id'))
                                 .attr('data-id', scope_item_model.get('node'))
