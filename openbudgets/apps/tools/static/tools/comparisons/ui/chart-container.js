@@ -67,9 +67,9 @@ define([
             dont_wake   : function () {
                 return ! uijet.Resource('ToolState').has('id');
             },
-			app_events: {
-				chart_saved: 'wake'
-			}
+            app_events: {
+                chart_saved: 'wake'
+            }
         }
     }, {
         type    : 'Button',
@@ -78,9 +78,9 @@ define([
             dont_wake   : function () {
                 return ! uijet.Resource('ToolState').has('id');
             },
-			app_events: {
-				chart_saved: 'wake'
-			}
+            app_events: {
+                chart_saved: 'wake'
+            }
         }
     }, {
         factory : 'ChartMenuButton',
@@ -97,7 +97,7 @@ define([
             app_events  : {
                 state_cleared       : enableMenuButton,
                 state_delete_failed : enableMenuButton,
-				chart_saved: 'wake'
+                chart_saved: 'wake'
             }
         }
     }, {
@@ -107,7 +107,7 @@ define([
             app_events  : {
                 state_saved         : enableMenuButton,
                 state_save_failed   : enableMenuButton,
-				chart_saved: 'wake'
+                chart_saved: 'wake'
             }
         }
     }, {    
@@ -123,7 +123,7 @@ define([
                     }
                     else {
                         this.disable().spin();
-						uijet.publish('chart_saved');
+                        uijet.publish('chart_saved');
                     }
                 }
             },
