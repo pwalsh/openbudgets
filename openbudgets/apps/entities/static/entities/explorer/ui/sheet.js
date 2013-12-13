@@ -18,7 +18,7 @@ define([
         .listenTo(uijet.Resource('ItemsListState'), 'change', function (model, options) {
             var changes = model.changedAttributes(),
                 navigate = false,
-                period, scope, node_id, item;
+                period, scope, node_id;
 
             // sometimes search is changed to '' and then immediately and silently cleaned back to `null`
             if ( ! changes )
@@ -41,9 +41,6 @@ define([
                 navigate = true;
                 scope = changes.scope;
             }
-            else if ( navigate ) {
-                scope = null;
-            } 
             else {
                 scope = model.get('scope');
             }
