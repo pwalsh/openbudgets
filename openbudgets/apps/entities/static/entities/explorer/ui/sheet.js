@@ -143,7 +143,7 @@ define([
 
                     this.$element.attr('data-item', item)
                                 .attr('data-id', id)
-                                .text(count)
+                                .text(count || '')
                                 .toggleClass('has_comments', has_comments);
                 },
                 scope_comment_created       : function (model) {
