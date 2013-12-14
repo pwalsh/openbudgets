@@ -143,9 +143,12 @@ define([
 
                     this.$element.attr('data-item', item)
                                 .attr('data-id', id)
-                                .text(count);
-
-                    this.$element.toggleClass('has_comments', has_comments);
+                                .text(count)
+                                .toggleClass('has_comments', has_comments);
+                },
+                scope_comment_created       : function (model) {
+                    this.$element.text(model.get('comment_count'))
+                                .toggleClass('has_comments', true);
                 }
             }
         }
