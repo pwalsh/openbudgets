@@ -86,7 +86,7 @@ define([
                     api.itemComments(this.resource.get('item_pk'), {
                         type    : 'POST',
                         data    : {
-                            comment : resources._.escape(comment.trim()),
+                            comment : encodeURIComponent(resources._.escape(comment.trim())),
                             user    : model.get('user')
                         },
                         success : function (response) {
@@ -111,7 +111,7 @@ define([
                                       uijet.Resource('AllSheets').get(
                                           uijet.Resource('ItemsListState').get('sheet')
                                       ).get('description');
-                    
+
                     //TODO: delete this shit
                     this.$element[0].style.setProperty('padding-top', (uijet.utils.getOffsetOf($selected[0], uijet.$element[0]).y + 15) + 'px');
                     if ( description ) {
