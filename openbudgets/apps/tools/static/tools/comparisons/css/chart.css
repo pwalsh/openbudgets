@@ -174,39 +174,3 @@
     top: 0;
     left: 0;
 }
-#chart_share_dialog {
-    text-align:center;
-}
-#chart_share_dialog.awake {
-    position:absolute;
-    z-index:100;
-}
-#chart_share_dialog:before {
-    content:"";
-    display:inline-block;
-    height:100%;
-    vertical-align:middle;
-}
-#chart_share_dialog .inner_wrapper {
-    display:inline-block;
-    vertical-align:middle;
-}
-#chart_share_tabs {
-    font-size:1.25em;
-}
-#chart_share_tabs .share_list_item {
-    display:inline-block;
-    float:left;
-    background:#666;
-    padding:.5em;
-}
-#chart_share_tabs .share_list_item.selected {
-    background:#c4c4d3;
-    color:#fff;
-}
-#chart_share_fb iframe {
-    width:480px;
-    height:480px;
-    border:solid 2px #c4c4d3;
-}
-
