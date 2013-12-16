@@ -148,7 +148,6 @@ class EntityDetail(DetailView):
 
             context['scope_item'] = scope_item_serialized
             context['scope_name'] = scope_item_serialized['name']
-
         else:
             context['scope_item_json'] = '{}'
             context['items_breadcrumbs'] = ''

@@ -46,7 +46,7 @@ define([
         default_state   : default_state,
         router          : Router({
             routes  : {
-                ':id'   : function (uuid) {
+                ':id/'   : function (id) {
                     var state = uijet.Resource('ToolState');
                     if ( state.id !== id ) {
                         state.set({

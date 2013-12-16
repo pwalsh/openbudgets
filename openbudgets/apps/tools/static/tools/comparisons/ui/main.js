@@ -8,8 +8,9 @@ define([
     'ui/nodes-list',
     'ui/nodes-footer',
     'ui/chart-container',
+    'ui/chart-share',
     'ui/chart'
-], function (uijet, comparisons, legend, site_menu, entities, nodes, nodes_list, nodes_footer, chart_container, chart) {
+], function (uijet, comparisons, legend, site_menu, entities, nodes, nodes_list, nodes_footer, chart_container, chart_share, chart) {
 
     uijet.declare([{
         type    : 'Pane',
@@ -28,6 +29,7 @@ define([
         .declare(nodes_footer)
         .declare(nodes_list)
         .declare(chart_container)
+        .declare(chart_share)
         .declare(chart);
 
     return comparisons;

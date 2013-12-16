@@ -46,7 +46,7 @@
     display: none;
     position: absolute;
     bottom: 0;
-    right: 0;
+    padding-right: 0;
     z-index: 1;
     width: 60px;
     height: 44px;
@@ -68,8 +68,23 @@
     color: #8989a8;
     background-image: url(../img/comment_white.png);
 }
-#items_list li:hover .item_comment_button.has_comments {
+#items_list li:hover .item_comment_button.has_comments,
+header#sheet_scope_header:hover .item_comment_button.has_comments,
+#sheet_scope_comments.item_comment_button.has_comments:hover {
     background-image: url(../img/comment_yellow.png);
+}
+
+#sheet_scope_comments.item_comment_button {
+    right: auto;
+    left: -50px;
+    padding: 0;
+    display: block;
+    line-height: 44px;
+    z-index: 2;
+    cursor: pointer;
+}
+#sheet_scope_comments.item_comment_button.has_comments {
+    padding-right: 30px;
 }
 
 .td_filler {
