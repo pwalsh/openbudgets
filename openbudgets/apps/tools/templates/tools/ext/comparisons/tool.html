@@ -54,11 +54,17 @@
                     <span id="viz_new" class="viz_action" data-i18n="viz-new"></span>
                     <span id="viz_duplicate" class="viz_action" data-i18n="viz-duplicate"></span>
                     <span id="viz_delete" class="viz_action" data-i18n="viz-delete"></span>
-                    <p id="viz_actions_menu_left">
+                    <div id="viz_actions_menu_left">
                         <span id="viz_export" class="viz_action" data-i18n="viz-export"></span>
-                        <span id="viz_publish" class="viz_action" data-i18n="viz-publish"></span>
+                        <span id="viz_publish" class="viz_action">
+                            <span data-i18n="viz-publish"></span>
+                            <ul id="viz_publish_menu">
+                                <li data-value="facebook">Facebook</li>
+                                <li data-value="Twitter">Twitter</li>
+                            </ul>
+                        </span>
                         <span id="viz_save" class="viz_action" data-i18n="viz-save"></span>
-                    </p>
+                    </div>
                 </header>
                 <section id="chart_heading"></section>
                 <div id="chart"></div>
