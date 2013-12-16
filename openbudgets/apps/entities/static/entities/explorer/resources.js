@@ -104,6 +104,20 @@ define([
 
                 return result;
             },
+            addComment  : function (comment) {
+                var discussion = this.get('discussion') || [],
+                    count = this.get('comment_count') || 0;
+
+                discussion.push(comment);
+                this.set('comment_count', count + 1);
+                this.set('has_comments', true);
+
+                // trigger custom event on the items list collection
+                this.collection.trigger('update:comments', this);
+
+                return this;
+                
+            },
             commas      : function () { 
                 return function (text, render) {
                     return uijet.utils.formatCommas(render(text));

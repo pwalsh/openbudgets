@@ -56,6 +56,7 @@ define([
     )
     .Resource('LatestSheet', resources.Items)
     .Resource('PreviousSheets', resources.Sheets)
+    .Resource('AllSheets', resources.Sheets, window.ENTITY.sheets)
 
     .Resource('ItemsListState').on('change', function (model) {
         var changed = model.changedAttributes(),
@@ -74,10 +75,12 @@ define([
             else {
                 open = false;
             }
+
             if ( item && ! open ) {
                 // reset `comment_item` to `null`
                 model.set(comments_item, null, { silent : true });
             }
+
             uijet.publish(open ? 'open_comments' : 'close_comments', item);
         }
     });
@@ -104,17 +107,10 @@ define([
                     });
                 },
                 ':period/:node/' : function (period, scope) {
-                    var item = uijet.Resource('LatestSheet').findWhere({ node : scope });
-
-                    if ( ! item ) {
-                        scope = -1;
-                    }
-
                     uijet.Resource('ItemsListState').set({
                         sheet   : explorer.getSheetId(period),
                         period  : +period,
                         scope   : scope,
-                        id      : item.id,
                         routed  : true
                     });
                 }
@@ -193,9 +189,8 @@ define([
             });
         },
         getSheetId  : function (period) {
-            return window.ENTITY.sheets.filter(function (sheet) {
-                return sheet.period == period;
-            })[0].id;
+            return uijet.Resource('AllSheets')
+                        .findWhere({period: period}).id;
         }
     };
 

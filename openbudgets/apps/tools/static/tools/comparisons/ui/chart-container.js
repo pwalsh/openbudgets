@@ -1,5 +1,6 @@
 define([
     'uijet_dir/uijet',
+    'composites/DropmenuButton',
     'composites/Select'
 ], function (uijet) {
 
@@ -72,14 +73,43 @@ define([
             }
         }
     }, {
-        type    : 'Button',
+        type    : 'DropmenuButton',
         config  : {
             element     : '#viz_publish',
+            dont_wrap   : true,
             dont_wake   : function () {
                 return ! uijet.Resource('ToolState').has('id');
             },
+            click_event     : 'mouseenter',
+            dom_events      : {
+            },
             app_events: {
                 chart_saved: 'wake'
+            },
+            signals         : {
+                post_init   : function () {
+                    this.$wrapper.on('mouseleave', this.publish.bind(this, 'mouse_left'));
+                }
+            },
+            menu            : {
+                element        : '#viz_publish_menu',
+                mixins         : ['Templated', 'Translated'],
+                float_position : 'top: 42px',
+                dom_events     : {
+                    mouseleave  : function () {
+                        this.mouse_over = false;
+                        this.sleep();
+                    },
+                    mouseenter  : function (e) {
+                        this.mouse_over = true;
+                    }
+                },
+                app_events: {
+                    /*'viz_publish.clicked': function () {
+                        if (this.awake) this.sleep();
+                        else this.wake();
+                    }*/
+                }
             }
         }
     }, {

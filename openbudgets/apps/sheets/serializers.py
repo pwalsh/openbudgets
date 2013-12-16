@@ -110,26 +110,6 @@ class SheetMin(serializers.HyperlinkedModelSerializer):
         fields = ['id', 'url', 'budget', 'actual', 'variance', 'period']
 
 
-class SheetItem(SheetItemMin):
-
-    """Serializes SheetItem objects for consumption by API."""
-
-    depth = serializers.Field(source='depth')
-    has_comments = serializers.Field(source='has_comments')
-    comment_count = serializers.Field(source='comment_count')
-    parent = SheetItemMin()
-    children = SheetItemMin(many=True)
-    ancestors = SheetItemMin(many=True)
-    name_en = serializers.Field('node.name_en')
-    name_ar = serializers.Field('node.name_ar')
-    name_ru = serializers.Field('node.name_ru')
-
-    class Meta(SheetItemMin.Meta):
-        fields = SheetItemMin.Meta.fields + ['sheet', 'depth', 'description',
-                 'has_comments', 'comment_count', 'parent', 'children', 'ancestors',
-                 'discussion'] + translated_fields(models.TemplateNode)
-
-
 class Sheet(SheetMin):
 
     """Serializes Sheet objects for consumption by API."""
@@ -138,8 +118,9 @@ class Sheet(SheetMin):
     template = TemplateMin()
 
     class Meta(SheetMin.Meta):
-        fields = SheetMin.Meta.fields + ['entity', 'template', 'description', 'items',
-                 'created_on', 'last_modified'] + translated_fields(models.Sheet)
+        fields = SheetMin.Meta.fields +\
+            ['entity', 'template', 'description', 'items',
+             'created_on', 'last_modified'] + translated_fields(models.Sheet)
 
 
 class SheetTimeline(serializers.ModelSerializer):
@@ -172,13 +153,14 @@ class SheetItemCommentRead(SheetItemCommentEmbed):
     """Serializes SheetItemComment objects for consumption by API."""
 
     user = AccountMin()
+    item = serializers.Field(source='item.pk')
 
     class Meta(SheetItemCommentEmbed.Meta):
-        fields = SheetItemCommentEmbed.Meta.fields + \
-                 ['id', 'item', 'created_on', 'last_modified']
+        fields = SheetItemCommentEmbed.Meta.fields +\
+            ['id', 'item', 'created_on', 'last_modified']
 
 
-class SheetItemCommentMin(serializers.HyperlinkedModelSerializer):
+class SheetItemCommentMin(SheetItemCommentEmbed):
 
     """Serializes SheetItemComment objects for consumption by API.
 
@@ -187,6 +169,29 @@ class SheetItemCommentMin(serializers.HyperlinkedModelSerializer):
 
     """
 
-    class Meta:
-        model = models.SheetItemComment
-        fields = ['id', 'url', 'comment', 'item', 'user']
+    item = serializers.Field(source='item.pk')
+
+    class Meta(SheetItemCommentEmbed.Meta):
+        fields = SheetItemCommentEmbed.Meta.fields + ['id', 'item']
+
+
+class SheetItem(SheetItemMin):
+
+    """Serializes SheetItem objects for consumption by API."""
+
+    depth = serializers.Field(source='depth')
+    has_comments = serializers.Field(source='has_comments')
+    comment_count = serializers.Field(source='comment_count')
+    discussion = SheetItemCommentRead(many=True)
+    parent = SheetItemMin()
+    children = SheetItemMin(many=True)
+    ancestors = SheetItemMin(many=True)
+    name_en = serializers.Field('node.name_en')
+    name_ar = serializers.Field('node.name_ar')
+    name_ru = serializers.Field('node.name_ru')
+
+    class Meta(SheetItemMin.Meta):
+        fields = SheetItemMin.Meta.fields +\
+            ['sheet', 'depth', 'description',
+             'has_comments', 'comment_count', 'parent', 'children', 'ancestors',
+             'discussion'] + translated_fields(models.TemplateNode)
