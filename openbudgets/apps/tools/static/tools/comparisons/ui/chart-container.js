@@ -95,6 +95,26 @@ define([
                 element        : '#viz_publish_menu',
                 mixins         : ['Templated', 'Translated'],
                 float_position : 'top: 42px',
+                signals        : {
+                    post_select: function ($selected) {
+                        var value = $selected.data('value'),
+                            enc = encodeURIComponent,
+                            url,
+                            popup;
+
+                        switch (value) {
+                            case 'facebook':
+                                url = 'https://www.facebook.com/sharer/sharer.php?u={url}'.replace('{url}', enc(document.location.href));
+                                popup = window.open(url);
+                                break;
+
+                            case 'twitter':
+                                url = 'https://twitter.com/share?url={url}'.replace('{url}', enc(document.location.href));
+                                popup = window.open(url);
+                                break;
+                        }
+                    }
+                },
                 dom_events     : {
                     mouseleave  : function () {
                         this.mouse_over = false;
