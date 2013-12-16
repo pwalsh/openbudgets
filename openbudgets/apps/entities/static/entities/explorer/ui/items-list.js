@@ -65,21 +65,36 @@ define([
                 '-actual'   : resources.utils.reverseSorting('actual')
             },
             data_events     : {
-                request : function (resource, xhr, options) {
+                request             : function (resource, xhr, options) {
                     if ( this.last_request && this.last_request.state() == 'pending' ) {
                         this.last_request.abort();
                     }
                     this.last_request = xhr;
                 },
-                reset   : function () {
+                reset               : function () {
                     this.has_data = true;
                     delete this.$original_children;
 
                     if (window.ITEM.id)
                         this.resource.add(window.ITEM);
                 },
-                sort    : function () {
+                sort                : function () {
                     uijet.Resource('ItemsListState').set('comments_item', null);
+                },
+                'update:comments'   : function (model) {
+                    // bump the number of comments on the item
+                    var $button  = this.$element.find('[data-item=' + model.get('id') + ']');
+
+                    // if it's an item from the list and not scope item
+                    if ( $button.length ) {
+                        // set the buttons
+                        $button.find('.item_comment_button')
+                            .text(model.get('comment_count'));
+                    }
+                    else {
+                        // it's the scope item so notify the sheet_scope_comments widget
+                        uijet.publish('scope_comment_created', model);
+                    }
                 }
             },
             signals         : {
@@ -271,12 +286,9 @@ define([
                 'items_list_header.selected': 'sortItems+',
                 'comment_created'           : function (response) {
                     var item = this.resource.get(response.item),
-                        discussion,
                         sheet_re;
                     if ( item ) {
-                        discussion = item.get('discussion') || [];
-                        discussion.push(response);
-                        item.set('discussion', discussion);
+                        item.addComment(response);
 
                         // we create a regex to test against keys that contain current sheet in cache
                         sheet_re = RegExp('sheets=' + this.options.fetch_options.data.sheets);
@@ -287,12 +299,6 @@ define([
                                 resources.Backbone.fetchCache.clearItem(key);
                             }
                         }, this);
-
-                        // bump the number of comments on the item
-                        this.$element
-                            .find('[data-item=' + response.item + ']')
-                            .find('.item_comment_button')
-                                .text(discussion.length);
                     }
                 }
             }

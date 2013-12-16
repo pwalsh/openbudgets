@@ -18,7 +18,7 @@ define([
         .listenTo(uijet.Resource('ItemsListState'), 'change', function (model, options) {
             var changes = model.changedAttributes(),
                 navigate = false,
-                period, scope, node_id, item;
+                period, scope, node_id;
 
             // sometimes search is changed to '' and then immediately and silently cleaned back to `null`
             if ( ! changes )
@@ -41,9 +41,6 @@ define([
                 navigate = true;
                 scope = changes.scope;
             }
-            else if ( navigate ) {
-                scope = null;
-            } 
             else {
                 scope = model.get('scope');
             }
@@ -129,20 +126,29 @@ define([
             element     : '#sheet_scope_comments',
             signals     : {
                 pre_click   : function () {
-                    uijet.publish('open_comments', this.$element);
+                    uijet.Resource('ItemsListState').set('comments_item', this.$element);
                 }
             },
             app_events: {
-                'items_list.scope_changed'  : function(scope_item_model)
-                {
-                    this.$element.attr('data-item', scope_item_model.get('id'))
-                                .attr('data-id', scope_item_model.get('node'))
-                                .text(scope_item_model.get('comment_count'));
-                    // console.log(this.)
-                    if (scope_item_model.get('has_comments'))
-                        this.$element.addClass('has_comments');
-                    else
-                        this.$element.removeClass('has_comments');
+                'items_list.scope_changed'  : function (scope_item_model) {
+                    var has_comments = false,
+                        item = '', id = '', count = '';
+
+                    if ( scope_item_model ) {
+                        item = scope_item_model.get('id');
+                        id = scope_item_model.get('node');
+                        count = scope_item_model.get('comment_count');
+                        has_comments = scope_item_model.get('has_comments');
+                    }
+
+                    this.$element.attr('data-item', item)
+                                .attr('data-id', id)
+                                .text(count || '')
+                                .toggleClass('has_comments', has_comments);
+                },
+                scope_comment_created       : function (model) {
+                    this.$element.text(model.get('comment_count'))
+                                .toggleClass('has_comments', true);
                 }
             }
         }

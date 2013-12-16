@@ -24,7 +24,11 @@ define([
             data_events : {
                 'change:period'  : function (model, period) {
                     var id = explorer.getSheetId(period);
-                    this.select(this.$element.find('[data-id=' + id + ']'));
+                    this.setSelected(this.$element.find('[data-id=' + id + ']'));
+
+                    if ( model.changed && model.changed.routed ) {
+                        this.resource.set('sheet', id);
+                    }
                 }
             },
             signals     : {
