@@ -42,9 +42,6 @@ urlpatterns = patterns('',
     url(r'^sources/',
         include('openbudgets.apps.sources.urls')),
 
-    url(r'^search/',
-        OBudgetSearchView(), name='search'),
-
     url(r'^comments/',
         include('django.contrib.comments.urls')),
 
