@@ -10,8 +10,7 @@ before_install:
   - export CI=true
 
 install:
-  - pip install -r requirements/base.txt
-  - pip install -r requirements/extended.txt
+  - pip install -r requirements.txt
 
 script: coverage run --source='.' manage.py test accounts api contexts entities interactions international pages sheets tools commons transport
 
