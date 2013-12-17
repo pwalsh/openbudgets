@@ -16,7 +16,7 @@ raven==3.3.9
 whoosh==2.5.0
 gdata==2.0.18
 ckanclient==0.10
-jsonfield==0.9.17
+jsonfield
 pystache==0.5.3
 mock==1.0.1
 django-celery==3.0.17
