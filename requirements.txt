@@ -1,5 +1,5 @@
-django==1.5.3
-djangorestframework==2.3.8
+django==1.5.5
+djangorestframework==2.3.9
 gunicorn==18.0
 psycopg2==2.5
 south==0.8.1
@@ -28,8 +28,8 @@ django-gravatar2==1.0.6
 django-taggit==0.10a1
 django-debug-toolbar==0.9.4
 django-braces==1.0.0
-django-modeltranslation==0.6.1
-django-grappelli==2.4.6
+django-modeltranslation==0.7.2
+django-grappelli==2.4.8
 django-cors-headers==0.11
 django-subdomains==2.0.4
 grappelli-modeltranslation==0.1.2
