@@ -1,2 +1,1 @@
-import remote
-from local import *
+from quilt import *

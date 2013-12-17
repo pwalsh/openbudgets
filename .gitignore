@@ -5,6 +5,7 @@
 *.sublime-project
 *.sublime-workspace
 *.db
+*.sql
 *.pyc
 .coverage
 openbudgets/settings/production.py

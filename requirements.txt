@@ -1,26 +1,27 @@
-fabric==1.6.1
-cuisine==0.6.4
-psycopg2==2.5
+django==1.5.3
+djangorestframework==2.3.8
 gunicorn==18.0
-sphinx==1.2b1
-pillow==2.1.0
+psycopg2==2.5
+south==0.8.1
 pytz==2013b
 tablib==0.9.11
+celery==3.0.19
+factory-boy==2.1.2
+coverage==3.6
+redis==2.7.6
+hiredis==0.1.1
+pillow==2.1.0
+sphinx==1.2b1
 raven==3.3.9
 whoosh==2.5.0
-celery==3.0.19
 gdata==2.0.18
-factory-boy==2.1.2
-django==1.5.3
-south==0.8.1
-coverage==3.6
 ckanclient==0.10
 jsonfield==0.9.17
 pystache==0.5.3
 mock==1.0.1
-djangorestframework==2.3.8
 django-celery==3.0.17
 django-oauth-toolkit==0.4.0
+django-redis-cache==0.10.0
 django-autoslug==1.6.1
 django-pdb==0.3.2
 django-gravatar2==1.0.6
@@ -37,3 +38,6 @@ git+https://github.com/toastdriven/django-haystack.git
 git+https://github.com/mozilla/unicode-slugify
 # upstream still doesn't fully support custom user model
 hg+https://bitbucket.org/prjts/django-registration
+
+# temp, while working
+git+https://github.com/pwalsh/quilt#egg=quilt

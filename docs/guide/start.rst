@@ -249,7 +249,7 @@ Make a virtualenv
 
 We are going to setup the project in a new Python virtual environment.
 
-If you are not familiar wth virtualenv or virtualenvwrapper, see the following article:
+If you are not familiar with virtualenv or virtualenvwrapper, see the following article:
 
 http://docs.python-guide.org/en/latest/dev/virtualenvs/
 

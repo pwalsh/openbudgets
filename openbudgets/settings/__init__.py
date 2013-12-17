@@ -383,18 +383,20 @@ IMPORT_PRIORITY = ['slug',
 IMPORT_SEPARATOR = ':'
 
 
-# if we are on production, we should have a settings.production module to load.
+# if we are on staging, we should have a settings.staging module to load.
 try:
-    from production import *
+    from .staging import *
 except ImportError:
     # if we are on local, we accept overrides in a settings.local module.
     # For safety, we only try to load settings.local if settings.production
     # does not exist.
     try:
-        from local import *
+        from .local import *
     except ImportError:
         pass
 
+
+# if we are on the CI server, load some CI-specific settings
 try:
     ci = os.environ.get('CI')
     if ci:
