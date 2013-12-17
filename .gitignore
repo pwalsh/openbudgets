@@ -9,8 +9,9 @@
 *.pyc
 .coverage
 openbudgets/settings/production.py
+openbudgets/settings/staging.py
 openbudgets/settings/local.py
-fabfile/sensitive.py
+fabfile/quilt_sensitive.py
 docs/_build
 docs/_static
 docs/_templates

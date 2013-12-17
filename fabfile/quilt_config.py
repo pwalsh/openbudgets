@@ -28,12 +28,10 @@ LOCAL = {
     # db server
     'db_name': 'openbudgets',
     'db_user': 'robot',
-    'db_password': '',
     'db_dump_file': settings.OPENBUDGETS_TEMP_DIR + '/dump_{timestamp}.sql'.format(timestamp=datetime.datetime.now()),
 
     # email server
-    'email_user': '',
-    'email_password': '',
+    'email_user': 'contact@openmuni.org.il',
 
     # code repository
     'repository_location': 'https://github.com/hasadna/openmuni-budgets',
