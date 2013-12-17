@@ -93,7 +93,6 @@ define([
             },
             menu            : {
                 element        : '#viz_publish_menu',
-                mixins         : ['Templated', 'Translated'],
                 float_position : 'top: 42px',
                 signals        : {
                     post_select: function ($selected) {
