@@ -122,7 +122,6 @@ INSTALLED_APPS = (
     'corsheaders',
     'gunicorn',
     'south',
-    'haystack',
     'djcelery',
     'kombu.transport.django',
     'subdomains',
@@ -262,13 +261,6 @@ CORS_ALLOW_HEADERS = (
     'authorization',
     'x-csrftoken'
 )
-
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
-        'PATH': os.path.join(PROJECT_ROOT, 'commons', 'search', 'index'),
-        },
-    }
 
 import djcelery
 

@@ -1,7 +1,0 @@
-{{ object.node.name }}
-{{ object.node.code }}
-{{ object.description }}
-{{ object.amount }}
-{{ object.actual.period_start }}
-{{ object.actual.period_end }}
-{{ object.actual.entity.name }}

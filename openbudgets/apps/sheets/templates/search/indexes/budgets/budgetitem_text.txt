@@ -1,7 +1,0 @@
-{{ object.node.name }}
-{{ object.node.code }}
-{{ object.description }}
-{{ object.amount }}
-{{ object.budget.period_start }}
-{{ object.budget.period_end }}
-{{ object.budget.entity.name }}

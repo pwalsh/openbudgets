@@ -1,9 +1,0 @@
-{{ object.entity.name }}
-{{ object.template.name }}
-{{ object.description }}
-{{ object.period_start }}
-{{ object.period_end }}
-{% for item in object.items.all %}
-{{ item.code }}
-{{ item.name }}
-{% endfor %}
