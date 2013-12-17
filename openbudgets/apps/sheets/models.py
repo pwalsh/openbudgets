@@ -738,7 +738,7 @@ class SheetItem(UUIDPKMixin, AbstractBaseItem, TimeStampedMixin, ClassMethodMixi
     @property
     def comment_count(self):
         count = 0
-        if self.has_comments:
+        if self.description:
             count = 1
         count += self.discussion.count()
         return count

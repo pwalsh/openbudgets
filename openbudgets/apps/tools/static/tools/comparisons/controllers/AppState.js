@@ -51,7 +51,7 @@ define(['uijet_dir/uijet'], function (uijet) {
         },
         saveState       : function () {
             var state = uijet.Resource('ToolState'),
-                user_id = uijet.Resource('LoggedinUser').get('id');
+                user_id = uijet.Resource('LoggedinUser').get('uuid');
             if ( user_id ) {
                 if ( state.get('author') === user_id ) {
                     return this._saveState(state);

@@ -47,7 +47,7 @@ define([
         };
 
     uijet.Resource('NewComment', uijet.Model(), {
-        user: window.LOGGEDIN_USER.id
+        user: window.LOGGEDIN_USER.uuid
     });
 
     return [{
@@ -86,7 +86,7 @@ define([
                     api.itemComments(this.resource.get('item_pk'), {
                         type    : 'POST',
                         data    : {
-                            comment : resources._.escape(comment.trim()),
+                            comment : encodeURIComponent(resources._.escape(comment.trim())),
                             user    : model.get('user')
                         },
                         success : function (response) {
@@ -100,9 +100,19 @@ define([
             },
             app_events      : {
                 open_comments                   : function ($selected) {
-                    var item = uijet.Resource('LatestSheet').get($selected.attr('data-item')),
-                        discussion = item.get('discussion'),
-                        description = item.get('description');
+                    var item_id = $selected.attr('data-item'),
+                        item = item_id ? uijet.Resource('LatestSheet').get(item_id) : null,
+                        //TODO: for now there's no SheetComment model, needs to be implemented server-side 
+                        discussion = item && item.get('discussion'),
+                        description = item ?
+                                      // found an item
+                                      item.get('description') :
+                                      // if no item it's the sheet's description we need
+                                      uijet.Resource('AllSheets').get(
+                                          uijet.Resource('ItemsListState').get('sheet')
+                                      ).get('description');
+
+                    //TODO: delete this shit
                     this.$element[0].style.setProperty('padding-top', (uijet.utils.getOffsetOf($selected[0], uijet.$element[0]).y + 15) + 'px');
                     if ( description ) {
                         this.$element.removeClass('no_description');
@@ -112,7 +122,7 @@ define([
                         this.$element.addClass('no_description');
                     }
 
-                    this.resource.set('item_pk', $selected.attr('data-item'));
+                    this.resource.set('item_pk', item_id);
 
                     this.wake({
                         discussion      : discussion,
