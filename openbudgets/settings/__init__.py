@@ -392,6 +392,6 @@ except ImportError:
 try:
     ci = os.environ.get('CI')
     if ci:
-        from ci import *
+        from .ci import *
 except KeyError:
     pass
