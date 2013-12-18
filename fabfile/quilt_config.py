@@ -47,6 +47,7 @@ STAGING = {
     'email_host_user': 'hello@prjts.com',
     'roledefs': {'staging': ['162.243.66.200']},
     'roles': ['staging'],
+    'app_wsgi': 'openbudgets.wsgi:application',
     'machine_location': '162.243.66.200',
     'machine_port': 80,
     'db_machine_location': '162.243.85.165',
