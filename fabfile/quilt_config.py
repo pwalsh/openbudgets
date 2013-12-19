@@ -45,8 +45,12 @@ STAGING_PROJECT_DIR = '/openbudgets'
 
 STAGING = {
     'email_host_user': 'hello@prjts.com',
-    'roledefs': {'staging': ['162.243.66.200']},
-    'roles': ['staging'],
+    'roledefs': {'default': ['162.243.66.200'],
+                 'app': ['162.243.66.200'],
+                 'proxy': ['162.243.66.200'],
+                 'cache': ['162.243.66.200'],
+                 'queue': ['162.243.66.200'],
+                 'db': ['162.243.85.165']},
     'app_wsgi': 'openbudgets.wsgi:application',
     'machine_location': '162.243.66.200',
     'machine_port': 80,
