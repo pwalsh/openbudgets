@@ -28,7 +28,7 @@ LOCAL = {
     # db server
     'db_name': 'openbudgets',
     'db_user': 'robot',
-    'db_dump_file': settings.OPENBUDGETS_TEMP_DIR + '/dump_{timestamp}.sql'.format(timestamp=datetime.datetime.now()),
+    'db_dump_file': settings.OPENBUDGETS_TEMP_DIR + '/db_dump.sql',
 
     # email server
     'email_user': 'contact@openmuni.org.il',
