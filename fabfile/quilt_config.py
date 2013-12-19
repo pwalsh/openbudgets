@@ -36,6 +36,10 @@ LOCAL = {
     # code repository
     'repository_location': 'https://github.com/hasadna/openmuni-budgets',
 
+    'dataset_root': settings.OPENBUDGETS_TEMP_DIR,
+    'dataset_branch': 'master',
+    'dataset_repository': 'https://github.com/prjts/openbudgets-data-israel',
+
 }
 
 STAGING_LOG_ROOT = '/srv/logs'

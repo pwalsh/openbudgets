@@ -40,3 +40,4 @@ hg+https://bitbucket.org/prjts/django-registration
 
 # temp, while working
 git+https://github.com/pwalsh/quilt#egg=quilt
+git+https://github.com/pwalsh/dock#egg=dock
