@@ -10,7 +10,12 @@ from fabfile import templates
 
 
 LOCAL = {
-
+    'roledefs': {'default': ['127.0.0.1'],
+                 'app': ['127.0.0.1'],
+                 'proxy': ['127.0.0.1'],
+                 'cache': ['127.0.0.1'],
+                 'queue': ['127.0.0.1'],
+                 'db': ['127.0.0.1']},
     'django_settings': settings,
     'project_name': PROJECT_NAME,
     'project_root': settings.PROJECT_ROOT,
@@ -39,7 +44,8 @@ LOCAL = {
     'dataset_root': settings.OPENBUDGETS_TEMP_DIR,
     'dataset_branch': 'master',
     'dataset_repository': 'https://github.com/prjts/openbudgets-data-israel',
-
+    'storage_class': None,
+    'dataset_processing_class': None,
 }
 
 STAGING_LOG_ROOT = '/srv/logs'
