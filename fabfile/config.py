@@ -28,13 +28,17 @@ LOCAL = {
     # db server
     'db_name': 'openbudgets',
     'db_user': 'robot',
-    'db_dump_file': settings.OPENBUDGETS_TEMP_DIR + '/dump_{timestamp}.sql'.format(timestamp=datetime.datetime.now()),
+    'db_dump_file': settings.OPENBUDGETS_TEMP_DIR + '/db_dump.sql',
 
     # email server
     'email_user': 'contact@openmuni.org.il',
 
     # code repository
     'repository_location': 'https://github.com/hasadna/openmuni-budgets',
+
+    'dataset_root': settings.OPENBUDGETS_TEMP_DIR,
+    'dataset_branch': 'master',
+    'dataset_repository': 'https://github.com/prjts/openbudgets-data-israel',
 
 }
 
@@ -45,8 +49,13 @@ STAGING_PROJECT_DIR = '/openbudgets'
 
 STAGING = {
     'email_host_user': 'hello@prjts.com',
-    'roledefs': {'staging': ['162.243.66.200']},
-    'roles': ['staging'],
+    'roledefs': {'default': ['162.243.66.200'],
+                 'app': ['162.243.66.200'],
+                 'proxy': ['162.243.66.200'],
+                 'cache': ['162.243.66.200'],
+                 'queue': ['162.243.66.200'],
+                 'db': ['162.243.85.165']},
+    'app_wsgi': 'openbudgets.wsgi:application',
     'machine_location': '162.243.66.200',
     'machine_port': 80,
     'db_machine_location': '162.243.85.165',

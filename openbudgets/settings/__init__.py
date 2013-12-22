@@ -346,13 +346,6 @@ OPENBUDGETS_COMPARABLE_WITHIN_ENTITY = True
 
 OPENBUDGETS_COMPARABLE_ACROSS_ENTITIES = True
 
-OPENBUDGETS_DATA = {
-    'repo': 'https://github.com/prjts/openbudgets-data-israel',
-    'branch': 'master',
-    'directory': OPENBUDGETS_TEMP_DIR,
-    'db_dump': OPENBUDGETS_TEMP_DIR + '/db_dump.sql'
-}
-
 OPENBUDGETS_CKAN = [
     {
         'name': 'Datahub',
@@ -361,6 +354,7 @@ OPENBUDGETS_CKAN = [
         'api_key': '884da76c-87b6-4974-97dc-cfd3f639d15a'
     }
 ]
+
 OPENBUDGETS_SETTING = {
     'tags': ['budget', 'municipalities', 'israel'],
     'notes': 'This is the Budget and the Actual of',
@@ -392,6 +386,6 @@ except ImportError:
 try:
     ci = os.environ.get('CI')
     if ci:
-        from ci import *
+        from .ci import *
 except KeyError:
     pass

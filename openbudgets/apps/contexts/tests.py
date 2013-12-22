@@ -16,9 +16,6 @@ class ContextAPITestCase(tests.OpenBudgetsAPITestCase):
     def test_detailview(self):
         return ContextAPITestCase.detailview(self)
 
-    def test_context_data(self):
-        self.assertTrue('population' in self.object.data)
-
 
 class CoefficientAPITestCase(tests.OpenBudgetsAPITestCase):
 

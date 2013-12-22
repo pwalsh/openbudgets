@@ -11,7 +11,7 @@ class ContextList(ListAPIView):
     queryset = model.objects.related_map()
     serializer_class = serializers.ContextBaseSerializer
     ordering = ['id', 'entity__name', 'period_start', 'created_on', 'last_modified']
-    search_fields = ['data', 'entity__name']
+    search_fields = ['entity__name']
 
     def get_queryset(self):
         queryset = super(ContextList, self).get_queryset()

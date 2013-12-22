@@ -14,7 +14,7 @@ DATABASES = {
         'NAME': '${db_name}',
         'USER': '${db_user}',
         'PASSWORD': '${db_password}',
-        'HOST': '${db_machine_location}',
+        'HOST': '${db_private_network_location}',
         'PORT': '${db_machine_port}',
         'OPTIONS': {
             'autocommit': True,
