@@ -174,12 +174,20 @@
     top: 0;
     left: 0;
 }
+#viz_publish {
+    position:relative;
+}
+#viz_publish_menu_wrapper {
+    width:100%;
+    right:0;
+}
 #viz_publish_menu {
     background:#d0d0dc;
 }
 #viz_publish_menu li {
-    padding:8px 12px;
+    text-align:center;
+    padding:8px 0;
 }
 #viz_publish_menu li:hover {
-    background:#a0a0a9;
+    background:#a1a1b9;
 }
