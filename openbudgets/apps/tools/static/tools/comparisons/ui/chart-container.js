@@ -80,9 +80,6 @@ define([
             dont_wake   : function () {
                 return ! uijet.Resource('ToolState').has('id');
             },
-            click_event     : 'mouseenter',
-            dom_events      : {
-            },
             app_events: {
                 chart_saved: 'wake'
             },
@@ -93,7 +90,7 @@ define([
             },
             menu            : {
                 element        : '#viz_publish_menu',
-                float_position : 'top: 42px',
+                float_position : 'top: 44px',
                 signals        : {
                     post_select: function ($selected) {
                         var value = $selected.data('value'),
@@ -122,12 +119,6 @@ define([
                     mouseenter  : function (e) {
                         this.mouse_over = true;
                     }
-                },
-                app_events: {
-                    /*'viz_publish.clicked': function () {
-                        if (this.awake) this.sleep();
-                        else this.wake();
-                    }*/
                 }
             }
         }
