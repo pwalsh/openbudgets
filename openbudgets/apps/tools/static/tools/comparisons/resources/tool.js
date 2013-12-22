@@ -145,11 +145,11 @@ define([
          * TemplateNodes Collection
          */
         Nodes = uijet.Collection({
-            model           : Node,
-            url             : function () {
+            model       : Node,
+            url         : function () {
                 return api.getRoute('templateNodes');
             },
-            comparator      : function (a, b) {
+            comparator  : function (a, b) {
                 var a_attrs = a.attributes,
                     b_attrs = b.attributes,
                     diff = a_attrs.depth - b_attrs.depth;
@@ -169,7 +169,7 @@ define([
              * @param {Object|Array} response
              * @returns {Object|Array} response
              */
-            parse           : function (response) {
+            parse       : function (response) {
                 var results = response.results,
                     last = results.length - 1,
                     paths_lookup = {},
@@ -224,15 +224,15 @@ define([
 
                 return results;
             },
-            roots           : function () {
+            roots       : function () {
                 return this.byParent(null);
             },
-            byParent        : function (parent_id) {
+            byParent    : function (parent_id) {
                 return this.where({
                     parent  : parent_id
                 });
             },
-            byAncestor      : function (ancestor_id) {
+            byAncestor  : function (ancestor_id) {
                 if ( ancestor_id ) {
                     return this.filter(function (node) {
                         return ~ node.attributes.ancestors.indexOf(ancestor_id);
@@ -242,7 +242,7 @@ define([
                     return this.models;
                 }
             },
-            branch          : function (node_id) {
+            branch      : function (node_id) {
                 var tip_node, branch;
                 if ( node_id ) {
                     tip_node = this.get(node_id);
@@ -335,6 +335,13 @@ define([
                     };
                 });
             }
+        }),
+        Template = uijet.Model(),
+        /*
+         * Collection of NodeTemplate collections
+         */
+        Templates = uijet.Collection({
+            model   : Template
         });
 
     resources.TimeSeriesModel.prototype.recalcFactor = function () {
@@ -375,6 +382,8 @@ define([
 
     resources.Node = Node;
     resources.Nodes = Nodes;
+    resources.Template = Template;
+    resources.Templates = Templates;
     resources.Context = Context;
     resources.Contexts = Contexts;
     resources.TimeSeries = TimeSeries;

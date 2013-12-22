@@ -92,7 +92,7 @@ define([
                             .text(model.get('comment_count'));
                     }
                     else {
-                        // it's the scope item so notify the sheet_scope_comments widget
+                        // it's the scope item so notify the sheet_scope_comments
                         uijet.publish('scope_comment_created', model);
                     }
                 }
