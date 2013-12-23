@@ -70,6 +70,26 @@ class SheetParser(TemplateParser):
 
         return instance
 
+    def clean(self, data):
+        for row_num, obj in enumerate(data):
+            self._clean_amount(obj, 'actual')
+            self._clean_amount(obj, 'budget')
+
+        return super(SheetParser, self).clean(data=data)
+
+    def _clean_amount(self, obj, attr):
+        missing = '__missing__'
+
+        amount = obj.get(attr, missing)
+
+        if amount == missing or amount == '':
+            obj[attr] = None
+        else:
+            try:
+                obj[attr] = float(obj[attr])
+            except (ValueError, TypeError):
+                obj[attr] = None
+
     def validate(self, data, keep_cache=False):
         if self.template_parser:
             template_valid, template_errors = self.template_parser.validate(data=deepcopy(data), keep_cache=True)
