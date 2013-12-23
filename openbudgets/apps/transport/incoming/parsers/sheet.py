@@ -14,33 +14,16 @@ def _rows_filter(obj, row_num=None):
         return True
     else:
         if 'budget' in obj:
-            try:
-                budget = float(obj['budget'])
-                if budget > 0:
-                    return True
-                elif 'actual' in obj:
-                    try:
-                        actual = float(obj['actual'])
-                        return actual > 0
-                    except (ValueError, TypeError):
-                        pass
-            except (ValueError, TypeError):
-                if 'actual' in obj:
-                    try:
-                        actual = float(obj['actual'])
-                        return actual > 0
-                    except (ValueError, TypeError):
-                        pass
+            if obj['budget'] is not None:
+                return True
+            else:
+                return 'actual' in obj and obj['actual'] is not None
+
         elif 'actual' in obj:
-            try:
-                actual = float(obj['actual'])
-                return actual > 0
-            except (ValueError, TypeError):
-                pass
+            return obj['actual'] is not None
+
         else:
             raise ParsingError(_('Neither actual nor budget columns found.'))
-
-        return False
 
 
 class SheetParser(TemplateParser):
