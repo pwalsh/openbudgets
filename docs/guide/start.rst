@@ -384,6 +384,8 @@ You can always use the original CLIs.
 
 We simply prefer the way that using `fab` standardizes the interface for the developer/user.
 
+Most of the Fabric commands in the project come from a package of execution tasks that we abstracted out of our work, called Quilt.
+
 
 Commands
 ~~~~~~~~
@@ -391,7 +393,7 @@ Commands
 bootstrap
 +++++++++
 
-Get familiar with the `fab bootstrap` command.
+Get familiar with the `fab local.bootstrap` command.
 
 It makes working in your development environment much easier, and abstracts away a bunch of tasks related to rebuilding your database and building out initial data.
 
@@ -399,36 +401,36 @@ It makes working in your development environment much easier, and abstracts away
 Run it::
 
     # default bootstrap
-    fab bootstrap
+    fab local.bootstrap
 
     # new install with no database
-    fab bootstrap:initial=yes
+    fab local.bootstrap:initial=yes
 
     # new install with no database, and install all requirements
-    fab bootstrap:initial=yes,environment=yes
+    fab local.bootstrap:initial=yes,environment=yes
 
     # working install, using redis as cache locally
-    fab bootstrap:environment=yes,cache=yes
+    fab local.bootstrap:environment=yes,clear_cache=yes
 
 
 migrate
 +++++++
 
-The `fab migrate` command wraps Django/South's syncdb/migrate, and loads the initial data for the project.
+The `fab local.migrate` command wraps Django/South's syncdb/migrate.
 
 Run it::
 
-    fab migrate
+    fab local.migrate
 
 
 test
 ++++
 
-The `fab test` command runs the project's test suite.
+The `fab local.test` command runs the project's test suite.
 
 Run it::
 
-    fab test
+    fab local.test
 
 
 mock
@@ -441,52 +443,44 @@ Run it::
     fab mock
 
 
-data.* commands
+dock.* commands
 +++++++++++++++
 
-The set of `data.*` commands are for working with a data repository
+The set of `dock.*` commands are for working with a data repository, and based on a library we extracted from our code called Dock.
 
-**data.clone**
+**dock.local.clone**
 
 Get the repository from a webserver and install it locally
 
 Run it::
 
-    fab data.clone
+    fab dock.local.clone
 
 
-**data.push**
+**dock.local.push**
 
 Push changes in the local data repository back to the master
 
 Run it::
 
-    fab data.push
+    fab dock.local.push
 
 
-**data.pull**
+**dock.local.pull**
 
 Pull changes from a webserver to an existing data repository
 
 Run it::
 
-    fab data.pull
+    fab dock.local.pull
 
-**data.load**
+**dock.local.load**
 
 Load data from the repository into the Open Budgets database.
 
 Run it::
 
-    fab data.load
-
-**data.dump**
-
-Dump data from the database into a Postgresql dump file.
-
-Run it::
-
-    fab data.dump
+    fab dock.local.load
 
 
 db.* commands
@@ -494,53 +488,61 @@ db.* commands
 
 The set of `db.*` commands are for working with the database instance.
 
-**db.create**
+**local.db.create**
 
 Create a new database for the project.
 
 Run it::
 
-    fab db.create
+    fab local.db.create
 
 
-**db.drop**
+**local.db.drop**
 
 Drop (delete) the database for the project
 
 Run it::
 
-    fab db.drop
+    fab local.db.drop
 
 
-**db.rebuild**
+**local.db.rebuild**
 
 Drop the existing database and create a new one for the project.
 
 Run it::
 
-    fab db.rebuild
+    fab local.db.rebuild
 
-**db.createuser**
+**local.db.createuser**
 
 Create the default user for the Open Budgets database.
 
 Run it::
 
-    fab db.createuser
+    fab local.db.createuser
+
+**local.db.dump**
+
+Dump data from the database into a Postgresql dump file.
+
+Run it::
+
+    fab local.db.dump
 
 
-env.* commands
+environ.* commands
 +++++++++++++++
 
-The set of `env.*` commands are for working with the project environment.
+The set of `environ.*` commands are for working with the project environment.
 
-**env.ensure**
+**local.environ.ensure**
 
 Ensure that all project dependencies are installed and up-to-date.
 
 Run it::
 
-    fab env.ensure
+    fab local.environ.ensure
 
 
 Chaining commands
@@ -549,16 +551,16 @@ Chaining commands
 Commands can be chained. This is very useful! Some common chained commands we use::
 
     # bootstrap, test, and build out a mock database
-    fab bootstrap test mock
+    fab local.bootstrap local.test mock
 
     # bootstrap, test, and build out a real database
-    fab bootstrap test data.load
+    fab local.bootstrap local.test dock.local.load
 
 
 More commands
 +++++++++++++
 
-There are many more commands we invoke via the `fab` CLI.
+There are many more commands we invoke via the `fab` CLI, including `remote.*` equivalents to most of those mentioned above, for task execution on remote machines.
 
 If you are developing Open Budgets, we urge you to get familiar will this toolset.
 
@@ -568,7 +570,7 @@ You are welcome to make pull requests for more useful fab commands.
 Working with data
 -----------------
 
-The normal bootstrapping command (`fab bootstrap`) gives the bare minimum data that the project requires to work.
+The normal bootstrapping command (`fab local.bootstrap`) gives the bare minimum data that the project requires to work.
 
 You can also populate the database with a set of mock data (`fab mock`) just to get a feel for the project.
 
@@ -586,21 +588,22 @@ By default, the process for working with data and getting it into the database i
 
 If you are working on an instance of Open Budgets that already has a populated data repository configured, simply run the following command to build out the database::
 
-    fab data.pull data.load
+    fab dock.local.clone
+    fab local.bootstrap dock.local.pull fab dock.local.load
 
 
-**Note:** Loading data like this can take a very long time due to the types of checks that run to validate data before it is written to the database. Be *very* patient.
+**Note:** Loading data like this can take a long time, **if** your dataset includes sheet data, due to the types of checks that run to validate data before it is written to the database. Be *very* patient.
 
 Alternatively, the maintainers of your instance may take data snapshots that are directly importable to Postgresql.
 
 For Open Muni Budgets, the Open Budgets project for Israel Municipalities, we keep such files publicly accessible here:
 
-https://drive.google.com/#folders/0B4JzAmQXH28mNXBxdjdzeEJXb2s
+https://drive.google.com/?authuser=0#folders/0B4JzAmQXH28mM2dtbmJlSDFyUm8
 
-Download the latest file, place it in the project's 'tmp' directory with the name db_dump.sql, and run the following command (ensure your database is clean before this, by running `fab bootstrap`)::
+Download the latest file, place it in the project's 'tmp' directory with the name db_dump.sql, and run the following command (ensure your database is clean before this, by running `fab local.bootstrap`)::
 
-    fab data.load:from_dump=yes
+    fab local.db.load
 
 Similarly, if you want to create a dump file from your working database, run the following command::
 
-    fab data.dump
+    fab local.db.dump

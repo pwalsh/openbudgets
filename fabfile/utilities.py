@@ -1,30 +1,8 @@
-from quilt import *
-from dock.fabfile import *
-from fabric.api import task, env, execute, roles
-from fabric import operations
 from fabric.contrib import django
 django.project('openbudgets')
 from django.core.management import call_command
 from openbudgets.apps.entities.factories import *
 from openbudgets.apps.sheets.factories import *
-
-
-@roles('app')
-@task
-def mock(amount=300):
-    utilities.notify(u'Creating some mock objects for the database.')
-    mock_db(amount)
-
-
-@roles('db')
-@task
-def db_put():
-    utilities.notify(u'Loading a local db dump to the remote dump location.')
-
-    execute(remote.db.rebuild)
-
-    operations.put('/Users/paulwalsh/Sites/projects/openbudgets/tmp/db_dump.sql',
-                   '/srv/projects/openbudgets/tmp/db_dump.sql')
 
 
 def mock_db(amount):
@@ -48,7 +26,6 @@ def mock_db(amount):
     blueprint_template = Template.create(name='Example Blueprint Template', divisions=[division3])
     blueprint_template_nodes = TemplateNode.create_batch(amount)
 
-    utilities.notify(u'Adding blueprint nodes.')
     for node in blueprint_template_nodes:
         TemplateNodeRelation.create(template=blueprint_template, node=node)
         child_nodes = TemplateNode.create_batch(2, parent=node)
@@ -60,7 +37,6 @@ def mock_db(amount):
         for child_child_node in child_child_nodes:
             TemplateNodeRelation.create(node=child_child_node, template=blueprint_template)
 
-    utilities.notify(u'Adding sheets.')
     for entity in entities:
         sheet1 = Sheet.create(entity=entity, template=blueprint_template,
                               period_start=datetime.date(2007, 1, 1), period_end=datetime.date(2007, 12, 31))
