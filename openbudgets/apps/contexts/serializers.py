@@ -19,4 +19,4 @@ class CoefficientBaseSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.Coefficient
-        fields = ['id', 'url', 'domain', 'inflation']
+        fields = ['id', 'url', 'domain', 'inflation', 'period_start', 'period_end']
