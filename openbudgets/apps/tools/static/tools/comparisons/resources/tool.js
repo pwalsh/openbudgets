@@ -57,43 +57,42 @@ define([
                 a_is_bigger = reverse ? -1 : 1;
                 
             return function (a, b) {
-                var collection = a.collection,
-                    a_attrs = a.attributes,
+                var a_attrs = a.attributes,
                     b_attrs = b.attributes,
                     a_ancestors = a_attrs.ancestors,
                     b_ancestors = b_attrs.ancestors,
                     n = 0, m = 0, 
-                    a_top = a, b_top = b,
+                    a_top = a_attrs, b_top = b_attrs,
                     go_deeper = true,
                     a_code, b_code;
     
                 do {
                     if ( a_ancestors[n] ) {
-                        a_top = collection.get(a_ancestors[n]);
+                        a_top = a_ancestors[n];
                         n += 1;
                     }
                     else {
                         go_deeper = false;
-                        a_top = a;
+                        a_top = a_attrs;
                     }
                     if ( b_ancestors[m] ) {
-                        b_top = collection.get(b_ancestors[m]);
+                        b_top = b_ancestors[m];
                         m += 1;
                     }
                     else {
                         go_deeper = false;
-                        b_top = b;
+                        b_top = b_attrs;
                     }
                 }
                 while ( go_deeper && a_top.id === b_top.id );
     
-                a_code = a_top.get('code');
-                b_code = b_top.get('code');
+                a_code = a_top.code;
+                b_code = b_top.code;
     
                 // if `a` and `b` are not in same depth
                 return a_code == b_code ?
                     // check if `a` is higher in the hierarchy, otherwise `b` is
-                    a_top === a ?
+                    a_top === a_attrs ?
                         a_is_smaller : a_is_bigger :
                     // if they are in same depth order by code
                     a_code < b_code ? a_is_smaller : a_is_bigger;
@@ -122,23 +121,32 @@ define([
         Node = uijet.Model({
             branchName  : function (from_id) {
                 var ancestors = this.attributes.ancestors,
-                    index = from_id ? ancestors.indexOf(from_id) : null,
+                    index = from_id ? 0 : null,
                     result = [],
                     ancestors_len = ancestors.length;
 
-                if ( index === null ) {
-                    index = 0;
-                }
-                else if ( ~ index ) {
+                if ( index !== null ) {
+                    ancestors.some(function (ancestor) {
+                        if ( ancestor.id === from_id ) {
+                            return true
+                        }
+                        index++;
+                        return false;
+                    });
                     index += 1;
                 }
 
                 while ( ancestors_len > index ) {
                     ancestors_len -= 1;
-                    result.unshift(this.collection.get(ancestors[ancestors_len]).get('name'));
+                    result.unshift(ancestors[ancestors_len].name);
                 }
 
                 return result;
+            },
+            commas      : function () { 
+                return function (text, render) {
+                    return uijet.utils.formatCommas(render(text));
+                };
             }
         }),
         /*
@@ -170,57 +178,20 @@ define([
              * @returns {Object|Array} response
              */
             parse       : function (response) {
-                var results = response.results,
+                var results = response.results || response,
                     last = results.length - 1,
-                    paths_lookup = {},
-                    parent_ids = {},
-                    node, n, route, path, ancestor;
+                    item, n;
                 /* 
-                 * first loop
-                 *
-                 * init `ancestor` to `[]` 
-                 * create `paths_lookup` to look up nodes by `path`
-                 * create `parent_ids` to look up child nodes by `parent` (by id later)
-                 * set `parent` to the parent's id
+                 * init `ancestor` to `[]`
+                 * if no `children` or it's empty set `leaf_item` to `true`
                  */
-                for ( n = last; node = results[n]; n-- ) {
-                    node.ancestors = [];
-                    paths_lookup[node.path] = node;
-                    if ( node.parent ) {
-                        node.parent = node.parent.id || node.parent;
-                        if ( ! parent_ids[node.parent] ) {
-                            parent_ids[node.parent] = [];
-                        }
-                        parent_ids[node.parent].push(node.id);
-                    }
-                    node.direction = gettext(node.direction);
-                }
-                /*
-                 * second loop
-                 * 
-                 * set `children` to the array in `parent_ids` using `id`
-                 * set `leaf_node` to `true` if `id` is not in `parent_ids`
-                 * fill `ancestors` array by ancestor `id`s ordered by `depth` as index
-                 */
-                for ( n = last; node = results[n]; n-- ) {
-                    if ( parent_ids[node.id] ) {
-                        node.children = parent_ids[node.id];
-                    }
-                    else {
-                        node.leaf_node = true;
-                    }
-                    route = node.path.split(',').slice(1);
-                    while ( route.length ) {
-                        path = route.join(',');
-                        if ( path in paths_lookup ) {
-                            ancestor = paths_lookup[path];
-                            node.ancestors[ancestor.depth] = ancestor.id;
-                        }
-                        route.shift();
+                for ( n = last; item = results[n]; n-- ) {
+                    item.ancestors || (item.ancestors = []);
+
+                    if ( ! (item.children && item.children.length) ) {
+                        item.leaf_item = true;
                     }
                 }
-                paths_lookup = null;
-                parent_ids = null;
 
                 return results;
             },
