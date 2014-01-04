@@ -306,7 +306,7 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-        }
+    }
 }
 
 CACHE_MIDDLEWARE_SECONDS = 604800
