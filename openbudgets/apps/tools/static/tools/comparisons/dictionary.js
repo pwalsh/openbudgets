@@ -28,6 +28,8 @@ define(function() {
         'viz-delete'            : gettext('Delete'),
         'viz-export'            : gettext('Export'),
         'viz-publish'           : gettext('Publish'),
+        'viz-publish-fb'        : gettext('Facebook'),
+        'viz-publish-twitter'   : gettext('Twitter'),
         'viz-save'              : gettext('Save'),
         'search-menu-free'      : gettext('Free text search'),
         'search-term-prefix'    : gettext('Search for'),
