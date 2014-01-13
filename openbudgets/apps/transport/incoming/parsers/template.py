@@ -21,7 +21,7 @@ class TemplateParser(BaseParser):
     container_model = Template
     item_model = TemplateNode
     ITEM_ATTRIBUTES = ['name', 'code', 'parent', 'path', 'templates',
-                       'direction', 'description']\
+                       'direction', 'description', 'comparable']\
         + translated_fields(TemplateNode)
     CONTAINER_ATTRIBUTES = ['name', 'description', 'divisions', 'period_start']
 
@@ -111,8 +111,7 @@ class TemplateParser(BaseParser):
                 parent_node = self.parent_cache.pop(key)
                 different, diff = self._diff_node(obj, parent_node)
                 if different:
-                    print 'different node'
-                    print obj
+                    print 'different node: %s' % key
                     # mark this template as different
                     self.template_is_different = True
                     #TODO: depending on the difference we can set a backward relation between `obj` and `parent_node`
@@ -122,8 +121,7 @@ class TemplateParser(BaseParser):
                     is_node = True
                     obj = parent_node
             else:
-                print 'new node'
-                print obj
+                print 'new node: %s' % key
                 # mark this template as different
                 self.template_is_different = True
 
@@ -404,7 +402,7 @@ class TemplateParser(BaseParser):
 
     def _insert_item(self, route, parent, row_num=None):
         """
-        Creates a new object representing an implicit parent node,
+        Used in interpolation, creates a new object representing an implicit parent node,
         adds it to the objects_lookup dictionary and saves it as an item.
 
         Takes a list `route` for determining the object's key and the item's
@@ -448,6 +446,12 @@ class TemplateParser(BaseParser):
     def _create_item(self, obj, key):
         # work with a clone so we always keep the source input
         return super(TemplateParser, self)._create_item(obj.copy(), key)
+
+    def _clean_object(self, obj, key):
+        if 'comparable' in obj:
+            obj['comparable'] = obj['comparable'].upper() == 'TRUE'
+
+        return super(TemplateParser, self)._clean_object(obj, key)
 
     def _add_to_container(self, item, key):
         if not self.dry:

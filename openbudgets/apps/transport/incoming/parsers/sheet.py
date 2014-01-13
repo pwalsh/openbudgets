@@ -14,33 +14,16 @@ def _rows_filter(obj, row_num=None):
         return True
     else:
         if 'budget' in obj:
-            try:
-                budget = float(obj['budget'])
-                if budget > 0:
-                    return True
-                elif 'actual' in obj:
-                    try:
-                        actual = float(obj['actual'])
-                        return actual > 0
-                    except (ValueError, TypeError):
-                        pass
-            except (ValueError, TypeError):
-                if 'actual' in obj:
-                    try:
-                        actual = float(obj['actual'])
-                        return actual > 0
-                    except (ValueError, TypeError):
-                        pass
+            if obj['budget'] is not None:
+                return True
+            else:
+                return 'actual' in obj and obj['actual'] is not None
+
         elif 'actual' in obj:
-            try:
-                actual = float(obj['actual'])
-                return actual > 0
-            except (ValueError, TypeError):
-                pass
+            return obj['actual'] is not None
+
         else:
             raise ParsingError(_('Neither actual nor budget columns found.'))
-
-        return False
 
 
 class SheetParser(TemplateParser):
@@ -69,6 +52,26 @@ class SheetParser(TemplateParser):
         instance.template_parser.objects_lookup = deferred['template_parser']['items']
 
         return instance
+
+    def clean(self, data):
+        for row_num, obj in enumerate(data):
+            self._clean_amount(obj, 'actual')
+            self._clean_amount(obj, 'budget')
+
+        return super(SheetParser, self).clean(data=data)
+
+    def _clean_amount(self, obj, attr):
+        missing = '__missing__'
+
+        amount = obj.get(attr, missing)
+
+        if amount == missing or amount == '':
+            obj[attr] = None
+        else:
+            try:
+                obj[attr] = float(obj[attr])
+            except (ValueError, TypeError):
+                obj[attr] = None
 
     def validate(self, data, keep_cache=False):
         if self.template_parser:
