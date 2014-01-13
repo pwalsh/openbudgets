@@ -95,8 +95,7 @@ define([
                     post_select: function ($selected) {
                         var value = $selected.data('value'),
                             enc = encodeURIComponent,
-                            url,
-                            popup;
+                            url, popup;
 
                         switch (value) {
                             case 'facebook':
