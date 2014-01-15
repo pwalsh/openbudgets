@@ -331,7 +331,7 @@ Project dependencies
 All the project dependencies are managed by pip. To get them, run the following command::
 
     # when setting up for the first time:
-    pip install -U -r requirements/base.txt
+    pip install -U -r requirements.txt
 
     fab env.ensure
 
