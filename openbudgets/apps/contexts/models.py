@@ -27,7 +27,7 @@ class ContextManager(models.Manager):
 
 class Context(UUIDPKMixin, TimeStampedMixin, PeriodicMixin, ClassMethodMixin):
 
-    """A JSON object with contextual data for the given Entity/Time Period.
+    """Contextual data for the given Entity/Time Period.
 
     We store contextual data only for the purpose of normalizing comparative
     queries over budget data. Future, or alternate, implementations could take
@@ -38,26 +38,53 @@ class Context(UUIDPKMixin, TimeStampedMixin, PeriodicMixin, ClassMethodMixin):
 
     """
 
-    KEYS = {
-        'population': _('Population'),
-        'population_male': _('Population (Female)'),
-        'population_female': _('Population (Male)'),
-        'ground_surface': _('Ground Surface'),
-        'students': _('Students'),
-        'schools': _('Schools'),
-        'gini_index': _('Gini Index'),
-        'socioeconomic_index': _('Socio-Economic Index')
-    }
-
     objects = ContextManager()
 
     entity = models.ForeignKey(
         Entity,
         related_name='contexts',)
 
-    data = JSONField(
-        _('Data object'),
-        help_text=_('Contextual data as JSON for the Entity/Time Period.'),)
+    population = models.IntegerField(
+        _('population'),
+        blank=True,
+        null=True,)
+
+    population_male = models.IntegerField(
+        _('population male'),
+        blank=True,
+        null=True,)
+
+    population_female = models.IntegerField(
+        _('population female'),
+        blank=True,
+        null=True,)
+
+    ground_surface = models.IntegerField(
+        _('ground surface'),
+        blank=True,
+        null=True,)
+
+    students = models.IntegerField(
+        _('student count'),
+        blank=True,
+        null=True,)
+
+    schools = models.IntegerField(
+        _('school count'),
+        blank=True,
+        null=True,)
+
+    gini_index = models.DecimalField(
+        _('gini index'),
+        max_digits=23,
+        decimal_places=20,
+        blank=True,
+        null=True,)
+
+    socioeconomic_index = models.IntegerField(
+        _('socioeconomic index'),
+        blank=True,
+        null=True,)
 
     def __unicode__(self):
         return 'Contextual data for {entity} in {period}'.format(

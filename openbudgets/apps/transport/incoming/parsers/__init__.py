@@ -38,6 +38,8 @@ class BaseParser(object):
         self.objects_lookup = {}
         # we usually get this from the importer
         self.container_object_dict = container_object_dict
+        # objects to delete at the end of process
+        self.dirty_list = []
 
     @classmethod
     def resolve(cls, deferred):
@@ -152,6 +154,21 @@ class BaseParser(object):
         """
         self.valid = False
         self.errors.append(error)
+        return self
+
+    def cleanup(self, *objects):
+
+        """Delete all unneeded entities."""
+
+        if len(objects):
+            # if used as a setter, append objects to the list
+            self.dirty_list += objects
+
+        else:
+            # used as getter simply flush the list
+            for item in self.dirty_list:
+                item.delete()
+
         return self
 
     def _generate_lookup(self, data):

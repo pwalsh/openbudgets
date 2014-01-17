@@ -1,53 +1,87 @@
 import datetime
 from fabric.api import env
 from fabric.contrib import django
-django.project('openbudgets')
+
+PROJECT_NAME = 'openbudgets'
+django.project(PROJECT_NAME)
 from django.conf import settings
 
-env.user = 'robot'
-env.roledefs = {
-    'demo': ['162.243.15.220'],
-    'openmuni-budgets': ['8.34.222.255'],
-}
+from fabfile import templates
 
 
-CONFIG = {
-    'debug': True,
-    'sentry_dsn': '',
-    'user': env.user,
-    'machine_location': env.roledefs['demo'][0],
-    'machine_port': 80,
-    'project_name': 'openbudgets',
-    'project_root': '/srv/projects/openbudgets',
-    'project_env': '/srv/environments/openbudgets',
-    'dataset_root': settings.OPENBUDGETS_DATA['directory'],
-    'dataset_repo': settings.OPENBUDGETS_DATA['repo'],
-    'dataset_branch': settings.OPENBUDGETS_DATA['branch'],
+LOCAL = {
+    'roledefs': {'default': ['127.0.0.1'],
+                 'app': ['127.0.0.1'],
+                 'proxy': ['127.0.0.1'],
+                 'cache': ['127.0.0.1'],
+                 'queue': ['127.0.0.1'],
+                 'db': ['127.0.0.1']},
+    'django_settings': settings,
+    'project_name': PROJECT_NAME,
+    'project_root': settings.PROJECT_ROOT,
+    'initial_data': ['local/sites'],
+    'project_allowed_hosts': [''],
+    'project_cookie_domain': '',
+    'secret_key': '',
+
+    'app_wsgi': '',
+
+    # virtualenv
+    'workon': 'workon openbudgets',
+    'deactivate': 'deactivate',
+
+    # db server
     'db_name': 'openbudgets',
-    'db_user': env.user,
-    'db_dump_file': settings.OPENBUDGETS_DATA['db_dump'],
-    'app_location': '127.0.0.1',
-    'app_port': 9000,
-    'app_workers': 4,
-    'app_timeout': 150,
-    'app_wsgi': 'openbudgets.wsgi:application',
-    'queue_workers': 2,
-    'queue_max_tasks_per_child': 10,
-    'queue_log': '/srv/logs/openbudgets_celery.log',
-    'repo': 'https://github.com/prjts/openbudgets',
-    'branch': 'develop',
-    'allowed_hosts': ['openbudgets.io', 'en.openbudgets.io', 'he.openbudgets.io',
-                      'ar.openbudgets.io','ru.openbudgets.io'],
-    'cookie_domain': '.openbudgets.io',
-    'nginx_access_log': '/srv/logs/openbudgets_nginx_access.log',
-    'nginx_error_log': '/srv/logs/openbudgets_nginx_error.log',
-    'gunicorn_access_log': '/srv/logs/openbudgets_gunicorn_access.log',
-    'gunicorn_error_log': '/srv/logs/openbudgets_gunicorn_error.log',
-    'redis_access_log': '/srv/logs/openbudgets_redis_access.log',
-    'redis_error_log': '/srv/logs/openbudgets_redis_error.log',
-    'timestamp': datetime.datetime.now(),
+    'db_user': 'robot',
+    'db_dump_file': settings.OPENBUDGETS_TEMP_DIR + '/db_dump.sql',
+
+    # email server
+    'email_user': 'contact@openmuni.org.il',
+
+    # code repository
+    'repository_location': 'https://github.com/hasadna/openmuni-budgets',
+
+    'dataset_root': settings.OPENBUDGETS_TEMP_DIR,
+    'dataset_branch': 'master',
+    'dataset_repository': 'https://github.com/prjts/openbudgets-data-israel',
+    'storage_class': None,
+    'dataset_processing_class': None,
 }
 
-WORKON = 'workon ' + CONFIG['project_name']
+STAGING_LOG_ROOT = '/srv/logs'
+STAGING_ENVS = '/srv/environments'
+STAGING_PROJECTS = '/srv/projects'
+STAGING_PROJECT_DIR = '/openbudgets'
 
-DEACTIVATE = 'deactivate'
+STAGING = {
+    'email_host_user': 'hello@prjts.com',
+    'roledefs': {'default': ['162.243.66.200'],
+                 'app': ['162.243.66.200'],
+                 'proxy': ['162.243.66.200'],
+                 'cache': ['162.243.66.200'],
+                 'queue': ['162.243.66.200'],
+                 'db': ['162.243.85.165']},
+    'app_wsgi': 'openbudgets.wsgi:application',
+    'machine_location': '162.243.66.200',
+    'machine_port': 80,
+    'db_machine_location': '162.243.85.165',
+    'db_private_network_location': '10.128.29.136',
+    'db_machine_port': 5432,
+    'initial_data': ['staging/sites'],
+    'project_root': STAGING_PROJECTS + STAGING_PROJECT_DIR,
+    'project_env': STAGING_ENVS + STAGING_PROJECT_DIR,
+    'project_allowed_hosts': ['staging.openmuni.org.il'],
+    'project_cookie_domain': 'openmuni.org.il',
+    'target_settings_data': templates.staging_settings,
+    'target_settings_destination': STAGING_PROJECTS + STAGING_PROJECT_DIR + '/openbudgets/settings/staging.py',
+    'log_proxy_access': STAGING_LOG_ROOT + '/proxy_access.log',
+    'log_proxy_error': STAGING_LOG_ROOT + '/proxy_error.log',
+    'log_app_access': STAGING_LOG_ROOT + '/app_access.log',
+    'log_app_error': STAGING_LOG_ROOT + '/app_access.log',
+    'log_queue_access': STAGING_LOG_ROOT + '/queue_access.log',
+    'log_cache_access': STAGING_LOG_ROOT + '/cache_access.log',
+    'log_cache_error': STAGING_LOG_ROOT + '/cache_error.log',
+}
+
+# The default environment is LOCAL
+env.update(LOCAL)

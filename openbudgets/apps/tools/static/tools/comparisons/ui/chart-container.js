@@ -1,5 +1,6 @@
 define([
     'uijet_dir/uijet',
+    'composites/DropmenuButton',
     'composites/Select'
 ], function (uijet) {
 
@@ -72,14 +73,52 @@ define([
             }
         }
     }, {
-        type    : 'Button',
+        type    : 'DropmenuButton',
         config  : {
             element     : '#viz_publish',
+            dont_wrap   : true,
             dont_wake   : function () {
                 return ! uijet.Resource('ToolState').has('id');
             },
             app_events: {
                 chart_saved: 'wake'
+            },
+            signals         : {
+                post_init   : function () {
+                    this.$wrapper.on('mouseleave', this.publish.bind(this, 'mouse_left'));
+                }
+            },
+            menu            : {
+                element        : '#viz_publish_menu',
+                float_position : 'top: 44px',
+                signals        : {
+                    post_select: function ($selected) {
+                        var value = $selected.data('value'),
+                            enc = encodeURIComponent,
+                            url, popup;
+
+                        switch (value) {
+                            case 'facebook':
+                                url = 'https://www.facebook.com/sharer/sharer.php?u={url}'.replace('{url}', enc(document.location.href));
+                                popup = window.open(url);
+                                break;
+
+                            case 'twitter':
+                                url = 'https://twitter.com/share?url={url}'.replace('{url}', enc(document.location.href));
+                                popup = window.open(url);
+                                break;
+                        }
+                    }
+                },
+                dom_events     : {
+                    mouseleave  : function () {
+                        this.mouse_over = false;
+                        this.sleep();
+                    },
+                    mouseenter  : function (e) {
+                        this.mouse_over = true;
+                    }
+                }
             }
         }
     }, {

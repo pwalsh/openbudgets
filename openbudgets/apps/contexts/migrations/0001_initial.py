@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import datetime
+from south.utils import datetime_utils as datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
@@ -16,7 +16,14 @@ class Migration(SchemaMigration):
             ('period_start', self.gf('django.db.models.fields.DateField')(db_index=True, null=True, blank=True)),
             ('period_end', self.gf('django.db.models.fields.DateField')(db_index=True, null=True, blank=True)),
             ('entity', self.gf('django.db.models.fields.related.ForeignKey')(related_name='contexts', to=orm['entities.Entity'])),
-            ('data', self.gf('jsonfield.fields.JSONField')()),
+            ('population', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
+            ('population_male', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
+            ('population_female', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
+            ('ground_surface', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
+            ('students', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
+            ('schools', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
+            ('gini_index', self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=23, decimal_places=20, blank=True)),
+            ('socioeconomic_index', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
         ))
         db.send_create_signal(u'contexts', ['Context'])
 
@@ -55,12 +62,19 @@ class Migration(SchemaMigration):
         u'contexts.context': {
             'Meta': {'object_name': 'Context'},
             'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'db_index': 'True', 'blank': 'True'}),
-            'data': ('jsonfield.fields.JSONField', [], {}),
             'entity': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'contexts'", 'to': u"orm['entities.Entity']"}),
+            'gini_index': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '23', 'decimal_places': '20', 'blank': 'True'}),
+            'ground_surface': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'id': ('uuidfield.fields.UUIDField', [], {'unique': 'True', 'max_length': '32', 'primary_key': 'True', 'db_index': 'True'}),
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
             'period_end': ('django.db.models.fields.DateField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
-            'period_start': ('django.db.models.fields.DateField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'})
+            'period_start': ('django.db.models.fields.DateField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
+            'population': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'population_female': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'population_male': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'schools': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'socioeconomic_index': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'students': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'})
         },
         u'entities.division': {
             'Meta': {'ordering': "['index', 'name']", 'unique_together': "(('name', 'domain'),)", 'object_name': 'Division'},

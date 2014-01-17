@@ -1,7 +1,7 @@
 from itertools import chain
 from django.contrib.sitemaps import Sitemap
 from openbudgets.apps.pages.models import Page
-from haystack.views import SearchView
+
 
 class OBudgetSitemap(Sitemap):
     """Returns an XML Sitemap for consumption by search engines and other crawlers"""
@@ -18,7 +18,3 @@ class OBudgetSitemap(Sitemap):
 
     def lastmod(self, obj):
         return obj.last_modified
-
-
-class OBudgetSearchView(SearchView):
-    pass

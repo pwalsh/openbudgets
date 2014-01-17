@@ -4,7 +4,7 @@
     "model": "sites.Site",
     "pk": 1,
     "fields": {
-        "domain": "dev.openmuni.org.il",
+        "domain": "staging.openmuni.org.il",
         "name": "Open Muni Budgets"
     }
 }

@@ -4,11 +4,11 @@ from django.conf import settings
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.contenttypes import generic
+# from django.contrib.contenttypes import generic
 from django.db.models.signals import m2m_changed
 from openbudgets.apps.accounts.models import Account
 from openbudgets.apps.entities.models import Division, Entity
-from openbudgets.apps.sources.models import ReferenceSource, AuxSource
+# from openbudgets.apps.sources.models import ReferenceSource, AuxSource
 from openbudgets.commons.mixins.models import TimeStampedMixin, UUIDPKMixin, \
     PeriodStartMixin, PeriodicMixin, ClassMethodMixin
 from openbudgets.apps.sheets.utilities import is_comparable
@@ -79,11 +79,11 @@ class Template(UUIDPKMixin, PeriodStartMixin, TimeStampedMixin, ClassMethodMixin
         blank=True,
         help_text=_('An overview text for this template.'),)
 
-    referencesources = generic.GenericRelation(
-        ReferenceSource,)
+    # referencesources = generic.GenericRelation(
+    #     ReferenceSource,)
 
-    auxsources = generic.GenericRelation(
-        AuxSource,)
+    # auxsources = generic.GenericRelation(
+    #     AuxSource,)
 
     @property
     def node_count(self):
@@ -338,11 +338,11 @@ class TemplateNode(UUIDPKMixin, AbstractBaseNode, TimeStampedMixin):
         blank=True,
         help_text=_('A descriptive text for this template node.'),)
 
-    referencesources = generic.GenericRelation(
-        ReferenceSource,)
+    # referencesources = generic.GenericRelation(
+    #     ReferenceSource,)
 
-    auxsources = generic.GenericRelation(
-        AuxSource,)
+    # auxsources = generic.GenericRelation(
+    #     AuxSource,)
 
     @property
     def past(self):
@@ -555,11 +555,11 @@ class Sheet(UUIDPKMixin, PeriodicMixin, TimeStampedMixin, ClassMethodMixin):
         blank=True,
         help_text=_('An introductory description for this sheet.'),)
 
-    referencesources = generic.GenericRelation(
-        ReferenceSource,)
+    # referencesources = generic.GenericRelation(
+    #     ReferenceSource,)
 
-    auxsources = generic.GenericRelation(
-        AuxSource,)
+    # auxsources = generic.GenericRelation(
+    #     AuxSource,)
 
     @property
     def item_count(self):
@@ -697,11 +697,11 @@ class SheetItem(UUIDPKMixin, AbstractBaseItem, TimeStampedMixin, ClassMethodMixi
         editable=False,
         related_name='children',)
 
-    referencesources = generic.GenericRelation(
-        ReferenceSource,)
+    # referencesources = generic.GenericRelation(
+    #     ReferenceSource,)
 
-    auxsources = generic.GenericRelation(
-        AuxSource,)
+    # auxsources = generic.GenericRelation(
+    #     AuxSource,)
 
     @property
     def lookup(self):

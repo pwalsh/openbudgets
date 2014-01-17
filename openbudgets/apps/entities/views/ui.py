@@ -68,17 +68,7 @@ class EntityDetail(DetailView):
             user_object = AccountMin(user).data
 
         context['user_json'] = renderer.render(user_object)
-
-        #TODO: refactor the code below into a generic utility in contexts app that returns the I18N'ised data
-        # add latest contextual data objcet for this entity
-        try:
-            contextual_temp = Context.objects.latest_of(entity_id=self.object.id).data
-            for k, v in contextual_temp.iteritems():
-                contextual_data[Context.KEYS[k]] = v
-        except Context.DoesNotExist:
-            pass
-
-        context['contextual_data'] = contextual_data
+        context['contextual_data'] = Context.objects.latest_of(entity_id=self.object.id)
 
         # add sheets data
         if self.object.sheets.exists():

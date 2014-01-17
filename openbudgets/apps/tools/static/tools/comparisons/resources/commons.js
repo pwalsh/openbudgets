@@ -79,7 +79,8 @@ define([
         TimeSeriesModel = uijet.Model({
             parse   : function (response) {
                 var periods = [],
-                    series = {};
+                    series = {},
+                    missing_periods = [];
                 response.forEach(function (item) {
                     var period = +item.period;
                     if ( !~ periods.indexOf(period) ) {
@@ -97,6 +98,27 @@ define([
                         series[period].actual = addFloats(series[period].actual, +item.actual); 
                     }
                 });
+
+                periods.sort().forEach(function (period, n) {
+                    var current = periods[n - 1] + 1;
+                    //TODO: assuming for now that periods is a sequence of years
+                    // skip the first and check that each period is the following year of the previous period
+                    if ( n && period === current ) {
+                        while ( current < period ) {
+                            missing_periods.push(current);
+                            series[current] = {
+                                budget: 0,
+                                actual: 0,
+                                factor: 1
+                            };
+
+                            current += 1;
+                        }
+                    }
+                });
+                // missing periods
+                periods.push.apply(periods, missing_periods);
+
                 return {
                     periods : periods.sort(),
                     series  : series

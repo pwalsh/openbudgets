@@ -122,7 +122,6 @@ INSTALLED_APPS = (
     'corsheaders',
     'gunicorn',
     'south',
-    'haystack',
     'djcelery',
     'kombu.transport.django',
     'subdomains',
@@ -263,13 +262,6 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken'
 )
 
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
-        'PATH': os.path.join(PROJECT_ROOT, 'commons', 'search', 'index'),
-        },
-    }
-
 import djcelery
 
 djcelery.setup_loader()
@@ -314,7 +306,7 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-        }
+    }
 }
 
 CACHE_MIDDLEWARE_SECONDS = 604800
@@ -354,13 +346,6 @@ OPENBUDGETS_COMPARABLE_WITHIN_ENTITY = True
 
 OPENBUDGETS_COMPARABLE_ACROSS_ENTITIES = True
 
-OPENBUDGETS_DATA = {
-    'repo': 'https://github.com/prjts/openbudgets-data-israel',
-    'branch': 'master',
-    'directory': OPENBUDGETS_TEMP_DIR,
-    'db_dump': OPENBUDGETS_TEMP_DIR + '/db_dump.sql'
-}
-
 OPENBUDGETS_CKAN = [
     {
         'name': 'Datahub',
@@ -369,6 +354,7 @@ OPENBUDGETS_CKAN = [
         'api_key': '884da76c-87b6-4974-97dc-cfd3f639d15a'
     }
 ]
+
 OPENBUDGETS_SETTING = {
     'tags': ['budget', 'municipalities', 'israel'],
     'notes': 'This is the Budget and the Actual of',
@@ -383,21 +369,23 @@ IMPORT_PRIORITY = ['slug',
 IMPORT_SEPARATOR = ':'
 
 
-# if we are on production, we should have a settings.production module to load.
+# if we are on staging, we should have a settings.staging module to load.
 try:
-    from production import *
+    from .staging import *
 except ImportError:
     # if we are on local, we accept overrides in a settings.local module.
     # For safety, we only try to load settings.local if settings.production
     # does not exist.
     try:
-        from local import *
+        from .local import *
     except ImportError:
         pass
 
+
+# if we are on the CI server, load some CI-specific settings
 try:
     ci = os.environ.get('CI')
     if ci:
-        from ci import *
+        from .ci import *
 except KeyError:
     pass

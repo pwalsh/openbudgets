@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-19 23:44+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2013-12-17 20:07+0200\n"
+"PO-Revision-Date: 2013-12-17 20:08+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -132,93 +132,101 @@ msgid "Publish"
 msgstr "פרסום"
 
 #: static/tools/comparisons/dictionary.js:31
+msgid "Facebook"
+msgstr "פייסבוק"
+
+#: static/tools/comparisons/dictionary.js:32
+msgid "Twitter"
+msgstr "טוויטר"
+
+#: static/tools/comparisons/dictionary.js:33
 msgid "Save"
 msgstr "שמירה"
 
-#: static/tools/comparisons/dictionary.js:32
+#: static/tools/comparisons/dictionary.js:34
 msgid "Free text search"
 msgstr "חיפוש טקסט חופשי"
 
-#: static/tools/comparisons/dictionary.js:33
+#: static/tools/comparisons/dictionary.js:35
 msgid "Search for"
 msgstr "חפש"
 
-#: static/tools/comparisons/dictionary.js:34
+#: static/tools/comparisons/dictionary.js:36
 #: static/tools/comparisons/resources/commons.js:54
 msgid "Guest"
 msgstr "אורח"
 
-#: static/tools/comparisons/dictionary.js:35
+#: static/tools/comparisons/dictionary.js:37
 msgid "Summarize data of:"
 msgstr "סכם נתוני:"
 
-#: static/tools/comparisons/dictionary.js:36
+#: static/tools/comparisons/dictionary.js:38
 msgid "Budget"
 msgstr "תכנון"
 
-#: static/tools/comparisons/dictionary.js:37
+#: static/tools/comparisons/dictionary.js:39
 msgid "Actual"
 msgstr "ביצוע"
 
-#: static/tools/comparisons/dictionary.js:38
+#: static/tools/comparisons/dictionary.js:40
 msgid "selected items"
 msgstr "סעיפים נבחרים"
 
-#: static/tools/comparisons/dictionary.js:39
+#: static/tools/comparisons/dictionary.js:41
 msgid "Normalize data"
 msgstr "נרמל נתונים"
 
-#: static/tools/comparisons/dictionary.js:40
+#: static/tools/comparisons/dictionary.js:42
 msgid "Don't normalize"
 msgstr "ללא"
 
-#: static/tools/comparisons/dictionary.js:41
+#: static/tools/comparisons/dictionary.js:43
 msgid "by:"
 msgstr "לפי:"
 
-#: static/tools/comparisons/dictionary.js:42
+#: static/tools/comparisons/dictionary.js:44
 msgid "* Data normalized by"
 msgstr "* נתונים מנורמלים לפי"
 
-#: static/tools/comparisons/dictionary.js:43
+#: static/tools/comparisons/dictionary.js:45
 msgid "For more analyses"
 msgstr "לחיתוכים וניתוחים נוספים"
 
-#: static/tools/comparisons/dictionary.js:47
+#: static/tools/comparisons/dictionary.js:49
 msgid "Population"
 msgstr "אוכלוסיה"
 
-#: static/tools/comparisons/dictionary.js:48
-#: static/tools/comparisons/dictionary.js:51
+#: static/tools/comparisons/dictionary.js:50
+#: static/tools/comparisons/dictionary.js:53
 msgid "Ground Surface"
 msgstr "שטח רשות"
 
-#: static/tools/comparisons/dictionary.js:49
+#: static/tools/comparisons/dictionary.js:51
 msgid "Population (Female)"
 msgstr "אוכלוסיית הנשים"
 
-#: static/tools/comparisons/dictionary.js:50
+#: static/tools/comparisons/dictionary.js:52
 msgid "Population (Male)"
 msgstr "אוכלוסיית הגברים"
 
-#: static/tools/comparisons/dictionary.js:52
+#: static/tools/comparisons/dictionary.js:54
 msgid "Students"
 msgstr "תלמידים"
 
-#: static/tools/comparisons/dictionary.js:53
+#: static/tools/comparisons/dictionary.js:55
 msgid "Schools"
 msgstr "בתי ספר"
 
-#: static/tools/comparisons/dictionary.js:54
+#: static/tools/comparisons/dictionary.js:56
 msgid "Gini Index"
 msgstr "מדד ג'ינ"
 
-#: static/tools/comparisons/dictionary.js:55
+#: static/tools/comparisons/dictionary.js:57
 msgid "Socio-Economic Index"
 msgstr "רמה דמוגרפית חברתית כלכלית"
 
 #: static/tools/comparisons/controllers/LegendsList.js:10
-#: static/tools/comparisons/resources/tool.js:335
+#: static/tools/comparisons/resources/tool.js:327
 #: static/tools/comparisons/ui/chart.js:58
 msgid "Insert title"
 msgstr "כתיבת כותרת"
@@ -227,14 +235,14 @@ msgstr "כתיבת כותרת"
 msgid "%(count)s results found"
 msgstr "נמצאו %(count)s תוצאות"
 
-msgid "Show selected only"
-msgstr "הראה רק מסומנים"
+#~ msgid "Show selected only"
+#~ msgstr "הראה רק מסומנים"
 
-msgid "Selected"
-msgstr "נבחרים"
+#~ msgid "Selected"
+#~ msgstr "נבחרים"
 
-msgid "EXPENDITURE"
-msgstr "הוצאות"
+#~ msgid "EXPENDITURE"
+#~ msgstr "הוצאות"
 
-msgid "REVENUE"
-msgstr "הכנסות"
+#~ msgid "REVENUE"
+#~ msgstr "הכנסות"

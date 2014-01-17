@@ -135,6 +135,7 @@ define([
                 'legends_list.delete'               : function () {
                     if ( this.awake && uijet.Resource('LegendItems').length ) {
                         this.render();
+                        this._finally();
                     }
                 },
                 'legend_item_title.updated'         : 'setTitle+',

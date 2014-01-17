@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 from django.contrib import admin
-from openbudgets.commons.views import OBudgetSitemap, OBudgetSearchView
+from openbudgets.commons.views import OBudgetSitemap
 admin.autodiscover()
 
 
@@ -41,9 +41,6 @@ urlpatterns = patterns('',
 
     url(r'^sources/',
         include('openbudgets.apps.sources.urls')),
-
-    url(r'^search/',
-        OBudgetSearchView(), name='search'),
 
     url(r'^comments/',
         include('django.contrib.comments.urls')),
