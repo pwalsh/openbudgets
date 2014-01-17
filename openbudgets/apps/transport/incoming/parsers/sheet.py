@@ -125,6 +125,9 @@ class SheetParser(TemplateParser):
 
             self.dry = False
 
+            self.template_parser.cleanup()
+            self.cleanup()
+
             return True
 
         return False
@@ -211,7 +214,7 @@ class SheetParser(TemplateParser):
     def _init_template_parser(self):
         container_dict_copy = deepcopy(self.container_object_dict)
 
-        #TODO: refactor this into a proper cleanup method
+        #TODO: refactor this into a proper clean method
         if 'template' in container_dict_copy:
             del container_dict_copy['template']
 

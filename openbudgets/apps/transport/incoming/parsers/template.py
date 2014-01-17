@@ -634,7 +634,7 @@ class TemplateParser(BaseParser):
         if not self.template_is_different and not len(self.parent_cache):
             print 'same'
             # this should also delete all TemplateNodeRelations to this template
-            self.container_object.delete()
+            self.cleanup(self.container_object)
             # since all nodes already relate to the parent no need to do anything
             self.container_object = self.parent
         else:
