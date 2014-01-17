@@ -62,7 +62,7 @@ Execute the commands without it if you know you don't need it.
 Install::
 
     # required dependencies
-    sudo apt-get install python-dev python-pip postgresql postgresql-contrib postgresql-server-dev-all mercurial git-core
+    sudo apt-get install python-dev python-pip postgresql postgresql-contrib postgresql-server-dev-all postgresql-devel mercurial git-core
     sudo pip install virtualenv virtualenvwrapper
 
     # optional dependencies in development, required in production
