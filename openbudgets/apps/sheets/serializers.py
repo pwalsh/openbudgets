@@ -20,6 +20,16 @@ class TemplateNodeMin(serializers.HyperlinkedModelSerializer):
         fields = ['id', 'url']
 
 
+class TemplateNodeNested(TemplateNodeMin):
+
+    depth = serializers.Field(source='depth')
+
+    class Meta(TemplateNodeMin.Meta):
+        fields = TemplateNodeMin.Meta.fields + ['code', 'name', 'description',
+                 'direction', 'path', 'comparable', 'depth', 'created_on', 'last_modified'] \
+                 + translated_fields(models.TemplateNode)
+
+
 class TemplateMin(serializers.HyperlinkedModelSerializer):
 
     """Serializes Template objects for consumption by API.
@@ -39,7 +49,7 @@ class TemplateMin(serializers.HyperlinkedModelSerializer):
                   'has_sheets']
 
 
-class TemplateNode(TemplateNodeMin):
+class TemplateNode(TemplateNodeNested):
 
     """Serializes Template objects for consumption by API."""
 
@@ -47,12 +57,12 @@ class TemplateNode(TemplateNodeMin):
     backwards = TemplateNodeMin(many=True)
     inverse = TemplateNodeMin(many=True)
     depth = serializers.Field(source='depth')
+    children = TemplateNodeNested(many=True)
+    ancestors = TemplateNodeNested(many=True)
 
-    class Meta(TemplateNodeMin.Meta):
-        fields = TemplateNodeMin.Meta.fields + ['code', 'name', 'description',
-                 'direction', 'path', 'comparable', 'parent', 'templates', 'depth',
-                 'backwards', 'inverse', 'items', 'created_on', 'last_modified',] \
-                 + translated_fields(models.TemplateNode)
+    class Meta(TemplateNodeNested.Meta):
+        fields = TemplateNodeNested.Meta.fields + ['parent', 'children', 'ancestors',
+                                                   'templates', 'backwards', 'inverse', 'items']
 
 
 class Template(TemplateMin):
