@@ -343,18 +343,14 @@ define([
                     this.context = null;
                     this.resource.length && this.$title.addClass('hide');
                 },
-                pre_select  : function ($selected) {
-                    return $selected.attr('data-id');
-                },
                 post_sleep  : closeSearchBreadcrumbsHandler
             },
             app_events  : {
                 'nodes_list.scope_changed'      : function (scope_model) {
-                    var crumbs, sheet;
+                    var crumbs;
                     if ( scope_model ) {
                         if ( scope_model.has('ancestors') ) {
-                            sheet = uijet.Resource('LatestSheet');
-                            crumbs = scope_model.get('ancestors').map(sheet.get, sheet);
+                            crumbs = scope_model.get('ancestors').slice();
                             crumbs.push(scope_model);
                         }
                         else {
