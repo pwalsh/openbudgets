@@ -180,16 +180,20 @@ define([
             parse       : function (response) {
                 var results = response.results || response,
                     last = results.length - 1,
-                    item, n;
+                    node, n, parent;
                 /* 
                  * init `ancestor` to `[]`
-                 * if no `children` or it's empty set `leaf_item` to `true`
+                 * if no `children` or it's empty set `leaf_node` to `true`
                  */
-                for ( n = last; item = results[n]; n-- ) {
-                    item.ancestors || (item.ancestors = []);
+                for ( n = last; node = results[n]; n-- ) {
+                    node.ancestors || (node.ancestors = []);
 
-                    if ( ! (item.children && item.children.length) ) {
-                        item.leaf_item = true;
+                    if ( ! (node.children && node.children.length) ) {
+                        node.leaf_node = true;
+                    }
+
+                    if ( parent = node.parent ) {
+                        node.parent = parent.id;
                     }
                 }
 
