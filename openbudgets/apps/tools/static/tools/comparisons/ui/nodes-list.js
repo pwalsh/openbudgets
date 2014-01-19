@@ -36,6 +36,7 @@ define([
             fetch_options   : {
                 remove  : false,
                 cache   : true,
+                merge   : false,
                 expires : 8 * 3600,
                 data    : {
                     page_by : 4000,
@@ -212,7 +213,7 @@ define([
                 pre_update      : 'spin',
                 post_fetch_data : function (response) {
                     var scope_changed = this.scope_changed;
-                    // after we had to reset because of sheet change make sure turn reset off again
+                    // after we had to reset because of entity change make sure turn reset off again
                     if ( this.options.fetch_options.reset ) {
                         this.options.fetch_options.reset = false;
                     }
@@ -231,7 +232,7 @@ define([
                     }
                     if ( this.template_changed ) {
                         this.template_changed = false;
-                        scope_changed || this.publish('sheet_changed', null);
+//                        scope_changed || this.publish('sheet_changed', null);
                     }
 
                     this.spinOff();
@@ -256,8 +257,8 @@ define([
                 pre_select      : function ($selected, event) {
                     var id = $selected.attr('data-id');
                     if ( uijet.$(event.target).hasClass('selectbox') ) {
-//                        this.updateSelection(id)
-                        this.publish('selection');
+                        this.updateSelection(id)
+                            .publish('selection');
                         return false;
                     }
                     else {
@@ -269,8 +270,18 @@ define([
                 }
             },
             app_events      : {
-                'items_breadcrumbs.selected': 'post_select+',
-                'items_list_header.selected': 'sortItems+'
+                'nodes_breadcrumbs.selected': 'post_select+',
+                'nodes_list_header.selected': 'sortItems+',
+                'nodes_list.selection'      : function () {
+                    var resource = this.resource;
+                    //update DOM with collection's state
+                    this.$children.each(function (i, node) {
+                        var $node = uijet.$(node),
+                            id = $node.attr('data-id'),
+                            state = resource.get(id).get('selected');
+                        $node.attr('data-selected', state);
+                    });
+                }
             }
         }
 //    }, {
