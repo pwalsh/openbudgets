@@ -180,7 +180,7 @@ define([
             parse       : function (response) {
                 var results = response.results || response,
                     last = results.length - 1,
-                    node, n, parent;
+                    node, n, parent, state;
                 /* 
                  * init `ancestor` to `[]`
                  * if no `children` or it's empty set `leaf_node` to `true`
@@ -193,7 +193,13 @@ define([
                     }
 
                     if ( parent = node.parent ) {
-                        node.parent = parent.id;
+                        node.parent = parent.id || parent;
+
+                        if ( ! ('selected' in node) ) {
+                            if ( state = this.get(node.parent).get('selected') ) {
+                                node.selected = state;
+                            }
+                        }
                     }
                 }
 
