@@ -216,7 +216,9 @@ define([
             byAncestor  : function (ancestor_id) {
                 if ( ancestor_id ) {
                     return this.filter(function (node) {
-                        return ~ node.attributes.ancestors.indexOf(ancestor_id);
+                        return node.attributes.ancestors.some(function (ancestor) {
+                            return ancestor.id === ancestor_id;
+                        });
                     });
                 }
                 else {
