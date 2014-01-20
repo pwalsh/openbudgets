@@ -173,7 +173,7 @@ define([
                             // register current collection as the new instance
                             uijet.Resource('LatestSheet', this.resource, true);
                             scope = scope === -1 ?
-                                this.resource.findWhere(state.get('node')).get('id') :
+                                this.resource.findWhere(state.get('scope')).get('id') :
                                 scope;
                         }
                         else {
@@ -272,6 +272,24 @@ define([
             app_events      : {
                 'nodes_breadcrumbs.selected': 'post_select+',
                 'nodes_list_header.selected': 'sortItems+',
+                'picker_done.clicked'       : function () {
+                    /*
+                     * Make sure that every time we hit "done" we cache current template state
+                     * in `PreviousSheets` resource.
+                     */
+                    var prev_templates = uijet.Resource('PreviousSheets'),
+                        entity_id = uijet.Resource('NodesListState').get('entity_id'),
+                        prev_template;
+                    if ( prev_template = prev_templates.get(entity_id) ) {
+                        prev_template.get('nodes').set(this.resource.models, { remove : false });
+                    }
+                    else {
+                        prev_templates.add({
+                            id: entity_id,
+                            nodes: this.resource.clone()
+                        });
+                    }
+                },
                 'nodes_list.selection'      : function () {
                     var resource = this.resource;
                     //update DOM with collection's state
