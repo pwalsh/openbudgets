@@ -8,8 +8,11 @@ define([
     'ui/nodes-list',
     'ui/nodes-footer',
     'ui/chart-container',
-    'ui/chart'
-], function (uijet, comparisons, legend, site_menu, entities, nodes, nodes_list, nodes_footer, chart_container, chart) {
+    'ui/chart-header-buttons',
+    'ui/chart-heading',
+    'ui/chart',
+    'ui/chart-period-selects'
+], function (uijet, comparisons, legend, site_menu, entities, nodes, nodes_list, nodes_footer, chart_container, chart_header_buttons, chart_heading, chart, chart_period_selects) {
 
     uijet.declare([{
         type    : 'Pane',
@@ -28,7 +31,10 @@ define([
         .declare(nodes_footer)
         .declare(nodes_list)
         .declare(chart_container)
-        .declare(chart);
+        .declare(chart_header_buttons)
+        .declare(chart_heading)
+        .declare(chart)
+        .declare(chart_period_selects);
 
     return comparisons;
 });
