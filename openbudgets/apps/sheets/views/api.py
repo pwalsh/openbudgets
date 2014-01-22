@@ -384,12 +384,12 @@ class SheetItemTimeline(generics.ListAPIView):
             # Provide a sensible default.
             # If there is no node query param, let's return the top level nodes,
             # as used in the latest Sheet.
-            #nodes = [for models.Sheet.objects.latest_of(entity_pk).shee]
+            #nodes = [for models.Sheet.objects.latest_of(entity_pk).sheet]
             #TODO: handle case of no nodes specified
             pass
         items = models.SheetItem.objects.timeline(nodes, entity_pk)
 
-        serialized_timeline = SheetTimeline(items, many=True).data
+        serialized_timeline = SheetTimeline(items, many=True, context={'request': self.request}).data
 
         return Response(serialized_timeline)
 
