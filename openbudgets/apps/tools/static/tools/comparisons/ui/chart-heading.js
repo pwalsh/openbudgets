@@ -2,7 +2,7 @@ define([
     'uijet_dir/uijet'
 ], function (uijet) {
 
-    return [{
+    return {
         type    : 'Pane',
         config  : {
             element     : '#chart_heading',
@@ -47,6 +47,6 @@ define([
                 }
             }
         }
-    }];
+    };
 
 });

@@ -4,6 +4,7 @@ define([
     'ui/legend',
     'ui/site-menu',
     'ui/entities',
+    'ui/entities-list',
     'ui/nodes',
     'ui/nodes-list',
     'ui/nodes-footer',
@@ -12,7 +13,7 @@ define([
     'ui/chart-heading',
     'ui/chart',
     'ui/chart-period-selects'
-], function (uijet, comparisons, legend, site_menu, entities, nodes, nodes_list, nodes_footer, chart_container, chart_header_buttons, chart_heading, chart, chart_period_selects) {
+], function (uijet, comparisons, legend, site_menu, entities, entities_list, nodes, nodes_list, nodes_footer, chart_container, chart_header_buttons, chart_heading, chart, chart_period_selects) {
 
     uijet.declare([{
         type    : 'Pane',
@@ -27,6 +28,7 @@ define([
         .declare(legend)
         .declare(site_menu)
         .declare(entities)
+        .declare(entities_list)
         .declare(nodes)
         .declare(nodes_footer)
         .declare(nodes_list)

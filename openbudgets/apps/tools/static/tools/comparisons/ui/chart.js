@@ -13,7 +13,7 @@ define([
         }
     }
 
-    return [{
+    return {
         type    : 'TimelineChart',
         config  : {
             element     : '#chart',
@@ -84,6 +84,6 @@ define([
                 }
             }
         }
-    }];
+    };
 
 });
