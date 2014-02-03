@@ -355,7 +355,7 @@ class SheetItemList(generics.ListAPIView):
         # PERIODS: return contexts matching the given period(s).
         if periods:
             periods = [datetime.date(int(p), 1, 1) for p in periods.split(',')]
-            queryset = queryset.filter(sheet_period_start__in=periods)
+            queryset = queryset.filter(sheet__period_start__in=periods)
 
         return queryset
 
