@@ -91,23 +91,23 @@
     color: #d0d0dc;
 }
 
-#filters_search {
+#search_filter {
     background: url(../img/glass_blue.png) center no-repeat;
 }
-#filters_search_wrapper {
+#search_filter_wrapper {
     top: 0;
     left: 0;
 }
-#filters_search_menu li[data-prefix]:before {
+#search_filter_menu li[data-prefix]:before {
     content: attr(data-prefix);
 }
-#filters_search_menu li[data-prefix]:after {
+#search_filter_menu li[data-prefix]:after {
     content: '"';
 }
-#filters_search_menu li:first-child {
+#search_filter_menu li:first-child {
     border-bottom: 1px solid white;
 }
-#filters_search_menu_wrapper {
+#search_filter_menu_wrapper {
     left: 0;
     max-height: 320px;
     background-color: #d0d0dc;

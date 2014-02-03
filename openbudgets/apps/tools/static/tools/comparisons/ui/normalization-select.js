@@ -1,4 +1,7 @@
-define(function () {
+define([
+    'uijet_dir/uijet',
+    'composites/Select'
+], function (uijet) {
 
     function positionNormalizationMenu () {
         var height = this.$wrapper[0].offsetHeight,
