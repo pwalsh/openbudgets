@@ -1,0 +1,32 @@
+{
+  "name": "uijet",
+  "version": "0.0.33",
+  "main": [
+    "src/adapters",
+    "src/composites",
+    "src/mixins",
+    "src/modules",
+    "src/themes",
+    "src/widgets",
+    "src/uijet.css",
+    "src/uijet.js"
+  ],
+  "ignore": [
+    "boilerplates",
+    ".gitignore",
+    "LICENSE",
+    "README.md",
+    "volofile",
+    "package.json"
+  ],
+  "homepage": "https://github.com/ydaniv/uijet",
+  "_release": "0.0.33",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.0.33",
+    "commit": "f5846bb69d73cae0d9917f393f3db72c8ef31043"
+  },
+  "_source": "git://github.com/ydaniv/uijet.git",
+  "_target": "~0.0.30",
+  "_originalSource": "uijet"
+}

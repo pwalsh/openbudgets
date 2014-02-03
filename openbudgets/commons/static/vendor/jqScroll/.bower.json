@@ -1,0 +1,13 @@
+{
+  "name": "jqScroll",
+  "_cacheHeaders": {
+    "ETag": "\"416b56b2bf2edde001d05252d8416f7c\"",
+    "Content-Length": "35456",
+    "Content-Type": "text/html; charset=utf-8"
+  },
+  "_release": "e-tag:416b56b2b",
+  "main": "index",
+  "_source": "https://github.com/ydaniv/jqScroll/",
+  "_target": "*",
+  "_originalSource": "https://github.com/ydaniv/jqScroll/"
+}

@@ -1,0 +1,24 @@
+'use strict';
+
+module.exports = {
+    onAdd: function (d, v) {
+
+        if ( v.exists('src') ) {
+            v.rm('src');
+            v.rm('adaptabl.css');
+            v.rm('adaptabl.less');
+        }
+
+        v.mv('adaptabl/src', 'src');
+        v.mv('adaptabl/adaptabl.css', 'adaptabl.css');
+        v.mv('adaptabl/adaptabl.less', 'adaptabl.less');
+        v.rm('adaptabl');
+        v.rm('.gitignore');
+        v.rm('LICENSE');
+        v.rm('README.md');
+        v.rm('volofile');
+
+        d.resolve();
+
+    }
+};

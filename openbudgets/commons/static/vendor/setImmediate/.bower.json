@@ -1,0 +1,13 @@
+{
+  "name": "setImmediate",
+  "_cacheHeaders": {
+    "ETag": "\"2f4318676a77137ab1cffd14dac97a2e\"",
+    "Content-Length": "43261",
+    "Content-Type": "text/html; charset=utf-8"
+  },
+  "_release": "e-tag:2f4318676",
+  "main": "index",
+  "_source": "https://github.com/NobleJS/setImmediate/",
+  "_target": "*",
+  "_originalSource": "https://github.com/NobleJS/setImmediate/"
+}

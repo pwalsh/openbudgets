@@ -1,0 +1,35 @@
+{
+  "name": "spin",
+  "version": "1.1.2",
+  "main": [
+    "./javascripts/jquery.spin.js",
+    "./stylesheets/jquery.spin.css"
+  ],
+  "ignore": [
+    "**/*.sass",
+    "**/*.coffee",
+    "**/sample.*",
+    "**/rainbow.*",
+    "bourbon",
+    "neat",
+    "packages",
+    "images",
+    "Cakefile",
+    "Gemfile",
+    "Gemfile.*",
+    "index.*"
+  ],
+  "dependencies": {
+    "jquery": "latest"
+  },
+  "homepage": "https://github.com/ksylvest/jquery-spin",
+  "_release": "1.1.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.1.2",
+    "commit": "0ebe222a63e4b3c199f4845a2456648a79346bd7"
+  },
+  "_source": "git://github.com/ksylvest/jquery-spin.git",
+  "_target": "~1.1.2",
+  "_originalSource": "spin"
+}
