@@ -190,7 +190,7 @@ define([
         },
         getSheetId  : function (period) {
             return uijet.Resource('AllSheets')
-                        .findWhere({period: period}).id;
+                        .findWhere({period: +period}).id;
         }
     };
 
