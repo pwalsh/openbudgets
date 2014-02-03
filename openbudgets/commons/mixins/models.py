@@ -117,7 +117,7 @@ class PeriodicMixin(PeriodStartMixin):
 
         if len(ranges) == 1 and 'yearly' in ranges:
             if self.period_start:
-                value = self.period_start
+                value = self.period_start.year
         else:
             # TODO: Verify - in the current codebase, we should never get here.
             pass
