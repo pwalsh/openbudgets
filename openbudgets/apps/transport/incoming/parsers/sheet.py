@@ -320,8 +320,8 @@ class SheetParser(TemplateParser):
         summable_items = self.item_model.objects.filter(sheet=self.container_object,
                                                         node__parent__isnull=True,
                                                         node__direction='EXPENDITURE')
-        sheet_budget = sum([item.budget for item in summable_items])
-        sheet_actual = sum([item.actual for item in summable_items])
+        sheet_budget = sum([item.budget or 0 for item in summable_items])
+        sheet_actual = sum([item.actual or 0 for item in summable_items])
         self.container_object.budget = sheet_budget
         self.container_object.actual = sheet_actual
         self.container_object.save()
@@ -332,7 +332,20 @@ class SheetParser(TemplateParser):
 
         def _make_adder(attr):
             def _add(a, b):
-                return a + float(getattr(b, attr) or 0)
+                b_value = getattr(b, attr)
+                if a is None:
+                    if b_value is None:
+                        return None
+
+                    else:
+                        return float(b_value)
+
+                elif b_value is None:
+                    return a
+
+                else:
+                    return a + float(b_value)
+
             return _add
 
         for key, item in self.saved_cache.iteritems():
@@ -364,8 +377,8 @@ class SheetParser(TemplateParser):
             for key in keys:
                 children = children_lookup[key]
                 item = self.saved_cache[key]
-                item.budget = reduce(_make_adder('budget'), children, 0)
-                item.actual = reduce(_make_adder('actual'), children, 0)
+                item.budget = reduce(_make_adder('budget'), children, None)
+                item.actual = reduce(_make_adder('actual'), children, None)
                 item.save()
 
 
