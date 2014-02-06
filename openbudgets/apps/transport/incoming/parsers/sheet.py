@@ -201,11 +201,11 @@ class SheetParser(TemplateParser):
     def _clean_object(self, obj, key):
         super(SheetParser, self)._clean_object(obj, key)
 
-        if 'budget' not in obj or not obj['budget']:
-            obj['budget'] = 0.0
+        if 'budget' not in obj or obj['budget'] == '':
+            obj['budget'] = None
 
-        if 'actual' not in obj or not obj['actual']:
-            obj['actual'] = 0.0
+        if 'actual' not in obj or obj['actual'] == '':
+            obj['actual'] = None
 
     def _add_to_container(self, obj, key):
         if not self.dry:
