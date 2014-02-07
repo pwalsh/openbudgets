@@ -74,6 +74,9 @@ class SheetParser(TemplateParser):
                 obj[attr] = None
 
     def validate(self, data, keep_cache=False):
+        # do the sheet clean first
+        data = self.clean(data)
+
         if self.template_parser:
             template_valid, template_errors = self.template_parser.validate(data=deepcopy(data), keep_cache=True)
             self.skipped_rows = self.template_parser.skipped_rows
@@ -82,12 +85,18 @@ class SheetParser(TemplateParser):
             template_valid = False
             template_errors = []
 
-        valid, sheet_errors = super(SheetParser, self).validate(data)
+        # here we continue with the rest the `super` logic for `validate()`
+        # generate a lookup table with each item uniquely identified
+        self._generate_lookup(data)
+
+        self.keep_cache = keep_cache
+        # run a dry save of the data
+        self.save(dry=True)
 
         if self.template_parser:
             self.template_parser._clear_cache()
 
-        return template_valid and valid, sheet_errors + template_errors
+        return template_valid and self.valid, self.errors + template_errors
 
     def save(self, dry=False):
         template_saved = True
