@@ -1,0 +1,154 @@
+@import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
+
+a {
+    text-decoration: none;
+}
+p { margin:0 }
+body{
+    background: #ebebeb;
+	margin: 0;
+	padding: 0;
+	position:relative;
+}
+#header{
+    background: white;
+    position: relative;
+    height: 100px;
+}
+#headerContent{
+    position:relative; 
+	width:960px; height:80px;
+	background-image:url('/static/img/logo.png');
+	background-position: right;
+	background-repeat:no-repeat;
+	margin: auto;
+	top: 10px;
+}
+
+   #LayersContent{
+   position:relative;
+   margin-top: 40px;
+   }
+    #Layer1 {
+    background-image:url('/static/img/background1.jpg');
+    position:relative; width:960px; height:320px;
+	margin: 0 auto;
+	font-family: "Alef Hebrew";
+   font-size:36px;
+   line-height: 34px;
+   color: #fff;
+   direction: rtl;
+   }
+   #Layer1Large {
+   position:relative;
+   right: 15px;
+   top: 15px;
+   }
+   #Layer1Small {
+   font-family: "Alef Hebrew";
+   font-size:18px;
+   line-height: 18px;
+   color: #fff;
+   position:relative;
+   top: 80px;
+   right: 15px;
+   }
+   #Layer2 {
+    position:relative; width:960px; height:220px;
+	margin: 30px auto;
+   }
+   #about {
+   position:relative;
+   width:300px; height:220px;
+   background: #fff;
+   background-image:url('/static/img/about.png');
+   background-repeat: no-repeat;
+   background-position:134px 30px;
+   float: left;
+   margin-right: 30px;
+   }
+   #about:hover{
+   position:relative;
+   background: #ebebeb;
+   outline: 1px solid #fff;
+   background-repeat: no-repeat;
+   background-image:url('/static/img/about.png');
+   background-position:134px 30px;
+   }
+   #compare {
+   position:relative;
+   width:300px; height:220px;
+   background: #fff;
+   background-image:url('/static/img/compare.png');
+   background-repeat: no-repeat;
+   background-position:120px 30px;
+   float: left;
+   margin-right: 30px;
+   }
+ 
+   #compare:hover{
+   background: #ebebeb;
+   border-width:8px;
+   background-repeat: no-repeat;
+   background-image:url('/static/img/compare.png');
+   background-position:120px 30px;
+   outline: 1px solid #fff;
+   }
+   #explore {
+   position:relative;
+   width:300px; height:220px;
+   background: #fff;
+   background-image:url('/static/img/sayar.png');
+   background-repeat: no-repeat;
+   background-position:119px 30px;
+   float: left;
+   }
+   #explore:hover{
+   background: #ebebeb;
+   border-width:8px;
+   background-repeat: no-repeat;
+   background-image:url('/static/img/sayar.png');
+   background-position:119px 30px;
+   outline: 1px solid #fff;
+   }
+
+   #linkwrapper{
+	float: left;
+   }
+   
+.buttuntitle{
+   font-family: "Alef Hebrew";
+   font-size:24px;
+   line-height: 48px;
+   color: #000000;
+   position:relative;
+   top: 100px;
+   direction: rtl;
+   text-align: center
+   }
+   .buttuncontent{
+   font-family: "Alef Hebrew";
+   font-size:16px;
+   line-height: 18px;
+   color: #999;
+   position:relative;
+   top: 100px;
+   direction: rtl;
+   text-align: center
+   }
+   .layerfooter {
+
+   }
+
+footer {
+    position:relative; width:960px; height:20px;
+	margin: 30px auto;
+	font-family: "Alef Hebrew";
+   font-size:14px;
+   line-height: 16px;
+   color: #999;
+   direction: rtl;
+   position:relative;
+   }
+   footer p { display: inline }
+   
