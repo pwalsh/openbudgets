@@ -1,13 +1,13 @@
 {
   "name": "jqScroll",
-  "_cacheHeaders": {
-    "ETag": "\"416b56b2bf2edde001d05252d8416f7c\"",
-    "Content-Length": "35456",
-    "Content-Type": "text/html; charset=utf-8"
+  "homepage": "https://github.com/ydaniv/jqScroll",
+  "_release": "2c1d45c4c1",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "2c1d45c4c19a01a76be0e7073604eeb96b61a841"
   },
-  "_release": "e-tag:416b56b2b",
-  "main": "index",
-  "_source": "https://github.com/ydaniv/jqScroll/",
+  "_source": "git://github.com/ydaniv/jqScroll.git",
   "_target": "*",
-  "_originalSource": "https://github.com/ydaniv/jqScroll/"
+  "_originalSource": "ydaniv/jqScroll"
 }
