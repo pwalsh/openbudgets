@@ -74,6 +74,9 @@ class SheetParser(TemplateParser):
                 obj[attr] = None
 
     def validate(self, data, keep_cache=False):
+        # do the sheet clean first
+        data = self.clean(data)
+
         if self.template_parser:
             template_valid, template_errors = self.template_parser.validate(data=deepcopy(data), keep_cache=True)
             self.skipped_rows = self.template_parser.skipped_rows
@@ -82,12 +85,18 @@ class SheetParser(TemplateParser):
             template_valid = False
             template_errors = []
 
-        valid, sheet_errors = super(SheetParser, self).validate(data)
+        # here we continue with the rest the `super` logic for `validate()`
+        # generate a lookup table with each item uniquely identified
+        self._generate_lookup(data)
+
+        self.keep_cache = keep_cache
+        # run a dry save of the data
+        self.save(dry=True)
 
         if self.template_parser:
             self.template_parser._clear_cache()
 
-        return template_valid and valid, sheet_errors + template_errors
+        return template_valid and self.valid, self.errors + template_errors
 
     def save(self, dry=False):
         template_saved = True
@@ -124,6 +133,9 @@ class SheetParser(TemplateParser):
                 self._save_sheet_amounts()
 
             self.dry = False
+
+            self.template_parser.cleanup()
+            self.cleanup()
 
             return True
 
@@ -198,11 +210,11 @@ class SheetParser(TemplateParser):
     def _clean_object(self, obj, key):
         super(SheetParser, self)._clean_object(obj, key)
 
-        if 'budget' not in obj or not obj['budget']:
-            obj['budget'] = 0.0
+        if 'budget' not in obj or obj['budget'] == '':
+            obj['budget'] = None
 
-        if 'actual' not in obj or not obj['actual']:
-            obj['actual'] = 0.0
+        if 'actual' not in obj or obj['actual'] == '':
+            obj['actual'] = None
 
     def _add_to_container(self, obj, key):
         if not self.dry:
@@ -211,7 +223,7 @@ class SheetParser(TemplateParser):
     def _init_template_parser(self):
         container_dict_copy = deepcopy(self.container_object_dict)
 
-        #TODO: refactor this into a proper cleanup method
+        #TODO: refactor this into a proper clean method
         if 'template' in container_dict_copy:
             del container_dict_copy['template']
 
@@ -317,8 +329,8 @@ class SheetParser(TemplateParser):
         summable_items = self.item_model.objects.filter(sheet=self.container_object,
                                                         node__parent__isnull=True,
                                                         node__direction='EXPENDITURE')
-        sheet_budget = sum([item.budget for item in summable_items])
-        sheet_actual = sum([item.actual for item in summable_items])
+        sheet_budget = sum([item.budget or 0 for item in summable_items])
+        sheet_actual = sum([item.actual or 0 for item in summable_items])
         self.container_object.budget = sheet_budget
         self.container_object.actual = sheet_actual
         self.container_object.save()
@@ -329,7 +341,20 @@ class SheetParser(TemplateParser):
 
         def _make_adder(attr):
             def _add(a, b):
-                return a + float(getattr(b, attr) or 0)
+                b_value = getattr(b, attr)
+                if a is None:
+                    if b_value is None:
+                        return None
+
+                    else:
+                        return float(b_value)
+
+                elif b_value is None:
+                    return a
+
+                else:
+                    return a + float(b_value)
+
             return _add
 
         for key, item in self.saved_cache.iteritems():
@@ -361,8 +386,8 @@ class SheetParser(TemplateParser):
             for key in keys:
                 children = children_lookup[key]
                 item = self.saved_cache[key]
-                item.budget = reduce(_make_adder('budget'), children, 0)
-                item.actual = reduce(_make_adder('actual'), children, 0)
+                item.budget = reduce(_make_adder('budget'), children, None)
+                item.actual = reduce(_make_adder('actual'), children, None)
                 item.save()
 
 
