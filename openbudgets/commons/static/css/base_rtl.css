@@ -1283,7 +1283,7 @@ input.valid {
   padding-right: 0;
   padding-left: 10%;
 }
-/* @import "../../vendor/adaptabl/src/normalize"; */
+/* @import "../../vendor/adaptabl/adaptabl/src/normalize"; */
 /**********************/
 /* jqScroll overrides */
 /**********************/

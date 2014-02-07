@@ -2,7 +2,7 @@ requirejs.config({
     baseUrl : '/static/vendor',
     paths   : {
         jqscroll            : 'jqScroll/jqscroll',
-        'jquery.mousewheel' : 'jquery-mousewheel',
+        'jquery.mousewheel' : 'jquery-mousewheel/jquery.mousewheel',
         uijet_dir           : 'uijet',
         widgets             : 'uijet/widgets',
         composites          : 'uijet/composites',
