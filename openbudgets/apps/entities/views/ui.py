@@ -142,8 +142,8 @@ class EntityDetail(DetailView):
             context['scope_item_json'] = '{}'
             context['items_breadcrumbs'] = ''
             context['scope_item'] = {
-                'actual': commas_format(reduce(lambda x, y: x + y['actual'], items_list, 0)),
-                'budget': commas_format(reduce(lambda x, y: x + y['budget'], items_list, 0)),
+                'actual': commas_format(sheet.actual),
+                'budget': commas_format(sheet.budget),
                 'direction': '',
                 'code': ''
             }
