@@ -62,14 +62,14 @@ Execute the commands without it if you know you don't need it.
 Install::
 
     # required dependencies
-    sudo apt-get install python-dev python-pip postgresql postgresql-contrib postgresql-server-dev-all postgresql-devel mercurial git-core
+    sudo apt-get install python-dev python-pip postgresql postgresql-contrib postgresql-server-dev-all mercurial git-core
     sudo pip install virtualenv virtualenvwrapper
 
     # optional dependencies in development, required in production
     sudo apt-get install redis-server
 
     # optional dependencies
-    sudo apt-get install nodejs
+    sudo apt-get install nodejs npm
     sudo npm install -g volo bower less
 
 
@@ -83,9 +83,6 @@ Configure::
     export PROJECT_HOME="/home/{YOUR_USER}/projects"
     source /usr/local/bin/virtualenvwrapper.sh
     export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
-    export PIP_USE_MIRRORS=true
-    export PIP_INDEX_URL=https://simple.crate.io/
-
 
 Fedora
 ------
@@ -117,9 +114,6 @@ Configure::
     export PROJECT_HOME="/home/{YOUR_USER}/projects"
     source /usr/bin/virtualenvwrapper.sh
     export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
-    export PIP_USE_MIRRORS=true
-    export PIP_INDEX_URL=https://simple.crate.io/
-
 
 Mac OS X
 --------
@@ -181,9 +175,6 @@ Now, we need to configure the user's .bash_profile::
     export PROJECT_HOME="/Users/{YOUR_USER}/Sites/projects"
     source /usr/local/bin/virtualenvwrapper.sh
     export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
-    export PIP_USE_MIRRORS=true
-    export PIP_INDEX_URL=https://simple.crate.io/
-
 
 Windows
 -------
@@ -293,10 +284,10 @@ Here we go::
     mkvirtualenv {PROJECT_NAME}
 
     # Create a directory for our project code
-    mkdir /Users/{YOUR_USER}/Sites/projects/{PROJECT_NAME}
+    mkdir /Users/{YOUR_USER}/code/projects/{PROJECT_NAME}
 
     # Link our project code directory to our virtual environment
-    setvirtualenvproject /Users/{YOUR_USER}/Sites/environments/{PROJECT_NAME} /Users/{YOUR_USER}/Sites/projects/{PROJECT_NAME}
+    setvirtualenvproject /Users/{YOUR_USER}/code/environments/{PROJECT_NAME} /Users/{YOUR_USER}/code/projects/{PROJECT_NAME}
 
     # Move to the root of our project code directory
     cdproject
@@ -333,27 +324,24 @@ All the project dependencies are managed by pip. To get them, run the following 
     # when setting up for the first time:
     pip install -U -r requirements.txt
 
-    fab env.ensure
-
-    # Or, if you are working with Redis, do the following
-    fab env.ensure:extended=yes
-
+    # or, on subsequent tries, if you are using the project's fab tasks.
+    fab local.environ.ensure
 
 We are now ready to work on code.
 
 First, we'll do a sanity check to make sure we have everything we need. Run the following command::
 
-    fab sanity
+    fab local.sanity
 
 If you have an problems, the output of this command will tell you about them.
 
 Now, let's bootstrap the environment. Run the following commands::
 
     # create a database user for the project
-    fab db.createuser
+    fab local.db.createuser
 
     # build out the project
-    fab bootstrap:initial=yes,environment=yes mock
+    fab local.bootstrap:initial=yes,environment=yes mock
 
 An explanation of these commands, and others like it, can be found in the "Interacting with the project" section below.
 
@@ -589,7 +577,7 @@ By default, the process for working with data and getting it into the database i
 If you are working on an instance of Open Budgets that already has a populated data repository configured, simply run the following command to build out the database::
 
     fab dock.local.clone
-    fab local.bootstrap dock.local.pull fab dock.local.load
+    fab local.bootstrap dock.local.pull dock.local.load
 
 
 **Note:** Loading data like this can take a long time, **if** your dataset includes sheet data, due to the types of checks that run to validate data before it is written to the database. Be *very* patient.
@@ -598,9 +586,11 @@ Alternatively, the maintainers of your instance may take data snapshots that are
 
 For Open Muni Budgets, the Open Budgets project for Israel Municipalities, we keep such files publicly accessible here:
 
-https://drive.google.com/?authuser=0#folders/0B4JzAmQXH28mM2dtbmJlSDFyUm8
+https://drive.google.com/#folders/0B4JzAmQXH28mM2dtbmJlSDFyUm8
 
-Download the latest file, place it in the project's 'tmp' directory with the name db_dump.sql, and run the following command (ensure your database is clean before this, by running `fab local.bootstrap`)::
+Chose a recent directory based on the naming of the directory (DDMMYYYY), and download an appropriate .sql file to load into Postgresql.
+
+You can load the file via the psql clim or, place it in the project's 'tmp' directory with the name db_dump.sql, and run the following command (ensure your database is clean before this, by running `fab local.bootstrap`)::
 
     fab local.db.load
 
