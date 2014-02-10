@@ -120,7 +120,13 @@ define([
             },
             commas      : function () { 
                 return function (text, render) {
-                    return uijet.utils.formatCommas(render(text));
+                    var result = render(text);
+                    return result == null ? '' : uijet.utils.formatCommas(result);
+                };
+            },
+            is_empty    : function () {
+                return function (text, render) {
+                    return render(text) == '' ? ' empty' : '';
                 };
             }
         }),
@@ -168,8 +174,8 @@ define([
                     item.ancestors || (item.ancestors = []);
 
                     // convert to integers
-                    item.actual = item.actual | 0;
-                    item.budget = item.budget | 0;
+                    item.actual = item.actual == null ? item.actual : item.actual | 0;
+                    item.budget = item.budget == null ? item.budget : item.budget | 0;
 
                     item.direction = gettext(item.direction);
 

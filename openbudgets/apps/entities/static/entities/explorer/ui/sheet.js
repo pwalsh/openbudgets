@@ -68,26 +68,34 @@ define([
             return (flt).toPrecision((flt | 0).toString().length + 2);
         },
         footerContentHandler = function (scope_item_model) {
-            var roots, code = '', direction = '', budget = '', actual = '';
+            var roots, code = '', direction = '', budget, actual;
             if ( scope_item_model ) {
                 code = scope_item_model.get('code');
                 direction = scope_item_model.get('direction');
-                budget = formatCommas(scope_item_model.get('budget'));
-                actual = formatCommas(scope_item_model.get('actual'));
+                budget = scope_item_model.get('budget');
+                actual = scope_item_model.get('actual');
+
+                budget = budget == null ?
+                         '' :
+                         formatCommas(budget);
+
+                actual = actual == null ?
+                         '' :
+                         formatCommas(actual);
             }
             else if ( scope_item_model === null ) {
                 roots = uijet.Resource('LatestSheet').roots();
                 budget = formatCommas(
                     roots.length ?
                         roots.reduce(function (prev, current) {
-                            return (typeof prev == 'number' ? prev : prev.get('budget')) + current.get('budget');
+                            return (typeof prev == 'number' ? prev : prev.get('budget') | 0) + current.get('budget') | 0;
                         }) :
                         0
                 );
                 actual = formatCommas(
                     roots.length ?
                         roots.reduce(function (prev, current) {
-                            return (typeof prev == 'number' ? prev : prev.get('actual')) + current.get('actual');
+                            return (typeof prev == 'number' ? prev : prev.get('actual') | 0) + current.get('actual') | 0;
                         }) :
                         0
                 );
