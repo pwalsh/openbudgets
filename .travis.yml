@@ -7,8 +7,6 @@ before_script:
   - psql -c 'create database openbudgets;' -U postgres
 
 before_install:
-  - export PIP_USE_MIRRORS=true
-  - export PIP_INDEX_URL=https://simple.crate.io/
   - export CI=true
 
 install:
