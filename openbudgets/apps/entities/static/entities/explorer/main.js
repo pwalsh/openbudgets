@@ -10,6 +10,7 @@ requirejs.config({
         underscore             : 'underscore/underscore',
         mustache               : 'mustache/mustache',
         q                      : 'q/q',
+        spin                   : 'spin/javascripts/jquery.spin',
         setImmediate           : 'setImmediate/setImmediate',
         eventbox               : 'eventbox/eventbox',
         uijet_dir              : 'uijet/src',
