@@ -628,14 +628,20 @@ class TemplateParser(BaseParser):
 
     def _diff_template(self):
         print 'diffing'
-        #TODO: consider not declaring this tempalte as different if there are nodes left in parent cache
+        #TODO: consider not declaring this template as different if there are nodes left in parent cache
         # and instead, perhaps instantiate these also - maybe without an item? Or null amounts?
         #TODO: optimize process so container is only created at the end if it's different from its parent
         if not self.template_is_different and not len(self.parent_cache):
             print 'same'
+            # mark this template (container_object) for deletion on `cleanup()`
             # this should also delete all TemplateNodeRelations to this template
             self.cleanup(self.container_object)
-            # since all nodes already relate to the parent no need to do anything
+
+            #TODO: make this more generic and change `period_start/end` of `self.parent` according to the `container_object`
+            # for now assuming we import sequentially and just blindly set period_end
+            self.parent.period_end = self.container_object.period_end
+
+            # since all nodes already relate to the parent no need to do anything else
             self.container_object = self.parent
         else:
             print 'nodes left in parent %s' % len(self.parent_cache)

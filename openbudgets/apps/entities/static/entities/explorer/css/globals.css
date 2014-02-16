@@ -100,6 +100,10 @@ svg {
     content: '\20aa';
 }
 
+.amount.empty:before {
+    content: '---';
+}
+
 .modal, .modal input {
     font-size: 16px;
     line-height: 24px;

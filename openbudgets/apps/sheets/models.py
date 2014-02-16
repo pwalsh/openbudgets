@@ -765,18 +765,6 @@ class SheetItem(UUIDPKMixin, AbstractBaseItem, TimeStampedMixin, ClassMethodMixi
     def __unicode__(self):
         return self.node.code
 
-    def save(self, *args, **kwargs):
-
-        # SheetItem.parent is a proxy for TemplateNode.parent
-        # (where we'd have to make more complex queries to get the item's parent)
-        if self.node.parent and self.node.parent.items.filter(sheet=self.sheet).exists():
-            tmp = self.node.path.split(',')[1:]
-            parent_path = ','.join(tmp)
-            candidates = self.node.parent.items.filter(sheet=self.sheet)
-            self.parent = candidates.get(node__path=parent_path)
-
-        return super(SheetItem, self).save(*args, **kwargs)
-
 
 class SheetItemCommentManager(models.Manager):
 
