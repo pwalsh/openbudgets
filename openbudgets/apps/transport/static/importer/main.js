@@ -4,7 +4,7 @@ requirejs.config({
         jqscroll            : 'jqScroll/jqscroll',
         'jquery.mousewheel' : 'jquery-mousewheel/jquery.mousewheel',
         setImmediate        : 'setImmediate/setImmediate',
-        uijet_dir           : 'uijet',
+        uijet_dir           : 'uijet/src',
         composites          : 'uijet/src/composites',
         importer            : '../importer',
         ui                  : '../importer/ui',

@@ -1,7 +1,7 @@
 requirejs.config({
     baseUrl : '/static/vendor',
     paths   : {
-        uijet_dir       : 'uijet',
+        uijet_dir       : 'uijet/src',
         widgets         : 'uijet/src/widgets',
         composites      : 'uijet/src/composites',
         modules         : 'uijet/src/modules',
