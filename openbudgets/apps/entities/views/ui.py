@@ -107,8 +107,20 @@ class EntityDetail(DetailView):
         # format numbers in items_list
         for item in items_list:
             item['direction'] = _(item['direction'])
-            item['f_budget'] = commas_format(item['budget'])
-            item['f_actual'] = commas_format(item['actual'])
+            budget = item['budget']
+            actual = item['actual']
+
+            if budget is None:
+                item['f_budget_empty'] = True
+                item['f_budget'] = ''
+            else:
+                item['f_budget'] = commas_format(budget)
+
+            if actual is None:
+                item['f_actual_empty'] = True
+                item['f_actual'] = ''
+            else:
+                item['f_actual'] = commas_format(actual)
 
         context['items_list_json'] = renderer.render(items_list)
 
@@ -142,8 +154,8 @@ class EntityDetail(DetailView):
             context['scope_item_json'] = '{}'
             context['items_breadcrumbs'] = ''
             context['scope_item'] = {
-                'actual': commas_format(reduce(lambda x, y: x + y['actual'], items_list, 0)),
-                'budget': commas_format(reduce(lambda x, y: x + y['budget'], items_list, 0)),
+                'actual': commas_format(sheet.actual),
+                'budget': commas_format(sheet.budget),
                 'direction': '',
                 'code': ''
             }

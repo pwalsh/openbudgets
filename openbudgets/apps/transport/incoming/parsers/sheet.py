@@ -129,6 +129,7 @@ class SheetParser(TemplateParser):
                 for key, obj in self.objects_lookup.iteritems():
                     self._save_item(obj, key)
 
+                # post save
                 self._save_amounts()
                 self._save_sheet_amounts()
 
@@ -386,6 +387,12 @@ class SheetParser(TemplateParser):
             for key in keys:
                 children = children_lookup[key]
                 item = self.saved_cache[key]
+
+                for child in children:
+                    # set the item's parent for all children
+                    child.parent = item
+                    child.save()
+
                 item.budget = reduce(_make_adder('budget'), children, None)
                 item.actual = reduce(_make_adder('actual'), children, None)
                 item.save()
