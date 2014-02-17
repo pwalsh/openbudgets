@@ -1,4 +1,4 @@
-staging_settings = """### Generated via Fabric on ${timestamp}
+deploy_settings = """### Generated via Fabric on ${timestamp}
 from ${project_name}.settings import *
 
 
