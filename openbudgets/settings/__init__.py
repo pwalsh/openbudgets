@@ -369,9 +369,9 @@ IMPORT_PRIORITY = ['slug',
 IMPORT_SEPARATOR = ':'
 
 
-# if we are on staging, we should have a settings.staging module to load.
+# if we are on a deploy env, we should have a settings.deploy module to load.
 try:
-    from .staging import *
+    from .deploy import *
 except ImportError:
     # if we are on local, we accept overrides in a settings.local module.
     # For safety, we only try to load settings.local if settings.production
