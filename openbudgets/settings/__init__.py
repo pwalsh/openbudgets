@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     'registration',
     'rest_framework',
     'modeltranslation',
+    'raven.contrib.django.raven_compat',
     'taggit',
     'django_gravatar',
     'openbudgets.apps.accounts',
@@ -282,8 +283,6 @@ EMAIL_HOST_USER = ''
 
 EMAIL_HOST_PASSWORD = ''
 
-SENTRY_DSN = ''
-
 ADMINS = (('', ''),)
 
 MANAGERS = ADMINS
@@ -313,6 +312,10 @@ CACHE_MIDDLEWARE_SECONDS = 604800
 CACHE_MIDDLEWARE_KEY_PREFIX = 'openbudgets::'
 
 SOUTH_TESTS_MIGRATE = False
+
+RAVEN_CONFIG = {
+    'dsn': '',
+}
 
 OPENBUDGETS_TEMP_DIR = os.path.abspath(
     os.path.join(os.path.dirname(PROJECT_ROOT), 'tmp'))
