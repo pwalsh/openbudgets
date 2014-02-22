@@ -23,6 +23,7 @@ LOCAL = {
     'project_allowed_hosts': [''],
     'project_cookie_domain': '',
     'secret_key': '',
+    'proxy_template': '',
 
     'app_wsgi': '',
 
