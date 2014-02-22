@@ -67,7 +67,7 @@ STAGING = {
     'machine_location': '23.236.57.59',
     'machine_port': 80,
     'db_machine_location': '108.59.81.226',
-    'cache_machine_location': '108.59.81.226',
+    'cache_private_network_location': '10.240.17.206',
     'db_private_network_location': '10.240.218.108',
     'db_machine_port': 5432,
     'initial_data': ['staging/sites'],

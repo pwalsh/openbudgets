@@ -25,7 +25,7 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.RedisCache',
-        'LOCATION': ${cache_machine_location} + ':' + str(REDIS['PORT']),
+        'LOCATION': '${cache_private_network_location}' + ':' + str(REDIS['PORT']),
         'OPTIONS': {
             'DB': REDIS['DB'],
             'PARSER_CLASS': 'redis.connection.HiredisParser'
