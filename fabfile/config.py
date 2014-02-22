@@ -37,7 +37,7 @@ LOCAL = {
     'db_dump_file': settings.OPENBUDGETS_TEMP_DIR + '/db_dump.sql',
 
     # email server
-    'email_user': 'contact@openmuni.org.il',
+    'email_host_user': 'contact@openmuni.org.il',
 
     # code repository
     'repository_location': 'https://github.com/hasadna/openmuni-budgets',
@@ -56,7 +56,7 @@ STAGING_PROJECTS = '/srv/projects'
 STAGING_PROJECT_DIR = '/openbudgets'
 
 STAGING = {
-    'email_host_user': 'hello@prjts.com',
+    'email_host_user': 'contact@openmuni.org.il',
     'roledefs': {'default': ['23.236.57.59'],
                  'app': ['23.236.57.59'],
                  'proxy': ['23.236.57.59'],
@@ -67,6 +67,7 @@ STAGING = {
     'machine_location': '23.236.57.59',
     'machine_port': 80,
     'db_machine_location': '108.59.81.226',
+    'cache_machine_location': '108.59.81.226',
     'db_private_network_location': '10.240.218.108',
     'db_machine_port': 5432,
     'initial_data': ['staging/sites'],
