@@ -120,7 +120,6 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     'oauth2_provider',
     'corsheaders',
-    'gunicorn',
     'south',
     'djcelery',
     'kombu.transport.django',
