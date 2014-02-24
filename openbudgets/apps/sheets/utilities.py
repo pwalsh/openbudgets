@@ -5,5 +5,5 @@ def is_comparable():
 
     """Sets the value of TemplateNode.comparable to True or False."""
 
-    value = settings.OPENBUDGETS_COMPARABLE_TEMPLATENODE__DEFAULT
+    value = settings.OPENBUDGETS_COMPARABLE_TEMPLATENODE_DEFAULT
     return value
