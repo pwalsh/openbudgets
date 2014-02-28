@@ -1,4 +1,6 @@
 from openbudgets.apps.entities import factories
+from openbudgets.apps.contexts.factories import Context
+from openbudgets.apps.sheets.factories import Sheet
 from openbudgets.commons import tests
 
 
@@ -9,6 +11,8 @@ class EntityUITestCase(tests.OpenBudgetsUITestCase):
 
     def setUp(self):
         self.object = factories.Entity.create()
+        self.entity_context = Context.create(entity=self.object)
+        self.entity_sheet = Sheet.create(entity=self.object)
 
     def test_listview(self):
         return EntityUITestCase.listview(self)
