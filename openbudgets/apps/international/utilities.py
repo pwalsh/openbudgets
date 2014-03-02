@@ -1,9 +1,5 @@
 from django.conf import settings
 from modeltranslation.translator import translator
-from modeltranslation.models import autodiscover
-
-# REQUIRED for celery to work!!
-autodiscover()
 
 
 def get_language_key(host, domain, user):

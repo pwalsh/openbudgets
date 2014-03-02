@@ -121,8 +121,6 @@ INSTALLED_APPS = (
     'oauth2_provider',
     'corsheaders',
     'south',
-    'djcelery',
-    'kombu.transport.django',
     'subdomains',
     'registration',
     'rest_framework',
@@ -262,17 +260,6 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken'
 )
 
-import djcelery
-
-djcelery.setup_loader()
-
-BROKER_URL = 'django://'
-
-CELERY_RESULT_BACKEND = 'database'
-
-CELERY_RESULT_DBURI = os.path.abspath(os.path.join(
-    os.path.dirname(PROJECT_ROOT), 'celery.db'))
-
 EMAIL_USE_TLS = True
 
 EMAIL_HOST = 'smtp.gmail.com'
@@ -313,9 +300,7 @@ CACHE_MIDDLEWARE_KEY_PREFIX = 'openbudgets::'
 
 SOUTH_TESTS_MIGRATE = False
 
-RAVEN_CONFIG = {
-    'dsn': '',
-}
+RAVEN_CONFIG = {'dsn': ''}
 
 OPENBUDGETS_TEMP_DIR = os.path.abspath(
     os.path.join(os.path.dirname(PROJECT_ROOT), 'tmp'))
@@ -362,13 +347,6 @@ OPENBUDGETS_SETTING = {
     'notes': 'This is the Budget and the Actual of',
     'owner_org': 'israel-municipalities'
 }
-
-IMPORT_PRIORITY = ['slug',
-                    'name',
-                    'id'
-]
-
-IMPORT_SEPARATOR = ':'
 
 
 # if we are on a deploy env, we should have a settings.deploy module to load.

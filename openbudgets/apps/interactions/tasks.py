@@ -1,9 +1,9 @@
-import datetime
-from django.core.mail import send_mail
-from celery.task import task
+# import datetime
+# from django.core.mail import send_mail
+# from celery import shared_task
 
 
-#@task(name="tasks.send_notification")
+#@shared_task(name="tasks.send_notification")
 #def send_notification():
 #
 #    subject = ''

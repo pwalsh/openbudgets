@@ -2,13 +2,10 @@ from django.contrib import admin
 from grappelli_modeltranslation.admin import TranslationAdmin, \
     TranslationStackedInline
 from openbudgets.apps.sheets.models import Template, Sheet, SheetItem
-from openbudgets.apps.sources.admin import ReferenceSourceInline, AuxSourceInline
 
 
 class TemplateAdmin(TranslationAdmin):
     """Admin form for adding budget templates"""
-
-    inlines = [ReferenceSourceInline, AuxSourceInline]
 
 
 class SheetItemInline(TranslationStackedInline):
@@ -24,7 +21,7 @@ class SheetItemInline(TranslationStackedInline):
 class SheetAdmin(TranslationAdmin):
     """Admin form for adding budgets"""
 
-    inlines = [SheetItemInline, ReferenceSourceInline, AuxSourceInline]
+    inlines = [SheetItemInline]
 
 
 admin.site.register(Template, TemplateAdmin)

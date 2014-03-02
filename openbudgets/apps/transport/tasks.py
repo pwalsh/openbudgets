@@ -1,11 +1,11 @@
 from django.conf import settings
 from django.core.mail import send_mail
 from django.utils.translation import ugettext as _
-from celery.task import task
+from celery import shared_task
 from openbudgets.apps.transport.incoming.parsers import get_parser
 
 
-@task(name='tasks.save_import')
+@shared_task
 def save_import(deferred, email):
 
     from openbudgets.apps.transport.incoming.importers.tablibimporter import \
