@@ -1,4 +1,4 @@
-deploy_settings = """### Generated via Fabric on ${timestamp}
+deploy = """### Generated via Fabric on ${timestamp}
 from ${project_name}.settings import *
 
 
@@ -40,18 +40,5 @@ EMAIL_HOST_PASSWORD = '${email_host_password}'
 ADMINS = (('Paul Walsh', 'paulywalsh@gmail.com'),
           ('Ido Ivri', 'idoivri@gmail.com'),)
 
-
-"""
-
-
-circus = """### Generated via Fabric on ${timestamp}
-[watcher:openbudgets-app]
-cmd = /srv/environments/openbudgets/bin/chaussette --fd $(circus.sockets.openbudgets-app) --backend meinheld openbudgets.wsgi:application
-numprocesses = 4
-use_sockets = True
-
-[socket:openbudgets-app]
-host = 127.0.0.1
-port = 9000
 
 """

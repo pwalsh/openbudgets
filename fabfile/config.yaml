@@ -1,0 +1,68 @@
+local: &LOCAL
+  project_name: openbudgets
+  project_root:
+  project_env:
+  project_initial_data:
+    - local/sites
+  project_allowed_hosts:
+  project_cookie_domain:
+  project_secret_key:
+  #project_packages: openbudgets.settings.INSTALLED_APPS
+  project_config_file: /srv/projects/openbudgets/openbudgets/settings/local.py
+  project_config_template: fabfile.templates.local
+  app_instance: openbudgets.wsgi:application
+  repository_location: https://github.com/hasadna/openmuni-budgets
+  repository_branch: develop
+  db_name: openbudgets
+  workon: workon openbudgets
+
+staging: &STAGING
+  <<: *LOCAL
+  roledefs:
+    default:
+      - 23.236.57.59
+    app:
+      - 23.236.57.59
+    proxy:
+      - 23.236.57.59
+    cache:
+      - 23.236.57.59
+    queue:
+      - 23.236.57.59
+    db:
+      - 108.59.81.226
+  project_root: /srv/projects/openbudgets
+  project_env: /srv/environments/openbudgets
+  project_allowed_hosts:
+    - staging.openmuni.org.il
+  project_cookie_domain: openmuni.org.il
+  project_initial_data:
+    - staging/sites
+  project_config_file: /srv/projects/openbudgets/openbudgets/settings/deploy.py
+  project_config_template: fabfile.templates.deploy
+  proxy_accesslog: /srv/logs/proxy_access.log
+  proxy_errorlog: /srv/logs/proxy_error.log
+  app_accesslog: /srv/logs/app_access.log
+  app_errorlog: /srv/logs/app_error.log
+  queue_accesslog: /srv/logs/queue_access.log
+  queue_errorlog: /srv/logs/queue_error.log
+  cache_accesslog: /srv/logs/cache_access.log
+  cache_errorlog: /srv/logs/cache_error.log
+  db_location: 10.240.218.108
+  db_port: 5432
+
+master:
+  <<: *STAGING
+  roledefs:
+    default:
+      -
+    app:
+      -
+    proxy:
+      -
+    cache:
+      -
+    queue:
+      -
+    db:
+      -
