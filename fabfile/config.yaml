@@ -12,7 +12,7 @@ local: &LOCAL
   project_config_template: fabfile.templates.local
   app_instance: openbudgets.wsgi:application
   queue_instance: openbudgets.queue:app
-  repository_location: https://github.com/prjts/openbudgets
+  repository_location: https://bitbucket.org/pwalsh/openbudgets
   repository_branch: develop
   db_name: openbudgets
   db_dump_file: ./tmp/db_dump.sql
