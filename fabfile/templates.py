@@ -1,6 +1,7 @@
 deploy = """### Generated via Fabric on ${timestamp}
 from ${project_name}.settings import *
 
+DEBUG = False
 
 ALLOWED_HOSTS = ${project_allowed_hosts}
 
