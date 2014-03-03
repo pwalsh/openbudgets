@@ -8,19 +8,19 @@ local: &LOCAL
   project_cookie_domain:
   project_secret_key:
   #project_packages: openbudgets.settings.INSTALLED_APPS
-  project_config_file: /srv/projects/openbudgets/openbudgets/settings/local.py
+  project_config_file: ./openbudgets/settings/local.py
   project_config_template: fabfile.templates.local
   app_instance: openbudgets.wsgi:application
-  repository_location: https://github.com/hasadna/openmuni-budgets
+  queue_instance: openbudgets.queue:app
+  repository_location: https://github.com/prjts/openbudgets
   repository_branch: develop
   db_name: openbudgets
+  db_dump_file: ./tmp/db_dump.sql
   workon: workon openbudgets
 
 staging: &STAGING
   <<: *LOCAL
   roledefs:
-    default:
-      - 23.236.57.59
     app:
       - 23.236.57.59
     proxy:
@@ -42,8 +42,10 @@ staging: &STAGING
   project_config_template: fabfile.templates.deploy
   proxy_accesslog: /srv/logs/proxy_access.log
   proxy_errorlog: /srv/logs/proxy_error.log
+  app_config_file: ./config/app.py
   app_accesslog: /srv/logs/app_access.log
   app_errorlog: /srv/logs/app_error.log
+  queue_config_file: ./config/queue.py
   queue_accesslog: /srv/logs/queue_access.log
   queue_errorlog: /srv/logs/queue_error.log
   cache_accesslog: /srv/logs/cache_access.log
@@ -54,15 +56,16 @@ staging: &STAGING
 master:
   <<: *STAGING
   roledefs:
-    default:
-      -
     app:
-      -
+      - 23.251.149.127
     proxy:
-      -
+      - 23.251.149.127
     cache:
-      -
+      - 23.251.149.127
     queue:
-      -
+      - 23.251.149.127
     db:
-      -
+      - 108.59.85.161
+  project_cookie_domain: openmuni.org.il
+  project_initial_data:
+    - master/sites

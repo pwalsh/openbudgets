@@ -18,7 +18,8 @@ coverage
 sphinx
 raven
 ckanclient
-quilt==0.2-alpha
+#quilt==0.2.0-alpha
+git+https://github.com/pwalsh/quilt#egg=quilt
 django-modeltranslation
 django-grappelli==2.4.8
 grappelli-modeltranslation
