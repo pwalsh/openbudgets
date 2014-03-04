@@ -25,14 +25,18 @@ class EntityBase(serializers.HyperlinkedModelSerializer):
 
     """The default serialized representation of entities."""
 
+    def __init__(self, *args, **kwargs):
+        super(EntityBase, self).__init__(*args, **kwargs)
+        from openbudgets.apps.sheets.serializers import SheetMin
+        self.fields['sheets'] = SheetMin(many=True)
+
     parent = EntityMin()
     division = DivisionMin()
 
     class Meta:
         model = models.Entity
         fields = ['id', 'url', 'name', 'description', 'code', 'parent',
-                  'division', 'sheets', 'created_on', 'last_modified']\
-                 + translated_fields(model)
+                  'division', 'created_on', 'last_modified'] + translated_fields(model)
 
 
 class DivisionBase(serializers.HyperlinkedModelSerializer):
