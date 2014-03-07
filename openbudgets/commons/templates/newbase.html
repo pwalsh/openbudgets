@@ -1,0 +1,131 @@
+{% load i18n subdomainurls international %}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}">
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        {% multilingual_meta request.get_full_path %}
+        {% block meta %}
+
+        {% endblock meta %}
+
+        <title>{% block metatitle %}{{ page.title }} | {{ site.name }}{% endblock metatitle %}</title>
+
+        <base href="{{ site.url }}" />
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/newbase_{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}.css" />
+        {% block stylesheets %}
+
+        {% endblock stylesheets %}
+
+        <!--link rel="apple-touch-icon-precomposed" media="screen and (resolution: 163dpi)" href="{{ STATIC_URL }}skin/img/icon-57.png" />
+        <link rel="apple-touch-icon-precomposed" media="screen and (resolution: 132dpi)" href="{{ STATIC_URL }}skin/img/icon-72.png" />
+        <link rel="apple-touch-icon-precomposed" media="screen and (resolution: 326dpi)" href="{{ STATIC_URL }}skin/img/icon-114.png" /-->
+        <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico" />
+
+        {% block js_head %}
+        <script src="//cdnjs.cloudflare.com/ajax/libs/raven.js/1.0.8/raven.min.js"></script>
+        {% endblock js_head %}
+    </head>
+    <body class="{{ LANGUAGE_CODE }}{% if LANGUAGE_BIDI %} rtl{% else %} ltr{% endif %}">
+
+<div id="header">
+
+<div id="headerContent">
+
+</div>
+
+</div>
+
+<div id="LayersContent">
+
+<div id="Layer1" >
+
+<div id="Layer1Large" >
+
+<p> התקציב המקומי הפתוח מאפשר לחקור את התקציב ברשויות המקומיות בישראל, לבצע מעקב אחרי סעיפים מסוימים לאורך זמן, ולהשוות היקפי תקצוב או ביצוע בפועל בין רשויות שונות.</p>
+
+<br>
+<p> בסיס הנתונים עליו מבוסס הפרוייקט, מגיע מהרשויות עצמן, ואנו שואפים להנגישו באופן חופשי, פתוח ומתעדכן.</p>
+
+</div>
+
+<div id="Layer1Small" >
+
+<p> "תקציב מקומי פתוח" הוא פרויקט משותף של הסדנא לידע ציבורי, המכון הישראלי לדמוקרטיה ו- Google ישראל. </p>
+
+</div>
+
+</div>
+
+<div id="Layer2" >
+
+
+<a href="{% url 'page' slug='about' %}">
+
+<div id="about" >
+
+		<div class="buttuntitle"><p>אודות הפרוייקט</p></div>
+		<div class="buttuncontent"><p>מי אנחנו? מה האג'נדה שלנו?</p><p>איך מצטרפים אלינו?</p></div>
+
+</div>
+
+</a>
+
+<a href="../tools/comparisons">
+
+<div id="compare" >
+
+<div class="buttuntitle">
+<p>השוואת תקציבים</p>
+</div>
+
+<div class="buttuncontent">
+<p>מאפשר לכם להשוות</p>
+<p> סעיפי תקציב בין עיריות שונות</p>
+</div>
+
+</div>
+
+</a>
+
+<a href="{% url 'entity_list' %}">
+
+<div id="explore" >
+
+<div class="buttuntitle">
+<p>סייר התקציבים</p>
+</div>
+
+<div class="buttuncontent">
+<p>מאפשר לכם לראות את סעיפי התקציב</p>
+<p>של כל רשות לאורך השנים</p>
+</div>
+
+</div>
+
+</a>
+
+</div>
+
+</div>
+
+
+<footer >
+
+<div id="linkwrapper">
+
+<a href="{% url 'page' slug='contact' %}"><p>יצירת קשר&nbsp;&nbsp;&nbsp;</p></a>
+
+<a href="{% url 'page' slug='terms' %}"><p>תנאי השימוש&nbsp;&nbsp;&nbsp;</p></a>
+
+<a href="http://www.hasadna.org.il/"><p>מבית "הסדנא לידע ציבורי"</p></a>
+</div>
+</footer>
+
+    </body>
+</html>
