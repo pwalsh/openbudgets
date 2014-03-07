@@ -14,6 +14,13 @@
     color: #aaaac0;
     background-color: transparent;
 }
+
+.legend_item .entity {
+    color: #8989a8;
+    font-size: 0.9rem;
+    line-height: 1.2rem;
+}
+
 .legend_item_color {
     content: '';
     display: block;
@@ -68,9 +75,9 @@
 .legend_item .uijet_contenteditable_input {
     height: auto;
     padding: 0;
-    font-size: .9rem;
-    line-height: 1.2rem;
-    color: #8989a8;
+    font-size: 1.2rem;
+    line-height: 1.4rem;
+    color: #141452;
     font-weight: bold;
     border: none;
     outline: none;
