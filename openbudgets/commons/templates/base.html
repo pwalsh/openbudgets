@@ -95,6 +95,9 @@
         <script src="{{ STATIC_URL }}vendor/jqScroll/jqscroll.js"></script>
         <script src="{{ STATIC_URL }}js/base.js"></script>
         <script src="{{ STATIC_URL }}src/pages.js"></script>
+
         {% endblock js_body %}
+
+        {% include 'accounts/partials/_analytics.html' %}
     </body>
 </html>
