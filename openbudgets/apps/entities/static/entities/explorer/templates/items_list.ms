@@ -13,19 +13,19 @@
 {{/stache}}
 
 {{^stache}}
-{{#.}}
-{{#attributes}}
-<li data-id="{{node}}" data-item="{{id}}" {{#leaf_item}}data-leaf{{/leaf_item}}>
-    <span class="item_cell item_cell_type"></span><span
-    class="item_cell item_cell_code">{{code}}</span><span
-    class="item_cell item_cell_name">{{name}}</span><span
-    class="item_cell item_cell_direction">{{direction}}</span><span
-    class="item_cell item_cell_budget amount{{#is_empty}}{{budget}}{{/is_empty}}">{{#commas}}{{budget}}{{/commas}}</span><span
-    class="item_cell item_cell_actual amount{{#is_empty}}{{actual}}{{/is_empty}}">{{#commas}}{{actual}}{{/commas}}</span><span
-    class="item_cell item_cell_comment"><span class="td_filler">
-        <span class="item_comment_button {{#has_comments}}has_comments{{/has_comments}}">{{comment_count}}</span>
-    </span></span>
-</li>
-{{/attributes}}
-{{/.}}
+{{#LatestSheet}}
+    {{#attributes}}
+        <li data-id="{{node}}" data-item="{{id}}" {{#leaf_item}}data-leaf{{/leaf_item}}>
+            <span class="item_cell item_cell_type"></span><span
+            class="item_cell item_cell_code">{{code}}</span><span
+            class="item_cell item_cell_name">{{name}}</span><span
+            class="item_cell item_cell_direction">{{direction}}</span><span
+            class="item_cell item_cell_budget amount{{#is_empty}}{{budget}}{{/is_empty}}">{{#commas}}{{budget}}{{/commas}}</span><span
+            class="item_cell item_cell_actual amount{{#is_empty}}{{actual}}{{/is_empty}}">{{#commas}}{{actual}}{{/commas}}</span><span
+            class="item_cell item_cell_comment"><span class="td_filler">
+                <span class="item_comment_button {{#has_comments}}has_comments{{/has_comments}}">{{comment_count}}</span>
+            </span></span>
+        </li>
+    {{/attributes}}
+{{/LatestSheet}}
 {{/stache}}

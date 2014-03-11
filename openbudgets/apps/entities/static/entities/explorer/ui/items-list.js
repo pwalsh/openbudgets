@@ -69,14 +69,52 @@ define([
                     if ( this.last_request && this.last_request.state() == 'pending' ) {
                         this.last_request.abort();
                     }
+                    else {
+                        this.spin();
+                    }
                     this.last_request = xhr;
                 },
-                reset               : function () {
-                    this.has_data = true;
-                    delete this.$original_children;
+                sync                : function (resource, response) {
+                    var scope_changed = this.scope_changed,
+                        search_result;
 
-                    if (window.ITEM.id)
-                        this.resource.add(window.ITEM);
+//                    this.index();
+
+                    // after we had to reset because of sheet change make sure we turn reset off again
+                    if ( this.options.fetch_options.reset ) {
+                        this.options.fetch_options.reset = false;
+                    }
+
+                    if ( this.search_active ) {
+                        search_result = uijet.Resource('ItemsSearchResult');
+                        search_result.reset(response.results);
+                        this.setContext({
+                            filtered: search_result.byAncestor(this.scope),
+                            filter  : null
+                        });
+                    }
+                    else {
+                        this.setContext({
+                            filter      : 'byParent',
+                            filter_args : [this.scope] 
+                        });
+                    }
+
+                    if ( scope_changed ) {
+                        this.scope_changed = false;
+                        this._publishScope();
+                    }
+
+                    if ( this.sheet_changed ) {
+                        this.sheet_changed = false;
+                        scope_changed || this.publish('sheet_changed', null);
+                    }
+
+                    this.spinOff();
+                },
+                error               : 'spinOff',
+                reset               : function () {
+                    delete this.$original_children;
                 },
                 sort                : function () {
                     uijet.Resource('ItemsListState').set('comments_item', null);
@@ -103,24 +141,29 @@ define([
 
                     this.scope = window.ITEM.node || null;
                     this.resource.reset(this.resource.parse(window.ITEMS_LIST));
+                    if (window.ITEM.id) {
+                        this.resource.add(window.ITEM);
+                    }
+                    // needed for highlighting search terms in results
                     this.index();
 
                     this.options.fetch_options.data.sheets = state_model.get('sheet');
                     
                     this.listenTo(state_model, 'change', function (model, options) {
                         var changed = model.changedAttributes(),
-                            search = null,
+                            fetch_ops_data = this.options.fetch_options.data,
+                            search = model.get('search') || null,
                             sheet, scope,
-                            prev, prev_sheets, prev_sheet;
+                            prev, prev_sheets, prev_sheet, cached_sheet;
 
                         if ( ! changed )
                             return;
 
                         if ( 'search' in changed ) {
-                            search = model.get('search');
                             if ( ! search ) {
                                 prev = state_model.previous('search');
                                 if ( ! prev ) {
+                                    // clean search to be `null` instead of empty string
                                     state_model.set('search', null, { silent : true });
                                     return;
                                 }
@@ -156,94 +199,58 @@ define([
                             return;
                         }
 
-                        this._finally().wake({
-                            sheets  : sheet,
-                            search  : search,
-                            scope   : scope === void 0 ? model.get('scope') : scope || null
-                        });
+                        // reset scope
+                        scope = scope === void 0 ?
+                                model.get('scope') :
+                                scope || null;
+
+                        if ( sheet ) {
+                            if ( cached_sheet = prev_sheets.get(sheet) ) {
+                                this.setResource(cached_sheet.get('items'));
+                                scope = scope === -1 ?
+                                    this.resource.findWhere({ node : state_model.get('node') }).get('node') :
+                                    scope;
+                            }
+                            else {
+                                this.setResource(new resources.Items());
+                            }
+                        }
+
+                        // if for some reason scope is still unknown reset it to `null`
+                        if ( scope === -1 ) {
+                            scope = null;
+                        }
+
+                        this.search_active = !!search;
+
+                        delete this.getContext().filtered;
+
+                        if ( sheet ) {
+                            this.sheet_changed = true;
+                            fetch_ops_data.sheets = sheet;
+                        }
+
+                        if ( search ) {
+                            fetch_ops_data.search = search;
+                            delete fetch_ops_data.node_parents;
+                        }
+                        else {
+                            delete fetch_ops_data.search;
+                            fetch_ops_data.node_parents = (typeof scope == 'undefined' ? this.scope : scope) || 'none';
+                        }
+
+                        this.setScope(scope);
+
+                        this._finally()
+                            .resource.fetch(this.options.fetch_options)
+                            .then(this.wake.bind(this, {scope: scope}));
                     });
                 },
                 pre_wake        : function () {
-                    // usually on first load when there's no context, just bail out
-                    if ( ! this.context ) return false;
-
-                    var state = uijet.Resource('ItemsListState'),
-                        undef = void 0,
-                        scope = 'scope' in this.context ? this.context.scope || null : undef,
-                        sheet = this.context.sheets,
-                        search = this.context.search || state.get('search'),
-                        fetch_ops_data = this.options.fetch_options.data,
-                        prev_sheet;
-
-                    if ( sheet ) {
-                        if ( prev_sheet = uijet.Resource('PreviousSheets').get(sheet) ) {
-                            this.resource = prev_sheet.get('items');
-                            // register current collection as the new instance
-                            uijet.Resource('LatestSheet', this.resource, true);
-                            scope = scope === -1 ?
-                                this.resource.findWhere({ node : state.get('node') }).get('node') :
-                                scope;
-                        }
-                        else {
-                            // instantiate a new collection
-                            this.resource = new resources.Items();
-                            // register it
-                            uijet.Resource('LatestSheet', this.resource, true);
-                        }
+                    // usually on first load context is empty, just bail out
+                    if ( ! ('scope' in this.getContext()) ) {
+                        return false;
                     }
-                    // if for some reason scope is still unknown reset it to `null`
-                    if ( scope === -1 ) {
-                        scope = null;
-                    }
-
-                    this.search_active = !!search;
-
-                    delete this.filtered;
-                    this.has_data = false;
-
-                    if ( sheet ) {
-                        this.sheet_changed = true;
-                        fetch_ops_data.sheets = sheet;
-                    }
-
-                    if ( search ) {
-                        fetch_ops_data.search = search;
-                        delete fetch_ops_data.node_parents;
-                    }
-                    else {
-                        delete fetch_ops_data.search;
-                        fetch_ops_data.node_parents = (scope === undef ? this.scope : scope) || 'none';;
-                    }
-
-                    // set scope if it's defined in the context
-                    scope !== undef && this.setScope(scope);
-                },
-                pre_update      : 'spin',
-                post_fetch_data : function (response) {
-                    var scope_changed = this.scope_changed;
-                    // after we had to reset because of sheet change make sure turn reset off again
-                    if ( this.options.fetch_options.reset ) {
-                        this.options.fetch_options.reset = false;
-                    }
-                    if ( this.search_active ) {
-                        this.filter(uijet.Resource('ItemsSearchResult')
-                            .reset(response.results)
-                            .byAncestor(this.scope));
-                    }
-                    else {
-                        this.filter(this.resource.byParent, this.scope);
-                    }
-
-                    if ( scope_changed ) {
-                        this.scope_changed = false;
-                        this._publishScope();
-                    }
-                    if ( this.sheet_changed ) {
-                        this.sheet_changed = false;
-                        scope_changed || this.publish('sheet_changed', null);
-                    }
-
-                    this.spinOff();
                 },
                 post_render     : function () {
                     this.$children = this.$element.children();

@@ -1,6 +1,7 @@
 requirejs.config({
     baseUrl : window.BASE_URL + 'vendor',
     paths   : {
+        jquery              : 'jquery/dist/jquery',
         jqscroll            : 'jqScroll/jqscroll',
         'jquery.mousewheel' : 'jquery-mousewheel/jquery.mousewheel',
         setImmediate        : 'setImmediate/setImmediate',
