@@ -100,9 +100,9 @@ class EntityDetail(DetailView):
                 })
 
         context['sheets'] = sheets
-        context['object_json'] = renderer.render(EntityDetailUISerializer(self.object).data)
+        context['object_json'] = renderer.render(EntityDetailUISerializer(self.object, context={'request': self.request}).data)
         context['sheet'] = sheet
-        context['sheet_json'] = renderer.render(SheetSerializer(sheet).data) if sheet else '{}'
+        context['sheet_json'] = renderer.render(SheetSerializer(sheet, context={'request': self.request}).data) if sheet else '{}'
 
         # format numbers in items_list
         for item in items_list:

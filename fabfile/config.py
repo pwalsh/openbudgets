@@ -23,6 +23,7 @@ LOCAL = {
     'project_allowed_hosts': [''],
     'project_cookie_domain': '',
     'secret_key': '',
+    'proxy_template': '',
 
     'app_wsgi': '',
 
@@ -36,11 +37,12 @@ LOCAL = {
     'db_dump_file': settings.OPENBUDGETS_TEMP_DIR + '/db_dump.sql',
 
     # email server
-    'email_user': 'contact@openmuni.org.il',
+    'email_host_user': 'contact@openmuni.org.il',
 
     # code repository
     'repository_location': 'https://github.com/hasadna/openmuni-budgets',
-
+    'repository_work_branch': 'develop',
+    'repository_deploy_branch': 'develop',
     'dataset_root': settings.OPENBUDGETS_TEMP_DIR,
     'dataset_branch': 'master',
     'dataset_repository': 'https://github.com/prjts/openbudgets-data-israel',
@@ -54,26 +56,27 @@ STAGING_PROJECTS = '/srv/projects'
 STAGING_PROJECT_DIR = '/openbudgets'
 
 STAGING = {
-    'email_host_user': 'hello@prjts.com',
-    'roledefs': {'default': ['162.243.66.200'],
-                 'app': ['162.243.66.200'],
-                 'proxy': ['162.243.66.200'],
-                 'cache': ['162.243.66.200'],
-                 'queue': ['162.243.66.200'],
-                 'db': ['162.243.85.165']},
+    'email_host_user': 'contact@openmuni.org.il',
+    'roledefs': {'default': ['23.236.57.59'],
+                 'app': ['23.236.57.59'],
+                 'proxy': ['23.236.57.59'],
+                 'cache': ['23.236.57.59'],
+                 'queue': ['23.236.57.59'],
+                 'db': ['108.59.81.226']},
     'app_wsgi': 'openbudgets.wsgi:application',
-    'machine_location': '162.243.66.200',
+    'machine_location': '23.236.57.59',
     'machine_port': 80,
-    'db_machine_location': '162.243.85.165',
-    'db_private_network_location': '10.128.29.136',
+    'db_machine_location': '108.59.81.226',
+    'cache_private_network_location': '10.240.17.206',
+    'db_private_network_location': '10.240.218.108',
     'db_machine_port': 5432,
     'initial_data': ['staging/sites'],
     'project_root': STAGING_PROJECTS + STAGING_PROJECT_DIR,
     'project_env': STAGING_ENVS + STAGING_PROJECT_DIR,
     'project_allowed_hosts': ['staging.openmuni.org.il'],
     'project_cookie_domain': 'openmuni.org.il',
-    'target_settings_data': templates.staging_settings,
-    'target_settings_destination': STAGING_PROJECTS + STAGING_PROJECT_DIR + '/openbudgets/settings/staging.py',
+    'target_settings_data': templates.deploy_settings,
+    'target_settings_destination': STAGING_PROJECTS + STAGING_PROJECT_DIR + '/openbudgets/settings/deploy.py',
     'log_proxy_access': STAGING_LOG_ROOT + '/proxy_access.log',
     'log_proxy_error': STAGING_LOG_ROOT + '/proxy_error.log',
     'log_app_access': STAGING_LOG_ROOT + '/app_access.log',

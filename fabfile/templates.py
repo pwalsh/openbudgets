@@ -1,4 +1,4 @@
-staging_settings = """### Generated via Fabric on ${timestamp}
+deploy_settings = """### Generated via Fabric on ${timestamp}
 from ${project_name}.settings import *
 
 
@@ -6,7 +6,7 @@ ALLOWED_HOSTS = ${project_allowed_hosts}
 
 SESSION_COOKIE_DOMAIN = '${project_cookie_domain}'
 
-SENTRY_DSN = '${sentry_dsn}'
+RAVEN_CONFIG['dsn'] = '${sentry_dsn}'
 
 DATABASES = {
     'default': {
@@ -22,6 +22,17 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': '${cache_private_network_location}' + ':' + str(REDIS['PORT']),
+        'OPTIONS': {
+            'DB': REDIS['DB'],
+            'PARSER_CLASS': 'redis.connection.HiredisParser'
+        },
+    },
+}
+
 EMAIL_HOST_USER = '${email_host_user}'
 
 EMAIL_HOST_PASSWORD = '${email_host_password}'
@@ -29,5 +40,18 @@ EMAIL_HOST_PASSWORD = '${email_host_password}'
 ADMINS = (('Paul Walsh', 'paulywalsh@gmail.com'),
           ('Ido Ivri', 'idoivri@gmail.com'),)
 
+
+"""
+
+
+circus = """### Generated via Fabric on ${timestamp}
+[watcher:openbudgets-app]
+cmd = /srv/environments/openbudgets/bin/chaussette --fd $(circus.sockets.openbudgets-app) --backend meinheld openbudgets.wsgi:application
+numprocesses = 4
+use_sockets = True
+
+[socket:openbudgets-app]
+host = 127.0.0.1
+port = 9000
 
 """
