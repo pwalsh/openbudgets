@@ -3,7 +3,9 @@
 [![Build Status](https://travis-ci.org/mrappleton/backbone-fetch-cache.png?branch=master)](https://travis-ci.org/mrappleton/backbone-fetch-cache)
 
 A Backbone plugin to cache calls to `Backbone.Model.prototype.fetch` and
-`Backbone.Model.prototype.fetch` in memory and `localStorage`.
+`Backbone.Collection.prototype.fetch` in memory and `localStorage`.
+
+Compatible with Backbone 1.0.0 and up.
 
 ## How it works
 This plugin intercepts calls to `fetch` and stores the results in a cache object (`Backbone.fetchCache._cache`). If fetch is called with `{ cache: true }` in the options and the URL has already been cached the AJAX call will be skipped.

@@ -1,14 +1,15 @@
 {
   "name": "backbone-fetch-cache",
   "homepage": "https://github.com/mrappleton/backbone-fetch-cache",
-  "version": "1.0.2",
-  "_release": "1.0.2",
+  "version": "1.4.0",
+  "_release": "1.4.0",
   "_resolution": {
     "type": "version",
-    "tag": "1.0.2",
-    "commit": "0cc02c57a5702c3a48a76d4b35b9dfc8b0967bf5"
+    "tag": "v1.4.0",
+    "commit": "4e2d8b8daa8dd1799c1e0b88057cad7dee902c80"
   },
   "_source": "git://github.com/mrappleton/backbone-fetch-cache.git",
-  "_target": "~1.0.1",
-  "_originalSource": "backbone-fetch-cache"
+  "_target": "~1.4.0",
+  "_originalSource": "backbone-fetch-cache",
+  "_direct": true
 }

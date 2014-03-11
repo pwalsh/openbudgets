@@ -605,42 +605,94 @@ describe('Backbone.fetchCache', function() {
           expect(success.calls[0].args[1]).toEqual(modelResponse);
         });
       });
+
+      describe('with async: false option', function() {
+        it('resolves synchronously', function() {
+          Backbone.fetchCache._cache[model.url] = {
+            value: cacheData,
+            expires: (new Date()).getTime() + (5* 60 * 1000)
+          };
+
+          model.fetch({ cache: true, async: false });
+          expect(model.toJSON()).toEqual(cacheData);
+        });
+      });
     });
 
     describe('#sync', function() {
-      var cacheData;
+      describe("using model instance url", function () { 
+        var cacheData;
 
-      beforeEach(function() {
-        var cache = {};
-        cacheData = { some: 'data' };
-        cache[model.url] = cacheData;
-        localStorage.setItem('backboneCache', JSON.stringify(cache));
-        Backbone.fetchCache.getLocalStorage();
+        beforeEach(function() {
+          var cache = {};
+          cacheData = { some: 'data' };
+          cache[model.url] = cacheData;
+          localStorage.setItem('backboneCache', JSON.stringify(cache));
+          Backbone.fetchCache.getLocalStorage();
+        });
+
+        it('clears the cache for the model on create', function() {
+          model.sync('create', model, {});
+          expect(Backbone.fetchCache._cache[model.url]).toBeUndefined();
+        });
+
+        it('clears the cache for the model on update', function() {
+          model.sync('update', model, {});
+          expect(Backbone.fetchCache._cache[model.url]).toBeUndefined();
+        });
+
+        it('clears the cache for the model on patch', function() {
+          model.sync('create', model, {});
+          expect(Backbone.fetchCache._cache[model.url]).toBeUndefined();
+        });
+
+        it('clears the cache for the model on delete', function() {
+          model.sync('create', model, {});
+          expect(Backbone.fetchCache._cache[model.url]).toBeUndefined();
+        });
+
+        it('does not clear the cache for the model on read', function() {
+          model.sync('read', model, {});
+          expect(Backbone.fetchCache._cache[model.url]).toEqual(cacheData);
+        });
       });
+      describe("using options-given url", function() {
+        var cacheData;
+        var optionsGiven;
 
-      it('clears the cache for the model on create', function() {
-        model.sync('create', model, {});
-        expect(Backbone.fetchCache._cache[model.url]).toBeUndefined();
-      });
+        beforeEach(function() {
+          optionsGiven = { 'url' : '/given-url' };
+          var cache = {};
+          cacheData = { some: 'data' };
+          cache[optionsGiven.url] = cacheData;
+          localStorage.setItem('backboneCache', JSON.stringify(cache));
+          Backbone.fetchCache.getLocalStorage();
+        });
 
-      it('clears the cache for the model on update', function() {
-        model.sync('update', model, {});
-        expect(Backbone.fetchCache._cache[model.url]).toBeUndefined();
-      });
+        it('clears the cache for the model on create', function() {
+          model.sync('create', model, optionsGiven);
+          expect(Backbone.fetchCache._cache[optionsGiven.url]).toBeUndefined();
+        });
 
-      it('clears the cache for the model on patch', function() {
-        model.sync('create', model, {});
-        expect(Backbone.fetchCache._cache[model.url]).toBeUndefined();
-      });
+        it('clears the cache for the model on update', function() {
+          model.sync('update', model, optionsGiven);
+          expect(Backbone.fetchCache._cache[optionsGiven.url]).toBeUndefined();
+        });
 
-      it('clears the cache for the model on delete', function() {
-        model.sync('create', model, {});
-        expect(Backbone.fetchCache._cache[model.url]).toBeUndefined();
-      });
+        it('clears the cache for the model on patch', function() {
+          model.sync('create', model, optionsGiven);
+          expect(Backbone.fetchCache._cache[optionsGiven.url]).toBeUndefined();
+        });
 
-      it('does not clear the cache for the model on read', function() {
-        model.sync('read', model, {});
-        expect(Backbone.fetchCache._cache[model.url]).toEqual(cacheData);
+        it('clears the cache for the model on delete', function() {
+          model.sync('create', model, optionsGiven);
+          expect(Backbone.fetchCache._cache[optionsGiven.url]).toBeUndefined();
+        });
+
+        it('does not clear the cache for the model on read', function() {
+          model.sync('read', model, optionsGiven);
+          expect(Backbone.fetchCache._cache[optionsGiven.url]).toEqual(cacheData);
+        });
       });
 
       it('calls super', function() {
@@ -854,7 +906,7 @@ describe('Backbone.fetchCache', function() {
             value: cacheData,
             expires: (new Date()).getTime() + (5* 60 * 1000)
           };
-            
+
           waitsFor(promiseComplete(collection.fetch(options)));
 
           runs(function() {
@@ -959,6 +1011,50 @@ describe('Backbone.fetchCache', function() {
           expect(success.calls[0].args[1]).toEqual(collectionResponse);
         });
       });
+    });
+  });
+  describe('Prefix', function() {
+    beforeEach(function() {
+      Backbone.fetchCache.getLocalStorageKey = function() {
+        return 'backboneCache_user1';
+      };
+    });
+
+    it('get prefix', function() {
+      expect(Backbone.fetchCache.getLocalStorageKey()).toEqual('backboneCache_user1');
+    });
+
+    it('set localStorage', function() {
+      var cache = Backbone.fetchCache._cache = {
+        '/url1': { expires: false, value: { bacon: 'sandwich' } },
+        '/url2': { expires: false, value: { egg: 'roll' } }
+      };
+      Backbone.fetchCache.setLocalStorage();
+      expect(localStorage.getItem('backboneCache_user1')).toEqual(JSON.stringify(cache));
+    });
+
+    it('get localStorage', function() {
+      var cache = {
+        '/url1': { expires: false, value: { bacon: 'sandwich' } },
+        '/url2': { expires: false, value: { egg: 'roll' } }
+      };
+      localStorage.setItem('backboneCache_user1', JSON.stringify(cache));
+      Backbone.fetchCache.getLocalStorage();
+      expect(Backbone.fetchCache._cache).toEqual(cache);
+    });
+
+    it('get localStorage for several users', function() {
+      Backbone.fetchCache.getLocalStorageKey = function() {
+        return 'backboneCache_user2';
+      };
+      var cache = Backbone.fetchCache._cache = {
+        '/url1': { expires: true, value: { vegetables: 'tomato' } },
+        '/url2': { expires: true, value: { egg: 'roll' } }
+      };
+      localStorage.setItem('backboneCache_user1', '');
+      Backbone.fetchCache.setLocalStorage();
+      expect(localStorage.getItem('backboneCache_user2')).toEqual(JSON.stringify(cache));
+      expect(localStorage.getItem('backboneCache_user1')).toEqual('');
     });
   });
 });

@@ -1,71 +1,21 @@
-# jQuery Spin
+# spin.js
 
-Spin is a jQuery plugin that creates animated loading indicators with only CSS and JavaScript.
+An animated CSS3 loading spinner with VML fallback for IE.
 
-## Installation
+ * No images, no external CSS
+ * No dependencies
+ * Highly configurable
+ * Resolution independent
+ * Uses VML as fallback in old IEs
+ * Uses @keyframe animations, falling back to setTimeout()
+ * Works in all major browsers, including IE6
+ * Small footprint (~1.9K gzipped)
+ * MIT License
 
-To install copy the *javascripts* and *stylesheets* directories into your project and add the following snippet to the header:
+## Usage
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js" type="text/javascript"></script>
-    <script src="javascripts/jquery.spin.js" type="text/javascript"></script>
-    <link href="stylesheets/jquery.spin.css" rel="stylesheet" type="text/css" />
+```javascript
+new Spinner({color:'#fff', lines: 12}).spin(target);
+```
 
-This plugin is also registered under http://bower.io/ to simplify integration. Try:
-
-    npm install -g bower
-    bower install spin
-
-Lastly this plugin is registered as a https://rails-assets.org/ to simplify integration with Ruby on Rails applications:
-
-**Gemfile**
-
-    + source 'https://rails-assets.org'
-    ...
-    + gem 'rails-assets-spin'
-
-**application.css**
-
-    /*
-     ...
-     *= require spin
-     ...
-    */
-
-**application.js**
-
-    //= require jquery
-    ...
-    //= require spin
-
-## Examples
-
-Setting up a spinner is simple. The following snippet is all that is needed:
-
-    <div class="spin" data-spin />
-
-To add spinners manually try:
-
-    $('.spin').spin();
-    $('.spin').spin('show');
-    $('.spin').spin('hide');
-
-## Styling
-    
-Styling a spinner is easy:
-
-    .spin
-    {
-      background: #444; /* outline */
-      > *
-      {
-        background: #EEE; /* hand */
-      }
-    }
-
-## Status
-
-[![Status](https://travis-ci.org/ksylvest/jquery-spin.png)](https://travis-ci.org/ksylvest/jquery-spin)
-
-## Copyright
-
-Copyright (c) 2010 - 2012 Kevin Sylvestre. See LICENSE for details.
+For an interactive demo and a list of all supported options please refer to the [project's homepage](http://fgnass.github.io/spin.js/).

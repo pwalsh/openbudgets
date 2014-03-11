@@ -1,2 +1,5 @@
-.DS*
-.sass*
+.DS_Store
+node_modules
+site/spin.js
+site/spin.min.js
+site/jquery.spin.js

@@ -9,6 +9,7 @@
     "commit": "ef4944db494321db2f30003fc5b03c6bdfcb4bd9"
   },
   "_source": "git://github.com/NobleJS/setImmediate.git",
-  "_target": "*",
-  "_originalSource": "NobleJS/setImmediate"
+  "_target": "1.0.1",
+  "_originalSource": "git://github.com/NobleJS/setImmediate.git",
+  "_direct": true
 }

@@ -1,6 +1,13 @@
 Changelog
 
-- v1.0.1: Bugfix - adds better check for localStorage support - thanks to [@jfmoy](https://github.com/jfmoy)
+- v1.4.0: Change - Return a full Deferred object to allow request cancellation. Thanks to [@garrensmith](https://github.com/garrensmith).
+- v1.3.0: Feature - Allow a prefix to be added to cache keys via Backbone.fetchCache.getLocalStorageKey function. Thanks to [@zhulduz](https://github.com/zhulduz).
+- v1.2.1: Bugfix - Allow for URL function in clearItem method. Thanks to [@prdn](https://github.com/prdn).
+- v1.2.0: Change - Call Model#parse when setting data on the model. Thanks to [@charlietilt](https://github.com/charlietilt). Bugfix - fix cache expiration issue when the url is passed via options for the model. Thanks to [@guilherme](https://github.com/guilherme).
+- v1.1.2: Bugfix - Collection fetch now triggers both the collection's parse method, and the model's parse method - thanks to [@BananaNeil](https://github.com/BananaNeil)
+- v1.1.1: Bugfix - respect jQuery.ajax's async: true option and resolve from the cache synchronously if required - thanks to [@matthewkremer](https://github.com/matthewkremer)
+- v1.1.0: Change - Don't rely on global jQuery. We now use Backbone.root.jQuery or an AMD defined `jquery` module - thanks to [@brett-shwom](https://github.com/brett-shwom)
+- v1.0.2: Bugfix - adds better check for localStorage support - thanks to [@jfmoy](https://github.com/jfmoy)
 - v1.0.1: Bugfix - updates fetch success callback signature to match Backbone's - thanks to [@ydaniv](https://github.com/ydaniv)
 - v1.0.0: Perform all cache fulfilment asynchronously. Only the promise, not the full $.Deferred object is returned from fetch functions.
 

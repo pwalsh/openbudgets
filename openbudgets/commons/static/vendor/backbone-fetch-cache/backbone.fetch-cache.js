@@ -1,5 +1,5 @@
 /*!
-  backbone.fetch-cache v1.0.2
+  backbone.fetch-cache v1.4.0
   by Andy Appleton - https://github.com/mrappleton/backbone-fetch-cache.git
  */
 
@@ -8,14 +8,14 @@
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module and set browser global
-    define(['underscore', 'backbone'], function (_, Backbone) {
-      return (root.Backbone = factory(_, Backbone));
+    define(['underscore', 'backbone', 'jquery'], function (_, Backbone, $) {
+      return (root.Backbone = factory(_, Backbone, $));
     });
   } else {
     // Browser globals
-    root.Backbone = factory(root._, root.Backbone);
+    root.Backbone = factory(root._, root.Backbone, root.jQuery);
   }
-}(this, function (_, Backbone) {
+}(this, function (_, Backbone, $) {
 
   // Setup
   var superMethods = {
@@ -59,6 +59,10 @@
     Backbone.fetchCache._cache[this._prioritize()] = null;
     delete Backbone.fetchCache._cache[this._prioritize()];
     Backbone.fetchCache.setLocalStorage();
+  };
+
+  Backbone.fetchCache.getLocalStorageKey = function() {
+    return 'backboneCache';
   };
 
   if (typeof Backbone.fetchCache.localStorage === 'undefined') {
@@ -111,6 +115,7 @@
   }
 
   function clearItem(key) {
+    if (_.isFunction(key)) { key = key(); }
     delete Backbone.fetchCache._cache[key];
     Backbone.fetchCache.setLocalStorage();
   }
@@ -118,7 +123,7 @@
   function setLocalStorage() {
     if (!supportLocalStorage || !Backbone.fetchCache.localStorage) { return; }
     try {
-      localStorage.setItem('backboneCache', JSON.stringify(Backbone.fetchCache._cache));
+      localStorage.setItem(Backbone.fetchCache.getLocalStorageKey(), JSON.stringify(Backbone.fetchCache._cache));
     } catch (err) {
       var code = err.code || err.number || err.message;
       if (code === 22) {
@@ -131,7 +136,7 @@
 
   function getLocalStorage() {
     if (!supportLocalStorage || !Backbone.fetchCache.localStorage) { return; }
-    var json = localStorage.getItem('backboneCache') || '{}';
+    var json = localStorage.getItem(Backbone.fetchCache.getLocalStorageKey()) || '{}';
     Backbone.fetchCache._cache = JSON.parse(json);
   }
 
@@ -141,13 +146,34 @@
 
   // Instance methods
   Backbone.Model.prototype.fetch = function(opts) {
-    opts = (opts || {});
+    opts = _.defaults(opts || {}, { parse: true });
     var key = Backbone.fetchCache.getCacheKey(this, opts),
         data = Backbone.fetchCache._cache[key],
         expired = false,
         attributes = false,
         deferred = new $.Deferred(),
         self = this;
+
+    function setData() {
+      if (opts.parse) {
+        attributes = self.parse(attributes, opts);
+      }
+
+      self.set(attributes, opts);
+      if (_.isFunction(opts.prefillSuccess)) { opts.prefillSuccess(self, attributes, opts); }
+
+      // Trigger sync events
+      self.trigger('cachesync', self, attributes, opts);
+      self.trigger('sync', self, attributes, opts);
+
+      // Notify progress if we're still waiting for an AJAX call to happen...
+      if (opts.prefill) { deferred.notify(self); }
+      // ...finish and return if we're not
+      else {
+        if (_.isFunction(opts.success)) { opts.success(self, attributes, opts); }
+        deferred.resolve(self);
+      }
+    }
 
     if (data) {
       expired = data.expires;
@@ -156,27 +182,17 @@
     }
 
     if (!expired && (opts.cache || opts.prefill) && attributes) {
-      // Ensure that cache resolution is asynchronous
-      nextTick(function() {
+      // Ensure that cache resolution adhers to async option, defaults to true.
+      if (opts.async == null) { opts.async = true; }
 
-        self.set(self.parse(attributes), opts);
-        if (_.isFunction(opts.prefillSuccess)) { opts.prefillSuccess(self, attributes, opts); }
-
-        // Trigger sync events
-        self.trigger('cachesync', self, attributes, opts);
-        self.trigger('sync', self, attributes, opts);
-
-        // Notify progress if we're still waiting for an AJAX call to happen...
-        if (opts.prefill) { deferred.notify(self); }
-        // ...finish and return if we're not
-        else {
-          if (_.isFunction(opts.success)) { opts.success(self, attributes, opts); }
-          deferred.resolve(self);
-        }
-      });
+      if (opts.async) {
+        nextTick(setData);
+      } else {
+        setData();
+      }
 
       if (!opts.prefill) {
-        return deferred.promise();
+        return deferred;
       }
     }
 
@@ -190,7 +206,7 @@
       .fail( _.bind(deferred.reject, this, this) );
 
     // return a promise which provides the same methods as a jqXHR object
-    return deferred.promise();
+    return deferred;
   };
 
   // Override Model.prototype.sync and try to clear cache items if it looks
@@ -206,7 +222,7 @@
         i, len;
 
     // Build up a list of keys to delete from the cache, starting with this
-    keys.push(Backbone.fetchCache.getCacheKey(model));
+    keys.push(Backbone.fetchCache.getCacheKey(model, options));
 
     // If this model has a collection, also try to delete the cache for that
     if (!!collection) {
@@ -220,13 +236,30 @@
   };
 
   Backbone.Collection.prototype.fetch = function(opts) {
-    opts = (opts || {});
+    opts = _.defaults(opts || {}, { parse: true });
     var key = Backbone.fetchCache.getCacheKey(this, opts),
         data = Backbone.fetchCache._cache[key],
         expired = false,
         attributes = false,
         deferred = new $.Deferred(),
         self = this;
+
+    function setData() {
+      self[opts.reset ? 'reset' : 'set'](attributes, opts);
+      if (_.isFunction(opts.prefillSuccess)) { opts.prefillSuccess(self); }
+
+      // Trigger sync events
+      self.trigger('cachesync', self, attributes, opts);
+      self.trigger('sync', self, attributes, opts);
+
+      // Notify progress if we're still waiting for an AJAX call to happen...
+      if (opts.prefill) { deferred.notify(self); }
+      // ...finish and return if we're not
+      else {
+        if (_.isFunction(opts.success)) { opts.success(self, attributes, opts); }
+        deferred.resolve(self);
+      }
+    }
 
     if (data) {
       expired = data.expires;
@@ -235,27 +268,17 @@
     }
 
     if (!expired && (opts.cache || opts.prefill) && attributes) {
-      // Ensure that cache resolution is asynchronous
-      nextTick(function() {
+      // Ensure that cache resolution adhers to async option, defaults to true.
+      if (opts.async == null) { opts.async = true; }
 
-        self[opts.reset ? 'reset' : 'set'](self.parse(attributes), opts);
-        if (_.isFunction(opts.prefillSuccess)) { opts.prefillSuccess(self); }
-
-        // Trigger sync events
-        self.trigger('cachesync', self, attributes, opts);
-        self.trigger('sync', self, attributes, opts);
-
-        // Notify progress if we're still waiting for an AJAX call to happen...
-        if (opts.prefill) { deferred.notify(self); }
-        // ...finish and return if we're not
-        else {
-          if (_.isFunction(opts.success)) { opts.success(self, attributes, opts); }
-          deferred.resolve(self);
-        }
-      });
+      if (opts.async) {
+        nextTick(setData);
+      } else {
+        setData();
+      }
 
       if (!opts.prefill) {
-        return deferred.promise();
+        return deferred;
       }
     }
 
@@ -269,7 +292,7 @@
       .fail( _.bind(deferred.reject, this, this) );
 
     // return a promise which provides the same methods as a jqXHR object
-    return deferred.promise();
+    return deferred;
   };
 
   // Prime the cache from localStorage on initialization
