@@ -1,0 +1,14 @@
+{
+  "name": "eventbox",
+  "homepage": "https://github.com/ydaniv/eventbox",
+  "version": "0.1.2",
+  "_release": "0.1.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.1.2",
+    "commit": "4aefb2b873c74dd4120121dd94788e5768f8ce32"
+  },
+  "_source": "git://github.com/ydaniv/eventbox.git",
+  "_target": "~0.1.2",
+  "_originalSource": "eventbox"
+}

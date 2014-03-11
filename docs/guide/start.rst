@@ -579,7 +579,6 @@ If you are working on an instance of Open Budgets that already has a populated d
     fab dock.local.clone
     fab local.bootstrap dock.local.pull dock.local.load
 
-
 **Note:** Loading data like this can take a long time, **if** your dataset includes sheet data, due to the types of checks that run to validate data before it is written to the database. Be *very* patient.
 
 Alternatively, the maintainers of your instance may take data snapshots that are directly importable to Postgresql.

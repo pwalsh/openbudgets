@@ -1283,7 +1283,7 @@ input.valid {
   padding-right: 0;
   padding-left: 10%;
 }
-/* @import "../../vendor/adaptabl/src/normalize"; */
+/* @import "../../vendor/adaptabl/adaptabl/src/normalize"; */
 /**********************/
 /* jqScroll overrides */
 /**********************/
@@ -1606,11 +1606,23 @@ input.valid {
 /*******************/
 /* ACCOUNT WIDGET  */
 /*******************/
+.dead-area-catcher {
+  display: none;
+  position: absolute;
+  top: -30%;
+  right: 150%;
+  width: 100%;
+  height: 200%;
+  -webkit-transform: rotate(68deg);
+  -moz-transform: rotate(68deg);
+  transform: rotate(68deg);
+}
 .account {
   position: relative;
   text-align: center;
   width: 54px;
   padding-top: 1.25em;
+  z-index: 1;
 }
 .account.auth:hover {
   background-color: #e8e8ed;
@@ -1660,6 +1672,9 @@ input.valid {
 .account:hover .actions {
   display: block;
 }
+.account.auth:hover .dead-area-catcher {
+  display: block;
+}
 /*******************/
 /*  FILTER WIDGET  */
 /*******************/
@@ -1698,6 +1713,19 @@ input.valid {
   right: auto;
   bottom: auto;
   left: 0;
+}
+.dead-area-catcher {
+  display: none;
+  position: absolute;
+  top: -30%;
+  left: 150%;
+  right: auto;
+  width: 100%;
+  height: 200%;
+  -webkit-transform: rotate(-68deg);
+  -moz-transform: rotate(-68deg);
+  transform: rotate(-68deg);
+  z-index: 1;
 }
 h1,
 h2,

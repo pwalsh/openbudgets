@@ -1,6 +1,8 @@
 django==1.5.5
 djangorestframework==2.3.9
-gunicorn
+circus
+chaussette
+meinheld
 psycopg2
 south
 pytz==2013b

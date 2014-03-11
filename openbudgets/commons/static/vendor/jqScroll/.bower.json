@@ -1,0 +1,13 @@
+{
+  "name": "jqScroll",
+  "homepage": "https://github.com/ydaniv/jqScroll",
+  "_release": "2c1d45c4c1",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "2c1d45c4c19a01a76be0e7073604eeb96b61a841"
+  },
+  "_source": "git://github.com/ydaniv/jqScroll.git",
+  "_target": "*",
+  "_originalSource": "ydaniv/jqScroll"
+}

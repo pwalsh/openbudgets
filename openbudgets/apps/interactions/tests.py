@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from openbudgets.apps.accounts.factories import Account
 from openbudgets.apps.entities.factories import Entity
+from openbudgets.apps.contexts.factories import Context
 from openbudgets.apps.sheets.factories import Sheet
 
 
@@ -15,7 +16,8 @@ class InteractionTestCase(TestCase):
         self.follow_string = 'form class="interaction follow"'
         self.star_string = 'form class="interaction star"'
         self.entity = Entity.create()
-        self.sheet = Sheet.create()
+        self.entity_context = Context.create(entity=self.entity)
+        self.sheet = Sheet.create(entity=self.entity)
         self.entityview = reverse('entity_detail', args=(self.entity.slug,))
         self.sheetview = reverse('sheet_detail', args=(self.sheet.entity.slug,
                                                        self.sheet.period))

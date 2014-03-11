@@ -120,7 +120,6 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     'oauth2_provider',
     'corsheaders',
-    'gunicorn',
     'south',
     'djcelery',
     'kombu.transport.django',
@@ -128,6 +127,7 @@ INSTALLED_APPS = (
     'registration',
     'rest_framework',
     'modeltranslation',
+    'raven.contrib.django.raven_compat',
     'taggit',
     'django_gravatar',
     'openbudgets.apps.accounts',
@@ -283,8 +283,6 @@ EMAIL_HOST_USER = ''
 
 EMAIL_HOST_PASSWORD = ''
 
-SENTRY_DSN = ''
-
 ADMINS = (('', ''),)
 
 MANAGERS = ADMINS
@@ -315,6 +313,10 @@ CACHE_MIDDLEWARE_KEY_PREFIX = 'openbudgets::'
 
 SOUTH_TESTS_MIGRATE = False
 
+RAVEN_CONFIG = {
+    'dsn': '',
+}
+
 OPENBUDGETS_TEMP_DIR = os.path.abspath(
     os.path.join(os.path.dirname(PROJECT_ROOT), 'tmp'))
 
@@ -338,7 +340,7 @@ OPENBUDGETS_IMPORT_INTRA_FIELD_DELIMITER = '|'
 
 OPENBUDGETS_IMPORT_INTRA_FIELD_MULTIPLE_VALUE_DELIMITER = ';'
 
-OPENBUDGETS_COMPARABLE_TEMPLATENODE__DEFAULT = True
+OPENBUDGETS_COMPARABLE_TEMPLATENODE_DEFAULT = True
 
 OPENBUDGETS_COMPARABLE_TEMPLATENODE_NOT_IN_BLUEPRINT_DEFAULT = True
 
@@ -369,9 +371,9 @@ IMPORT_PRIORITY = ['slug',
 IMPORT_SEPARATOR = ':'
 
 
-# if we are on staging, we should have a settings.staging module to load.
+# if we are on a deploy env, we should have a settings.deploy module to load.
 try:
-    from .staging import *
+    from .deploy import *
 except ImportError:
     # if we are on local, we accept overrides in a settings.local module.
     # For safety, we only try to load settings.local if settings.production

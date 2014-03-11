@@ -8,10 +8,9 @@
 *.sql
 *.pyc
 .coverage
-openbudgets/settings/production.py
-openbudgets/settings/staging.py
+openbudgets/settings/deploy.py
 openbudgets/settings/local.py
-fabfile/quilt_sensitive.py
+fabfile/sensitive.py
 docs/_build
 docs/_static
 docs/_templates

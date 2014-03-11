@@ -39,11 +39,11 @@ define([
 
             return this.publish('scope_changed', item_model);
         },
-        setScope            : function (scope) {
+        setScope            : function (scope){
             scope = scope || null;
             if ( scope !== this.scope ) {
                 this.scope = scope;
-                if ( this.has_data ) {
+                if ( this.resource.length ) {
                     this._publishScope();
                 }
                 else {
@@ -52,21 +52,21 @@ define([
             }
             return this;
         },
-        redraw              : function (scope) {
-            var filter = this.active_filters ?
-                    this.resource.byAncestor :
-                    this.resource.byParent; 
-            this.setScope(scope);
-            return this.filter(filter, this.scope)
-                       .render();
-        },
+//        redraw              : function (scope) {
+//            var filter = this.active_filters ?
+//                    this.resource.byAncestor :
+//                    this.resource.byParent; 
+//            this.setScope(scope);
+//            return this.filter(filter, this.scope)
+//                       .render();
+//        },
         sortItems           : function (data) {
             var sorting_key = (data.desc ? '-' : '') + data.column,
                 is_comparator_function = uijet.utils.isFunc(this.options.sorting[sorting_key]);
             this.desc = data.desc;
             this.sort(sorting_key);
 
-            if ( this.has_data ) {
+            if ( this.resource.length ) {
                 if ( ! this.filtered ) {
                     this.filtered = this.resource.models;
                 }

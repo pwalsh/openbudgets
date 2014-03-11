@@ -1,10 +1,11 @@
 requirejs.config({
     baseUrl : '/static/vendor',
     paths   : {
-        uijet_dir       : 'uijet',
-        widgets         : 'uijet/widgets',
-        composites      : 'uijet/composites',
-        modules         : 'uijet/modules',
+        uijet_dir       : 'uijet/src',
+        widgets         : 'uijet/src/widgets',
+        composites      : 'uijet/src/composites',
+        modules         : 'uijet/src/modules',
+        setImmediate    : 'setImmediate/setImmediate',
         ui              : '../tools/comparisons/embed/ui',
         resources       : '../tools/comparisons/embed/resources',
         app             : '../tools/comparisons/embed/controllers/main',

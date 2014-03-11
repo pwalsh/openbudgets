@@ -1,26 +1,40 @@
 requirejs.config({
     baseUrl : '/static/vendor',
     paths   : {
-        jqscroll            : 'jqScroll/jqscroll',
-        'jquery.mousewheel' : 'jquery-mousewheel',
-        uijet_dir           : 'uijet',
-        widgets             : 'uijet/widgets',
-        composites          : 'uijet/composites',
-        modules             : 'uijet/modules',
-        explorer            : '../entities/explorer/explorer',
-        ui                  : '../entities/explorer/ui',
-        resources           : '../entities/explorer/resources',
-        controllers         : '../entities/explorer/controllers',
-        project_modules     : '../entities/explorer/modules',
-        project_widgets     : '../entities/explorer/widgets',
-        project_mixins      : '../entities/explorer/mixins',
-        dictionary          : '../entities/explorer/dictionary',
-        api                 : '../src/api',
-        i18n                : '../src/i18n'
+        jquery                 : 'jquery/dist/jquery',
+        jqscroll               : 'jqScroll/jqscroll',
+        'jquery.mousewheel'    : 'jquery-mousewheel/jquery.mousewheel',
+        backbone               : 'backbone/backbone',
+        'backbone-fetch-cache' : 'backbone-fetch-cache/backbone.fetch-cache',
+        d3                     : 'd3/d3',
+        underscore             : 'underscore/dist/lodash.underscore',
+        mustache               : 'mustache/mustache',
+        q                      : 'q/q',
+        spin                   : 'spin/spin',
+        setImmediate           : 'setImmediate/setImmediate',
+        eventbox               : 'eventbox/eventbox',
+        uijet_dir              : 'uijet/src',
+        widgets                : 'uijet/src/widgets',
+        composites             : 'uijet/src/composites',
+        modules                : 'uijet/src/modules',
+        explorer               : '../entities/explorer/explorer',
+        ui                     : '../entities/explorer/ui',
+        resources              : '../entities/explorer/resources',
+        controllers            : '../entities/explorer/controllers',
+        project_modules        : '../entities/explorer/modules',
+        project_widgets        : '../entities/explorer/widgets',
+        project_mixins         : '../entities/explorer/mixins',
+        dictionary             : '../entities/explorer/dictionary',
+        api                    : '../src/api',
+        i18n                   : '../src/i18n'
     },
     shim    : {
         eventbox                : ['setImmediate'],
-        'backbone-fetch-cache'  : 'modules/data/backbone'
+        'backbone-fetch-cache'  : 'modules/data/backbone',
+        backbone                : {
+            deps: ['underscore', 'jquery'],
+            exports: 'Backbone'
+        }
     }
 });
 requirejs([
