@@ -9,7 +9,6 @@
 *.pyc
 .coverage
 openbudgets/settings/deploy.py
-openbudgets/settings/local.py
 fabfile/sensitive.yaml
 docs/_build
 docs/_static

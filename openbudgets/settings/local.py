@@ -1,10 +1,9 @@
-# Uncomment if you are overriding any settings that are defined in settings
-#from openbudgets.settings import *
+from openbudgets.settings import *
 
 
 ######################################################################
 ##                                                                  ##
-## RENAME THIS FILE TO local.py to provide your own local overrides ##
+##  USE THIS FILE TO PROVIDE YOUR OWN LOCAL ENVIRONMENT OVERRIDES   ##
 ##                                                                  ##
 ######################################################################
 
