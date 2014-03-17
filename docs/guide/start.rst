@@ -25,12 +25,10 @@ Server
 
 The server is written in Python using Django and Django REST Framework.
 
-
 Client
 ------
 
 The client is written in Javascript makes use of Uijet, Backbone, JQuery, and D3.
-
 
 System requirements
 ===================
@@ -371,7 +369,7 @@ Ok, so contining, let's bootstrap the environment. Run the following commands::
     fab e local.db.createuser
 
     # build out the project
-    fab e local.bootstrap:initial=yes    
+    fab e local.bootstrap:initial=yes
 
 Now, Let's start the server:
 
