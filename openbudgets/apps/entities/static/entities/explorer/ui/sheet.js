@@ -197,8 +197,7 @@ define([
                         this.prev_search_terms = [];
                     },
                     pre_wake    : function () {
-                        this.context || (this.context = {});
-                        this.context.prev_search_terms = this.prev_search_terms;
+                        this.setContext('prev_search_terms', this.prev_search_terms);
                     },
                     pre_select  : function ($selected) {
                         var type = $selected.attr('data-type'),
@@ -395,17 +394,9 @@ define([
             },
             app_events  : {
                 'startup'                       : function () {
-                    var wake = false;
-                    if ( this.resource.length ) {
-                        // reset state
-                        this.has_data = true;
-                        wake = true;
+                    if ( this.resource.length || window.ITEM.id ) {
+                        this.wake();
                     }
-                    else if ( window.ITEM.id ) {
-                        wake = true;
-                    }
-
-                    wake && this.wake();
                 },
                 'items_list.scope_changed'      : function (scope_model) {
                     var crumbs;

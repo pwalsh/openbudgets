@@ -1,0 +1,23 @@
+{
+  "name": "adaptabl",
+  "homepage": "https://github.com/pwalsh/adaptabl",
+  "authors": [
+    "Paul Walsh <paulywalsh@gmail.com>"
+  ],
+  "description": "Adaptabl is a modular stylesheet toolkit written in LESS.",
+  "main": "adaptabl/adaptabl.less",
+  "keywords": [
+    "css",
+    "LESS"
+  ],
+  "license": "BSD",
+  "_release": "728faf16eb",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "728faf16ebd5906596411fb201e7023a72245747"
+  },
+  "_source": "git://github.com/pwalsh/adaptabl.git",
+  "_target": "*",
+  "_originalSource": "adaptabl"
+}

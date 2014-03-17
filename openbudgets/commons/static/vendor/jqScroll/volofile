@@ -1,0 +1,16 @@
+'use strict';
+
+module.exports = {
+    onAdd: function (d, v) {
+        /* 
+         * Clean up: remove unneeded files.
+         */
+
+        v.rm('LICENSE');
+        v.rm('README.md');
+        v.rm('package.json');
+        v.rm('volofile');
+
+        d.resolve();
+    }
+};

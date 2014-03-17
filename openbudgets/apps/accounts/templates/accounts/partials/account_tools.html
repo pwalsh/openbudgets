@@ -3,6 +3,7 @@
 
 <div class="account{% if user.is_authenticated %} auth{% endif %}">
     {% if user.is_authenticated %}
+    <div class="dead-area-catcher"></div>
     <a class="avatar" href="{% url 'account_detail' user.uuid %}"><img src="{{ user.avatar }}" /></a>
     <div class="name">
         {{ user.first_name }}

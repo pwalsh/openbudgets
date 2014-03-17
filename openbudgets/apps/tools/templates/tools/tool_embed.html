@@ -12,5 +12,5 @@
             STATE = {{ state_json|safe }};
     </script>
     <script src="{% url 'tools_js_i18n' %}"></script>
-    <script src="{{ STATIC_URL }}vendor/require.js" data-main="{{ STATIC_URL }}tools/{{ object.slug }}/embed/main"></script>
+    <script src="{{ STATIC_URL }}vendor/requirejs/require.js" data-main="{{ STATIC_URL }}tools/{{ object.slug }}/embed/main"></script>
 {% endblock body_js %}
