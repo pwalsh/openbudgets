@@ -20,6 +20,8 @@ raven
 ckanclient
 #quilt==0.2.0-alpha
 git+https://github.com/pwalsh/quilt#egg=quilt
+#dock==0.2.0-alpha
+git+https://github.com/pwalsh/dock#egg=dock
 django-modeltranslation
 django-grappelli==2.4.8
 grappelli-modeltranslation
@@ -36,6 +38,3 @@ git+https://github.com/mozilla/unicode-slugify
 
 # upstream still doesn't fully support custom user model
 hg+https://bitbucket.org/prjts/django-registration
-
-# temp, while working
-git+https://github.com/pwalsh/dock#egg=dock

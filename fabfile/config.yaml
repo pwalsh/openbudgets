@@ -1,7 +1,5 @@
 local: &LOCAL
   project_name: openbudgets
-  project_root:
-  project_env:
   project_initial_data:
     - local/sites
   project_allowed_hosts:
@@ -17,6 +15,10 @@ local: &LOCAL
   db_name: openbudgets
   db_dump_file: ./tmp/db_dump.sql
   workon: workon openbudgets
+  dock_dataset_location: ./tmp/dataset
+  dock_repository_location: https://github.com/prjts/openbudgets-data-israel.git
+  dock_repository_branch: master
+  dock_prepare_objects: false
 
 staging: &STAGING
   <<: *LOCAL
@@ -55,6 +57,7 @@ staging: &STAGING
   db_location: 10.240.218.108
   db_port: 5432
   db_dump_file: /srv/projects/openbudgets/tmp/db_dump.sql
+  dock_dataset_location: /srv/projects/openbudgets/tmp/dataset
 
 
 master:

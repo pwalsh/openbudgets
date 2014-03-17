@@ -38,8 +38,7 @@ EMAIL_HOST_USER = '${email_user}'
 
 EMAIL_HOST_PASSWORD = '${email_password}'
 
-ADMINS = (('Paul Walsh', 'paulywalsh@gmail.com'),
-          ('Ido Ivri', 'idoivri@gmail.com'),)
+ADMINS = (('Paul Walsh', 'paulywalsh@gmail.com'),)
 
 
 """
