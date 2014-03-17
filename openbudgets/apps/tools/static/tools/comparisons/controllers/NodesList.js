@@ -43,7 +43,7 @@ define([
             scope = scope || null;
             if ( scope !== this.scope ) {
                 this.scope = scope;
-                if ( this.has_data ) {
+                if ( this.resource.length ) {
                     this._publishScope();
                 }
                 else {
@@ -79,7 +79,7 @@ define([
             this.desc = data.desc;
             this.sort(sorting_key);
 
-            if ( this.has_data ) {
+            if ( this.resource.length ) {
                 if ( ! this.filtered ) {
                     this.filtered = this.resource.models;
                 }

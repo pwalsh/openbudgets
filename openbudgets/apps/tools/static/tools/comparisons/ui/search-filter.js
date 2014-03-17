@@ -39,8 +39,7 @@ define([
                         this.prev_search_terms = [];
                     },
                     pre_wake    : function () {
-                        this.context || (this.context = {});
-                        this.context.prev_search_terms = this.prev_search_terms;
+                        this.setContext('prev_search_terms', this.prev_search_terms);
                     },
                     pre_select  : function ($selected) {
                         var type = $selected.attr('data-type'),

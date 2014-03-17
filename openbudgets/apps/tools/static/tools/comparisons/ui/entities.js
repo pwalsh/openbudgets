@@ -32,7 +32,7 @@ define([
                     'entity_field.move_button'  : function (width) {
                         if ( width ) {
                             this.$element[0].style.right = width + 30 + 'px';
-                            if ( ! this.awake) {
+                            if ( ! this.awake ) {
                                 this.wake();
                             }
                         }

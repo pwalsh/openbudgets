@@ -35,8 +35,6 @@ define([
                     this.$original_children = this.$element.children().slice(0, 2);
                 },
                 pre_wake    : function () {
-                    // hack to make sure getData() doesn't look for context and return this.resource
-                    this.context = null;
                     this.resource.length && this.$title.addClass('hide');
                 },
                 post_sleep  : closeSearchBreadcrumbsHandler

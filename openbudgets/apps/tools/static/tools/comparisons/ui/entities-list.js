@@ -43,16 +43,17 @@ define([
                         },
                         remove  : false
                     });
-                }
+                },
+                request             : 'spin',
+                sync                : function () {
+                    this.spinOff()
+                        .index().search_index.add( this.resource.toJSON() );
+                },
+                error               : 'spinOff'
             },
             signals         : {
                 pre_wake        : function () {
                     return ! this.has_content;
-                },
-                pre_update      : 'spin',
-                post_fetch_data : function () {
-                    this.spinOff()
-                        .index().search_index.add( this.resource.toJSON() );
                 },
                 post_render     : function () {
                     this.$children = this.$element.children();

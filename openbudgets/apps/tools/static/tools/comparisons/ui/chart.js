@@ -27,32 +27,27 @@ define([
             },
             signals     : {
                 post_init   : function () {
-                    var that = this;
                     this.listenTo(uijet.Resource('NodesListState'), 'change', function (model) {
                         var changed = model.changed;
-                        if ( ! this.context ) {
-                            this.context = {};
-                        }
 
                         if ( 'period_start' in changed ) {
-                            this.context.period_start = model.get('period_start');
+                            this.setContext('period_start', model.get('period_start'));
                         }
                         if ( 'period_end' in changed ) {
-                            this.context.period_end = model.get('period_end');
+                            this.setContext('period_end', model.get('period_end'));
                         }
 
                         if ( 'normalize_by' in changed ) {
                             that.resource.recalcFactors()
-                                .then(function () {
-                                    that.draw();
-                                });
+                                .then(this.draw.bind(this));
                         }
                     });
                 },
                 pre_render  : function () {
-                    if ( this.context && this.context.state_loaded ) {
+                    var context = this.getContext();
+                    if ( context.state_loaded ) {
                         this._draw();
-                        delete this.context.state_loaded;
+                        delete context.state_loaded;
                     }
                     else {
                         this.set(uijet.Resource('LegendItems').models).then(this._draw.bind(this));
@@ -61,7 +56,7 @@ define([
             },
             data_events : {
                 reset   : function (collection) {
-                    collection.length && uijet.publish('chart_reset', uijet.utils.extend(this.context || {}, {
+                    collection.length && uijet.publish('chart_reset', uijet.utils.extend(this.getContext() || {}, {
                         state_loaded: true
                     }));
                 }

@@ -75,11 +75,38 @@ define([
                         this.last_request.abort();
                     }
                     this.last_request = xhr;
+                    this.spin();
                 },
                 reset   : function () {
-                    this.has_data = true;
                     delete this.$original_children;
-                }
+                },
+                sync    : function (response) {
+                    var scope_changed = this.scope_changed;
+                    // after we had to reset because of entity change make sure turn reset off again
+                    if ( this.options.fetch_options.reset ) {
+                        this.options.fetch_options.reset = false;
+                    }
+                    if ( this.search_active ) {
+                        this.filter(uijet.Resource('NodesSearchResult')
+                            .reset(response.results)
+                            .byAncestor(this.scope));
+                    }
+                    else {
+                        this.filter(this.resource.byParent, this.scope);
+                    }
+
+                    if ( scope_changed ) {
+                        this.scope_changed = false;
+                        this._publishScope();
+                    }
+                    if ( this.template_changed ) {
+                        this.template_changed = false;
+//                        scope_changed || this.publish('sheet_changed', null);
+                    }
+
+                    this.spinOff();
+                },
+                error   : 'spinOff'
             },
             signals         : {
                 post_init       : function () {
@@ -110,7 +137,7 @@ define([
 
                         if ( 'selection' in changed ) {
                             //TODO: this was copy-pasted from old nodes_list, need to check and fix
-                            if ( this.has_data ) {
+                            if ( 'scope' in this.getContext() ) {
                                 this.resetSelection(changed.selection)
                                     .publish('selection', { reset : true });
                             }
@@ -156,14 +183,14 @@ define([
                     });
                 },
                 pre_wake        : function () {
-                    // usually on first load when there's no context, just bail out
-                    if ( ! this.context ) return false;
+                    var context = this.getContext();
+                    // usually on first load, just bail out
+                    if ( ! ('scope' in context) ) return false;
 
                     var state = uijet.Resource('NodesListState'),
-                        undef = void 0,
-                        scope = 'scope' in this.context ? this.context.scope || null : undef,
-                        entity_id = this.context.entity_id,
-                        search = this.context.search || state.get('search'),
+                        scope = context.scope || null,
+                        entity_id = context.entity_id,
+                        search = context.search || state.get('search'),
                         fetch_ops_data = this.options.fetch_options.data,
                         prev_template;
 
@@ -191,7 +218,6 @@ define([
                     this.search_active = !!search;
 
                     delete this.filtered;
-                    this.has_data = false;
 
                     if ( entity_id ) {
                         this.template_changed = true;
@@ -204,38 +230,11 @@ define([
                     }
                     else {
                         delete fetch_ops_data.search;
-                        fetch_ops_data.parents = (scope === undef ? this.scope : scope) || 'none';
+                        fetch_ops_data.parents = scope || 'none';
                     }
 
                     // set scope if it's defined in the context
-                    scope !== undef && this.setScope(scope);
-                },
-                pre_update      : 'spin',
-                post_fetch_data : function (response) {
-                    var scope_changed = this.scope_changed;
-                    // after we had to reset because of entity change make sure turn reset off again
-                    if ( this.options.fetch_options.reset ) {
-                        this.options.fetch_options.reset = false;
-                    }
-                    if ( this.search_active ) {
-                        this.filter(uijet.Resource('NodesSearchResult')
-                            .reset(response.results)
-                            .byAncestor(this.scope));
-                    }
-                    else {
-                        this.filter(this.resource.byParent, this.scope);
-                    }
-
-                    if ( scope_changed ) {
-                        this.scope_changed = false;
-                        this._publishScope();
-                    }
-                    if ( this.template_changed ) {
-                        this.template_changed = false;
-//                        scope_changed || this.publish('sheet_changed', null);
-                    }
-
-                    this.spinOff();
+                    this.setScope(scope);
                 },
                 post_render     : function () {
                     this.$children = this.$element.children();

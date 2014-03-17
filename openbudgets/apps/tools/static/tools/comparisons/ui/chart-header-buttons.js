@@ -44,7 +44,7 @@ define([
             dont_wake   : function () {
                 return ! uijet.Resource('ToolState').has('id');
             },
-            app_events: {
+            app_events  : {
                 chart_saved: 'wake'
             }
         }
@@ -56,7 +56,7 @@ define([
             dont_wake   : function () {
                 return ! uijet.Resource('ToolState').has('id');
             },
-            app_events: {
+            app_events  : {
                 chart_saved: 'wake'
             },
             signals         : {
@@ -64,7 +64,7 @@ define([
                     this.$wrapper.on('mouseleave', this.publish.bind(this, 'mouse_left'));
                 }
             },
-            menu            : {
+            menu        : {
                 element        : '#viz_publish_menu',
                 float_position : 'top: 44px',
                 signals        : {
@@ -122,7 +122,7 @@ define([
             app_events  : {
                 state_saved         : enableMenuButton,
                 state_save_failed   : enableMenuButton,
-                chart_saved: 'wake'
+                chart_saved         : 'wake'
             }
         }
     }, {
@@ -130,7 +130,7 @@ define([
         config  : {
             element     : '#viz_save',
             dont_wake   : false,
-            signals : {
+            signals     : {
                 pre_click   : function () {
                     if ( ! uijet.Resource('LoggedinUser').has('uuid') ) {
                         uijet.publish('login');

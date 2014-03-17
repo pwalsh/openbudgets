@@ -44,7 +44,7 @@ define([
                 app_events  : {
                     'chart.fetched' : function (collection) {
                         var periods = collection.periods().slice(0, -1);
-                        this.setData({
+                        this.setContext({
                             periods         : periods, 
                             periods_cache   : periods 
                         })
@@ -52,10 +52,11 @@ define([
                             .then(this.notify.bind(this, 'rendered'));
                     },
                     'chart_period_end.selected' : function ($selected) {
-                        if ( this.has_data ) {
+                        var context = this.getContext();
+                        if ( context.periods ) {
                             //TODO: assuming text is a number representing a year
                             var end_period = +$selected.text();
-                            this.data.periods = this.data.periods_cache.filter(function (period) {
+                            context.periods = context.periods_cache.filter(function (period) {
                                 return period < end_period;
                             });
                             this.render()
@@ -100,7 +101,7 @@ define([
                 app_events  : {
                     'chart.fetched'                 : function (collection) {
                         var periods = collection.periods().slice(1);
-                        this.setData({
+                        this.setContext({
                             periods         : periods, 
                             periods_cache   : periods 
                         })
@@ -108,10 +109,11 @@ define([
                             .then(this.notify.bind(this, 'rendered'));
                     },
                     'chart_period_start.selected'   : function ($selected) {
-                        if ( this.has_data ) {
+                        var context = this.getContext();
+                        if ( context.periods ) {
                             //TODO: assuming text is a number representing a year
                             var start_period = +$selected.text();
-                            this.data.periods = this.data.periods_cache.filter(function (period) {
+                            context.periods = context.periods_cache.filter(function (period) {
                                 return period > start_period;
                             });
                             this.render()
