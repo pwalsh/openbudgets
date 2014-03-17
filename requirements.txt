@@ -41,5 +41,5 @@ git+https://github.com/mozilla/unicode-slugify
 hg+https://bitbucket.org/prjts/django-registration
 
 # temp, while working
-git+https://github.com/pwalsh/quilt#egg=quilt
-git+https://github.com/pwalsh/dock#egg=dock
+quilt==0.1.1-alpha
+dock==0.1.2-alpha
