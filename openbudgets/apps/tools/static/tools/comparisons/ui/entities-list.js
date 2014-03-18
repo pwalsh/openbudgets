@@ -3,7 +3,7 @@ define([
     'api',
     'comparisons',
     'tool_widgets/FilteredList'
-], function (uijet, ui, comparisons) {
+], function (uijet, api, comparisons) {
 
     return {
         type    : 'FilteredList',
@@ -12,7 +12,12 @@ define([
             mixins          : ['Templated', 'Scrolled', 'Deferred'],
             adapters        : ['jqWheelScroll', 'Spin'],
             resource        : 'Munis',
-            promise         : comparisons.routes_set_promise,
+            promise         : function () {
+                return uijet.whenAll([
+                    comparisons.routes_set_promise,
+                    this.resource.fetch(this.options.fetch_options)
+                ]);
+            },
             position        : 'top|120px bottom fluid',
             fetch_options   : {
                 data: {
