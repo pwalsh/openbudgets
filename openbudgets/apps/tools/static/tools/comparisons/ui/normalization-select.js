@@ -33,9 +33,10 @@ define([
                     legend_item_removed : positionNormalizationMenu
                 }
             },
-            content     : uijet.$('#normalization_selector_selection'),
             signals     : {
                 post_init   : function () {
+                    this.options.content = uijet.$('#normalization_selector_selection');
+
                     uijet.Resource('ToolState')
                         .on('change:normalize_by', function (model, normalize_key) {
                             var $items = this.$element.find('.uijet_select_menu').children();
