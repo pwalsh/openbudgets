@@ -1,6 +1,7 @@
 define([
     'uijet_dir/uijet',
     'comparisons',
+    'ui/welcome',
     'ui/legend',
     'ui/legend-list',
     'ui/normalization-select',
@@ -19,21 +20,12 @@ define([
     'ui/chart-heading',
     'ui/chart',
     'ui/chart-period-selects'
-], function (uijet, comparisons, legend, legend_list, normalization_select, site_menu,
+], function (uijet, comparisons, welcome, legend, legend_list, normalization_select, site_menu,
     entities, entities_list, nodes, breadcrumbs, search_crumb, nodes_list, nodes_search,
     search_filter, nodes_footer, chart_container, chart_header_buttons, chart_heading,
     chart, chart_period_selects) {
 
-    uijet.declare([{
-        type    : 'Pane',
-        config  : {
-            element     : '#welcome',
-            mixins      : ['Layered'],
-            app_events  : {
-                welcome : 'wake'
-            }
-        }
-    }])
+    uijet.declare(welcome)
         .declare(legend)
         .declare(legend_list)
         .declare(site_menu)
