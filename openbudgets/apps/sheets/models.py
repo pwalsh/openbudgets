@@ -745,6 +745,7 @@ class SheetItem(UUIDPKMixin, AbstractBaseItem, TimeStampedMixin, ClassMethodMixi
 
     @property
     def ancestors(self):
+        #TODO: replace .append() with insert() and remove the .reverse()
         ancestors = []
         current = self
         try:
