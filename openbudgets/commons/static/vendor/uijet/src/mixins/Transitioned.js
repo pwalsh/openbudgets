@@ -7,6 +7,13 @@
         factory(uijet);
     }
 }(function (uijet) {
+
+    /**
+     * Transitioned mixin class.
+     * 
+     * @class Transitioned
+     * @extends uijet.BaseWidget
+     */
     uijet.Mixin('Transitioned', {
         transitioned    : true,
         appear          : function () {

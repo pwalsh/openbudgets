@@ -11,7 +11,7 @@
     "jqScroll": "ydaniv/jqScroll",
     "spin": "spinjs#~2.0.0",
     "requirejs": "~2.1.11",
-    "q": "~1.0.0",
+    "q": "~2.0.0",
     "backbone": "amdjs/backbone#~1.1.0",
     "setImmediate": "git://github.com/NobleJS/setImmediate.git#1.0.1",
     "backbone-fetch-cache": "~1.4.0",
