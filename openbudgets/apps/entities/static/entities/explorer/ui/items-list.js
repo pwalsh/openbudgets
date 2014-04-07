@@ -140,6 +140,14 @@ define([
                     var state_model = uijet.Resource('ItemsListState');
 
                     this.scope = window.ITEM.node || null;
+                    // set the initial filtering scope
+                    if ( this.scope ) {
+                        this.setContext({
+                            filter      : 'byParent',
+                            filter_args : [this.scope] 
+                        });
+                    }
+
                     this.resource.reset(this.resource.parse(window.ITEMS_LIST));
                     if (window.ITEM.id) {
                         this.resource.add(window.ITEM);
