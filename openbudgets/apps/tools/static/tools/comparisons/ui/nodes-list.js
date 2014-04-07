@@ -1,7 +1,6 @@
 define([
     'uijet_dir/uijet',
     'resources',
-    'tool_widgets/FilteredList',
     'controllers/NodesList'
 ], function (uijet, resources) {
 
@@ -81,18 +80,25 @@ define([
                     delete this.$original_children;
                 },
                 sync    : function (response) {
-                    var scope_changed = this.scope_changed;
+                    var scope_changed = this.scope_changed,
+                        search_result;
                     // after we had to reset because of entity change make sure turn reset off again
                     if ( this.options.fetch_options.reset ) {
                         this.options.fetch_options.reset = false;
                     }
                     if ( this.search_active ) {
-                        this.filter(uijet.Resource('NodesSearchResult')
-                            .reset(response.results)
-                            .byAncestor(this.scope));
+                        search_result = uijet.Resource('NodesSearchResult');
+                        search_result.reset(response.results);
+                        this.setContext({
+                            filtered: search_result.byAncestor(this.scope),
+                            filter  : null
+                        });
                     }
                     else {
-                        this.filter(this.resource.byParent, this.scope);
+                        this.setContext({
+                            filter      : 'byParent',
+                            filter_args : [this.scope] 
+                        });
                     }
 
                     if ( scope_changed ) {
@@ -101,6 +107,7 @@ define([
                     }
                     if ( this.template_changed ) {
                         this.template_changed = false;
+                        //TODO: check if we need to explicitly handle
 //                        scope_changed || this.publish('sheet_changed', null);
                     }
 
@@ -117,18 +124,19 @@ define([
 
                     this.listenTo(state_model, 'change', function (model, options) {
                         var changed = model.changedAttributes(),
-                            search = null,
+                            fetch_ops_data = this.options.fetch_options.data,
+                            search = model.get('search') || null,
                             entity_id, scope,
-                            prev, prev_templates, prev_template;
+                            prev, prev_templates, prev_template, cached_template;
 
                         if ( ! changed )
                             return;
 
                         if ( 'search' in changed ) {
-                            search = model.get('search');
                             if ( ! search ) {
                                 prev = state_model.previous('search');
                                 if ( ! prev ) {
+                                    // clean search to be `null` instead of empty string
                                     state_model.set('search', null, { silent : true });
                                     return;
                                 }
@@ -175,66 +183,58 @@ define([
                             return;
                         }
 
-                        this._finally().wake({
-                            entity_id   : entity_id,
-                            search      : search,
-                            scope       : scope === void 0 ? model.get('scope') : scope || null
-                        });
+                        if ( entity_id ) {
+                            if ( cached_template = uijet.Resource('PreviousSheets').get(entity_id) ) {
+                                // register current collection as the new instance
+                                this.setResource(cached_template.get('nodes'));
+                                scope = scope === -1 ?
+                                    this.resource.findWhere(model.get('scope')).get('id') :
+                                    scope;
+                            }
+                            else {
+                                // instantiate a new collection and register it
+                                this.setResource(new resources.Nodes());
+                            }
+                        }
+                        // if for some reason scope is still unknown reset it to `null`
+                        if ( scope === -1 ) {
+                            scope = null;
+                        }
+
+                        this.search_active = !!search;
+
+                        // ensure cleaning of last search results
+                        delete this.getContext().filtered;
+
+                        if ( entity_id ) {
+                            this.template_changed = true;
+                            fetch_ops_data.entity_id = entity_id;
+                        }
+
+                        if ( search ) {
+                            fetch_ops_data.search = search;
+                            delete fetch_ops_data.parents;
+                        }
+                        else {
+                            delete fetch_ops_data.search;
+                            fetch_ops_data.parents = scope || 'none';
+                        }
+
+                        // set scope if it's defined in the context
+                        this.setScope(scope);
+
+                        this._finally()
+                            .resource.fetch(this.options.fetch_options)
+                            .then(this.wake.bind(this, {
+                                entity_id   : entity_id,
+                                search      : search,
+                                scope       : scope === void 0 ? model.get('scope') : scope || null
+                            }));
                     });
                 },
                 pre_wake        : function () {
-                    var context = this.getContext();
                     // usually on first load, just bail out
-                    if ( ! ('scope' in context) ) return false;
-
-                    var state = uijet.Resource('NodesListState'),
-                        scope = context.scope || null,
-                        entity_id = context.entity_id,
-                        search = context.search || state.get('search'),
-                        fetch_ops_data = this.options.fetch_options.data,
-                        prev_template;
-
-                    if ( entity_id ) {
-                        if ( prev_template = uijet.Resource('PreviousSheets').get(entity_id) ) {
-                            this.resource = prev_template.get('nodes');
-                            // register current collection as the new instance
-                            uijet.Resource('LatestSheet', this.resource, true);
-                            scope = scope === -1 ?
-                                this.resource.findWhere(state.get('scope')).get('id') :
-                                scope;
-                        }
-                        else {
-                            // instantiate a new collection
-                            this.resource = new resources.Nodes();
-                            // register it
-                            uijet.Resource('LatestSheet', this.resource, true);
-                        }
-                    }
-                    // if for some reason scope is still unknown reset it to `null`
-                    if ( scope === -1 ) {
-                        scope = null;
-                    }
-
-                    this.search_active = !!search;
-
-                    delete this.filtered;
-
-                    if ( entity_id ) {
-                        this.template_changed = true;
-                        fetch_ops_data.entity_id = entity_id;
-                    }
-
-                    if ( search ) {
-                        fetch_ops_data.search = search;
-                        delete fetch_ops_data.parents;
-                    }
-                    else {
-                        delete fetch_ops_data.search;
-                        fetch_ops_data.parents = scope || 'none';
-                    }
-
-                    // set scope if it's defined in the context
-                    this.setScope(scope);
+                    if ( ! ('scope' in this.getContext() ) ) return false;
                 },
                 post_render     : function () {
                     this.$children = this.$element.children();
@@ -301,169 +301,6 @@ define([
                 }
             }
         }
-//    }, {
-//        type    : 'FilteredList',
-//        config  : {
-//            element         : '#nodes_list',
-//            mixins          : ['Templated', 'Scrolled'],
-//            adapters        : ['jqWheelScroll', 'Spin', 'NodesList'],
-//            resource        : 'LatestSheet',
-//            position        : 'fluid',
-//            fetch_options   : {
-//                reset   : true,
-//                cache   : true,
-//                expires : 8 * 3600,
-//                data    : {
-//                    page_by : 4000,
-//                    latest  : 'True'
-//                }
-//            },
-//            search          : {
-//                fields  : {
-//                    name        : 10,
-//                    description : 1,
-//                    code        : 20
-//                }
-//            },
-//            filters         : {
-//                search  : 'search',
-//                selected: function (state) {
-//                    if ( state === true )
-//                        return this.resource.where({ selected : 'selected' })
-//                                            .map(uijet.utils.prop('id'));
-//                    else
-//                        return null;
-//                }
-//            },
-//            sorting         : {
-//                name        : 'name',
-//                '-name'     : resources.utils.reverseSorting('name'),
-//                code        : resources.utils.nestingSort,
-//                '-code'     : resources.utils.reverseNestingSort,
-//                direction   : 'direction',
-//                '-direction': resources.utils.reverseSorting('direction')
-//            },
-//            data_events     : {},
-//            signals         : {
-//                post_init       : function () {
-//                    var state_model = uijet.Resource('NodesListState');
-//
-//                    state_model.on('change:entity_id', function (model, entity_id) {
-//                        this.dont_fetch = false;
-//                        this.has_data = false;
-//                        this.rebuild_index = true;
-//                        this.options.fetch_options.data.entity = entity_id;
-//                    }, this);
-//
-//                    state_model.on('change:selection', function (model, selection) {
-//                        if ( this.has_data ) {
-//                            this.resetSelection(selection)
-//                                .publish('selection', { reset : true });
-//                        }
-//                        else {
-//                            this.reselect = true;
-//                        }
-//                    }, this);
-//                },
-//                pre_wake        : function () {
-                    //usually on first load when there's no context, just bail out
-//                    if ( ! this.context ) return false;
-//
-//                    if ( this.context.entity_id ) {
-                        //change view back to main
-//                        this.setScope(null);
-//
-//                        var state = uijet.Resource('NodesListState');
-//                        this.updateFlags(state.attributes);
-//
-//                        if ( this.active_filters ) {
-//                            this.filter(this.resource.byAncestor)
-//                        }
-//                        else {
-//                            this.filter(this.resource.roots);
-//                        }
-//                    }
-//                    else {
-//                        console.error('Nodes list started without a given entity ID.', this.context);
-//                    }
-//                },
-//                pre_update      : 'spin',
-//                post_fetch_data : function () {
-//                    if ( this.queued_filters ) {
-//                        this.queued_filters = false;
-//                        this.filter(this.resource.byAncestor);
-//                    }
-//                    if ( this.reselect ) {
-//                        this.reselect = false;
-//                        this.resetSelection(this.context.selection);
-//                    }
-//                    if ( this.rebuild_index ) {
-                        //clear FilterList's cache
-//                        this.rebuild_index = false;
-//                        this.cached_results = {};
-//                        this.$last_filter_result = null;
-                        //rebuild index
-//                        this.buildIndex();
-//                    }
-//                    this.spinOff();
-//                },
-//                post_render     : function () {
-//                    this.$children = this.$element.children();
-//                    if ( this.active_filters ) {
-//                        this.filterChildren();
-//                    }
-//                    else {
-//                        this.scroll();
-//                    }
-//
-//                    this._finally();
-//                },
-//                pre_select      : function ($selected, e) {
-//                    var id = $selected.attr('data-id');
-//                    if ( uijet.$(e.target).hasClass('selectbox') ) {
-//                        this.updateSelection(id)
-//                            .publish('selection');
-//                        return false;
-//                    }
-//                    else {
-//                        return ! $selected[0].hasAttribute('data-leaf') && id;
-//                    }
-//                },
-//                post_select     : function ($selected) {
-//                    var node_id = $selected.attr('data-id') || null;
-//                    this.redraw(node_id);
-//                },
-//                post_filtered   : function (ids) {
-//                    this.publish('filter_count', ids ? ids.length : null)
-//                        ._prepareScrolledSize();
-//
-//                    var search_term = uijet.Resource('NodesListState').get('search');
-//                    uijet.utils.requestAnimFrame( this.toggleHighlight.bind(this, search_term) );
-//                    uijet.utils.requestAnimFrame( this.scroll.bind(this) );
-//                }
-//            },
-//            app_events      : {
-//                'legends_list.last_deleted'                 : 'sleep',
-//                'search.changed'                            : 'updateSearchFilter+',
-//                'selected.changed'                          : 'updateSelectedFilter+',
-//                'nodes_list.filtered'                       : 'filterChildren',
-//                'nodes_breadcrumbs.selected'                : 'redraw+',
-//                'nodes_list_header.selected'                : 'sortNodes+',
-//                'nodes_list.selection'                      : function () {
-//                    var resource = this.resource;
-                    //update DOM with collection's state
-//                    this.$children.each(function (i, node) {
-//                        var $node = uijet.$(node),
-//                            id = $node.attr('data-id'),
-//                            state = resource.get(id).get('selected');
-//                        $node.attr('data-selected', state);
-//                    });
-//                    if ( this.active_filters & this.filter_flags['selected'] ) {
-//                        this.updateSelectedFilter(true);
-//                    }
-//                }
-//            }
-//        }
     }];
 
 });

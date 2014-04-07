@@ -30,14 +30,14 @@ define([
         // optimization hack to not call `this._prepareScrolledSize()` after `render()`
         scrolled            : false,
         _publishScope       : function () {
-            var item_model;
+            var node_model;
 
-            item_model = this.scope ?
+            node_model = this.scope ?
                 this.resource.get(this.scope) ||
                 uijet.Resource('Breadcrumbs').get(this.scope) :
                 this.scope;
 
-            return this.publish('scope_changed', item_model);
+            return this.publish('scope_changed', node_model);
         },
         setScope            : function (scope) {
             scope = scope || null;
@@ -124,7 +124,7 @@ define([
             return this._updateFilter(!!this.active_filters !== filters_active);
         },
         _updateFilter       : function (redraw) {
-            if ( this.has_data && this.$children ) {
+            if ( this.resource.length && this.$children ) {
                 if ( redraw ) {
                     this.redraw(this.scope);
                 }
