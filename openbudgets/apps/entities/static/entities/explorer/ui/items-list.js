@@ -223,6 +223,7 @@ define([
 
                         this.search_active = !!search;
 
+                        // ensure cleaning of last search results
                         delete this.getContext().filtered;
 
                         if ( sheet ) {
