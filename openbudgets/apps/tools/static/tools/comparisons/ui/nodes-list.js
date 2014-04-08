@@ -270,7 +270,7 @@ define([
             },
             app_events      : {
                 'nodes_breadcrumbs.selected': 'post_select+',
-                'nodes_list_header.selected': 'sortItems+',
+                'nodes_list_header.selected': 'sortNodes+',
                 'picker_done.clicked'       : function () {
                     /*
                      * Make sure that every time we hit "done" we cache current template state
