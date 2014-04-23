@@ -330,7 +330,7 @@ OPENBUDGETS_API = {
 }
 
 OPENBUDGETS_ADMIN = {
-    'enable': True,
+    'enable': False,
     'base': 'admin/'
 }
 
