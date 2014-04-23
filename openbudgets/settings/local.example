@@ -4,6 +4,7 @@ from openbudgets.settings import *
 ######################################################################
 ##                                                                  ##
 ##  USE THIS FILE TO PROVIDE YOUR OWN LOCAL ENVIRONMENT OVERRIDES   ##
+##              copy it to local.py in this same location           ##
 ##                                                                  ##
 ######################################################################
 
@@ -18,21 +19,19 @@ from openbudgets.settings import *
 # Uncomment MIDDLEWARE_CLASSES, INSTALLED_APPS, INTERNAL_IPS, and
 # DEBUG_TOOLBAR_CONFIG for debugging tools.
 #
-#MIDDLEWARE_CLASSES += (
+# MIDDLEWARE_CLASSES += (
 #    'debug_toolbar.middleware.DebugToolbarMiddleware',
-#    'django_pdb.middleware.PdbMiddleware',
-#)
-#
-#INSTALLED_APPS += (
+# )
+
+# INSTALLED_APPS += (
 #    'debug_toolbar',
-#    'django_pdb',
-#)
-#
-#INTERNAL_IPS = ('127.0.0.1',)
-#
-#DEBUG_TOOLBAR_CONFIG = {
+# )
+
+# INTERNAL_IPS = ('127.0.0.1',)
+
+# DEBUG_TOOLBAR_CONFIG = {
 #    'INTERCEPT_REDIRECTS': False,
-#}
+# }
 
 # Uncomment to enable caching during development
 #CACHES = {

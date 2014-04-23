@@ -21,6 +21,7 @@ ckanclient
 unicode-slugify
 django-treebeard==2.0rc1
 django-oauth-toolkit
+django-debug-toolbar
 django-cors-headers
 django-redis-cache
 django-autoslug
