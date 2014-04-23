@@ -646,7 +646,7 @@ class SheetItemManager(models.Manager):
         return self.select_related()
 
     def related_map(self):
-        return self.select_related().prefetch_related('parent__parent', 'children', 'discussion')
+        return self.select_related().prefetch_related()
 
     # TODO: Check this for a more efficient implementation
     def timeline(self, node_pks, entity_pk):

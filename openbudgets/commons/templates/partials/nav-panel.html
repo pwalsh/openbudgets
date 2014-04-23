@@ -31,7 +31,7 @@
         <a href="{% url 'page' slug='terms' %}">{% trans 'Terms' %}</a>
         <a href="{% url 'page' slug='privacy' %}">{% trans 'Privacy' %}</a>
         <a href="{% url 'page' slug='contact' %}" class="contact-link">{% trans 'Contact' %}</a>
-        <a href="{% url 'api' %}">{% trans 'API' %}</a>
+        <a href="{% if with_api %}{% url 'api' %}{% endif %}">{% trans 'API' %}</a>
     </nav>
     {% comment %}
     <div>

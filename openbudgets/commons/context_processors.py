@@ -42,5 +42,6 @@ def openbudgets(request):
     openbudgets['sponsor_name'] = _(settings.OPENBUDGETS_NAME_SPONSOR)
     openbudgets['sponsor_name_list'] = openbudgets['sponsor_name'].split()
     openbudgets['avatar_anon'] = settings.OPENBUDGETS_AVATAR_ANON
+    openbudgets['with_api'] = settings.OPENBUDGETS_API['enable']
 
     return openbudgets

@@ -1,7 +1,7 @@
 ipython
 ipdb
-django==1.5.5
-djangorestframework==2.3.9
+django==1.6.3
+djangorestframework==2.3.13
 gunicorn
 celery
 south
@@ -18,13 +18,9 @@ coverage
 sphinx
 raven
 ckanclient
-#quilt==0.2.0-alpha
-git+https://github.com/pwalsh/quilt#egg=quilt
-#dock==0.2.0-alpha
-git+https://github.com/pwalsh/dock#egg=dock
+unicode-slugify
 django-modeltranslation
-django-grappelli==2.4.8
-grappelli-modeltranslation
+django-treebeard==2.0rc1
 django-oauth-toolkit
 django-cors-headers
 django-redis-cache
@@ -33,8 +29,13 @@ django-gravatar2
 django-taggit
 django-braces
 django-subdomains
-git+https://github.com/dcramer/django-uuidfield.git#egg=uuidfield
-git+https://github.com/mozilla/unicode-slugify
+django-uuidfield
 
 # upstream still doesn't fully support custom user model
 hg+https://bitbucket.org/prjts/django-registration
+
+#quilt==0.2.0-alpha
+git+https://github.com/pwalsh/quilt#egg=quilt
+
+#dock==0.2.0-alpha
+git+https://github.com/pwalsh/dock#egg=dock

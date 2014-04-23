@@ -38,12 +38,10 @@ def get_patterns():
     def get_admin(base=admin_base):
 
         from django.contrib import admin
-        from grappelli import urls as grappelli_urls
         admin.autodiscover()
 
         patterns = [
             url(r'^{0}'.format(base), include(admin.site.urls)),
-            url(r'^grappelli/', include(grappelli_urls)),
         ]
 
         return patterns
@@ -63,6 +61,9 @@ def get_patterns():
         patterns.extend(get_api(api_base_without_ui))
         if with_admin:
             patterns.extend(get_admin())
+
+    elif with_admin:
+        patterns.extend(get_admin())
 
     return patterns
 

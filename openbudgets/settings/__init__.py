@@ -113,9 +113,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.comments',
-    'grappelli.dashboard',
-    'grappelli',
-    'grappelli_modeltranslation',
     'django.contrib.admin',
     'django.contrib.sitemaps',
     'oauth2_provider',
@@ -211,11 +208,6 @@ REDIS = {
 REDIS_URL = REDIS['SCHEME'] + REDIS['HOST'] + ':' + \
             str(REDIS['PORT']) + '/' + str(REDIS['DB'])
 
-GRAPPELLI_ADMIN_TITLE = 'Open Budgets'
-
-
-GRAPPELLI_INDEX_DASHBOARD = 'openbudget.dashboard.OpenBudgetsDashboard'
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'oauth2_provider.ext.rest_framework.OAuth2Authentication',
@@ -227,13 +219,13 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.UnicodeJSONRenderer',
-        #'rest_framework.renderers.BrowsableAPIRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
     ),
     'DEFAULT_FILTER_BACKENDS': (
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ),
-    'PAGINATE_BY': 500,
+    'PAGINATE_BY': 1000,
     'PAGINATE_BY_PARAM': 'page_by'
 }
 
@@ -346,7 +338,7 @@ OPENBUDGETS_API = {
 }
 
 OPENBUDGETS_ADMIN = {
-    'enable': False,
+    'enable': True,
     'base': 'admin/'
 }
 
@@ -359,6 +351,7 @@ OPENBUDGETS_CKAN = [
     }
 ]
 
+# TODO: this is here for CKAN. tidy up.
 OPENBUDGETS_SETTING = {
     'tags': ['budget', 'municipalities', 'israel'],
     'notes': 'This is the Budget and the Actual of',
