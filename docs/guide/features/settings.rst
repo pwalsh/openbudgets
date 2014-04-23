@@ -17,7 +17,7 @@ A place to write and read temporary files.
 OPENBUDGETS_UI
 ~~~~~~~~~~~~~~
 
-A configuration obejct for the UI.
+A configuration object for the UI.
 
 OPENBUDGETS_UI = {
     'enable': False,
@@ -27,7 +27,7 @@ OPENBUDGETS_UI = {
 OPENBUDGETS_API
 ~~~~~~~~~~~~~~
 
-A configuration obejct for the UI.
+A configuration object for the UI.
 
 OPENBUDGETS_API = {
     'enable': True,
@@ -37,7 +37,7 @@ OPENBUDGETS_API = {
 OPENBUDGETS_ADMIN
 ~~~~~~~~~~~~~~
 
-A configuration obejct for the Admin.
+A configuration object for the Admin.
 
 OPENBUDGETS_ADMIN = {
     'enable': False,
