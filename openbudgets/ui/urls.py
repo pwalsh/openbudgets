@@ -1,11 +1,11 @@
 from django.conf.urls import url, include
 from django.views.generic import TemplateView
 from openbudgets.apps.accounts.urls import ui as account_urls
-from openbudgets.apps.accounts.urls import ui as entity_urls
-from openbudgets.apps.accounts.urls import ui as sheet_urls
-from openbudgets.apps.accounts.urls import ui as tool_urls
-from openbudgets.apps.accounts.urls import ui as transport_urls
-from openbudgets.apps.accounts.urls import ui as page_urls
+from openbudgets.apps.entities.urls import ui as entity_urls
+from openbudgets.apps.sheets.urls import ui as sheet_urls
+from openbudgets.apps.tools.urls import ui as tool_urls
+from openbudgets.apps.transport import urls as transport_urls
+from openbudgets.apps.pages import urls as page_urls
 from openbudgets.commons.views import OBudgetSitemap
 
 
