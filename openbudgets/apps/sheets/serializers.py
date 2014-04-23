@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from openbudgets.apps.international.utilities import translated_fields
 from openbudgets.apps.sheets import models
 from openbudgets.apps.accounts.serializers import AccountMin
 from openbudgets.commons.serializers import UUIDRelatedField
@@ -51,8 +50,7 @@ class TemplateNode(TemplateNodeMin):
     class Meta(TemplateNodeMin.Meta):
         fields = TemplateNodeMin.Meta.fields + ['code', 'name', 'description',
                  'direction', 'path', 'comparable', 'parent', 'templates', 'depth',
-                 'backwards', 'inverse', 'items', 'created_on', 'last_modified',] \
-                 + translated_fields(models.TemplateNode)
+                 'backwards', 'inverse', 'items', 'created_on', 'last_modified']
 
 
 class Template(TemplateMin):
@@ -64,7 +62,7 @@ class Template(TemplateMin):
 
     class Meta(TemplateMin.Meta):
         fields = TemplateMin.Meta.fields + ['divisions', 'sheets', 'node_count', 'nodes', 'created_on',
-                 'last_modified'] + translated_fields(models.Template)
+                 'last_modified']
 
 
 class SheetItemMin(serializers.HyperlinkedModelSerializer):
@@ -90,7 +88,7 @@ class SheetItemMin(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.SheetItem
         fields = ['id', 'url', 'node', 'name', 'code', 'comparable', 'direction',
-                  'path', 'budget', 'actual', 'variance'] + translated_fields(models.TemplateNode)
+                  'path', 'budget', 'actual', 'variance']
 
 
 class SheetMin(serializers.HyperlinkedModelSerializer):
@@ -120,7 +118,7 @@ class Sheet(SheetMin):
     class Meta(SheetMin.Meta):
         fields = SheetMin.Meta.fields +\
             ['entity', 'template', 'description', 'items',
-             'created_on', 'last_modified'] + translated_fields(models.Sheet)
+             'created_on', 'last_modified']
 
 
 class SheetTimeline(serializers.ModelSerializer):
@@ -133,7 +131,7 @@ class SheetTimeline(serializers.ModelSerializer):
 
     class Meta:
         model = models.SheetItem
-        fields = ['id', 'budget', 'actual', 'description', 'period'] + translated_fields(model)
+        fields = ['id', 'budget', 'actual', 'description', 'period']
 
 
 class SheetItemCommentEmbed(serializers.ModelSerializer):
@@ -194,4 +192,4 @@ class SheetItem(SheetItemMin):
         fields = SheetItemMin.Meta.fields +\
             ['sheet', 'depth', 'description',
              'has_comments', 'comment_count', 'parent', 'children', 'ancestors',
-             'discussion'] + translated_fields(models.TemplateNode)
+             'discussion']

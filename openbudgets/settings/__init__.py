@@ -5,8 +5,6 @@ DEBUG = True
 
 TEMPLATE_DEBUG = DEBUG
 
-MODELTRANSLATION_DEBUG = DEBUG
-
 WSGI_APPLICATION = 'openbudgets.wsgi.application'
 
 SECRET_KEY = 'pvh9d)+7aui4=evh$yv!qgbr3oyz-4=^oj_%6g8+v57b=de5)7'
@@ -46,11 +44,6 @@ LANGUAGES = (
 )
 
 LANGUAGE_CODE = LANGUAGES[0][0]
-
-MODELTRANSLATION_DEFAULT_LANGUAGE = LANGUAGE_CODE
-
-MODELTRANSLATION_FALLBACK_LANGUAGES = (LANGUAGES[0][0], LANGUAGES[1][0],
-                                       LANGUAGES[2][0], LANGUAGES[3][0])
 
 MEDIA_URL = '/static/media/'
 
@@ -121,7 +114,6 @@ INSTALLED_APPS = (
     'subdomains',
     'registration',
     'rest_framework',
-    'modeltranslation',
     'raven.contrib.django.raven_compat',
     'taggit',
     'django_gravatar',

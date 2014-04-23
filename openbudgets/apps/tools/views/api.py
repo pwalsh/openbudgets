@@ -1,5 +1,4 @@
 from rest_framework import generics
-from openbudgets.apps.international.utilities import translated_fields
 from openbudgets.apps.tools import serializers
 from openbudgets.apps.tools import models
 from openbudgets.apps.accounts.models import Account
@@ -14,7 +13,7 @@ class ToolList(generics.ListAPIView):
     ordering = ['id', 'created_on', 'last_modified']
     search_fields = ['name', 'description', 'owner__first_name',
                      'owner__last_name', 'author__first_name',
-                     'author__first_name'] + translated_fields(model)
+                     'author__first_name']
 
 
 class ToolDetail(generics.RetrieveAPIView):

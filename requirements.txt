@@ -19,7 +19,6 @@ sphinx
 raven
 ckanclient
 unicode-slugify
-django-modeltranslation
 django-treebeard==2.0rc1
 django-oauth-toolkit
 django-cors-headers

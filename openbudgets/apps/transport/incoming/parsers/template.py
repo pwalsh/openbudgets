@@ -2,7 +2,6 @@ from datetime import datetime
 from django.utils.translation import ugettext_lazy as _, gettext as __
 from openbudgets.apps.sheets.models import Template, TemplateNode, TemplateNodeRelation
 from openbudgets.apps.entities.models import Division
-from openbudgets.apps.international.utilities import translated_fields
 from openbudgets.apps.transport.incoming.parsers import BaseParser, register, ParsingError
 from openbudgets.apps.transport.incoming.resolvers import PathResolver
 from openbudgets.apps.transport.incoming.errors import DataSyntaxError, ParentScopeError,\
@@ -21,8 +20,7 @@ class TemplateParser(BaseParser):
     container_model = Template
     item_model = TemplateNode
     ITEM_ATTRIBUTES = ['name', 'code', 'parent', 'path', 'templates',
-                       'direction', 'description', 'comparable']\
-        + translated_fields(TemplateNode)
+                       'direction', 'description', 'comparable']
     CONTAINER_ATTRIBUTES = ['name', 'description', 'divisions', 'period_start']
 
     def __init__(self, container_object_dict, rows_filters=None, extends=None, blueprint=None, fill_in_parents=None, interpolate=None):

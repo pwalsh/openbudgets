@@ -3,7 +3,6 @@ import logging
 from datetime import datetime
 from django.core.mail import EmailMessage
 from django.conf import settings
-from openbudgets.apps.international.utilities import translated_fields
 from openbudgets.apps.entities.models import Entity
 from openbudgets.apps.transport.models import String
 from openbudgets.apps.transport.incoming.parsers import get_parser, get_parser_key
@@ -162,9 +161,6 @@ class BaseImporter(object):
 
                 if tmp == k or tmp in v:
                     normalized_headers[index] = k
-
-                if tmp in translated_fields(self.parser.item_model):
-                    normalized_headers[index] = tmp
 
         # MAKE SURE HEADERS ARE LOWER CASED, ALWAYS!
         return [h.lower() for h in normalized_headers]

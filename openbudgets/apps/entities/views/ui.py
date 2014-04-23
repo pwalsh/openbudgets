@@ -7,7 +7,6 @@ from openbudgets.apps.accounts.serializers import AccountMin
 from openbudgets.apps.entities.models import Entity
 from openbudgets.apps.sheets.models import Sheet, SheetItem
 from openbudgets.apps.contexts.models import Context
-from openbudgets.apps.international.utilities import translated_fields
 from openbudgets.apps.sheets.serializers import SheetItem as SheetItemSerializer
 from openbudgets.apps.sheets.serializers import Sheet as SheetSerializer
 from openbudgets.commons.utilities import commas_format
@@ -19,8 +18,7 @@ class EntityDetailUISerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Entity
-        fields = ['id', 'name', 'description', 'code', 'sheets', 'slug']\
-                 + translated_fields(model)
+        fields = ['id', 'name', 'description', 'code', 'sheets', 'slug']
 
 
 class EntityList(ListView):

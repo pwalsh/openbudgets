@@ -1,13 +1,12 @@
 from django.contrib import admin
-from modeltranslation.admin import TranslationAdmin, TranslationStackedInline
 from openbudgets.apps.sheets.models import Template, Sheet, SheetItem
 
 
-class TemplateAdmin(TranslationAdmin):
+class TemplateAdmin(admin.ModelAdmin):
     """Admin form for adding budget templates"""
 
 
-class SheetItemInline(TranslationStackedInline):
+class SheetItemInline(admin.StackedInline):
     """Gives an inlineable BudgetItem form"""
 
     model = SheetItem
@@ -17,7 +16,7 @@ class SheetItemInline(TranslationStackedInline):
     extra = 2
 
 
-class SheetAdmin(TranslationAdmin):
+class SheetAdmin(admin.ModelAdmin):
     """Admin form for adding budgets"""
 
     inlines = [SheetItemInline]

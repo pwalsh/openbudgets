@@ -39,7 +39,6 @@ The default settings look something like this::
         ('ru', gettext('Russian')),
     )
     LANGUAGE_CODE = LANGUAGES[0][0]
-    MODELTRANSLATION_DEFAULT_LANGUAGE = LANGUAGE_CODE
 
 Domain Settings
 ~~~~~~~~~~~~~~~
@@ -79,7 +78,6 @@ Dependencies
 Open Budgets' internationalization features depend on a number of 3rd party python packages.
 
 * django
-* modeltranslation
 * subdomains
 
 Django
@@ -98,21 +96,6 @@ How to import::
 Example implementation:
 
 https://github.com/hasadna/omuni-budget/blob/develop/openbudget/apps/international/middleware.py
-
-ModelTranslation
-~~~~~~~~~~~~~~~~
-
-https://github.com/deschler/django-modeltranslation
-
-We use ModelTranslation for translating data stored in the database. ModelTranslation creates additional columns on tables for each supported language.
-
-How to import::
-
-    from modeltranslation.translator import translator
-
-Example implementation:
-
-https://github.com/hasadna/omuni-budget/blob/develop/openbudget/apps/budgets/translation.py
 
 SubDomains
 ~~~~~~~~~~

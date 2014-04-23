@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from openbudgets.apps.international.utilities import translated_fields
 from openbudgets.apps.tools import models
 from openbudgets.apps.accounts.serializers import AccountMin
 from openbudgets.commons.serializers import UUIDRelatedField, UUIDPKRelatedField
@@ -13,8 +12,7 @@ class Tool(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Tool
         fields = ['url', 'id', 'author', 'label', 'name', 'description', 'featured',
-                  'screenshot', 'created_on', 'last_modified'] +\
-                  translated_fields(model)
+                  'screenshot', 'created_on', 'last_modified']
 
 
 class State(serializers.HyperlinkedModelSerializer):

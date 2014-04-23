@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from openbudgets.apps.international.utilities import translated_fields
 from openbudgets.apps.entities import models
 
 
@@ -36,7 +35,7 @@ class EntityBase(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Entity
         fields = ['id', 'url', 'name', 'description', 'code', 'parent',
-                  'division', 'created_on', 'last_modified'] + translated_fields(model)
+                  'division', 'created_on', 'last_modified']
 
 
 class DivisionBase(serializers.HyperlinkedModelSerializer):
@@ -48,7 +47,7 @@ class DivisionBase(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Division
         fields = ['id', 'url', 'name', 'index', 'budgeting', 'domain',
-                  'created_on', 'last_modified', 'entity_count'] + translated_fields(model)
+                  'created_on', 'last_modified', 'entity_count']
 
 
 class DomainBase(serializers.HyperlinkedModelSerializer):
@@ -59,7 +58,7 @@ class DomainBase(serializers.HyperlinkedModelSerializer):
         model = models.Domain
         fields = ['id', 'url', 'name', 'measurement_system',
                   'ground_surface_unit', 'currency', 'created_on',
-                  'last_modified', 'divisions'] + translated_fields(model)
+                  'last_modified', 'divisions']
 
 
 class DomainDetail(DomainBase):

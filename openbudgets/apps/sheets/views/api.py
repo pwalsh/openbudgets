@@ -1,7 +1,6 @@
 import datetime
 from rest_framework import generics, status
 from rest_framework.response import Response
-from openbudgets.apps.international.utilities import translated_fields
 from openbudgets.apps.sheets import serializers
 from openbudgets.apps.sheets import models
 from openbudgets.apps.accounts.models import Account
@@ -12,10 +11,10 @@ class TemplateList(generics.ListAPIView):
     """API endpoint that represents a list of templates."""
 
     model = models.Template
-    queryset = model.objects.related_map_min()
+    queryset = model.objects.all()
     serializer_class = serializers.TemplateMin
     ordering = ['id', 'name', 'period_start', 'created_on', 'last_modified']
-    search_fields = ['name', 'description'] + translated_fields(model)
+    search_fields = ['name', 'description']
 
     def get_queryset(self):
         queryset = super(TemplateList, self).get_queryset()
@@ -63,7 +62,7 @@ class TemplateNodeList(generics.ListAPIView):
     queryset = model.objects.related_map()
     serializer_class = serializers.TemplateNode
     ordering = ['id', 'name', 'description', 'created_on', 'last_modified']
-    search_fields = ['name', 'description'] + translated_fields(model)
+    search_fields = ['name', 'description']
 
     def get_queryset(self):
         queryset = super(TemplateNodeList, self).get_queryset()
@@ -123,7 +122,7 @@ class SheetList(generics.ListAPIView):
     serializer_class = serializers.SheetMin
     ordering = ['id', 'entity__name', 'period_start', 'created_on', 'last_modified']
     search_fields = ['entity__name', 'description', 'period_start',
-                     'period_end'] + translated_fields(model)
+                     'period_end']
 
     def get_queryset(self):
         queryset = super(SheetList, self).get_queryset()
@@ -227,7 +226,7 @@ class SheetItemList(generics.ListAPIView):
     ordering = ['id', 'sheet__entity__name', 'node__code', 'created_on',
                 'last_modified']
     search_fields = ['sheet__entity__name', 'node__code', 'node__name',
-                     'description'] + translated_fields(model)
+                     'description']
 
     def get_queryset(self):
         queryset = super(SheetItemList, self).get_queryset()

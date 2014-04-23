@@ -2,9 +2,10 @@ import os
 from celery import Celery
 from django.conf import settings
 from openbudgets.queue import config
+
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'openbudgets.settings')
-from modeltranslation.models import autodiscover
-autodiscover()
+
 
 app = Celery('openbudgets')
 app.config_from_object(config)

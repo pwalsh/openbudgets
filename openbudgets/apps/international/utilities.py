@@ -1,5 +1,4 @@
 from django.conf import settings
-from modeltranslation.translator import translator
 
 
 def get_language_key(host, domain, user):
@@ -34,20 +33,3 @@ def get_language_key(host, domain, user):
             value = current_subdomain
 
     return value
-
-
-def translated_fields(model):
-    """Given a model, returns a list of translated field names for it.
-
-    The returned list excludes the extra field created for the default language.
-
-    """
-
-    options = translator.get_options_for_model(model)
-    fields = [f.name for l in options.fields.values() for f in l]
-
-    for i, f in enumerate(fields):
-        if f.endswith(settings.MODELTRANSLATION_DEFAULT_LANGUAGE):
-            del fields[i]
-
-    return fields

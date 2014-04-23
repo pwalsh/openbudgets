@@ -30,13 +30,7 @@ https://github.com/hasadna/omuni-budget/blob/develop/openbudget/dashboard.py
 Dependencies
 ------------
 
-Open Budgets' admin depends on the following 3rd party packages:
-
-* django
-* grappelli
-* grappelli-modeltranslation
-* django-rosetta
-* django-rosetta-grappelli
+Open Budgets' admin depends on the no 3rd party packages.
 
 Django
 ~~~~~~
@@ -55,38 +49,6 @@ Example implementation:
 
 https://github.com/hasadna/omuni-budget/blob/develop/openbudget/apps/accounts/admin.py
 
-Grappelli
-~~~~~~~~~
-
-https://github.com/sehmaschine/django-grappelli
-
-django-grappelli is a popular 3rd party app for Django that extends the admin.
-
-Grappelli provides a new skin for the UI, an improved API for controlling the display of the admin, and easy dashboard customization.
-
-How to import::
-
-    from grappelli import urls as grappelli_urls
-
-Example implementation:
-
-https://github.com/hasadna/omuni-budget/blob/develop/openbudget/ui/urls.py
-
-Grappelli ModelTranslation
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-grappelli-modeltranslation is a small package that adds a compatibility layer for ModelTranslation's admin forms in Grappelli.
-
-Rosetta
-~~~~~~~
-
-Rosetta provides admin access to translation files for strings in the codebase.
-
-Rosetta Grappelli
-~~~~~~~~~~~~~~~~~
-
-rosetta-grappelli is a small package that adds a compatiblity layer for Rosetta in Grappelli.
-
 Project Code
 ------------
 
@@ -101,7 +63,7 @@ Data Translations
 Database
 ~~~~~~~~
 
-We are using ModelTranslation to translate data in the database. One of the great advantages of using ModelTranslation is that translations can occur "in place". Every translatable field has a small widget to switch between languages, and add new translations.
+TBA.
 
 Codebase
 ~~~~~~~~
