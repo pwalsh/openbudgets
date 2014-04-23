@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.core.mail import send_mail
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from celery import shared_task
 from openbudgets.apps.transport.incoming.parsers import get_parser
 

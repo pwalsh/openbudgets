@@ -4,6 +4,8 @@ from openbudgets.api.v1.views import api_v1
 from openbudgets.apps.entities.urls.api import entities, divisions, domains
 from openbudgets.apps.sheets.urls.api import templates, sheets
 from openbudgets.apps.contexts.urls.api import contexts, coefficients
+from openbudgets.apps.accounts.urls import api as account_urls
+from openbudgets.apps.tools.urls import api as tool_urls
 
 
 urlpatterns = [
@@ -24,9 +26,9 @@ urlpatterns = [
 
     url(r'^coefficients/', include(coefficients())),
 
-    url(r'^tools/', include('openbudgets.apps.tools.urls.api')),
+    url(r'^tools/', include(tool_urls)),
 
-    url(r'^accounts/', include('openbudgets.apps.accounts.urls.api')),
+    url(r'^accounts/', include(account_urls)),
 
 ]
 

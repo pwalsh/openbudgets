@@ -1,7 +1,7 @@
 """Custom context processors for Omuni"""
 from django.conf import settings
 from django.contrib.sites.models import Site
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from openbudgets.apps.accounts.forms import CustomAuthenticationForm, \
     CustomRegistrationForm, CustomPasswordResetForm, CustomPasswordChangeForm
 from openbudgets.apps.pages.forms import ContactForm

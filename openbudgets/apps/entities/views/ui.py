@@ -1,5 +1,5 @@
 from django.template.loader import render_to_string
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView, ListView
 from rest_framework.renderers import JSONRenderer
 from rest_framework import serializers

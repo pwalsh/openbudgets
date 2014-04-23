@@ -1,5 +1,6 @@
 from django.conf.urls import url, include
 from django.views.generic import TemplateView
+from django.contrib.sitemaps.views import sitemap as sitemap_view
 from openbudgets.apps.accounts.urls import ui as account_urls
 from openbudgets.apps.entities.urls import ui as entity_urls
 from openbudgets.apps.sheets.urls import ui as sheet_urls
@@ -26,8 +27,7 @@ urlpatterns = [
 
     url(r'^robots\.txt', TemplateView.as_view(template_name='robots.txt')),
 
-    url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap',
-        {'sitemaps': sitemaps}),
+    url(r'^sitemap\.xml$', sitemap_view, {'sitemaps': sitemaps}),
 
     url(r'^', include(page_urls)),
 

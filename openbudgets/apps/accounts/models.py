@@ -6,7 +6,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
     PermissionsMixin
 from django.contrib.comments.models import Comment
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from openbudgets.apps.interactions.models import Star, Follow
 from openbudgets.commons.mixins.models import UUIDMixin, TimeStampedMixin, \
@@ -146,7 +146,7 @@ class CoreTeamAccountManager(models.Manager):
     """Filter core team user proxy queries correctly"""
 
     def get_query_set(self):
-        return super(CoreTeamAccountManager, self).get_query_set().filter(
+        return super(CoreTeamAccountManager, self).get_queryset().filter(
             groups=settings.OPENBUDGETS_GROUP_ID_CORE)
 
 
@@ -171,7 +171,7 @@ class ContentTeamAccountManager(models.Manager):
     """Filter content team user proxy queries correctly"""
 
     def get_query_set(self):
-        return super(ContentTeamAccountManager, self).get_query_set().filter(
+        return super(ContentTeamAccountManager, self).get_queryset().filter(
             groups=settings.OPENBUDGETS_GROUP_ID_CONTENT)
 
 
@@ -195,7 +195,7 @@ class PublicAccountManager(models.Manager):
     """Filter public user proxy queries correctly"""
 
     def get_query_set(self):
-        return super(PublicAccountManager, self).get_query_set().filter(
+        return super(PublicAccountManager, self).get_queryset().filter(
             groups=settings.OPENBUDGETS_GROUP_ID_PUBLIC)
 
 

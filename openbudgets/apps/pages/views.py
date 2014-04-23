@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView, DetailView, FormView
 from django.http import HttpResponse
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from openbudgets.apps.pages.models import Page
 from openbudgets.apps.pages.forms import ContactForm
 from openbudgets.commons.mixins.views import JSONResponseMixin
