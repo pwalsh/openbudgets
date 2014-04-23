@@ -285,6 +285,10 @@ CACHE_MIDDLEWARE_KEY_PREFIX = 'openbudgets::'
 
 SOUTH_TESTS_MIGRATE = False
 
+SOUTH_MIGRATION_MODULES = {
+    'taggit': 'taggit.south_migrations',
+}
+
 RAVEN_CONFIG = {'dsn': ''}
 
 OPENBUDGETS_TEMP_DIR = os.path.abspath(
