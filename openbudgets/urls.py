@@ -1,61 +1,70 @@
-from django.conf.urls import patterns, include, url
-from django.views.generic import TemplateView
-from django.contrib import admin
-from openbudgets.commons.views import OBudgetSitemap
-admin.autodiscover()
+from itertools import chain
+from django.conf import settings
+from django.conf.urls import url, include
 
 
-sitemaps = {
-    'site': OBudgetSitemap,
-}
+def get_patterns():
+
+    patterns = []
+
+    with_api = settings.OPENBUDGETS_API['enable']
+    with_ui = settings.OPENBUDGETS_UI['enable']
+    with_admin = settings.OPENBUDGETS_ADMIN['enable']
+    api_base = settings.OPENBUDGETS_API['base']
+    api_base_without_ui = settings.OPENBUDGETS_API['base_without_ui']
+    ui_base = settings.OPENBUDGETS_UI['base']
+    admin_base = settings.OPENBUDGETS_ADMIN['base']
+
+    def get_api(base=api_base):
+
+        from openbudgets.api import urls
+
+        patterns = [
+            url(r'^{0}'.format(base), include(urls))
+        ]
+
+        return patterns
+
+    def get_ui(base=ui_base):
+
+        from openbudgets.ui import urls
+
+        patterns = [
+            url(r'^{0}'.format(base), include(urls))
+        ]
+
+        return patterns
+
+    def get_admin(base=admin_base):
+
+        from django.contrib import admin
+        from grappelli import urls as grappelli_urls
+        admin.autodiscover()
+
+        patterns = [
+            url(r'^{0}'.format(base), include(admin.site.urls)),
+            url(r'^grappelli/', include(grappelli_urls)),
+        ]
+
+        return patterns
+
+    if all([with_api, with_ui, with_admin]):
+        patterns.extend(chain.from_iterable([get_admin(), get_api(), get_ui()]))
+
+    elif all([with_api, with_ui]) and not with_admin:
+        patterns.extend(chain.from_iterable([get_api(), get_ui()]))
+
+    elif with_ui:
+        patterns.extend(get_ui())
+        if with_admin:
+            patterns.extend(get_admin())
+
+    elif with_api:
+        patterns.extend(get_api(api_base_without_ui))
+        if with_admin:
+            patterns.extend(get_admin())
+
+    return patterns
 
 
-urlpatterns = patterns('',
-
-    url(r'^admin/',
-        include(admin.site.urls)),
-
-    url(r'^accounts/',
-        include('openbudgets.apps.accounts.urls.ui')),
-
-    url(r'^api/',
-        include('openbudgets.apps.api.urls')),
-
-    url(r'^entities/',
-        include('openbudgets.apps.entities.urls.ui')),
-
-    url(r'^sheets/',
-        include('openbudgets.apps.sheets.urls.ui')),
-
-    url(r'^interactions/',
-        include('openbudgets.apps.interactions.urls')),
-
-    url(r'^tools/',
-        include('openbudgets.apps.tools.urls.ui'),),
-
-    url(r'^taxonomies/',
-        include('openbudgets.apps.taxonomies.urls')),
-
-    url(r'^transport/',
-        include('openbudgets.apps.transport.urls')),
-
-    url(r'^sources/',
-        include('openbudgets.apps.sources.urls')),
-
-    url(r'^comments/',
-        include('django.contrib.comments.urls')),
-
-    url(r'^robots\.txt',
-        TemplateView.as_view(template_name='robots.txt')),
-
-    url(r'^sitemap\.xml$',
-        'django.contrib.sitemaps.views.sitemap',
-        {'sitemaps': sitemaps}),
-
-    url(r'^grappelli/',
-        include('grappelli.urls')),
-
-    url(r'^',
-        include('openbudgets.apps.pages.urls')),
-
-)
+urlpatterns = get_patterns()

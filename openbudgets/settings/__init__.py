@@ -139,7 +139,8 @@ INSTALLED_APPS = (
     'openbudgets.apps.taxonomies',
     'openbudgets.apps.tools',
     'openbudgets.apps.transport',
-    'openbudgets.apps.api',
+    'openbudgets.api',
+    'openbudgets.ui',
     'openbudgets.commons',
 )
 
@@ -332,6 +333,22 @@ OPENBUDGETS_COMPARABLE_TEMPLATENODE_NOT_IN_BLUEPRINT_DEFAULT = True
 OPENBUDGETS_COMPARABLE_WITHIN_ENTITY = True
 
 OPENBUDGETS_COMPARABLE_ACROSS_ENTITIES = True
+
+OPENBUDGETS_UI = {
+    'enable': True,
+    'base': ''
+}
+
+OPENBUDGETS_API = {
+    'enable': True,
+    'base': 'api/',
+    'base_without_ui': ''
+}
+
+OPENBUDGETS_ADMIN = {
+    'enable': False,
+    'base': 'admin/'
+}
 
 OPENBUDGETS_CKAN = [
     {
