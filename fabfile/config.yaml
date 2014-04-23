@@ -16,7 +16,7 @@ local: &LOCAL
   db_dump_file: ./tmp/db_dump.sql
   workon: workon openbudgets
   dock_dataset_location: ./tmp/dataset
-  dock_repository_location: https://github.com/prjts/openbudgets-data-israel.git
+  dock_repository_location: https://github.com/prjts/openmuni-israel.git
   dock_repository_branch: master
   dock_prepare_objects: false
 
