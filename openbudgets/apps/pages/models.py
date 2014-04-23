@@ -1,13 +1,14 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from autoslug import AutoSlugField
-from openbudgets.commons.data import OBJECT_STATES
 from openbudgets.commons.mixins.models import TimeStampedMixin, ClassMethodMixin
 
 
 class Page(TimeStampedMixin, ClassMethodMixin):
 
     """Model for simple, generic web pages."""
+
+    STATUS_CHOICES = ((1, 'draft'), (2, 'published'))
 
     class Meta:
         ordering = ['slug', 'last_modified', 'index']
@@ -16,7 +17,7 @@ class Page(TimeStampedMixin, ClassMethodMixin):
 
     status = models.IntegerField(
         _('Publication status'),
-        choices=OBJECT_STATES,
+        choices=STATUS_CHOICES,
         default=1,
         help_text=_('Determines whether the page is publically accessible or '
                     'not.'),)

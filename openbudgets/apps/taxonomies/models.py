@@ -7,7 +7,6 @@ from autoslug import AutoSlugField
 from openbudgets.apps.sheets.models import Template, TemplateNode
 from openbudgets.commons.mixins.models import TimeStampedMixin, UUIDMixin, \
     ClassMethodMixin
-from openbudgets.commons.data import OBJECT_STATES
 
 
 # Our models need to implement tags like so:
@@ -15,6 +14,8 @@ from openbudgets.commons.data import OBJECT_STATES
 
 
 class Taxonomy(TimeStampedMixin, UUIDMixin, ClassMethodMixin):
+
+    STATUS_CHOICES = ((1, 'draft'), (2, 'published'))
 
     class Meta:
         verbose_name = _("Taxonomy")
@@ -41,7 +42,7 @@ class Taxonomy(TimeStampedMixin, UUIDMixin, ClassMethodMixin):
 
     status = models.IntegerField(
         _('Publication status'),
-        choices=OBJECT_STATES,
+        choices=STATUS_CHOICES,
         default=1,
         help_text=_('Determines whether the taxonomy is publically viewable.'),)
 
