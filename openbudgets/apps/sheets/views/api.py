@@ -70,6 +70,11 @@ class TemplateNodeList(generics.ListAPIView):
         ### FILTERS
         templates = self.request.QUERY_PARAMS.get('templates', None)
         entities = self.request.QUERY_PARAMS.get('entities', None)
+        depth = self.request.QUERY_PARAMS.get('depth', None)
+        depth_gt = self.request.QUERY_PARAMS.get('depth_gt', None)
+        depth_gte = self.request.QUERY_PARAMS.get('depth_gte', None)
+        depth_lt = self.request.QUERY_PARAMS.get('depth_lt', None)
+        depth_lte = self.request.QUERY_PARAMS.get('depth_lte', None)
         parents = self.request.QUERY_PARAMS.get('parents', None)
 
         # for latest query only:
@@ -85,6 +90,31 @@ class TemplateNodeList(generics.ListAPIView):
         if entities:
             entities = entities.split(',')
             queryset = queryset.filter(sheets__entity__in=entities)
+
+        # DEPTH: return sheet items with a depth amount equal to the
+        # given amount.
+        if depth:
+            queryset = queryset.filter(depth=depth)
+
+        # DEPTH_GT: return sheet items with a depth amount greater than the
+        # given amount.
+        if depth_gt:
+            queryset = queryset.filter(depth__gt=depth_gt)
+
+        # DEPTH_LT: return sheet items with a depth amount less than the
+        # given amount.
+        if depth_lt:
+            queryset = queryset.filter(depth__lt=depth_lt)
+
+        # DEPTH_GTE: return sheet items with a depth amount greater than or
+        # equal to the given amount.
+        if depth_gte:
+            queryset = queryset.filter(depth__gte=depth_gte)
+
+        # DEPTH_LTE: return sheet items with a depth amount less than or
+        # equal to the given amount.
+        if depth_lte:
+            queryset = queryset.filter(depth__lte=depth_lte)
 
         # PARENTS: return nodes that are children of given parent(s).
         if parents and parents == 'none':
@@ -249,6 +279,11 @@ class SheetItemList(generics.ListAPIView):
         actual_gte = self.request.QUERY_PARAMS.get('actual_gte', None)
         actual_lt = self.request.QUERY_PARAMS.get('actual_lt', None)
         actual_lte = self.request.QUERY_PARAMS.get('actual_lte', None)
+        depth = self.request.QUERY_PARAMS.get('depth', None)
+        depth_gt = self.request.QUERY_PARAMS.get('depth_gt', None)
+        depth_gte = self.request.QUERY_PARAMS.get('depth_gte', None)
+        depth_lt = self.request.QUERY_PARAMS.get('depth_lt', None)
+        depth_lte = self.request.QUERY_PARAMS.get('depth_lte', None)
         periods = self.request.QUERY_PARAMS.get('periods', None)
 
         # HAS_COMMENTS: return sheet items that have user discussion.
@@ -339,17 +374,42 @@ class SheetItemList(generics.ListAPIView):
         # ACTUAL_LT: return sheet items with an actual amount less than the
         # given amount.
         if actual_lt:
-            queryset = queryset.filter(budget__lt=actual_lt)
+            queryset = queryset.filter(actual__lt=actual_lt)
 
         # ACTUAL_GTE: return sheet items with an actual amount greater than or
         # equal to the given amount.
         if actual_gte:
-            queryset = queryset.filter(budget__gte=actual_gte)
+            queryset = queryset.filter(actual__gte=actual_gte)
 
         # ACTUAL_LTE: return sheet items with an actual amount less than or
         # equal to the given amount.
         if actual_lte:
-            queryset = queryset.filter(budget__lte=actual_lte)
+            queryset = queryset.filter(actual__lte=actual_lte)
+
+        # DEPTH: return sheet items with a depth amount equal to the
+        # given amount.
+        if depth:
+            queryset = queryset.filter(depth=depth)
+
+        # DEPTH_GT: return sheet items with a depth amount greater than the
+        # given amount.
+        if depth_gt:
+            queryset = queryset.filter(depth__gt=depth_gt)
+
+        # DEPTH_LT: return sheet items with a depth amount less than the
+        # given amount.
+        if depth_lt:
+            queryset = queryset.filter(depth__lt=depth_lt)
+
+        # DEPTH_GTE: return sheet items with a depth amount greater than or
+        # equal to the given amount.
+        if depth_gte:
+            queryset = queryset.filter(depth__gte=depth_gte)
+
+        # DEPTH_LTE: return sheet items with a depth amount less than or
+        # equal to the given amount.
+        if depth_lte:
+            queryset = queryset.filter(depth__lte=depth_lte)
 
         # PERIODS: return contexts matching the given period(s).
         if periods:
