@@ -55,6 +55,20 @@ class UUIDMixin(models.Model):
         abstract = True
 
 
+class SelfParentMixin(models.Model):
+    """A mixin to add a parent which is self to models that inherit it."""
+
+    parent = models.ForeignKey(
+        'self',
+        null=True,
+        blank=True,
+        editable=False,
+        related_name='children',)
+
+    class Meta:
+        abstract = True
+
+
 class UUIDPKMixin(models.Model):
     """A mixin to add a UUID as the primary key of models that inherit it."""
 
