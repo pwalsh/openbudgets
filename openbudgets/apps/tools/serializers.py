@@ -11,8 +11,8 @@ class Tool(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.Tool
-        fields = ['url', 'id', 'author', 'label', 'name', 'description', 'featured',
-                  'screenshot', 'created_on', 'last_modified']
+        fields = ['id', 'slug', 'author', 'label', 'name', 'description',
+                  'featured', 'screenshot', 'created_on', 'last_modified']
 
 
 class State(serializers.HyperlinkedModelSerializer):
