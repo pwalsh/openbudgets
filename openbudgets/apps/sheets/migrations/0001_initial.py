@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import datetime
+from south.utils import datetime_utils as datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
@@ -20,15 +20,7 @@ class Migration(SchemaMigration):
             ('period_start', self.gf('django.db.models.fields.DateField')(db_index=True, null=True, blank=True)),
             ('blueprint', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='instances', null=True, to=orm['sheets.Template'])),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=255, db_index=True)),
-            ('name_he', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, null=True, blank=True)),
-            ('name_en', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, null=True, blank=True)),
-            ('name_ar', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, null=True, blank=True)),
-            ('name_ru', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, null=True, blank=True)),
-            ('description', self.gf('django.db.models.fields.TextField')(db_index=True, blank=True)),
-            ('description_he', self.gf('django.db.models.fields.TextField')(db_index=True, null=True, blank=True)),
-            ('description_en', self.gf('django.db.models.fields.TextField')(db_index=True, null=True, blank=True)),
-            ('description_ar', self.gf('django.db.models.fields.TextField')(db_index=True, null=True, blank=True)),
-            ('description_ru', self.gf('django.db.models.fields.TextField')(db_index=True, null=True, blank=True)),
+            ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
         ))
         db.send_create_signal(u'sheets', ['Template'])
 
@@ -45,22 +37,15 @@ class Migration(SchemaMigration):
         db.create_table(u'sheets_templatenode', (
             ('created_on', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, db_index=True, blank=True)),
             ('last_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, db_index=True, blank=True)),
+            ('parent', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='children', null=True, to=orm['sheets.TemplateNode'])),
             ('id', self.gf('uuidfield.fields.UUIDField')(unique=True, max_length=32, primary_key=True, db_index=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=255, db_index=True)),
-            ('name_he', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, null=True, blank=True)),
-            ('name_en', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, null=True, blank=True)),
-            ('name_ar', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, null=True, blank=True)),
-            ('name_ru', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=255, null=True, blank=True)),
             ('code', self.gf('django.db.models.fields.CharField')(max_length=255, db_index=True)),
+            ('path', self.gf('django.db.models.fields.CharField')(max_length=255, db_index=True)),
             ('comparable', self.gf('django.db.models.fields.BooleanField')(default=True)),
             ('direction', self.gf('django.db.models.fields.CharField')(default='REVENUE', max_length=15, db_index=True)),
-            ('parent', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='children', null=True, to=orm['sheets.TemplateNode'])),
-            ('path', self.gf('django.db.models.fields.CharField')(max_length=255, db_index=True)),
+            ('depth', self.gf('django.db.models.fields.IntegerField')(db_index=True)),
             ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('description_he', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('description_en', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('description_ar', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('description_ru', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
         ))
         db.send_create_signal(u'sheets', ['TemplateNode'])
 
@@ -105,10 +90,6 @@ class Migration(SchemaMigration):
             ('budget', self.gf('django.db.models.fields.DecimalField')(db_index=True, null=True, max_digits=26, decimal_places=2, blank=True)),
             ('actual', self.gf('django.db.models.fields.DecimalField')(db_index=True, null=True, max_digits=26, decimal_places=2, blank=True)),
             ('description', self.gf('django.db.models.fields.TextField')(db_index=True, blank=True)),
-            ('description_he', self.gf('django.db.models.fields.TextField')(db_index=True, null=True, blank=True)),
-            ('description_en', self.gf('django.db.models.fields.TextField')(db_index=True, null=True, blank=True)),
-            ('description_ar', self.gf('django.db.models.fields.TextField')(db_index=True, null=True, blank=True)),
-            ('description_ru', self.gf('django.db.models.fields.TextField')(db_index=True, null=True, blank=True)),
         ))
         db.send_create_signal(u'sheets', ['Sheet'])
 
@@ -116,19 +97,26 @@ class Migration(SchemaMigration):
         db.create_table(u'sheets_sheetitem', (
             ('created_on', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, db_index=True, blank=True)),
             ('last_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, db_index=True, blank=True)),
+            ('parent', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='children', null=True, to=orm['sheets.SheetItem'])),
             ('id', self.gf('uuidfield.fields.UUIDField')(unique=True, max_length=32, primary_key=True, db_index=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=255, db_index=True)),
+            ('code', self.gf('django.db.models.fields.CharField')(max_length=255, db_index=True)),
+            ('path', self.gf('django.db.models.fields.CharField')(max_length=255, db_index=True)),
+            ('comparable', self.gf('django.db.models.fields.BooleanField')(default=True)),
+            ('direction', self.gf('django.db.models.fields.CharField')(default='REVENUE', max_length=15, db_index=True)),
+            ('depth', self.gf('django.db.models.fields.IntegerField')(db_index=True)),
+            ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('budget', self.gf('django.db.models.fields.DecimalField')(db_index=True, null=True, max_digits=26, decimal_places=2, blank=True)),
             ('actual', self.gf('django.db.models.fields.DecimalField')(db_index=True, null=True, max_digits=26, decimal_places=2, blank=True)),
-            ('description', self.gf('django.db.models.fields.TextField')(db_index=True, blank=True)),
-            ('description_he', self.gf('django.db.models.fields.TextField')(db_index=True, null=True, blank=True)),
-            ('description_en', self.gf('django.db.models.fields.TextField')(db_index=True, null=True, blank=True)),
-            ('description_ar', self.gf('django.db.models.fields.TextField')(db_index=True, null=True, blank=True)),
-            ('description_ru', self.gf('django.db.models.fields.TextField')(db_index=True, null=True, blank=True)),
             ('sheet', self.gf('django.db.models.fields.related.ForeignKey')(related_name='items', to=orm['sheets.Sheet'])),
             ('node', self.gf('django.db.models.fields.related.ForeignKey')(related_name='items', to=orm['sheets.TemplateNode'])),
-            ('parent', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='kids', null=True, to=orm['sheets.SheetItem'])),
+            ('has_comments', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('comment_count', self.gf('django.db.models.fields.PositiveSmallIntegerField')(default=0)),
         ))
         db.send_create_signal(u'sheets', ['SheetItem'])
+
+        # Adding unique constraint on 'SheetItem', fields ['sheet', 'node']
+        db.create_unique(u'sheets_sheetitem', ['sheet_id', 'node_id'])
 
         # Adding model 'SheetItemComment'
         db.create_table(u'sheets_sheetitemcomment', (
@@ -143,6 +131,9 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
+        # Removing unique constraint on 'SheetItem', fields ['sheet', 'node']
+        db.delete_unique(u'sheets_sheetitem', ['sheet_id', 'node_id'])
+
         # Removing unique constraint on 'TemplateNodeRelation', fields ['node', 'template']
         db.delete_unique(u'sheets_templatenoderelation', ['node_id', 'template_id'])
 
@@ -180,7 +171,7 @@ class Migration(SchemaMigration):
             'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'db_index': 'True', 'blank': 'True'}),
             'email': ('django.db.models.fields.EmailField', [], {'unique': 'True', 'max_length': '75'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Group']", 'symmetrical': 'False', 'blank': 'True'}),
+            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -190,7 +181,7 @@ class Migration(SchemaMigration):
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
-            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'}),
+            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
             'uuid': ('uuidfield.fields.UUIDField', [], {'db_index': 'True', 'unique': 'True', 'max_length': '32', 'blank': 'True'})
         },
         u'auth.group': {
@@ -222,10 +213,6 @@ class Migration(SchemaMigration):
             'index': ('django.db.models.fields.PositiveSmallIntegerField', [], {'db_index': 'True'}),
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_index': 'True'}),
-            'name_ar': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'name_en': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'name_he': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'name_ru': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'slug': ('autoslug.fields.AutoSlugField', [], {'unique': 'True', 'max_length': '50', 'populate_from': "'name'", 'unique_with': '()'})
         },
         u'entities.domain': {
@@ -237,10 +224,6 @@ class Migration(SchemaMigration):
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
             'measurement_system': ('django.db.models.fields.CharField', [], {'default': "'metric'", 'max_length': '8'}),
             'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255', 'db_index': 'True'}),
-            'name_ar': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
-            'name_en': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
-            'name_he': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
-            'name_ru': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
             'slug': ('autoslug.fields.AutoSlugField', [], {'unique': 'True', 'max_length': '50', 'populate_from': "'name'", 'unique_with': '()'})
         },
         u'entities.entity': {
@@ -248,18 +231,10 @@ class Migration(SchemaMigration):
             'code': ('django.db.models.fields.CharField', [], {'max_length': '25', 'blank': 'True'}),
             'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'db_index': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'description_ar': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'description_en': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'description_he': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'description_ru': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'division': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'entities'", 'to': u"orm['entities.Division']"}),
             'id': ('uuidfield.fields.UUIDField', [], {'unique': 'True', 'max_length': '32', 'primary_key': 'True', 'db_index': 'True'}),
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_index': 'True'}),
-            'name_ar': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'name_en': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'name_he': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'name_ru': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'parent': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'children'", 'null': 'True', 'to': u"orm['entities.Entity']"}),
             'slug': ('autoslug.fields.AutoSlugField', [], {'unique': 'True', 'max_length': '50', 'populate_from': "'name'", 'unique_with': '()'})
         },
@@ -269,10 +244,6 @@ class Migration(SchemaMigration):
             'budget': ('django.db.models.fields.DecimalField', [], {'db_index': 'True', 'null': 'True', 'max_digits': '26', 'decimal_places': '2', 'blank': 'True'}),
             'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'db_index': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'db_index': 'True', 'blank': 'True'}),
-            'description_ar': ('django.db.models.fields.TextField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
-            'description_en': ('django.db.models.fields.TextField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
-            'description_he': ('django.db.models.fields.TextField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
-            'description_ru': ('django.db.models.fields.TextField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
             'entity': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'sheets'", 'to': u"orm['entities.Entity']"}),
             'id': ('uuidfield.fields.UUIDField', [], {'unique': 'True', 'max_length': '32', 'primary_key': 'True', 'db_index': 'True'}),
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
@@ -281,19 +252,23 @@ class Migration(SchemaMigration):
             'template': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'sheets'", 'to': u"orm['sheets.Template']"})
         },
         u'sheets.sheetitem': {
-            'Meta': {'ordering': "['node']", 'object_name': 'SheetItem'},
+            'Meta': {'ordering': "['node']", 'unique_together': "(('sheet', 'node'),)", 'object_name': 'SheetItem'},
             'actual': ('django.db.models.fields.DecimalField', [], {'db_index': 'True', 'null': 'True', 'max_digits': '26', 'decimal_places': '2', 'blank': 'True'}),
             'budget': ('django.db.models.fields.DecimalField', [], {'db_index': 'True', 'null': 'True', 'max_digits': '26', 'decimal_places': '2', 'blank': 'True'}),
+            'code': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_index': 'True'}),
+            'comment_count': ('django.db.models.fields.PositiveSmallIntegerField', [], {'default': '0'}),
+            'comparable': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'db_index': 'True', 'blank': 'True'}),
-            'description': ('django.db.models.fields.TextField', [], {'db_index': 'True', 'blank': 'True'}),
-            'description_ar': ('django.db.models.fields.TextField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
-            'description_en': ('django.db.models.fields.TextField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
-            'description_he': ('django.db.models.fields.TextField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
-            'description_ru': ('django.db.models.fields.TextField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
+            'depth': ('django.db.models.fields.IntegerField', [], {'db_index': 'True'}),
+            'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'direction': ('django.db.models.fields.CharField', [], {'default': "'REVENUE'", 'max_length': '15', 'db_index': 'True'}),
+            'has_comments': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'id': ('uuidfield.fields.UUIDField', [], {'unique': 'True', 'max_length': '32', 'primary_key': 'True', 'db_index': 'True'}),
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_index': 'True'}),
             'node': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'items'", 'to': u"orm['sheets.TemplateNode']"}),
-            'parent': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'kids'", 'null': 'True', 'to': u"orm['sheets.SheetItem']"}),
+            'parent': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'children'", 'null': 'True', 'to': u"orm['sheets.SheetItem']"}),
+            'path': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_index': 'True'}),
             'sheet': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'items'", 'to': u"orm['sheets.Sheet']"})
         },
         u'sheets.sheetitemcomment': {
@@ -309,19 +284,11 @@ class Migration(SchemaMigration):
             'Meta': {'ordering': "['name']", 'object_name': 'Template'},
             'blueprint': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'instances'", 'null': 'True', 'to': u"orm['sheets.Template']"}),
             'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'db_index': 'True', 'blank': 'True'}),
-            'description': ('django.db.models.fields.TextField', [], {'db_index': 'True', 'blank': 'True'}),
-            'description_ar': ('django.db.models.fields.TextField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
-            'description_en': ('django.db.models.fields.TextField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
-            'description_he': ('django.db.models.fields.TextField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
-            'description_ru': ('django.db.models.fields.TextField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
-            'divisions': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['entities.Division']", 'symmetrical': 'False'}),
+            'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'divisions': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'templates'", 'symmetrical': 'False', 'to': u"orm['entities.Division']"}),
             'id': ('uuidfield.fields.UUIDField', [], {'unique': 'True', 'max_length': '32', 'primary_key': 'True', 'db_index': 'True'}),
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_index': 'True'}),
-            'name_ar': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'name_en': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'name_he': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'name_ru': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'period_start': ('django.db.models.fields.DateField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'})
         },
         u'sheets.templatenode': {
@@ -330,20 +297,13 @@ class Migration(SchemaMigration):
             'code': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_index': 'True'}),
             'comparable': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'db_index': 'True', 'blank': 'True'}),
+            'depth': ('django.db.models.fields.IntegerField', [], {'db_index': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'description_ar': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'description_en': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'description_he': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'description_ru': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'direction': ('django.db.models.fields.CharField', [], {'default': "'REVENUE'", 'max_length': '15', 'db_index': 'True'}),
             'id': ('uuidfield.fields.UUIDField', [], {'unique': 'True', 'max_length': '32', 'primary_key': 'True', 'db_index': 'True'}),
             'inverse': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'inverse_rel_+'", 'null': 'True', 'to': u"orm['sheets.TemplateNode']"}),
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_index': 'True'}),
-            'name_ar': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'name_en': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'name_he': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'name_ru': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'parent': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'children'", 'null': 'True', 'to': u"orm['sheets.TemplateNode']"}),
             'path': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_index': 'True'}),
             'templates': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'nodes'", 'symmetrical': 'False', 'through': u"orm['sheets.TemplateNodeRelation']", 'to': u"orm['sheets.Template']"})
@@ -353,50 +313,6 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'node': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sheets.TemplateNode']"}),
             'template': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sheets.Template']"})
-        },
-        u'sources.auxsource': {
-            'Meta': {'ordering': "['last_modified', 'name']", 'object_name': 'AuxSource'},
-            'added_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'auxsources'", 'to': u"orm['accounts.Account']"}),
-            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['contenttypes.ContentType']"}),
-            'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'db_index': 'True', 'blank': 'True'}),
-            'data': ('django.db.models.fields.files.FileField', [], {'max_length': '100', 'blank': 'True'}),
-            'id': ('uuidfield.fields.UUIDField', [], {'unique': 'True', 'max_length': '32', 'primary_key': 'True', 'db_index': 'True'}),
-            'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'name_ar': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'name_en': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'name_he': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'name_ru': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'notes': ('django.db.models.fields.TextField', [], {}),
-            'notes_ar': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'notes_en': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'notes_he': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'notes_ru': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'object_id': ('uuidfield.fields.UUIDField', [], {'max_length': '32'}),
-            'retrieval_date': ('django.db.models.fields.DateField', [], {}),
-            'url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'})
-        },
-        u'sources.referencesource': {
-            'Meta': {'ordering': "['last_modified', 'name']", 'object_name': 'ReferenceSource'},
-            'added_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'referencesources'", 'to': u"orm['accounts.Account']"}),
-            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['contenttypes.ContentType']"}),
-            'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'db_index': 'True', 'blank': 'True'}),
-            'data': ('django.db.models.fields.files.FileField', [], {'max_length': '100', 'blank': 'True'}),
-            'id': ('uuidfield.fields.UUIDField', [], {'unique': 'True', 'max_length': '32', 'primary_key': 'True', 'db_index': 'True'}),
-            'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'db_index': 'True', 'blank': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'name_ar': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'name_en': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'name_he': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'name_ru': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'notes': ('django.db.models.fields.TextField', [], {}),
-            'notes_ar': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'notes_en': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'notes_he': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'notes_ru': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'object_id': ('uuidfield.fields.UUIDField', [], {'max_length': '32'}),
-            'retrieval_date': ('django.db.models.fields.DateField', [], {}),
-            'url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'})
         }
     }
 
