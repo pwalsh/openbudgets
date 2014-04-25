@@ -1,14 +1,14 @@
 import datetime
-from rest_framework import generics, status
+from rest_framework import generics
 from rest_framework.response import Response
 from openbudgets.apps.sheets import serializers
 from openbudgets.apps.sheets import models
-from openbudgets.apps.accounts.models import Account
 from openbudgets.apps.sheets.serializers import SheetTimeline
 
 
 class TemplateList(generics.ListAPIView):
-    """API endpoint that represents a list of templates."""
+
+    """Returns a list of templates."""
 
     model = models.Template
     queryset = model.objects.related_map_min()
@@ -48,7 +48,8 @@ class TemplateList(generics.ListAPIView):
 
 
 class TemplateDetail(generics.RetrieveAPIView):
-    """API endpoint that represents a single template."""
+
+    """Returns a single template."""
 
     model = models.Template
     queryset = model.objects.related_map()
@@ -56,7 +57,8 @@ class TemplateDetail(generics.RetrieveAPIView):
 
 
 class TemplateNodeList(generics.ListAPIView):
-    """API endpoint that represents a list of template nodes."""
+
+    """Returns a list of template nodes."""
 
     model = models.TemplateNode
     queryset = model.objects.related_map_min()
@@ -145,7 +147,8 @@ class TemplateNodeList(generics.ListAPIView):
 
 
 class TemplateNodeDetail(generics.RetrieveAPIView):
-    """API endpoint that represents a single template node."""
+
+    """Returns a single template node."""
 
     model = models.TemplateNode
     queryset = model.objects.related_map()
@@ -153,7 +156,8 @@ class TemplateNodeDetail(generics.RetrieveAPIView):
 
 
 class SheetList(generics.ListAPIView):
-    """API endpoint that represents a list of budget sheets."""
+
+    """Returns a list of sheets."""
 
     model = models.Sheet
     queryset = model.objects.related_map_min()
@@ -248,7 +252,8 @@ class SheetList(generics.ListAPIView):
 
 
 class SheetDetail(generics.RetrieveAPIView):
-    """API endpoint that represents a single budget."""
+
+    """Returns a single sheet."""
 
     model = models.Sheet
     queryset = model.objects.related_map()
@@ -256,7 +261,8 @@ class SheetDetail(generics.RetrieveAPIView):
 
 
 class SheetItemList(generics.ListAPIView):
-    """API endpoint that represents a list of budget items."""
+
+    """Returns a list of sheet items."""
 
     model = models.SheetItem
     queryset = model.objects.related_map()
@@ -444,7 +450,8 @@ class SheetItemList(generics.ListAPIView):
 
 
 class SheetItemDetail(generics.RetrieveAPIView):
-    """API endpoint that represents a single budget item."""
+
+    """Returns a single sheet item."""
 
     model = models.SheetItem
     queryset = model.objects.related_map()
@@ -452,13 +459,18 @@ class SheetItemDetail(generics.RetrieveAPIView):
 
 
 class SheetItemTimeline(generics.ListAPIView):
-    """API endpoint that retrieves a timeline of sheet items.
 
-    The timeline is created according to the given entity, node(s)
+    """Returns a timeline of sheet items.
+
+    The timeline is created according to the given entity, node(s).
+
     """
 
     def get(self, request, entity_pk, *args, **kwargs):
-        """GET handler for retrieving all budget items and actual items of the node's timeline, filtered by entity"""
+        """GET handler for retrieving all budget items and actual items
+        of the node's timeline, filtered by entity.
+
+        """
 
         nodes = self.request.QUERY_PARAMS.get('nodes', None)
         if nodes:
