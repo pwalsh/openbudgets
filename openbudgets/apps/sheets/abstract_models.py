@@ -2,10 +2,10 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from .utilities import is_comparable
+from .utilities import is_node_comparable
 
 
-class AbstractBaseNode(models.Model):
+class AbstractNode(models.Model):
 
     class Meta:
         abstract = True
@@ -26,9 +26,17 @@ class AbstractBaseNode(models.Model):
         max_length=255,
         help_text=_('An identifying code for this template node.'),)
 
+    path = models.CharField(
+        _('Path'),
+        db_index=True,
+        max_length=255,
+        editable=False,
+        help_text=_('A representation of the path to the root of the template '
+                    'from this template node, using codes.'),)
+
     comparable = models.BooleanField(
         _('Comparable'),
-        default=is_comparable,
+        default=settings.OPENBUDGETS_COMPARABLE_TEMPLATENODE,
         help_text=_('A flag to designate whether this node is suitable for '
                     'comparison or not.'),)
 
@@ -40,58 +48,15 @@ class AbstractBaseNode(models.Model):
         default=DIRECTIONS[0][0],
         help_text=_('Template nodes are one of revenue or expenditure.'),)
 
-    parent = models.ForeignKey(
-        'self',
-        null=True,
-        blank=True,
-        related_name='children',)
-
-    inverse = models.ManyToManyField(
-        'self',
-        symmetrical=True,
-        null=True,
-        blank=True,
-        related_name='inverses',
-        help_text=_('Inverse relations across revenue and expenditure nodes.'),)
-
-    path = models.CharField(
-        _('Path'),
+    depth = models.IntegerField(
+        _('Depth'),
         db_index=True,
-        max_length=255,
-        editable=False,
-        help_text=_('A representation of the path to the root of the template '
-                    'from this template node, using codes.'),)
+        editable=False)
 
-    backwards = models.ManyToManyField(
-        'self',
-        null=True,
+    description = models.TextField(
+        _('Description'),
         blank=True,
-        symmetrical=False,
-        related_name='forwards',)
-
-    @property
-    def ancestors(self):
-
-        ancestors = []
-        current = self
-        try:
-            while current:
-                parent = current.parent
-                if parent:
-                    ancestors.append(parent)
-                current = parent
-        except self.__class__.DoesNotExist:
-            pass
-        ancestors.reverse()
-
-        return ancestors
-
-    @property
-    def depth(self):
-
-        branch = self.path.split(',')
-
-        return len(branch) - 1
+        help_text=_('An overview text for this template.'),)
 
     def _get_path_to_root(self):
         """Recursively build a *code* hierarchy from self to top of tree."""
@@ -125,10 +90,33 @@ class AbstractBaseNode(models.Model):
             # Create the path recursively over parents
             self.path = ','.join(self._get_path_to_root())
 
-        return super(AbstractBaseNode, self).save(*args, **kwargs)
+        self.depth = len(self.path.split(','))
+
+        return super(AbstractNode, self).save(*args, **kwargs)
 
 
-class AbstractBaseItem(models.Model):
+class AbstractNodeRelations(models.Model):
+
+    class Meta:
+        abstract = True
+
+    inverse = models.ManyToManyField(
+        'self',
+        symmetrical=True,
+        null=True,
+        blank=True,
+        related_name='inverses',
+        help_text=_('Inverse relations across revenue and expenditure nodes.'),)
+
+    backwards = models.ManyToManyField(
+        'self',
+        null=True,
+        blank=True,
+        symmetrical=False,
+        related_name='forwards',)
+
+
+class AbstractItem(models.Model):
 
     class Meta:
         abstract = True
@@ -150,12 +138,6 @@ class AbstractBaseItem(models.Model):
         blank=True,
         null=True,
         help_text=_('The total actual amount for this item.'),)
-
-    description = models.TextField(
-        _('description'),
-        db_index=True,
-        blank=True,
-        help_text=_('An introductory description for this sheet item.'),)
 
     @property
     def variance(self):
