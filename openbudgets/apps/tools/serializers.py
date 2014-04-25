@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from openbudgets.apps.tools import models
 from openbudgets.apps.accounts.serializers import AccountMin
-from openbudgets.commons.serializers import UUIDRelatedField, UUIDPKRelatedField
+from openbudgets.commons.serializers import UUIDRelatedField, UUIDPrimaryKeyRelatedField
 
 
 class Tool(serializers.HyperlinkedModelSerializer):
@@ -22,7 +22,7 @@ class State(serializers.HyperlinkedModelSerializer):
     """
 
     author = UUIDRelatedField()
-    tool = UUIDPKRelatedField()
+    tool = UUIDPrimaryKeyRelatedField()
 
     class Meta:
         model = models.State
