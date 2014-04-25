@@ -45,17 +45,27 @@ def mock_db(amount):
             TemplateNodeRelation.create(node=child_child_node, template=blueprint_template)
 
     for entity in entities:
+        Context.create(entity=entity)
         sheet1 = Sheet.create(entity=entity, template=blueprint_template,
                               period_start=datetime.date(2007, 1, 1), period_end=datetime.date(2007, 12, 31))
         for node in blueprint_template.nodes.all():
-            SheetItem.create(sheet=sheet1, node=node)
+            parent = None
+            if node.parent and node.parent.items.all():
+                parent = node.parent.items.filter(sheet__template=sheet1.template)[0]
+            SheetItem.create(sheet=sheet1, node=node, parent=parent)
 
         sheet2 = Sheet.create(entity=entity, template=blueprint_template,
                               period_start=datetime.date(2008, 1, 1), period_end=datetime.date(2008, 12, 31))
         for node in blueprint_template.nodes.all():
-            SheetItem.create(sheet=sheet2, node=node)
+            parent = None
+            if node.parent and node.parent.items.all():
+                parent = node.parent.items.filter(sheet__template=sheet1.template)[0]
+            SheetItem.create(sheet=sheet2, node=node, parent=parent)
 
         sheet3 = Sheet.create(entity=entity, template=blueprint_template,
                               period_start=datetime.date(2009, 1, 1), period_end=datetime.date(2009, 12, 31))
         for node in blueprint_template.nodes.all():
-            SheetItem.create(sheet=sheet3, node=node)
+            parent = None
+            if node.parent and node.parent.items.all():
+                parent = node.parent.items.filter(sheet__template=sheet1.template)[0]
+            SheetItem.create(sheet=sheet3, node=node, parent=parent)
