@@ -76,10 +76,18 @@ class TemplateNodeList(generics.ListAPIView):
         depth_lt = self.request.QUERY_PARAMS.get('depth_lt', None)
         depth_lte = self.request.QUERY_PARAMS.get('depth_lte', None)
         parents = self.request.QUERY_PARAMS.get('parents', None)
+        comparable = self.request.QUERY_PARAMS.get('comparable', None)
 
         # for latest query only:
         entity = self.request.QUERY_PARAMS.get('entity', None)
         latest = self.request.QUERY_PARAMS.get('latest', None)
+
+        # COMPARABLE: return template nodes that match the comparable argument.
+        if comparable:
+            if comparable == 'true':
+                queryset = queryset.filter(comparable=True)
+            if comparable == 'false':
+                queryset = queryset.filter(comparable=False)
 
         # TEMPLATES: return template nodes used in the given template(s).
         if templates:
@@ -293,6 +301,7 @@ class SheetItemList(generics.ListAPIView):
         depth_lte = self.request.QUERY_PARAMS.get('depth_lte', None)
         periods = self.request.QUERY_PARAMS.get('periods', None)
         has_comments = self.request.QUERY_PARAMS.get('has_comments', None)
+        comparable = self.request.QUERY_PARAMS.get('comparable', None)
 
         # HAS_COMMENTS: return sheet items that have user discussion.
         matches = []
@@ -307,6 +316,13 @@ class SheetItemList(generics.ListAPIView):
                 if not obj.discussion.all():
                     matches.append(obj.pk)
             queryset = queryset.filter(pk__in=matches)
+
+        # COMPARABLE: return sheet items that match the comparable argument.
+        if comparable:
+            if comparable == 'true':
+                queryset = queryset.filter(comparable=True)
+            if comparable == 'false':
+                queryset = queryset.filter(comparable=False)
 
         # SHEETS: return sheet items that belong to the given entity(-ies).
         if sheets:
