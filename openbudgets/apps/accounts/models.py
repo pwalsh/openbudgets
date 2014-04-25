@@ -3,14 +3,14 @@ from django.conf import settings
 from django.db import models
 from django.db.models.loading import get_model
 from django.core.mail import send_mail
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
     PermissionsMixin
 from django.contrib.comments.models import Comment
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from openbudgets.apps.interactions.models import Star, Follow
-from openbudgets.commons.mixins.models import UUIDMixin, TimeStampedMixin, \
-    ClassMethodMixin
+from openbudgets.commons.mixins import models as mixins
 from django_gravatar.helpers import get_gravatar_url
 
 
@@ -42,8 +42,8 @@ class AccountManager(BaseUserManager):
         return u
 
 
-class Account(UUIDMixin, TimeStampedMixin, PermissionsMixin, AbstractBaseUser,
-              ClassMethodMixin):
+class Account(mixins.UUIDMixin, mixins.TimeStampMixin, PermissionsMixin,
+              AbstractBaseUser, mixins.ClassMethodMixin):
 
     """Extends Django's User with Open Budgets' specific user fields."""
 
@@ -118,9 +118,8 @@ class Account(UUIDMixin, TimeStampedMixin, PermissionsMixin, AbstractBaseUser,
     def email_user(self, subject, message, from_email=None):
         send_mail(subject, message, from_email, [self.email])
 
-    @models.permalink
     def get_absolute_url(self):
-        return 'account_detail', [self.uuid]
+        return reverse('account_detail', [self.uuid])
 
     def __unicode__(self):
         return self.email

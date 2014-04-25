@@ -1,9 +1,9 @@
 from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from autoslug import AutoSlugField
-from openbudgets.commons.mixins.models import TimeStampedMixin, UUIDPKMixin, \
-    ClassMethodMixin
+from openbudgets.commons.mixins import models as mixins
 from openbudgets.commons.utilities import get_ultimate_parent
 
 
@@ -20,7 +20,7 @@ class DomainManager(models.Manager):
         return self.select_related().prefetch_related('divisions')
 
 
-class Domain(UUIDPKMixin, TimeStampedMixin, ClassMethodMixin):
+class Domain(mixins.UUIDPKMixin, mixins.TimeStampMixin, mixins.ClassMethodMixin):
 
     """Domain is the base context for our relational model of entities.
 
@@ -98,7 +98,7 @@ class DivisionManager(models.Manager):
         return self.select_related().prefetch_related('entities')
 
 
-class Division(UUIDPKMixin, TimeStampedMixin, ClassMethodMixin):
+class Division(mixins.UUIDPKMixin, mixins.TimeStampMixin, mixins.ClassMethodMixin):
 
     """Division divides the domain into logical groupings to model structure."""
 
@@ -165,7 +165,7 @@ class EntityManager(models.Manager):
         return self.select_related().prefetch_related('sheets', 'parent')
 
 
-class Entity(UUIDPKMixin, TimeStampedMixin, ClassMethodMixin):
+class Entity(mixins.UUIDPKMixin, mixins.TimeStampMixin, mixins.ClassMethodMixin):
 
     """Entity describes the actual units in our organizational structure."""
 
@@ -239,9 +239,8 @@ class Entity(UUIDPKMixin, TimeStampedMixin, ClassMethodMixin):
     def __unicode__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
-        return 'entity_detail', [self.pk]
+        return reverse('entity_detail', [self.pk])
 
     def clean(self):
 
