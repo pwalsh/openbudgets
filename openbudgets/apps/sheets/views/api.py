@@ -477,62 +477,24 @@ class SheetItemTimeline(generics.ListAPIView):
         return Response(serialized_timeline)
 
 
-class SheetItemCommentEmbeddedList(generics.ListCreateAPIView):
+class SheetItemCommentList(generics.ListCreateAPIView):
+
+    """Returns a list of sheet item comments.
+
+    Also allows saving of new comments.
+
     """
-    Called via an API endpoint using GET it represents a list of SheetItemComments.
-    Called via an API endpoint using POST it creates a new of SheetItemComment.
-    """
-
-    model = models.SheetItemComment
-    queryset = model.objects.related_map()
-    # serializer_class = serializers.SheetItemCommentBaseSerializer
-    search_fields = ['user__first_name', 'user__last_name', 'comment']
-
-    def get_serializer_class(self):
-        if self.request.method == 'POST':
-            # base serializer for creating SheetItemComment
-            return serializers.SheetItemCommentMin
-        # SheetItemComment list/retrieve serializer
-        return serializers.SheetItemComment
-
-    def get_queryset(self):
-        return self.model.objects.by_item(self.kwargs.get('pk'))
-
-    def pre_save(self, obj):
-        obj.user = Account.objects.get(uuid=self.request.DATA.get('user'))
-        obj.item = models.SheetItem.objects.get(id=self.kwargs.get('pk'))
-
-    #TODO: this is an ugly hack and awaiting a response here: https://groups.google.com/forum/?fromgroups=#!topic/django-rest-framework/JrYdE3p6QZE
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.DATA, files=request.FILES)
-
-        if serializer.is_valid():
-            self.pre_save(serializer.object)
-            self.object = serializer.save(force_insert=True)
-            self.post_save(self.object, created=True)
-            headers = self.get_success_headers(serializer.data)
-
-            # here we step in and override current serializer used for create
-            # with a different serializer used for retrieve
-            serializer = serializers.SheetItemCommentRead(self.object)
-
-            return Response(serializer.data, status=status.HTTP_201_CREATED,
-                            headers=headers)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class SheetItemCommentList(generics.ListAPIView):
-    """API endpoint that represents a list of sheet item comments."""
 
     model = models.SheetItemComment
     queryset = model.objects.related_map()
     serializer_class = serializers.SheetItemCommentMin
+    search_fields = ['user__first_name', 'user__last_name', 'comment']
 
 
 class SheetItemCommentDetail(generics.RetrieveAPIView):
-    """API endpoint that represents a single sheet item comment item."""
+
+    """Returns a single sheet item comment item."""
 
     model = models.SheetItemComment
     queryset = model.objects.related_map()
-    serializer_class = serializers.SheetItemCommentMin
+    serializer_class = serializers.SheetItemComment

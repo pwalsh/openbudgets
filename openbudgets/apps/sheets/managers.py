@@ -77,29 +77,6 @@ class SheetManager(models.Manager):
         return self.filter(entity=entity).latest('period_start')
 
 
-class SheetItemCommentManager(models.Manager):
-
-    """Exposes additional methods for model query operations.
-
-    Open Budgets makes extensive use of related_map and related_map_min methods
-    for efficient bulk select queries.
-
-    """
-
-    def get_queryset(self):
-        qs = super(SheetItemCommentManager, self).get_queryset()
-        return qs.select_related()
-
-    def related_map_min(self):
-        return self.select_related('user')
-
-    def related_map(self):
-        return self.select_related()
-
-    def by_item(self, item_pk):
-        return self.filter(item=item_pk).related_map_min()
-
-
 class SheetItemManager(models.Manager):
 
     """Exposes additional methods for model query operations.
@@ -131,3 +108,26 @@ class SheetItemManager(models.Manager):
             raise TemplateNode.DoesNotExist()
 
         return self.filter(node__in=timelines, sheet__entity=entity_pk).select_related('sheet')
+
+
+class SheetItemCommentManager(models.Manager):
+
+    """Exposes additional methods for model query operations.
+
+    Open Budgets makes extensive use of related_map and related_map_min methods
+    for efficient bulk select queries.
+
+    """
+
+    def get_queryset(self):
+        qs = super(SheetItemCommentManager, self).get_queryset()
+        return qs.select_related()
+
+    def related_map_min(self):  #
+        return self.select_related('user')
+
+    def related_map(self):
+        return self.select_related('item', 'user')
+
+    def by_item(self, item_pk):
+        return self.filter(item=item_pk).related_map_min()

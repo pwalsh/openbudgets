@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from openbudgets.apps.sheets import models
 from openbudgets.apps.accounts.serializers import AccountMin
-from openbudgets.commons.serializers import UUIDRelatedField
+from openbudgets.commons.serializers import UUIDRelatedField, UUIDPrimaryKeyRelatedField
 from openbudgets.apps.entities.serializers import EntityMin, DivisionMin
 
 
@@ -158,11 +158,12 @@ class SheetTimeline(serializers.ModelSerializer):
         fields = ['id', 'budget', 'actual', 'description', 'period']
 
 
-class SheetItemCommentMin(serializers.ModelSerializer):
+class SheetItemCommentMin(serializers.HyperlinkedModelSerializer):
 
     """Serializes SheetItemComment objects for consumption by API."""
 
     user = UUIDRelatedField()
+    item = UUIDPrimaryKeyRelatedField()
 
     class Meta:
         model = models.SheetItemComment
@@ -174,6 +175,7 @@ class SheetItemComment(SheetItemCommentMin):
     """Serializes SheetItemComment objects for consumption by API."""
 
     user = AccountMin()
+    item = SheetItemMin()
 
     class Meta(SheetItemCommentMin.Meta):
         fields = SheetItemCommentMin.Meta.fields + ['created_on', 'last_modified']
