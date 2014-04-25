@@ -11,10 +11,11 @@ class TemplateManager(models.Manager):
     """
 
     def related_map_min(self):
-        return self.select_related().prefetch_related('divisions', 'sheets')
+        return self.select_related('blueprint')
 
     def related_map(self):
-        return self.select_related().prefetch_related('divisions', 'sheets', 'nodes')
+        return self.select_related('blueprint').prefetch_related(
+            'divisions', 'sheets', 'nodes')
 
     #TODO: Consider better ways to do this.
     def latest_of(self, entity):
@@ -34,10 +35,8 @@ class TemplateNodeManager(models.Manager):
         return self.select_related('parent')
 
     def related_map(self):
-        return self.select_related('parent').prefetch_related('templates',
-                                                              'inverse',
-                                                              'backwards',
-                                                              'items')
+        return self.select_related('parent').prefetch_related(
+            'templates', 'children', 'backwards', 'inverse', 'items')
 
 
 class TemplateNodeRelationManager(models.Manager):
@@ -71,7 +70,7 @@ class SheetManager(models.Manager):
         return self.select_related('entity')
 
     def related_map(self):
-        return self.select_related().prefetch_related('items')
+        return self.select_related('entity', 'template').prefetch_related('items')
 
     # TODO: Check if we can replace this expensive query
     def latest_of(self, entity):
@@ -115,10 +114,10 @@ class SheetItemManager(models.Manager):
         return qs.select_related('node')
 
     def related_map_min(self):
-        return self.select_related()
+        return self.all()
 
     def related_map(self):
-        return self.select_related('sheet', 'node', 'parent').prefetch_related('discussion')
+        return self.select_related('sheet', 'parent').prefetch_related('children')
 
     # TODO: Check this for a more efficient implementation
     def timeline(self, node_pks, entity_pk):
