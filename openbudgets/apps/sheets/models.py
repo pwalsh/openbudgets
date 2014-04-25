@@ -4,24 +4,27 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models.signals import m2m_changed
+from django.db.models.signals import m2m_changed, post_save
+from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from openbudgets.apps.accounts.models import Account
 from openbudgets.apps.entities.models import Division, Entity
 from openbudgets.commons.mixins import models as mixins
 from . import managers
 from . import abstract_models
+from .utilities import is_node_comparable
 
 
 class Template(mixins.UUIDPKMixin, mixins.PeriodStartMixin,
-               mixins.TimeStampedMixin, mixins.ClassMethodMixin):
+               mixins.TimeStampMixin, mixins.ClassMethodMixin):
 
     """The Template model describes the structure of a Sheet.
 
     In Open Budgets, Sheets are the modeled representation of budget and actual
     data for Entities.
 
-    Sheets / SheetItems get their structure from Templates / TemplateNodes.
+    Sheet/SheetItem objects get their structure from Template/TemplateNode
+    objects.
 
     A Template can and usually does apply for more than one Sheet. This is the
     basis of the Open Budgets comparative analysis implementation.
@@ -30,8 +33,8 @@ class Template(mixins.UUIDPKMixin, mixins.PeriodStartMixin,
 
     class Meta:
         ordering = ['name']
-        verbose_name = _('template')
-        verbose_name_plural = _('templates')
+        verbose_name = _('Template')
+        verbose_name_plural = _('Templates')
 
     objects = managers.TemplateManager()
 
@@ -63,8 +66,15 @@ class Template(mixins.UUIDPKMixin, mixins.PeriodStartMixin,
         return self.nodes.count()
 
     @property
-    def period(self):
+    def has_sheets(self):
+        return bool(self.sheets.count())
 
+    @property
+    def sheet_count(self):
+        return self.nodes.count()
+
+    @property
+    def period(self):
         """Returns the applicable period of this template.
 
         If the Template instance has divisions (self.divisions.all()),
@@ -81,18 +91,14 @@ class Template(mixins.UUIDPKMixin, mixins.PeriodStartMixin,
         # TODO: Support ranges other than yearly, including multiple ranges.
         if len(ranges) == 1 and 'yearly' in ranges:
             start = self.period_start.year
-
             if self.is_blueprint:
                 objs = self.__class__.objects.filter(
                     divisions__in=self.divisions.all())
-
                 for obj in objs:
                     if obj.period_start.year > self.period_start.year:
                         end = obj.period_start.year
-
-                else:
-                    end = datetime.datetime.now().year
-
+                    else:
+                        end = datetime.datetime.now().year
             else:
                 # We have 'implementation' templates that use a blueprint
                 # as a model, and implement a variant structure based on it.
@@ -109,7 +115,6 @@ class Template(mixins.UUIDPKMixin, mixins.PeriodStartMixin,
 
     @property
     def is_blueprint(self):
-
         """Returns True if the Template is a blueprint, false otherwise.
 
         Blueprints are Templates that serve as structural models for other
@@ -124,10 +129,6 @@ class Template(mixins.UUIDPKMixin, mixins.PeriodStartMixin,
             return False
         return True
 
-    @property
-    def has_sheets(self):
-        return bool(self.sheets.count())
-
     def get_absolute_url(self):
         return reverse('template_detail', [self.id])
 
@@ -135,15 +136,17 @@ class Template(mixins.UUIDPKMixin, mixins.PeriodStartMixin,
         return self.name
 
 
-class TemplateNode(abstract_models.AbstractBaseNode, mixins.UUIDPKMixin,
-                   mixins.TimeStampedMixin):
+class TemplateNode(abstract_models.AbstractNode, abstract_models.AbstractNodeRelations,
+                   mixins.UUIDPKMixin, mixins.SelfParentMixin, mixins.TimeStampMixin,
+                   mixins.ClassMethodMixin):
 
     """The TemplateNode model implements the structure of a Sheet.
 
     In Open Budgets, Sheets are the modeled representation of budget and actual
     data for Entities.
 
-    Sheets / SheetItems get their structure from Templates / TemplateNodes.
+    Sheet / SheetItem objects get their structure from Template / TemplateNode
+    objects.
 
     A TemplateNode can and usually does apply for more than one Template.
     This is the basis of the Open Budgets comparative analysis implementation.
@@ -152,8 +155,8 @@ class TemplateNode(abstract_models.AbstractBaseNode, mixins.UUIDPKMixin,
 
     class Meta:
         ordering = ['code', 'name']
-        verbose_name = _('template node')
-        verbose_name_plural = _('template nodes')
+        verbose_name = _('Template Node')
+        verbose_name_plural = _('Template Nodes')
 
     objects = managers.TemplateNodeManager()
 
@@ -162,14 +165,8 @@ class TemplateNode(abstract_models.AbstractBaseNode, mixins.UUIDPKMixin,
         through='TemplateNodeRelation',
         related_name='nodes',)
 
-    description = models.TextField(
-        _('description'),
-        blank=True,
-        help_text=_('A descriptive text for this template node.'),)
-
     @property
     def past(self):
-
         """Returns a list of past nodes that morph to this one."""
 
         nodes = list(self.backwards.all())
@@ -182,7 +179,6 @@ class TemplateNode(abstract_models.AbstractBaseNode, mixins.UUIDPKMixin,
 
     @property
     def future(self):
-
         """Returns a list of future nodes that stem from this one."""
 
         nodes = list(self.forwards.all())
@@ -202,7 +198,6 @@ class TemplateNode(abstract_models.AbstractBaseNode, mixins.UUIDPKMixin,
         return [self] + self.future
 
     def timeline(self, include_future=False):
-
         """Returns this node's full timeline as a list."""
 
         timeline = self.with_past
@@ -229,10 +224,10 @@ class TemplateNode(abstract_models.AbstractBaseNode, mixins.UUIDPKMixin,
 
 
 def inverse_changed(sender, instance, action, reverse, model, pk_set, **kwargs):
-
     """Validating m2m relations on TemplateNode."""
 
     if action == 'pre_add':
+
         # validate that inverse never points to self
         if instance.pk in pk_set:
             raise ValidationError(_('Inverse node can not point to self.'))
@@ -253,8 +248,8 @@ class TemplateNodeRelation(models.Model):
 
     class Meta:
         ordering = ['template__name', 'node__name']
-        verbose_name = _('template/node relation')
-        verbose_name = _('template/node relations')
+        verbose_name = _('Template/TemplateNode Relation')
+        verbose_name = _('Template/TemplateNode Relations')
         unique_together = (('node', 'template'),)
 
     objects = managers.TemplateNodeRelationManager()
@@ -274,8 +269,8 @@ class TemplateNodeRelation(models.Model):
 
         super(TemplateNodeRelation, self).validate_unique(exclude)
 
-        if not bool(self.__class__.objects.has_same_node(
-                self.node, self.template)):
+        if not bool(self.__class__.objects.has_same_node(self.node, self.template)):
+
             raise ValidationError(_('Node with name: {name}; code: {code}; '
                                     'parent: {parent}; already exists in '
                                     'template: {template}'.format(
@@ -283,15 +278,23 @@ class TemplateNodeRelation(models.Model):
                                   parent=self.node.parent,
                                   template=self.template)))
 
+    def save(self, *args, **kwargs):
+        super(TemplateNodeRelation, self).save(*args, **kwargs)
 
-class Sheet(mixins.UUIDPKMixin, mixins.PeriodicMixin, mixins.TimeStampedMixin,
+        # have to do this here because our logic needs to know the template(s)
+        # of the node
+        self.node.comparable = is_node_comparable(self.node)
+        self.node.save()
+
+
+class Sheet(mixins.UUIDPKMixin, mixins.PeriodicMixin, mixins.TimeStampMixin,
             mixins.ClassMethodMixin):
 
     """The Sheet model describes the declared budgetary data of a given period,
      for a given entity.
 
-    In Open Budgets, Sheets / SheetItems get their structure from
-    Templates / TemplateNodes.
+    In Open Budgets, Sheet / SheetItem objects get their structure from
+    Template / TemplateNode objects.
 
     A Template can and usually does apply for more than one Sheet. This is the
     basis of the Open Budgets comparative analysis implementation.
@@ -303,8 +306,8 @@ class Sheet(mixins.UUIDPKMixin, mixins.PeriodicMixin, mixins.TimeStampedMixin,
     class Meta:
         ordering = ('entity', 'period_start')
         get_latest_by = 'period_start'
-        verbose_name = _('sheet')
-        verbose_name_plural = _('sheets')
+        verbose_name = _('Sheet')
+        verbose_name_plural = _('Sheets')
 
     entity = models.ForeignKey(
         Entity,
@@ -347,7 +350,6 @@ class Sheet(mixins.UUIDPKMixin, mixins.PeriodicMixin, mixins.TimeStampedMixin,
 
     @property
     def variance(self):
-
         """Returns variance between budget and actual as a percentage."""
 
         if not self.actual or not self.budget:
@@ -363,19 +365,24 @@ class Sheet(mixins.UUIDPKMixin, mixins.PeriodicMixin, mixins.TimeStampedMixin,
         return unicode(self.period)
 
 
-class SheetItem(abstract_models.AbstractBaseItem, mixins.UUIDPKMixin,
-                mixins.TimeStampedMixin, mixins.ClassMethodMixin):
+class SheetItem(abstract_models.AbstractItem, abstract_models.AbstractNode,
+                mixins.UUIDPKMixin, mixins.SelfParentMixin, mixins.TimeStampMixin,
+                mixins.ClassMethodMixin):
 
     """The SheetItem model describes items of budgetary data of a given period,
      for a given entity.
 
-    In Open Budgets, Sheets / SheetItems get their structure from
-    Templates / TemplateNodes.
+    In Open Budgets, Sheet / SheetItem objects get their structure from
+    Template / TemplateNode objects.
 
     A Template can and usually does apply for more than one Sheet. This is the
     basis of the Open Budgets comparative analysis implementation.
 
     """
+
+    DIRECTIONS = (('REVENUE', _('Revenue')), ('EXPENDITURE', _('Expenditure')),)
+
+    PATH_DELIMITER = settings.OPENBUDGETS_IMPORT_INTRA_FIELD_DELIMITER
 
     class Meta:
         ordering = ['node']
@@ -393,67 +400,17 @@ class SheetItem(abstract_models.AbstractBaseItem, mixins.UUIDPKMixin,
         TemplateNode,
         related_name='items',)
 
-    parent = models.ForeignKey(
-        'self',
-        null=True,
-        blank=True,
-        editable=False,
-        related_name='children',)
+    has_comments = models.BooleanField(
+        _('Has Comments?'),
+        default=False)
+
+    comment_count = models.PositiveSmallIntegerField(
+        _('Comment Count'),
+        default=0)
 
     @property
     def lookup(self):
-        return self.node.pk
-
-    @property
-    def name(self):
-        return self.node.name
-
-    @property
-    def code(self):
-        return self.node.code
-
-    @property
-    def comparable(self):
-        return self.node.comparable
-
-    @property
-    def direction(self):
-        return self.node.direction
-
-    @property
-    def path(self):
-        return self.node.path
-
-    @property
-    def depth(self):
-        return self.node.depth
-
-    @property
-    def has_comments(self):
-        return len(self.description) or self.discussion.exists()
-
-    @property
-    def comment_count(self):
-        count = 0
-        if self.description:
-            count = 1
-        count += self.discussion.count()
-        return count
-
-    @property
-    def ancestors(self):
-        ancestors = []
-        current = self
-        try:
-            while current:
-                parent = current.parent
-                if parent:
-                    ancestors.append(parent)
-                current = parent
-        except TemplateNode.DoesNotExist:
-            pass
-        ancestors.reverse()
-        return ancestors
+        return self.node_id
 
     def get_absolute_url(self):
         return reverse('sheet_item_detail', [self.pk])
@@ -461,8 +418,23 @@ class SheetItem(abstract_models.AbstractBaseItem, mixins.UUIDPKMixin,
     def __unicode__(self):
         return self.node.code
 
+    def save(self, *args, **kwargs):
 
-class SheetItemComment(mixins.UUIDPKMixin, mixins.TimeStampedMixin,
+        # set the fields that we denormalized from the node
+        for field in abstract_models.AbstractNode._meta.get_all_field_names():
+            setattr(self, field, getattr(self.node, field))
+
+        # set the comment data fields to something other than default, maybe
+        if (self.description or self.comment_count > 0):
+            self.has_comments = True
+
+        if self.description and self.comment_count == 0:
+            self.comment_count = 1
+
+        super(SheetItem, self).save(*args, **kwargs)
+
+
+class SheetItemComment(mixins.UUIDPKMixin, mixins.TimeStampMixin,
                        mixins.ClassMethodMixin):
 
     """Records discussion around particular budget items."""
@@ -488,3 +460,11 @@ class SheetItemComment(mixins.UUIDPKMixin, mixins.TimeStampedMixin,
 
     def __unicode__(self):
         return self.comment
+
+
+@receiver(post_save, sender=SheetItemComment)
+def update_item_comment_count(sender, instance, created, **kwargs):
+    if created:
+        instance.item.comment_count += 1
+        instance.item.save()
+    return instance
