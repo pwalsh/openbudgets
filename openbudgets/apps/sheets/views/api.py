@@ -11,7 +11,7 @@ class TemplateList(generics.ListAPIView):
     """API endpoint that represents a list of templates."""
 
     model = models.Template
-    queryset = model.objects.all()
+    queryset = model.objects.related_map_min()
     serializer_class = serializers.TemplateMin
     ordering = ['id', 'name', 'period_start', 'created_on', 'last_modified']
     search_fields = ['name', 'description']
@@ -59,8 +59,8 @@ class TemplateNodeList(generics.ListAPIView):
     """API endpoint that represents a list of template nodes."""
 
     model = models.TemplateNode
-    queryset = model.objects.related_map()
-    serializer_class = serializers.TemplateNode
+    queryset = model.objects.related_map_min()
+    serializer_class = serializers.TemplateNodeMin
     ordering = ['id', 'name', 'description', 'created_on', 'last_modified']
     search_fields = ['name', 'description']
 
@@ -148,7 +148,7 @@ class SheetList(generics.ListAPIView):
     """API endpoint that represents a list of budget sheets."""
 
     model = models.Sheet
-    queryset = model.objects.related_map()
+    queryset = model.objects.related_map_min()
     serializer_class = serializers.SheetMin
     ordering = ['id', 'entity__name', 'period_start', 'created_on', 'last_modified']
     search_fields = ['entity__name', 'description', 'period_start',
@@ -258,11 +258,18 @@ class SheetItemList(generics.ListAPIView):
     search_fields = ['sheet__entity__name', 'node__code', 'node__name',
                      'description']
 
+    def get_serializer_class(self):
+        # TODO: Document this. with_ancestors results in hideous db queries.
+        # The only sane way to deal with that is with a tree implementation,
+        # such as django-treebeard
+        if self.request.QUERY_PARAMS.get('with_ancestors', None):
+            return serializers.SheetItemAncestors
+        return self.serializer_class
+
     def get_queryset(self):
         queryset = super(SheetItemList, self).get_queryset()
 
         ### FILTERS
-        has_comments = self.request.QUERY_PARAMS.get('has_comments', None)
         sheets = self.request.QUERY_PARAMS.get('sheets', None)
         entities = self.request.QUERY_PARAMS.get('entities', None)
         divisions = self.request.QUERY_PARAMS.get('divisions', None)
@@ -285,6 +292,7 @@ class SheetItemList(generics.ListAPIView):
         depth_lt = self.request.QUERY_PARAMS.get('depth_lt', None)
         depth_lte = self.request.QUERY_PARAMS.get('depth_lte', None)
         periods = self.request.QUERY_PARAMS.get('periods', None)
+        has_comments = self.request.QUERY_PARAMS.get('has_comments', None)
 
         # HAS_COMMENTS: return sheet items that have user discussion.
         matches = []
@@ -467,9 +475,9 @@ class SheetItemCommentEmbeddedList(generics.ListCreateAPIView):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             # base serializer for creating SheetItemComment
-            return serializers.SheetItemCommentEmbed
+            return serializers.SheetItemCommentMin
         # SheetItemComment list/retrieve serializer
-        return serializers.SheetItemCommentRead
+        return serializers.SheetItemComment
 
     def get_queryset(self):
         return self.model.objects.by_item(self.kwargs.get('pk'))
