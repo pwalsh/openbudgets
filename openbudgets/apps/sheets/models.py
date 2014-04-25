@@ -55,7 +55,6 @@ class Template(mixins.UUIDPKMixin, mixins.PeriodStartMixin,
 
     description = models.TextField(
         _('Description'),
-        db_index=True,
         blank=True,
         help_text=_('An overview text for this template.'),)
 
