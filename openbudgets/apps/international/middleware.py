@@ -1,7 +1,8 @@
 """International middleware.
 
 Requires:
-* django-subdomains - this can easily be removed by directly querying the Sites table.
+* django-subdomains - this dependency can be removed by directly querying Sites.
+
 """
 
 

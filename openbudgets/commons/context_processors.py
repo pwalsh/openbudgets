@@ -12,7 +12,6 @@ def site(request):
     # If we will later map multiple hosts to the project
     #host = request.get_host()
     #site = Site.objects.get(domain=host)
-
     # But, for now
     site = Site.objects.get(pk=1)
 
