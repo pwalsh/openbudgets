@@ -5,7 +5,7 @@ local: &LOCAL
   project_allowed_hosts:
   project_cookie_domain:
   project_secret_key:
-  #project_packages: openbudgets.settings.INSTALLED_APPS
+  project_packages: openbudgets.settings.INSTALLED_APPS
   project_config_file: ./openbudgets/settings/local.py
   project_config_template: fabfile.templates.local
   app_instance: openbudgets.wsgi:application
