@@ -1,38 +1,30 @@
 import os
 
 
-DEBUG = True
-
-TEMPLATE_DEBUG = DEBUG
-
 WSGI_APPLICATION = 'openbudgets.wsgi.application'
 
 SECRET_KEY = 'pvh9d)+7aui4=evh$yv!qgbr3oyz-4=^oj_%6g8+v57b=de5)7'
 
-ALLOWED_HOSTS = ['.openbudgets.dev:8000']
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
+ALLOWED_HOSTS = ['.openbudgets.dev:8000']
 SESSION_COOKIE_DOMAIN = 'openbudgets.dev'
 
-SITE_ID = 1
-
 TIME_ZONE = 'UTC'
-
 USE_TZ = True
-
 USE_I18N = True
-
 USE_L10N = True
 
+SITE_ID = 1
 ROOT_URLCONF = 'openbudgets.urls'
-
 SUBDOMAIN_URLCONFS = {
-    '': 'openbudgets.urls',
-    'www': 'openbudgets.urls',
-    'he': 'openbudgets.urls',
-    'en': 'openbudgets.urls',
-    'ru': 'openbudgets.urls',
-    'ar': 'openbudgets.urls',
-    'api': 'openbudgets.urls',
+    None: ROOT_URLCONF,
+    'www': ROOT_URLCONF,
+    'he': ROOT_URLCONF,
+    'en': ROOT_URLCONF,
+    'ru': ROOT_URLCONF,
+    'ar': ROOT_URLCONF,
 }
 
 gettext = lambda s: s
@@ -42,35 +34,20 @@ LANGUAGES = (
     ('ar', gettext('Arabic')),
     ('ru', gettext('Russian')),
 )
-
 LANGUAGE_CODE = LANGUAGES[0][0]
 
+STATIC_URL = '/static/'
 MEDIA_URL = '/static/media/'
 
-STATIC_URL = '/static/'
-
 SETTINGS_ROOT = os.path.abspath(os.path.dirname(__file__))
-
 PROJECT_ROOT = os.path.abspath(os.path.dirname(SETTINGS_ROOT))
-
-MEDIA_ROOT = os.path.abspath(os.path.join(os.path.dirname(PROJECT_ROOT),
-                                          'static', 'media'),)
-
-STATIC_ROOT = os.path.abspath(os.path.join(os.path.dirname(PROJECT_ROOT),
-                                           'static'),)
-
-STATICFILES_DIRS = (os.path.abspath(os.path.join(PROJECT_ROOT, 'commons',
-                                                 'static')),)
-
-TEMPLATE_DIRS = (
-    os.path.abspath(os.path.join(PROJECT_ROOT, 'commons', 'templates')),
-    # TODO: This below was added, check if it really should be here.
-    os.path.abspath(os.path.join(PROJECT_ROOT, 'apps', 'entities', 'static', 'entities', 'explorer', 'templates')),
-)
-
-FIXTURE_DIRS = (os.path.abspath(os.path.join(PROJECT_ROOT, 'fixtures')),)
-
+REPOSITORY_ROOT = os.path.abspath(os.path.dirname(PROJECT_ROOT))
+STATIC_ROOT = os.path.abspath(os.path.join(REPOSITORY_ROOT, 'static'),)
+MEDIA_ROOT = os.path.abspath(os.path.join(STATIC_ROOT, 'media'),)
 LOCALE_PATHS = (os.path.abspath(os.path.join(PROJECT_ROOT, 'locale')),)
+STATICFILES_DIRS = (os.path.abspath(os.path.join(PROJECT_ROOT, 'commons', 'static')),)
+FIXTURE_DIRS = (os.path.abspath(os.path.join(PROJECT_ROOT, 'fixtures')),)
+TEMPLATE_DIRS = (os.path.abspath(os.path.join(PROJECT_ROOT, 'commons', 'templates')),)
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -87,10 +64,10 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'subdomains.middleware.SubdomainURLRoutingMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'openbudgets.apps.international.middleware.InterfaceLanguage',
     'django.middleware.common.CommonMiddleware',
-    'subdomains.middleware.SubdomainURLRoutingMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -108,15 +85,16 @@ INSTALLED_APPS = (
     'django.contrib.comments',
     'django.contrib.admin',
     'django.contrib.sitemaps',
-    'oauth2_provider',
+    'cacheops',
     'corsheaders',
-    'south',
-    'subdomains',
+    'django_gravatar',
+    'oauth2_provider',
+    'raven.contrib.django.raven_compat',
     'registration',
     'rest_framework',
-    'raven.contrib.django.raven_compat',
+    'south',
+    'subdomains',
     'taggit',
-    'django_gravatar',
     'openbudgets.apps.accounts',
     'openbudgets.apps.sheets',
     'openbudgets.apps.contexts',
@@ -142,9 +120,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
-    'openbudgets.commons.context_processors.site',
     'openbudgets.commons.context_processors.forms',
     'openbudgets.commons.context_processors.openbudgets',
+    'openbudgets.commons.context_processors.site',
 )
 
 LOGGING = {
@@ -156,49 +134,43 @@ LOGGING = {
         }
     },
     'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
         'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
     },
     'loggers': {
         'django.request': {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
             'propagate': True,
-            },
-        }
+        },
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
 }
 
 AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
 
+SOUTH_TESTS_MIGRATE = False
+SOUTH_MIGRATION_MODULES = {'taggit': 'taggit.south_migrations'}
+
+RAVEN_CONFIG = {'dsn': ''}
+
 ACCOUNT_ACTIVATION_DAYS = 7
-
 AUTH_USER_MODEL = 'accounts.Account'
-
 LOGIN_URL = '/accounts/login/'
-
 LOGIN_REDIRECT_URL = '/'
-
 LOGOUT_URL = '/accounts/auth/logout/'
-
-ABSOLUTE_URL_OVERRIDES = {
-    'auth.user': lambda u: '/accounts/{uuid}/'.format(uuid=u.uuid)
-}
-
+ABSOLUTE_URL_OVERRIDES = {'auth.user': lambda u: '/accounts/{uuid}/'.format(uuid=u.uuid)}
 GRAVATAR_DEFAULT_IMAGE = 'retro'
-
-REDIS = {
-    'HOST': '127.0.0.1',
-    'PORT': 6379,
-    'DB': 0,
-    'PASSWORD': '',
-    'SCHEME': 'redis://'
-}
-
-REDIS_URL = REDIS['SCHEME'] + REDIS['HOST'] + ':' + \
-            str(REDIS['PORT']) + '/' + str(REDIS['DB'])
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -211,7 +183,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.UnicodeJSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
+        #'rest_framework.renderers.BrowsableAPIRenderer',
     ),
     'DEFAULT_FILTER_BACKENDS': (
         'rest_framework.filters.SearchFilter',
@@ -221,21 +193,9 @@ REST_FRAMEWORK = {
     'PAGINATE_BY_PARAM': 'page_by'
 }
 
-OAUTH2_PROVIDER = {
-    'SCOPES': ['read', 'write']
-}
-
+OAUTH2_PROVIDER = {'SCOPES': ['read', 'write']}
 CORS_ORIGIN_ALLOW_ALL = True
-
-CORS_ALLOW_METHODS = (
-    'GET',
-    'POST',
-    'PUT',
-    'PATCH',
-    'DELETE',
-    'OPTIONS'
-)
-
+CORS_ALLOW_METHODS = ('GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS')
 CORS_ALLOW_HEADERS = (
     'x-requested-with',
     'content-type',
@@ -246,17 +206,12 @@ CORS_ALLOW_HEADERS = (
 )
 
 EMAIL_USE_TLS = True
-
 EMAIL_HOST = 'smtp.gmail.com'
-
 EMAIL_PORT = 587
-
 EMAIL_HOST_USER = ''
-
 EMAIL_HOST_PASSWORD = ''
 
 ADMINS = (('', ''),)
-
 MANAGERS = ADMINS
 
 DATABASES = {
@@ -273,56 +228,85 @@ DATABASES = {
     }
 }
 
+REDIS = {
+    'HOST': '127.0.0.1',
+    'PORT': 6379,
+    'DB': 0,
+    'PASSWORD': '',
+    'SCHEME': 'redis://'
+}
+
+REDIS_URL = REDIS['SCHEME'] + REDIS['HOST'] + ':' +\
+            str(REDIS['PORT']) + '/' + str(REDIS['DB'])
+
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-    }
+        'KEY_PREFIX': 'openbudgets::',
+        'VERSION': 1,
+        'TIMEOUT': 5000,
+        'MAX_ENTRIES': 3000,
+        'OPTIONS': {},
+    },
 }
 
+CACHE_MIDDLEWARE_ALIAS = 'default'
+CACHE_MIDDLEWARE_KEY_PREFIX = CACHES['default']['KEY_PREFIX']
 CACHE_MIDDLEWARE_SECONDS = 604800
 
-CACHE_MIDDLEWARE_KEY_PREFIX = 'openbudgets::'
+OPENBUDGETS_QUERYSET_CACHE_EXPIRY = 60*60*24*30  # 30 days
 
-SOUTH_TESTS_MIGRATE = False
-
-SOUTH_MIGRATION_MODULES = {
-    'taggit': 'taggit.south_migrations',
+CACHEOPS_REDIS = {
+    'host': REDIS['HOST'],
+    'port': REDIS['PORT'],
+    'db': REDIS['DB'],
+    'socket_timeout': 3,
 }
 
-RAVEN_CONFIG = {'dsn': ''}
+CACHEOPS = {
+    'django.contrib.sites.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
+    'contexts.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
+    'entities.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
+    'sheets.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
+}
 
-OPENBUDGETS_TEMP_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(PROJECT_ROOT), 'tmp'))
+OPENBUDGETS_TEMP_DIR = os.path.abspath(os.path.join(REPOSITORY_ROOT, 'tmp'))
 
 OPENBUDGETS_NAME_APP = gettext('Open Local Budgets')
-
 OPENBUDGETS_NAME_SPONSOR = gettext('Public Knowledge Workshop')
 
 OPENBUDGETS_GROUP_ID_CORE = 1
-
 OPENBUDGETS_GROUP_ID_CONTENT = 2
-
 OPENBUDGETS_GROUP_ID_PUBLIC = 3
-
-OPENBUDGETS_PERIOD_RANGES = ('yearly',)
 
 OPENBUDGETS_AVATAR_ANON = STATIC_URL + 'img/avatar_anon.png'
 
 OPENBUDGETS_IMPORT_FIELD_DELIMITER = ','
-
 OPENBUDGETS_IMPORT_INTRA_FIELD_DELIMITER = '|'
-
 OPENBUDGETS_IMPORT_INTRA_FIELD_MULTIPLE_VALUE_DELIMITER = ';'
 
 OPENBUDGETS_COMPARABLE_TEMPLATENODE = True
-
 OPENBUDGETS_COMPARABLE_TEMPLATENODE_IN_BLUEPRINT = OPENBUDGETS_COMPARABLE_TEMPLATENODE
-
 OPENBUDGETS_COMPARABLE_TEMPLATENODE_NOT_IN_BLUEPRINT = False
-
 OPENBUDGETS_COMPARABLE_WITHIN_ENTITY = True
-
 OPENBUDGETS_COMPARABLE_ACROSS_ENTITIES = True
+
+OPENBUDGETS_PERIOD_RANGES = ('yearly',)
+
+OPENBUDGETS_CKAN_BACKENDS = [
+    {
+        'name': 'DataHub',
+        'base_url': 'http://datahub.io/api',
+        'package_url': 'http://datahub.io/dataset/',
+        'api_key': '884da76c-87b6-4974-97dc-cfd3f639d15a'
+    }
+]
+
+OPENBUDGETS_CKAN_CONFIG = {
+    'tags': ['budget', 'municipalities', 'israel'],
+    'notes': 'This is the Budget and the Actual of',
+    'owner_org': 'israel-municipalities'
+}
 
 OPENBUDGETS_UI = {
     'enable': True,
@@ -340,21 +324,7 @@ OPENBUDGETS_ADMIN = {
     'base': 'admin/'
 }
 
-OPENBUDGETS_CKAN = [
-    {
-        'name': 'Datahub',
-        'base_url': 'http://datahub.io/api',
-        'package_url': 'http://datahub.io/dataset/',
-        'api_key': '884da76c-87b6-4974-97dc-cfd3f639d15a'
-    }
-]
-
-# TODO: this is here for CKAN. tidy up.
-OPENBUDGETS_SETTING = {
-    'tags': ['budget', 'municipalities', 'israel'],
-    'notes': 'This is the Budget and the Actual of',
-    'owner_org': 'israel-municipalities'
-}
+OPENBUDGETS_CONSOLE_QUERY_DEBUG = DEBUG
 
 
 # if we are on a deploy env, we should have a settings.deploy module to load.
@@ -362,7 +332,7 @@ try:
     from .deploy import *
 except ImportError:
     # if we are on local, we accept overrides in a settings.local module.
-    # For safety, we only try to load settings.local if settings.production
+    # For safety, we only try to load settings.local if settings.deploy
     # does not exist.
     try:
         from .local import *

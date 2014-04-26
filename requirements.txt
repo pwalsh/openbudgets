@@ -30,6 +30,9 @@ django-braces
 django-subdomains
 django-uuidfield
 
+#django-cacheops: master can serialize uuid fields
+git+https://github.com/Suor/django-cacheops.git
+
 # upstream still doesn't fully support custom user model
 hg+https://bitbucket.org/prjts/django-registration
 
