@@ -79,17 +79,24 @@ class AbstractNode(models.Model):
 
     def save(self, *args, **kwargs):
 
-        if self.path and self.pk is None:
-            # The instance creation was passed an explicit path
-            # Convert it to a list with the delimiter, then, to a
-            # comma-separated string.
-            tmp = self.path.split(self.PATH_DELIMITER)
-            self.path = ','.join(tmp)
-        else:
-            # Create the path recursively over parents
-            self.path = ','.join(self._get_path_to_root())
+        try:
+            # hacky :: when this is a SheetItem being saved,
+            # we don't want to execute the code below
+            assert self.node
 
-        self.depth = len(self.path.split(','))
+        except AttributeError:
+
+            if self.path and self.pk is None:
+                # The instance creation was passed an explicit path
+                # Convert it to a list with the delimiter, then, to a
+                # comma-separated string.
+                tmp = self.path.split(self.PATH_DELIMITER)
+                self.path = ','.join(tmp)
+            else:
+                # Create the path recursively over parents
+                self.path = ','.join(self._get_path_to_root())
+
+            self.depth = len(self.path.split(','))
 
         return super(AbstractNode, self).save(*args, **kwargs)
 
