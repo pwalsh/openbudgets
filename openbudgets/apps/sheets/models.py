@@ -408,10 +408,6 @@ class SheetItem(abstract_models.AbstractItem, abstract_models.AbstractNode,
         _('Comment Count'),
         default=0)
 
-    @property
-    def lookup(self):
-        return self.node_id
-
     def get_absolute_url(self):
         return reverse('sheet_item_detail', [self.pk])
 

@@ -61,7 +61,7 @@ class SheetItemMin(serializers.HyperlinkedModelSerializer):
 
     """
 
-    node = serializers.Field(source='lookup')
+    node = serializers.Field(source='node_id')
     variance = serializers.Field(source='variance')
 
     class Meta:
