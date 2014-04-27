@@ -310,18 +310,11 @@ class SheetItemList(generics.ListAPIView):
         comparable = self.request.QUERY_PARAMS.get('comparable', None)
 
         # HAS_COMMENTS: return sheet items that have user discussion.
-        matches = []
         if has_comments == 'true':
-            for obj in queryset:
-                if obj.discussion.all():
-                    matches.append(obj.pk)
-            queryset = queryset.filter(pk__in=matches)
+            queryset = queryset.filter(has_comments=True)
 
         elif has_comments == 'false':
-            for obj in queryset:
-                if not obj.discussion.all():
-                    matches.append(obj.pk)
-            queryset = queryset.filter(pk__in=matches)
+            queryset = queryset.filter(has_comments=False)
 
         # COMPARABLE: return sheet items that match the comparable argument.
         if comparable:
@@ -348,12 +341,12 @@ class SheetItemList(generics.ListAPIView):
         # DIRECTION: return sheet items in the given direction.
         if direction:
             direction = direction.upper()
-            queryset = queryset.filter(node__direction=direction)
+            queryset = queryset.filter(direction=direction)
 
         # CODES: return sheet items that match the given code(s).
         if codes:
             codes = codes.split(',')
-            queryset = queryset.filter(node__code__in=codes)
+            queryset = queryset.filter(code__in=codes)
 
         # PARENTS: return items that are children of given parent(s).
         if parents and parents == 'none':
@@ -366,15 +359,15 @@ class SheetItemList(generics.ListAPIView):
         # NODES: return sheet items that belong to the given node(s).
         if nodes:
             nodes = nodes.split(',')
-            queryset = queryset.filter(node__in=nodes)
+            queryset = queryset.filter(node_id__in=nodes)
 
         # NODE PARENTS: return items that are children of given node parent(s).
         if node_parents and node_parents == 'none':
-            queryset = queryset.filter(node__parent__isnull=True)
+            queryset = queryset.filter(node__parent_id__isnull=True)
 
         elif node_parents:
             node_parents = node_parents.split(',')
-            queryset = queryset.filter(node__parent__pk__in=node_parents)
+            queryset = queryset.filter(node__parent_id__in=node_parents)
 
         # BUDGET_GT: return sheet items with a budget amount greater than the
         # given amount.
@@ -441,7 +434,7 @@ class SheetItemList(generics.ListAPIView):
         if depth_lte:
             queryset = queryset.filter(depth__lte=depth_lte)
 
-        # PERIODS: return contexts matching the given period(s).
+        # PERIODS: return sheet items matching the given period(s).
         if periods:
             periods = [datetime.date(int(p), 1, 1) for p in periods.split(',')]
             queryset = queryset.filter(sheet__period_start__in=periods)
