@@ -2,7 +2,6 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from .utilities import is_node_comparable
 
 
 class AbstractNode(models.Model):
@@ -36,7 +35,7 @@ class AbstractNode(models.Model):
 
     comparable = models.BooleanField(
         _('Comparable'),
-        default=settings.OPENBUDGETS_COMPARABLE_TEMPLATENODE,
+        default=settings.OPENBUDGETS_COMPARABLE_NODE_DEFAULT,
         help_text=_('A flag to designate whether this node is suitable for '
                     'comparison or not.'),)
 

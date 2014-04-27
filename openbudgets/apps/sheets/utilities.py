@@ -10,11 +10,21 @@ def is_node_comparable(instance):
 
     """
 
-    value = settings.OPENBUDGETS_COMPARABLE_TEMPLATENODE
+    if settings.OPENBUDGETS_COMPARABLE_STRICT_BY_DECLARATION:
+        return instance.comparable
 
-    if all([t.is_blueprint for t in instance.templates.all()]):
-        value = settings.OPENBUDGETS_COMPARABLE_TEMPLATENODE_IN_BLUEPRINT
+    value = settings.OPENBUDGETS_COMPARABLE_NODE_DEFAULT
+
+    if any([t.is_blueprint for t in instance.templates.all()]):
+        # if the node is a blueprint node, take that setting
+        value = settings.OPENBUDGETS_COMPARABLE_NODE_IN_BLUEPRINT
     else:
-        value = settings.OPENBUDGETS_COMPARABLE_TEMPLATENODE_NOT_IN_BLUEPRINT
+        # if the node is not a blueprint node, take that setting
+        value = settings.OPENBUDGETS_COMPARABLE_NODE_NOT_IN_BLUEPRINT
+
+    if settings.OPENBUDGETS_COMPARABLE_OVERRIDE_BY_INHERITANCE:
+        # override by inheritance means that we take the value of the parent
+        # and (potentially) override the basic configuration above.
+        value = instance.parent.comparable
 
     return value
