@@ -1,6 +1,6 @@
 /*!
- * UIjet UI Framework
- * @version 0.0.37
+ * uijet UI Framework
+ * @version 0.0.39
  * @license BSD License (c) copyright Yehonatan Daniv
  * https://raw.github.com/ydaniv/uijet/master/LICENSE
  */
@@ -434,6 +434,7 @@
     function Base () {
         this.signals_cache = {};
         this.signals = Object.create(this.signals_cache);
+        this._memoize_signal_args = {};
     }
 
     /**
@@ -537,6 +538,26 @@
                 once && (this.signals[topic] = null);
                 return handler.apply(this, args);
             }
+        },
+        //TODO: add docs to holdSignal
+        holdSignal     : function (topic) {
+            this.signals[topic] = function () {
+                var args = arraySlice.call(arguments);
+                args.unshift(topic);
+                if ( this.signals.hasOwnProperty(topic) && this.signals[topic] === null ) {
+                    args.unshift(true);
+                }
+                this._memoize_signal_args[topic] = args;
+            };
+        },
+        //TODO: add docs to releaseSignal
+        releaseSignal   : function (topic) {
+            var args;
+            if ( args = this._memoize_signal_args[topic] ) {
+                delete this.signals[topic];
+                delete this._memoize_signal_args[topic];
+            }
+            return this.notify.apply(this, args || arguments);
         },
         /**
          * Registers the given handler under the given type `topic`.
@@ -1698,7 +1719,8 @@
          * @returns {uijet}
          */
         destroyContained    : function (id) {
-            var _contained, l, _w;
+            var args = arraySlice.call(arguments, 1),
+                _contained, l, _w;
             // find `id`
             if ( id in widgets ) {
                 // get the ids of its contained child widgets
@@ -1709,7 +1731,7 @@
                     if ( _contained[l] in widgets ) {
                         // and destroy
                         _w = widgets[_contained[l]].self;
-                        _w.destroy();
+                        _w.destroy.apply(_w, args);
                     }
                 }
             }
