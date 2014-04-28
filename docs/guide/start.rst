@@ -25,25 +25,25 @@ Server
 
 The server is written in Python using Django and Django REST Framework.
 
-
 Client
 ------
 
-The client makes use of D3, jQuery, Uijet, and Backbone.
-
+The client is written in Javascript makes use of Uijet, Backbone, JQuery, and D3.
 
 System requirements
 ===================
 
-Open Budgets has been developed on Mac OS X and Ubuntu, and should be trivial to deploy to any *nix environment.
+Open Budgets has been developed on Mac OS X, Ubuntu and Debian. It should be trivial to deploy to any *nix environment.
 
 We also provide basic instructions for Windows installations, but we do not recommend this approach.
 
-Essentially, the project requires an OS equipped with **Python**, **Postgresql**, **Git** and **Mercurial**.
+The project *requires* an OS equipped with **Python**, **Postgresql**, **Git** and **Mercurial**.
 
-**Node.js** is an optional dependency if you'll like to use Javascript build tools.
+There are additional dependencies for production, and for working with static resource management:
 
-**Redis** is an optional dependency for development environments, but is required for production deployments.
+* **Node.js** is an optional dependency if you'd like to use Javascript build tools.
+
+* **Redis** is an optional dependency for development environments, but is required for production deployments.
 
 Below we give a basic, opinionated system setup for a number of OSes.
 
@@ -52,8 +52,8 @@ Experienced users may choose to vary from the following instructions.
 **IMPORTANT: Ensure you have the minimal system requirements before moving on to install of the project.**
 
 
-Ubuntu
-------
+Ubuntu & Debian
+-------------
 
 **NOTE:** Use of `sudo` for any command is very dependent on your setup.
 
@@ -68,19 +68,19 @@ Install::
     # optional dependencies in development, required in production
     sudo apt-get install redis-server
 
-    # optional dependencies
+    # optional dependencies for working with static resources
     sudo apt-get install nodejs npm
-    sudo npm install -g volo bower less
+    sudo npm install -g bower less
 
 
-That's all the packages we need for the system, now we need to configure the user's .profile.
+That's all the packages we need for the system, now we need to configure your user .profile.
 
 Configure::
 
     # this goes in ~/.profile
     export PYTHONIOENCODING=utf-8
-    export WORKON_HOME="/home/{YOUR_USER}/environments"
-    export PROJECT_HOME="/home/{YOUR_USER}/projects"
+    export WORKON_HOME="/home/{YOUR_USERNAME}/environments"
+    export PROJECT_HOME="/home/{YOUR_USERNAME}/projects"
     source /usr/local/bin/virtualenvwrapper.sh
     export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
 
@@ -101,17 +101,17 @@ Here we go::
 
     # optional dependencies
     sudo yum install nodejs npm
-    sudo npm install -g volo bower less
+    sudo npm install -g bower less
 
 
-That's all the packages we need for the system, now we need to configure the user's .bashrc (assuming you use bash, please adjust for other shells).
+That's all the packages we need for the system, now we need to configure your user .bashrc (assuming you use bash, please adjust for other shells).
 
 Configure::
 
     # this goes in ~/.bashrc
     export PYTHONIOENCODING=utf-8
-    export WORKON_HOME="/home/{YOUR_USER}/environments"
-    export PROJECT_HOME="/home/{YOUR_USER}/projects"
+    export WORKON_HOME="/home/{YOUR_USERNAME}/environments"
+    export PROJECT_HOME="/home/{YOUR_USERNAME}/projects"
     source /usr/bin/virtualenvwrapper.sh
     export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
 
@@ -137,16 +137,16 @@ If you are not sure, just stick with system Python setup for now.
 Install::
 
     # USING THE BUILTIN PYTHON WITH MAC OS X
-    brew install mercurial git node redis
+    brew install mercurial git node postgresql redis
     sudo easy_install virtualenv
     sudo pip install virtualenvwrapper
-    npm install -g volo bower less
+    npm install -g bower less
 
 
     # ALTERNATIVELY, USING HOMEBREW PYTHON
     brew install mercurial git node postgresql redis python
     pip install virtualenv virtualenvwrapper
-    npm install -g volo bower less
+    npm install -g bower less
 
 That's all the packages we need for the system. But we need some extra configuration for Postgresql::
 
@@ -160,19 +160,21 @@ That's all the packages we need for the system. But we need some extra configura
     initdb /usr/local/var/postgres -E utf8
 
     # Create a user with your username on Mac OS X
-    createuser {YOUR_USER}
+    createuser {YOUR_USERNAME}
 
-    # Create a database with your username on Mac OS X
-    createdb {YOUR_USER}
+    # Create a database with your username on Mac OS X (for convenience only, not required)
+    createdb {YOUR_USERNAME}
 
-That is Postgresql configured and ready to go.
+Postgresql configured and ready to go. You can verify this with the following command, listing the databases on your system::
 
-Now, we need to configure the user's .bash_profile::
+    psql -l
+
+Now, we need to configure your user .bash_profile::
 
     # this goes in ~/.bash_profile
     export PYTHONIOENCODING=utf-8
-    export WORKON_HOME="/Users/{YOUR_USER}/Sites/environments"
-    export PROJECT_HOME="/Users/{YOUR_USER}/Sites/projects"
+    export WORKON_HOME="/Users/{YOUR_USERNAME}/code/environments"
+    export PROJECT_HOME="/Users/{YOUR_USERNAME}/code/projects"
     source /usr/local/bin/virtualenvwrapper.sh
     export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
 
@@ -204,26 +206,23 @@ Optional, install Node.js:
 
 http://nodejs.org/download/
 
-
 You'll probably have to check this out too:
 
 http://adambard.com/blog/installing-fabric-under-windows-7-64-bit-with/
 
 
 Installing the project
-======================
+===================
 
-As long as you have met the system requirements above on your chosen OS, we're ready to install the project.
+As long as you have met the system requirements above on your chosen OS, we are ready to install the project.
 
 
 Configure hosts
----------------
+-------------
 
-This project makes use of subdomains to target languages, and for API requests.
+Open Budgets makes use of subdomains to target languages. To enable this functionality fully, you'll need to edit your hosts file on your development machine.
 
-To enable this functionality fully, you'll need to edit your hosts file on your development machine.
-
-**Ubuntu & Fedora**::
+**Ubuntu, Debian & Fedora**::
 
     sudo nano /etc/hosts
 
@@ -236,7 +235,7 @@ Add the following domain mappings for localhost::
     127.0.0.1 openbudgets.dev www.openbudgets.dev en.openbudgets.dev he.openbudgets.dev ar.openbudgets.dev ru.openbudgets.dev
 
 Make a virtualenv
------------------
+---------------
 
 We are going to setup the project in a new Python virtual environment.
 
@@ -247,12 +246,12 @@ http://docs.python-guide.org/en/latest/dev/virtualenvs/
 We are going to:
 
 * Create a new virtual environment
-* Create another directory for our project code
+* Create a directory for our project code
 * Make a connection between the two
 * Clone the project code into its directory
 
 
-Ubuntu & Fedora
+Ubuntu, Debian & Fedora
 ~~~~~~~~~~~~~~~
 
 Here we go::
@@ -261,16 +260,16 @@ Here we go::
     mkvirtualenv {PROJECT_NAME}
 
     # Create a directory for our project code
-    mkdir /home/{YOUR_USER}/projects/{PROJECT_NAME}
+    mkdir /home/{YOUR_USERNAME}/projects/{PROJECT_NAME}
 
     # Link our project code directory to our virtual environment
-    setvirtualenvproject /home/{YOUR_USER}/environments/{PROJECT_NAME} /home/{YOUR_USER}/projects/{PROJECT_NAME}
+    setvirtualenvproject /home/{YOUR_USERNAME}/environments/{PROJECT_NAME} /home/{YOUR_USERNAME}/projects/{PROJECT_NAME}
 
     # Move to the root of our project code directory
     cdproject
 
     # Clone the project
-    # Important: Note the "." at the end of the git clone command.
+    # Important: Note the **"."** at the end of the git clone command.
     git clone https://github.com/hasadna/openmuni-budgets.git .
 
 
@@ -284,10 +283,10 @@ Here we go::
     mkvirtualenv {PROJECT_NAME}
 
     # Create a directory for our project code
-    mkdir /Users/{YOUR_USER}/code/projects/{PROJECT_NAME}
+    mkdir /Users/{YOUR_USERNAME}/code/projects/{PROJECT_NAME}
 
     # Link our project code directory to our virtual environment
-    setvirtualenvproject /Users/{YOUR_USER}/code/environments/{PROJECT_NAME} /Users/{YOUR_USER}/code/projects/{PROJECT_NAME}
+    setvirtualenvproject /Users/{YOUR_USERNAME}/code/environments/{PROJECT_NAME} /Users/{YOUR_USERNAME}/code/projects/{PROJECT_NAME}
 
     # Move to the root of our project code directory
     cdproject
@@ -298,7 +297,7 @@ Here we go::
 
 
 Using virtualenvwrapper
------------------------
+--------------------
 
 virtualenvwrapper provides a nice, human-friendly API over virtualenv commands.
 
@@ -322,44 +321,21 @@ Project dependencies
 All the project dependencies are managed by pip. To get them, run the following command::
 
     # when setting up for the first time:
-    pip install -U -r requirements.txt
+    pip install --upgrade -r requirements.txt
 
-    # or, on subsequent tries, if you are using the project's fab tasks.
-    fab local.environ.ensure
-
-We are now ready to work on code.
-
-First, we'll do a sanity check to make sure we have everything we need. Run the following command::
-
-    fab local.sanity
-
-If you have an problems, the output of this command will tell you about them.
-
-Now, let's bootstrap the environment. Run the following commands::
-
-    # create a database user for the project
-    fab local.db.createuser
-
-    # build out the project
-    fab local.bootstrap:initial=yes,environment=yes mock
-
-An explanation of these commands, and others like it, can be found in the "Interacting with the project" section below.
-
-For now, open the following URL in your browser and you should see the application::
-
-    http://openbudgets.dev:8000/
-
-See the **Project commands** section below to learn the basic administrative tasks, and bootstrap your environment.
+We are now ready to start looking at the codebase.
 
 
 Interacting with the project
-----------------------------
+-------------------------
 
-We make use of Fabric, a great Python tool for writing and running administration tasks on the command line.
+We make use of **Fabric**, a great Python tool, for running tasks on the command line. You can treat Fabric as a general CLI for interacting with the project.
 
-We have Fabric tasks for execution in development and in production.
+The tasks exposed through the Fabric interface cover concerns ranging from code deployment to running the projects tests locally.
 
 Here, we will cover the important commands for developing Open Budgets.
+
+For a more in depth overview, see the Quilt package (a dependency of the project that we wrote) and/or the fabfile package in the codebase.
 
 **Note:** In many cases, our `fab` tasks simply wrap CLI commands for:
 
@@ -368,20 +344,53 @@ Here, we will cover the important commands for developing Open Budgets.
 * `redis-server`
 * `psql` and associated CLIs like `createdb` and `dropdb`.
 
-You can always use the original CLIs.
+You can *always* use the original CLIs - nothing is hidden. We simply prefer the way that using `fab` standardizes the interface for the developer/user.
 
-We simply prefer the way that using `fab` standardizes the interface for the developer/user.
+First, you can get a list of all available Fabric tasks with the following command::
 
-Most of the Fabric commands in the project come from a package of execution tasks that we abstracted out of our work, called Quilt.
+    fab -l
+
+Next, we'll do a sanity check to make sure we have everything we need. Run the following command::
+
+    fab e local.sanity
+
+If you have any obvious problems, the output of this command will tell you about them.
+
+**NOTE:** What does `e` do?
+
+e is a helper function that sets the current environment. Each environment has its own configuration variables, and the environment is *targeted* with the `e` helper.
+
+By default, `e` with no params picks up the `local` environment - it is shorthand for `e:local`.
 
 
-Commands
-~~~~~~~~
+Ok, so contining, let's bootstrap the environment. Run the following commands::
+
+    # create a database user for the project
+    fab e local.db.createuser
+
+    # build out the project
+    fab e local.bootstrap:initial=yes
+
+Now, Let's start the server:
+
+    # This just wraps `python manage.py runserver`, so use that if you prefer
+    fab e local.app.start
+
+
+For now, open the following URL in your browser and you should see the application::
+
+    http://openbudgets.dev:8000/
+
+
+Fabric Tasks
+~~~~~~~~~~
+
+Here are the most common tasks you'll use for development.
 
 bootstrap
 +++++++++
 
-Get familiar with the `fab local.bootstrap` command.
+Get familiar with the `fab e local.bootstrap` command.
 
 It makes working in your development environment much easier, and abstracts away a bunch of tasks related to rebuilding your database and building out initial data.
 
@@ -389,46 +398,40 @@ It makes working in your development environment much easier, and abstracts away
 Run it::
 
     # default bootstrap
-    fab local.bootstrap
+    fab e local.bootstrap
 
-    # new install with no database
-    fab local.bootstrap:initial=yes
-
-    # new install with no database, and install all requirements
-    fab local.bootstrap:initial=yes,environment=yes
-
-    # working install, using redis as cache locally
-    fab local.bootstrap:environment=yes,clear_cache=yes
+    # new install when no database exists
+    fab  e local.bootstrap:initial=yes
 
 
 migrate
 +++++++
 
-The `fab local.migrate` command wraps Django/South's syncdb/migrate.
+The `fab e local.migrate` command wraps Django/South's syncdb/migrate.
 
 Run it::
 
-    fab local.migrate
+    fab e local.migrate
 
 
 test
 ++++
 
-The `fab local.test` command runs the project's test suite.
+The `fab e local.test` command runs the project's test suite.
 
 Run it::
 
-    fab local.test
+    fab e local.test
 
 
 mock
 ++++
 
-The `fab mock` command builds out a set of dummy data.
+The `fab e mock` command builds out a set of dummy data.
 
 Run it::
 
-    fab mock
+    fab e mock
 
 
 dock.* commands
@@ -442,8 +445,7 @@ Get the repository from a webserver and install it locally
 
 Run it::
 
-    fab dock.local.clone
-
+    fab e dock.local.clone
 
 **dock.local.push**
 
@@ -451,8 +453,7 @@ Push changes in the local data repository back to the master
 
 Run it::
 
-    fab dock.local.push
-
+    fab e dock.local.push
 
 **dock.local.pull**
 
@@ -460,7 +461,7 @@ Pull changes from a webserver to an existing data repository
 
 Run it::
 
-    fab dock.local.pull
+    fab e dock.local.pull
 
 **dock.local.load**
 
@@ -468,7 +469,7 @@ Load data from the repository into the Open Budgets database.
 
 Run it::
 
-    fab dock.local.load
+    fab e dock.local.load
 
 
 db.* commands
@@ -482,7 +483,7 @@ Create a new database for the project.
 
 Run it::
 
-    fab local.db.create
+    fab e local.db.create
 
 
 **local.db.drop**
@@ -491,7 +492,7 @@ Drop (delete) the database for the project
 
 Run it::
 
-    fab local.db.drop
+    fab e local.db.drop
 
 
 **local.db.rebuild**
@@ -500,7 +501,7 @@ Drop the existing database and create a new one for the project.
 
 Run it::
 
-    fab local.db.rebuild
+    fab e local.db.rebuild
 
 **local.db.createuser**
 
@@ -508,7 +509,7 @@ Create the default user for the Open Budgets database.
 
 Run it::
 
-    fab local.db.createuser
+    fab e local.db.createuser
 
 **local.db.dump**
 
@@ -516,7 +517,7 @@ Dump data from the database into a Postgresql dump file.
 
 Run it::
 
-    fab local.db.dump
+    fab e local.db.dump
 
 
 environ.* commands
@@ -530,7 +531,7 @@ Ensure that all project dependencies are installed and up-to-date.
 
 Run it::
 
-    fab local.environ.ensure
+    fab e local.environ.ensure
 
 
 Chaining commands
@@ -539,10 +540,10 @@ Chaining commands
 Commands can be chained. This is very useful! Some common chained commands we use::
 
     # bootstrap, test, and build out a mock database
-    fab local.bootstrap local.test mock
+    fab e local.bootstrap local.test mock
 
     # bootstrap, test, and build out a real database
-    fab local.bootstrap local.test dock.local.load
+    fab e local.bootstrap local.test dock.local.load
 
 
 More commands
@@ -558,15 +559,15 @@ You are welcome to make pull requests for more useful fab commands.
 Working with data
 -----------------
 
-The normal bootstrapping command (`fab local.bootstrap`) gives the bare minimum data that the project requires to work.
+The normal bootstrapping command (`fab e local.bootstrap`) gives the bare minimum data that the project requires to work.
 
-You can also populate the database with a set of mock data (`fab mock`) just to get a feel for the project.
+You can also populate the database with a set of mock data (`fab e mock`) just to get a feel for the project.
 
 But ultimately, you want to work with real data.
 
 The Open Budgets project has a set of mechanisms for working with and importing real data.
 
-It is important to become familiar with these features if you want to setup your own instance of Open Budgets.
+It is important to become familiar with these features if you want to develop and deploy your own instance of Open Budgets.
 
 By default, the process for working with data and getting it into the database is like this:
 
@@ -576,8 +577,8 @@ By default, the process for working with data and getting it into the database i
 
 If you are working on an instance of Open Budgets that already has a populated data repository configured, simply run the following command to build out the database::
 
-    fab dock.local.clone
-    fab local.bootstrap dock.local.pull dock.local.load
+    fab e dock.local.clone
+    fab e local.bootstrap dock.local.pull dock.local.load
 
 **Note:** Loading data like this can take a long time, **if** your dataset includes sheet data, due to the types of checks that run to validate data before it is written to the database. Be *very* patient.
 
@@ -589,10 +590,10 @@ https://drive.google.com/#folders/0B4JzAmQXH28mM2dtbmJlSDFyUm8
 
 Chose a recent directory based on the naming of the directory (DDMMYYYY), and download an appropriate .sql file to load into Postgresql.
 
-You can load the file via the psql clim or, place it in the project's 'tmp' directory with the name db_dump.sql, and run the following command (ensure your database is clean before this, by running `fab local.bootstrap`)::
+You can load the file via the psql CLI or, place it in the project's 'tmp' directory with the name db_dump.sql, and run the following command (ensure your database is clean before this, by running `fab local.bootstrap`)::
 
-    fab local.db.load
+    fab e local.db.load
 
 Similarly, if you want to create a dump file from your working database, run the following command::
 
-    fab local.db.dump
+    fab e local.db.dump

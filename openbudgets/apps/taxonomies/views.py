@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.views.generic import DetailView
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from openbudgets.apps.taxonomies.models import Taxonomy, Tag
 
 

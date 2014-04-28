@@ -1,47 +1,30 @@
 from __future__ import division
 import datetime
 from django.conf import settings
-from django.db import models
+from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
+from django.db import models
+from django.db.models.signals import m2m_changed, post_save
+from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
-# from django.contrib.contenttypes import generic
-from django.db.models.signals import m2m_changed
 from openbudgets.apps.accounts.models import Account
 from openbudgets.apps.entities.models import Division, Entity
-# from openbudgets.apps.sources.models import ReferenceSource, AuxSource
-from openbudgets.commons.mixins.models import TimeStampedMixin, UUIDPKMixin, \
-    PeriodStartMixin, PeriodicMixin, ClassMethodMixin
-from openbudgets.apps.sheets.utilities import is_comparable
+from openbudgets.commons.mixins import models as mixins
+from . import managers
+from . import abstract_models
+from .utilities import is_node_comparable
 
 
-class TemplateManager(models.Manager):
-
-    """Exposes additional methods for model query operations.
-
-    Open Budgets makes extensive use of related_map and related_map_min methods
-    for efficient bulk select queries.
-
-    """
-
-    def related_map_min(self):
-        return self.select_related().prefetch_related('divisions', 'sheets')
-
-    def related_map(self):
-        return self.select_related().prefetch_related('divisions', 'sheets', 'nodes')
-
-    #TODO: Consider better ways to do this.
-    def latest_of(self, entity):
-        return self.filter(sheets__entity=entity).latest('period_start')
-
-
-class Template(UUIDPKMixin, PeriodStartMixin, TimeStampedMixin, ClassMethodMixin):
+class Template(mixins.UUIDPKMixin, mixins.PeriodStartMixin,
+               mixins.TimeStampMixin, mixins.ClassMethodMixin):
 
     """The Template model describes the structure of a Sheet.
 
     In Open Budgets, Sheets are the modeled representation of budget and actual
     data for Entities.
 
-    Sheets / SheetItems get their structure from Templates / TemplateNodes.
+    Sheet/SheetItem objects get their structure from Template/TemplateNode
+    objects.
 
     A Template can and usually does apply for more than one Sheet. This is the
     basis of the Open Budgets comparative analysis implementation.
@@ -50,10 +33,10 @@ class Template(UUIDPKMixin, PeriodStartMixin, TimeStampedMixin, ClassMethodMixin
 
     class Meta:
         ordering = ['name']
-        verbose_name = _('template')
-        verbose_name_plural = _('templates')
+        verbose_name = _('Template')
+        verbose_name_plural = _('Templates')
 
-    objects = TemplateManager()
+    objects = managers.TemplateManager()
 
     divisions = models.ManyToManyField(
         Division,
@@ -75,23 +58,23 @@ class Template(UUIDPKMixin, PeriodStartMixin, TimeStampedMixin, ClassMethodMixin
 
     description = models.TextField(
         _('Description'),
-        db_index=True,
         blank=True,
         help_text=_('An overview text for this template.'),)
-
-    # referencesources = generic.GenericRelation(
-    #     ReferenceSource,)
-
-    # auxsources = generic.GenericRelation(
-    #     AuxSource,)
 
     @property
     def node_count(self):
         return self.nodes.count()
 
     @property
-    def period(self):
+    def has_sheets(self):
+        return bool(self.sheets.count())
 
+    @property
+    def sheet_count(self):
+        return self.nodes.count()
+
+    @property
+    def period(self):
         """Returns the applicable period of this template.
 
         If the Template instance has divisions (self.divisions.all()),
@@ -108,18 +91,14 @@ class Template(UUIDPKMixin, PeriodStartMixin, TimeStampedMixin, ClassMethodMixin
         # TODO: Support ranges other than yearly, including multiple ranges.
         if len(ranges) == 1 and 'yearly' in ranges:
             start = self.period_start.year
-
             if self.is_blueprint:
                 objs = self.__class__.objects.filter(
                     divisions__in=self.divisions.all())
-
                 for obj in objs:
                     if obj.period_start.year > self.period_start.year:
                         end = obj.period_start.year
-
-                else:
-                    end = datetime.datetime.now().year
-
+                    else:
+                        end = datetime.datetime.now().year
             else:
                 # We have 'implementation' templates that use a blueprint
                 # as a model, and implement a variant structure based on it.
@@ -136,7 +115,6 @@ class Template(UUIDPKMixin, PeriodStartMixin, TimeStampedMixin, ClassMethodMixin
 
     @property
     def is_blueprint(self):
-
         """Returns True if the Template is a blueprint, false otherwise.
 
         Blueprints are Templates that serve as structural models for other
@@ -151,170 +129,24 @@ class Template(UUIDPKMixin, PeriodStartMixin, TimeStampedMixin, ClassMethodMixin
             return False
         return True
 
-    @property
-    def has_sheets(self):
-        return bool(self.sheets.count())
-
-    @models.permalink
     def get_absolute_url(self):
-        return 'template_detail', [self.id]
+        return reverse('template_detail', [self.id])
 
     def __unicode__(self):
         return self.name
 
 
-class AbstractBaseNode(models.Model):
-
-    class Meta:
-        abstract = True
-
-    DIRECTIONS = (('REVENUE', _('Revenue')), ('EXPENDITURE', _('Expenditure')),)
-
-    PATH_DELIMITER = settings.OPENBUDGETS_IMPORT_INTRA_FIELD_DELIMITER
-
-    name = models.CharField(
-        _('Name'),
-        db_index=True,
-        max_length=255,
-        help_text=_('The name of this template node.'),)
-
-    code = models.CharField(
-        _('Code'),
-        db_index=True,
-        max_length=255,
-        help_text=_('An identifying code for this template node.'),)
-
-    comparable = models.BooleanField(
-        _('Comparable'),
-        default=is_comparable,
-        help_text=_('A flag to designate whether this node is suitable for '
-                    'comparison or not.'),)
-
-    direction = models.CharField(
-        _('REVENUE/EXPENDITURE'),
-        db_index=True,
-        max_length=15,
-        choices=DIRECTIONS,
-        default=DIRECTIONS[0][0],
-        help_text=_('Template nodes are one of revenue or expenditure.'),)
-
-    parent = models.ForeignKey(
-        'self',
-        null=True,
-        blank=True,
-        related_name='children',)
-
-    inverse = models.ManyToManyField(
-        'self',
-        symmetrical=True,
-        null=True,
-        blank=True,
-        related_name='inverses',
-        help_text=_('Inverse relations across revenue and expenditure nodes.'),)
-
-    path = models.CharField(
-        _('Path'),
-        db_index=True,
-        max_length=255,
-        editable=False,
-        help_text=_('A representation of the path to the root of the template '
-                    'from this template node, using codes.'),)
-
-    backwards = models.ManyToManyField(
-        'self',
-        null=True,
-        blank=True,
-        symmetrical=False,
-        related_name='forwards',)
-
-    @property
-    def ancestors(self):
-        ancestors = []
-        current = self
-        try:
-            while current:
-                parent = current.parent
-                if parent:
-                    ancestors.append(parent)
-                current = parent
-        except TemplateNode.DoesNotExist:
-            pass
-        ancestors.reverse()
-        return ancestors
-
-    @property
-    def depth(self):
-        branch = self.path.split(',')
-        return len(branch) - 1
-
-    def _get_path_to_root(self):
-
-        """Recursively build a *code* hierarchy from self to top of tree."""
-
-        path = [self.code]
-
-        if self.parent:
-            parent_path = self.parent._get_path_to_root()
-
-            if parent_path:
-                path = path + parent_path
-
-        return path
-
-    def clean(self):
-
-        if self.path and self.pk is None:
-            try:
-                tmp = self.path.split(self.PATH_DELIMITER)
-
-            except ValueError:
-                raise ValidationError('The delimiter symbol for path appears '
-                                      'to be invalid.')
-
-    def save(self, *args, **kwargs):
-
-        if self.path and self.pk is None:
-            # The instance creation was passed an explicit path
-            # Convert it to a list with the delimiter, then, to a
-            # comma-separated string.
-            tmp = self.path.split(self.PATH_DELIMITER)
-            self.path = ','.join(tmp)
-
-        else:
-            # Create the path recursively over parents
-            self.path = ','.join(self._get_path_to_root())
-
-        return super(AbstractBaseNode, self).save(*args, **kwargs)
-
-
-class TemplateNodeManager(models.Manager):
-
-    """Exposes additional methods for model query operations.
-
-    Open Budgets makes extensive use of related_map and related_map_min methods
-    for efficient bulk select queries.
-
-    """
-
-    def related_map_min(self):
-        return self.select_related('parent')
-
-    def related_map(self):
-        return self.select_related('parent').prefetch_related(
-                                                              'templates',
-                                                              'inverse',
-                                                              'backwards',
-                                                              'items')
-
-
-class TemplateNode(UUIDPKMixin, AbstractBaseNode, TimeStampedMixin):
+class TemplateNode(abstract_models.AbstractNode, abstract_models.AbstractNodeRelations,
+                   mixins.UUIDPKMixin, mixins.SelfParentMixin, mixins.TimeStampMixin,
+                   mixins.ClassMethodMixin):
 
     """The TemplateNode model implements the structure of a Sheet.
 
     In Open Budgets, Sheets are the modeled representation of budget and actual
     data for Entities.
 
-    Sheets / SheetItems get their structure from Templates / TemplateNodes.
+    Sheet / SheetItem objects get their structure from Template / TemplateNode
+    objects.
 
     A TemplateNode can and usually does apply for more than one Template.
     This is the basis of the Open Budgets comparative analysis implementation.
@@ -323,30 +155,18 @@ class TemplateNode(UUIDPKMixin, AbstractBaseNode, TimeStampedMixin):
 
     class Meta:
         ordering = ['code', 'name']
-        verbose_name = _('template node')
-        verbose_name_plural = _('template nodes')
+        verbose_name = _('Template Node')
+        verbose_name_plural = _('Template Nodes')
 
-    objects = TemplateNodeManager()
+    objects = managers.TemplateNodeManager()
 
     templates = models.ManyToManyField(
         Template,
         through='TemplateNodeRelation',
         related_name='nodes',)
 
-    description = models.TextField(
-        _('description'),
-        blank=True,
-        help_text=_('A descriptive text for this template node.'),)
-
-    # referencesources = generic.GenericRelation(
-    #     ReferenceSource,)
-
-    # auxsources = generic.GenericRelation(
-    #     AuxSource,)
-
     @property
     def past(self):
-
         """Returns a list of past nodes that morph to this one."""
 
         nodes = list(self.backwards.all())
@@ -359,7 +179,6 @@ class TemplateNode(UUIDPKMixin, AbstractBaseNode, TimeStampedMixin):
 
     @property
     def future(self):
-
         """Returns a list of future nodes that stem from this one."""
 
         nodes = list(self.forwards.all())
@@ -379,7 +198,6 @@ class TemplateNode(UUIDPKMixin, AbstractBaseNode, TimeStampedMixin):
         return [self] + self.future
 
     def timeline(self, include_future=False):
-
         """Returns this node's full timeline as a list."""
 
         timeline = self.with_past
@@ -389,9 +207,8 @@ class TemplateNode(UUIDPKMixin, AbstractBaseNode, TimeStampedMixin):
 
         return timeline
 
-    @models.permalink
     def get_absolute_url(self):
-        return 'template_node', [self.id]
+        return reverse('template_node', [self.id])
 
     def __unicode__(self):
         return self.code
@@ -407,10 +224,10 @@ class TemplateNode(UUIDPKMixin, AbstractBaseNode, TimeStampedMixin):
 
 
 def inverse_changed(sender, instance, action, reverse, model, pk_set, **kwargs):
-
     """Validating m2m relations on TemplateNode."""
 
     if action == 'pre_add':
+
         # validate that inverse never points to self
         if instance.pk in pk_set:
             raise ValidationError(_('Inverse node can not point to self.'))
@@ -425,35 +242,17 @@ def inverse_changed(sender, instance, action, reverse, model, pk_set, **kwargs):
 m2m_changed.connect(inverse_changed, sender=TemplateNode.inverse.through)
 
 
-class TemplateNodeRelationManager(models.Manager):
-
-    """Exposes additional methods for model query operations.
-
-    Open Budgets makes extensive use of related_map and related_map_min methods
-    for efficient bulk select queries.
-
-    """
-
-    def related_map(self):
-        return self.select_related()
-
-    # TODO: check where is used, and implement differently.
-    def has_same_node(self, node, template):
-        return self.filter(node__code=node.code, node__name=node.name,
-                           node__parent=node.parent, template=template).count()
-
-
 class TemplateNodeRelation(models.Model):
 
     """A custom through table for relations between nodes and templates."""
 
     class Meta:
         ordering = ['template__name', 'node__name']
-        verbose_name = _('template/node relation')
-        verbose_name = _('template/node relations')
+        verbose_name = _('Template/TemplateNode Relation')
+        verbose_name = _('Template/TemplateNode Relations')
         unique_together = (('node', 'template'),)
 
-    objects = TemplateNodeRelationManager()
+    objects = managers.TemplateNodeRelationManager()
 
     template = models.ForeignKey(
         Template,)
@@ -470,8 +269,8 @@ class TemplateNodeRelation(models.Model):
 
         super(TemplateNodeRelation, self).validate_unique(exclude)
 
-        if not bool(self.__class__.objects.has_same_node(
-                self.node, self.template)):
+        if not bool(self.__class__.objects.has_same_node(self.node, self.template)):
+
             raise ValidationError(_('Node with name: {name}; code: {code}; '
                                     'parent: {parent}; already exists in '
                                     'template: {template}'.format(
@@ -479,47 +278,36 @@ class TemplateNodeRelation(models.Model):
                                   parent=self.node.parent,
                                   template=self.template)))
 
+    def save(self, *args, **kwargs):
+        super(TemplateNodeRelation, self).save(*args, **kwargs)
 
-class SheetManager(models.Manager):
-
-    """Exposes additional methods for model query operations.
-
-    Open Budgets makes extensive use of related_map and related_map_min methods
-    for efficient bulk select queries.
-
-    """
-
-    def related_map_min(self):
-        return self.select_related('entity')
-
-    def related_map(self):
-        return self.select_related().prefetch_related('items')
-
-    # TODO: Check if we can replace this expensive query
-    def latest_of(self, entity):
-        return self.filter(entity=entity).latest('period_start')
+        # have to do this here because our logic needs to know the template(s)
+        # of the node
+        self.node.comparable = is_node_comparable(self.node)
+        self.node.save()
 
 
-class Sheet(UUIDPKMixin, PeriodicMixin, TimeStampedMixin, ClassMethodMixin):
+class Sheet(mixins.UUIDPKMixin, mixins.PeriodicMixin, mixins.TimeStampMixin,
+            mixins.ClassMethodMixin):
 
     """The Sheet model describes the declared budgetary data of a given period,
      for a given entity.
 
-    In Open Budgets, Sheets / SheetItems get their structure from
-    Templates / TemplateNodes.
+    In Open Budgets, Sheet / SheetItem objects get their structure from
+    Template / TemplateNode objects.
 
     A Template can and usually does apply for more than one Sheet. This is the
     basis of the Open Budgets comparative analysis implementation.
 
     """
 
-    objects = SheetManager()
+    objects = managers.SheetManager()
 
     class Meta:
         ordering = ('entity', 'period_start')
         get_latest_by = 'period_start'
-        verbose_name = _('sheet')
-        verbose_name_plural = _('sheets')
+        verbose_name = _('Sheet')
+        verbose_name_plural = _('Sheets')
 
     entity = models.ForeignKey(
         Entity,
@@ -555,12 +343,6 @@ class Sheet(UUIDPKMixin, PeriodicMixin, TimeStampedMixin, ClassMethodMixin):
         blank=True,
         help_text=_('An introductory description for this sheet.'),)
 
-    # referencesources = generic.GenericRelation(
-    #     ReferenceSource,)
-
-    # auxsources = generic.GenericRelation(
-    #     AuxSource,)
-
     @property
     def item_count(self):
         value = self.items.all().count()
@@ -568,7 +350,6 @@ class Sheet(UUIDPKMixin, PeriodicMixin, TimeStampedMixin, ClassMethodMixin):
 
     @property
     def variance(self):
-
         """Returns variance between budget and actual as a percentage."""
 
         if not self.actual or not self.budget:
@@ -577,102 +358,31 @@ class Sheet(UUIDPKMixin, PeriodicMixin, TimeStampedMixin, ClassMethodMixin):
         value = round(self.actual / self.budget * 100, 2)
         return value
 
-    @models.permalink
     def get_absolute_url(self):
-        return 'sheet_detail', [self.id]
+        return reverse('sheet_detail', [self.id])
 
     def __unicode__(self):
         return unicode(self.period)
 
 
-class AbstractBaseItem(models.Model):
-
-    class Meta:
-        abstract = True
-
-    budget = models.DecimalField(
-        _('budget'),
-        db_index=True,
-        max_digits=26,
-        decimal_places=2,
-        blank=True,
-        null=True,
-        help_text=_('The total budget amount for this item.'),)
-
-    actual = models.DecimalField(
-        _('actual'),
-        db_index=True,
-        max_digits=26,
-        decimal_places=2,
-        blank=True,
-        null=True,
-        help_text=_('The total actual amount for this item.'),)
-
-    description = models.TextField(
-        _('description'),
-        db_index=True,
-        blank=True,
-        help_text=_('An introductory description for this sheet item.'),)
-
-    @property
-    def variance(self):
-
-        """Returns variance between budget and actual as a percentage."""
-
-        if not self.actual or not self.budget:
-            return None
-        # Note: we imported division from __future__ for py3 style division
-        value = round(self.actual / self.budget * 100, 2)
-        return value
-
-    @property
-    def period(self):
-        return self.sheet.period
-
-
-class SheetItemManager(models.Manager):
-
-    """Exposes additional methods for model query operations.
-
-    Open Budgets makes extensive use of related_map and related_map_min methods
-    for efficient bulk select queries.
-
-    """
-
-    def get_queryset(self):
-        return super(SheetItemManager, self).select_related('node')
-
-    def related_map_min(self):
-        return self.select_related()
-
-    def related_map(self):
-        return self.select_related().prefetch_related('parent__parent', 'children', 'discussion')
-
-    # TODO: Check this for a more efficient implementation
-    def timeline(self, node_pks, entity_pk):
-        nodes = TemplateNode.objects.filter(id__in=node_pks)
-        timelines = []
-        if nodes.count():
-            for node in nodes:
-                timelines += node.timeline()
-        else:
-            raise TemplateNode.DoesNotExist()
-
-        return self.filter(node__in=timelines, sheet__entity=entity_pk).select_related('sheet')
-
-
-class SheetItem(UUIDPKMixin, AbstractBaseItem, TimeStampedMixin, ClassMethodMixin):
+class SheetItem(abstract_models.AbstractItem, abstract_models.AbstractNode,
+                mixins.UUIDPKMixin, mixins.SelfParentMixin, mixins.TimeStampMixin,
+                mixins.ClassMethodMixin):
 
     """The SheetItem model describes items of budgetary data of a given period,
      for a given entity.
 
-    In Open Budgets, Sheets / SheetItems get their structure from
-    Templates / TemplateNodes.
+    In Open Budgets, Sheet / SheetItem objects get their structure from
+    Template / TemplateNode objects.
 
     A Template can and usually does apply for more than one Sheet. This is the
     basis of the Open Budgets comparative analysis implementation.
 
     """
+
+    DIRECTIONS = (('REVENUE', _('Revenue')), ('EXPENDITURE', _('Expenditure')),)
+
+    PATH_DELIMITER = settings.OPENBUDGETS_IMPORT_INTRA_FIELD_DELIMITER
 
     class Meta:
         ordering = ['node']
@@ -680,7 +390,7 @@ class SheetItem(UUIDPKMixin, AbstractBaseItem, TimeStampedMixin, ClassMethodMixi
         verbose_name_plural = _('sheet items')
         unique_together = (('sheet', 'node'),)
 
-    objects = SheetItemManager()
+    objects = managers.SheetItemManager()
 
     sheet = models.ForeignKey(
         Sheet,
@@ -690,59 +400,15 @@ class SheetItem(UUIDPKMixin, AbstractBaseItem, TimeStampedMixin, ClassMethodMixi
         TemplateNode,
         related_name='items',)
 
-    parent = models.ForeignKey(
-        'self',
-        null=True,
-        blank=True,
-        editable=False,
-        related_name='children',)
+    has_comments = models.BooleanField(
+        _('Has Comments?'),
+        default=False)
 
-    # referencesources = generic.GenericRelation(
-    #     ReferenceSource,)
+    comment_count = models.PositiveSmallIntegerField(
+        _('Comment Count'),
+        default=0)
 
-    # auxsources = generic.GenericRelation(
-    #     AuxSource,)
-
-    @property
-    def lookup(self):
-        return self.node.pk
-
-    @property
-    def name(self):
-        return self.node.name
-
-    @property
-    def code(self):
-        return self.node.code
-
-    @property
-    def comparable(self):
-        return self.node.comparable
-
-    @property
-    def direction(self):
-        return self.node.direction
-
-    @property
-    def path(self):
-        return self.node.path
-
-    @property
-    def depth(self):
-        return self.node.depth
-
-    @property
-    def has_comments(self):
-        return len(self.description) or self.discussion.exists()
-
-    @property
-    def comment_count(self):
-        count = 0
-        if self.description:
-            count = 1
-        count += self.discussion.count()
-        return count
-
+<<<<<<< HEAD
     @property
     def ancestors(self):
         #TODO: replace .append() with insert() and remove the .reverse()
@@ -760,48 +426,41 @@ class SheetItem(UUIDPKMixin, AbstractBaseItem, TimeStampedMixin, ClassMethodMixi
         return ancestors
 
     @models.permalink
+=======
+>>>>>>> 020afe657c688b0296d73fd02e0e047b193beb82
     def get_absolute_url(self):
-        return 'sheet_item_detail', [self.pk]
+        return reverse('sheet_item_detail', [self.pk])
 
     def __unicode__(self):
         return self.node.code
 
+    def save(self, *args, **kwargs):
 
-class SheetItemCommentManager(models.Manager):
+        # set the fields that we denormalized from the node
+        for field in abstract_models.AbstractNode._meta.get_all_field_names():
+            setattr(self, field, getattr(self.node, field))
 
-    """Exposes additional methods for model query operations.
+        # set the comment data fields to something other than default, maybe
+        if (self.description or self.comment_count > 0):
+            self.has_comments = True
 
-    Open Budgets makes extensive use of related_map and related_map_min methods
-    for efficient bulk select queries.
+        if self.description and self.comment_count == 0:
+            self.comment_count = 1
 
-    """
-
-    def get_queryset(self):
-        return super(SheetItemCommentManager, self).select_related()
-
-    def related_map_min(self):
-        return self.select_related('user')
-
-    def related_map(self):
-        return self.select_related()
-
-    def by_item(self, item_pk):
-        return self.filter(item=item_pk).related_map_min()
+        super(SheetItem, self).save(*args, **kwargs)
 
 
-class SheetItemComment(UUIDPKMixin, TimeStampedMixin, ClassMethodMixin):
+class SheetItemComment(mixins.UUIDPKMixin, mixins.TimeStampMixin,
+                       mixins.ClassMethodMixin):
 
-    """The SheetItemComment model records discussion around particular budget
-    items.
-
-    """
+    """Records discussion around particular budget items."""
 
     class Meta:
         ordering = ['user', 'last_modified']
         verbose_name = _('sheet item comment')
         verbose_name_plural = _('sheet item comments')
 
-    objects = SheetItemCommentManager()
+    objects = managers.SheetItemCommentManager()
 
     item = models.ForeignKey(
         SheetItem,
@@ -817,3 +476,11 @@ class SheetItemComment(UUIDPKMixin, TimeStampedMixin, ClassMethodMixin):
 
     def __unicode__(self):
         return self.comment
+
+
+@receiver(post_save, sender=SheetItemComment)
+def update_item_comment_count(sender, instance, created, **kwargs):
+    if created:
+        instance.item.comment_count += 1
+        instance.item.save()
+    return instance

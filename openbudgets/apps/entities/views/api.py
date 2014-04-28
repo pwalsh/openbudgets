@@ -1,5 +1,4 @@
 from rest_framework import generics
-from openbudgets.apps.international.utilities import translated_fields
 from openbudgets.apps.entities import serializers
 from openbudgets.apps.entities import models
 
@@ -11,7 +10,7 @@ class DomainList(generics.ListAPIView):
     queryset = model.objects.related_map()
     serializer_class = serializers.DomainBase
     ordering = ['id', 'name','created_on', 'last_modified']
-    search_fields = ['name'] + translated_fields(model)
+    search_fields = ['name']
 
     def get_queryset(self):
         queryset = super(DomainList, self).get_queryset()
@@ -66,7 +65,7 @@ class DivisionList(generics.ListAPIView):
     queryset = model.objects.related_map()
     serializer_class = serializers.DivisionBase
     ordering = ['id', 'name', 'created_on', 'last_modified']
-    search_fields = ['name'] + translated_fields(model)
+    search_fields = ['name']
 
     def get_queryset(self):
         queryset = super(DivisionList, self).get_queryset()
@@ -125,7 +124,7 @@ class EntityList(generics.ListAPIView):
     queryset = model.objects.related_map()
     serializer_class = serializers.EntityBase
     ordering = ['id', 'name', 'created_on', 'last_modified']
-    search_fields = ['name', 'description'] + translated_fields(model)
+    search_fields = ['name', 'description']
 
     def get_queryset(self):
         queryset = super(EntityList, self).get_queryset()

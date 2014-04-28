@@ -1,25 +1,25 @@
 from rest_framework import serializers
-from openbudgets.apps.international.utilities import translated_fields
 from openbudgets.apps.sheets import models
 from openbudgets.apps.accounts.serializers import AccountMin
-from openbudgets.commons.serializers import UUIDRelatedField
-from openbudgets.apps.entities.serializers import EntityMin
+from openbudgets.commons.serializers import UUIDRelatedField, UUIDPrimaryKeyRelatedField
+from openbudgets.apps.entities.serializers import EntityMin, DivisionMin
 
 
-class TemplateNodeMin(serializers.HyperlinkedModelSerializer):
+class TemplateMin(serializers.HyperlinkedModelSerializer):
 
-    """Serializes TemplateNode objects for consumption by API.
+    """Serializes Template objects for consumption by API.
 
-    This minimal TemplateNode serializer is design for use as a nested object,
+    This minimal Template serializer is design for use as a nested object,
     in other serializers.
 
     """
 
     class Meta:
-        model = models.TemplateNode
+        model = models.Template
         fields = ['id', 'url']
 
 
+<<<<<<< HEAD
 class TemplateNodeNested(TemplateNodeMin):
 
     depth = serializers.Field(source='depth')
@@ -31,19 +31,23 @@ class TemplateNodeNested(TemplateNodeMin):
 
 
 class TemplateMin(serializers.HyperlinkedModelSerializer):
+=======
+class SheetMin(serializers.HyperlinkedModelSerializer):
+>>>>>>> 020afe657c688b0296d73fd02e0e047b193beb82
 
-    """Serializes Template objects for consumption by API.
+    """Serializes Sheet objects for consumption by API.
 
-    This minimal Template serializer is design for use as a nested object, in other
-    serializers.
+    This minimal Sheet serializer is design for use as a nested object,
+    in other serializers.
 
     """
 
+    entity = EntityMin()
     period = serializers.Field(source='period')
-    is_blueprint = serializers.Field(source='is_blueprint')
-    has_sheets = serializers.Field(source='has_sheets')
+    variance = serializers.Field('variance')
 
     class Meta:
+<<<<<<< HEAD
         model = models.Template
         fields = ['id', 'url', 'name', 'description', 'period', 'blueprint', 'is_blueprint',
                   'has_sheets']
@@ -63,18 +67,25 @@ class TemplateNode(TemplateNodeNested):
     class Meta(TemplateNodeNested.Meta):
         fields = TemplateNodeNested.Meta.fields + ['parent', 'children', 'ancestors',
                                                    'templates', 'backwards', 'inverse', 'items']
+=======
+        model = models.Sheet
+        fields = ['id', 'url', 'entity', 'budget', 'actual', 'variance', 'period']
 
+>>>>>>> 020afe657c688b0296d73fd02e0e047b193beb82
 
-class Template(TemplateMin):
+class TemplateNodeMin(serializers.HyperlinkedModelSerializer):
 
-    """Serializes Template objects for consumption by API."""
+    """Serializes TemplateNode objects for consumption by API.
 
-    node_count = serializers.Field(source='node_count')
-    nodes = TemplateNodeMin(many=True)
+    This minimal TemplateNode serializer is design for use as a nested object,
+    in other serializers.
 
-    class Meta(TemplateMin.Meta):
-        fields = TemplateMin.Meta.fields + ['divisions', 'sheets', 'node_count', 'nodes', 'created_on',
-                 'last_modified'] + translated_fields(models.Template)
+    """
+
+    class Meta:
+        model = models.TemplateNode
+        fields = ['id', 'url', 'name', 'code', 'path', 'comparable',
+                  'depth', 'direction']
 
 
 class SheetItemMin(serializers.HyperlinkedModelSerializer):
@@ -86,38 +97,35 @@ class SheetItemMin(serializers.HyperlinkedModelSerializer):
 
     """
 
-    node = serializers.Field(source='node.pk')
-    name = serializers.Field(source='name')
-    code = serializers.Field(source='code')
-    comparable = serializers.Field(source='comparable')
-    direction = serializers.Field(source='direction')
+    node = serializers.Field(source='node_id')
     variance = serializers.Field(source='variance')
-    path = serializers.Field(source='path')
-    name_en = serializers.Field(source='node.name_en')
-    name_ar = serializers.Field(source='node.name_ar')
-    name_ru = serializers.Field(source='node.name_ru')
 
     class Meta:
         model = models.SheetItem
-        fields = ['id', 'url', 'node', 'name', 'code', 'comparable', 'direction',
-                  'path', 'budget', 'actual', 'variance'] + translated_fields(models.TemplateNode)
+        fields = ['id', 'url', 'node', 'name', 'code', 'path', 'comparable',
+                  'direction', 'depth', 'budget', 'actual', 'variance']
 
 
-class SheetMin(serializers.HyperlinkedModelSerializer):
+class Template(TemplateMin):
 
-    """Serializes Sheet objects for consumption by API.
-
-    This minimal Sheet serializer is design for use as a nested object, in other
-    serializers.
-
-    """
+    """Serializes Template objects for consumption by API."""
 
     period = serializers.Field(source='period')
-    variance = serializers.Field('variance')
+    blueprint = TemplateMin()
+    is_blueprint = serializers.Field(source='is_blueprint')
+    divisions = DivisionMin(many=True)
+    sheets = SheetMin(many=True)
+    has_sheets = serializers.Field(source='has_sheets')
+    sheet_count = serializers.Field(source='sheet_count')
+    nodes = TemplateNodeMin(many=True)
+    node_count = serializers.Field(source='node_count')
 
-    class Meta:
-        model = models.Sheet
-        fields = ['id', 'url', 'budget', 'actual', 'variance', 'period']
+    class Meta(TemplateMin.Meta):
+        model = models.Template
+        fields = TemplateMin.Meta.fields + ['name', 'description', 'period',
+                 'blueprint', 'is_blueprint', 'divisions', 'sheets', 'has_sheets',
+                 'sheet_count', 'nodes', 'node_count',  'created_on',
+                 'last_modified']
 
 
 class Sheet(SheetMin):
@@ -126,11 +134,51 @@ class Sheet(SheetMin):
 
     entity = EntityMin()
     template = TemplateMin()
+    items = SheetItemMin(many=True)
 
     class Meta(SheetMin.Meta):
-        fields = SheetMin.Meta.fields +\
-            ['entity', 'template', 'description', 'items',
-             'created_on', 'last_modified'] + translated_fields(models.Sheet)
+        fields = SheetMin.Meta.fields + ['entity', 'template', 'description',
+                 'items', 'created_on', 'last_modified']
+
+
+class TemplateNode(TemplateNodeMin):
+
+    """Serializes TemplateNode objects for consumption by API."""
+
+    templates = TemplateMin(many=True)
+    parent = TemplateNodeMin()
+    children = TemplateNodeMin(many=True)
+    backwards = TemplateNodeMin(many=True)
+    inverse = TemplateNodeMin(many=True)
+    items = SheetItemMin(many=True)
+
+    class Meta(TemplateNodeMin.Meta):
+        fields = TemplateNodeMin.Meta.fields + ['code', 'name', 'description',
+                 'direction', 'path', 'comparable', 'depth', 'templates',
+                 'parent', 'children', 'backwards', 'inverse', 'items',
+                 'created_on', 'last_modified']
+
+
+class SheetItem(SheetItemMin):
+
+    """Serializes SheetItem objects for consumption by API."""
+
+    parent = SheetItemMin()
+    children = SheetItemMin(many=True)
+
+    class Meta(SheetItemMin.Meta):
+        fields = SheetItemMin.Meta.fields + ['sheet', 'depth', 'description',
+                 'parent', 'children', 'has_comments', 'comment_count']
+
+
+class SheetItemAncestors(SheetItem):
+
+    """Serializes SheetItem objects for consumption by API."""
+
+    ancestors = SheetItemMin(many=True)
+
+    class Meta(SheetItem.Meta):
+        fields = SheetItem.Meta.fields + ['ancestors']
 
 
 class SheetTimeline(serializers.ModelSerializer):
@@ -143,65 +191,27 @@ class SheetTimeline(serializers.ModelSerializer):
 
     class Meta:
         model = models.SheetItem
-        fields = ['id', 'budget', 'actual', 'description', 'period'] + translated_fields(model)
+        fields = ['id', 'budget', 'actual', 'description', 'period']
 
 
-class SheetItemCommentEmbed(serializers.ModelSerializer):
+class SheetItemCommentMin(serializers.HyperlinkedModelSerializer):
 
     """Serializes SheetItemComment objects for consumption by API."""
 
-
     user = UUIDRelatedField()
+    item = UUIDPrimaryKeyRelatedField()
 
     class Meta:
         model = models.SheetItemComment
-        fields = ['comment', 'user']
+        fields = ['id', 'url', 'item', 'user', 'comment']
 
 
-class SheetItemCommentRead(SheetItemCommentEmbed):
+class SheetItemComment(SheetItemCommentMin):
 
     """Serializes SheetItemComment objects for consumption by API."""
 
     user = AccountMin()
-    item = serializers.Field(source='item.pk')
+    item = SheetItemMin()
 
-    class Meta(SheetItemCommentEmbed.Meta):
-        fields = SheetItemCommentEmbed.Meta.fields +\
-            ['id', 'item', 'created_on', 'last_modified']
-
-
-class SheetItemCommentMin(SheetItemCommentEmbed):
-
-    """Serializes SheetItemComment objects for consumption by API.
-
-    This minimal Sheet serializer is design for use as a nested object, in other
-    serializers.
-
-    """
-
-    item = serializers.Field(source='item.pk')
-
-    class Meta(SheetItemCommentEmbed.Meta):
-        fields = SheetItemCommentEmbed.Meta.fields + ['id', 'item']
-
-
-class SheetItem(SheetItemMin):
-
-    """Serializes SheetItem objects for consumption by API."""
-
-    depth = serializers.Field(source='depth')
-    has_comments = serializers.Field(source='has_comments')
-    comment_count = serializers.Field(source='comment_count')
-    discussion = SheetItemCommentRead(many=True)
-    parent = SheetItemMin()
-    children = SheetItemMin(many=True)
-    ancestors = SheetItemMin(many=True)
-    name_en = serializers.Field('node.name_en')
-    name_ar = serializers.Field('node.name_ar')
-    name_ru = serializers.Field('node.name_ru')
-
-    class Meta(SheetItemMin.Meta):
-        fields = SheetItemMin.Meta.fields +\
-            ['sheet', 'depth', 'description',
-             'has_comments', 'comment_count', 'parent', 'children', 'ancestors',
-             'discussion'] + translated_fields(models.TemplateNode)
+    class Meta(SheetItemCommentMin.Meta):
+        fields = SheetItemCommentMin.Meta.fields + ['created_on', 'last_modified']

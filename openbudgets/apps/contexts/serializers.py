@@ -1,11 +1,13 @@
 from rest_framework import serializers
 from openbudgets.apps.contexts import models
+from openbudgets.apps.entities.serializers import EntityMin
 
 
 class ContextBaseSerializer(serializers.HyperlinkedModelSerializer):
     """Base Context serializer, exposing our defaults for contexts."""
 
     data = serializers.WritableField()
+    entity = EntityMin()
 
     class Meta:
         model = models.Context

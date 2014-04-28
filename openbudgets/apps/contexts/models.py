@@ -2,8 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from jsonfield import JSONField
 from openbudgets.apps.entities.models import Domain, Entity
-from openbudgets.commons.mixins.models import PeriodicMixin, TimeStampedMixin, \
-    ClassMethodMixin, UUIDPKMixin
+from openbudgets.commons.mixins import models as mixins
 
 
 class ContextManager(models.Manager):
@@ -25,7 +24,7 @@ class ContextManager(models.Manager):
         return self.by_entity(entity_id=entity_id).latest('period_start')
 
 
-class Context(UUIDPKMixin, TimeStampedMixin, PeriodicMixin, ClassMethodMixin):
+class Context(mixins.UUIDPKMixin, mixins.TimeStampMixin, mixins.PeriodicMixin, mixins.ClassMethodMixin):
 
     """Contextual data for the given Entity/Time Period.
 
@@ -91,7 +90,8 @@ class Context(UUIDPKMixin, TimeStampedMixin, PeriodicMixin, ClassMethodMixin):
             entity=self.entity.name, period=self.period)
 
 
-class Coefficient(UUIDPKMixin, TimeStampedMixin, PeriodicMixin, ClassMethodMixin):
+class Coefficient(mixins.UUIDPKMixin, mixins.TimeStampMixin,
+                  mixins.PeriodicMixin, mixins.ClassMethodMixin):
 
     """Co-efficient sets for working with nominal monetary values."""
 

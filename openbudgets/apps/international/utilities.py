@@ -1,12 +1,8 @@
 from django.conf import settings
-from modeltranslation.translator import translator
-from modeltranslation.models import autodiscover
-
-# REQUIRED for celery to work!!
-autodiscover()
 
 
 def get_language_key(host, domain, user):
+
     """Invoked in middleware to customize request.LANGUAGE_CODE
 
     A language key is returned according to the following logic:
@@ -15,7 +11,9 @@ def get_language_key(host, domain, user):
     * If user is anonymous, get the language key from the domain (we are using django-subdomains for language
         specific domains)
     * If the domain doesn't have an explicit language key we return the default language.
+
     """
+
     # Get lang from authenticated user
     if not user.is_anonymous():
         value = user.language
@@ -38,20 +36,3 @@ def get_language_key(host, domain, user):
             value = current_subdomain
 
     return value
-
-
-def translated_fields(model):
-    """Given a model, returns a list of translated field names for it.
-
-    The returned list excludes the extra field created for the default language.
-
-    """
-
-    options = translator.get_options_for_model(model)
-    fields = [f.name for l in options.fields.values() for f in l]
-
-    for i, f in enumerate(fields):
-        if f.endswith(settings.MODELTRANSLATION_DEFAULT_LANGUAGE):
-            del fields[i]
-
-    return fields

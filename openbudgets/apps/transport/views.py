@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseServerError, HttpResponseBadRequest, Http404
 from django.views.generic import View, FormView, TemplateView
 from django.shortcuts import redirect
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from braces.views import LoginRequiredMixin
 from openbudgets.apps.transport.forms import FileImportForm
 from openbudgets.apps.transport.incoming.importers.tablibimporter import TablibImporter

@@ -44,7 +44,7 @@
 
 <section class="tools-developers">
     <h2>{% trans 'For Developers' %}</h2>
-    <a href="{% url 'api' subdomain='api' %}" title="{% trans 'Add a tool' %}" class="tool api">
+    <a href="{% if with_api %}{% url 'api' subdomain='api' %}{% endif %}" title="{% trans 'Add a tool' %}" class="tool api">
         <div class="detail">
             <p>{% trans 'API description goes here.' %}</p>
             <h3>{% trans 'API' %}</h3>

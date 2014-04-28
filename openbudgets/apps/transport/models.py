@@ -1,9 +1,9 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from openbudgets.commons.mixins.models import TimeStampedMixin
+from openbudgets.commons.mixins import models as mixins
 
 
-class String(TimeStampedMixin):
+class String(mixins.TimeStampMixin):
 
     """Strings and their aliases. Used for keyword mapping in the importer."""
 

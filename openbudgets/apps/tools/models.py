@@ -1,11 +1,11 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from jsonfield import JSONField
 from oauth2_provider.models import AbstractApplication
 from autoslug import AutoSlugField
 from openbudgets.apps.accounts.models import Account
-from openbudgets.commons.mixins.models import TimeStampedMixin, UUIDPKMixin, \
-    ClassMethodMixin
+from openbudgets.commons.mixins import models as mixins
 
 
 class ToolManager(models.Manager):
@@ -21,7 +21,8 @@ class ToolManager(models.Manager):
         return self.select_related()
 
 
-class Tool(UUIDPKMixin, AbstractApplication, TimeStampedMixin, ClassMethodMixin):
+class Tool(mixins.UUIDPKMixin, AbstractApplication, mixins.TimeStampMixin,
+           mixins.ClassMethodMixin):
 
     """Tool object, comprised of initial data + some meta data."""
 
@@ -69,9 +70,8 @@ class Tool(UUIDPKMixin, AbstractApplication, TimeStampedMixin, ClassMethodMixin)
         null=True,
         help_text=_('JSON serialized configuration object of the tool.'),)
 
-    @models.permalink
     def get_absolute_url(self):
-        return 'tool_detail', [self.slug]
+        return reverse('tool_detail', [self.slug])
 
     def __unicode__(self):
         return self.name
@@ -90,7 +90,7 @@ class StateManager(models.Manager):
         return self.select_related()
 
 
-class State(UUIDPKMixin, TimeStampedMixin, ClassMethodMixin):
+class State(mixins.UUIDPKMixin, mixins.TimeStampMixin, mixins.ClassMethodMixin):
 
     """State objects describe saved states of specific projects."""
 
@@ -120,9 +120,8 @@ class State(UUIDPKMixin, TimeStampedMixin, ClassMethodMixin):
         null=True,
         help_text=_('JSON serialized configuration object of the state.'),)
 
-    @models.permalink
     def get_absolute_url(self):
-        return 'state_detail', [self.project.slug, self.uuid]
+        return reverse('state_detail', [self.project.slug, self.uuid])
 
     def __unicode__(self):
         return self.tool.name + u'state: ' + unicode(self.last_modified)

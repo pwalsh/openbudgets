@@ -10,7 +10,7 @@
 .coverage
 openbudgets/settings/deploy.py
 openbudgets/settings/local.py
-fabfile/sensitive.py
+fabfile/sensitive.yaml
 docs/_build
 docs/_static
 docs/_templates

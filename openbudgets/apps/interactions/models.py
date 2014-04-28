@@ -1,9 +1,10 @@
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext_lazy as _
-from openbudgets.commons.mixins.models import TimeStampedMixin, ClassMethodMixin
+from openbudgets.commons.mixins import models as mixins
 
 
 class InteractionManager(models.Manager):
@@ -15,7 +16,7 @@ class InteractionManager(models.Manager):
         return self.get_query_set().filter(user=user)
 
 
-class Interaction(TimeStampedMixin, ClassMethodMixin):
+class Interaction(mixins.TimeStampMixin, mixins.ClassMethodMixin):
 
     """An abstract class for user-object interactions"""
 
@@ -39,7 +40,6 @@ class Interaction(TimeStampedMixin, ClassMethodMixin):
     content_object = generic.GenericForeignKey(
         'content_type', 'object_id',)
 
-    @models.permalink
     def get_absolute_url(self):
         return self.content_object.get_absolute_url()
 

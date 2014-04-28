@@ -3,19 +3,17 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.sites.models import Site
 from django.contrib.auth.admin import UserAdmin
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from registration.models import RegistrationProfile
-from openbudgets.apps.accounts.models import Account, PublicAccount, ContentTeamAccount, \
-    CoreTeamAccount
-from openbudgets.apps.accounts.forms import AccountCreationForm, \
-    AccountChangeForm
+from openbudgets.apps.accounts import models
+from openbudgets.apps.accounts import forms
 
 
 class AccountAdmin(UserAdmin):
     """Defines common settings for all our UserProxy forms"""
 
-    form = AccountChangeForm
-    add_form = AccountCreationForm
+    form = forms.AccountChangeForm
+    add_form = forms.AccountCreationForm
     fieldsets = ((_('Account credentials'), {'fields': ('password', 'email',
                                                         'first_name', 'last_name',
                                                         'is_active')}),)
@@ -26,7 +24,7 @@ class CoreTeamAccountAdmin(AccountAdmin):
 
     def queryset(self, request):
         core_team_users = Group.objects.filter(id=settings.OPENBUDGETS_GROUP_ID_CORE)
-        qs = super(CoreTeamAccountAdmin, self).queryset(request)
+        qs = super(CoreTeamAccountAdmin, self).get_queryset(request)
         qs = qs.filter(groups=core_team_users)
         return qs
 
@@ -36,7 +34,7 @@ class ContentTeamAccountAdmin(AccountAdmin):
 
     def queryset(self, request):
         content_team_users = Group.objects.filter(id=settings.OPENBUDGETS_GROUP_ID_CONTENT)
-        qs = super(ContentTeamAccountAdmin, self).queryset(request)
+        qs = super(ContentTeamAccountAdmin, self).get_queryset(request)
         qs = qs.filter(groups=content_team_users)
         return qs
 
@@ -46,7 +44,7 @@ class PublicAccountAdmin(AccountAdmin):
 
     def queryset(self, request):
         public_users = Group.objects.filter(id=settings.OPENBUDGETS_GROUP_ID_PUBLIC)
-        qs = super(PublicAccountAdmin, self).queryset(request)
+        qs = super(PublicAccountAdmin, self).get_queryset(request)
         qs = qs.filter(groups=public_users)
         return qs
 

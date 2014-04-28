@@ -44,11 +44,6 @@ def sheets():
             api.SheetItemDetail.as_view(),
             name='sheetitem-detail'),
 
-        # TODO: was written like this for muni page. consider refactor along common API pattern.
-        url(r'^items/(?P<pk>[-\w]+)/comments/$',
-            api.SheetItemCommentEmbeddedList.as_view(),
-            name='sheetitemcomment-list-create'),
-
         url(r'^timeline/(?P<entity_pk>[-\w]+)/$',
             api.SheetItemTimeline.as_view(),
             name='sheetitem-timeline'),

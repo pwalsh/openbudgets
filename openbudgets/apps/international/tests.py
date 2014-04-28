@@ -16,8 +16,6 @@ class InternationalCase(TestCase):
         self.subdomains = settings.SUBDOMAIN_URLCONFS
         self.languages = settings.LANGUAGES
         self.language_code = settings.LANGUAGE_CODE
-        self.modeltranslation_default_language = \
-            settings.MODELTRANSLATION_DEFAULT_LANGUAGE
         self.home = reverse('home')
 
     def test_language_settings_validity(self):
@@ -29,8 +27,6 @@ class InternationalCase(TestCase):
         """
 
         self.assertTrue(self.languages[0], self.language_code)
-        self.assertTrue(self.languages[0],
-                        self.modeltranslation_default_language)
 
     def test_languages_mapped_to_subdomains(self):
         """Checks that the subdomain settings are correct.

@@ -1,7 +1,7 @@
 """Custom context processors for Omuni"""
 from django.conf import settings
 from django.contrib.sites.models import Site
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from openbudgets.apps.accounts.forms import CustomAuthenticationForm, \
     CustomRegistrationForm, CustomPasswordResetForm, CustomPasswordChangeForm
 from openbudgets.apps.pages.forms import ContactForm
@@ -12,7 +12,6 @@ def site(request):
     # If we will later map multiple hosts to the project
     #host = request.get_host()
     #site = Site.objects.get(domain=host)
-
     # But, for now
     site = Site.objects.get(pk=1)
 
@@ -42,5 +41,6 @@ def openbudgets(request):
     openbudgets['sponsor_name'] = _(settings.OPENBUDGETS_NAME_SPONSOR)
     openbudgets['sponsor_name_list'] = openbudgets['sponsor_name'].split()
     openbudgets['avatar_anon'] = settings.OPENBUDGETS_AVATAR_ANON
+    openbudgets['with_api'] = settings.OPENBUDGETS_API['enable']
 
     return openbudgets

@@ -1,20 +1,22 @@
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
 from taggit.models import ItemBase as TaggitItemBase
 from autoslug import AutoSlugField
 from openbudgets.apps.sheets.models import Template, TemplateNode
-from openbudgets.commons.mixins.models import TimeStampedMixin, UUIDMixin, \
-    ClassMethodMixin
-from openbudgets.commons.data import OBJECT_STATES
+from openbudgets.commons.mixins import models as mixins
 
 
 # Our models need to implement tags like so:
 # labels = TaggableManager(through=TaggedNode)
 
 
-class Taxonomy(TimeStampedMixin, UUIDMixin, ClassMethodMixin):
+class Taxonomy(mixins.TimeStampMixin, mixins.UUIDMixin,
+               mixins.ClassMethodMixin):
+
+    STATUS_CHOICES = ((1, 'draft'), (2, 'published'))
 
     class Meta:
         verbose_name = _("Taxonomy")
@@ -41,7 +43,7 @@ class Taxonomy(TimeStampedMixin, UUIDMixin, ClassMethodMixin):
 
     status = models.IntegerField(
         _('Publication status'),
-        choices=OBJECT_STATES,
+        choices=STATUS_CHOICES,
         default=1,
         help_text=_('Determines whether the taxonomy is publically viewable.'),)
 
@@ -57,9 +59,8 @@ class Taxonomy(TimeStampedMixin, UUIDMixin, ClassMethodMixin):
     def __unicode__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('taxonomy_detail', [self.slug])
+        return reverse('taxonomy_detail', [self.slug])
 
 
 class TagManager(models.Manager):
@@ -94,15 +95,14 @@ class Tag(models.Model):
         populate_from='name',
         unique=False,)
 
-    @models.permalink
     def get_absolute_url(self):
-        return 'tag_detail', [self.taxonomy.slug, self.slug]
+        return reverse('tag_detail', [self.taxonomy.slug, self.slug])
 
     def __unicode__(self):
         return self.name
 
 
-class TaggedNode(TaggitItemBase, ClassMethodMixin):
+class TaggedNode(TaggitItemBase, mixins.ClassMethodMixin):
 
     class Meta:
         verbose_name = _("Tagged node")

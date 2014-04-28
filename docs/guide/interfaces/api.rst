@@ -401,14 +401,14 @@ Filters
 * entities [INT, list of comma-separated INT] - returns sheets of the given entity id(s).
 * divisions [INT, list of comma-separated INT] - returns sheets under the given division id(s).
 * templates [INT, list of comma-separated INT] - returns sheets using the given template id(s).
-* budget_gt [DEC] - returns sheet items with a budget amount greater than the given amount.
-* budget_gte [DEC] - returns sheet items with a budget amount greater than or equal to the given amount.
-* budget_lt [DEC] - returns sheet items with a budget amount less than  the given amount.
-* budget_lte [DEC] - returns sheet items with a budget amount less than or equal to the given amount.
-* actual_gt [DEC] - returns sheet items with an actual amount greater than the given amount.
-* actual_gte [DEC] - returns sheet items with an actual amount greater than or equal to the given amount.
-* actual_lt [DEC] - returns sheet items with an actual amount less than  the given amount.
-* actual_lte [DEC] - returns sheet items with an actual amount less than or equal to the given amount.
+* budget_gt [DEC] - returns sheets with a budget amount greater than the given amount.
+* budget_gte [DEC] - returns sheets with a budget amount greater than or equal to the given amount.
+* budget_lt [DEC] - returns sheets with a budget amount less than  the given amount.
+* budget_lte [DEC] - returns sheets with a budget amount less than or equal to the given amount.
+* actual_gt [DEC] - returns sheets with an actual amount greater than the given amount.
+* actual_gte [DEC] - returns sheets with an actual amount greater than or equal to the given amount.
+* actual_lt [DEC] - returns sheets with an actual amount less than  the given amount.
+* actual_lte [DEC] - returns sheets with an actual amount less than or equal to the given amount.
 * periods [INT, list of comma-separated INT] - returns sheets matching the given period(s).
 * latest [true/false] - returns the latest sheet only, based on period
 
@@ -473,7 +473,8 @@ Implements API defaults.
 Filters
 +++++++
 
-* has_discussion [true/false] - returns sheet items that have user discussion.
+* with_ancestors [true/false] - returns a nested anscestors object with each item. Prefer alternative query strategies on large querysets if possible.
+* has_comments [true/false] - returns sheet items that have associated comments.
 * codes [STR, list of comma-separated STR] - returns sheet items that use the given code(s).
 * direction ["revenue"/"expenditure"] - returns sheet items that are either revenue of expenditure.
 * parents [STR or "none", list of comma-separated INT, or "none"] - returns sheet items that are children of the given parent sheet item identifier(s). If "none" is passed, returns items with no parent.
@@ -490,6 +491,7 @@ Filters
 * actual_lt [DEC] - returns sheet items with an actual amount less than  the given amount.
 * actual_lte [DEC] - returns sheet items with an actual amount less than or equal to the given amount.
 * periods [INT, list of comma-separated INT] - returns contexts matching the given period(s).
+* comparable [true/false] - returns sheet items filtered by the comparable flag.
 
 Ordering
 ++++++++
@@ -636,6 +638,7 @@ Filters
 * divisions [INT, list of comma-separated INT] - returns sheets under the given division id(s).
 * domains [INT, list of comma-separated INT] - returns templates using the given domain id(s).
 * parents [INT, list of comma-separated INT, "none"] - returns nodes that are children of the given item id(s). If "none" is passed, returns nodes with no parent.
+* comparable [true/false] - returns template nodes filtered by the comparable flag.
 * Default (no filter) - by default, a list of templates that are explicitly assigned to a division is returned. In a future iteration, we'll have to improve the way template "inheritance" works to change this.
 
 Ordering

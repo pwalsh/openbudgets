@@ -1,15 +1,16 @@
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
-from openbudgets.commons.mixins.models import TimeStampedMixin, UUIDPKMixin, \
-    ClassMethodMixin
+from openbudgets.commons.mixins import models as mixins
 from openbudgets.commons.utilities import get_media_file_path
 from uuidfield import UUIDField
 
 
-class AbstractDataSource(UUIDPKMixin, TimeStampedMixin, ClassMethodMixin):
+class AbstractDataSource(mixins.UUIDPKMixin, mixins.TimeStampMixin,
+                         mixins.ClassMethodMixin):
 
     """Describes an original source of data.
 
@@ -71,9 +72,8 @@ class ReferenceSource(AbstractDataSource):
         verbose_name = _('Reference source')
         verbose_name_plural = _('Reference sources')
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('reference_source_detail', [self.pk])
+        return reverse('reference_source_detail', [self.pk])
 
 
 class AuxSource(AbstractDataSource):
@@ -83,7 +83,6 @@ class AuxSource(AbstractDataSource):
         verbose_name = _('Auxilliary source')
         verbose_name_plural = _('Auxilliary sources')
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('aux_source_detail', [self.pk])
+        return reverse('aux_source_detail', [self.pk])
 

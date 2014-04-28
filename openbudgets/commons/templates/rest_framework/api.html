@@ -17,6 +17,6 @@
 
 
 {% block branding %}
-<a href={% url 'api' %}>{% trans 'Open Budgets API' %}</a>
+<a href="{% if with_api %}{% url 'api' %}{% endif %}">{% trans 'Open Budgets API' %}</a>
 <a style="float: right;" href={% url 'home' subdomain='www' %}>{% trans 'Home' %}</a>
 {% endblock %}

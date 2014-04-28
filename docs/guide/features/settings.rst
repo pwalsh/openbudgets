@@ -13,6 +13,36 @@ TEMP_FILES_DIR
 ~~~~~~~~~~~~~~
 A place to write and read temporary files.
 
+
+OPENBUDGETS_UI
+~~~~~~~~~~~~~~
+
+A configuration object for the UI.
+
+OPENBUDGETS_UI = {
+    'enable': False,
+    'base': ''
+}
+
+OPENBUDGETS_API
+~~~~~~~~~~~~~~
+
+A configuration object for the UI.
+
+OPENBUDGETS_API = {
+    'enable': True,
+    'base': 'api/'
+}
+
+OPENBUDGETS_ADMIN
+~~~~~~~~~~~~~~
+
+A configuration object for the Admin.
+
+OPENBUDGETS_ADMIN = {
+    'enable': False,
+    'base': 'admin/'
+}
 Accounts
 --------
 
