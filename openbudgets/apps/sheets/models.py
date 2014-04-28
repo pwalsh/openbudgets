@@ -408,26 +408,6 @@ class SheetItem(abstract_models.AbstractItem, abstract_models.AbstractNode,
         _('Comment Count'),
         default=0)
 
-<<<<<<< HEAD
-    @property
-    def ancestors(self):
-        #TODO: replace .append() with insert() and remove the .reverse()
-        ancestors = []
-        current = self
-        try:
-            while current:
-                parent = current.parent
-                if parent:
-                    ancestors.append(parent)
-                current = parent
-        except TemplateNode.DoesNotExist:
-            pass
-        ancestors.reverse()
-        return ancestors
-
-    @models.permalink
-=======
->>>>>>> 020afe657c688b0296d73fd02e0e047b193beb82
     def get_absolute_url(self):
         return reverse('sheet_item_detail', [self.pk])
 
