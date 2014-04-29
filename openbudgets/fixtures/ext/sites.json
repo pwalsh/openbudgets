@@ -1,0 +1,12 @@
+[
+
+{
+    "model": "sites.Site",
+    "pk": 1,
+    "fields": {
+        "domain": "ext.openmuni.org.il",
+        "name": "Open Muni Budgets API"
+    }
+}
+
+]

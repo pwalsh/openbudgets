@@ -123,6 +123,16 @@ class TemplateNode(TemplateNodeMin):
                  'created_on', 'last_modified']
 
 
+class TemplateNodeAncestors(TemplateNode):
+
+    """Serializes TemplateNode objects with ancestors field for consumption by API."""
+
+    ancestors = TemplateNodeMin(many=True)
+
+    class Meta(TemplateNode.Meta):
+        fields = TemplateNode.Meta.fields + ['ancestors']
+
+
 class SheetItem(SheetItemMin):
 
     """Serializes SheetItem objects for consumption by API."""

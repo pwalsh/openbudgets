@@ -61,10 +61,18 @@ class TemplateNodeList(generics.ListAPIView):
     """Returns a list of template nodes."""
 
     model = models.TemplateNode
-    queryset = model.objects.related_map_min()
-    serializer_class = serializers.TemplateNodeMin
+    queryset = model.objects.related_map()
+    serializer_class = serializers.TemplateNode
     ordering = ['id', 'name', 'description', 'created_on', 'last_modified']
     search_fields = ['name', 'description']
+
+    def get_serializer_class(self):
+        # TODO: Document this. with_ancestors results in hideous db queries.
+        # The only sane way to deal with that is with a tree implementation,
+        # such as django-treebeard
+        if self.request.QUERY_PARAMS.get('with_ancestors', None):
+            return serializers.TemplateNodeAncestors
+        return self.serializer_class
 
     def get_queryset(self):
         queryset = super(TemplateNodeList, self).get_queryset()
