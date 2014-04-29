@@ -23,17 +23,6 @@ DATABASES = {
     }
 }
 
-CACHES = {
-    'default': {
-        'BACKEND': 'redis_cache.RedisCache',
-        'LOCATION': '${cache_location}' + ':' + str(REDIS['PORT']),
-        'OPTIONS': {
-            'DB': REDIS['DB'],
-            'PARSER_CLASS': 'redis.connection.HiredisParser'
-        },
-    },
-}
-
 EMAIL_HOST_USER = '${email_user}'
 
 EMAIL_HOST_PASSWORD = '${email_password}'
