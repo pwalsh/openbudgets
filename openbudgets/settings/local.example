@@ -11,9 +11,9 @@ from openbudgets.settings import *
 
 # Uncomment and populate EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, and ADMINS
 # to send email from the system.
-#EMAIL_HOST_USER = ''
-#EMAIL_HOST_PASSWORD = ''
-#ADMINS = (('', ''),)
+# EMAIL_HOST_USER = ''
+# EMAIL_HOST_PASSWORD = ''
+# ADMINS = (('', ''),)
 
 # Uncomment MIDDLEWARE_CLASSES, INSTALLED_APPS, INTERNAL_IPS, and
 # DEBUG_TOOLBAR_CONFIG for debugging tools.
@@ -34,8 +34,6 @@ from openbudgets.settings import *
 #     },
 # }
 
-# Uncomment BROKER_URL, CELERY_RESULT_BACKEND and CELERY_RESULT_DBURI to
-# enable redis as a celery backend in development
-# BROKER_URL = REDIS_URL
-# CELERY_RESULT_BACKEND = BROKER_URL
-# CELERY_RESULT_DBURI = ''
+# Uncomment OPENBUDGETS_CONSOLE_QUERY_DEBUG to see SQL queries in your
+# console as they are made. More fun than debug toolbar
+# OPENBUDGETS_CONSOLE_QUERY_DEBUG = True

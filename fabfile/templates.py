@@ -4,7 +4,6 @@ from ${project_name}.settings import *
 DEBUG = False
 
 ALLOWED_HOSTS = ${project_allowed_hosts}
-
 SESSION_COOKIE_DOMAIN = '${project_cookie_domain}'
 
 RAVEN_CONFIG['dsn'] = '${sentry_dsn}'
@@ -24,11 +23,12 @@ DATABASES = {
 }
 
 EMAIL_HOST_USER = '${email_user}'
-
 EMAIL_HOST_PASSWORD = '${email_password}'
+ADMINS = ${project_admins}
 
-ADMINS = (('Paul Walsh', 'paulywalsh@gmail.com'),)
-
+OPENBUDGETS_UI['enable'] = ${openbudgets_ui_enable}
+OPENBUDGETS_API['enable'] = ${openbudgets_api_enable}
+OPENBUDGETS_ADMIN['enable'] = ${openbudgets_admin_enable}
 
 """
 
