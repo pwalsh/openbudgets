@@ -12,7 +12,7 @@ before_install:
 install:
   - pip install -r requirements.txt
 
-script: coverage run --source='.' manage.py test accounts api contexts entities interactions international pages sheets tools commons transport
+script: coverage run --source='.' manage.py test openbudgets.api openbudgets.apps.accounts openbudgets.apps.contexts openbudgets.apps.entities openbudgets.apps.interactions openbudgets.apps.international openbudgets.apps.pages openbudgets.apps.sheets openbudgets.apps.tools openbudgets.apps.transport
 
 notifications:
   email:

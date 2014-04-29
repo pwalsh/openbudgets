@@ -19,9 +19,9 @@ class TemplateParser(BaseParser):
 
     container_model = Template
     item_model = TemplateNode
-    ITEM_ATTRIBUTES = ['name', 'code', 'parent', 'path', 'templates',
-                       'direction', 'description', 'comparable']
-    CONTAINER_ATTRIBUTES = ['name', 'description', 'divisions', 'period_start']
+    ITEM_ATTRIBUTES = ('name', 'code', 'parent', 'path', 'templates',
+                       'direction', 'description', 'comparable')
+    CONTAINER_ATTRIBUTES = ('name', 'description', 'divisions', 'period_start')
 
     def __init__(self, container_object_dict, rows_filters=None, extends=None, blueprint=None, fill_in_parents=None, interpolate=None):
         super(TemplateParser, self).__init__(container_object_dict)
@@ -635,9 +635,10 @@ class TemplateParser(BaseParser):
             # this should also delete all TemplateNodeRelations to this template
             self.cleanup(self.container_object)
 
-            #TODO: make this more generic and change `period_start/end` of `self.parent` according to the `container_object`
+            # TODO: make this more generic and change `period_start/end` of `self.parent` according to the `container_object`
             # for now assuming we import sequentially and just blindly set period_end
-            self.parent.period_end = self.container_object.period_end
+            # TODO: should we have period_end on template objects?
+            # self.parent.period_start = self.container_object.period_end
 
             # since all nodes already relate to the parent no need to do anything else
             self.container_object = self.parent
