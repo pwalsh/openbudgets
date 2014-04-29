@@ -19,9 +19,9 @@ class TemplateParser(BaseParser):
 
     container_model = Template
     item_model = TemplateNode
-    ITEM_ATTRIBUTES = ['name', 'code', 'parent', 'path', 'templates',
-                       'direction', 'description', 'comparable']
-    CONTAINER_ATTRIBUTES = ['name', 'description', 'divisions', 'period_start']
+    ITEM_ATTRIBUTES = ('name', 'code', 'parent', 'path', 'templates',
+                       'direction', 'description', 'comparable')
+    CONTAINER_ATTRIBUTES = ('name', 'description', 'divisions', 'period_start')
 
     def __init__(self, container_object_dict, rows_filters=None, extends=None, blueprint=None, fill_in_parents=None, interpolate=None):
         super(TemplateParser, self).__init__(container_object_dict)
