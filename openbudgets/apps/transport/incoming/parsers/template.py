@@ -635,9 +635,10 @@ class TemplateParser(BaseParser):
             # this should also delete all TemplateNodeRelations to this template
             self.cleanup(self.container_object)
 
-            #TODO: make this more generic and change `period_start/end` of `self.parent` according to the `container_object`
+            # TODO: make this more generic and change `period_start/end` of `self.parent` according to the `container_object`
             # for now assuming we import sequentially and just blindly set period_end
-            self.parent.period_end = self.container_object.period_end
+            # TODO: should we have period_end on template objects?
+            # self.parent.period_start = self.container_object.period_end
 
             # since all nodes already relate to the parent no need to do anything else
             self.container_object = self.parent
