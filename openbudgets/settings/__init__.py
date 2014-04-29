@@ -189,7 +189,7 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ),
-    'PAGINATE_BY': 1000,
+    'PAGINATE_BY': 500,
     'PAGINATE_BY_PARAM': 'page_by'
 }
 
