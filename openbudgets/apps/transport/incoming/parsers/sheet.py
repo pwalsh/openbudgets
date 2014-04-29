@@ -31,7 +31,7 @@ class SheetParser(TemplateParser):
     item_model = SheetItem
     ITEM_ATTRIBUTES = ['budget', 'actual', 'node', 'description', 'sheet']
     CONTAINER_ATTRIBUTES = ['entity', 'period_start', 'period_end']
-    ITEM_CLEANING_EXCLUDE = ['node', 'sheet', 'lookup']
+    ITEM_CLEANING_EXCLUDE = ('node', 'sheet', 'code', 'name', 'path')
 
     def __init__(self, container_object_dict):
         super(SheetParser, self).__init__(container_object_dict)

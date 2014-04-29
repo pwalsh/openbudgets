@@ -28,7 +28,7 @@ class BaseParser(object):
     #PATH_DELIMITER = settings.OPENBUDGETS_IMPORT_INTRA_FIELD_DELIMITER
     PATH_DELIMITER = ','
     ITEM_SEPARATOR = ITEM_SEPARATOR
-    ITEM_CLEANING_EXCLUDE = []
+    ITEM_CLEANING_EXCLUDE = tuple()
 
     def __init__(self, container_object_dict):
         self.valid = True
