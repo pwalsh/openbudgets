@@ -314,7 +314,7 @@ OPENBUDGETS_CKAN_CONFIG = {
 }
 
 OPENBUDGETS_UI = {
-    'enable': True,
+    'enable': False,
     'base': ''
 }
 
@@ -329,7 +329,7 @@ OPENBUDGETS_ADMIN = {
     'base': 'admin/'
 }
 
-OPENBUDGETS_CONSOLE_QUERY_DEBUG = DEBUG
+OPENBUDGETS_CONSOLE_QUERY_DEBUG = False
 
 
 # if we are on a deploy env, we should have a settings.deploy module to load.

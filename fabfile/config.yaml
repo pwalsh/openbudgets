@@ -19,21 +19,13 @@ local: &LOCAL
   dock_repository_location: https://github.com/prjts/openmuni-israel.git
   dock_repository_branch: master
   dock_prepare_objects: false
+  openbudgets_ui_enable: True
+  openbudgets_api_enable: True
+  openbudgets_admin_enable: True
 
 
 staging: &STAGING
   <<: *LOCAL
-  roledefs:
-    app:
-      - 23.236.57.59
-    proxy:
-      - 23.236.57.59
-    cache:
-      - 23.236.57.59
-    queue:
-      - 23.236.57.59
-    db:
-      - 108.59.81.226
   project_root: /srv/projects/openbudgets
   project_env: /srv/environments/openbudgets
   project_allowed_hosts:
@@ -63,17 +55,6 @@ staging: &STAGING
 
 master: &MASTER
   <<: *STAGING
-  roledefs:
-    app:
-      - 23.251.149.127
-    proxy:
-      - 23.251.149.127
-    cache:
-      - 23.251.149.127
-    queue:
-      - 23.251.149.127
-    db:
-      - 108.59.85.161
   project_cookie_domain: openmuni.org.il
   project_initial_data:
     - staging/sites
@@ -101,7 +82,11 @@ ext: &EXT
   project_cookie_domain: ext.openmuni.org.il
   project_initial_data:
     - ext/sites
+  repository_branch: ext
   db_location: 10.240.51.173
   db_port: 5432
   proxy_location: 23.251.149.127
   proxy_port: 80
+  openbudgets_ui_enable: False
+  openbudgets_api_enable: True
+  openbudgets_admin_enable: False
