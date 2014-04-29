@@ -38,7 +38,7 @@ define([
                         }
 
                         if ( 'normalize_by' in changed ) {
-                            that.resource.recalcFactors()
+                            this.resource.recalcFactors()
                                 .then(this.draw.bind(this));
                         }
                     });
