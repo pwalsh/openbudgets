@@ -47,7 +47,10 @@ MEDIA_ROOT = os.path.abspath(os.path.join(STATIC_ROOT, 'media'),)
 LOCALE_PATHS = (os.path.abspath(os.path.join(PROJECT_ROOT, 'locale')),)
 STATICFILES_DIRS = (os.path.abspath(os.path.join(PROJECT_ROOT, 'commons', 'static')),)
 FIXTURE_DIRS = (os.path.abspath(os.path.join(PROJECT_ROOT, 'fixtures')),)
-TEMPLATE_DIRS = (os.path.abspath(os.path.join(PROJECT_ROOT, 'commons', 'templates')),)
+TEMPLATE_DIRS = (
+    os.path.abspath(os.path.join(PROJECT_ROOT, 'commons', 'templates')),
+    os.path.abspath(os.path.join(PROJECT_ROOT, 'apps', 'entities', 'static', 'entities', 'explorer', 'templates')),
+)
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -311,7 +314,7 @@ OPENBUDGETS_CKAN_CONFIG = {
 }
 
 OPENBUDGETS_UI = {
-    'enable': True,
+    'enable': False,
     'base': ''
 }
 
@@ -326,7 +329,7 @@ OPENBUDGETS_ADMIN = {
     'base': 'admin/'
 }
 
-OPENBUDGETS_CONSOLE_QUERY_DEBUG = DEBUG
+OPENBUDGETS_CONSOLE_QUERY_DEBUG = False
 
 
 # if we are on a deploy env, we should have a settings.deploy module to load.
