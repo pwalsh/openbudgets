@@ -20,6 +20,7 @@ local: &LOCAL
   dock_repository_branch: master
   dock_prepare_objects: false
 
+
 staging: &STAGING
   <<: *LOCAL
   roledefs:
@@ -60,7 +61,7 @@ staging: &STAGING
   dock_dataset_location: /srv/projects/openbudgets/tmp/dataset
 
 
-master:
+master: &MASTER
   <<: *STAGING
   roledefs:
     app:
@@ -76,6 +77,30 @@ master:
   project_cookie_domain: openmuni.org.il
   project_initial_data:
     - staging/sites
+  db_location: 10.240.51.173
+  db_port: 5432
+  proxy_location: 23.251.149.127
+  proxy_port: 80
+
+
+ext: &EXT
+  <<: *MASTER
+  roledefs:
+    app:
+      - 23.251.149.127
+    proxy:
+      - 23.251.149.127
+    cache:
+      - 23.251.149.127
+    queue:
+      - 23.251.149.127
+    db:
+      - 108.59.85.161
+  project_allowed_hosts:
+    - ext.openmuni.org.il
+  project_cookie_domain: ext.openmuni.org.il
+  project_initial_data:
+    - ext/sites
   db_location: 10.240.51.173
   db_port: 5432
   proxy_location: 23.251.149.127
