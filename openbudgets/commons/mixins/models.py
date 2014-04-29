@@ -96,7 +96,7 @@ class SelfParentMixin(models.Model):
             return self.__class__.objects.none()
         qs = self.__class__.objects.filter(pk=self.parent.pk) | self.parent.get_ancestors()
 
-        return qs.order_by('-depth')
+        return qs.order_by('depth')
 
     class Meta:
         abstract = True
