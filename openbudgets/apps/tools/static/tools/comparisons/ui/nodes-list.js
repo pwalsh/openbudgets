@@ -38,8 +38,9 @@ define([
                 merge   : false,
                 expires : 8 * 3600,
                 data    : {
-                    page_by : 4000,
-                    parents : 'none'
+                    page_by         : 4000,
+                    parents         : 'none',
+                    with_ancestors  : 'true'
                 }
             },
             search          : {
