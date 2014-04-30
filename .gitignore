@@ -8,6 +8,8 @@
 *.sql
 *.pyc
 .coverage
+/dist/
+/*.egg-info
 openbudgets/settings/deploy.py
 openbudgets/settings/local.py
 fabfile/sensitive.yaml
