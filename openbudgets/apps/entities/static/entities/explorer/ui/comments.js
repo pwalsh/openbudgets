@@ -73,6 +73,7 @@ define([
             adapters        : ['jqWheelScroll'],
             resource        : 'NewComment',
             dont_wake       : true,
+            cloak           : true,
             jqscroll_options: {
                 exclude_padding : true
             },

@@ -110,6 +110,7 @@ define([
         type    : 'Pane',
         config  : {
             element     : '#sheet_scope_name',
+            cloak       : true,
             signals     : {
                 post_init   : function () {
                     this.$content = this.$element.find('#sheet_scope_name_content');
@@ -164,6 +165,7 @@ define([
         type    : 'DropmenuButton',
         config  : {
             element         : '#filters_search',
+            cloak           : true,  
             click_event     : 'mouseenter',
             wrapper_class   : 'sheet_header_menu_button',
             dom_events      : {
@@ -273,6 +275,7 @@ define([
             mixins      : ['Delayed'],
             resource    : 'ItemsListState',
             dont_wake   : true,
+            cloak       : true,
             button      : {
                 dont_wake   : true,
                 signals     : {
@@ -366,6 +369,7 @@ define([
         config  : {
             element     : '#items_search_exit',
             container   : 'items_search',
+            cloak       : true,
             signals     : {
                 pre_click   : 'sleep'
             }
