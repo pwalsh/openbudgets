@@ -7,7 +7,7 @@ from openbudgets.apps.accounts.serializers import AccountMin
 from openbudgets.apps.entities.models import Entity
 from openbudgets.apps.sheets.models import Sheet, SheetItem
 from openbudgets.apps.contexts.models import Context
-from openbudgets.apps.sheets.serializers import SheetItem as SheetItemSerializer
+from openbudgets.apps.sheets.serializers import SheetItemAncestors
 from openbudgets.apps.sheets.serializers import Sheet as SheetSerializer
 from openbudgets.commons.utilities import commas_format
 
@@ -89,7 +89,7 @@ class EntityDetail(DetailView):
             else:
                 items = sheet.items.filter(node__parent__isnull=True).order_by('node__code')
 
-            items_list = SheetItemSerializer(items, many=True, context={'request': self.request}).data
+            items_list = SheetItemAncestors(items, many=True, context={'request': self.request}).data
 
             for s in self.object.sheets.all():
                 sheets.append({
@@ -125,7 +125,7 @@ class EntityDetail(DetailView):
         # rendering initial state of breadcrumbs
         # setting initial scope name
         if scope_item:
-            scope_item_serialized = SheetItemSerializer(scope_item, context={'request': self.request}).data
+            scope_item_serialized = SheetItemAncestors(scope_item, context={'request': self.request}).data
 
             # format numbers
             scope_item_serialized['budget'] = commas_format(scope_item_serialized['budget'])
