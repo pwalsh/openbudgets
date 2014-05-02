@@ -1,4 +1,3 @@
-// ### AMD wrapper
 (function (root, factory) {
     if ( typeof define === 'function' && define.amd ) {
         define(['uijet_dir/uijet', 'director'], function (uijet) {
@@ -40,8 +39,8 @@
                 //TODO: TBD
                 return this;
             },
-            runRoute        : function (route, is_inner) {
-                is_inner ? Router.dispatch('on', route) : Router.setRoute(route);
+            runRoute        : function (route, is_silent) {
+                is_silent ? Router.dispatch('on', route) : Router.setRoute(route);
                 return this;
             }
         });

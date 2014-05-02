@@ -1,6 +1,6 @@
 {
   "name": "uijet",
-  "version": "0.0.39",
+  "version": "0.0.45",
   "main": [
     "src/adapters",
     "src/composites",

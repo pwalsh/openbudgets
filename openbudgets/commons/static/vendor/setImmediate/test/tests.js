@@ -1,6 +1,19 @@
 "use strict";
 /*global setImmediate: false, clearImmediate: false, specify: false, window: false */
 
+// The Node version of setImmediate does not support string handlers.
+var global = Function("return this")();
+var originalGlobalSetImmediate = global.setImmediate;
+if (originalGlobalSetImmediate) {
+    global.setImmediate = function(handler) {
+        var args = arguments;
+        if (typeof handler !== "function") {
+            handler = args[0] = eval.bind(null, "" + handler);
+        }
+        return originalGlobalSetImmediate.apply(this, args);
+    };
+}
+
 var assert = require("assert");
 require("../setImmediate");
 
@@ -19,6 +32,19 @@ specify("Handlers do not execute in the same event loop turn as the call to `set
 
     setImmediate(handler);
     assert(!handlerCalled);
+});
+
+specify("Handlers can be strings", function(done) {
+    var property = "handler$" + Math.random().toString(36).slice(2);
+    done.called = false;
+    setImmediate[property] = function () {
+        delete setImmediate[property];
+
+        done();
+    };
+
+    setImmediate("setImmediate." + property + ".called = true; setImmediate." + property + "()");
+    assert.strictEqual(done.called, false);
 });
 
 specify("`setImmediate` passes through an argument to the handler", function (done) {

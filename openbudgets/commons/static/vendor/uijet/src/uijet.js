@@ -1,6 +1,6 @@
 /*!
  * uijet UI Framework
- * @version 0.0.39
+ * @version 0.0.45
  * @license BSD License (c) copyright Yehonatan Daniv
  * https://raw.github.com/ydaniv/uijet/master/LICENSE
  */
@@ -539,18 +539,39 @@
                 return handler.apply(this, args);
             }
         },
-        //TODO: add docs to holdSignal
+        /**
+         * Holds a signal's handler from being triggered.
+         * 
+         * @memberOf uijet.Base
+         * @instance
+         * @param {string} topic - the name of the signal to hold.
+         * @returns {uijet.Base}
+         */
         holdSignal     : function (topic) {
             this.signals[topic] = function () {
                 var args = arraySlice.call(arguments);
+                // add topic to arguments
                 args.unshift(topic);
+                // if this topic is set to `null` then it's `once` call
                 if ( this.signals.hasOwnProperty(topic) && this.signals[topic] === null ) {
+                    // add `true` to arguments for `once`
                     args.unshift(true);
                 }
+                // remember the arguments we used
                 this._memoize_signal_args[topic] = args;
             };
+            return this;
         },
-        //TODO: add docs to releaseSignal
+        /**
+         * Releases and triggers a held signal.
+         * The handler is invoked with the arguments it was provided
+         * with on previous calls to {@link Base#notify} with same `topic`.
+         * 
+         * @memberOf uijet.Base
+         * @instance
+         * @param {string} topic - the signal to release and trigger.
+         * @returns {*} - the result of signal handler's call.
+         */
         releaseSignal   : function (topic) {
             var args;
             if ( args = this._memoize_signal_args[topic] ) {
@@ -1109,6 +1130,8 @@
          * Valid options:
          * 
          * * `element`: {string|HTMLElement} the container element of the application. Defualts to `'body'`.
+         * * `app_events`: {Object} a map of names of app events to subscribe to, to their handlers.
+         * * `resources`: {Object} a map of names of resources to register, to their classes, or a tuple of the class and initial state.
          * * `dont_cover`: {boolean} whether to instruct the app's container to stretch across the entire viewport. Defaults to `false`.
          * * `dont_start`: {boolean} whether to call `uijet.startup()` and kick-start the UI. Defaults to `false`.
          * * `dont_wake`: {boolean} whether to call `wake()` on all top level widgets. Defaults to `false`.
@@ -1121,9 +1144,7 @@
         init                : function (options) {
             // wrap the actuall initialization function
             var _init = function (_options) {
-                var _methods = {},
-                    that = this,
-                    k, task, q;
+                var task, q, _resources, _app_events;
                 this.options = _options || {};
                 // set top container
                 this.$element = this.$(this.options.element || 'body');
@@ -1163,18 +1184,43 @@
                         this.init_queue = [{}];
                     }
 
+                    // register all resources
+                    if ( _resources = _options.resources ) {
+                        var res, args;
+                        // `resources` option is a map of resource registry name to its class
+                        for ( res in _resources ) {
+                            args = _resources[res];
+                            // a value in the `resources` option can also be an tuple of the class and initial state
+                            if ( isArr(args) ) {
+                                args.unshift(res);
+                                this.Resource.apply(this, args);
+                            }
+                            else {
+                                this.Resource(res, args);
+                            }
+                        }
+                    }
+
+                    // subscribe to all evets
+                    if ( _app_events = _options.app_events ) {
+                        var e;
+                        for ( e in _app_events ) {
+                            this.subscribe(e, _app_events[e]);
+                        }
+                    }
+
                     // after all tasks resolve
                     this.whenAll( this.init_queue )
                         .then(function () {
                             // build and init declared widgets
                             // notice that here all modules are already loaded so this will run through
-                            that.start(declared_widgets, true);
+                            this.start(declared_widgets, true);
 
                             //when all declared widgets are initialized, set `uijet.initialized` to `true`
-                            that.initialized = true;
+                            this.initialized = true;
                             // kick-start the GUI - unless ordered not to
-                            _options.dont_start || that.startup();
-                        });
+                            _options.dont_start || this.startup();
+                        }.bind(this));
                 }
                 // no options given
                 else {
