@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 class TemplateManager(models.Manager):
@@ -30,6 +31,14 @@ class TemplateNodeManager(models.Manager):
     for efficient bulk select queries.
 
     """
+
+    def get_queryset(self):
+        qs = super(TemplateNodeManager, self).get_queryset()
+
+        if settings.OPENBUDGETS_COMPARABLE_NEVER_DISPLAY_NON_COMPARABLE:
+            qs = qs.filter(comparable=True)
+
+        return qs
 
     def related_map_min(self):
         return self.select_related('parent')
@@ -87,8 +96,12 @@ class SheetItemManager(models.Manager):
     """
 
     def get_queryset(self):
-        qs = super(SheetItemManager, self).get_queryset()
-        return qs.select_related('node')
+        qs = super(SheetItemManager, self).get_queryset().select_related('node')
+
+        if settings.OPENBUDGETS_COMPARABLE_NEVER_DISPLAY_NON_COMPARABLE:
+            qs = qs.filter(comparable=True)
+
+        return qs
 
     def related_map_min(self):
         return self.all()
