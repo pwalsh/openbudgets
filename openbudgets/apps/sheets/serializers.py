@@ -56,8 +56,8 @@ class SheetItemMin(serializers.HyperlinkedModelSerializer):
 
     """Serializes SheetItem objects for consumption by API.
 
-    This minimal SheetItem serializer is design for use as a nested object, in other
-    serializers.
+    This minimal SheetItem serializer is design for use as a nested object,
+    in other serializers.
 
     """
 
@@ -66,8 +66,9 @@ class SheetItemMin(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.SheetItem
-        fields = ['id', 'url', 'node', 'name', 'code', 'path', 'comparable',
-                  'direction', 'depth', 'budget', 'actual', 'variance']
+        fields = ['id', 'url', 'node', 'name', 'description', 'code', 'path',
+                  'comparable', 'direction', 'depth', 'budget', 'actual',
+                  'variance']
 
 
 class Template(TemplateMin):
@@ -141,8 +142,9 @@ class SheetItem(SheetItemMin):
     children = SheetItemMin(many=True)
 
     class Meta(SheetItemMin.Meta):
-        fields = SheetItemMin.Meta.fields + ['sheet', 'depth', 'description',
-                 'parent', 'children', 'has_comments', 'comment_count']
+        fields = SheetItemMin.Meta.fields + ['sheet', 'depth', 'parent',
+                                             'children', 'has_comments',
+                                             'comment_count']
 
 
 class SheetItemAncestors(SheetItem):
