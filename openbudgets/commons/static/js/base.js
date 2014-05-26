@@ -111,14 +111,14 @@
                 // LOLz
                 location.reload(true);
             })
-    
+
             .fail(function(jqXHR, textStatus) {
                 notices.html(jqXHR.responseText);
                 action.val('Cancel').removeAttr('disabled').addClass('hide');
                 mock_button.removeClass('hide');
             });
         });
-    
+
     }());
 
 
@@ -126,11 +126,11 @@
     //**** OVERLAYS ****/
     //******************/
     (function () {
-    
+
         $('#overlay, .mock-button, [id^="overlay"] .close').click(function (event) {
             $('[id^="overlay"]').hide();
         });
-    
+
         $('.login-link').click(function (event) {
             event.preventDefault();
             var $form = $('form');
@@ -152,7 +152,7 @@
                 }
             });
         });
-    
+
         $('.register-link').click(function (event) {
             event.preventDefault();
             $('form').removeAttr('id');
@@ -164,7 +164,7 @@
             $('#overlay-password-reset').hide();
             $('#overlay-password-change').hide();
         });
-    
+
         $('.password-reset-link').click(function (event) {
             event.preventDefault();
             $('form').removeAttr('id');
@@ -176,7 +176,7 @@
             $('#overlay-login').hide();
             $('#overlay-password-change').hide();
         });
-    
+
         $('.password-change-link').click(function (event) {
             event.preventDefault();
             $('form').removeAttr('id');
@@ -223,19 +223,28 @@
         setBodyWidth();
         $(window).resize(setBodyWidth);
 
-        $('#nav-anchor').mouseenter(function (e) {
-            e.preventDefault();
+        if (window.location.pathname === '/') {
+
             showNavPanel();
-        });
 
-        $nav_panel.mouseleave(hideNavPanel);
+        } else {
 
-        $('#panel-nav-close').click(hideNavPanel);
-
-        $('#panel-action').mousemove(function (e) {
-            if ( right_edge_x - e.pageX <= 5 )
+            $('#nav-anchor').mouseenter(function (e) {
+                e.preventDefault();
                 showNavPanel();
-         });
+            });
+
+            $nav_panel.mouseleave(hideNavPanel);
+
+            $('#panel-nav-close').click(hideNavPanel);
+
+            $('#panel-action').mousemove(function (e) {
+                if ( right_edge_x - e.pageX <= 5 )
+                    showNavPanel();
+             });
+
+        }
+
 
     }());
 

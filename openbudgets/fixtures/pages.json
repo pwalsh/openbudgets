@@ -37,6 +37,30 @@
         "created_on": "2012-01-01T09:00:00+03:00",
         "last_modified": "2012-01-01T09:00:00+03:00"
     }
+},
+
+{
+    "model": "pages.Page",
+    "pk": 4,
+    "fields": {
+        "title": "Credits",
+        "slug": "credits",
+        "content": "Credits for this site.",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
+},
+
+{
+    "model": "pages.Page",
+    "pk": 5,
+    "fields": {
+        "title": "Budget Guide",
+        "slug": "budget-guide",
+        "content": "\u003ciframe src=\"http://www.slideshare.net/slideshow/embed_code/33838538\" width=\"840\" height=\"490\" frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\" style=\"border:1px solid #CCC; border-width:1px 1px 0; margin-bottom:5px; max-width: 100%;\" allowfullscreen\u003e \u003c/iframe\u003e",
+        "created_on": "2012-01-01T09:00:00+03:00",
+        "last_modified": "2012-01-01T09:00:00+03:00"
+    }
 }
 
 ]

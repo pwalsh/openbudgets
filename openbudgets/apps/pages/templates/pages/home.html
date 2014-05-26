@@ -1,4 +1,4 @@
-{% extends 'newbase.html' %}
+{% extends 'base.html' %}
 {% load i18n %}
 {% load url from future %}
 
@@ -8,6 +8,32 @@
 
 {% block content %}
 
+<section id="text">
+    <h2>מה התקציב המקומי הפתוח?</h2>
+    <p>
+        התקציב המקומי הפתוח מאפשר לחקור את התקציב ברשויות המקומיות בישראל, לבצע מעקב אחרי סעיפים מסוימים לאורך זמן, ולהשוות היקפי תקצוב או ביצוע בפועל בין רשויות שונות.
+    </p>
+    <div class="wrapper">
+        <a href="{% url 'page' slug='about' %}" class="display-box">
+            <h3>אודות הפרוייקט</h3>
+            <p>
+                מי אנחנו? מה האג'נדה שלנו? איך מצטרפים אלינו?
+            </p>
+        </a>
+        <a href="{% url 'entity_list' %}" class="display-box">
+            <h3>סייר התקציבים</h3>
+            <p>
+                מאפשר לכם לראות את סעיפי התקציב. של כל רשות ...
+            </p>
+        </a>
+        <a href="{% url 'page' slug='budget-guide' %}" class="display-box">
+            <h3>מדריך לקריאת התקציב</h3>
+            <p>
+                here is the guide to the budget, right here.
+            </p>
+        </a>
+    </div>
+</section>
 
 {% endblock content %}
 

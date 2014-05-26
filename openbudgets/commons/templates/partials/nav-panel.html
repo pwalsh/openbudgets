@@ -27,7 +27,7 @@
             {{ sponsor_name_list.1 }}<br />
             {{ sponsor_name_list.2 }}
         </a>
-        <a href="#">{% trans 'Credits' %}</a>
+        <a href="{% url 'page' slug='credits' %}">{% trans 'Credits' %}</a>
         <a href="{% url 'page' slug='terms' %}">{% trans 'Terms' %}</a>
         <a href="{% url 'page' slug='privacy' %}">{% trans 'Privacy' %}</a>
         <a href="{% url 'page' slug='contact' %}" class="contact-link">{% trans 'Contact' %}</a>
