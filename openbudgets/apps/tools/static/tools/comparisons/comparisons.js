@@ -108,6 +108,7 @@ define([
              */
             uijet.Resource('Munis', resources.Munis)
                 .Resource('LatestSheet', resources.Nodes)
+                .Resource('PreviousSheets', resources.Templates)
                 .Resource('Contexts', resources.Contexts)
                 .Resource('LoggedinUser', resources.User, window.LOGGEDIN_USER)
                 .Resource('TimeSeries', resources.TimeSeries);

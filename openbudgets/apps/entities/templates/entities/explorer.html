@@ -22,7 +22,7 @@
                 <div id="sheet_header_top_container">
                     <span id="sheet_selector">
                         {% trans 'Budget' %}<span id="sheet_selector_content"></span>
-                        <ul id="sheet_selector_menu">
+                        <ul id="sheet_selector_menu" class="invisible">
                             {% for sheet in sheets %}
                                 <li data-id="{{ sheet.id }}">{{ sheet.period }}</li>
                             {% endfor %}
@@ -41,11 +41,11 @@
                         <span id="sheet_scope_name_content">{{ scope_name }}</span>
                         <span id="search_crumb"></span>
                     </h2>
-                    <div id="sheet_scope_comments"
+                    <div id="sheet_scope_comments" 
                          data-id="{{ scope_item.node }}"
                          data-item="{{ scope_item.id }}"
-                         class="item_comment_button{% if scope_item.has_comments %} has_comments{% endif %}">
-                        {% if scope_item.has_comments %}{{ scope_item.comment_count }}{% endif %}
+                         class="item_comment_button{% if not scope_item.has_comments %} hide{% endif %}">
+                        {% if scope_item.has_comments %}!{% endif %}
                     </div>
                 </div>
 
@@ -102,6 +102,7 @@
             <div id="items_comments_container">
                 <h4 class="small_heading">{% trans 'Explanations' %}</h4>
                 <p id="item_description"></p>
+                {% comment %}
                 <ul id="item_comments_list"></ul>
                 <div id="new_comment" class="hide">
                     <textarea id="comment_text" name="comment" placeholder="{% trans 'Enter comment...' %}"></textarea>
@@ -111,6 +112,7 @@
                     </div>
                 </div>
                 <span id="add_comment" class="small_heading">{%  trans 'Add comment' %}</span>
+                {% endcomment %}
             </div>
         </section>
 

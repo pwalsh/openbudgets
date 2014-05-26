@@ -2,7 +2,7 @@ define([
     'uijet_dir/uijet',
     'explorer',
     'resources',
-    'composites/Select',
+    'composites/Select'
 ], function (uijet, explorer) {
     
     return {
@@ -10,11 +10,15 @@ define([
         config  : {
             element     : '#sheet_selector',
             resource    : 'ItemsListState',
+            cloak       : true,
             menu        : {
                 element         : '#sheet_selector_menu',
                 float_position  : 'top:44px',
                 initial         : '[data-id=' + window.SHEET.id + ']',
                 signals         : {
+                    post_init   : function () {
+                        this.$element.removeClass('invisible');
+                    },
                     post_wake   : 'opened',
                     post_sleep  : 'closed'
                 }

@@ -38,8 +38,9 @@ define([
                 cache   : true,
                 expires : 8 * 3600,
                 data    : {
-                    page_by     : 4000,
-                    node_parents: 'none'
+                    page_by         : 4000,
+                    node_parents    : 'none',
+                    with_ancestors  : 'true'
                 }
             },
             search          : {
@@ -118,28 +119,36 @@ define([
                 },
                 sort                : function () {
                     uijet.Resource('ItemsListState').set('comments_item', null);
-                },
-                'update:comments'   : function (model) {
+                }//,
+//                'update:comments'   : function (model) {
                     // bump the number of comments on the item
-                    var $button  = this.$element.find('[data-item=' + model.get('id') + ']');
+//                    var $button  = this.$element.find('[data-item=' + model.get('id') + ']');
 
                     // if it's an item from the list and not scope item
-                    if ( $button.length ) {
+//                    if ( $button.length ) {
                         // set the buttons
-                        $button.find('.item_comment_button')
-                            .text(model.get('comment_count'));
-                    }
-                    else {
-                        // it's the scope item so notify the sheet_scope_comments widget
-                        uijet.publish('scope_comment_created', model);
-                    }
-                }
+//                        $button.find('.item_comment_button')
+//                            .text(model.get('comment_count'));
+//                    }
+//                    else {
+                        // it's the scope item so notify the sheet_scope_comments
+//                        uijet.publish('scope_comment_created', model);
+//                    }
+//                }
             },
             signals         : {
                 post_init       : function () {
                     var state_model = uijet.Resource('ItemsListState');
 
                     this.scope = window.ITEM.node || null;
+                    // set the initial filtering scope
+                    if ( this.scope ) {
+                        this.setContext({
+                            filter      : 'byParent',
+                            filter_args : [this.scope] 
+                        });
+                    }
+
                     this.resource.reset(this.resource.parse(window.ITEMS_LIST));
                     if (window.ITEM.id) {
                         this.resource.add(window.ITEM);
@@ -223,6 +232,7 @@ define([
 
                         this.search_active = !!search;
 
+                        // ensure cleaning of last search results
                         delete this.getContext().filtered;
 
                         if ( sheet ) {

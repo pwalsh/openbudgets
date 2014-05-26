@@ -1,14 +1,27 @@
 {
   "name": "eventbox",
+  "main": "eventbox.js",
+  "version": "0.2.0",
   "homepage": "https://github.com/ydaniv/eventbox",
-  "version": "0.1.2",
-  "_release": "0.1.2",
+  "authors": [
+    "Yehonatan Daniv <maggotfish@gmail.com>"
+  ],
+  "description": "Pub/Sub - simple, tiny and robust.",
+  "keywords": [
+    "pubsub"
+  ],
+  "license": "WTFPL",
+  "ignore": [
+    "**/.*",
+    "package.json"
+  ],
+  "_release": "0.2.0",
   "_resolution": {
     "type": "version",
-    "tag": "v0.1.2",
-    "commit": "4aefb2b873c74dd4120121dd94788e5768f8ce32"
+    "tag": "v0.2.0",
+    "commit": "71bff555fc42b85bdcb4c98b024864be6f925a7e"
   },
   "_source": "git://github.com/ydaniv/eventbox.git",
-  "_target": "~0.1.2",
+  "_target": "~0.2.0",
   "_originalSource": "eventbox"
 }

@@ -112,7 +112,7 @@ define([
             var series = this.resource.models,
                 ids = [],
                 data = [],
-                context = this.context || {},
+                context = this.getContext(),
                 y_max;
             
             series.forEach(function (item) {

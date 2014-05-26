@@ -121,7 +121,7 @@ define([
         },
         itemDelete      : function () {
             uijet.publish('legends_list.delete', this.resource);
-            this.destroy();
+            this.destroy(true);
         },
         updateTitle     : function (title) {
             this.resource.set({ title : title });

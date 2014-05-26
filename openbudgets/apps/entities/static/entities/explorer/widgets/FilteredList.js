@@ -58,7 +58,7 @@ define([
         filterItems         : function (filter_name, value) {
             var filter;
             if ( filter_name ) {
-                if ( this.has_data && this.$children ) {
+                if ( this.$children && this.$children.length ) {
                     this.runFilter(filter_name, value);
                 }
                 else {

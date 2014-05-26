@@ -96,9 +96,8 @@ define([
             });
         },
         deleteItem      : function (model) {
-            var is_current_model = model === this.current_model,
-                new_length;
-            this.resource.remove(model);
+            var is_current_model = model === this.current_model;
+//            this.resource.remove(model);
             // if the user is currently viewing the item s/he's deleting
             if ( is_current_model ) {
                 this.current_model = null;
@@ -136,7 +135,7 @@ define([
             });
         },
         resetItems      : function () {
-            this.destroyContained();
+            this.destroyContained(true);
             this.resource.models.forEach(this.createItemWidget, this);
             this.createOverlay();
             if ( ! this.resource.length ) {

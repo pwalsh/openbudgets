@@ -10,42 +10,78 @@
         factory(uijet);
     }
 }(this, function (uijet) {
-    function isFunc (obj) {
-        return typeof obj == 'function';
-    }
+
+    /**
+     * uijet-transit animation module.
+     * 
+     * @module animation/uijet-transit
+     * @extends uijet
+     */
     var requestAnimFrame = uijet.utils.requestAnimFrame,
         getStyle = uijet.utils.getStyle,
         // get the Transitioned mixin
-        transitioned = uijet.Mixin('Transitioned');
+        transitioned = uijet.Mixin('Transitioned'),
+        duration_re = /([\.\d]+)(ms|s)/,
+        _parseDuration = function (duration) {
+            var match = duration.match(duration_re),
+                multiplier = 1, res;
+            if ( match ) {
+                if ( match[2] == 's' ) {
+                    multiplier = 1000;
+                }
+                res = +match[1] * multiplier;
+            }
+            return (match && res) || 16;
+        };
 
-    // add methods to the Transitioned mixin that will init the animation state with the `<type>_out` class
-    // on the top element
+    /**
+     * Extends the Transitioned mixin to leverage this
+     * animation module.
+     * 
+     * @name animation/uijet-transit.Transitioned
+     * @extends Transitioned
+     */
     uijet.utils.extend(transitioned, {
+        /**
+         * Initializes the instance's element state to the out-of-view
+         * state and optionally (and by default) turns hardware acceleration on
+         * on transitions of this instance.
+         * 
+         * #### Signals:
+         * 
+         * * `pre_prepareelement`: triggered at the beginning of this method.
+         * 
+         * #### Related options:
+         * 
+         * * `animation_type`: the type of animation to use for the transition.
+         * * `dont_promote`: whether to prevent promotion of this element to its own layer, aka hardware acceleration.
+         * 
+         * @memberOf animation/uijet-transit.Transitioned
+         * @instance
+         * @returns {Transitioned}
+         */
         prepareElement  : function () {
             this.notify(true, 'pre_prepareelement');
-            // initialy set the __animation_type_out__ `class`
-            this.$element.addClass((this.options.animation_type || uijet.options.animation_type) + '_out');
-            // if not disabled, promote this element to it's own layer which enables hardware acceleration
-            if ( ! this.options.dont_promote ) {
-                this.$element.addClass('promoted');
-            }
-            this._super();
-            return this;
-        },
-        _wrap           : function () {
-            // cache the __animation_type_out__ `class`
+            // initially set the `<animation_type>_out` `class`
             var class_name = (this.options.animation_type || uijet.options.animation_type) + '_out';
+            // if not disabled, promote this element to it's own layer which enables hardware acceleration
             if ( ! this.options.dont_promote ) {
                 class_name += ' promoted';
             }
-            // do wrapping
+
+            this.$element.addClass(class_name);
+
             this._super();
-            // add this class to the `$wrapper`
-            this.$wrapper.addClass(class_name);
-            // and remove it from the `$element`
-            this.$element.removeClass(class_name);
             return this;
         },
+        /**
+         * Applies transition out of view.
+         * 
+         * @memberOf animation/uijet-transit.Transitioned
+         * @instance
+         * @param {boolean} [no_transitions] - whether to suppress the animation.
+         * @returns {transitioned}
+         */
         disappear       : function (no_transitions) {
             var that = this,
                 // caching super method for calling it later inside an async function
@@ -72,10 +108,40 @@
                 });
             }
             return this;
+        },
+        /**
+         * Applies `prepareElement()` of this module on `this.$wrapper`.
+         * 
+         * @memberOf animation/uijet-transit.Transitioned
+         * @instance
+         * @returns {Transitioned}
+         * @private
+         */
+        _wrap           : function () {
+            // cache the  `<animation_type>_out` `class`
+            var class_name = (this.options.animation_type || uijet.options.animation_type) + '_out';
+            if ( ! this.options.dont_promote ) {
+                class_name += ' promoted';
+            }
+            // do wrapping
+            this._super();
+            // add this class to the `$wrapper`
+            this.$wrapper.addClass(class_name);
+            // and remove it from the `$element`
+            this.$element.removeClass(class_name);
+            return this;
         }
     });
 
     uijet.use({
+        /**
+         * #### Animation types:
+         * 
+         * * `fold`: folds the element's height from 0 to full height.
+         * 
+         * @namespace special_animations
+         * @memberOf module:animation/uijet-transit
+         */
         special_animations  : {
             fold: function (widget, is_in) {
                 var $el = widget.$wrapper || widget.$element, _h;
@@ -102,15 +168,19 @@
                 return uijet.support.transitionend;
             }
         },
-        // ## uijet.transit
-        // @sign: transit(widget, direction, callback)  
-        // @return: uijet
-        //
-        // Handles widgets animation across the appliaction.  
-        // Mostly transitions of widgets in and out of the view.  
-        // Takes a widget to transition, a direction ("in"/"out") of the animation
-        // and a callback to fire once the animation is done.  
-        // This callback will usually resolve a promise waiting for the animation to end.
+        /**
+         * Transitions a widget's element into or out of view.
+         * 
+         * #### Related options:
+         * 
+         * * `animation_type`: type of animation to use. Defaults to `uijet.options.animation_type` which defaults to `fade`.
+         * 
+         * @memberOf module:animation/uijet-transit
+         * @param {Widget} widget - the widget instance to transition.
+         * @param {string} [direction] - direction of transition - `'in'` or `'out'`. Defaults to `'in'`.
+         * @param {function} [callback] - callback to invoke at end of transition.
+         * @returns {uijet}
+         */
         transit             : function (widget, direction, callback) {
             var transit_type = widget.options.animation_type || this.options.animation_type,
                 $el = (widget.$wrapper || widget.$element),
@@ -161,14 +231,23 @@
             }
             return this;
         },
+        /**
+         * Animates an elements' properties.
+         * 
+         * @memberOf module:animation/uijet-transit
+         * @param {HTMLElement[]} $el - wrapped HTMLElement to animate.
+         * @param {string|Object} props - valid CSS text to set on the element's style, or a map of style properties.
+         * @param {function} [callback] - callback to run at the end of the animation.
+         * @returns {Array} - ids of the animation frames requested for this animation + callback.
+         */
         animate             : function ($el, props, callback) {
             var trans_end_event = uijet.support.transitionend,
-                have_callback = isFunc(callback),
-                request_id;
+                have_callback = typeof callback == 'function',
+                handles = [];
             $el.addClass('transitioned');
             have_callback && trans_end_event && $el.one(trans_end_event, callback);
-            request_id = requestAnimFrame(function () {
-                var style = $el[0].style, p;
+            handles.push(requestAnimFrame(function () {
+                var style = $el[0].style, p, duration, delay;
                 if ( typeof props == 'string' )
                     style.cssText = props;
                 else
@@ -177,11 +256,16 @@
                             style[p] = props[p];
                         else
                             style.setProperty(p, props[p]);
-            });
-            if ( ! trans_end_event ) {
-                request_id = have_callback && requestAnimFrame(callback);
-            }
-            return request_id;
+
+                // if there's a callback to trigger and no end event support
+                if ( have_callback && ! trans_end_event ) {
+                    //TODO: check if this works consistently across platforms, and when set individually or with shorthand
+                    duration = uijet.utils.getStyleProperty('transition-duration');
+                    delay = uijet.utils.getStyleProperty('transition-delay');
+                    handles.push(setTimeout(callback, _parseDuration(duration) + _parseDuration(delay)));
+                }
+            }));
+            return handles;
         }
     }, uijet);
 }));

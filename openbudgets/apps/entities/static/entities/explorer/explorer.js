@@ -176,7 +176,7 @@ define([
                 uijet.animate(uijet.$element, app_transition_props);
             })
             .subscribe('login', function () {
-                uijet.$('.login-link')[0].click();  
+                uijet.$('.login-link')[0].click();
             })
 
             /*

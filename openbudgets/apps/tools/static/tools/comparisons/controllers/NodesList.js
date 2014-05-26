@@ -29,16 +29,25 @@ define([
     uijet.Adapter('NodesList', {
         // optimization hack to not call `this._prepareScrolledSize()` after `render()`
         scrolled            : false,
+        _publishScope       : function () {
+            var node_model;
+
+            node_model = this.scope ?
+                this.resource.get(this.scope) ||
+                uijet.Resource('Breadcrumbs').get(this.scope) :
+                this.scope;
+
+            return this.publish('scope_changed', node_model);
+        },
         setScope            : function (scope) {
             scope = scope || null;
             if ( scope !== this.scope ) {
                 this.scope = scope;
-                if ( this.has_data ) {
-                    this.publish('scope_changed', this.scope && this.resource.get(this.scope));
-                    this.buildIndex();
+                if ( this.resource.length ) {
+                    this._publishScope();
                 }
                 else {
-                    this.rebuild_index = true;
+                    this.scope_changed = true;
                 }
             }
             return this;
@@ -51,39 +60,26 @@ define([
             return this.filter(filter, this.scope)
                        .render();
         },
-        buildIndex          : function () {
-            this.cached_results = {};
-            this.index()
-                .search_index.add(
-                    this.resource.byAncestor(this.scope)
-                        .map(uijet.utils.prop('attributes'))
-                );
-            if ( this.active_filters ) {
-                // refill cache
-                this.filterItems();
-            }
-            return this;
-        },
+//        buildIndex          : function () {
+//            this.cached_results = {};
+//            this.index()
+//                .search_index.add(
+//                    this.resource.byAncestor(this.scope)
+//                        .map(uijet.utils.prop('attributes'))
+//                );
+//            if ( this.active_filters ) {
+//                // refill cache
+//                this.filterItems();
+//            }
+//            return this;
+//        },
         sortNodes           : function (data) {
-            var sorting_key = (data.desc ? '-' : '') + data.column,
-                is_comparator_function = uijet.utils.isFunc(this.options.sorting[sorting_key]);
+            var sorting_key = (data.desc ? '-' : '') + data.column;
             this.desc = data.desc;
-            this.sort(sorting_key);
 
-            if ( this.has_data ) {
-                if ( this.filtered && ! uijet.utils.isFunc(this.filtered) ) {
-                    this.filtered = arraySort.call(
-                        this.filtered,
-                        is_comparator_function ?
-                            this.options.sorting[sorting_key] :
-                            resources.utils.reverseSorting(data.column)
-                    );
-
-                    if ( ! is_comparator_function && ! data.desc ) {
-                        this.filtered.reverse();
-                    }
-                }
-                return this.render();
+            if ( this.resource.models.length ) {
+                return this.sort(sorting_key)
+                           .render();
             }
             return this;
         },
@@ -112,7 +108,7 @@ define([
             return this._updateFilter(!!this.active_filters !== filters_active);
         },
         _updateFilter       : function (redraw) {
-            if ( this.has_data && this.$children ) {
+            if ( this.resource.length && this.$children ) {
                 if ( redraw ) {
                     this.redraw(this.scope);
                 }
@@ -232,6 +228,7 @@ define([
                 scope = this.scope,
                 $list = this.$last_filter_result || this.$children,
                 initial_item_height = $list.first().height();
+
             $list.each(function (i, item) {
                 var model = resource.get(item.getAttribute('data-id')),
                     name_text = model.get('name'),
@@ -241,6 +238,7 @@ define([
                     code = $item.find('.node_cell_code')[0],
                     optimize = i < max_results_limit_for_branch_name_optimization,
                     branch;
+
                 if ( search_term ) {
                     branch = model.branchName(scope);
                     if ( ! optimize && branch.length > 1 ) {

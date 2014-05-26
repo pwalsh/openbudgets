@@ -1,15 +1,14 @@
 {
   "name": "setImmediate",
   "homepage": "https://github.com/NobleJS/setImmediate",
-  "version": "1.0.1",
-  "_release": "1.0.1",
+  "version": "1.0.2",
+  "_release": "1.0.2",
   "_resolution": {
     "type": "version",
-    "tag": "1.0.1",
-    "commit": "ef4944db494321db2f30003fc5b03c6bdfcb4bd9"
+    "tag": "1.0.2",
+    "commit": "0150b04c6506aabe51d73f770fee0409e10a2f4d"
   },
   "_source": "git://github.com/NobleJS/setImmediate.git",
-  "_target": "1.0.1",
-  "_originalSource": "git://github.com/NobleJS/setImmediate.git",
-  "_direct": true
+  "_target": "1.0.2",
+  "_originalSource": "git://github.com/NobleJS/setImmediate.git"
 }

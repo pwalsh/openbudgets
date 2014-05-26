@@ -7,8 +7,28 @@
         factory(uijet);
     }
 }(function (uijet) {
+
+    /**
+     * Deferred mixin class.
+     *
+     * @mixin Deferred
+     * @extends uijet.BaseWidget
+     */
     uijet.Mixin('Deferred', {
         deferred: true,
+        /**
+         * Wraps the `wake()` call with a promise that defers it.
+         * 
+         * #### Related options:
+         * 
+         * * `promise`: a promise object, or a function that returns one, that once resolved invokes `wake()`.
+         * If it's a function it takes the `context` argument as param.
+         * 
+         * @memberOf Deferred
+         * @instance
+         * @param {*} [context] - will be supplied to the `promise` option if it's a `function`.
+         * @returns {Promise}
+         */
         wake    : function (context) {
             var _super = this._super,
                 promise;

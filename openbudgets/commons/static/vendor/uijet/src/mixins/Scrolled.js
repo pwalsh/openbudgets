@@ -7,8 +7,27 @@
         factory(uijet);
     }
 }(function (uijet) {
+
+    /**
+     * Scrolled mixin class.
+     * 
+     * @mixin Scrolled
+     * @extends uijet.BaseWidget
+     */
     uijet.Mixin('Scrolled', {
         scrolled            : true,
+        /**
+         * Prepares the element to be scrolled in a wrapping
+         * container.
+         * 
+         * #### Related options:
+         * 
+         * * `horizontal`: if `true` then then `horizontal` class is added to the element.
+         * 
+         * @memberOf Scrolled
+         * @instance
+         * @returns {Scrolled}
+         */
         prepareElement      : function () {
             this._super()
                 ._wrap()
@@ -20,20 +39,41 @@
             }
             return this;
         },
-        // ### widget.scroll
-        // @sign: scroll()  
-        // @return: this
-        //
-        // Initializes the scrolling 3rd party lib or refreshes it.  
-        // Implemented by the adapter.
+        /**
+         * Initializes the scroller or refreshes it.
+         * A stub noop to be implemented by a scrolling library adapter.
+         * 
+         * @memberOf Scrolled
+         * @instance
+         * @returns {Scrolled}
+         */
         scroll              : function () {
+            this.scroll_on = true;
             return this;
         },
-        //TODO: add docs
+        /**
+         * Destroys the scroller.
+         * A stub noop to be implemented by a scrolling library adapter.
+         * 
+         * @memberOf Scrolled
+         * @instance
+         * @returns {Scrolled}
+         */
         unscroll            : function () {
+            this.scroll_on = false;
             return this;
         },
-        //TODO: add docs
+        /**
+         * Toggles scroller on and off, initializing or destroying it.
+         * If `switch_on` is provided then if it's `true` {@link Scrolled#scroll}
+         * is invoked, if `false` then {@link Scrolled#unscroll}.
+         * If `switch_on` is omitted then the state is simply toggled.
+         * 
+         * @memberOf Scrolled
+         * @instance
+         * @param {boolean} [switch_on] - forces toggle to initialize or destroy.
+         * @returns {Scrolled}
+         */
         scrollToggle        : function (switch_on) {
             typeof switch_on == 'boolean' ?
                 switch_on ?
@@ -44,16 +84,27 @@
                     this.scroll();
             return this;
         },
-        // ### widget.scrollTo
-        // @sign: scrollTo(position)  
-        // @return: this
-        //
-        // Depending on the implementation of each scrolling lib it scrolls either to a fixed position or to an element,
-        // using `position` either as a `Number` or an element.  
-        // Implemented by the adapter.
+        /**
+         * Scrolls the element in its container.
+         * To be implemented by the scrolling library adapter.
+         * 
+         * @memberOf Scrolled
+         * @instance
+         * @param {*} [position] - any parameter that can determine the position to scroll to, depending on implementation of scrolling library.
+         * @returns {*}
+         */
         scrollTo            : function (position) {
             return this;
         },
+        /**
+         * Initializes scrolling and ensures the container
+         * element wraps the element properly.
+         * 
+         * @memberOf Scrolled
+         * @instance
+         * @returns {Scrolled}
+         */
+        //TODO: support working async with promises
         appear              : function () {
             // init/refresh the scroll
             this.scroll()
@@ -62,6 +113,16 @@
                 ._super();
             return this;
         },
+        /**
+         * Destroys the scroller and resets the
+         * container's size.
+         * 
+         * @memberOf Scrolled
+         * @instance
+         * @param {boolean} [no_transitions] - supplied to the `_super()` call.
+         * @returns {Scrolled}
+         */
+        //TODO: support working async with promises
         disappear           : function (no_transitions) {
             // destroy the scroll - iScroll, for instance, claims to take a lot of resources
             this.unscroll()
@@ -70,18 +131,33 @@
                 ._super(no_transitions);
             return this;
         },
+        /**
+         * Destroys the scroller.
+         * 
+         * @memberOf Scrolled
+         * @instance
+         * @returns {Scrolled}
+         * @private
+         */
         _clearRendered      : function () {
             // destroy the scroll
             this.has_content && this.unscroll();
             this._super();
             return this;
         },
-        // ### widget._prepareScrolledSize
-        // @sign: _prepareScrolledSize()  
-        // @return: this
-        //
-        // Gets the size of the `$element`'s content, checks if it's bigger than its container's size
-        // and if so set that size on `$element`.
+        /**
+         * Ensures `this.$element` wraps around its content.
+         * 
+         * #### Related options:
+         * 
+         * * `horizontal`: if `true` makes sure that the element's width stretches to the width of its content.
+         * * `grid_layout`: disables the above stretching.
+         * 
+         * @memberOf Scrolled
+         * @instance
+         * @returns {Scrolled}
+         * @private
+         */
         _prepareScrolledSize: function () {
             // get the size of the content
             var _size = this._getSize(), el = this.$element[0];
@@ -94,12 +170,15 @@
             }
             return this;
         },
-        // ### widget._setWrapperSize
-        // @sign: _setWrapperSize([clear])  
-        // @return: this
-        //
-        // Makes sure the `$wrapper`'s height is not 0 (e.g. because of `overflow:hidden`) and if it is takes the
-        // `$element`'s height and set it on the `$wrapper`.
+        /**
+         * Ensures `this.$wrapper` wraps around `this.$element`.
+         * 
+         * @memberOf Scrolled
+         * @instance
+         * @param {boolean} [clear] - if `true` then the dirty styles set on `this.$wrapper` are cleared.
+         * @returns {Scrolled}
+         * @private
+         */
         _setWrapperSize     : function (clear) {
             var _h;
             if ( this.$wrapper && ! this.options.horizontal ) {

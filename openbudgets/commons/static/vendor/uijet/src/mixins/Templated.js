@@ -1,161 +1,99 @@
 (function (factory) {
     if ( typeof define === 'function' && define.amd ) {
-        define(['uijet_dir/uijet'], function (uijet) {
+        define([
+            'uijet_dir/uijet',
+            'uijet_dir/widgets/Base'
+        ], function (uijet) {
             return factory(uijet);
         });
     } else {
         factory(uijet);
     }
 }(function (uijet) {
+
+    if ( ! uijet.BaseWidget.prototype.generate ) {
+        uijet.use({
+            /**
+             * Generates an HTML string from a template.
+             * 
+             * @see {@link uijet.utils#format}
+             * @memberOf BaseWidget
+             * @instance
+             * @returns {string} - generated html string.
+             */
+            generate: function () {
+                return uijet.utils.format(this.template, this.getContext());
+            }
+        }, uijet.BaseWidget.prototype);
+    }
+
+    /**
+     * Templated mixin class.
+     * 
+     * @mixin Templated
+     * @extends uijet.BaseWidget
+     */
     uijet.Mixin('Templated', {
         templated       : true,
+        /**
+         * Starts loading the template.
+         * Builds the URL to fetch the template from options.
+         * 
+         * #### Related options:
+         * 
+         * * `dont_auto_fetch_template`: if `true` will not load the template file on `init()`.
+         * 
+         * @memberOf Templated
+         * @instance
+         * @returns {Templated}
+         */
         init            : function () {
+            this.holdSignal('post_init');
             this._super.apply(this, arguments);
-            if ( ! this.options.dont_fetch_template_on_init ) {
-                this.fetchTemplate();
-            }
-            return this;
-        },
-        wake            : function (context) {
-            var that = this,
-                do_render, dfrd_wake, promises, _fail, _success, _activate;
-            // if already awake and there's no new data coming in then no reason to continue
-            if ( this.awake && ! context ) return this._finally();
-            // if `context` is an object
-            if ( uijet.utils.isObj(context) ) {
-                // use it to update the instance's `context`
-                this.setContext(context);
-            }
-            // fire `pre_wake` signal
-            // we also send the `context` argument as a second param
-            do_render = this.notify(true, 'pre_wake', context);
-            // create a new deferred wake promise object
-            dfrd_wake = uijet.Promise();
-            // wake up the kids
-            promises = this.wakeContained(context);
-            // in case of failure
-            _fail = function (e) {
-                // notify failure signal
-                var retry = that.notify.apply(that, [true, 'wake_failed'].concat(Array.prototype.slice.call(arguments)));
-                if ( retry ) {
-                    // if user asked to retry the wake again
-                    that.wake();
-                } else {
-                    dfrd_wake.reject(e);
-                    that.sleep();
-                }
-            };
-            // final activation once content is ready
-            _activate = function () {
-                // bind DOM events
-                that.bindAll()
-                    .appear()
-                    .awake = true;
-                that.notify(true, 'post_wake');
-                dfrd_wake.resolve();
-                that._finally();
-            };
-            // in case of success
-            if ( do_render === false ) {
-                _success = _activate;
-            } else {
-                _success = function () {
-                    uijet.when(that.fetchTemplate())
-                        .then(that.render.bind(that), _fail)
-                        .then(_activate, _fail);
-                };
-            }
-            // if `sync` option is `true` then call success after all children are awake
-            uijet.whenAll(promises).then(
-                this.options.sync ? _success : _success(),
-                _fail
-            );
 
-            return dfrd_wake ? dfrd_wake.promise() : {};
-        },
-        // ### widget.fetchTemplate
-        // @sign: fetchTemplate()  
-        // @return: promise OR this
-        //
-        // Gets the template from the server to be used for this widget via XHR.  
-        // If `partials` option is set, an `Object` mapping partial name to its file name, loop over it and fetch all the partials needed.  
-        // If those partials are stored deeper under the global templates' path use the `partials_dir` option
-        // to specify it.  
-        fetchTemplate   : function () {
-            // if we don't have the template cached
-            if ( ! this.has_template ) {
-                if ( this._template_promise ) return this._template_promise;
-                // create a promise for retrieving all templates
-                var dfrd = uijet.Promise(), promise = dfrd.promise(),
-                    that = this,
-                    // a stack for all template GET requests
-                    requests = [],
-                    // an error callback handler
-                    failure = function (response) {
-                        // tell the user we failed
-                        that.notify.apply(that, [true, 'fetchTemplate_error'].concat(uijet.utils.toArray(arguments)));
-                        // fail the whole fetching process
-                        dfrd.reject();
-                    },
-                    clear_promise = function () {
-                        delete that._template_promise;
-                    },
-                    partials = this.options.partials,
-                    partials_dir = this.options.partials_dir || '',
-                    p;
-                // make sure we clear the promise from cache once it's done or failed
-                promise.then(clear_promise, clear_promise);
-                // cache the fetching promise
-                this._template_promise = promise;
-                // request the template
-                requests.push(uijet.xhr(this.getTemplateUrl())
-                    .then(function (response) {
-                        // cache result
-                        that.template = that.compile(response);
-                    }, failure)
-                );
-                // if we need to fetch partial templates
-                if ( partials ) {
-                    this.partials || (this.partials = {});
-                    // loop over them
-                    for ( p in partials ) (function (name, path) {
-                        // build the path to each partial
-                        var partial_path = uijet.options.templates_path +
-                                            partials_dir +
-                                            path + "." +
-                                            uijet.options.templates_extension;
-                        // request that partial
-                        requests.push(uijet.xhr(partial_path)
-                            .then(function (partial) {
-                                // when done cache it
-                                that.partials[name] = partial;
-                            }, failure)
-                        );
-                    }(p, partials[p]));
-                }
-                // when all requests are resolved
-                uijet.whenAll(requests).then(function () {
-                    // set state to `has_tempalte`
-                    that.has_template = true;
-                    // tell the user we're done
-                    that.notify(true, 'post_fetch_template');
-                    // resolve the entire fetching promise
-                    dfrd.resolve();
-                });
-                return promise;
+            this.template_url = uijet.options.templates_path + (this.options.template_name || this.id) + '.' + uijet.options.templates_extension;
+
+            if ( ! this.options.dont_auto_fetch_template ) {
+                this._fetchTemplate();
             }
-            // like a fulfilled promise
+            this.releaseSignal('post_init');
             return this;
         },
+        /**
+         * Renders the template.
+         * Attempts to fetch the template if it wasn't fetched.
+         * 
+         * It is also possible to defer the end of rendering till after all
+         * content images have been fully loaded using the `defer_images` option.
+         * 
+         * #### Signals:
+         * 
+         * * `pre_render`: triggered after content is generated but before old contents of `this.$element` is removed.
+         * Takes the generated HTML string.
+         * * `pre_html_insert`: triggered before content is inserted into the element. Takes the generated HTML string.
+         * If it returns `false` then content insertion will be skipped.
+         * * `post_render`: triggered at the end.
+         * 
+         * #### Related options:
+         * 
+         * * `insert_before`: an element, or a query selector, to insert the rendered content before. By default
+         * content is appended to the end `this.$element`'s contents.
+         * * `defer_images`: if truthy it invokes {@link Templated#deferLoadables} and the returned `Promise`
+         * will depend on that action being resolved.
+         * 
+         * @memberOf Templated
+         * @instance
+         * @returns {Promise}
+         */
         render          : function () {
             // generate the HTML
             var that = this, _super = this._super,
                 _html, loadables, do_insert;
 
             if ( ! this.has_template ) {
-                // if `render` was called directly then add a convenience call to fetchTemplate
-                return this.fetchTemplate()
-                    .then(that.render.bind(that));
+                // if `render` was called directly then add a convenience call to _fetchTemplate
+                return this._fetchTemplate()
+                    .then(this.render.bind(this));
             }
             else {
                 _html = this.generate();
@@ -190,11 +128,15 @@
                 });
             }
         },
-        // ### widget.deferLoadables
-        // @sign: deferLoadables()  
-        // @return: promises_array OR [{}]
-        //
-        // Deferrs the flow to continue after all images have been loaded.  
+        /**
+         * Finds all content images, `<img>` tags or in inlined
+         * styles, and returns a `Promise` that is resolved once
+         * all of these are loaded.
+         * 
+         * @memberOf Templated
+         * @instance
+         * @returns {Promise[]}
+         */
         //TODO: Make this work over either all images or as defined by `this.options.defer_images`  
         //TODO: consider moving this to base to defer also non-templated loadables
         deferLoadables  : function () {
@@ -209,7 +151,7 @@
                     _img = null;
                     dfrd.resolve();
                 },
-                src, _img, dfrd;
+                _img, dfrd;
             if ( _inlines && _inlines[1] ) {
                 _img = new Image();
                 dfrd = uijet.Promise();
@@ -235,17 +177,75 @@
                 }
                 promises.push(_dfrd.promise());
             });
-            return promises.length ? promises : [{}];
+            return promises;
         },
-        // ### widget.getTemplateUrl
-        // @sign: getTemplateUrl()  
-        // @return: template_url
-        //
-        // Gets the URL used by the widget to fetch its template.  
-        // Uses uijet's `templates_path` option as a prefix, followed by either `template_name` option or the `id`
-        // property, with uijet's `templates_extension` option as the extension suffix.
-        getTemplateUrl  : function () {
-            return uijet.options.templates_path + (this.options.template_name || this.id) + '.' + uijet.options.templates_extension;
+        /**
+         * Loads the template(s).
+         * 
+         * #### Signals:
+         * 
+         * * `fetch_template_error`: 
+         * 
+         * #### Related options:
+         * 
+         * * `template_name`: name of the template file to load. Defaults to `this.id`.
+         * * `partials`: list of file names of partials to load. 
+         * * `partials_dir`: if the partial fields are nested set this to the name of the dir that contains them.
+         * 
+         * #### Related uijet options:
+         * 
+         * * `templates_path`: path for the templates directory.
+         * * `templates_extension`: extension for the template files.
+         * 
+         * @memberOf Templated
+         * @instance
+         * @returns {Promise|Templated}
+         */
+        _fetchTemplate  : function () {
+            // if we don't have the template cached
+            if ( ! this.has_template ) {
+                // create a promise for retrieving all templates
+                var that = this,
+                    // a stack for all template GET requests
+                    requests = [],
+                    partials = this.options.partials,
+                    partials_dir = this.options.partials_dir || '',
+                    p;
+
+                // request the template
+                requests.push(uijet.xhr(this.template_url)
+                    .then(function (response) {
+                        // cache result
+                        that.template = that.compile ? that.compile(response) : response;
+                    }));
+
+                // if we need to fetch partial templates
+                if ( partials ) {
+                    this.partials || (this.partials = {});
+                    // loop over them
+                    for ( p in partials ) (function (name, path) {
+                        // build the path to each partial
+                        var partial_path = uijet.options.templates_path +
+                                            partials_dir +
+                                            path + "." +
+                                            uijet.options.templates_extension;
+                        // request that partial
+                        requests.push(uijet.xhr(partial_path)
+                            .then(function (partial) {
+                                // when done cache it
+                                that.partials[name] = partial;
+                            }));
+                    }(p, partials[p]));
+                }
+
+                // when all requests are resolved
+                return uijet.whenAll(requests).then(function () {
+                    // set state to `has_tempalte`
+                    that.has_template = true;
+                });
+            }
+            // like a fulfilled promise
+            return this;
         }
     });
 }));
