@@ -10,18 +10,19 @@ local: &LOCAL
   project_config_template: fabfile.templates.local
   app_instance: openbudgets.wsgi:application
   queue_instance: openbudgets.queue:app
-  repository_location: https://bitbucket.org/pwalsh/openbudgets
+  repository_location: https://github.com/openbudgets/openbudgets
   repository_branch: develop
   db_name: openbudgets
   db_dump_file: ./tmp/db_dump.sql
   workon: workon openbudgets
   dock_dataset_location: ./tmp/dataset
-  dock_repository_location: https://github.com/prjts/openmuni-israel.git
+  dock_repository_location: https://github.com/openbudgets/openmuni-israel.git
   dock_repository_branch: master
   dock_prepare_objects: false
-  openbudgets_ui_enable: True
-  openbudgets_api_enable: True
-  openbudgets_admin_enable: True
+  openbudgets_ui_enable: true
+  openbudgets_api_enable: true
+  openbudgets_admin_enable: true
+  openbudgets_console_query_debug: false
 
 
 staging: &STAGING
@@ -51,6 +52,14 @@ staging: &STAGING
   db_port: 5432
   db_dump_file: /srv/projects/openbudgets/tmp/db_dump.sql
   dock_dataset_location: /srv/projects/openbudgets/tmp/dataset
+  openbudgets_comparable_node_default: true
+  openbudgets_comparable_node_in_blueprint: true
+  openbudgets_comparable_node_not_in_blueprint: false
+  openbudgets_comparable_override_by_inheritance: true
+  openbudgets_comparable_strict_by_declaration: true
+  openbudgets_comparable_within_entity: true
+  openbudgets_comparable_across_entities: true
+  openbudgets_comparable_never_display_non_comparable: false
 
 
 master: &MASTER
@@ -87,6 +96,14 @@ ext: &EXT
   db_port: 5432
   proxy_location: 23.251.149.127
   proxy_port: 80
-  openbudgets_ui_enable: False
-  openbudgets_api_enable: True
-  openbudgets_admin_enable: False
+  openbudgets_ui_enable: false
+  openbudgets_api_enable: true
+  openbudgets_admin_enable: false
+  openbudgets_comparable_node_default: false
+  openbudgets_comparable_node_in_blueprint: false
+  openbudgets_comparable_node_not_in_blueprint: false
+  openbudgets_comparable_override_by_inheritance: false
+  openbudgets_comparable_strict_by_declaration: true
+  openbudgets_comparable_within_entity: true
+  openbudgets_comparable_across_entities: true
+  openbudgets_comparable_never_display_non_comparable: true

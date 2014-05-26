@@ -9,7 +9,6 @@ Navigate to a particular feature.
 
    features/accounts
    features/admin
-   features/budgets
    features/context
    features/entities
    features/import
@@ -20,6 +19,7 @@ Navigate to a particular feature.
    features/query-builder
    features/search
    features/settings
+   features/sheets
    features/sources
    features/taxonomies
 

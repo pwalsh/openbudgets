@@ -1,37 +1,21 @@
-Start
-=====
-
-.. image:: https://travis-ci.org/prjts/openbudgets.png
-   :alt: Build Status
-   :target: https://travis-ci.org/prjts/openbudgets
-
-
-.. image:: https://coveralls.io/repos/prjts/openbudgets/badge.png?branch=develop
-   :alt: Coverage Status
-   :target: https://coveralls.io/r/prjts/openbudgets?branch=develop
-
-
-Open Budgets is a web app and web API for storing, accessing, visualizing and comparing budgetary data.
-
-Open Budgets is written in Python and Javascript, and is open source software released under a BSD license.
-
-Open Budgets is a project of the **Public Knowledge Workshop**, a non-profit organization in Israel dedicated to data transparency in government.
+Quickstart
+==========
 
 Stack
-=====
+-----
 
 Server
-------
+++++++
 
 The server is written in Python using Django and Django REST Framework.
 
 Client
-------
+++++++
 
 The client is written in Javascript makes use of Uijet, Backbone, JQuery, and D3.
 
 System requirements
-===================
+-------------------
 
 Open Budgets has been developed on Mac OS X, Ubuntu and Debian. It should be trivial to deploy to any *nix environment.
 
@@ -53,7 +37,7 @@ Experienced users may choose to vary from the following instructions.
 
 
 Ubuntu & Debian
--------------
++++++++++++++++
 
 **NOTE:** Use of `sudo` for any command is very dependent on your setup.
 
@@ -85,7 +69,7 @@ Configure::
     export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
 
 Fedora
-------
+++++++
 
 **NOTE:** Use of `sudo` for any command is very dependent on your setup.
 
@@ -116,7 +100,7 @@ Configure::
     export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
 
 Mac OS X
---------
+++++++++
 
 First, make sure you have XCode installed with Command Line Tools.
 
@@ -179,7 +163,7 @@ Now, we need to configure your user .bash_profile::
     export PIP_VIRTUAL_ENV_BASE=$WORKON_HOME
 
 Windows
--------
++++++++
 
 **Note:** We have assisted some users to configure Windows for Python web development, but we don't consider this to be a complete set of instructions, or even the best way to proceed. If you can provide a foolproof Windows setup, please make a pull request on this file.
 
@@ -212,13 +196,13 @@ http://adambard.com/blog/installing-fabric-under-windows-7-64-bit-with/
 
 
 Installing the project
-===================
+----------------------
 
 As long as you have met the system requirements above on your chosen OS, we are ready to install the project.
 
 
 Configure hosts
--------------
++++++++++++++++
 
 Open Budgets makes use of subdomains to target languages. To enable this functionality fully, you'll need to edit your hosts file on your development machine.
 
@@ -235,7 +219,7 @@ Add the following domain mappings for localhost::
     127.0.0.1 openbudgets.dev www.openbudgets.dev en.openbudgets.dev he.openbudgets.dev ar.openbudgets.dev ru.openbudgets.dev
 
 Make a virtualenv
----------------
++++++++++++++++++
 
 We are going to setup the project in a new Python virtual environment.
 
@@ -252,7 +236,7 @@ We are going to:
 
 
 Ubuntu, Debian & Fedora
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Here we go::
 
@@ -297,7 +281,7 @@ Here we go::
 
 
 Using virtualenvwrapper
---------------------
++++++++++++++++++++++++
 
 virtualenvwrapper provides a nice, human-friendly API over virtualenv commands.
 
@@ -316,7 +300,7 @@ http://www.doughellmann.com/projects/virtualenvwrapper/
 
 
 Project dependencies
---------------------
+++++++++++++++++++++
 
 All the project dependencies are managed by pip. To get them, run the following command::
 
@@ -327,7 +311,7 @@ We are now ready to start looking at the codebase.
 
 
 Interacting with the project
--------------------------
+----------------------------
 
 We make use of **Fabric**, a great Python tool, for running tasks on the command line. You can treat Fabric as a general CLI for interacting with the project.
 
@@ -383,12 +367,12 @@ For now, open the following URL in your browser and you should see the applicati
 
 
 Fabric Tasks
-~~~~~~~~~~
+++++++++++++
 
 Here are the most common tasks you'll use for development.
 
 bootstrap
-+++++++++
+~~~~~~~~~
 
 Get familiar with the `fab e local.bootstrap` command.
 
@@ -405,7 +389,7 @@ Run it::
 
 
 migrate
-+++++++
+~~~~~~~
 
 The `fab e local.migrate` command wraps Django/South's syncdb/migrate.
 
@@ -415,7 +399,7 @@ Run it::
 
 
 test
-++++
+~~~~
 
 The `fab e local.test` command runs the project's test suite.
 
@@ -425,7 +409,7 @@ Run it::
 
 
 mock
-++++
+~~~~
 
 The `fab e mock` command builds out a set of dummy data.
 
@@ -435,7 +419,7 @@ Run it::
 
 
 dock.* commands
-+++++++++++++++
+~~~~~~~~~~~~~~~
 
 The set of `dock.*` commands are for working with a data repository, and based on a library we extracted from our code called Dock.
 
@@ -473,7 +457,7 @@ Run it::
 
 
 db.* commands
-+++++++++++++++
+~~~~~~~~~~~~~
 
 The set of `db.*` commands are for working with the database instance.
 
@@ -521,7 +505,7 @@ Run it::
 
 
 environ.* commands
-+++++++++++++++
+~~~~~~~~~~~~~~~~~~
 
 The set of `environ.*` commands are for working with the project environment.
 
