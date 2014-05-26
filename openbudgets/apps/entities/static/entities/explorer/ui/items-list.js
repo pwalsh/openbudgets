@@ -38,9 +38,9 @@ define([
                 cache   : true,
                 expires : 8 * 3600,
                 data    : {
-                    page_by     : 4000,
-                    node_parents: 'none',
-                    ancestors   : 'true'
+                    page_by         : 4000,
+                    node_parents    : 'none',
+                    with_ancestors  : 'true'
                 }
             },
             search          : {
