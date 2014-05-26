@@ -139,139 +139,139 @@ define([
                 'item_comments_list.rendered'   : 'scroll'
             }
         }
-    }, {
-        type    : 'List',
-        config  : {
-            element         : '#item_comments_list',
-            mixins          : ['Templated', 'Translated'],
-            adapters        : ['Spin'],
-            dont_fetch      : true,
-            spinner_options : {
-                element     : function () {
-                    return this.$new_comment.find('.item_comment_date');
-                },
-                lines       : 8,
-                length      : 5,
-                width       : 3,
-                radius      : 3
-            },
-            signals         : {
-                post_render : 'rendered'
-            },
-            app_events      : {
-                'add_comment.clicked'       : function () {
-                    this.$new_comment = this.$element.append(this.template(new_comment_data))
-                        .children().last();
-                    uijet._translate(this.$new_comment[0]);
-                },
-                'new_comment_cancel.clicked': function () {
-                    if ( this.$new_comment ) {
-                        this.$new_comment.remove();
-                        delete this.$new_comment;
-                    }
-                },
-                'new_comment_ok.clicked'    : 'spin',
-                comment_created             : function (comment) {
-                    if ( this.$new_comment ) {
-                        this.$new_comment.find('.item_comment_text').html(multiline(comment.comment));
-                        this.$new_comment.find('.item_comment_date').text(formatDate(new Date(comment.created_on)));
-                        this.$new_comment.attr('data-id', comment.id);
-                        this.$new_comment.removeClass('new_comment');
-                        delete this.$new_comment;
-                    }
-                }
-            }
-        }
-    }, {
-        type    : 'Button',
-        config  : {
-            element     : '#add_comment',
-            signals     : {
-                pre_click   : function  () {
-                    if ( ! uijet.Resource('NewComment').has('user') ) {
-                        uijet.publish('login');
-                        return false
-                    }
-                    else {
-                        this.sleep();
-                    }
-                }
-            },
-            app_events  : {
-                'new_comment_ok.clicked'    : 'wake',
-                'new_comment_cancel.clicked': 'wake'
-            }
-        }
-    }, {
-        type    : 'Pane',
-        config  : {
-            element     : '#new_comment',
-            resource    : 'NewComment',
-            dont_wake   : true,
-            signals     : {
-                post_init       : function () {
-                    var that = this;
-                    this.$textarea = this.$element.find('textarea');
-                    this.$textarea.on('keyup', function (e) {
-                        if ( this.scrollHeight > this.clientHeight ) {
-                            this.style.height = this.scrollHeight + 'px';
-                            that.publish('line_added');
-                        }
-                    });
-                },
-                pre_wake        : function () {
-                    this.$element.removeClass('hide');
-                },
-                post_appear     : function () {
-                    this.$textarea.focus();
-                    this.publish('awake');
-                },
-                post_disappear  : function () {
-                    this.publish('asleep');
-                },
-                pre_sleep       : function () {
-                    var textarea = this.$textarea[0];
-                    textarea.value = '';
-                    textarea.style.removeProperty('height');
-                    this.$element.addClass('hide');
-                }
-            },
-            data_events : {},
-            app_events  : {
-                'add_comment.clicked'       : 'wake',
-                'new_comment_ok.clicked'    : function () {
-                    this.resource.set('comment', this.$textarea.val());
-                },
-                comment_created             : function () {
-                    this.resource.set('comment', '', { silent : true });
-                    this.sleep();
-                },
-                'new_comment_cancel.clicked': 'sleep',
-                open_comments               : 'sleep',
-                close_comments              : 'sleep'
-            }
-        }
-    }, {
-        type    : 'Button',
-        config  : {
-            element     : '#new_comment_ok',
-            signals     : {
-                pre_click   : 'sleep'
-            },
-            app_events  : {
-                'new_comment_cancel.clicked': 'sleep'
-            }
-        }
-    }, {
-        type    : 'Button',
-        config  : {
-            element     : '#new_comment_cancel',
-            signals     : {
-                pre_click   : 'sleep'
-            },
-            app_events  : {
-                'new_comment_ok.clicked': 'sleep'
-            }
-        }
+//    }, {
+//        type    : 'List',
+//        config  : {
+//            element         : '#item_comments_list',
+//            mixins          : ['Templated', 'Translated'],
+//            adapters        : ['Spin'],
+//            dont_fetch      : true,
+//            spinner_options : {
+//                element     : function () {
+//                    return this.$new_comment.find('.item_comment_date');
+//                },
+//                lines       : 8,
+//                length      : 5,
+//                width       : 3,
+//                radius      : 3
+//            },
+//            signals         : {
+//                post_render : 'rendered'
+//            },
+//            app_events      : {
+//                'add_comment.clicked'       : function () {
+//                    this.$new_comment = this.$element.append(this.template(new_comment_data))
+//                        .children().last();
+//                    uijet._translate(this.$new_comment[0]);
+//                },
+//                'new_comment_cancel.clicked': function () {
+//                    if ( this.$new_comment ) {
+//                        this.$new_comment.remove();
+//                        delete this.$new_comment;
+//                    }
+//                },
+//                'new_comment_ok.clicked'    : 'spin',
+//                comment_created             : function (comment) {
+//                    if ( this.$new_comment ) {
+//                        this.$new_comment.find('.item_comment_text').html(multiline(comment.comment));
+//                        this.$new_comment.find('.item_comment_date').text(formatDate(new Date(comment.created_on)));
+//                        this.$new_comment.attr('data-id', comment.id);
+//                        this.$new_comment.removeClass('new_comment');
+//                        delete this.$new_comment;
+//                    }
+//                }
+//            }
+//        }
+//    }, {
+//        type    : 'Button',
+//        config  : {
+//            element     : '#add_comment',
+//            signals     : {
+//                pre_click   : function  () {
+//                    if ( ! uijet.Resource('NewComment').has('user') ) {
+//                        uijet.publish('login');
+//                        return false
+//                    }
+//                    else {
+//                        this.sleep();
+//                    }
+//                }
+//            },
+//            app_events  : {
+//                'new_comment_ok.clicked'    : 'wake',
+//                'new_comment_cancel.clicked': 'wake'
+//            }
+//        }
+//    }, {
+//        type    : 'Pane',
+//        config  : {
+//            element     : '#new_comment',
+//            resource    : 'NewComment',
+//            dont_wake   : true,
+//            signals     : {
+//                post_init       : function () {
+//                    var that = this;
+//                    this.$textarea = this.$element.find('textarea');
+//                    this.$textarea.on('keyup', function (e) {
+//                        if ( this.scrollHeight > this.clientHeight ) {
+//                            this.style.height = this.scrollHeight + 'px';
+//                            that.publish('line_added');
+//                        }
+//                    });
+//                },
+//                pre_wake        : function () {
+//                    this.$element.removeClass('hide');
+//                },
+//                post_appear     : function () {
+//                    this.$textarea.focus();
+//                    this.publish('awake');
+//                },
+//                post_disappear  : function () {
+//                    this.publish('asleep');
+//                },
+//                pre_sleep       : function () {
+//                    var textarea = this.$textarea[0];
+//                    textarea.value = '';
+//                    textarea.style.removeProperty('height');
+//                    this.$element.addClass('hide');
+//                }
+//            },
+//            data_events : {},
+//            app_events  : {
+//                'add_comment.clicked'       : 'wake',
+//                'new_comment_ok.clicked'    : function () {
+//                    this.resource.set('comment', this.$textarea.val());
+//                },
+//                comment_created             : function () {
+//                    this.resource.set('comment', '', { silent : true });
+//                    this.sleep();
+//                },
+//                'new_comment_cancel.clicked': 'sleep',
+//                open_comments               : 'sleep',
+//                close_comments              : 'sleep'
+//            }
+//        }
+//    }, {
+//        type    : 'Button',
+//        config  : {
+//            element     : '#new_comment_ok',
+//            signals     : {
+//                pre_click   : 'sleep'
+//            },
+//            app_events  : {
+//                'new_comment_cancel.clicked': 'sleep'
+//            }
+//        }
+//    }, {
+//        type    : 'Button',
+//        config  : {
+//            element     : '#new_comment_cancel',
+//            signals     : {
+//                pre_click   : 'sleep'
+//            },
+//            app_events  : {
+//                'new_comment_ok.clicked': 'sleep'
+//            }
+//        }
     }];
 });

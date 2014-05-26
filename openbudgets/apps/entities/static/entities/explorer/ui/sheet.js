@@ -85,6 +85,7 @@ define([
         type    : 'Button',
         config  : {
             element     : '#sheet_scope_comments',
+            cloak       : true,
             signals     : {
                 pre_click   : function () {
                     uijet.Resource('ItemsListState').set('comments_item', this.$element);
@@ -98,18 +99,20 @@ define([
                     if ( scope_item_model ) {
                         item = scope_item_model.get('id');
                         id = scope_item_model.get('node');
-                        count = scope_item_model.get('comment_count');
+//                        count = scope_item_model.get('comment_count');
                         has_comments = scope_item_model.get('has_comments');
                     }
 
                     this.$element.attr('data-item', item)
                                 .attr('data-id', id)
-                                .text(count || '')
-                                .toggleClass('has_comments', has_comments);
+//                                .text(count || '')
+                                .text(has_comments ? '!' : '')
+                                .toggleClass('has_comments', has_comments)
+                                .toggleClass('hide', !has_comments);
                 },
                 scope_comment_created       : function (model) {
-                    this.$element.text(model.get('comment_count'))
-                                .toggleClass('has_comments', true);
+                    this.$element.text(model.get('has_comments') ? '!' : '')
+                                 .toggleClass('has_comments', true);
                 }
             }
         }
