@@ -20,10 +20,20 @@
     var requestAnimFrame = uijet.utils.requestAnimFrame,
         getStyle = uijet.utils.getStyle,
         // get the Transitioned mixin
-        transitioned = uijet.Mixin('Transitioned');
+        transitioned = uijet.Mixin('Transitioned'),
+        duration_re = /([\.\d]+)(ms|s)/,
+        _parseDuration = function (duration) {
+            var match = duration.match(duration_re),
+                multiplier = 1, res;
+            if ( match ) {
+                if ( match[2] == 's' ) {
+                    multiplier = 1000;
+                }
+                res = +match[1] * multiplier;
+            }
+            return (match && res) || 16;
+        };
 
-    // 
-    // on the top element
     /**
      * Extends the Transitioned mixin to leverage this
      * animation module.
@@ -125,14 +135,12 @@
 
     uijet.use({
         /**
-         * The sandbox module.
-         *
-         * @namespace special_animations
-         * @memberOf animation/uijet-transit
-         * 
          * #### Animation types:
          * 
          * * `fold`: folds the element's height from 0 to full height.
+         * 
+         * @namespace special_animations
+         * @memberOf module:animation/uijet-transit
          */
         special_animations  : {
             fold: function (widget, is_in) {
@@ -167,7 +175,7 @@
          * 
          * * `animation_type`: type of animation to use. Defaults to `uijet.options.animation_type` which defaults to `fade`.
          * 
-         * @memberOf animation/uijet-transit
+         * @memberOf module:animation/uijet-transit
          * @param {Widget} widget - the widget instance to transition.
          * @param {string} [direction] - direction of transition - `'in'` or `'out'`. Defaults to `'in'`.
          * @param {function} [callback] - callback to invoke at end of transition.
@@ -226,20 +234,20 @@
         /**
          * Animates an elements' properties.
          * 
-         * @memberOf animation/uijet-transit
+         * @memberOf module:animation/uijet-transit
          * @param {HTMLElement[]} $el - wrapped HTMLElement to animate.
          * @param {string|Object} props - valid CSS text to set on the element's style, or a map of style properties.
          * @param {function} [callback] - callback to run at the end of the animation.
-         * @returns {string|number} - id of the animation frame requested for this animation.
+         * @returns {Array} - ids of the animation frames requested for this animation + callback.
          */
         animate             : function ($el, props, callback) {
             var trans_end_event = uijet.support.transitionend,
                 have_callback = typeof callback == 'function',
-                request_id;
+                handles = [];
             $el.addClass('transitioned');
             have_callback && trans_end_event && $el.one(trans_end_event, callback);
-            request_id = requestAnimFrame(function () {
-                var style = $el[0].style, p;
+            handles.push(requestAnimFrame(function () {
+                var style = $el[0].style, p, duration, delay;
                 if ( typeof props == 'string' )
                     style.cssText = props;
                 else
@@ -248,11 +256,16 @@
                             style[p] = props[p];
                         else
                             style.setProperty(p, props[p]);
-            });
-            if ( ! trans_end_event ) {
-                request_id = have_callback && requestAnimFrame(callback);
-            }
-            return request_id;
+
+                // if there's a callback to trigger and no end event support
+                if ( have_callback && ! trans_end_event ) {
+                    //TODO: check if this works consistently across platforms, and when set individually or with shorthand
+                    duration = uijet.utils.getStyleProperty('transition-duration');
+                    delay = uijet.utils.getStyleProperty('transition-delay');
+                    handles.push(setTimeout(callback, _parseDuration(duration) + _parseDuration(delay)));
+                }
+            }));
+            return handles;
         }
     }, uijet);
 }));

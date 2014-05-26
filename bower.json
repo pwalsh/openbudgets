@@ -16,6 +16,7 @@
     "setImmediate": "git://github.com/NobleJS/setImmediate.git#1.0.2",
     "backbone-fetch-cache": "~1.4.0",
     "d3": "~3.4.1",
-    "underscore": "lodash#~2.4.1"
+    "underscore": "lodash#~2.4.1",
+    "normalize-css": "~3.0.1"
   }
 }
