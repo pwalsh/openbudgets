@@ -34,6 +34,14 @@ from openbudgets.settings import *
 #     },
 # }
 
+# Uncomment CACHEOPS to enable queryset caching during development.
+# CACHEOPS = {
+#     'django.contrib.sites.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
+#     'contexts.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
+#     'entities.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
+#     'sheets.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
+# }
+
 # Uncomment OPENBUDGETS_CONSOLE_QUERY_DEBUG to see SQL queries in your
 # console as they are made. More fun than debug toolbar
 # OPENBUDGETS_CONSOLE_QUERY_DEBUG = True

@@ -22,6 +22,13 @@ DATABASES = {
     }
 }
 
+CACHEOPS = {
+    'django.contrib.sites.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
+    'contexts.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
+    'entities.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
+    'sheets.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
+}
+
 EMAIL_HOST_USER = '${email_user}'
 EMAIL_HOST_PASSWORD = '${email_password}'
 ADMINS = ${project_admins}

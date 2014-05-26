@@ -267,10 +267,10 @@ CACHEOPS_REDIS = {
 }
 
 CACHEOPS = {
-    'django.contrib.sites.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
-    'contexts.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
-    'entities.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
-    'sheets.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
+    # 'django.contrib.sites.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
+    # 'contexts.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
+    # 'entities.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
+    # 'sheets.*': ('all', OPENBUDGETS_QUERYSET_CACHE_EXPIRY),
 }
 
 OPENBUDGETS_TEMP_DIR = os.path.abspath(os.path.join(REPOSITORY_ROOT, 'tmp'))
