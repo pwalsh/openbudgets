@@ -1,24 +1,27 @@
 {
-  "amd": {},
-  "volo": {
-    "baseDir": "./openbudget/commons/static/vendor",
-    "dependencies": {
-      "uijet": "github:ydaniv/uijet/0.0.30",
-      "q": "github:kriskowal/q/v0.9.2",
-      "eventbox": "github:ydaniv/eventbox/v0.1.2",
-      "require": "github:jrburke/requirejs/2.1.5",
-      "mustache": "github:janl/mustache.js/0.7.2",
-      "jquery": "github:jquery/jquery/2.0.3",
-      "underscore": "github:amdjs/underscore/1.5.1",
-      "backbone": "github:amdjs/backbone/1.0.0",
-      "d3": "github:mbostock/d3/v3.2.2",
-      "adaptabl": "github:pwalsh/adaptabl/master",
-      "setImmediate": "github:NobleJS/setImmediate/1.0.1",
-      "spin": "github:fgnass/spin.js/1.3.0",
-      "jqScroll": "github:ydaniv/jqScroll/master",
-      "jquery-mousewheel": "github:brandonaaron/jquery-mousewheel/3.1.3",
-      "backbone-fetch-cache": "github:mrappleton/backbone-fetch-cache/v1.0.1#backbone.fetch-cache.js",
-      "joyride": "github:zurb/joyride/v2.1"
-    }
-  }
+  "name": "open-budgets",
+  "description": "Open Budgets: A platform for accessible and meaningful budgetary data.",
+  "version": "0.0.1",
+  "main": "Gruntfile.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openbudgets/openbudgets.git"
+  },
+  "keywords": [
+    "open-data",
+    "open-gov",
+    "municipal-budgets"
+  ],
+  "author": "Public Knowledge Workshop",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/openbudgets/openbudgets/issues"
+  },
+  "homepage": "https://github.com/openbudgets/openbudgets"
 }
