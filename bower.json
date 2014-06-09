@@ -18,5 +18,8 @@
     "d3": "~3.4.1",
     "underscore": "lodash#~2.4.1",
     "normalize-css": "~3.0.1"
+  },
+  "devDependencies": {
+    "almond": "~0.2.9"
   }
 }
