@@ -15,6 +15,8 @@
      * uijet-transit animation module.
      * 
      * @module animation/uijet-transit
+     * @category Module
+     * @sub-category Animation
      * @extends uijet
      */
     var requestAnimFrame = uijet.utils.requestAnimFrame,
@@ -139,8 +141,7 @@
          * 
          * * `fold`: folds the element's height from 0 to full height.
          * 
-         * @namespace special_animations
-         * @memberOf module:animation/uijet-transit
+         * @member {Object} module:animation/uijet-transit.special_animations
          */
         special_animations  : {
             fold: function (widget, is_in) {

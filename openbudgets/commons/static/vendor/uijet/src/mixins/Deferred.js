@@ -12,7 +12,8 @@
      * Deferred mixin class.
      *
      * @mixin Deferred
-     * @extends uijet.BaseWidget
+     * @category Mixin
+     * @extends BaseWidget
      */
     uijet.Mixin('Deferred', {
         deferred: true,

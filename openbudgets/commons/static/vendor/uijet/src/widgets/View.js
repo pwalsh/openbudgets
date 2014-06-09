@@ -18,7 +18,9 @@
          * Calls `sleep()` on current active view and caches
          * `view` in its place.
          * 
+         * @function View~switchView
          * @param {View} view - the new View instance to cache as current active view.
+         * @inner
          */
         switchView = function (view) {
             if ( current_view && current_view !== view ) {
@@ -31,7 +33,8 @@
      * View widget class.
      * 
      * @class View
-     * @extends uijet.BaseWidget
+     * @category Widget
+     * @extends BaseWidget
      * @mixes Layered
      * @mixes Routed
      */

@@ -50,7 +50,8 @@
      * Dragged mixin class.
      * 
      * @mixin Dragged
-     * @extends uijet.BaseWidget
+     * @category Mixin
+     * @extends BaseWidget
      */
     uijet.Mixin('Dragged', {
         dragged             : true,

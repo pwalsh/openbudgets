@@ -17,14 +17,13 @@
      * Form widget class.
      * 
      * @class Form
-     * @extends uijet.BaseWidget
+     * @category Widget
+     * @extends BaseWidget
      * @mixes Submitted
      */
     uijet.Widget('Form', {
         /**
-         * @memberOf Form
-         * @instance
-         * @type Object
+         * @member {Object} Form#options
          */
         options         : {
             type_class  : 'uijet_form',
@@ -38,10 +37,10 @@
              * `Array` of the values, ordered according to the elements' order in 
              * the document.
              * 
-             * @memberOf Form.options
+             * @function Form#options.serializer
              * @param {Object} [extra_data] - extra data to add to the serialized result.
              * @param {boolean} [as_defaults] - if `true` then `extra_data` object will be used as defaults and not override form data.
-             * @returns {Object}
+             * @returns {Object} - serialized form data.
              */
             serializer  : function (extra_data, as_defaults) {
                 var $fields = this.$element.find('[name]'),
@@ -74,10 +73,7 @@
                 return data;
             },
             /**
-             * 
-             * @namespace dom_events
-             * @type Object
-             * @memberOf Form.options
+             * @member {Object} Form#options.dom_events
              */
             dom_events  : {
                 /**
@@ -93,7 +89,7 @@
                  * * `<this.id>_<name>.changed`: published when the field with name `name` fires `change` event.
                  * Takes `Object` with `event` obejct and `value`.
                  * 
-                 * @memberOf Form.options.dom_events
+                 * @member {function} Form#options.dom_events.change
                  * @param {Object} e - `change` event object.
                  */
                 change  : function (e) {

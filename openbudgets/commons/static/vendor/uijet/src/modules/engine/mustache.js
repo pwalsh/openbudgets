@@ -1,16 +1,18 @@
 (function (root, factory) {
     if ( typeof define === 'function' && define.amd ) {
-        define(['uijet_dir/uijet', 'mustache', 'uijet_dir/widgets/Base'], function (uijet, Mustache) {
+        define(['uijet_dir/uijet', 'mustache', 'uijet_dir/modules/engine/_cache', 'uijet_dir/widgets/Base'], function (uijet, Mustache) {
             return factory(uijet, Mustache);
         });
     } else {
-        factory(uijet, root.Mustache);
+        factory(root.uijet, root.Mustache);
     }
 }(this, function (uijet, Mustache) {
     /**
      * Mustache engine module.
      * 
      * @module engine/mustache
+     * @category Module
+     * @sub-category Templates
      * @extends BaseWidget
      * @see {@link https://github.com/janl/mustache.js/#usage}
      * @exports Mustache

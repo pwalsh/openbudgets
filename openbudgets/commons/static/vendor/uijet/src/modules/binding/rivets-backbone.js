@@ -17,7 +17,9 @@
      * Rivets-Backbone binding module.
      * 
      * @module binding/rivets-backbone
-     * @extends uijet.BaseWidget
+     * @category Module
+     * @sub-category Binding
+     * @extends BaseWidget
      * @see {@link http://www.rivetsjs.com/docs/}
      * @see {@link http://backbonejs.org/}
      * @exports Rivets

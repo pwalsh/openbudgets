@@ -12,7 +12,8 @@
      * Layered mixin class.
      * 
      * @mixin Layered
-     * @extends uijet.BaseWidget
+     * @category Mixin
+     * @extends BaseWidget
      */
     uijet.Mixin('Layered', {
         options         : {
