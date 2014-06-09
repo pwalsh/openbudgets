@@ -12,7 +12,9 @@
         {% block nav %}
         <a href="{% url 'home' %}">{% trans 'Home' %}</a>
         <a href="{% url 'entity_list' %}">{% trans 'Entities' %}</a>
+        {% if ui_components.tools %}
         <a href="{% url 'tool_list' %}">{% trans 'Projects' %}</a>
+        {% endif %}
         <a href="{% url 'page' slug='about' %}">{% trans 'About' %}</a>
         {% endblock nav %}
         {% endspaceless %}

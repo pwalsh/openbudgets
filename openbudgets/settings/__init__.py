@@ -316,7 +316,11 @@ OPENBUDGETS_CKAN_CONFIG = {
 
 OPENBUDGETS_UI = {
     'enable': True,
-    'base': ''
+    'base': '',
+    'components': {
+        'accounts': False,
+        'tools': False
+    }
 }
 
 OPENBUDGETS_API = {
