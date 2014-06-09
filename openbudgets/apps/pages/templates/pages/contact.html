@@ -1,12 +1,24 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n form_extras %}
 {% load url from future %}
 
 {% block main %}
 
 <section id="contact">
     <form class="box-2 _float-left" action="." method="POST">
-    {% include 'pages/partials/contact.html' %}
+        <fieldset>
+            {% field_generator form.name %}
+            {% field_generator form.email %}
+            {% field_generator form.subject %}
+            {% field_generator form.message %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+        </fieldset>
+        <div class="row">
+            <div class="notices"></div>
+            <div class="action">
+                {% include 'partials/_form_action_cancel.html' %}
+            </div>
+        </div>
     </form>
 </section>
 
