@@ -1,6 +1,7 @@
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView, ListView
+from django.conf import settings
 from rest_framework.renderers import JSONRenderer
 from rest_framework import serializers
 from openbudgets.apps.accounts.serializers import AccountMin
@@ -163,4 +164,7 @@ class EntityDetail(DetailView):
         context['items_list'] = render_to_string('items_list.ms', {
             'stache': items_list
         })
+
+        context['DEBUG'] = settings.DEBUG
+
         return context

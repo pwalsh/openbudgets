@@ -23,5 +23,13 @@
   "bugs": {
     "url": "https://github.com/openbudgets/openbudgets/issues"
   },
-  "homepage": "https://github.com/openbudgets/openbudgets"
+  "homepage": "https://github.com/openbudgets/openbudgets",
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-requirejs": "~0.4.4",
+    "load-grunt-config": "~0.9.2",
+    "rjs-build-analysis": "0.0.3",
+    "rjs-build-hasher": "~0.7.0"
+  }
 }

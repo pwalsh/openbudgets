@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}entities/explorer/css/main.css"/>
     <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico" />
     <title>{% block metatitle %}{{ page.title }} | {{ site.name }}{% endblock metatitle %}</title>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/raven.js/1.0.8/raven.min.js"></script>
 </head>
 <body>
     <div id="explorer" class="uijet_app">
@@ -144,6 +143,10 @@
             ITEMS_LIST = {{ items_list_json|safe }};
     </script>
     <script src="{% url 'entities_js_i18n' %}"></script>
+{% if DEBUG %}
     <script src="{{ STATIC_URL }}vendor/requirejs/require.js" data-main="{{ STATIC_URL }}entities/explorer/main"></script>
+{% else %}
+    <script src="{{ STATIC_URL }}entities/explorer/dist.8ce2b619f16f3f0c.js"></script>
+{% endif %}
 </body>
 </html>
