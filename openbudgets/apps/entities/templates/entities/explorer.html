@@ -40,7 +40,7 @@
                         <span id="sheet_scope_name_content">{{ scope_name }}</span>
                         <span id="search_crumb"></span>
                     </h2>
-                    <div id="sheet_scope_comments" 
+                    <div id="sheet_scope_comments"
                          data-id="{{ scope_item.node }}"
                          data-item="{{ scope_item.id }}"
                          class="item_comment_button{% if not scope_item.has_comments %} hide{% endif %}">
@@ -85,7 +85,9 @@
                 </div>
             </footer>
             <section id="panel-append">
+                {% if ui_components.accounts %}
                 {% include 'accounts/partials/account_tools.html' %}
+                {% endif %}
             </section>
         </section>
         <section id="right_container" class="top_container">
@@ -106,7 +108,7 @@
                 <div id="new_comment" class="hide">
                     <textarea id="comment_text" name="comment" placeholder="{% trans 'Enter comment...' %}"></textarea>
                     <div id="new_comment_buttons">
-                        <span id="new_comment_ok" class="new_comment_button">{% trans 'Enter' %}</span><span 
+                        <span id="new_comment_ok" class="new_comment_button">{% trans 'Enter' %}</span><span
                             id="new_comment_cancel" class="new_comment_button">{% trans 'Cancel' %}</span>
                     </div>
                 </div>
@@ -123,13 +125,16 @@
 
         <div id="overlay"></div>
 
+        {% if ui_components.accounts %}
         {% include 'accounts/partials/account_login.html' %}
         {% include 'accounts/partials/account_register.html' %}
         {% include 'accounts/partials/account_password_reset.html' %}
-
         {% if user.is_authenticated %}
-            {% include 'accounts/partials/account_password_change.html' %}
+        {% include 'accounts/partials/account_password_change.html' %}
         {% endif %}
+        {% endif %}
+
+        {% include 'pages/partials/contact.html' %}
 
     {% endblock overlays %}
     <script>

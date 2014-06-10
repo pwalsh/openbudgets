@@ -69,21 +69,25 @@
         </div>
 
         <section id="panel-append">
+            {% if ui_components.accounts %}
             {% include 'accounts/partials/account_tools.html' %}
+            {% endif %}
         </section>
 
         {% block overlays %}
 
         <div id="overlay"></div>
 
+        {% if ui_components.accounts %}
         {% include 'accounts/partials/account_login.html' %}
         {% include 'accounts/partials/account_register.html' %}
         {% include 'accounts/partials/account_password_reset.html' %}
-        {% include 'pages/partials/contact.html' %}
-
         {% if user.is_authenticated %}
         {% include 'accounts/partials/account_password_change.html' %}
         {% endif %}
+        {% endif %}
+
+        {% include 'pages/partials/contact.html' %}
 
         {% endblock overlays %}
 

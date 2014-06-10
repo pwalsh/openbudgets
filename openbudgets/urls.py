@@ -29,6 +29,8 @@ def get_patterns():
 
         from openbudgets.ui import urls
 
+        # TODO: enable/disable URLS inside ui.urls
+        # based on OPENBUDGETS_UI['components']
         patterns = [
             url(r'^{0}'.format(base), include(urls))
         ]

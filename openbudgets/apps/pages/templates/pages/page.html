@@ -13,7 +13,7 @@
 {% for child in page.children.all %}
     <a href="{% url 'page' child.slug %}" title="{{ child.title }}">{{ child.title }}</a>
 {% endfor %}
-    <a href="{% url 'contact' %}" title="{% trans 'Contact' %}">{% trans 'Contact' %}</a>
+    <a href="{% url 'contact' %}" title="{% trans 'Contact' %}" class="contact-link">{% trans 'Contact' %}</a>
 </nav>
 {% endif %}
 {% endblock actions-content %}
