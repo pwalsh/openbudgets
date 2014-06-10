@@ -21,3 +21,5 @@ openbudgets/commons/search
 static/media/referencesource
 static/media/auxsource
 tmp/dataset
+openbudgets/apps/entities/static/entities/explorer/styles/*.css
+!openbudgets/apps/entities/static/entities/explorer/styles/main.css
