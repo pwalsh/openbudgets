@@ -16,6 +16,7 @@ fabfile/sensitive.yaml
 docs/_build
 docs/_static
 docs/_templates
+node_modules
 openbudgets/commons/search
 static/media/referencesource
 static/media/auxsource
