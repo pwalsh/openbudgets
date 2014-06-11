@@ -8,7 +8,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <link rel="stylesheet" href="{{ STATIC_URL }}css/base_rtl.css" />
+{% if DEBUG %}
     <link rel="stylesheet" href="{{ STATIC_URL }}entities/explorer/styles/main.css"/>
+{% else %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}entities/explorer/styles/dist.45f4758f39871730.css"/>
+{% endif %}
     <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico" />
     <title>{% block metatitle %}{{ page.title }} | {{ site.name }}{% endblock metatitle %}</title>
 </head>
@@ -151,7 +155,7 @@
 {% if DEBUG %}
     <script src="{{ STATIC_URL }}vendor/requirejs/require.js" data-main="{{ STATIC_URL }}entities/explorer/main"></script>
 {% else %}
-    <script src="{{ STATIC_URL }}entities/explorer/dist.8ce2b619f16f3f0c.js"></script>
+    <script src="{{ STATIC_URL }}entities/explorer/dist.a8078968e80bd675.js"></script>
 {% endif %}
 </body>
 </html>

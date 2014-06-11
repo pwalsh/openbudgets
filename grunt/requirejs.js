@@ -77,7 +77,7 @@ module.exports = function (grunt) {
                 baseUrl    : BASE_URL,
                 optimizeCss: 'standard',
                 cssIn      : BASE_URL + EXPLORER_URL + 'styles/main.css',
-                out        : BASE_URL + EXPLORER_URL + 'dist.css',
+                out        : BASE_URL + EXPLORER_URL + 'styles/dist.css',
                 done       : function (done, output) {
                     var duplicates = require('rjs-build-analysis').duplicates(output);
 
