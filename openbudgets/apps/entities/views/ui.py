@@ -1,6 +1,7 @@
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView, ListView
+from django.conf import settings
 from rest_framework.renderers import JSONRenderer
 from rest_framework import serializers
 from openbudgets.apps.accounts.serializers import AccountMin
@@ -8,7 +9,7 @@ from openbudgets.apps.entities.models import Entity
 from openbudgets.apps.sheets.models import Sheet, SheetItem
 from openbudgets.apps.contexts.models import Context
 from openbudgets.apps.sheets.serializers import SheetItemAncestors
-from openbudgets.apps.sheets.serializers import Sheet as SheetSerializer
+from openbudgets.apps.sheets.serializers import SheetMin as SheetSerializer
 from openbudgets.commons.utilities import commas_format
 
 
@@ -59,7 +60,6 @@ class EntityDetail(DetailView):
         scope_item = None
         user = self.request.user
         user_object = {}
-        contextual_data = {}
 
         # add logged in user
         if user.is_authenticated():
@@ -82,12 +82,12 @@ class EntityDetail(DetailView):
 
             if node_id:
                 try:
-                    scope_item = SheetItem.objects.get_queryset().get(sheet=sheet, node=node_id)
-                    items = scope_item.children.order_by('node__code')
+                    scope_item = SheetItem.objects.related_map().get(sheet=sheet, node=node_id)
+                    items = scope_item.children.order_by('code')
                 except SheetItem.DoesNotExist:
-                    items = sheet.items.filter(node__parent__isnull=True).order_by('node__code')
+                    items = sheet.items.related_map().filter(parent__isnull=True).order_by('code')
             else:
-                items = sheet.items.filter(node__parent__isnull=True).order_by('node__code')
+                items = sheet.items.related_map().filter(parent__isnull=True).order_by('code')
 
             items_list = SheetItemAncestors(items, many=True, context={'request': self.request}).data
 
@@ -163,4 +163,7 @@ class EntityDetail(DetailView):
         context['items_list'] = render_to_string('items_list.ms', {
             'stache': items_list
         })
+
+        context['DEBUG'] = settings.DEBUG
+
         return context

@@ -12,7 +12,8 @@
      * Floated mixin class.
      * 
      * @mixin Floated
-     * @extends uijet.BaseWidget
+     * @category Mixin
+     * @extends BaseWidget
      */
     uijet.Mixin('Floated', {
         floated         : true,

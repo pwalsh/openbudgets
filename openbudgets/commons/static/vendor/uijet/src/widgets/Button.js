@@ -12,7 +12,8 @@
      * Button widget class.
      * 
      * @class Button
-     * @extends uijet.BaseWidget
+     * @category Widget
+     * @extends BaseWidget
      */
     uijet.Widget('Button', {
         options         : {
@@ -57,7 +58,7 @@
          * 
          * @memberOf Button
          * @instance
-         * @param {} [target] - query selector, HTMLElement, or a wrapped element to trigger selection on.
+         * @param {function|string|HTMLElement} [target] - query selector, HTMLElement, or a wrapped element to trigger selection on.
          */
         select          : function (target) {
             if ( typeof target == 'undefined' ) {

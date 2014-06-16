@@ -1,6 +1,6 @@
 {
   "name": "uijet",
-  "version": "0.0.49",
+  "version": "0.0.51",
   "main": [
     "src/adapters",
     "src/composites",
@@ -21,11 +21,11 @@
   ],
   "devDependencies": {},
   "homepage": "https://github.com/ydaniv/uijet",
-  "_release": "0.0.49",
+  "_release": "0.0.51",
   "_resolution": {
     "type": "version",
-    "tag": "0.0.49",
-    "commit": "da201a55109b1c159597885836fc6878e4d3d541"
+    "tag": "0.0.51",
+    "commit": "8360c52b7d8d68ea7ea9857d4864ab04a9ec8704"
   },
   "_source": "git://github.com/ydaniv/uijet.git",
   "_target": "~0.0.45",

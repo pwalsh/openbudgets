@@ -1,6 +1,6 @@
 /*!
  * uijet UI Framework
- * @version 0.0.49
+ * @version 0.0.51
  * @license BSD License (c) copyright Yehonatan Daniv
  * https://raw.github.com/ydaniv/uijet/master/LICENSE
  */
@@ -883,68 +883,60 @@
         /**
          * Detected browser features
          * 
-         * @namespace support
-         * @memberOf uijet
+         * @member {Object} uijet.support
+         * @namespace
          */
         support             : {
             /**
              * Whether this platform supports touch.
              * 
-             * @memberof uijet.support
+             * @member {boolean} uijet.support.touch
              */
             touch           : has_touch,
-            /**
-             * Detected browser features
-             * 
-             * @memberof uijet.support
-             * @namespace click_events
-             */
             click_events    : has_touch ?
                 // can be replaced with gestures (like 'tap') if handled by other library
                 /**
                  * Event types in touch supported platforms.
                  * 
-                 * @memberOf click_events
-                 * @name touch-types
-                 * @property full touchstart
-                 * @property start touchstart
-                 * @property move touchmove
-                 * @property end touchend
+                 * @member {Object} uijet.support.click_events
+                 * @property {string} full - 'touchstart'
+                 * @property {string} start - 'touchstart'
+                 * @property {string} move - 'touchmove'
+                 * @property {string} end - 'touchend'
                  */
                 { full: 'touchstart', start: 'touchstart', move: 'touchmove', end: 'touchend' } :
                 /**
                  * Event types in platforms where touch is not supported.
                  * 
-                 * @memberOf click_events
-                 * @name non-touch-types
-                 * @property full click
-                 * @property start mousedown
-                 * @property move mousemove
-                 * @property end mouseup
+                 * @member {Object} uijet.support.click_events(2)
+                 * @property {string} full - 'click'
+                 * @property {string} start - 'mousedown'
+                 * @property {string} move - 'mousemove'
+                 * @property {string} end - 'mouseup'
                  */
                 { full: 'click', start: 'mousedown', move: 'mousemove', end: 'mouseup' },
             /**
              * Whether this platform supports transforms.
              * 
-             * @memberof uijet.support
+             * @member {string} uijet.support.transform
              */
             transform       : !!getStyleProperty('transform'),
             /**
              * Whether this platform supports transitions.
              * 
-             * @memberof uijet.support
+             * @member {string} uijet.support.transition
              */
             transition      : !!getStyleProperty('transition'),
             /**
              * Whether this platform supports 3D transforms.
              * 
-             * @memberof uijet.support
+             * @member {boolean} uijet.support.3d
              */
             '3d'            : !!getStyleProperty('perspective'),
             /**
              * Holds the name of the `trasitionend` event in this platform.
              * 
-             * @memberof uijet.support
+             * @member {string} uijet.support.transitionend
              */
             transitionend   : (function (name) {
                 return name ? ({
@@ -1746,7 +1738,8 @@
         },
         /**
          * Puts to sleep all of the contained child widgets of widget with matching `id`.
-         * 
+         *
+         * @memberOf uijet 
          * @param {string} id - id of the widget we want its children to call `sleep()`.
          * @returns {uijet}
          */

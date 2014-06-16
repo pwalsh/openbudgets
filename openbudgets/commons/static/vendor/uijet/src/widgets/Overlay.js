@@ -13,7 +13,8 @@
      * Overlay widget class.
      * 
      * @class Overlay
-     * @extends uijet.BaseWidget
+     * @category Widget
+     * @extends BaseWidget
      * @mixes Layered
      */
     uijet.Widget('Overlay', {

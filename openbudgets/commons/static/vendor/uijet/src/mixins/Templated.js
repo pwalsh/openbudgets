@@ -31,7 +31,8 @@
      * Templated mixin class.
      * 
      * @mixin Templated
-     * @extends uijet.BaseWidget
+     * @category Mixin
+     * @extends BaseWidget
      */
     uijet.Mixin('Templated', {
         templated       : true,
@@ -213,7 +214,7 @@
                     p;
 
                 // request the template
-                requests.push(uijet.xhr(this.template_url)
+                requests.push(uijet.template(this.template_url)
                     .then(function (response) {
                         // cache result
                         that.template = that.compile ? that.compile(response) : response;
@@ -230,7 +231,7 @@
                                             path + "." +
                                             uijet.options.templates_extension;
                         // request that partial
-                        requests.push(uijet.xhr(partial_path)
+                        requests.push(uijet.template(partial_path)
                             .then(function (partial) {
                                 // when done cache it
                                 that.partials[name] = partial;

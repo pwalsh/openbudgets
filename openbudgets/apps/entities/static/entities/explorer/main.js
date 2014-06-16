@@ -26,7 +26,8 @@ requirejs.config({
         project_mixins         : '../entities/explorer/mixins',
         dictionary             : '../entities/explorer/dictionary',
         api                    : '../src/api',
-        i18n                   : '../src/i18n'
+        i18n                   : '../src/i18n',
+        site_base              : '../js/base'
     },
     shim    : {
         eventbox                : ['setImmediate'],
@@ -39,7 +40,7 @@ requirejs.config({
 });
 requirejs([
     'ui/main',
-    '../js/base'
+    'site_base'
 ], function (explorer) {
 
     explorer.start();

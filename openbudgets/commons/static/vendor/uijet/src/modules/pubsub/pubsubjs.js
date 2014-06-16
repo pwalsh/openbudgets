@@ -46,6 +46,8 @@
      * PubSubJS pubsub module.
      * 
      * @module pubsub/pubsubjs
+     * @category Module
+     * @sub-category Pub/Sub
      * @extends uijet
      * @see {@link https://github.com/mroderick/PubSubJS#pubsubjs}
      * @exports PubSub
@@ -88,7 +90,7 @@
          * 
          * If handler is not supplied all handlers of type `topic` will be removed.
          * 
-         * @method module:pubsub/pubsubjs#publish
+         * @method module:pubsub/pubsubjs#unsubscribe
          * @see {@link https://github.com/mroderick/PubSubJS#cancel-specific-subscripiton}
          * @param {string} topic - type of event to publish.
          * @param {*} [data] - data to send to the registered handlers.

@@ -1,0 +1,27 @@
+.context_value {
+  display: inline-block;
+  margin-right: .5rem;
+  color: #7070a0;
+}
+#contextual_data {
+  margin-top: 140px;
+  font-size: 1.3rem;
+  line-height: 150%;
+  font-weight: bold;
+}
+#muni_name {
+  position: absolute;
+  top: 60px;
+  right: 40px;
+  font-size: 3.261rem;
+  font-weight: normal;
+}
+#right_container {
+  right: 0;
+  width: 300px;
+  padding-right: 40px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-color: #d0d0dc;
+}

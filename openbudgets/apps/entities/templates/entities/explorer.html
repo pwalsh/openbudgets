@@ -8,10 +8,13 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <link rel="stylesheet" href="{{ STATIC_URL }}css/base_rtl.css" />
-    <link rel="stylesheet" href="{{ STATIC_URL }}entities/explorer/css/main.css"/>
+{% if DEBUG %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}entities/explorer/styles/main.css"/>
+{% else %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}entities/explorer/styles/dist.45f4758f39871730.css"/>
+{% endif %}
     <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico" />
     <title>{% block metatitle %}{{ page.title }} | {{ site.name }}{% endblock metatitle %}</title>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/raven.js/1.0.8/raven.min.js"></script>
 </head>
 <body>
     <div id="explorer" class="uijet_app">
@@ -52,9 +55,9 @@
                 <input type="text" name="items_search" id="items_search" placeholder="{% trans 'Search' %}"/>
                 <span id="download_sheet">
                     <ul id="download_sheet_menu">
-                        {% if sheet.uuid %}
-                        <li><a href="{% url 'data_export' 'sheet' sheet.uuid 'csv' %}">CSV</a></li>
-                        <li><a href="{% url 'data_export' 'sheet' sheet.uuid 'xls' %}">XLS</a></li>
+                        {% if sheet.id %}
+                        <li><a href="{% url 'data_export' 'sheet' sheet.id 'csv' %}">CSV</a></li>
+                        <li><a href="{% url 'data_export' 'sheet' sheet.id 'xls' %}">XLS</a></li>
                         {% endif %}
                     </ul>
                 </span>
@@ -149,6 +152,10 @@
             ITEMS_LIST = {{ items_list_json|safe }};
     </script>
     <script src="{% url 'entities_js_i18n' %}"></script>
+{% if DEBUG %}
     <script src="{{ STATIC_URL }}vendor/requirejs/require.js" data-main="{{ STATIC_URL }}entities/explorer/main"></script>
+{% else %}
+    <script src="{{ STATIC_URL }}entities/explorer/dist.a8078968e80bd675.js"></script>
+{% endif %}
 </body>
 </html>

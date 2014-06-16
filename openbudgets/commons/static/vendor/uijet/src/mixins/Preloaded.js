@@ -14,7 +14,8 @@
      * Preloaded mixin class.
      * 
      * @mixin Preloaded
-     * @extends uijet.BaseWidget
+     * @category Mixin
+     * @extends BaseWidget
      */
     uijet.Mixin('Preloaded', {
         preloaded   : true,
