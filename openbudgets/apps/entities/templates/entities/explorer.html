@@ -55,9 +55,9 @@
                 <input type="text" name="items_search" id="items_search" placeholder="{% trans 'Search' %}"/>
                 <span id="download_sheet">
                     <ul id="download_sheet_menu">
-                        {% if sheet.uuid %}
-                        <li><a href="{% url 'data_export' 'sheet' sheet.uuid 'csv' %}">CSV</a></li>
-                        <li><a href="{% url 'data_export' 'sheet' sheet.uuid 'xls' %}">XLS</a></li>
+                        {% if sheet.id %}
+                        <li><a href="{% url 'data_export' 'sheet' sheet.id 'csv' %}">CSV</a></li>
+                        <li><a href="{% url 'data_export' 'sheet' sheet.id 'xls' %}">XLS</a></li>
                         {% endif %}
                     </ul>
                 </span>
