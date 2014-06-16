@@ -275,9 +275,9 @@ class SheetItemList(generics.ListAPIView):
     model = models.SheetItem
     queryset = model.objects.related_map()
     serializer_class = serializers.SheetItem
-    ordering = ['id', 'sheet__entity__name', 'node__code', 'created_on',
+    ordering = ['id', 'sheet__entity__name', 'code', 'created_on',
                 'last_modified']
-    search_fields = ['sheet__entity__name', 'node__code', 'node__name',
+    search_fields = ['sheet__entity__name', 'code', 'name',
                      'description']
 
     def get_serializer_class(self):
