@@ -125,14 +125,4 @@ svg {
 }
 #explorer {
   left: -260px;
-  -webkit-transition-duration: 100ms;
-  -moz-transition-duration: 100ms;
-  -ms-transition-duration: 100ms;
-  -o-transition-duration: 100ms;
-  transition-duration: 100ms;
-  -webkit-transition-timing-function: ease-in;
-  -moz-transition-timing-function: ease-in;
-  -ms-transition-timing-function: ease-in;
-  -o-transition-timing-function: ease-in;
-  transition-timing-function: ease-in;
 }

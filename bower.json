@@ -2,7 +2,7 @@
   "name": "openmuni-budgets",
   "version": "0.0.1",
   "dependencies": {
-    "uijet": "~0.0.45",
+    "uijet": "~0.0.54",
     "eventbox": "~0.2.0",
     "mustache": "~0.8.1",
     "jquery": "~2.1.0",
@@ -11,13 +11,14 @@
     "jqScroll": "ydaniv/jqScroll",
     "spin": "spinjs#~2.0.0",
     "requirejs": "~2.1.11",
-    "q": "~1.0.0",
     "backbone": "amdjs/backbone#~1.1.0",
     "setImmediate": "git://github.com/NobleJS/setImmediate.git#1.0.2",
     "backbone-fetch-cache": "~1.4.0",
     "d3": "~3.4.1",
     "underscore": "lodash#~2.4.1",
-    "normalize-less": "*"
+    "normalize-less": "*",
+    "velocity": "~0.1.0",
+    "rsvp": "~3.0.8"
   },
   "devDependencies": {
     "almond": "~0.2.9"

@@ -149,7 +149,8 @@
             SHEET = {{ sheet_json|safe }},
             ITEM = {{ scope_item_json|safe }},
             LOGGEDIN_USER = {{ user_json|safe }},
-            ITEMS_LIST = {{ items_list_json|safe }};
+            ITEMS_LIST = {{ items_list_json|safe }},
+            CONTEXT = {{ contextual_data|safe }};
     </script>
     <script src="{% url 'entities_js_i18n' %}"></script>
 {% if DEBUG %}

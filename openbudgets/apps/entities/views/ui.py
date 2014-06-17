@@ -8,6 +8,7 @@ from openbudgets.apps.accounts.serializers import AccountMin
 from openbudgets.apps.entities.models import Entity
 from openbudgets.apps.sheets.models import Sheet, SheetItem
 from openbudgets.apps.contexts.models import Context
+from openbudgets.apps.contexts.serializers import ContextBaseSerializer
 from openbudgets.apps.sheets.serializers import SheetItemAncestors
 from openbudgets.apps.sheets.serializers import SheetMin as SheetSerializer
 from openbudgets.commons.utilities import commas_format
@@ -60,18 +61,23 @@ class EntityDetail(DetailView):
         scope_item = None
         user = self.request.user
         user_object = {}
+        context_objects = None
 
         # add logged in user
         if user.is_authenticated():
             user_object = AccountMin(user).data
 
         context['user_json'] = renderer.render(user_object)
-        context['contextual_data'] = Context.objects.latest_of(entity_id=self.object.id)
 
         # add sheets data
         if self.object.sheets.exists():
 
             if period:
+                try:
+                    context_objects = Context.objects.get(entity_id=self.object.id, period_start__year=period)
+                except:
+                    #TODO: fallback for context data
+                    pass
                 try:
                     #TODO: this assumes period is always a year, but need to refactor to use settings.OPENBUDGET_PERIOD_RANGES
                     sheet = Sheet.objects.get(entity=self.object.id, period_start__year=period)
@@ -79,6 +85,7 @@ class EntityDetail(DetailView):
                     sheet = Sheet.objects.latest_of(self.object.id)
             else:
                 sheet = Sheet.objects.latest_of(self.object.id)
+                context_objects = Context.objects.latest_of(entity_id=self.object.id)
 
             if node_id:
                 try:
@@ -97,6 +104,8 @@ class EntityDetail(DetailView):
                     'period': s.period
                 })
 
+        context['contextual_data'] = renderer.render(ContextBaseSerializer(context_objects).data) if\
+            context_objects else '{}'
         context['sheets'] = sheets
         context['object_json'] = renderer.render(EntityDetailUISerializer(self.object, context={'request': self.request}).data)
         context['sheet'] = sheet

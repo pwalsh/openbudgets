@@ -3,7 +3,7 @@ define([
     'modules/data/backbone',
     'underscore',
     'api',
-    'modules/promises/q',
+    'modules/promises/rsvp',
     'backbone-fetch-cache'
 ], function (uijet, Backbone, _, api) {
 

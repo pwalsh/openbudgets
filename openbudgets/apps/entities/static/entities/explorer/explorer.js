@@ -6,13 +6,13 @@ define([
     'modules/router/backbone',
     'modules/dom/jquery',
     'modules/pubsub/eventbox',
-    'modules/promises/q',
+    'modules/promises/rsvp',
     'modules/engine/mustache',
     'modules/xhr/jquery',
-    'modules/animation/uijet-transit',
+    'modules/animation/velocity',
     'modules/search/uijet-search',
     'project_modules/uijet-i18n'
-], function (uijet, resources, api, Backbone, Router, $, Ebox, Q, Mustache) {
+], function (uijet, resources, api, Backbone, Router, $, Ebox, when, Mustache) {
 
     var initial_crumbs, explorer;
 
@@ -133,17 +133,15 @@ define([
 //                    explorer.setToken(auth_response.access_token);
 //                }
 //            });
-            var routes_deferred = uijet.Promise(),
-                app_transition_props = {};
 
-            explorer.routes_set_promise = routes_deferred.promise();
-
-            // set the API's routes
-            api.getRoutes({
-                success : function (response) {
-                    api._setRoutes(response);
-                    routes_deferred.resolve();
-                }
+            explorer.routes_set_promise = uijet.Promise(function (resolve) {
+                // set the API's routes
+                api.getRoutes({
+                    success : function (response) {
+                        api._setRoutes(response);
+                        resolve();
+                    }
+                });
             });
 
             /*
@@ -167,13 +165,15 @@ define([
             })
             .subscribe('close_comments', function () {
                 uijet.$element.removeClass('comments_open');
-                app_transition_props[uijet.utils.getStyleProperty('transform')] = 'translateX(0)';
-                uijet.animate(uijet.$element, app_transition_props);
+                uijet.animate(uijet.$element,
+                    { translateX: 0 },
+                    { duration: 100, easing: 'ease-in' });
             })
             .subscribe('open_comments', function ($selected_item) {
                 uijet.$element.addClass('comments_open');
-                app_transition_props[uijet.utils.getStyleProperty('transform')] = 'translateX(260px)';
-                uijet.animate(uijet.$element, app_transition_props);
+                uijet.animate(uijet.$element,
+                    { translateX: 260 },
+                    { duration: 100, easing: 'ease-in' });
             })
             .subscribe('login', function () {
                 uijet.$('.login-link')[0].click();

@@ -676,16 +676,6 @@ svg {
 }
 #explorer {
   left: -260px;
-  -webkit-transition-duration: 100ms;
-  -moz-transition-duration: 100ms;
-  -ms-transition-duration: 100ms;
-  -o-transition-duration: 100ms;
-  transition-duration: 100ms;
-  -webkit-transition-timing-function: ease-in;
-  -moz-transition-timing-function: ease-in;
-  -ms-transition-timing-function: ease-in;
-  -o-transition-timing-function: ease-in;
-  transition-timing-function: ease-in;
 }
 .context_value {
   display: inline-block;
@@ -767,11 +757,6 @@ svg {
   z-index: 1001;
   width: 300px;
   height: 100%;
-  -webkit-transition-duration: 100ms;
-  -moz-transition-duration: 100ms;
-  -ms-transition-duration: 100ms;
-  -o-transition-duration: 100ms;
-  transition-duration: 100ms;
 }
 .comments_open #panel-nav {
   right: -40px;
@@ -788,25 +773,6 @@ svg {
   float: none;
   margin-bottom: 30px;
 }
-#panel-nav.slide_out {
-  -webkit-transition-timing-function: ease-in;
-  -moz-transition-timing-function: ease-in;
-  -ms-transition-timing-function: ease-in;
-  -o-transition-timing-function: ease-in;
-  transition-timing-function: ease-in;
-}
-#panel-nav.slide_in {
-  -webkit-transition-timing-function: ease-out;
-  -moz-transition-timing-function: ease-out;
-  -ms-transition-timing-function: ease-out;
-  -o-transition-timing-function: ease-out;
-  transition-timing-function: ease-out;
-  -webkit-transform: translate3d(-300px, 0, 0);
-  -moz-transform: translate(-300px, 0);
-  -ms-transform: translate(-300px, 0);
-  -o-transform: translate(-300px, 0);
-  transform: translate(-300px, 0);
-}
 #site_menu_open {
   position: absolute;
   top: 0;
@@ -816,16 +782,6 @@ svg {
   z-index: 1;
   font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
   font-weight: normal;
-  -webkit-transition-duration: 100ms;
-  -moz-transition-duration: 100ms;
-  -ms-transition-duration: 100ms;
-  -o-transition-duration: 100ms;
-  transition-duration: 100ms;
-  -webkit-transition-timing-function: ease-in;
-  -moz-transition-timing-function: ease-in;
-  -ms-transition-timing-function: ease-in;
-  -o-transition-timing-function: ease-in;
-  transition-timing-function: ease-in;
 }
 #site_menu_open:after {
   content: '\203a';
@@ -1020,22 +976,6 @@ svg {
   top: 0;
   left: 0;
   right: 0;
-  -webkit-transform: none;
-  -webkit-transition-property: right;
-  -moz-transition-property: right;
-  -ms-transition-property: right;
-  -o-transition-property: right;
-  transition-property: right;
-  -webkit-transition-duration: 100ms;
-  -moz-transition-duration: 100ms;
-  -ms-transition-duration: 100ms;
-  -o-transition-duration: 100ms;
-  transition-duration: 100ms;
-  -webkit-transition-timing-function: ease-in;
-  -moz-transition-timing-function: ease-in;
-  -ms-transition-timing-function: ease-in;
-  -o-transition-timing-function: ease-in;
-  transition-timing-function: ease-in;
 }
 #sheet_scope_name {
   position: absolute;
