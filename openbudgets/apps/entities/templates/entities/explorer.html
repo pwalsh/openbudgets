@@ -47,7 +47,7 @@
                     <div id="sheet_scope_comments"
                          data-id="{{ scope_item.node }}"
                          data-item="{{ scope_item.id }}"
-                         class="item_comment_button{% if not scope_item.has_comments %} hide{% endif %}">
+                         class="item_comment_button{% if not scope_item.has_comments %} hide{% else %} has_comments{% endif %}">
                         {% if scope_item.has_comments %}!{% endif %}
                     </div>
                 </div>
