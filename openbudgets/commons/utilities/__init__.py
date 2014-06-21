@@ -27,7 +27,7 @@ def get_media_file_path(instance, filename):
 
 def commas_format(value):
     if value is None:
-        res = None
+        res = ''
     else:
         res = '{:,}'.format(value)
         parts = res.split('.')
