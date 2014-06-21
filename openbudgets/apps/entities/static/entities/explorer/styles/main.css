@@ -611,7 +611,7 @@ svg {
 .uijet_contenteditable_input {
   display: block;
 }
-.uijet_clearabletextinput {
+.uijet_textinput {
   width: 100%;
   height: auto;
   padding: 0;
@@ -621,16 +621,10 @@ svg {
   outline: none;
   background-color: transparent !important;
 }
-.uijet_clearabletextinput_wrapper {
+.uijet_textinput_wrapper {
   display: inline-block;
   width: 80%;
   height: auto;
-}
-.uijet_clearabletextinput_wrapper .shadow_text {
-  visibility: hidden !important;
-  position: absolute;
-  right: 0;
-  font-size: 3.261rem;
 }
 .uijet_button.uijet_clear_button {
   position: absolute;

@@ -3,7 +3,7 @@ define([
     'resources',
     'explorer',
     'composites/DropmenuButton',
-    'project_widgets/ClearableTextInput',
+    'project_widgets/TextInput',
     'project_mixins/Delayed'
 ], function (uijet, resources, explorer) {
 
@@ -224,32 +224,13 @@ define([
             }
         }
     }, {
-        type    : 'ClearableTextInput',
+        type    : 'TextInput',
         config  : {
             element     : '#items_search',
             mixins      : ['Delayed'],
             resource    : 'ItemsListState',
             dont_wake   : true,
             cloak       : true,
-            button      : {
-                dont_wake   : true,
-                signals     : {
-                    pre_click   : 'sleep'
-                },
-                app_events  : {
-                    'items_search.move_button'  : function (width) {
-                        if ( width ) {
-                            this.$element[0].style.right = width + 30 + 'px';
-                            if ( ! this.awake) {
-                                this.wake();
-                            }
-                        }
-                        else if ( this.awake ) {
-                            this.sleep();
-                        }
-                    }
-                }
-            },
             keys        : {
                 // enter
                 13          : function (e) {
@@ -270,19 +251,12 @@ define([
                         delay = clean.length > 1 ? 500 : 1500;
 
                     this.publish('changed', clean);
-                    this.$shadow_text.text(val);
-                    this.publish('move_button', val ? this.$shadow_text.width() : 0);
                     this.instead(function (search) {
                         this.resource.set(search);
                     }, delay, { search : clean });
                 }
             },
             signals     : {
-                post_init   : function () {
-                    this.$shadow_text = uijet.$('<span>', {
-                        'class' : 'shadow_text'
-                    }).prependTo(this.$wrapper);
-                },
                 pre_wake    : function () {
                     var initial = this.resource.get('search');
                     if ( initial === null ) {
@@ -290,14 +264,9 @@ define([
                         this.resource.set({ search : null });
                     }
                     this.$element.val(initial);
-                    this.$shadow_text.text(initial);
                 },
                 post_wake   : function () {
-                    var width = this.$shadow_text.width();
                     this.$element.focus();
-                    if ( width ) {
-                        this.publish('move_button', width);
-                    }
                 }
             },
             app_events  : {
