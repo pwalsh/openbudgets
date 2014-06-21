@@ -1,14 +1,15 @@
 define([
     'uijet_dir/uijet',
     'resources',
+    'explorer',
     'uijet_dir/widgets/Base'
-], function (uijet, resources) {
+], function (uijet, resources, explorer) {
 
     var formatCommas = uijet.utils.formatCommas;
 
     uijet.Widget('ItemsSummary', {
         renderContent   : function (scope_item_model) {
-            var roots, code = '', direction = '', budget, actual;
+            var code = '', direction = '', budget, actual;
             if ( scope_item_model ) {
                 code = scope_item_model.get('code');
                 direction = scope_item_model.get('direction');
@@ -24,21 +25,9 @@ define([
                          formatCommas(actual);
             }
             else if ( scope_item_model === null ) {
-                roots = uijet.Resource('LatestSheet').roots();
-                budget = formatCommas(
-                    roots.length ?
-                        roots.reduce(function (prev, current) {
-                            return (typeof prev == 'number' ? prev : prev.get('budget') | 0) + current.get('budget') | 0;
-                        }) :
-                        0
-                );
-                actual = formatCommas(
-                    roots.length ?
-                        roots.reduce(function (prev, current) {
-                            return (typeof prev == 'number' ? prev : prev.get('actual') | 0) + current.get('actual') | 0;
-                        }) :
-                        0
-                );
+                var sheet = explorer.getSheetMeta();
+                budget = formatCommas(sheet.get('budget') | 0);
+                actual = formatCommas(sheet.get('actual') | 0);
             }
             this.$code.text(code);
             this.$direction.text(direction);

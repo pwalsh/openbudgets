@@ -191,6 +191,10 @@ define([
         getSheetId  : function (period) {
             return uijet.Resource('AllSheets')
                         .findWhere({period: +period}).id;
+        },
+        getSheetMeta: function () {
+            return uijet.Resource('AllSheets')
+                .get(uijet.Resource('ItemsListState').get('sheet'));
         }
     };
 
