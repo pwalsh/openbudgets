@@ -15,7 +15,7 @@ define([
             click_event : 'mouseover',
             signals     : {
                 post_init   : function () {
-                    this.header_anim_props = { right: this.$element[0].offsetWidth };
+                    this.header_anim_props = { translateX: - this.$element[0].offsetWidth };
                     this.anim_props = { translateX: -276 };
 
                     this.$header = uijet.$('#sheet_header_top_container');
@@ -24,7 +24,7 @@ define([
                         uijet.publish('sheet_header_moved');
                     }.bind(this);
 
-                    this.anim_options = { duration: 200, easing: 'linear' };
+                    this.anim_options = { duration: 200, easing: 'ease-in' };
                 }
             },
             app_events  : {
@@ -33,7 +33,7 @@ define([
                     uijet.animate(this.$element, this.anim_props, this.anim_options);
                 },
                 close_comments  : function () {
-                    uijet.animate(this.$header, { right: 0 }, this.anim_options, this.header_anim_callback);
+                    uijet.animate(this.$header, { translateX: 0 }, this.anim_options, this.header_anim_callback);
                     uijet.animate(this.$element, { translateX: 0 }, this.anim_options);
                 }
             }
