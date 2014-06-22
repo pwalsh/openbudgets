@@ -5,6 +5,8 @@ from openbudgets.queue import config
 
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'openbudgets.settings')
+from modeltranslation.models import autodiscover
+autodiscover()
 
 
 app = Celery('openbudgets')

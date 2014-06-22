@@ -1,26 +1,32 @@
 from django.contrib import admin
-from openbudgets.apps.sheets.models import Template, Sheet, SheetItem
+from modeltranslation.admin import TranslationAdmin, TranslationStackedInline
+from openbudgets.apps.sheets import models
 
 
-class TemplateAdmin(admin.ModelAdmin):
-    """Admin form for adding budget templates"""
+class TemplateNodeAdmin(TranslationAdmin):
+    """Gives a TemplateNode form"""
 
 
-class SheetItemInline(admin.StackedInline):
-    """Gives an inlineable BudgetItem form"""
+class TemplateAdmin(TranslationAdmin):
+    """Admin form for adding templates"""
 
-    model = SheetItem
+
+class SheetItemInline(TranslationStackedInline):
+    """Gives an inlineable SheetItem form"""
+
+    model = models.SheetItem
     fk_name = 'sheet'
     classes = ('grp-collapse grp-open',)
     inline_classes = ('grp-collapse grp-closed',)
     extra = 2
 
 
-class SheetAdmin(admin.ModelAdmin):
+class SheetAdmin(TranslationAdmin):
     """Admin form for adding budgets"""
 
     inlines = [SheetItemInline]
 
 
-admin.site.register(Template, TemplateAdmin)
-admin.site.register(Sheet, SheetAdmin)
+admin.site.register(models.TemplateNode, TemplateNodeAdmin)
+admin.site.register(models.Template, TemplateAdmin)
+admin.site.register(models.Sheet, SheetAdmin)

@@ -1,8 +1,9 @@
 from django.contrib import admin
+from modeltranslation.admin import TranslationAdmin
 from openbudgets.apps.entities.models import Entity
 
 
-class EntityAdmin(admin.ModelAdmin):
+class EntityAdmin(TranslationAdmin):
     pass
 
 

@@ -35,6 +35,11 @@ LANGUAGES = (
     ('ru', gettext('Russian')),
 )
 LANGUAGE_CODE = LANGUAGES[0][0]
+MODELTRANSLATION_LANGUAGES = LANGUAGES
+MODELTRANSLATION_DEFAULT_LANGUAGE = LANGUAGE_CODE
+MODELTRANSLATION_FALLBACK_LANGUAGES = (LANGUAGES[0][0], LANGUAGES[1][0],
+                                       LANGUAGES[2][0], LANGUAGES[3][0])
+MODELTRANSLATION_DEBUG = DEBUG
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/static/media/'
@@ -95,6 +100,7 @@ INSTALLED_APPS = (
     'raven.contrib.django.raven_compat',
     'registration',
     'rest_framework',
+    'modeltranslation',
     'south',
     'subdomains',
     'taggit',
