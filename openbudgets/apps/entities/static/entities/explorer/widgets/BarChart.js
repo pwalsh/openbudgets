@@ -150,28 +150,29 @@ define([
                         .attr('x', - margin / 2);
                 });
 
-//            var legend = svg.selectAll(".legend")
-//                .data(ageNames.slice().reverse())
-//                .enter().append("g")
-//                .attr("class", "legend")
-//                .attr("transform", function (d, i) {
-//                    return "translate(0," + i * 20 + ")";
-//                });
-//
-//            legend.append("rect")
-//                .attr("x", width - 18)
-//                .attr("width", 18)
-//                .attr("height", 18)
-//                .style("fill", color);
-//
-//            legend.append("text")
-//                .attr("x", width - 24)
-//                .attr("y", 9)
-//                .attr("dy", ".35em")
-//                .style("text-anchor", "end")
-//                .text(function (d) {
-//                    return d;
-//                });
+            // render legend
+            var legend = this.svg.selectAll(".legend")
+                .data(amount_types.slice().reverse())
+                .enter().append("g")
+                .attr("class", "legend")
+                .attr("transform", function (d, i) {
+                    return "translate(0," + i * 20 + ")";
+                });
+
+            legend.append("rect")
+                .attr("x", this.width - 18)
+                .attr("width", 18)
+                .attr("height", 18)
+                .style("fill", this.color);
+
+            legend.append("text")
+                .attr("x", this.width - 24)
+                .attr("y", 9)
+                .attr("dy", ".35em")
+                .style("text-anchor", "end")
+                .text(function (d) {
+                    return d;
+                });
         }
     });
 });
