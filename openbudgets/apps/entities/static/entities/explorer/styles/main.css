@@ -1016,12 +1016,21 @@ svg {
   right: 0;
   width: 100%;
 }
-#show_bars {
+#views_switch_buttons {
   position: absolute;
   top: 0;
   left: 108px;
   width: 54px;
   height: 66px;
+}
+#show_bars,
+#show_list {
+  width: 100%;
+  height: 100%;
+  font-size: 3rem;
+  line-height: 66px;
+  vertical-align: middle;
+  text-align: center;
 }
 .item_cell {
   display: table-cell;

@@ -53,7 +53,10 @@
                 </div>
 
                 <input type="text" name="items_search" id="items_search" placeholder="{% trans 'Search' %}"/>
-                <span id="show_bars"></span>
+                <div id="views_switch_buttons">
+                    <span id="show_bars">B</span>
+                    <span id="show_list">L</span>
+                </div>
                 <span id="download_sheet">
                     <ul id="download_sheet_menu">
                         {% if sheet.id %}

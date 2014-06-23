@@ -20,6 +20,9 @@ define([
                     duration: 500
                 }
             },
+            signals         : {
+                post_wake   : 'awake'
+            },
             app_events      : {
                 'show_bars.clicked' : 'wake'
             }

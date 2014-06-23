@@ -51,6 +51,16 @@ define([
             }
         });
 
+    uijet.Factory('HeaderButton', {
+        type    : 'Button',
+        config  : {
+            cloak   : true,
+            signals : {
+                pre_click   : 'sleep'
+            }
+        }
+    });
+
     var attributeNullifier = function (attr) {
             return function () {
                 this.resource.set(attr, null);
@@ -82,10 +92,9 @@ define([
             }
         }
     }, {
-        type    : 'Button',
+        factory : 'HeaderButton',
         config  : {
             element     : '#sheet_scope_comments',
-            cloak       : true,
             signals     : {
                 pre_click   : function () {
                     uijet.Resource('ItemsListState').set('comments_item', this.$element);
@@ -289,22 +298,28 @@ define([
             }
         }
     }, {
-        type    : 'Button',
+        factory : 'HeaderButton',
         config  : {
             element     : '#items_search_exit',
-            container   : 'items_search',
-            cloak       : true,
-            signals     : {
-                pre_click   : 'sleep'
+            container   : 'items_search'
+        }
+    }, {
+        factory : 'HeaderButton',
+        config  : {
+            element     : '#show_bars',
+            mixins      : ['Layered'],
+            app_events  : {
+                'items_list_container.awake': 'wake'
             }
         }
     }, {
-        type    : 'Button',
+        factory : 'HeaderButton',
         config  : {
-            element : '#show_bars',
-            cloak   : true,
-            signals : {
-                pre_click   : 'sleep'
+            element     : '#show_list',
+            mixins      : ['Layered'],
+            dont_wake   : true,
+            app_events  : {
+                'bars_container.awake'  : 'wake'
             }
         }
     }];

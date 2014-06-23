@@ -21,6 +21,12 @@ define([
                 options     : {
                     duration: 500
                 }
+            },
+            signals         : {
+                post_wake   : 'awake'
+            },
+            app_events      : {
+                'show_list.clicked' : 'wake'
             }
         }
     }, {
