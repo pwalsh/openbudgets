@@ -8,6 +8,22 @@ define([
     uijet.Resource('ItemsSearchResult', resources.Items);
 
     return [{
+        type    : 'Pane',
+        config  : {
+            element         : '#items_list_container',
+            mixins          : ['Transitioned', 'Layered'],
+            animation_type  : {
+                properties  : {
+                    translateZ  : [0, '300px'],
+                    rotateY     : [0, '90deg'],
+                    translateX  : [0, '50%']
+                },
+                options     : {
+                    duration: 500
+                }
+            }
+        }
+    }, {
         type    : 'List',
         config  : {
             element     : '#items_list_header',

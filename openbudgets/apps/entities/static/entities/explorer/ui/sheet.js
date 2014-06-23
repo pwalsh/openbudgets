@@ -298,5 +298,14 @@ define([
                 pre_click   : 'sleep'
             }
         }
+    }, {
+        type    : 'Button',
+        config  : {
+            element : '#show_bars',
+            cloak   : true,
+            signals : {
+                pre_click   : 'sleep'
+            }
+        }
     }];
 });

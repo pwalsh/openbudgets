@@ -36,7 +36,8 @@ requirejs.config({
         backbone                : {
             deps: ['underscore', 'jquery'],
             exports: 'Backbone'
-        }
+        },
+        velocity                : ['jquery']
     }
 });
 requirejs([

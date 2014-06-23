@@ -53,6 +53,7 @@
                 </div>
 
                 <input type="text" name="items_search" id="items_search" placeholder="{% trans 'Search' %}"/>
+                <span id="show_bars"></span>
                 <span id="download_sheet">
                     <ul id="download_sheet_menu">
                         {% if sheet.id %}
@@ -76,6 +77,9 @@
                 <ul id="items_list">
                     {{ items_list|safe }}
                 </ul>
+            </section>
+            <section id="bars_container">
+                <div id="bars"></div>
             </section>
             <footer id="items_list_footer">
                 <span id="results_count"></span>

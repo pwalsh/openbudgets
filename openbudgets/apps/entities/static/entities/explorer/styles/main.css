@@ -1016,6 +1016,13 @@ svg {
   right: 0;
   width: 100%;
 }
+#show_bars {
+  position: absolute;
+  top: 0;
+  left: 108px;
+  width: 54px;
+  height: 66px;
+}
 .item_cell {
   display: table-cell;
   height: auto;
@@ -1024,7 +1031,7 @@ svg {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   padding: 0 1.3rem;
-  border-bottom: 1px solid #d0d0dc;
+  border-bottom: 1px solid #D0D0DC;
 }
 .item_cell_actual,
 .item_cell_budget {
@@ -1033,7 +1040,7 @@ svg {
 .item_cell_code,
 .item_cell_direction {
   font-size: .9rem;
-  color: #8989a8;
+  color: #8989A8;
 }
 .item_cell_code {
   width: 110px;
@@ -1081,7 +1088,7 @@ svg {
   box-sizing: border-box;
   text-align: center;
   font-size: 1rem;
-  color: #8989a8;
+  color: #8989A8;
 }
 #sheet_scope_comments.item_comment_button {
   right: auto;
@@ -1125,7 +1132,7 @@ svg {
   font-size: 1.3rem;
 }
 #items_list li:hover {
-  background-color: #ffffcd;
+  background-color: #FFFFCD;
 }
 #items_list li.removed {
   display: none;
@@ -1138,6 +1145,16 @@ svg {
   right: 0;
   z-index: 10;
   height: auto;
+  -webkit-transform-origin: 50% 50%;
+  -moz-transform-origin: 50% 50%;
+  -ms-transform-origin: 50% 50%;
+  -o-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  -webkit-transform: translateX(50%) rotateY(90deg) translateZ(300px);
+  -moz-transform: translateX(50%) rotateY(90deg) translateZ(300px);
+  -ms-transform: translateX(50%) rotateY(90deg) translateZ(300px);
+  -o-transform: translateX(50%) rotateY(90deg) translateZ(300px);
+  transform: translateX(50%) rotateY(90deg) translateZ(300px);
 }
 #items_list_header {
   display: table;
@@ -1152,8 +1169,8 @@ svg {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: .9rem;
-  color: #8989a8;
-  border-bottom: 1px solid #d0d0dc;
+  color: #8989A8;
+  border-bottom: 1px solid #D0D0DC;
 }
 #items_list_header li.selected:after {
   content: '';
@@ -1177,7 +1194,7 @@ svg {
   right: 0;
   height: 44px;
   padding: 0 8px;
-  background-color: #00ccc2;
+  background-color: #00CCC2;
 }
 #items_list_summary {
   display: table;
@@ -1203,8 +1220,39 @@ svg {
   font-size: 1.3rem;
   line-height: 44px;
   padding-right: 1.3rem;
-  color: #1d7680;
+  color: #1D7680;
   font-weight: bold;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.bar {
+  fill: steelblue;
+}
+.x.axis path {
+  display: none;
+}
+#bars_container {
+  position: absolute;
+  top: 120px;
+  bottom: 44px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  height: auto;
+  -webkit-transform-origin: 50% 50%;
+  -moz-transform-origin: 50% 50%;
+  -ms-transform-origin: 50% 50%;
+  -o-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  -webkit-transform: translateX(-50%) rotateY(-90deg) translateZ(300px);
+  -moz-transform: translateX(-50%) rotateY(-90deg) translateZ(300px);
+  -ms-transform: translateX(-50%) rotateY(-90deg) translateZ(300px);
+  -o-transform: translateX(-50%) rotateY(-90deg) translateZ(300px);
+  transform: translateX(-50%) rotateY(-90deg) translateZ(300px);
 }
 .new_comment_button {
   padding-top: 0;
