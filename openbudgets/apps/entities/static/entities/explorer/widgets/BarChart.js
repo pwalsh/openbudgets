@@ -68,6 +68,11 @@ define([
                 })
             ]);
 
+            var axes = this.svg.selectAll('.axis');
+            if ( axes.length ) {
+                axes.remove();
+            }
+
             this.svg.append("g")
                 .attr("class", "x axis")
                 .attr("transform", "translate(0," + height + ")")
@@ -89,7 +94,7 @@ define([
                 });
             item.exit().remove();
             item.enter().append("g")
-                .attr("class", "g")
+                .attr("class", "g item")
                 .attr("transform", function (d) {
                     return "translate(" + x0(d.code) + ",0)";
                 });
