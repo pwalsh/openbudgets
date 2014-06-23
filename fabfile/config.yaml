@@ -78,6 +78,13 @@ master: &MASTER
   project_cookie_domain: openmuni.org.il
   project_initial_data:
     - master/sites
+  project_allowed_hosts:
+      - openmuni.org.il
+      - www.openmuni.org.il
+      - he.openmuni.org.il
+      - en.openmuni.org.il
+      - ar.openmuni.org.il
+      - ru.openmuni.org.il
   db_location: 127.0.0.1
   db_port: 5432
   proxy_location: 127.0.0.1
