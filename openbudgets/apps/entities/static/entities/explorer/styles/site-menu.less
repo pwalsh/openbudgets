@@ -1,60 +1,76 @@
 #right_edge_detector {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 10px;
-    height: 100%;
-    z-index: 1;
-    padding: 0;
+    position : absolute;
+    top      : 0;
+    bottom   : 0;
+    right    : 0;
+    width    : 10px;
+    height   : 100%;
+    z-index  : 1;
+    padding  : 0;
 }
+
+
 .comments_open #right_edge_detector {
-    right: 260px;
+    right : 260px;
 }
+
 
 /** patching panels.css */
 #panel-nav {
-    display: block;
-    position: absolute;
-    top: 0;
-    right: -300px;
-    float: none;
-    z-index: 1001;
-    width: 300px;
-    height: 100%;
-}
-.comments_open #panel-nav {
-    right: -40px;
-}
-#panel-nav header a {
-    font-size: 47px;
-    line-height: 55px;
-}
-#panel-nav footer {
-    bottom: 20px;
-    height: auto;
-}
-#panel-nav footer a#sponsor_logo {
-    float: none;
-    margin-bottom: 30px;
+    display  : block;
+    position : absolute;
+    top      : 0;
+    right    : -300px;
+    float    : none;
+    z-index  : 1001;
+    width    : 300px;
+    height   : 100%;
 }
 
+
+.comments_open #panel-nav {
+    right : -40px;
+}
+
+
+#panel-nav header a {
+    font-size   : 47px;
+    line-height : 55px;
+}
+
+
+#panel-nav footer {
+    bottom : 20px;
+    height : auto;
+}
+
+
+#panel-nav footer a#sponsor_logo {
+    float         : none;
+    margin-bottom : 30px;
+}
+
+
 #site_menu_open {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 18px 42px;
-    color: #141452;
-    z-index: 1;
-    font-family: "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
-    font-weight: normal;
+    position    : absolute;
+    top         : 0;
+    right       : 0;
+    padding     : 18px 42px;
+    color       : #141452;
+    z-index     : 1;
+    font-family : "Alef Hebrew", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
+    font-weight : normal;
 }
+
+
 #site_menu_open:after {
-    content: '\203a';
-    display: inline-block;
-    margin-right: 5px;
+    content      : '\203a';
+    display      : inline-block;
+    margin-right : 5px;
 }
+
+
 #site_menu_open em {
-    color: #141452;
-    font-weight: bold;
+    color       : #141452;
+    font-weight : bold;
 }
