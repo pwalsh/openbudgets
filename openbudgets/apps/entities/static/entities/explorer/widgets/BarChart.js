@@ -24,7 +24,7 @@ define([
                 .range([height, 0]);
 
             this.color = d3.scale.ordinal()
-                .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+                .range(["#00CCC2", "#C200CC", "#CCC200", "#CC00C2", "#CC00C2"]);
 
             this.xAxis = d3.svg.axis()
                 .scale(this.x0)
