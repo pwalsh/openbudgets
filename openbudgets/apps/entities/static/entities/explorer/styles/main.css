@@ -1241,6 +1241,16 @@ svg {
 .bar {
   fill: steelblue;
 }
+.bar_titles text {
+  font-size: 2rem;
+}
+.bar_titles rect {
+  fill: white;
+  opacity: .6;
+}
+.bars_title_bg {
+  fill: white;
+}
 .x.axis path {
   display: none;
 }

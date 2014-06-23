@@ -24,7 +24,7 @@ define([
                 .range([height, 0]);
 
             this.color = d3.scale.ordinal()
-                .range(["#00CCC2", "#C200CC", "#CCC200", "#CC00C2", "#CC00C2"]);
+                .range(["#00CCC2", "#CCC200", "#C200CC", "#CC00C2", "#CC00C2"]);
 
             this.xAxis = d3.svg.axis()
                 .scale(this.x0)
@@ -69,7 +69,7 @@ define([
             ]);
 
             var axes = this.svg.selectAll('.axis');
-            if ( axes.length ) {
+            if ( ! axes.empty() ) {
                 axes.remove();
             }
 
@@ -92,19 +92,23 @@ define([
                 .data(data, function (d) {
                     return d.id;
                 });
+
             item.exit().remove();
-            item.enter().append("g")
+
+            var entered = item.enter().append("g")
                 .attr("class", "g item")
                 .attr("transform", function (d) {
                     return "translate(" + x0(d.code) + ",0)";
                 });
 
-            item.selectAll("rect")
+            // draw bars
+            entered.selectAll(".bar")
                 .data(function (d) {
                     return [{type: 'budget', amount: d.budget},
                             {type: 'actual', amount: d.actual}];
                 })
                 .enter().append("rect")
+                .attr('class', 'bar')
                 .attr("width", x1.rangeBand())
                 .attr("x", function (d) {
                     return x1(d.type);
@@ -117,6 +121,33 @@ define([
                 })
                 .style("fill", function (d) {
                     return color(d.type);
+                });
+
+            // draw titles
+            var titles = entered.append('g')
+                .attr('class', 'bar_titles')
+                .attr('transform', function () {
+                    // 20 for margin from bottom
+                    // 8 for height/2
+                    return 'translate(' + (x1.rangeBand() + 8) + ',' + (height - 20) + ') rotate(-90)';
+                });
+
+            // draw title backgrounds
+            titles.append('rect');
+
+            // enter text
+            titles.append('text')
+                .text(function (d) {
+                    return d.name;
+                }).each(function () {
+                    var margin = 10,
+                        box = this.getBBox(),
+                        height = box.height + margin;
+                    d3.select(this.previousSibling)
+                        .attr('width', box.width + margin)
+                        .attr('height', height)
+                        .attr('y', - height / 2 - margin / 2)
+                        .attr('x', - margin / 2);
                 });
 
 //            var legend = svg.selectAll(".legend")
