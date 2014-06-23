@@ -1,7 +1,10 @@
+from fabric.api import task
+
 from fabric.contrib import django
 django.project('openbudgets')
-from quilt import *
-from dock.fabfile import *
+
+from quilt import e, local, remote, contrib, utilities
+from dock.fabfile import dock
 
 
 @task

@@ -3,6 +3,7 @@ from datetime import datetime
 from django.utils.translation import ugettext_lazy as _
 from openbudgets.apps.sheets.models import Template, Sheet, SheetItem
 from openbudgets.apps.entities.models import Entity
+from openbudgets.apps.international.utilities import translated_fields
 from openbudgets.apps.transport.incoming.parsers import register, ParsingError
 from openbudgets.apps.transport.incoming.parsers.template import TemplateParser
 from openbudgets.apps.transport.incoming.errors import MetaParsingError, NodeNotFoundError
@@ -29,7 +30,7 @@ class SheetParser(TemplateParser):
 
     container_model = Sheet
     item_model = SheetItem
-    ITEM_ATTRIBUTES = ('budget', 'actual', 'node', 'description', 'sheet')
+    ITEM_ATTRIBUTES = ['budget', 'actual', 'node', 'description', 'sheet'] + translated_fields(SheetItem)
     CONTAINER_ATTRIBUTES = ('entity', 'period_start', 'period_end')
     ITEM_CLEANING_EXCLUDE = ('node', 'sheet', 'code', 'name', 'path')
 

@@ -1,7 +1,9 @@
 ipython
 ipdb
-django==1.6.3
+django==1.6.5
 djangorestframework==2.3.13
+django-modeltranslation==0.7.3
+django-cacheops==2.0
 gunicorn
 celery
 south
@@ -29,9 +31,6 @@ django-taggit
 django-braces
 django-subdomains
 django-uuidfield
-
-#django-cacheops: master can serialize uuid fields
-git+https://github.com/Suor/django-cacheops.git
 
 # upstream still doesn't fully support custom user model
 hg+https://bitbucket.org/prjts/django-registration
