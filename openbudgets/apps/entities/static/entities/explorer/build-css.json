@@ -1,12 +1,12 @@
 {
-  "/home/maggotfish/dev/open-muni/openbudgets/apps/entities/static/entities/explorer/dist.css": {
-    "fileName": "/home/maggotfish/dev/open-muni/openbudgets/apps/entities/static/entities/explorer/dist.css",
+  "/home/maggotfish/dev/open-muni/openbudgets/apps/entities/static/entities/explorer/styles/dist.css": {
+    "fileName": "/home/maggotfish/dev/open-muni/openbudgets/apps/entities/static/entities/explorer/styles/dist.css",
     "baseName": "dist",
     "ext": ".css",
-    "sourcePath": "js/src/home/maggotfish/dev/open-muni/openbudgets/apps/entities/static/entities/explorer/dist.css",
-    "filePath": "/home/maggotfish/dev/open-muni/openbudgets/apps/entities/static/entities/explorer/dist.css",
-    "hash": "45f4758f39871730",
-    "newName": "dist.45f4758f39871730.css",
-    "newPath": "/home/maggotfish/dev/open-muni/openbudgets/apps/entities/static/entities/explorer/dist.45f4758f39871730.css"
+    "sourcePath": "js/src/home/maggotfish/dev/open-muni/openbudgets/apps/entities/static/entities/explorer/styles/dist.css",
+    "filePath": "/home/maggotfish/dev/open-muni/openbudgets/apps/entities/static/entities/explorer/styles/dist.css",
+    "hash": "f3bafb5d826c9557",
+    "newName": "dist.f3bafb5d826c9557.css",
+    "newPath": "/home/maggotfish/dev/open-muni/openbudgets/apps/entities/static/entities/explorer/styles/dist.f3bafb5d826c9557.css"
   }
 }
