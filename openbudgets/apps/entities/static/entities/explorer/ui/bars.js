@@ -31,7 +31,10 @@ define([
         type    : 'BarChart',
         config  : {
             element : '#bars',
-            resource: 'LatestSheet'
+            resource: 'LatestSheet',
+            app_events  : {
+                'LatestSheet.changed'   : 'setResource+'
+            }
         }
     }];
 });

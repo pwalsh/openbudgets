@@ -245,6 +245,7 @@ define([
                             else {
                                 this.setResource(new resources.Items());
                             }
+                            uijet.publish('LatestSheet.changed', this.resource);
                         }
 
                         // if for some reason scope is still unknown reset it to `null`
