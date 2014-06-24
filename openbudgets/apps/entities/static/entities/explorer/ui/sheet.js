@@ -134,10 +134,12 @@ define([
             wrapper_class   : 'sheet_header_menu_button',
             dom_events      : {
                 click       : function () {
-                    this.sleep();
-                    uijet.publish('filters_search_menu.selected', {
-                        type: 'search'
-                    });
+                    if ( ! this.disabled ) {
+                        this.sleep();
+                        uijet.publish('filters_search_menu.selected', {
+                            type: 'search'
+                        });
+                    }
                 }
             },
             signals         : {
@@ -198,7 +200,9 @@ define([
             app_events      : {
                 'items_search.entered'          : 'wake',
                 'items_search.cancelled'        : 'wake',
-                'filters_search_menu.selected'  : 'sleep'
+                'filters_search_menu.selected'  : 'sleep',
+                'bars_container.awake'          : 'disable',
+                'items_list_container.awake'    : 'enable'
             }
         }
     }, {
@@ -229,7 +233,9 @@ define([
                 },
                 'download_sheet_menu.closed': function () {
                     this.$wrapper.removeClass('opened');
-                }
+                },
+                'bars_container.awake'      : 'disable',
+                'items_list_container.awake': 'enable'
             }
         }
     }, {

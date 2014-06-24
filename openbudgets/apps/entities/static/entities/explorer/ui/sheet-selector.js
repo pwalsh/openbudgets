@@ -2,13 +2,15 @@ define([
     'uijet_dir/uijet',
     'explorer',
     'resources',
-    'composites/Select'
+    'composites/Select',
+    'project_mixins/Disabled'
 ], function (uijet, explorer) {
     
     return {
         type    : 'Select',
         config  : {
             element     : '#sheet_selector',
+            mixins      : ['Disabled'],
             resource    : 'ItemsListState',
             cloak       : true,
             menu        : {
@@ -49,7 +51,9 @@ define([
                 'filters_search_menu.selected'  : 'sleep',
                 'items_search.entered'          : 'wake',
                 'items_search.cancelled'        : 'wake',
-                'search_crumb_remove.clicked'   : 'wake'
+                'search_crumb_remove.clicked'   : 'wake',
+                'bars_container.awake'          : 'disable',
+                'items_list_container.awake'    : 'enable'
             }
         }
     };

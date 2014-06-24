@@ -890,6 +890,9 @@ svg {
   font-weight: bold;
   overflow: hidden;
 }
+#items_breadcrumbs.disabled {
+  opacity: .1;
+}
 #items_breadcrumbs.overflow {
   overflow: visible;
 }
@@ -964,6 +967,9 @@ svg {
   left: 0;
   right: 0;
   height: 120px;
+}
+#sheet_header .disabled {
+  opacity: .1;
 }
 #sheet_header_top_container {
   position: absolute;

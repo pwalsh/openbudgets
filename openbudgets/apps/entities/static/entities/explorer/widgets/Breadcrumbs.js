@@ -25,7 +25,7 @@ define([
 
             uijet.start({
                 type    : 'DropmenuButton',
-                config  : {
+                config  : uijet.utils.extend(true, {
                     element         : '#' + button_id,
                     id              : button_id,
                     container       : id,
@@ -82,7 +82,7 @@ define([
                             this.$element.addClass('hide');
                         }
                     }
-                }
+                }, this.options.button)
             });
 
             this.subscribe('app.resize', this.checkWrap)
