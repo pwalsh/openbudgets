@@ -63,7 +63,10 @@ define([
             }));
             x1.domain(amount_types).rangeRoundBands([0, x0.rangeBand()]);
             y.domain([
-                0, d3.max(data, function (d) {
+                d3.min(data, function (d) {
+                    return d3.min([0, d.actual, d.budget]);
+                }),
+                d3.max(data, function (d) {
                     return d3.max([d.actual, d.budget]);
                 })
             ]);
@@ -114,10 +117,10 @@ define([
                     return x1(d.type);
                 })
                 .attr("y", function (d) {
-                    return y(d.amount);
+                    return y(Math.max(0, d.amount));
                 })
                 .attr("height", function (d) {
-                    return height - y(d.amount);
+                    return Math.abs(y(0) - y(d.amount));
                 })
                 .style("fill", function (d) {
                     return color(d.type);
@@ -126,7 +129,7 @@ define([
             // draw titles
             var titles = entered.append('g')
                 .attr('class', 'bar_titles')
-                .attr('transform', function () {
+                .attr('transform', function (d) {
                     // 20 for margin from bottom
                     // 8 for height/2
                     return 'translate(' + (x1.rangeBand() + 8) + ',' + (height - 20) + ') rotate(-90)';
