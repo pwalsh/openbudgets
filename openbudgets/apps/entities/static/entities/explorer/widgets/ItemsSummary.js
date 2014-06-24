@@ -26,8 +26,8 @@ define([
             }
             else if ( scope_item_model === null ) {
                 var sheet = explorer.getSheetMeta();
-                budget = formatCommas(sheet.get('budget') | 0);
-                actual = formatCommas(sheet.get('actual') | 0);
+                budget = formatCommas(parseInt(sheet.get('budget'), 10));
+                actual = formatCommas(parseInt(sheet.get('actual'), 10));
             }
             this.$code.text(code);
             this.$direction.text(direction);
