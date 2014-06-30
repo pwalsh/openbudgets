@@ -104,6 +104,7 @@ INSTALLED_APPS = (
     'south',
     'subdomains',
     'taggit',
+    'redactor',
     'openbudgets.apps.accounts',
     'openbudgets.apps.sheets',
     'openbudgets.apps.contexts',
