@@ -31,6 +31,7 @@ django-taggit
 django-braces
 django-subdomains
 django-uuidfield
+django-redactoreditor
 
 # upstream still doesn't fully support custom user model
 hg+https://bitbucket.org/prjts/django-registration
