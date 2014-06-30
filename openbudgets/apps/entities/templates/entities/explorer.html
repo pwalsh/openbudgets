@@ -24,7 +24,7 @@
             <header id="sheet_header">
                 <div id="sheet_header_top_container">
                     <span id="sheet_selector">
-                        {% trans 'Budget' %}<span id="sheet_selector_content"></span>
+                        {% trans 'Budget' %}<span id="sheet_selector_content">{{ sheet.period }}</span>
                         <ul id="sheet_selector_menu" class="invisible">
                             {% for sheet in sheets %}
                                 <li data-id="{{ sheet.id }}">{{ sheet.period }}</li>
