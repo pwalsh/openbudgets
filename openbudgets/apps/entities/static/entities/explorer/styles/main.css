@@ -1037,6 +1037,10 @@ svg {
   line-height: 66px;
   vertical-align: middle;
   text-align: center;
+  background: url('/static/entities/explorer/img/bars.png') center center no-repeat;
+}
+#show_list {
+  background: url('/static/entities/explorer/img/table.png') center center no-repeat;
 }
 .item_cell {
   display: table-cell;
