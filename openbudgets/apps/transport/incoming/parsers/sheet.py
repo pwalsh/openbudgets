@@ -32,7 +32,7 @@ class SheetParser(TemplateParser):
     item_model = SheetItem
     ITEM_ATTRIBUTES = ['budget', 'actual', 'node', 'sheet'] + translated_fields(SheetItem)
     CONTAINER_ATTRIBUTES = ('entity', 'period_start', 'period_end')
-    ITEM_MODEL_CLEANING_EXCLUDE = tuple(['node', 'sheet', 'code', 'path'] + translated_fields(SheetItem))
+    ITEM_MODEL_CLEANING_EXCLUDE = tuple(['node', 'sheet', 'code', 'name', 'path'] + translated_fields(SheetItem))
 
     def __init__(self, container_object_dict):
         super(SheetParser, self).__init__(container_object_dict)
