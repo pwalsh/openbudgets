@@ -28,7 +28,7 @@ class BaseParser(object):
     #PATH_DELIMITER = settings.OPENBUDGETS_IMPORT_INTRA_FIELD_DELIMITER
     PATH_DELIMITER = ','
     ITEM_SEPARATOR = ITEM_SEPARATOR
-    ITEM_CLEANING_EXCLUDE = tuple()
+    ITEM_MODEL_CLEANING_EXCLUDE = tuple()
 
     def __init__(self, container_object_dict):
         self.valid = True
@@ -203,7 +203,7 @@ class BaseParser(object):
         else:
             item = self.item_model(**obj)
             row_num = self.rows_objects_lookup.get(key, None)
-            self._dry_clean(item, row_num=row_num, exclude=self.ITEM_CLEANING_EXCLUDE)
+            self._dry_clean(item, row_num=row_num, exclude=self.ITEM_MODEL_CLEANING_EXCLUDE)
 
         return item
 

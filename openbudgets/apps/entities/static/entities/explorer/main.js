@@ -9,7 +9,8 @@ requirejs.config({
         d3                     : 'd3/d3',
         underscore             : 'underscore/dist/lodash.underscore',
         mustache               : 'mustache/mustache',
-        q                      : 'q/q',
+        velocity               : 'velocity/jquery.velocity',
+        rsvp                   : 'rsvp/rsvp.amd',
         spin                   : 'spin/spin',
         setImmediate           : 'setImmediate/setImmediate',
         eventbox               : 'eventbox/eventbox',
@@ -35,7 +36,8 @@ requirejs.config({
         backbone                : {
             deps: ['underscore', 'jquery'],
             exports: 'Backbone'
-        }
+        },
+        velocity                : ['jquery']
     }
 });
 requirejs([

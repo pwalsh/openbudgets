@@ -2,7 +2,8 @@ define([
     'uijet_dir/uijet',
     'resources',
     'project_widgets/Breadcrumbs',
-    'project_widgets/FilterCrumb'
+    'project_widgets/FilterCrumb',
+    'project_mixins/Disabled'
 ], function (uijet, resources) {
 
     var closeSearchBreadcrumbsHandler = function () {
@@ -13,12 +14,18 @@ define([
         type    : 'Breadcrumbs',
         config  : {
             element     : '#items_breadcrumbs',
-            mixins      : ['Templated'],
+            mixins      : ['Disabled', 'Templated'],
             resource    : 'Breadcrumbs',
             cloak       : true,
             dont_wake   : true,
             dont_fetch  : true,
             horizontal  : true,
+            button      : {
+                app_events  : {
+                    'bars_container.awake'          : 'disable',
+                    'items_list_container.awake'    : 'enable'
+                }
+            },
             data_events : {
                 reset   : 'render'
             },
@@ -28,7 +35,7 @@ define([
                     this.$original_children = this.$element.children().slice(0, 2);
                 },
                 pre_select  : function ($selected) {
-                    return $selected.attr('data-id');
+                    return this.disabled ? false : $selected.attr('data-id');
                 },
                 post_sleep  : closeSearchBreadcrumbsHandler
             },
@@ -62,7 +69,9 @@ define([
                 'items_search.entered'          : closeSearchBreadcrumbsHandler,
                 'items_search.cancelled'        : closeSearchBreadcrumbsHandler,
                 'search_crumb_remove.clicked'   : closeSearchBreadcrumbsHandler,
-                sheet_header_moved              : 'checkWrap'
+                sheet_header_moved              : 'checkWrap',
+                'bars_container.awake'          : 'disable',
+                'items_list_container.awake'    : 'enable'
             }
         }
     }, {

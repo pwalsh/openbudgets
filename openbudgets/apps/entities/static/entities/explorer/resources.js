@@ -3,7 +3,7 @@ define([
     'modules/data/backbone',
     'underscore',
     'api',
-    'modules/promises/q',
+    'modules/promises/rsvp',
     'backbone-fetch-cache'
 ], function (uijet, Backbone, _, api) {
 
@@ -174,8 +174,8 @@ define([
                     item.ancestors || (item.ancestors = []);
 
                     // convert to integers
-                    item.actual = item.actual == null ? item.actual : item.actual | 0;
-                    item.budget = item.budget == null ? item.budget : item.budget | 0;
+                    item.actual = item.actual == null ? item.actual : parseInt(item.actual, 10);
+                    item.budget = item.budget == null ? item.budget : parseInt(item.budget, 10);
 
                     item.direction = gettext(item.direction);
 

@@ -1,0 +1,54 @@
+.axis path,
+.axis line {
+    fill            : none;
+    stroke          : #000;
+    shape-rendering : crispEdges;
+}
+
+
+.bar {
+    fill : steelblue;
+}
+
+
+.bar_titles {
+    text {
+        font-size : 2rem;
+    }
+
+    rect {
+        fill    : white;
+        opacity : .6;
+    }
+}
+
+
+.bars_title_bg {
+    fill : white;
+}
+
+
+.x.axis path {
+    display : none;
+}
+
+
+#bars_container {
+    position                 : absolute;
+    top                      : 120px;
+    bottom                   : 44px;
+    left                     : 0;
+    right                    : 0;
+    z-index                  : 10;
+    height                   : auto;
+    -webkit-transform-origin : 50% 50%;
+    -moz-transform-origin    : 50% 50%;
+    -ms-transform-origin     : 50% 50%;
+    -o-transform-origin      : 50% 50%;
+    transform-origin         : 50% 50%;
+    -webkit-transform        : translateX(-50%) rotateY(-90deg) translateZ(300px);
+    -moz-transform           : translateX(-50%) rotateY(-90deg) translateZ(300px);
+    -ms-transform            : translateX(-50%) rotateY(-90deg) translateZ(300px);
+    -o-transform             : translateX(-50%) rotateY(-90deg) translateZ(300px);
+    transform                : translateX(-50%) rotateY(-90deg) translateZ(300px);
+}

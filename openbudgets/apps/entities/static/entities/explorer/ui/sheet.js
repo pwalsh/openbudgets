@@ -3,7 +3,7 @@ define([
     'resources',
     'explorer',
     'composites/DropmenuButton',
-    'project_widgets/ClearableTextInput',
+    'project_widgets/TextInput',
     'project_mixins/Delayed'
 ], function (uijet, resources, explorer) {
 
@@ -51,6 +51,16 @@ define([
             }
         });
 
+    uijet.Factory('HeaderButton', {
+        type    : 'Button',
+        config  : {
+            cloak   : true,
+            signals : {
+                pre_click   : 'sleep'
+            }
+        }
+    });
+
     var attributeNullifier = function (attr) {
             return function () {
                 this.resource.set(attr, null);
@@ -82,10 +92,9 @@ define([
             }
         }
     }, {
-        type    : 'Button',
+        factory : 'HeaderButton',
         config  : {
             element     : '#sheet_scope_comments',
-            cloak       : true,
             signals     : {
                 pre_click   : function () {
                     uijet.Resource('ItemsListState').set('comments_item', this.$element);
@@ -125,10 +134,12 @@ define([
             wrapper_class   : 'sheet_header_menu_button',
             dom_events      : {
                 click       : function () {
-                    this.sleep();
-                    uijet.publish('filters_search_menu.selected', {
-                        type: 'search'
-                    });
+                    if ( ! this.disabled ) {
+                        this.sleep();
+                        uijet.publish('filters_search_menu.selected', {
+                            type: 'search'
+                        });
+                    }
                 }
             },
             signals         : {
@@ -189,7 +200,9 @@ define([
             app_events      : {
                 'items_search.entered'          : 'wake',
                 'items_search.cancelled'        : 'wake',
-                'filters_search_menu.selected'  : 'sleep'
+                'filters_search_menu.selected'  : 'sleep',
+                'bars_container.awake'          : 'disable',
+                'items_list_container.awake'    : 'enable'
             }
         }
     }, {
@@ -220,36 +233,19 @@ define([
                 },
                 'download_sheet_menu.closed': function () {
                     this.$wrapper.removeClass('opened');
-                }
+                },
+                'bars_container.awake'      : 'disable',
+                'items_list_container.awake': 'enable'
             }
         }
     }, {
-        type    : 'ClearableTextInput',
+        type    : 'TextInput',
         config  : {
             element     : '#items_search',
             mixins      : ['Delayed'],
             resource    : 'ItemsListState',
             dont_wake   : true,
             cloak       : true,
-            button      : {
-                dont_wake   : true,
-                signals     : {
-                    pre_click   : 'sleep'
-                },
-                app_events  : {
-                    'items_search.move_button'  : function (width) {
-                        if ( width ) {
-                            this.$element[0].style.right = width + 30 + 'px';
-                            if ( ! this.awake) {
-                                this.wake();
-                            }
-                        }
-                        else if ( this.awake ) {
-                            this.sleep();
-                        }
-                    }
-                }
-            },
             keys        : {
                 // enter
                 13          : function (e) {
@@ -270,19 +266,12 @@ define([
                         delay = clean.length > 1 ? 500 : 1500;
 
                     this.publish('changed', clean);
-                    this.$shadow_text.text(val);
-                    this.publish('move_button', val ? this.$shadow_text.width() : 0);
                     this.instead(function (search) {
                         this.resource.set(search);
                     }, delay, { search : clean });
                 }
             },
             signals     : {
-                post_init   : function () {
-                    this.$shadow_text = uijet.$('<span>', {
-                        'class' : 'shadow_text'
-                    }).prependTo(this.$wrapper);
-                },
                 pre_wake    : function () {
                     var initial = this.resource.get('search');
                     if ( initial === null ) {
@@ -290,14 +279,9 @@ define([
                         this.resource.set({ search : null });
                     }
                     this.$element.val(initial);
-                    this.$shadow_text.text(initial);
                 },
                 post_wake   : function () {
-                    var width = this.$shadow_text.width();
                     this.$element.focus();
-                    if ( width ) {
-                        this.publish('move_button', width);
-                    }
                 }
             },
             app_events  : {
@@ -320,13 +304,28 @@ define([
             }
         }
     }, {
-        type    : 'Button',
+        factory : 'HeaderButton',
         config  : {
             element     : '#items_search_exit',
-            container   : 'items_search',
-            cloak       : true,
-            signals     : {
-                pre_click   : 'sleep'
+            container   : 'items_search'
+        }
+    }, {
+        factory : 'HeaderButton',
+        config  : {
+            element     : '#show_bars',
+            mixins      : ['Layered'],
+            app_events  : {
+                'items_list_container.awake': 'wake'
+            }
+        }
+    }, {
+        factory : 'HeaderButton',
+        config  : {
+            element     : '#show_list',
+            mixins      : ['Layered'],
+            dont_wake   : true,
+            app_events  : {
+                'bars_container.awake'  : 'wake'
             }
         }
     }];

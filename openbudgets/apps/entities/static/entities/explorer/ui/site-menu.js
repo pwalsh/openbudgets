@@ -15,31 +15,26 @@ define([
             click_event : 'mouseover',
             signals     : {
                 post_init   : function () {
-                    this.anim_key = uijet.utils.getStyleProperty('transform');
-
-                    this.anim_props = {};
-                    this.header_anim_props = {};
-                        
-                    this.header_anim_props = 'right:' + this.$element[0].offsetWidth + 'px';
-                    this.anim_props[this.anim_key] = 'translateX(-276px)';
+                    // use right since transforms cause the header's layer to lose its proper z-index
+                    this.header_anim_props = { right: this.$element[0].offsetWidth };
+                    this.anim_props = { translateX: -276 };
 
                     this.$header = uijet.$('#sheet_header_top_container');
                     this.header_anim_callback = function () {
-                        this.$header.removeClass('transitioned');
                         uijet.publish('sheet_header_moved');
                     }.bind(this);
+
+                    this.anim_options = { duration: 200, easing: 'ease-in' };
                 }
             },
             app_events  : {
                 open_comments   : function () {
-                    uijet.animate(this.$header, this.header_anim_props, this.header_anim_callback);
-                    uijet.animate(this.$element, this.anim_props);
+                    uijet.animate(this.$header, this.header_anim_props, this.anim_options, this.header_anim_callback);
+                    uijet.animate(this.$element, this.anim_props, this.anim_options);
                 },
                 close_comments  : function () {
-                    var props = {};
-                    props[this.anim_key] = 'translateX(0px)';
-                    uijet.animate(this.$header, 'right:0px', this.header_anim_callback);
-                    uijet.animate(this.$element, props);
+                    uijet.animate(this.$header, { right : 0 }, this.anim_options, this.header_anim_callback);
+                    uijet.animate(this.$element, { translateX: 0 }, this.anim_options);
                 }
             }
         }
@@ -49,7 +44,15 @@ define([
             element         : '#panel-nav',
             mixins          : ['Transitioned'],
             dont_wake       : true,
-            animation_type  : 'slide',
+            animation_type  : {
+                properties  : {
+                    translateX: '-300'
+                },
+                options     : {
+                    duration: 100,
+                    easing  : 'ease-in'
+                }
+            },
             dom_events      : {
                 mouseleave  : 'sleep'
             },
