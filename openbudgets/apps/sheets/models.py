@@ -9,6 +9,7 @@ from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from openbudgets.apps.accounts.models import Account
 from openbudgets.apps.entities.models import Division, Entity
+from openbudgets.apps.international.utilities import translated_fields
 from openbudgets.commons.mixins import models as mixins
 from . import managers
 from . import abstract_models
@@ -417,11 +418,12 @@ class SheetItem(abstract_models.AbstractItem, abstract_models.AbstractNode,
     def save(self, *args, **kwargs):
 
         # set the fields that we denormalized from the node
-        for field in abstract_models.AbstractNode._meta.get_all_field_names():
+        for field in abstract_models.AbstractNode._meta.get_all_field_names() + \
+                translated_fields(TemplateNode):
             setattr(self, field, getattr(self.node, field))
 
         # set the comment data fields to something other than default, maybe
-        if (self.description or self.comment_count > 0):
+        if self.description or self.comment_count > 0:
             self.has_comments = True
 
         if self.description and self.comment_count == 0:
