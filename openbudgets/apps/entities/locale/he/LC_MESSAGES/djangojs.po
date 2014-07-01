@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-24 13:04+0300\n"
+"POT-Creation-Date: 2014-07-01 12:24+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,22 +19,43 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: static/entities/explorer/dictionary.js:3
+#: static/entities/explorer/dist.642f4c45fb5c0f06.js:117
 msgid "Free text search"
 msgstr "חיפוש טקסט חופשי"
 
 #: static/entities/explorer/dictionary.js:4
+#: static/entities/explorer/dist.642f4c45fb5c0f06.js:117
 msgid "Search for \""
 msgstr "חפש \""
 
 #: static/entities/explorer/dictionary.js:5
+#: static/entities/explorer/dist.642f4c45fb5c0f06.js:117
 msgid "by"
 msgstr "מאת"
 
-#: static/entities/explorer/ui/sheet.js:162
+#: static/entities/explorer/dictionary.js:6
+msgid "Population"
+msgstr "אוכלוסיה"
+
+#: static/entities/explorer/dictionary.js:7
+msgid "Students"
+msgstr "תלמידים"
+
+#: static/entities/explorer/dictionary.js:8
+msgid "Ground Surface"
+msgstr "יחידת שטח קרקע"
+
+#: static/entities/explorer/dictionary.js:9
+msgid "Socio-Economic Index"
+msgstr "רמה דמוגרפית חברתית כלכלית"
+
+#: static/entities/explorer/dist.642f4c45fb5c0f06.js:117
+#: static/entities/explorer/ui/sheet.js:83
 msgid "Main"
 msgstr "ראשי"
 
-#: static/entities/explorer/ui/sheet.js:516
+#: static/entities/explorer/dist.642f4c45fb5c0f06.js:117
+#: static/entities/explorer/ui/footer.js:39
 msgid "%(count)s results found"
 msgstr "נמצאו %(count)s תוצאות"
 

@@ -671,8 +671,18 @@ svg {
 #explorer {
   left: -260px;
 }
+.context_label {
+  display: inline-block;
+  max-width: 140px;
+}
+.context_label:after {
+  content: ':';
+}
 .context_value {
   display: inline-block;
+  position: absolute;
+  left: 0;
+  bottom: 0;
   margin-right: .5rem;
   color: #7070A0;
 }
@@ -681,6 +691,9 @@ svg {
   font-size: 1.3rem;
   line-height: 150%;
   font-weight: bold;
+}
+#contextual_data p {
+  position: relative;
 }
 #muni_name {
   position: absolute;
