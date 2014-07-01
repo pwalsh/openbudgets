@@ -6,7 +6,8 @@ requirejs.config({
         'jquery.mousewheel'    : 'jquery-mousewheel/jquery.mousewheel',
         backbone               : 'backbone/backbone',
         'backbone-fetch-cache' : 'backbone-fetch-cache/backbone.fetch-cache',
-        d3                     : 'd3/d3',
+//        d3                     : 'd3/d3', // full library for development
+        d3                     : '../entities/explorer/d3', // custom build for deployment
         underscore             : 'underscore/dist/lodash.underscore',
         mustache               : 'mustache/mustache',
         velocity               : 'velocity/jquery.velocity',

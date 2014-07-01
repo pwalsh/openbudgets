@@ -14,11 +14,11 @@
     "backbone": "amdjs/backbone#~1.1.0",
     "setImmediate": "git://github.com/NobleJS/setImmediate.git#1.0.2",
     "backbone-fetch-cache": "~1.4.0",
-    "d3": "~3.4.1",
     "underscore": "lodash#~2.4.1",
     "normalize-less": "*",
     "velocity": "~0.3.0",
-    "rsvp": "~3.0.8"
+    "rsvp": "~3.0.8",
+    "d3": "~3.4.9"
   },
   "devDependencies": {
     "almond": "~0.2.9"
