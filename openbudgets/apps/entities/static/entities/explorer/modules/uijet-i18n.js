@@ -22,9 +22,9 @@ define([
 
     .use({
         _translate  : i18n,
-        translate   : function (dfrd) {
+        translate   : function (resolve) {
             this._translate();
-            dfrd && dfrd.resolve();
+            resolve && resolve();
             return this;
         }
     })
@@ -37,8 +37,7 @@ define([
     }, uijet.BaseWidget.prototype)
 
     // add an init task to parse the DOM for widgets
-    .init_queue.push(function (dfrd) {
-        this.translate(dfrd);
-        return dfrd.promise();
+    .init_queue.push(function (resolve) {
+        return this.translate(resolve);
     });
 });
