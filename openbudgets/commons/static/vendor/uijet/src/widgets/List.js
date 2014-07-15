@@ -38,7 +38,7 @@
                 initial = this.options.initial;
             // if `initial` option is set the perform selection inside the widget
             if ( initial ) {
-                this.click(uijet.utils.toElement(initial, this.$element));
+                this.select(initial);
             }
             return res;
         },
@@ -84,16 +84,31 @@
             if ( class_attrs.length ) {
                 this.$element.addClass(class_attrs.join(' '));
             }
+
+            //TODO: research what's the best option is to have both: events delegated to parent and handler is passed target item as first argument
             // delegate all clicks from `item_element` option as selector or `item_selector`  
             this.$element.on(
-                click_event || uijet.support.click_events.full,
-                this._click_target || this._item_selector,
+                    click_event || uijet.support.click_events.full,
+                    this._click_target || this._item_selector,
                 function (e) {
                     // pass the target and event object as arguments
                     return that.click(this, e);
-                }
-            );
+                });
+
             this._super();
+            return this;
+        },
+        /**
+         * Wraps {@see List#click} and triggers item selection using
+         * the `target` argument.
+         *
+         * @memberOf List
+         * @instance
+         * @param {string} target - selector for the item to select.
+         * @returns {List}
+         */
+        select          : function (target) {
+            this.click(uijet.utils.toElement(target, this.$element));
             return this;
         },
         /**
@@ -148,16 +163,20 @@
          */
         setSelected     : function (toggle) {
             var $old = this.$selected;
+
             if ( toggle && toggle[0] && toggle[0].nodeType ) {
                 this.$selected = toggle;
                 toggle = true;
-            } else if ( toggle && toggle.nodeType === 1 ) {
+            }
+            else if ( toggle && toggle.nodeType === 1 ) {
                 //TODO: check if uijet.$() can be replaced here with this.$element.find().
                 this.$selected = uijet.$(toggle);
                 toggle = true;
-            } else {
+            }
+            else {
                 toggle = !!toggle;
             }
+
             if ( this.$selected && this.$selected.parent().length ) {
                 if ( toggle ) {
                     $old && $old.removeClass('selected');
