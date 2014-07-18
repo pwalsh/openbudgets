@@ -212,7 +212,9 @@ CORS_ALLOW_HEADERS = (
     'accept',
     'origin',
     'authorization',
-    'x-csrftoken'
+    'x-csrftoken',
+    'accept-encoding',
+    'accept-language'
 )
 
 EMAIL_USE_TLS = True
