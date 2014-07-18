@@ -57,6 +57,7 @@ define([
     .Resource('LatestSheet', resources.Items)
     .Resource('PreviousSheets', resources.Sheets)
     .Resource('AllSheets', resources.Sheets, window.ENTITY.sheets)
+    .Resource('ContextualData', resources.Context, window.CONTEXT)
 
     .Resource('ItemsListState').on('change', function (model) {
         var changed = model.changedAttributes(),
@@ -74,6 +75,15 @@ define([
             }
             else {
                 open = false;
+            }
+
+            if ( 'period' in changed ) {
+                uijet.Resource('ContextualData').fetch({
+                    data: {
+                        periods : changed.period,
+                        entities: window.ENTITY.id
+                    }
+                });
             }
 
             if ( item && ! open ) {

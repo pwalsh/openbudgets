@@ -11,7 +11,7 @@
 {% if DEBUG %}
     <link rel="stylesheet" href="{{ STATIC_URL }}entities/explorer/styles/main.css"/>
 {% else %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}entities/explorer/styles/dist.f3bafb5d826c9557.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}entities/explorer/styles/dist.31719867b9e16f06.css"/>
 {% endif %}
     <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico" />
     <title>{% block metatitle %}{{ page.title }} | {{ site.name }}{% endblock metatitle %}</title>
@@ -104,9 +104,10 @@
         <section id="right_container" class="top_container">
             <h1 id="muni_name" class="right_menu_heading">{{ object.name }}</h1>
             <aside id="contextual_data">
-            {% for key, value in contextual_data.items %}
-                <p><span class="context_label">{{ key }}:</span><span class="context_value">{{ value }}</span></p>
-            {% endfor %}
+                <p class="context_population"><span class="context_label">{% trans 'Population' %}</span><span class="context_value">{{ contextual_data.population }}</span></p>
+                <p class="context_students"><span class="context_label">{% trans 'Students' %}</span><span class="context_value">{{ contextual_data.students }}</span></p>
+                <p class="context_ground_surface"><span class="context_label">{% trans 'Ground Surface' %}</span><span class="context_value">{{ contextual_data.ground_surface }}</span></p>
+                <p class="context_socioeconomic_index"><span class="context_label">{% trans 'Socio-Economic Index' %}</span><span class="context_value">{{ contextual_data.socioeconomic_index }}</span></p>
             </aside>
         </section>
         <section id="left_container" class="top_container">
@@ -157,13 +158,13 @@
             ITEM = {{ scope_item_json|safe }},
             LOGGEDIN_USER = {{ user_json|safe }},
             ITEMS_LIST = {{ items_list_json|safe }},
-            CONTEXT = {{ contextual_data|safe }};
+            CONTEXT = {{ contextual_data_json|safe }};
     </script>
     <script src="{% url 'entities_js_i18n' %}"></script>
 {% if DEBUG %}
     <script src="{{ STATIC_URL }}vendor/requirejs/require.js" data-main="{{ STATIC_URL }}entities/explorer/main"></script>
 {% else %}
-    <script src="{{ STATIC_URL }}entities/explorer/dist.642f4c45fb5c0f06.js"></script>
+    <script src="{{ STATIC_URL }}entities/explorer/dist.25ec66440a6219e8.js"></script>
 {% endif %}
 </body>
 </html>

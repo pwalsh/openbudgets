@@ -280,29 +280,6 @@ video:focus {
 .uijet_overlay_wrapper.darken > .uijet_overlay.darken {
   background-color: transparent;
 }
-.uijet_view {
-  visibility: hidden;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  /*right: -100%;*/
-
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-.uijet_view.z_top {
-  z-index: 10;
-}
-.uijet_view_container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-.uijet_video {
-  width: 100%;
-  height: 100%;
-}
 .uijet_widget {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -671,8 +648,18 @@ svg {
 #explorer {
   left: -260px;
 }
+.context_label {
+  display: inline-block;
+  max-width: 140px;
+}
+.context_label:after {
+  content: ':';
+}
 .context_value {
   display: inline-block;
+  position: absolute;
+  left: 0;
+  bottom: 0;
   margin-right: .5rem;
   color: #7070A0;
 }
@@ -681,6 +668,9 @@ svg {
   font-size: 1.3rem;
   line-height: 150%;
   font-weight: bold;
+}
+#contextual_data p {
+  position: relative;
 }
 #muni_name {
   position: absolute;

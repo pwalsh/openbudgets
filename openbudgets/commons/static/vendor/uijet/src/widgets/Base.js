@@ -105,6 +105,11 @@
          * #### Signals:
          * 
          * * `post_init`: triggered at the end of this method.
+         *
+         * #### Related options:
+         *
+         * * `bind_on_wake`: unless `true` all `dom_events` will be bound to the `this.$element` at the
+         * end of this method and before `post_init` signal is triggered.
          * 
          * @memberOf BaseWidget
          * @instance
@@ -127,11 +132,45 @@
                 .register()
                 // wrapping, styling, positioning, etc.
                 .prepareElement()
+                // init contained components
+                .initContained()
                 // cache reference to initial markup that was coded into the element by user
-                ._saveOriginal()
+                ._saveOriginal();
 
-                .notify(true, 'post_init');
+            if ( !this.options.bind_on_wake ) {
+                // bind DOM events
+                this.bindAll();
+            }
 
+            this.notify(true, 'post_init');
+
+            return this;
+        },
+        /**
+         * Initializes contained widget instances.
+         *
+         * If the `container` option of the contained widgets is not
+         * set, it will be automatically set to the `id` of this widget.
+         *
+         * #### Related options:
+         *
+         * * `components`: list of contained components to init.
+         *
+         * @memberOf BaseWidget
+         * @instance
+         * @returns {Widget}
+         */
+        initContained   : function () {
+            var container_id = this.id,
+                contained;
+            if ( contained = this.options.components ) {
+                contained.forEach(function (child) {
+                    if ( !child.config.container ) {
+                        child.config.container = container_id;
+                    }
+                });
+                uijet.start(contained);
+            }
             return this;
         },
         /**
@@ -211,6 +250,7 @@
          * 
          * * `sync`: when `true` a successful starting sequence will only begin once all promises returned by `wake()` calls
          * of all child components are resolved. Otherwise, will start immediately.
+         * * `bind_on_wake`: if `true` all `dom_events` will be bound to the `this.$element` on every wake.
          * 
          * @memberOf BaseWidget
          * @instance
@@ -288,6 +328,7 @@
          * 
          * * `pre_sleep`: triggered at the beginning of this instance is awake.
          * * `post_sleep`: triggered at the end of this instance is awake.
+         * * `bind_on_wake`: if `true` all `dom_events` will be unbound from the `this.$element` on every sleep.
          * 
          * @memberOf BaseWidget
          * @instance
@@ -298,11 +339,13 @@
             // continue only if we're awake
             if ( this.awake ) {
                 this.notify(true, 'pre_sleep');
-                // unbind DOM events
-                this.unbindAll()
-                    //TODO: need to wrap with uijet.when() since disappear() might be async
-                    // hide
-                    .disappear(no_transitions)
+                if ( this.options.bind_on_wake ) {
+                    // unbind DOM events
+                    this.unbindAll();
+                }
+                //TODO: need to wrap with uijet.when() since disappear() might be async
+                // hide
+                this.disappear(no_transitions)
                     // stop contained widgets
                     .sleepContained()
                     .awake = false;
@@ -840,8 +883,10 @@
             var appearance;
             // there was context to change but if we're set then bail out
             if ( ! this.awake ) {
-                // bind DOM events
-                this.bindAll();
+                if ( this.options.bind_on_wake ) {
+                    // bind DOM events
+                    this.bindAll();
+                }
                 //TODO: need to wrap with uijet.when() since appear() might be async
                 // show it
                 appearance = this.appear();

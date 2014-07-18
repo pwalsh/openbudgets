@@ -1,0 +1,251 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-01 12:24+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: models.py:36
+msgid "domain"
+msgstr "מחלקה"
+
+#: models.py:37
+msgid "domains"
+msgstr "מחלקות"
+
+#: models.py:39
+msgid "Metric"
+msgstr ""
+
+#: models.py:39
+msgid "Imperial"
+msgstr ""
+
+#: models.py:40
+msgid "Default"
+msgstr ""
+
+#: models.py:40
+msgid "Dunams"
+msgstr ""
+
+#: models.py:41
+msgid "&#36;"
+msgstr ""
+
+#: models.py:41
+msgid "&#8362;"
+msgstr ""
+
+#: models.py:46 models.py:126 models.py:186
+#: templates/entities/explorer.html:75
+msgid "Name"
+msgstr ""
+
+#: models.py:50
+msgid "The name of this domain."
+msgstr ""
+
+#: models.py:53
+msgid "Measurement System"
+msgstr ""
+
+#: models.py:57
+msgid "The applicable measurement unit for this domain."
+msgstr ""
+
+#: models.py:60
+msgid "Ground Surface Unit"
+msgstr ""
+
+#: models.py:64
+msgid ""
+"Rarely to be touched, this field is for countries, like Israel, that use "
+"special units for measuring ground."
+msgstr ""
+
+#: models.py:68
+msgid "Currency"
+msgstr "מטבע"
+
+#: models.py:72
+msgid "The currency used for budgeting in this domain."
+msgstr ""
+
+#: models.py:107
+msgid "division"
+msgstr ""
+
+#: models.py:108
+msgid "divisions"
+msgstr ""
+
+#: models.py:116
+msgid "The domain that this division belongs to."
+msgstr "המחלקה שאליה משתייכת תת-מחלקה זו"
+
+#: models.py:119
+msgid "Index"
+msgstr "אינדקס"
+
+#: models.py:121
+msgid ""
+"Model the domain structure by positioning this division relative to others. "
+"0 is the highest level. Divisions of equivalent level  should have an equal "
+"value."
+msgstr ""
+
+#: models.py:129
+msgid ""
+"The name of this division. Divisions under the same Domain must be named "
+"uniquely."
+msgstr ""
+
+#: models.py:133
+msgid "Budgeting"
+msgstr "מתוקצב"
+
+#: models.py:136
+msgid ""
+"Indicates whether entities that belong to this division are budgeting "
+"entities."
+msgstr ""
+
+#: models.py:174
+msgid "entity"
+msgstr "רשות"
+
+#: models.py:175
+msgid "entities"
+msgstr ""
+
+#: models.py:183
+msgid "The division that this entity belongs to."
+msgstr "רשויות"
+
+#: models.py:189
+msgid "The name of this entity."
+msgstr "שם הרשות"
+
+#: models.py:192
+msgid "Description"
+msgstr "הסבר"
+
+#: models.py:194
+msgid "A short text for this entity, useful as an overview."
+msgstr ""
+
+#: models.py:197
+msgid "Code"
+msgstr "קוד"
+
+#: models.py:200
+msgid "An identifying code for this entity."
+msgstr ""
+
+#: templates/entities/entity_detail.html:19
+msgid "Back to all entities"
+msgstr "בחזרה לכל הרשויות"
+
+#: templates/entities/entity_detail.html:31
+msgid "Budgets and Actuals"
+msgstr ""
+
+#: templates/entities/entity_detail.html:36
+msgid "is a"
+msgstr ""
+
+#: templates/entities/entity_detail.html:36
+msgid "of"
+msgstr "מתוך"
+
+#: templates/entities/entity_detail.html:36
+msgid ""
+"and therefore does not declare budgets. It serves a purely administrative "
+"function."
+msgstr ""
+
+#: templates/entities/entity_detail.html:42
+msgid "There are no Budgets for this entity"
+msgstr "אין תקציבים לרשות זו"
+
+#: templates/entities/entity_detail.html:47
+msgid "Budgets available"
+msgstr "תקציבים זמינים"
+
+#: templates/entities/entity_detail.html:51
+msgid "There are no Budgets this entity"
+msgstr "אין תקציבים לרשות זו"
+
+#: templates/entities/entity_list.html:6
+msgid "Localities"
+msgstr "רשויות"
+
+#: templates/entities/entity_list.html:21
+msgid "Soon"
+msgstr "בקרוב"
+
+#: templates/entities/explorer.html:22
+msgid "<em>Open Muni</em> Budgets"
+msgstr "<em>תקציב מקומי</em> פתוח"
+
+#: templates/entities/explorer.html:27 templates/entities/explorer.html:77
+msgid "Budget"
+msgstr "תכנון"
+
+#: templates/entities/explorer.html:34
+msgid "Search under:"
+msgstr "חיפוש תחת:"
+
+#: templates/entities/explorer.html:35 views/ui.py:175
+msgid "Main"
+msgstr "ראשי"
+
+#: templates/entities/explorer.html:55
+msgid "Search"
+msgstr "חיפוש"
+
+#: templates/entities/explorer.html:74
+msgid "Order"
+msgstr "סידורי"
+
+#: templates/entities/explorer.html:76
+msgid "Direction"
+msgstr "סוג"
+
+#: templates/entities/explorer.html:78
+msgid "Actual"
+msgstr "ביצוע"
+
+#: templates/entities/explorer.html:107
+msgid "Population"
+msgstr "אוכלוסיה"
+
+#: templates/entities/explorer.html:108
+msgid "Students"
+msgstr "תלמידים"
+
+#: templates/entities/explorer.html:109
+msgid "Ground Surface"
+msgstr "שטח הרשות"
+
+#: templates/entities/explorer.html:110
+msgid "Socio-Economic Index"
+msgstr "רמה דמוגרפית חברתית כלכלית"
+
+#: templates/entities/explorer.html:116
+msgid "Explanations"
+msgstr "דברי הסבר"

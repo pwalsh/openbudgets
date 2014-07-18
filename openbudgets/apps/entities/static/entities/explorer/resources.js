@@ -227,6 +227,17 @@ define([
          */
         Sheets = uijet.Collection({
             model   : Sheet
+        }),
+        /*
+         * Contextual Data model
+         */
+        Context = uijet.Model({
+            url     : function () {
+                return api.getRoute('contexts')
+            },
+            parse   : function (response, options) {
+                return response.results[0];
+            }
         });
 
     return {
@@ -234,6 +245,7 @@ define([
         Items   : Items,
         Sheet   : Sheet,
         Sheets  : Sheets,
+        Context : Context,
         utils   : {
             reverseSorting      : reverseSorting,
             nestingSort         : nestingSortFactory(false),

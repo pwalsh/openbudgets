@@ -12,18 +12,34 @@
         factory(uijet);
     }
 }(function (uijet) {
+    /**
+     * Modal dialog composite class.
+     *
+     * @class Modal
+     * @extends BaseWidget
+     * @category Composite
+     */
     uijet.Widget('Modal', {
         options : {
             type_class: ['uijet_pane', 'uijet_modal'],
             position  : 'center'
         },
+        /**
+         * Creates an {@see Overlay} instance for the underlay.
+         *
+         * #### Related options:
+         *
+         * * `underlay`: config object for the Overlay used as the modal's underlay.
+         *
+         * @methodOf Modal
+         * @returns {Widget}
+         */
         register: function () {
             var overlay,
-                overlay_id,
-                buttons_configs,
-                conf,
-                buttons;
+                overlay_id;
+
             this._super();
+
             // since this is a modal dialog,
             // create the overlay element
             overlay = document.createElement('div');
@@ -38,20 +54,10 @@
                 element     : overlay,
                 id          : overlay_id,
                 container   : this.id,
-                darken      : true
-            }, this.options.underlay_options || {}) }, true);
-            // if we have buttons to create
-            if ( buttons_configs = uijet.utils.toArray(this.options.buttons) ) {
-                buttons = [];
-                while ( conf = buttons_configs.shift() ) {
-                    conf.container || (conf.container = this.id);
-                    buttons.push({
-                        type    : 'Button',
-                        config  : conf
-                    });
-                }
-                uijet.start(buttons);
-            }
+                darken: true,
+                cloak : true
+            }, this.options.underlay || {}) }, true);
+
             return this;
         }
     });

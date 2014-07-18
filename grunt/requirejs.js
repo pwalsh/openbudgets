@@ -13,7 +13,7 @@ module.exports = function (grunt) {
                     'jquery.mousewheel'   : VENDOR_URL + 'jquery-mousewheel/jquery.mousewheel',
                     backbone              : VENDOR_URL + 'backbone/backbone',
                     'backbone-fetch-cache': VENDOR_URL + 'backbone-fetch-cache/backbone.fetch-cache',
-                    d3                    : VENDOR_URL + 'd3/d3',
+                    d3                    : EXPLORER_URL + 'd3',
                     underscore            : VENDOR_URL + 'underscore/dist/lodash.underscore',
                     mustache              : VENDOR_URL + 'mustache/mustache',
                     rsvp                  : VENDOR_URL + 'rsvp/rsvp.amd',

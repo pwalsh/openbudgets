@@ -104,8 +104,14 @@ class EntityDetail(DetailView):
                     'period': s.period
                 })
 
-        context['contextual_data'] = renderer.render(ContextBaseSerializer(context_objects).data) if\
-            context_objects else '{}'
+        if context_objects:
+            context_objects = ContextBaseSerializer(context_objects).data
+            context['contextual_data'] = context_objects
+            context['contextual_data_json'] = renderer.render(context_objects)
+        else:
+            context['contextual_data'] = {}
+            context['contextual_data_json'] = '{}'
+
         context['sheets'] = sheets
         context['object_json'] = renderer.render(EntityDetailUISerializer(self.object, context={'request': self.request}).data)
         context['sheet'] = sheet
