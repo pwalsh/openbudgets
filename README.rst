@@ -29,13 +29,13 @@ Ways to contribute
 
 You can contribute to the project in a number of ways:
 
-**Write some code**: https://github.com/hasadna/openmuni-budget
+**Write some code**: https://github.com/hasadna/openmuni-budgets
 
 **Read the docs**: http://open-budgets.readthedocs.org/
 
 **Play with the demo**: http://dev.openmuni.org.il/
 
-**Tackle an open issues**: https://github.com/hasadna/openmuni-budget/issues
+**Tackle an open issues**: https://github.com/hasadna/openmuni-budgets/issues
 
 **Make some translations**: https://www.transifex.com/projects/p/open-budgets/
 
