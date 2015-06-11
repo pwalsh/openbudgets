@@ -216,7 +216,7 @@ msgstr "ראשי"
 
 #: templates/entities/explorer.html:55
 msgid "Search"
-msgstr "חיפוש"
+msgstr "הקלד טקסט לחיפוש"
 
 #: templates/entities/explorer.html:74
 msgid "Order"
